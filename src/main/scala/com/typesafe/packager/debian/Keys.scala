@@ -9,8 +9,8 @@ object Keys {
   def name = sbt.Keys.name
   def version = sbt.Keys.version
   def maintainer = linux.Keys.maintainer
-  val packageDescription = SettingKey[String]("package-description", "The description of the package.  Used when searching.")
-  val debianArchitecture = SettingKey[String]("debian-architecture", "The architecture to package for, defaults to all.")
+  def packageArchitecture = linux.Keys.packageArchitecture
+  def packageDescription = linux.Keys.packageDescription
   val debianSection = SettingKey[String]("debian-section", "The section category for this deb file.")
   val debianPriority = SettingKey[String]("debian-priority")
   val debianPackageDependencies = SettingKey[Seq[String]]("debian-package-dependencies", "Packages that this debian package depends on.")

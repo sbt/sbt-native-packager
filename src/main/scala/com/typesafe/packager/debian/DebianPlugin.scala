@@ -1,4 +1,5 @@
-package com.typesafe.packager.debian
+package com.typesafe.packager
+package debian
 
 import Keys._
 import sbt._
@@ -26,20 +27,23 @@ object DebianPlugin extends Plugin {
     Process("groff -man -Tascii " + file.getAbsolutePath).!!
   
   def debianSettings: Seq[Setting[_]] = Seq(
+    // TODO - These settings should move to a common 'linux packaging' plugin location.
+    linuxPackageMappings := Seq.empty,
+    packageArchitecture := "all",
     sourceDiectory in Debian <<= sourceDiectory apply (_ / "linux"),
-    target in Debian <<= (target, name in Debian, version in Debian) apply ((t,n,v) => t / (n +"-"+ v))
-  ) ++ inConfig(Debian)(Seq(
-    name <<= name,
-    version<<= version,
-    packageDescription := "",
     debianPriority := "optional",
-    debianArchitecture := "all",
     debianSection := "java",
     debianPackageDependencies := Seq.empty,
     debianPackageRecommends := Seq.empty,
+    target in Debian <<= (target, name in Debian, version in Debian) apply ((t,n,v) => t / (n +"-"+ v)),
+    linuxPackageMappings in Debian <<= (linuxPackageMappings).identity
+  ) ++ inConfig(Debian)(Seq(
+    name <<= name,
+    version <<= version,
+    packageDescription := "",
     debianPackageMetadata <<= 
       (name, version, maintainer, packageDescription, 
-       debianPriority, debianArchitecture, debianSection, 
+       debianPriority, packageArchitecture, debianSection, 
        debianPackageDependencies, debianPackageRecommends) apply PackageMetaData,
     debianControlFile <<= (debianPackageMetadata, target) map {
       (data, dir) =>
@@ -47,7 +51,6 @@ object DebianPlugin extends Plugin {
         IO.write(cfile, data.makeContent, java.nio.charset.Charset.defaultCharset)
         cfile
     },
-    linuxPackageMappings := Seq.empty,
     debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, target) map { (mappings, _, t) =>
       for {
         LinuxPackageMapping(files, perms, zipped) <- mappings
