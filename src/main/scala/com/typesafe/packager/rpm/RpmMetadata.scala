@@ -10,11 +10,13 @@ case class RpmMetadata(
     release: String,
     arch: String,
     vendor: String,
-    os: String) {
+    os: String,
+    description: String) {
 }
 
 
 case class RpmDescription(
+    // TODO - move summary and license to mandatory attributes above...
     summary: Option[String] = None,
     license: Option[String] = None,
     distribution: Option[String] = None,
@@ -122,6 +124,10 @@ case class RpmSpec(meta: RpmMetadata,
     
     sb append ("BuildRoot: %s\n\n" format rpmRoot.getAbsolutePath)
     
+    sb append "%description\n"
+    sb append meta.description
+    sb append "\n\n"
+
     // write build as moving everything into RPM directory.
     sb append installSection(tmpRoot)
     // TODO - Allow symlinks

@@ -17,6 +17,7 @@ object Keys {
   val rpmMetadata = SettingKey[RpmMetadata]("rpm-metadata", "Metadata associated with the generated RPM.")
   
   // DESCRIPTION KEYS
+  // TODO - Summary and license are required.
   val rpmSummary = SettingKey[Option[String]]("rpm-summary", "Summary of the contents of an RPM package.")
   val rpmLicense = SettingKey[Option[String]]("rpm-license", "License of the code within the RPM.")
   val rpmDistribution = SettingKey[Option[String]]("rpm-distribution")
@@ -66,7 +67,7 @@ object RpmPlugin extends Plugin {
     target in Rpm <<= target(_ / "rpm")
   ) ++ inConfig(Rpm)(Seq(
     rpmMetadata <<=
-      (name, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs) apply (RpmMetadata.apply),
+      (name, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageDescription) apply (RpmMetadata.apply),
     rpmDescription <<=
       (rpmSummary, rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
     rpmDependencies <<=

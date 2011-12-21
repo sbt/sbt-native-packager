@@ -58,14 +58,17 @@ object RpmHelper {
     val args: Seq[String] = Seq(
         "rpmbuild",
         "-bb",
-        "-buildroot", buildRoot.getAbsolutePath,
+        "--buildroot=" + buildRoot.getAbsolutePath,
         "--define", "_topdir " + workArea.getAbsolutePath,
         "--target", spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os
      ) ++ ( 
        if(gpg) Seq("--define", "_gpg_name " + "<insert keyname>", "--sign") 
        else Seq.empty 
      ) ++ Seq(spec.meta.name + ".spec")
-     Process(args, Some(specsDir)) ! log
+     (Process(args, Some(specsDir)) ! log) match {
+        case 0 => ()
+        case 1 => sys.error("Unable to run rpmbuild, check output for details.")
+     }
   }
   
   private[this] val topleveldirs = Seq("BUILD","RPMS","SOURCES","SPECS","SRPMS","tmp-buildroot","buildroot")
