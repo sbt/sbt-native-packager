@@ -52,6 +52,7 @@ object RpmPlugin extends Plugin {
   val Rpm = config("rpm")
   
   def rpmSettings: Seq[Setting[_]] = Seq(
+    rpmOs := "Linux",  // TODO - default to something else?
     rpmSummary := None,
     rpmLicense := None,
     rpmDistribution := None,
@@ -66,6 +67,7 @@ object RpmPlugin extends Plugin {
     rpmConflicts := Seq.empty,
     target in Rpm <<= target(_ / "rpm")
   ) ++ inConfig(Rpm)(Seq(
+    packageArchitecture := "noarch",
     rpmMetadata <<=
       (name, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageDescription) apply (RpmMetadata.apply),
     rpmDescription <<=

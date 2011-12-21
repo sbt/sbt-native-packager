@@ -16,7 +16,7 @@ object RpmHelper {
     
     buildPackage(workArea, spec, log)
     // We should probably return the File that was created.
-    val rpmname = "%s-%s-%s-%s.rpm" format (spec.meta.name, spec.meta.version, spec.meta.release, spec.meta.arch)
+    val rpmname = "%s-%s-%s.%s.rpm" format (spec.meta.name, spec.meta.version, spec.meta.release, spec.meta.arch)
     workArea / "RPMS" / spec.meta.arch / rpmname
   }
   
