@@ -7,10 +7,8 @@ import sbt.Keys.sourceFilter
 import com.typesafe.packager.linux.LinuxPackageMapping
 import com.typesafe.packager.linux.LinuxFileMetaData
 
-object DebianPlugin extends Plugin {
-  val Debian = config("debian")
-  /** DSL for packaging files into .deb */
-  def packageForDebian(files: (File, String)*) = LinuxPackageMapping(files)
+trait DebianPlugin extends Plugin with linux.LinuxPlugin {
+  val Debian = config("debian") extend Linux
   
   private[this] final def copyAndFixPerms(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit = {
     if(zipped) IO.gzip(from, to)
@@ -23,14 +21,7 @@ object DebianPlugin extends Plugin {
   private[this] final def chmod(file: File, perms: String): Unit =
     Process("chmod " + perms + " " + file.getAbsolutePath).!
   
-  final def makeMan(file: File): String = 
-    Process("groff -man -Tascii " + file.getAbsolutePath).!!
-  
   def debianSettings: Seq[Setting[_]] = Seq(
-    // TODO - These settings should move to a common 'linux packaging' plugin location.
-    linuxPackageMappings := Seq.empty,
-    packageArchitecture := "all",
-    sourceDiectory in Debian <<= sourceDiectory apply (_ / "linux"),
     debianPriority := "optional",
     debianSection := "java",
     debianPackageDependencies := Seq.empty,
@@ -40,6 +31,7 @@ object DebianPlugin extends Plugin {
   ) ++ inConfig(Debian)(Seq(
     name <<= name,
     version <<= version,
+    packageArchitecture := "all",
     packageDescription := "",
     debianPackageMetadata <<= 
       (name, version, maintainer, packageDescription, 
@@ -69,13 +61,6 @@ object DebianPlugin extends Plugin {
     },
     lintian <<= packageBin map { file =>
       Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
-    },
-    generateManPages <<= (sourceDiectory, sbt.Keys.streams) map { (dir, s) =>
-      for( file <- (dir / "usr/share/man/man1" ** "*.1").get ) {
-        val man = makeMan(file)
-        s.log.info("Generated man page for[" + file + "] =")
-        s.log.info(man)
-      }  
     }
   ))
   
