@@ -25,13 +25,14 @@ trait WindowsPlugin extends Plugin {
         if(f.getAbsolutePath != wix.getAbsolutePath) IO.copyFile(f, wix)
         IO.copy(for((f, to) <- m) yield (f, t / to)) 
         // Now compile WIX
-        Process(Seq("cmd", "/c", "candle", wix.getAbsolutePath), Some(t)) ! s.log match {
+        val wixdir = Option(System.getenv("WIX")) getOrElse error("WIX environemnt not found.  Please ensure WIX is installed on this computer.")
+        Process(Seq(wixdir + "\\bin\\candle.exe", wix.getAbsolutePath), Some(t)) ! s.log match {
           case 0 => ()
           case x => error("Unable to run WIX compilation to wixobj...")
         }
         // Now create MSI
         val wixobj = t / (n + ".wixobj")
-        Process(Seq("cmd", "/c", "light", wixobj.getAbsolutePath), Some(t)) ! s.log match {
+        Process(Seq(wixdir + "\\bin\\light.exe", wixobj.getAbsolutePath), Some(t)) ! s.log match {
           case 0 => ()
           case x => error("Unable to run build msi...")
         }

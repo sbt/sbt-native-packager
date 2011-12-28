@@ -6,7 +6,7 @@ import sbt._
 trait WindowsKeys {
   val wixConfig = TaskKey[xml.Node]("wix-xml", "The WIX XML configuration for this package.")
   val wixFile = TaskKey[File]("wix-file", "The WIX XML file to package with.")
-  val packageMsi = TaskKey[File]("package-cab", "creates a new windows CAB file containing everything for the installation.")
+  val packageMsi = TaskKey[File]("package-msi", "creates a new windows CAB file containing everything for the installation.")
 }
 
 object Keys extends WindowsKeys {
