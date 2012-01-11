@@ -27,14 +27,17 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     debianPackageDependencies := Seq.empty,
     debianPackageRecommends := Seq.empty,
     target in Debian <<= (target, name in Debian, version in Debian) apply ((t,n,v) => t / (n +"-"+ v)),
-    linuxPackageMappings in Debian <<= (linuxPackageMappings).identity
+    linuxPackageMappings in Debian <<= linuxPackageMappings,
+    packageDescription in Debian <<= packageDescription in Linux,
+    packageSummary in Debian <<= packageSummary in Linux
   ) ++ inConfig(Debian)(Seq(
     name <<= name,
     version <<= version,
     packageArchitecture := "all",
-    packageDescription := "",
+    debianPackageInfo <<=
+      (name, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
     debianPackageMetadata <<= 
-      (name, version, maintainer, packageDescription, 
+      (debianPackageInfo,
        debianPriority, packageArchitecture, debianSection, 
        debianPackageDependencies, debianPackageRecommends) apply PackageMetaData,
     debianControlFile <<= (debianPackageMetadata, target) map {

@@ -14,7 +14,6 @@ trait RpmKeys {
   
   // DESCRIPTION KEYS
   // TODO - Summary and license are required.
-  val rpmSummary = SettingKey[Option[String]]("rpm-summary", "Summary of the contents of an RPM package.")
   val rpmLicense = SettingKey[Option[String]]("rpm-license", "License of the code within the RPM.")
   val rpmDistribution = SettingKey[Option[String]]("rpm-distribution")
   val rpmUrl = SettingKey[Option[String]]("rpm-url", "Url to include in the RPM.")
@@ -45,6 +44,7 @@ object Keys extends RpmKeys {
   def maintainer = linux.Keys.maintainer
   def packageArchitecture = linux.Keys.packageArchitecture
   def packageDescription = linux.Keys.packageDescription
+  def packageSummary = linux.Keys.packageSummary
   
   // DESCRIPTION KEYS
   

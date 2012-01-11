@@ -11,13 +11,14 @@ case class RpmMetadata(
     arch: String,
     vendor: String,
     os: String,
+    summary: String,
     description: String) {
 }
 
-
+/** 
+ * The Description used to generate an RPM
+ */
 case class RpmDescription(
-    // TODO - move summary and license to mandatory attributes above...
-    summary: Option[String] = None,
     license: Option[String] = None,
     distribution: Option[String] = None,
     //vendor: Option[String] = None,
@@ -106,9 +107,9 @@ case class RpmSpec(meta: RpmMetadata,
     val sb = new StringBuilder
     sb append ("Name: %s\n" format meta.name)
     sb append ("Version: %s\n" format meta.version)
-    sb append ("Release: %s\n" format meta.release)
+    sb append ("Release: %s\n" format meta.release)    
+    sb append ("Summary: %s\n" format meta.summary)
     
-    desc.summary foreach { v => sb append ("Summary: %s\n" format v)}
     desc.license foreach { v => sb append ("License: %s\n" format v)}
     desc.distribution foreach { v => sb append ("Distribution: %s\n" format v)}
     // TODO - Icon

@@ -11,6 +11,7 @@ trait DebianKeys {
   val debianPriority = SettingKey[String]("debian-priority")
   val debianPackageDependencies = SettingKey[Seq[String]]("debian-package-dependencies", "Packages that this debian package depends on.")
   val debianPackageRecommends = SettingKey[Seq[String]]("debian-package-recommends", "Packages recommended to use with the currently packaged one.")
+  val debianPackageInfo = SettingKey[PackageInfo]("debian-package-info", "Information (name, version, etc.) about a debian package.")
   val debianPackageMetadata = SettingKey[PackageMetaData]("debian-package-metadata", "Meta data used when constructing a debian package.")
   // Package building
   val debianControlFile = TaskKey[File]("debian-control-file", "Makes the debian package control file.")
@@ -28,6 +29,7 @@ object Keys extends DebianKeys {
   def maintainer = linux.Keys.maintainer
   def packageArchitecture = linux.Keys.packageArchitecture
   def packageDescription = linux.Keys.packageDescription
+  def packageSummary = linux.Keys.packageSummary
   
   // Package building
   def sourceDirectory = sbt.Keys.sourceDirectory

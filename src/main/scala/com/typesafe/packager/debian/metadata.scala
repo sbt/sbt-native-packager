@@ -1,13 +1,17 @@
 package com.typesafe.packager.debian
 
 
-
-/** Represents package meta used by debian when constructing packages. */
-case class PackageMetaData(
+case class PackageInfo(
   name: String,
   version: String,
   maintainer: String,
-  description: String,
+  summary: String,
+  description: String
+)
+
+/** Represents package meta used by debian when constructing packages. */
+case class PackageMetaData(
+  info: PackageInfo,
   priority: String = "optional",
   architecture: String = "all",
   section: String = "java",
@@ -17,8 +21,8 @@ case class PackageMetaData(
   def makeContent: String = {
     // TODO: Pretty print with line wrap.
     val sb = new StringBuilder
-    sb append ("Package:      %s\n" format name)
-    sb append ("Version:      %s\n" format version)
+    sb append ("Package:      %s\n" format info.name)
+    sb append ("Version:      %s\n" format info.version)
     sb append ("Section:      %s\n" format section)
     sb append ("Priority:     %s\n" format priority)
     sb append ("Architecture: %s\n" format architecture)
@@ -26,8 +30,8 @@ case class PackageMetaData(
       sb append ("Depends:      %s\n" format (depends mkString ", "))
     if(!recommends.isEmpty)
       sb append ("Recommends:   %s\n" format (recommends mkString ", "))
-    sb append ("Maintainer:   %s\n" format maintainer)
-    sb append ("Description: %s\n\n" format description)
+    sb append ("Maintainer:   %s\n" format info.maintainer)
+    sb append ("Description: %s\n %s\n" format (info.summary, info.description))
     sb toString
   }
 }
