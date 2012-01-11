@@ -18,7 +18,7 @@ trait WindowsPlugin extends Plugin {
       }
   ) ++ inConfig(Windows)(Seq(
       mappings := Seq.empty,
-      mappings in packageMsi <<= mappings.identity,
+      mappings in packageMsi <<= mappings,
       packageMsi <<= (mappings in packageMsi, wixFile, name, target, lightOptions, streams) map {(m, f, n, t, lo, s) =>
         val msi = t / (n + ".msi")
         // First we have to move everything (including the wix file) to our target directory.
@@ -26,12 +26,12 @@ trait WindowsPlugin extends Plugin {
         if(f.getAbsolutePath != wix.getAbsolutePath) IO.copyFile(f, wix)
         IO.copy(for((f, to) <- m) yield (f, t / to)) 
         // Now compile WIX
-        val wixdir = Option(System.getenv("WIX")) getOrElse error("WIX environemnt not found.  Please ensure WIX is installed on this computer.")
+        val wixdir = Option(System.getenv("WIX")) getOrElse sys.error("WIX environemnt not found.  Please ensure WIX is installed on this computer.")
         val candleCmd = Seq(wixdir + "\\bin\\candle.exe", wix.getAbsolutePath)
         s.log.debug(candleCmd mkString " ")
         Process(candleCmd, Some(t)) ! s.log match {
           case 0 => ()
-          case x => error("Unable to run WIX compilation to wixobj...")
+          case x => sys.error("Unable to run WIX compilation to wixobj...")
         }
         // Now create MSI
         val wixobj = t / (n + ".wixobj")
@@ -39,7 +39,7 @@ trait WindowsPlugin extends Plugin {
         s.log.debug(lightCmd mkString " ")
         Process(lightCmd, Some(t)) ! s.log match {
           case 0 => ()
-          case x => error("Unable to run build msi...")
+          case x => sys.error("Unable to run build msi...")
         }
         msi
       }

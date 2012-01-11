@@ -40,7 +40,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmLint <<= (packageBin, streams) map { (rpm, s) =>
        (Process(Seq("rpmlint", "-v", rpm.getAbsolutePath)) ! s.log)  match {
           case 0 => ()
-          case x => error("Failed to run rpmlint, exit status: " + x)
+          case x => sys.error("Failed to run rpmlint, exit status: " + x)
        }
     }
   ))
