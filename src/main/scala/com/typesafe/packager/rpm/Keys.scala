@@ -34,6 +34,7 @@ trait RpmKeys {
   val rpmSpecConfig = TaskKey[RpmSpec]("rpm-spec-config", "All the configuration for an RPM .spec file.")
   
   // Building
+  val rpmLint = TaskKey[Unit]("rpm-lint", "Runs rpmlint program against the genreated RPM, if available.")
 }
 
 /** Keys used in RPM Settings. */

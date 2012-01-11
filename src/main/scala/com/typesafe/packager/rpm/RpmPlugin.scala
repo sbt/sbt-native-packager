@@ -27,7 +27,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
   ) ++ inConfig(Rpm)(Seq(
     packageArchitecture := "noarch",
     rpmMetadata <<=
-      (name, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageDescription, packageSummary) apply (RpmMetadata.apply),
+      (name, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription) apply (RpmMetadata.apply),
     rpmDescription <<=
       (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
     rpmDependencies <<=
@@ -36,6 +36,12 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
       (rpmMetadata, rpmDescription, rpmDependencies, linuxPackageMappings) map RpmSpec,
     packageBin <<= (rpmSpecConfig, target, streams) map { (spec, dir, s) =>
         RpmHelper.buildRpm(spec, dir, s.log)
+    },
+    rpmLint <<= (packageBin, streams) map { (rpm, s) =>
+       (Process(Seq("rpmlint", "-v", rpm.getAbsolutePath)) ! s.log)  match {
+          case 0 => ()
+          case x => error("Failed to run rpmlint, exit status: " + x)
+       }
     }
   ))
 }
