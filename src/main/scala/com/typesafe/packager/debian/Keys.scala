@@ -19,6 +19,8 @@ trait DebianKeys {
   val debianCombinedMappings = TaskKey[Seq[LinuxPackageMapping]]("debian-combined-mappings", "All the mappings of files for the final package.")
   val debianExplodedPackage = TaskKey[File]("debian-exploded-package", "makes an exploded debian package")
   val lintian = TaskKey[Unit]("lintian", "runs the debian lintian tool on the current package.")
+  val debianSign = TaskKey[File]("debian-sign", "runs the dpkg-sig command to sign the generated deb file.")
+  val debianSignRole = SettingKey[String]("debian-sign-role", "The role to use when signing a debian file (defaults to 'builder').")
 }
 
 /** Keys used for RPM specific settings. */
@@ -36,4 +38,5 @@ object Keys extends DebianKeys {
   def linuxPackageMappings = linux.Keys.linuxPackageMappings
   def packageBin = sbt.Keys.packageBin
   def target = sbt.Keys.target
+  def streams = sbt.Keys.streams
 }
