@@ -26,6 +26,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     debianSection := "java",
     debianPackageDependencies := Seq.empty,
     debianPackageRecommends := Seq.empty,
+    debianSignRole := "builder",
     target in Debian <<= (target, name in Debian, version in Debian) apply ((t,n,v) => t / (n +"-"+ v)),
     linuxPackageMappings in Debian <<= linuxPackageMappings,
     packageDescription in Debian <<= packageDescription in Linux,
@@ -57,10 +58,20 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       for(file <- (t.***).get; if file.isDirectory) chmod(file, "0755")
       t
     },
-    packageBin <<= (debianExplodedPackage, target, name, version) map { (pkgdir, tdir, n, v) =>
+    packageBin <<= (debianExplodedPackage, target, name, version, streams) map { (pkgdir, tdir, n, v, s) =>
        // Make the phackage.  We put this in fakeroot, so we can build the package with root owning files.
-       Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath), Some(tdir)).!
+       Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath), Some(tdir)) ! s.log match {
+         case 0 => ()
+         case x => sys.error("Failure packaging debian file.  Exit code: " + x)
+       }
       tdir.getParentFile / (n + "-" + v + ".deb")
+    },
+    debianSign <<= (packageBin, debianSignRole, streams) map { (deb, role, s) =>
+      Process(Seq("dpkg-sig", "-s", role, deb.getAbsolutePath), Some(deb.getParentFile())) ! s.log match {
+        case 0 => ()
+        case x => sys.error("Failed to sign debian package! exit code: " + x)
+      }
+      deb
     },
     lintian <<= packageBin map { file =>
       Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
