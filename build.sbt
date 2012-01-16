@@ -25,3 +25,7 @@ com.jsuereth.sbtsite.SiteKeys.siteMappings <<= (com.jsuereth.sbtsite.SiteKeys.si
   // Figure out what was generated.
   mappings ++ (sphinxOut ** ("*.html" | "*.png" | "*.js" | "*.css" | "CNAME") x relativeTo(sphinxOut))
 }
+
+publishTo := Some(Resolver.url("sbt-plugin-releases", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns))
+
+publishMavenStyle := false
