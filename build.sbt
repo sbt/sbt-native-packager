@@ -12,10 +12,7 @@ seq(ghpages.settings:_*)
 
 git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 
-(com.jsuereth.git.GitKeys.gitBranch) := Some("master")
-
 seq(com.jsuereth.sbtsite.SitePlugin.site.settings:_*)
-
 
 com.jsuereth.sbtsite.SiteKeys.siteMappings <<= (com.jsuereth.sbtsite.SiteKeys.siteMappings, baseDirectory, target, streams) map { (mappings, dir, out, s) => 
   val sphinxSrc = dir / "src" / "sphinx"
@@ -23,7 +20,7 @@ com.jsuereth.sbtsite.SiteKeys.siteMappings <<= (com.jsuereth.sbtsite.SiteKeys.si
   // Run Jekyll
   sbt.Process(Seq("sphinx-build", "-b", "html", sphinxSrc.getAbsolutePath, sphinxOut.getAbsolutePath), Some(sphinxSrc)).!;
   // Figure out what was generated.
-  mappings ++ (sphinxOut ** ("*.html" | "*.png" | "*.js" | "*.css" | "CNAME") x relativeTo(sphinxOut))
+  mappings ++ (sphinxOut ** ("*.html" | "*.png" | "*.js" | "*.css" | "*.gif" ) x relativeTo(sphinxOut))
 }
 
 publishTo := Some(Resolver.url("sbt-plugin-releases", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns))
