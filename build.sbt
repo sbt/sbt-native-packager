@@ -14,6 +14,11 @@ git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 
 seq(com.jsuereth.sbtsite.SitePlugin.site.settings:_*)
 
+com.jsuereth.sbtsite.SiteKeys.siteMappings <+= (baseDirectory) map { dir => 
+  val nojekyll = dir / "src" / "site" / ".nojekyll"
+  nojekyll -> ".nojekyll"
+}
+
 com.jsuereth.sbtsite.SiteKeys.siteMappings <<= (com.jsuereth.sbtsite.SiteKeys.siteMappings, baseDirectory, target, streams) map { (mappings, dir, out, s) => 
   val sphinxSrc = dir / "src" / "sphinx"
   val sphinxOut = out / "sphinx"
