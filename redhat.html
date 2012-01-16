@@ -1,0 +1,167 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RedHat &mdash; sbt-native-packager 1.0a1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
+    <link rel="up" title="Writing Linux Packages" href="linux.html" />
+    <link rel="next" title="Windows" href="windows.html" />
+    <link rel="prev" title="Debian" href="debian.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="windows.html" title="Windows"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="debian.html" title="Debian"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li>
+          <li><a href="linux.html" accesskey="U">Writing Linux Packages</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="redhat">
+<h1>RedHat<a class="headerlink" href="#redhat" title="Permalink to this headline">¶</a></h1>
+<p>RedHat <tt class="docutils literal"><span class="pre">rpm</span></tt> files support a very advanced number of features.  To take full advantage of this environment, it&#8217;s best to understand how the <tt class="docutils literal"><span class="pre">rpm</span></tt> package system works.  <a class="reference external" href="http://fedoraproject.org/wiki/How_to_create_an_RPM_package">http://fedoraproject.org/wiki/How_to_create_an_RPM_package</a> is a good tutorial, but it focuses on building packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated &#8216;binary&#8217; packages.</p>
+<div class="section" id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<p>Rpms require the following specific settings:</p>
+<dl class="docutils">
+<dt>name in Rpm := &#8220;sbt&#8221;,</dt>
+<dd><blockquote class="first">
+<div>version in Rpm &lt;&lt;= sbtVersion.identity,
+rpmRelease := &#8220;1&#8221;,
+rpmVendor := &#8220;typesafe&#8221;,
+rpmUrl := Some(&#8220;<a class="reference external" href="http://github.com/paulp/sbt-extras">http://github.com/paulp/sbt-extras</a>&#8221;),
+rpmLicense := Some(&#8220;BSD&#8221;),</div></blockquote>
+<dl class="last docutils">
+<dt><tt class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt></dt>
+<dd>The name of the package for rpm (if different from general linux name).</dd>
+<dt><tt class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt></dt>
+<dd>The version of the package for rpm (if different from general version).  Takes the form <tt class="docutils literal"><span class="pre">x.y.z</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">rpmRelease</span></tt></dt>
+<dd>A release number the denotes the <cite>rpm</cite> version relative to the underlying software.</dd>
+<dt><tt class="docutils literal"><span class="pre">rpmVendor</span></tt></dt>
+<dd>The name of the company/user generating the RPM.</dd>
+<dt><tt class="docutils literal"><span class="pre">rpmUrl</span></tt></dt>
+<dd>A url associated with the software in the RPM.</dd>
+<dt><tt class="docutils literal"><span class="pre">rpmLicense</span></tt></dt>
+<dd>The license associated with software in the RPM.</dd>
+<dt><tt class="docutils literal"><span class="pre">rpmRequirements</span></tt></dt>
+<dd>The RPM packages that are required to be installed for this RPM to work.</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="tasks">
+<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
+<p>The Rpm support grants the following commands:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">rpm:package-bin</span></tt></dt>
+<dd>Generates the <tt class="docutils literal"><span class="pre">.rpm</span></tt> package for this project.</dd>
+<dt><tt class="docutils literal"><span class="pre">rpm:rpmlint</span></tt></dt>
+<dd>Generates the <tt class="docutils literal"><span class="pre">.rpm</span></tt> file and runs the <tt class="docutils literal"><span class="pre">rpmlint</span></tt> command to look for issues in the package.  Useful for debugging.</dd>
+</dl>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">RedHat</a><ul>
+<li><a class="reference internal" href="#settings">Settings</a></li>
+<li><a class="reference internal" href="#tasks">Tasks</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="debian.html"
+                        title="previous chapter">Debian</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="windows.html"
+                        title="next chapter">Windows</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/redhat.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="windows.html" title="Windows"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="debian.html" title="Debian"
+             >previous</a> |</li>
+        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li>
+          <li><a href="linux.html" >Writing Linux Packages</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Josh Suereth.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>
