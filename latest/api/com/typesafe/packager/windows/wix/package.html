@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>com.typesafe.packager.windows.wix</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../../../../lib/template.css" />
+      <script type="text/javascript" src="../../../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../../../../lib/package_big.png" />
+        <p id="owner"><a name="com" class="extype" href="../../../../package.html">com</a>.<a name="com.typesafe" class="extype" href="../../../package.html">typesafe</a>.<a name="com.typesafe.packager" class="extype" href="../../package.html">packager</a>.<a name="com.typesafe.packager.windows" class="extype" href="../package.html">windows</a></p>
+        <h1>wix</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="kind">package</span>
+      <span class="symbol"> 
+        <span class="name">wix</span>
+        
+        
+      </span>
+      </h4>
+      
+          <div class="fullcommenttop" id="comment"></div>
+        
+
+      <div id="template">
+
+        <div id="mbrsel">
+          <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+          
+          
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+
+        
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="com.typesafe.packager.windows.wix.Component" data-isabs="false">
+      <a id="Component:Component"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="Component.html"><span class="name">Component</span></a>
+        
+        <span class="params">(<span name="id">id: String</span>, <span name="parts">parts: Seq[WixComponentPart]</span>, <span name="guid">guid: String</span>)</span><span class="result"> extends WixFileIsh with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.File" data-isabs="false">
+      <a id="File:File"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="File.html"><span class="name">File</span></a>
+        
+        <span class="params">(<span name="id">id: String</span>, <span name="name">name: String</span>, <span name="source">source: String</span>, <span name="diskId">diskId: String</span>)</span><span class="result"> extends WixComponentPart with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.RegistryKey" data-isabs="false">
+      <a id="RegistryKey:RegistryKey"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="RegistryKey.html"><span class="name">RegistryKey</span></a>
+        
+        <span class="params">(<span name="root">root: String</span>, <span name="key">key: String</span>, <span name="action">action: String</span>, <span name="value">value: Seq[RegistryValue]</span>)</span><span class="result"> extends WixComponentPart with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.RegistryValue" data-isabs="false">
+      <a id="RegistryValue:RegistryValue"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="RegistryValue.html"><span class="name">RegistryValue</span></a>
+        
+        <span class="params">(<span name="rtype">rtype: String</span>, <span name="value">value: String</span>, <span name="keyPath">keyPath: Boolean</span>)</span><span class="result"> extends WixComponentPart with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.WixComponentPart" data-isabs="true">
+      <a id="WixComponentPart:WixComponentPart"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="WixComponentPart.html"><span class="name">WixComponentPart</span></a>
+        
+        <span class="result"> extends WixEntry</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.WixConfig" data-isabs="false">
+      <a id="WixConfig:WixConfig"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="WixConfig.html"><span class="name">WixConfig</span></a>
+        
+        <span class="params">(<span name="prod">prod: WixProduct</span>)</span><span class="result"> extends WixEntry with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.WixDirectory" data-isabs="false">
+      <a id="WixDirectory:WixDirectory"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="WixDirectory.html"><span class="name">WixDirectory</span></a>
+        
+        <span class="params">(<span name="id">id: String</span>, <span name="name">name: String</span>, <span name="files">files: Seq[WixFileIsh]</span>)</span><span class="result"> extends WixFileIsh with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.WixEntry" data-isabs="true">
+      <a id="WixEntry:WixEntry"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="WixEntry.html"><span class="name">WixEntry</span></a>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>sealed </dd></dl></div>
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.WixFileIsh" data-isabs="true">
+      <a id="WixFileIsh:WixFileIsh"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="WixFileIsh.html"><span class="name">WixFileIsh</span></a>
+        
+        <span class="result"> extends WixEntry</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.WixMedia" data-isabs="false">
+      <a id="WixMedia:WixMedia"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="WixMedia.html"><span class="name">WixMedia</span></a>
+        
+        <span class="params">(<span name="id">id: String</span>, <span name="cabinet">cabinet: String</span>, <span name="embed">embed: Boolean</span>)</span><span class="result"> extends WixEntry with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.WixPackage" data-isabs="false">
+      <a id="WixPackage:WixPackage"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="WixPackage.html"><span class="name">WixPackage</span></a>
+        
+        <span class="params">(<span name="media">media: Seq[WixMedia]</span>, <span name="dir">dir: WixDirectory</span>)</span><span class="result"> extends WixEntry with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.WixProduct" data-isabs="false">
+      <a id="WixProduct:WixProduct"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="WixProduct.html"><span class="name">WixProduct</span></a>
+        
+        <span class="params">(<span name="name">name: String</span>, <span name="guid">guid: String</span>, <span name="upgradeGuid">upgradeGuid: String</span>, <span name="version">version: String</span>, <span name="manufacturer">manufacturer: String</span>, <span name="language">language: String</span>, <span name="codepage">codepage: String</span>)</span><span class="result"> extends WixEntry with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+        
+        
+
+        
+
+        
+
+        
+
+      </div>
+      
+      <div id="tooltip"></div>
+      
+    </body>
+      </html>
