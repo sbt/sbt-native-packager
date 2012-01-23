@@ -11,6 +11,14 @@ Add the following to your `project/plugins.sbt` or `~/.sbt/plugins.sbt` file:
     
     addSbtPlugin("com.typesafe" % "sbt-native-packager" % "0.1.0")
 
+Then, in the project you wish to use the plugin, add the following settings:
+
+    seq(packagerSettings:_*)
+
+or
+
+    settings(com.typesafe.packager.PackagerPlugin.packagerSettings:_*)
+
 
 ## Usage ##
 
