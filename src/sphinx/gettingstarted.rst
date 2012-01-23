@@ -7,7 +7,7 @@ The sbt-native-packager is a plugin.   To use it, first create a ``project/plugi
 
   resolvers += Resolver.url("scalasbt", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
   
-  addSbtPlugin("com.jsuereth" % "sbt-native-packager" % "0.1.0")
+  addSbtPlugin("com.typesafe" % "sbt-native-packager" % "0.1.0")
 
 
 Also, each operating system requires its own tools for download.

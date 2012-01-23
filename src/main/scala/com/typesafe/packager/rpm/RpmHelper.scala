@@ -24,9 +24,11 @@ object RpmHelper {
     // TODO - special treatment of icon...
     val buildroot = workArea / "tmp-buildroot"
     
-    def copyWithZip(from: File, to: File, zipped: Boolean): Unit =
+    def copyWithZip(from: File, to: File, zipped: Boolean): Unit = {
+      log.debug("Copying %s to %s".format(from, to))
       if(zipped) IO.gzip(from, to)
       else IO.copyFile(from, to, true)
+    }
     // We don't have to do any permission modifications since that's in the
     // the .spec file.
     for { 
@@ -58,13 +60,14 @@ object RpmHelper {
     val args: Seq[String] = Seq(
         "rpmbuild",
         "-bb",
-        "--buildroot=" + buildRoot.getAbsolutePath,
+        "--buildroot", buildRoot.getAbsolutePath,
         "--define", "_topdir " + workArea.getAbsolutePath,
         "--target", spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os
      ) ++ ( 
        if(gpg) Seq("--define", "_gpg_name " + "<insert keyname>", "--sign") 
        else Seq.empty 
      ) ++ Seq(spec.meta.name + ".spec")
+     log.debug("Executing rpmbuild with: " + args.mkString(" "))
      (Process(args, Some(specsDir)) ! log) match {
         case 0 => ()
         case 1 => sys.error("Unable to run rpmbuild, check output for details.")

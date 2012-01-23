@@ -11,7 +11,7 @@ to allow native packages to be created for all major operating systems, includin
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    
    gettingstarted.rst
    linux.rst
