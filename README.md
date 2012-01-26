@@ -9,7 +9,7 @@ Add the following to your `project/plugins.sbt` or `~/.sbt/plugins.sbt` file:
     
     resolvers += Resolver.url("scalasbt", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
     
-    addSbtPlugin("com.typesafe" % "sbt-native-packager" % "0.1.0")
+    addSbtPlugin("com.typesafe" % "sbt-native-packager" % "0.2.0")
 
 Then, in the project you wish to use the plugin, add the following settings:
 
@@ -88,4 +88,4 @@ Here's an example excerpt for the debian + rpm package of [sbt-extras](http://gi
     rpmLicense := Some("BSD"),
 
 
-The full build, including windows MSI generation, can be found [here](https://github.com/jsuereth/sbt-extras/blob/full-packaging/project/packaging.scala).
+The full build, including windows MSI generation, can be found [here](https://github.com/sbt/sbt-launcher-package/blob/full-packaging/project/packaging.scala).
