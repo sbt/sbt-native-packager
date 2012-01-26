@@ -3,13 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Windows &mdash; sbt-native-packager v1.0a1 documentation</title>
+    <title>Windows &mdash; sbt-native-packager 1.0a1 documentation</title>
+    
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
@@ -22,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="sbt-native-packager v1.0a1 documentation" href="index.html" />
+    <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
     <link rel="prev" title="RedHat" href="redhat.html" /> 
   </head>
   <body>
@@ -35,7 +38,7 @@
         <li class="right" >
           <a href="redhat.html" title="RedHat"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">sbt-native-packager v1.0a1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar">
@@ -45,6 +48,7 @@
 <li><a class="reference internal" href="#">Windows</a><ul>
 <li><a class="reference internal" href="#settings">Settings</a></li>
 <li><a class="reference internal" href="#commands">Commands</a></li>
+<li><a class="reference internal" href="#utilities">Utilities</a></li>
 </ul>
 </li>
 </ul>
@@ -60,7 +64,7 @@
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -80,13 +84,15 @@
             
   <div class="section" id="windows">
 <h1>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h1>
-<p>The windows packaging is completely tied to the WIX installer toolset.  It&#8217;s improtant to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial to how to create packages using wix.</p>
+<p>The windows packaging is completely tied to the WIX installer toolset.  It&#8217;s important to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial to how to create packages using wix.</p>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Windows</span></tt></dt>
 <dd>The name of the generated msi file.</dd>
+<dt><tt class="docutils literal"><span class="pre">candleOptions</span></tt></dt>
+<dd>the list of options to pass to the <tt class="docutils literal"><span class="pre">candle.exe</span></tt> command.</dd>
 <dt><tt class="docutils literal"><span class="pre">lightOptions</span></tt></dt>
 <dd>the list of options to pass to the <tt class="docutils literal"><span class="pre">light.exe</span></tt> command.  Most likely setting is: <tt class="docutils literal"><span class="pre">Seq(&quot;-ext&quot;,</span> <span class="pre">&quot;WixUIExtension&quot;,</span> <span class="pre">&quot;-cultures:en-us&quot;)</span></tt> for UI.</dd>
 <dt><tt class="docutils literal"><span class="pre">wixConfig</span></tt></dt>
@@ -105,6 +111,27 @@ The WIX xml should use the relative locations in this mappings when references f
 <div><dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">windows:package-msi</span></tt></dt>
 <dd>Creates the <tt class="docutils literal"><span class="pre">msi</span></tt> package.</dd>
+<dt><tt class="docutils literal"><span class="pre">wix-file</span></tt></dt>
+<dd>Generates the Wix xml file from <cite>wixConfig</cite> setings, unless overriden.</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
+<p>The native-packager plugin provides a few handy utilities for generating Wix XML.  These
+utilities are located in the <tt class="docutils literal"><span class="pre">com.typesafe.packager.windows.WixHelper</span></tt> object.  Among
+these are the following functions:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">cleanStringForId(String):</span> <span class="pre">String</span></tt></dt>
+<dd>Takes in a string and returns a wix-friendly identifier.  Note: truncates to 50 characters.</dd>
+<dt><tt class="docutils literal"><span class="pre">cleanFileName(String):</span> <span class="pre">String</span></tt></dt>
+<dd>Takes in a file name and replaces any <tt class="docutils literal"><span class="pre">$</span></tt> with <tt class="docutils literal"><span class="pre">$$</span></tt> to make it past the Wix preprocessor.</dd>
+<dt><tt class="docutils literal"><span class="pre">generateComponentsAndDirectoryXml(File):</span> <span class="pre">(Seq[String],</span> <span class="pre">scala.xml.Node)</span></tt></dt>
+<dd>This method will take a file and generate <tt class="docutils literal"><span class="pre">&lt;Directory&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;Component&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;File&gt;</span></tt>
+XML elements for all files/directories contained in the given file.  It will return the
+<tt class="docutils literal"><span class="pre">Id</span></tt> settings for any generated components.  This is a handy way to package a large
+directory of files for usage in the Features of an MSI.</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -125,12 +152,12 @@ The WIX xml should use the relative locations in this mappings when references f
         <li class="right" >
           <a href="redhat.html" title="RedHat"
              >previous</a> |</li>
-        <li><a href="index.html">sbt-native-packager v1.0a1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, Josh Suereth.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>
 </html>
