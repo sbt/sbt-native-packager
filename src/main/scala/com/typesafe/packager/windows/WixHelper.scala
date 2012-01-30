@@ -7,11 +7,15 @@ import collection.mutable.ArrayBuffer
 
 /** Helper functions to deal with Wix/CAB craziness. */
 object WixHelper {
+  /** Generates a windows friendly GUID for use in random locations in the build. */
+  //def makeGUID = java.util.UUID.generateUUID
+  
+  
   /** Modifies a string to be Wix ID friendly by removing all the bad 
-   * characters and replacing with _.  Also limits the width to 50 (rather than
+   * characters and replacing with _.  Also limits the width to 70 (rather than
    * 72) so we can safely add a few later.  We assume that's unique enough. 
    */
-  def cleanStringForId(n: String) = n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(50)
+  def cleanStringForId(n: String) = n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(70)
   
   /** Cleans a file name for the Wix pre-processor.  Every $ should be doubled. */
   def cleanFileName(n: String) = n.replaceAll("\\$", "\\$\\$")
@@ -25,12 +29,12 @@ object WixHelper {
    *         and the second is the Directory/File/Component XML.
    */
   def generateComponentsAndDirectoryXml(dir: File, id_prefix: String =""): (Seq[String], scala.xml.Node) = {
-    def makeId(f: File) = cleanStringForId(IO.relativize(dir, f) map (id_prefix+) getOrElse f.getName)
+    def makeId(f: File) = cleanStringForId(IO.relativize(dir, f) map (id_prefix+) getOrElse (id_prefix+f.getName))
     def handleFile(f: File): (Seq[String], scala.xml.Node) = {
       val id = makeId(f)
       val xml = (
         <Component Id={id} Guid='*'>
-          <File Id={id +"_file"} Name={cleanFileName(f.getName)} DiskId='1' Source={cleanFileName(f.getAbsolutePath)} />
+          <File Id={cleanStringForId(id +"_file")} Name={cleanFileName(f.getName)} DiskId='1' Source={cleanFileName(f.getAbsolutePath)} />
         </Component>)
       (Seq(id), xml)
     }
