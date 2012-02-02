@@ -19,7 +19,10 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   }
   
   private[this] final def chmod(file: File, perms: String): Unit =
-    Process("chmod " + perms + " " + file.getAbsolutePath).!
+    Process(Seq("chmod",  perms, file.getAbsolutePath)).! match {
+      case 0 => ()
+      case n => sys.error("Error running chmod " + perms + " " + file)
+    }
   
   def debianSettings: Seq[Setting[_]] = Seq(
     debianPriority := "optional",
