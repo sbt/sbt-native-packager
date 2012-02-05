@@ -1,0 +1,35 @@
+package com.typesafe.packager
+
+import sbt._
+import sbt.Keys._
+
+object SettingsHelper {
+  
+  def makeDeploymentSettings(config: Configuration, packageTask: TaskKey[File], extension: String): Seq[Setting[_]] = 
+    (inConfig(config)(Classpaths.publishSettings)) ++ inConfig(config)(Seq(
+      packagedArtifacts <<= (packageTask, name) map { (msi, name) =>
+        val artifact = Artifact(name, extension, extension, classifier = None, configurations = Iterable.empty, url = None, extraAttributes = Map.empty)
+        Map(artifact -> msi)
+      },
+      projectID <<= (organization, name, version) apply { (o,n,v) => ModuleID(o,n,v) },
+      moduleSettings <<= (projectID, projectInfo) map { (pid, pinfo) =>
+        InlineConfiguration(pid, pinfo, Seq.empty)
+      },
+      ivyModule <<= (ivySbt, moduleSettings) map { (i, s) => new i.Module(s) },
+      deliverLocalConfiguration <<= (crossTarget, ivyLoggingLevel) map { (outDir, level) => Classpaths.deliverConfig(outDir, logging = level) },
+      deliverConfiguration <<= deliverLocalConfiguration,
+      publishConfiguration <<= (packagedArtifacts, checksums, publishTo) map { (as, checks, publishTo) =>
+        new PublishConfiguration(ivyFile = None,
+                                 resolverName = Classpaths.getPublishTo(publishTo).name,
+                                 artifacts = as,
+                                 checksums = checks,
+                                 logging = UpdateLogging.DownloadOnly)
+      },
+      publishLocalConfiguration <<= (packagedArtifacts, checksums) map { (as, checks) =>
+        new PublishConfiguration(ivyFile = None,
+                                 resolverName = "local",
+                                 artifacts = as,
+                                 checksums = checks,
+                                 logging = UpdateLogging.DownloadOnly)
+      }))
+}
