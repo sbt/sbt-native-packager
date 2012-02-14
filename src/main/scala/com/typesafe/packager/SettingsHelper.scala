@@ -7,10 +7,8 @@ object SettingsHelper {
   
   def makeDeploymentSettings(config: Configuration, packageTask: TaskKey[File], extension: String): Seq[Setting[_]] = 
     (inConfig(config)(Classpaths.publishSettings)) ++ inConfig(config)(Seq(
-      packagedArtifacts <<= (packageTask, name) map { (msi, name) =>
-        val artifact = Artifact(name, extension, extension, classifier = None, configurations = Iterable.empty, url = None, extraAttributes = Map.empty)
-        Map(artifact -> msi)
-      },
+      artifacts := Seq.empty,
+      packagedArtifacts := Map.empty,
       projectID <<= (organization, name, version) apply { (o,n,v) => ModuleID(o,n,v) },
       moduleSettings <<= (projectID, projectInfo) map { (pid, pinfo) =>
         InlineConfiguration(pid, pinfo, Seq.empty)
@@ -31,5 +29,8 @@ object SettingsHelper {
                                  artifacts = as,
                                  checksums = checks,
                                  logging = UpdateLogging.DownloadOnly)
-      }))
+      })) ++ inConfig(config)(addArtifact(
+          name apply (Artifact(_, extension, extension, classifier = None, configurations = Iterable.empty, url = None, extraAttributes = Map.empty)),
+          packageTask
+      ))
 }
