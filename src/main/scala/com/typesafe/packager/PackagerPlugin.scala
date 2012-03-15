@@ -8,9 +8,14 @@ object PackagerPlugin extends Plugin
     with linux.LinuxPlugin 
     with debian.DebianPlugin 
     with rpm.RpmPlugin
-    with windows.WindowsPlugin {
+    with windows.WindowsPlugin
+    with universal.UniversalPlugin {
 
-  def packagerSettings = linuxSettings ++ debianSettings ++ rpmSettings ++ windowsSettings
+  def packagerSettings = linuxSettings ++ 
+                         debianSettings ++ 
+                         rpmSettings ++ 
+                         windowsSettings ++
+                         universalSettings
   
   import SettingsHelper._
   def deploymentSettings = makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
