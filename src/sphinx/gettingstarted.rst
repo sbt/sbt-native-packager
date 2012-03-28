@@ -7,7 +7,7 @@ The sbt-native-packager is a plugin.   To use it, first create a ``project/plugi
 
   resolvers += Resolver.url("scalasbt", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
   
-  addSbtPlugin("com.typesafe" % "sbt-native-packager" % "0.2.0")
+  addSbtPlugin("com.typesafe" % "sbt-native-packager" % "0.4.0")
 
 
 Also, each operating system requires its own tools for download.
@@ -38,6 +38,14 @@ Creating ``deb`` packages requires the use of the following command line tools:
 - ``chmod``
 - ``lintian`` (optional)
 
+Universal
+---------
+
+Creating ``tgz`` or ``txz`` requires the use of the following command line tools:
+
+- ``gzip``
+- ``xz``
+- ``tar``
 
 
 
