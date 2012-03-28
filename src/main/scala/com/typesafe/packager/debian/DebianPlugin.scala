@@ -61,13 +61,13 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       for(file <- (t.***).get; if file.isDirectory) chmod(file, "0755")
       t
     },
-    packageBin <<= (debianExplodedPackage, target, name, version, streams) map { (pkgdir, tdir, n, v, s) =>
+    packageBin <<= (debianExplodedPackage, target, streams) map { (pkgdir, tdir, s) =>
        // Make the phackage.  We put this in fakeroot, so we can build the package with root owning files.
        Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath), Some(tdir)) ! s.log match {
          case 0 => ()
          case x => sys.error("Failure packaging debian file.  Exit code: " + x)
        }
-      tdir.getParentFile / (n + "-" + v + ".deb")
+      file(tdir.getAbsolutePath + ".deb")
     },
     debianSign <<= (packageBin, debianSignRole, streams) map { (deb, role, s) =>
       Process(Seq("dpkg-sig", "-s", role, deb.getAbsolutePath), Some(deb.getParentFile())) ! s.log match {
