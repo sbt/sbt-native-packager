@@ -7,6 +7,7 @@ to allow native packages to be created for all major operating systems, includin
 * Windows MSI files
 * Debian DEB packages
 * RedHat RPM packages
+* Universal (Zipped) packages
 
 
 
@@ -16,3 +17,4 @@ to allow native packages to be created for all major operating systems, includin
    gettingstarted.rst
    linux.rst
    windows.rst
+   universal.rst
