@@ -46,7 +46,7 @@ object Archives {
     val tarball = target / (name + ext)
     IO.withTemporaryDirectory { f =>
       val rdir = f / relname
-      val m2 = mappings map { case (f, p) => f -> (rdir / p) }
+      val m2 = mappings map { case (f, p) => f -> (rdir / name / p) }
       IO.copy(m2)
       // TODO - Is this enough?
       for(f <- (m2 map { case (_, f) => f } ); if f.getAbsolutePath contains "/bin/") {
