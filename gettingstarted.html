@@ -50,6 +50,7 @@
 <li><a class="reference internal" href="#windows">Windows</a></li>
 <li><a class="reference internal" href="#redhat-rpm-based-linux-distros">RedHat/RPM-based linux distros</a></li>
 <li><a class="reference internal" href="#debian-based-linux-distros">Debian-based linux distros</a></li>
+<li><a class="reference internal" href="#universal">Universal</a></li>
 </ul>
 </li>
 </ul>
@@ -91,7 +92,7 @@
 <p>The sbt-native-packager is a plugin.   To use it, first create a <tt class="docutils literal"><span class="pre">project/plugins.sbt</span></tt> file with the following.</p>
 <div class="highlight-python"><pre>resolvers += Resolver.url("scalasbt", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("com.typesafe" % "sbt-native-packager" % "0.2.0")</pre>
+addSbtPlugin("com.typesafe" % "sbt-native-packager" % "0.4.0")</pre>
 </div>
 <p>Also, each operating system requires its own tools for download.</p>
 <div class="section" id="windows">
@@ -115,6 +116,15 @@ addSbtPlugin("com.typesafe" % "sbt-native-packager" % "0.2.0")</pre>
 <li><tt class="docutils literal"><span class="pre">fakeroot</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">chmod</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">lintian</span></tt> (optional)</li>
+</ul>
+</div>
+<div class="section" id="universal">
+<h2>Universal<a class="headerlink" href="#universal" title="Permalink to this headline">¶</a></h2>
+<p>Creating <tt class="docutils literal"><span class="pre">tgz</span></tt> or <tt class="docutils literal"><span class="pre">txz</span></tt> requires the use of the following command line tools:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">gzip</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">xz</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">tar</span></tt></li>
 </ul>
 </div>
 </div>
