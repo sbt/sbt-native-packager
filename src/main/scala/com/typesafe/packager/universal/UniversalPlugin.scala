@@ -39,9 +39,5 @@ trait UniversalPlugin extends Plugin {
   /** Finds all sources in a source directory. */
   private[this] def findSources(sourceDir: File): Seq[(File, String)] =
     sourceDir.*** --- sourceDir x relativeTo(sourceDir)
-    
-
-  
- 
 
 }

@@ -6,8 +6,9 @@ object Archives {
   /** Makes a zip file in the given target directory using the given name. */
   def makeZip(target: File, name: String, mappings: Seq[(File, String)]): File = {
     val zip = target / (name + ".zip")
-    // TODO - Ensure mapping strings start with name?
-    sbt.IO.zip(mappings, zip)
+    // TODO - If mappings already start with the given name, don't add it?
+    val m2 = mappings map { case (f, p) => f -> (name +"/"+p) }
+    sbt.IO.zip(m2, zip)
     zip
   }
   
@@ -34,11 +35,9 @@ object Archives {
     }
     file(f.getAbsolutePath + ".xz")
   }
-  
   val makeTxz = makeTarball(xz, ".txz") _
   val makeTgz = makeTarball(gzip, ".tgz") _
   val makeTar = makeTarball(identity, ".tar") _
-  
    
   /** Helper method used to construct tar-related compression functions. */
   def makeTarball(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)]): File = {
