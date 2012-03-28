@@ -1,0 +1,159 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Universal &mdash; sbt-native-packager v1.0a1 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="sbt-native-packager v1.0a1 documentation" href="index.html" />
+    <link rel="prev" title="Windows" href="windows.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="windows.html" title="Windows"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">sbt-native-packager v1.0a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Universal</a><ul>
+<li><a class="reference internal" href="#configurations">Configurations</a></li>
+<li><a class="reference internal" href="#settings">Settings</a></li>
+<li><a class="reference internal" href="#commands">Commands</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="windows.html"
+                        title="previous chapter">Windows</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/universal.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="universal">
+<h1>Universal<a class="headerlink" href="#universal" title="Permalink to this headline">¶</a></h1>
+<p>Universal packaging just takes a plain <tt class="docutils literal"><span class="pre">mappings</span></tt> configuration and generates various
+package files for distribution.  It allows you to provide your users a distribution
+that is not tied to any particular platform, but may require manual labor to set up.</p>
+<div class="section" id="configurations">
+<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
+<p>Universal packaging provides three Configurations:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">universal</span></tt></dt>
+<dd>For creating full distributions</dd>
+<dt><tt class="docutils literal"><span class="pre">universal-docs</span></tt></dt>
+<dd>For creating bundles of documentation</dd>
+<dt><tt class="docutils literal"><span class="pre">universal-src</span></tt></dt>
+<dd>For creating bundles of source.</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<p>The Universal packages are completely configured through the use of the mappings key.  Simply
+specify the desired mappings for a given configuration.  For Example:</p>
+<blockquote>
+<div><tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span> <span class="pre">&lt;+=</span> <span class="pre">packageBin</span> <span class="pre">in</span> <span class="pre">Compile</span> <span class="pre">map</span> <span class="pre">{</span> <span class="pre">p</span> <span class="pre">=&gt;</span> <span class="pre">p</span> <span class="pre">-&gt;</span> <span class="pre">&quot;lib/foo.jar&quot;</span> <span class="pre">}</span></tt></div></blockquote>
+<p>The different types of archives can also be configured through selection.</p>
+<blockquote>
+<div><tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span> <span class="pre">in</span> <span class="pre">package-zip-tarball</span> <span class="pre">+=</span> <span class="pre">file(&quot;README&quot;)</span> <span class="pre">-&gt;</span> <span class="pre">&quot;README&quot;</span></tt></div></blockquote>
+<p>Besides <tt class="docutils literal"><span class="pre">mappings</span></tt>, the <tt class="docutils literal"><span class="pre">name</span></tt>, <tt class="docutils literal"><span class="pre">sourceDirectory</span></tt> and <tt class="docutils literal"><span class="pre">target</span></tt> configurations are all respected.</p>
+<p><strong>Note: The Universal plugin will make anything in a bin/ directory executable.  This is to work around issues with JVM and file system manipulations.</strong></p>
+</div>
+<div class="section" id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">universal:package-bin</span></tt></dt>
+<dd>Creates the <tt class="docutils literal"><span class="pre">zip</span></tt> universal package.</dd>
+<dt><tt class="docutils literal"><span class="pre">universal:package-zip-tarball</span></tt></dt>
+<dd>Creates the <tt class="docutils literal"><span class="pre">tgz</span></tt> universal package.</dd>
+<dt><tt class="docutils literal"><span class="pre">universal:package-xz-tarball</span></tt></dt>
+<dd>Creates the <tt class="docutils literal"><span class="pre">txz</span></tt> universal package.  The <tt class="docutils literal"><span class="pre">xz</span></tt> command can get better compression
+for some types of archives.</dd>
+<dt><tt class="docutils literal"><span class="pre">universal-docs:package-bin</span></tt></dt>
+<dd>Creates the <tt class="docutils literal"><span class="pre">zip</span></tt> universal documentation package.</dd>
+<dt><tt class="docutils literal"><span class="pre">universal-docs:package-zip-tarball</span></tt></dt>
+<dd>Creates the <tt class="docutils literal"><span class="pre">tgz</span></tt> universal documentation package.</dd>
+<dt><tt class="docutils literal"><span class="pre">universal-docs:package-xz-tarball</span></tt></dt>
+<dd>Creates the <tt class="docutils literal"><span class="pre">txz</span></tt> universal documentation package.  The <tt class="docutils literal"><span class="pre">xz</span></tt> command can get better compression
+for some types of archives.</dd>
+</dl>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="windows.html" title="Windows"
+             >previous</a> |</li>
+        <li><a href="index.html">sbt-native-packager v1.0a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Josh Suereth.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

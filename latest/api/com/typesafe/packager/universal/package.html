@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>com.typesafe.packager.windows</title>
+          <title>com.typesafe.packager.universal</title>
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link type="text/css" media="screen" rel="stylesheet" href="../../../../lib/template.css" />
@@ -16,13 +16,13 @@
       <div id="definition">
         <img src="../../../../lib/package_big.png" />
         <p id="owner"><a name="com" class="extype" href="../../../package.html">com</a>.<a name="com.typesafe" class="extype" href="../../package.html">typesafe</a>.<a name="com.typesafe.packager" class="extype" href="../package.html">packager</a></p>
-        <h1>windows</h1>
+        <h1>universal</h1>
       </div>
 
       <h4 class="signature" id="signature">
       <span class="kind">package</span>
       <span class="symbol"> 
-        <span class="name">windows</span>
+        <span class="name">universal</span>
         
         
       </span>
@@ -47,28 +47,28 @@
 
         <div class="types members" id="types">
               <h3>Type Members</h3>
-              <ol><li visbl="pub" name="com.typesafe.packager.windows.WindowsKeys" data-isabs="true">
-      <a id="WindowsKeys:WindowsKeys"></a>
+              <ol><li visbl="pub" name="com.typesafe.packager.universal.UniversalKeys" data-isabs="true">
+      <a id="UniversalKeys:UniversalKeys"></a>
       <h4 class="signature">
       <span class="kind">trait</span>
       <span class="symbol"> 
-        <a href="WindowsKeys.html"><span class="name">WindowsKeys</span></a>
+        <a href="UniversalKeys.html"><span class="name">UniversalKeys</span></a>
         
         <span class="result"> extends AnyRef</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="com.typesafe.packager.windows.WindowsPlugin" data-isabs="true">
-      <a id="WindowsPlugin:WindowsPlugin"></a>
+    </li><li visbl="pub" name="com.typesafe.packager.universal.UniversalPlugin" data-isabs="true">
+      <a id="UniversalPlugin:UniversalPlugin"></a>
       <h4 class="signature">
       <span class="kind">trait</span>
       <span class="symbol"> 
-        <a href="WindowsPlugin.html"><span class="name">WindowsPlugin</span></a>
+        <a href="UniversalPlugin.html"><span class="name">UniversalPlugin</span></a>
         
         <span class="result"> extends Plugin</span>
       </span>
       </h4>
-      
+      <p class="comment cmt">Defines behavior to construct a 'universal' zip for installation.</p>
     </li></ol>
             </div>
         
@@ -76,36 +76,25 @@
 
         <div class="values members" id="values">
               <h3>Value Members</h3>
-              <ol><li visbl="pub" name="com.typesafe.packager.windows.Keys" data-isabs="false">
+              <ol><li visbl="pub" name="com.typesafe.packager.universal.Archives" data-isabs="false">
+      <a id="Archives:Archives"></a>
+      <h4 class="signature">
+      <span class="kind">object</span>
+      <span class="symbol"> 
+        <a href="Archives$.html"><span class="name">Archives</span></a>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Helper methods to package up files into compressed archives.</p>
+    </li><li visbl="pub" name="com.typesafe.packager.universal.Keys" data-isabs="false">
       <a id="Keys:Keys"></a>
       <h4 class="signature">
       <span class="kind">object</span>
       <span class="symbol"> 
         <a href="Keys$.html"><span class="name">Keys</span></a>
         
-        <span class="result"> extends WindowsKeys</span>
-      </span>
-      </h4>
-      
-    </li><li visbl="pub" name="com.typesafe.packager.windows.WixHelper" data-isabs="false">
-      <a id="WixHelper:WixHelper"></a>
-      <h4 class="signature">
-      <span class="kind">object</span>
-      <span class="symbol"> 
-        <a href="WixHelper$.html"><span class="name">WixHelper</span></a>
-        
-        <span class="result"> extends AnyRef</span>
-      </span>
-      </h4>
-      <p class="comment cmt">Helper functions to deal with Wix/CAB craziness.</p>
-    </li><li visbl="pub" name="com.typesafe.packager.windows.wix" data-isabs="false">
-      <a id="wix:wix"></a>
-      <h4 class="signature">
-      <span class="kind">package</span>
-      <span class="symbol"> 
-        <a href="wix/package.html"><span class="name">wix</span></a>
-        
-        
+        <span class="result"> extends UniversalKeys</span>
       </span>
       </h4>
       

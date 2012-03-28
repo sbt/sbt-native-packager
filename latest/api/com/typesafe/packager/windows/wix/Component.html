@@ -2,35 +2,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>com.typesafe.packager.windows.WixHelper</title>
+          <title>com.typesafe.packager.windows.wix.Component</title>
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link type="text/css" media="screen" rel="stylesheet" href="../../../../lib/template.css" />
-      <script type="text/javascript" src="../../../../lib/jquery.js"></script>
-      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
-      <script type="text/javascript" src="../../../../lib/template.js"></script>
-      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      <link type="text/css" media="screen" rel="stylesheet" href="../../../../../lib/template.css" />
+      <script type="text/javascript" src="../../../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../lib/tools.tooltip.js"></script>
     
         </head>
-        <body class="value">
+        <body class="type">
       <div id="definition">
-        <img src="../../../../lib/object_big.png" />
-        <p id="owner"><a name="com" class="extype" href="../../../package.html">com</a>.<a name="com.typesafe" class="extype" href="../../package.html">typesafe</a>.<a name="com.typesafe.packager" class="extype" href="../package.html">packager</a>.<a name="com.typesafe.packager.windows" class="extype" href="package.html">windows</a></p>
-        <h1>WixHelper</h1>
+        <img src="../../../../../lib/class_big.png" />
+        <p id="owner"><a name="com" class="extype" href="../../../../package.html">com</a>.<a name="com.typesafe" class="extype" href="../../../package.html">typesafe</a>.<a name="com.typesafe.packager" class="extype" href="../../package.html">packager</a>.<a name="com.typesafe.packager.windows" class="extype" href="../package.html">windows</a>.<a name="com.typesafe.packager.windows.wix" class="extype" href="package.html">wix</a></p>
+        <h1>Component</h1>
       </div>
 
       <h4 class="signature" id="signature">
-      <span class="kind">object</span>
+      <span class="kind">case class</span>
       <span class="symbol"> 
-        <span class="name">WixHelper</span>
+        <span class="name">Component</span>
         
-        <span class="result"> extends AnyRef</span>
+        <span class="params">(<span name="id">id: String</span>, <span name="parts">parts: Seq[<a name="com.typesafe.packager.windows.wix.WixComponentPart" class="extype" href="WixComponentPart.html">WixComponentPart</a>]</span>, <span name="guid">guid: String</span>)</span><span class="result"> extends <a name="com.typesafe.packager.windows.wix.WixFileIsh" class="extype" href="WixFileIsh.html">WixFileIsh</a> with <span name="scala.Product" class="extype">Product</span> with <span name="scala.Serializable" class="extype">Serializable</span></span>
       </span>
       </h4>
       
-          <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Helper functions to deal with Wix/CAB craziness.</p></div><div class="toggleContainer block">
+          <div class="fullcommenttop" id="comment"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent">AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+          <div class="superTypes hiddenContent"><span name="scala.Serializable" class="extype">Serializable</span>, <span name="java.io.Serializable" class="extype">Serializable</span>, <span name="scala.Product" class="extype">Product</span>, <span name="scala.Equals" class="extype">Equals</span>, <a name="com.typesafe.packager.windows.wix.WixFileIsh" class="extype" href="WixFileIsh.html">WixFileIsh</a>, <a name="com.typesafe.packager.windows.wix.WixEntry" class="extype" href="WixEntry.html">WixEntry</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
         </div></div>
         
 
@@ -46,7 +46,7 @@
                 <span class="filtertype">Inherited</span>
                 <ol><li class="hideall out"><span>Hide All</span></li>
                 <li class="showall in"><span>Show all</span></li></ol>
-                <ol id="linearization"><li name="com.typesafe.packager.windows.WixHelper" class="in"><span>WixHelper</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+                <ol id="linearization"><li name="com.typesafe.packager.windows.wix.Component" class="in"><span>Component</span></li><li name="scala.Serializable" class="in"><span>Serializable</span></li><li name="java.io.Serializable" class="in"><span>Serializable</span></li><li name="scala.Product" class="in"><span>Product</span></li><li name="scala.Equals" class="in"><span>Equals</span></li><li name="com.typesafe.packager.windows.wix.WixFileIsh" class="in"><span>WixFileIsh</span></li><li name="com.typesafe.packager.windows.wix.WixEntry" class="in"><span>WixEntry</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
               </div>
           <div id="visbl">
               <span class="filtertype">Visibility</span>
@@ -54,7 +54,21 @@
             </div>
         </div>
 
+        <div class="members" id="constructors">
+              <h3>Instance Constructors</h3>
+              <ol><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#this" data-isabs="false">
+      <a id="this:Component"></a>
+      <h4 class="signature">
+      <span class="kind">new</span>
+      <span class="symbol"> 
+        <span class="name">Component</span>
         
+        <span class="params">(<span name="id">id: String</span>, <span name="parts">parts: Seq[<a name="com.typesafe.packager.windows.wix.WixComponentPart" class="extype" href="WixComponentPart.html">WixComponentPart</a>]</span>, <span name="guid">guid: String</span>)</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
 
         
         
@@ -128,32 +142,17 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li visbl="pub" name="com.typesafe.packager.windows.WixHelper#cleanFileName" data-isabs="false">
-      <a id="cleanFileName(String):String"></a>
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#canEqual" data-isabs="false">
+      <a id="canEqual(Any):Boolean"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
-        <span class="name">cleanFileName</span>
+        <span class="name">canEqual</span>
         
-        <span class="params">(<span name="n">n: String</span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Cleans a file name for the Wix pre-processor.</p><div class="fullcomment"><div class="comment cmt"><p>Cleans a file name for the Wix pre-processor.  Every $ should be doubled.</p></div></div>
-    </li><li visbl="pub" name="com.typesafe.packager.windows.WixHelper#cleanStringForId" data-isabs="false">
-      <a id="cleanStringForId(String):String"></a>
-      <h4 class="signature">
-      <span class="kind">def</span>
-      <span class="symbol"> 
-        <span class="name">cleanStringForId</span>
-        
-        <span class="params">(<span name="n">n: String</span>)</span><span class="result">: String</span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Modifies a string to be Wix ID friendly by removing all the bad
-characters and replacing with _.</p><div class="fullcomment"><div class="comment cmt"><p>Modifies a string to be Wix ID friendly by removing all the bad
-characters and replacing with _.  Also limits the width to 70 (rather than
-72) so we can safely add a few later.  We assume that's unique enough.
-</p></div></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.typesafe.packager.windows.wix.Component" class="extype" href="">Component</a> → Equals</dd></dl></div>
     </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
       <a id="clone():AnyRef"></a>
       <h4 class="signature">
@@ -164,7 +163,7 @@ characters and replacing with _.  Also limits the width to 70 (rather than
         <span class="params">()</span><span class="result">: AnyRef</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -179,7 +178,7 @@ characters and replacing with _.  Also limits the width to 70 (rather than
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li visbl="pub" name="scala.AnyRef#equals" data-isabs="false">
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#equals" data-isabs="false">
       <a id="equals(Any):Boolean"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -189,7 +188,7 @@ characters and replacing with _.  Also limits the width to 70 (rather than
         <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.typesafe.packager.windows.wix.Component" class="extype" href="">Component</a> → Equals → AnyRef → Any</dd></dl></div>
     </li><li visbl="prt" name="scala.AnyRef#finalize" data-isabs="false">
       <a id="finalize():Unit"></a>
       <h4 class="signature">
@@ -200,26 +199,10 @@ characters and replacing with _.  Also limits the width to 70 (rather than
         <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li visbl="pub" name="com.typesafe.packager.windows.WixHelper#generateComponentsAndDirectoryXml" data-isabs="false">
-      <a id="generateComponentsAndDirectoryXml(File,String):(Seq[String], Node)"></a>
-      <h4 class="signature">
-      <span class="kind">def</span>
-      <span class="symbol"> 
-        <span class="name">generateComponentsAndDirectoryXml</span>
-        
-        <span class="params">(<span name="dir">dir: File</span>, <span name="id_prefix">id_prefix: String = <span class="symbol">&quot;&quot;</span></span>)</span><span class="result">: (Seq[String], <span name="scala.xml.Node" class="extype">Node</span>)</span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Constructs a set of componentRefs and the directory/file WIX for
-all files in a given directory.</p><div class="fullcomment"><div class="comment cmt"><p>Constructs a set of componentRefs and the directory/file WIX for
-all files in a given directory.
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>A tuple where the first item is all the Component Ids created,
-        and the second is the Directory/File/Component XML.
-</p></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
       <a id="getClass():java.lang.Class[_]"></a>
       <h4 class="signature">
@@ -231,7 +214,18 @@ all files in a given directory.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li visbl="pub" name="scala.AnyRef#hashCode" data-isabs="false">
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#guid" data-isabs="false">
+      <a id="guid:String"></a>
+      <h4 class="signature">
+      <span class="kind">val</span>
+      <span class="symbol"> 
+        <span class="name">guid</span>
+        
+        <span class="result">: String</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#hashCode" data-isabs="false">
       <a id="hashCode():Int"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -241,7 +235,18 @@ all files in a given directory.
         <span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.typesafe.packager.windows.wix.Component" class="extype" href="">Component</a> → AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#id" data-isabs="false">
+      <a id="id:String"></a>
+      <h4 class="signature">
+      <span class="kind">val</span>
+      <span class="symbol"> 
+        <span class="name">id</span>
+        
+        <span class="result">: String</span>
+      </span>
+      </h4>
+      
     </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <h4 class="signature">
@@ -253,17 +258,6 @@ all files in a given directory.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li visbl="pub" name="com.typesafe.packager.windows.WixHelper#makeIdFromFile" data-isabs="false">
-      <a id="makeIdFromFile(File):String"></a>
-      <h4 class="signature">
-      <span class="kind">def</span>
-      <span class="symbol"> 
-        <span class="name">makeIdFromFile</span>
-        
-        <span class="params">(<span name="f">f: File</span>)</span><span class="result">: String</span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Takes a file and generates an ID for it.</p>
     </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
       <a id="ne(AnyRef):Boolean"></a>
       <h4 class="signature">
@@ -297,6 +291,61 @@ all files in a given directory.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#parts" data-isabs="false">
+      <a id="parts:Seq[WixComponentPart]"></a>
+      <h4 class="signature">
+      <span class="kind">val</span>
+      <span class="symbol"> 
+        <span class="name">parts</span>
+        
+        <span class="result">: Seq[<a name="com.typesafe.packager.windows.wix.WixComponentPart" class="extype" href="WixComponentPart.html">WixComponentPart</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#productArity" data-isabs="false">
+      <a id="productArity:Int"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">productArity</span>
+        
+        <span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.typesafe.packager.windows.wix.Component" class="extype" href="">Component</a> → Product</dd></dl></div>
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#productElement" data-isabs="false">
+      <a id="productElement(Int):Any"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">productElement</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Any" class="extype">Any</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.typesafe.packager.windows.wix.Component" class="extype" href="">Component</a> → Product</dd></dl></div>
+    </li><li visbl="pub" name="scala.Product#productIterator" data-isabs="false">
+      <a id="productIterator:Iterator[Any]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">productIterator</span>
+        
+        <span class="result">: Iterator[<span name="scala.Any" class="extype">Any</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Product</dd></dl></div>
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#productPrefix" data-isabs="false">
+      <a id="productPrefix:String"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">productPrefix</span>
+        
+        <span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.typesafe.packager.windows.wix.Component" class="extype" href="">Component</a> → Product</dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
       <a id="synchronized[T0](⇒ T0):T0"></a>
       <h4 class="signature">
@@ -308,17 +357,28 @@ all files in a given directory.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li visbl="pub" name="scala.AnyRef#toString" data-isabs="false">
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#toString" data-isabs="false">
       <a id="toString():String"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">toString</span>
         
-        <span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+        <span class="params">()</span><span class="result">: String</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.typesafe.packager.windows.wix.Component" class="extype" href="">Component</a> → AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.typesafe.packager.windows.wix.Component#toXml" data-isabs="false">
+      <a id="toXml:Elem"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">toXml</span>
+        
+        <span class="result">: <span name="scala.xml.Elem" class="extype">Elem</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.typesafe.packager.windows.wix.Component" class="extype" href="">Component</a> → <a name="com.typesafe.packager.windows.wix.WixEntry" class="extype" href="WixEntry.html">WixEntry</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
       <a id="wait():Unit"></a>
       <h4 class="signature">
@@ -364,9 +424,38 @@ all files in a given directory.
     </li></ol>
             </div>
 
+        <div class="values members" id="values">
+              <h3>Deprecated Value Members</h3>
+              <ol><li visbl="pub" name="scala.Product#productElements" data-isabs="false">
+      <a id="productElements:Iterator[Any]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name deprecated">productElements</span>
         
+        <span class="result">: Iterator[<span name="scala.Any" class="extype">Any</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Product</dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p>use productIterator instead</p></dd></dl></div>
+    </li></ol>
+            </div>
 
-        <div name="scala.AnyRef" class="parent">
+        <div name="scala.Serializable" class="parent">
+              <h3>Inherited from <span name="scala.Serializable" class="extype">Serializable</span></h3>
+            </div><div name="java.io.Serializable" class="parent">
+              <h3>Inherited from <span name="java.io.Serializable" class="extype">Serializable</span></h3>
+            </div><div name="scala.Product" class="parent">
+              <h3>Inherited from <span name="scala.Product" class="extype">Product</span></h3>
+            </div><div name="scala.Equals" class="parent">
+              <h3>Inherited from <span name="scala.Equals" class="extype">Equals</span></h3>
+            </div><div name="com.typesafe.packager.windows.wix.WixFileIsh" class="parent">
+              <h3>Inherited from <a name="com.typesafe.packager.windows.wix.WixFileIsh" class="extype" href="WixFileIsh.html">WixFileIsh</a></h3>
+            </div><div name="com.typesafe.packager.windows.wix.WixEntry" class="parent">
+              <h3>Inherited from <a name="com.typesafe.packager.windows.wix.WixEntry" class="extype" href="WixEntry.html">WixEntry</a></h3>
+            </div><div name="scala.AnyRef" class="parent">
               <h3>Inherited from AnyRef</h3>
             </div><div name="scala.Any" class="parent">
               <h3>Inherited from <span name="scala.Any" class="extype">Any</span></h3>
