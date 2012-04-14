@@ -50,7 +50,7 @@ object Archives {
       // TODO - Is this enough?
       for(f <- (m2 map { case (_, f) => f } ); if f.getAbsolutePath contains "/bin/") {
         println("Making " + f.getAbsolutePath + " executable")
-        f.setExecutable(true)
+        f.setExecutable(true, false)
       }
       IO.createDirectory(tarball.getParentFile)      
       val distdir = IO.listFiles(rdir).head
