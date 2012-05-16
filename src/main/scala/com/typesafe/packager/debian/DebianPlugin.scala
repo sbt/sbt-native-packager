@@ -44,10 +44,18 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       (debianPackageInfo,
        debianPriority, packageArchitecture, debianSection, 
        debianPackageDependencies, debianPackageRecommends) apply PackageMetaData,
-    debianControlFile <<= (debianPackageMetadata, target) map {
-      (data, dir) =>
+    debianPackageInstallSize <<= linuxPackageMappings map { mappings =>
+      (for {
+        LinuxPackageMapping(files, _, zipped) <- mappings
+        (file, _) <- files
+        if !file.isDirectory && file.exists
+        // TODO - If zipped, heuristically figure out a reduction factor.
+      } yield file.length).sum / 1024
+    },
+    debianControlFile <<= (debianPackageMetadata, debianPackageInstallSize, target) map {
+      (data, size, dir) =>
         val cfile = dir / "DEBIAN" / "control"
-        IO.write(cfile, data.makeContent, java.nio.charset.Charset.defaultCharset)
+        IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
         cfile
     },
     debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, target) map { (mappings, _, t) =>
