@@ -21,17 +21,17 @@ case class PackageMetaData(
   def makeContent(installSizeEstimate: Long = 0L): String = {
     // TODO: Pretty print with line wrap.
     val sb = new StringBuilder
-    sb append ("Package:        %s\n" format info.name)
-    sb append ("Version:        %s\n" format info.version)
-    sb append ("Section:        %s\n" format section)
-    sb append ("Priority:       %s\n" format priority)
+    sb append ("Package: %s\n" format info.name)
+    sb append ("Version: %s\n" format info.version)
+    sb append ("Section: %s\n" format section)
+    sb append ("Priority: %s\n" format priority)
     sb append ("Architecture: %s\n" format architecture)
     sb append ("Installed-Size: %d\n" format installSizeEstimate)
     if(!depends.isEmpty)
-      sb append ("Depends:        %s\n" format (depends mkString ", "))
+      sb append ("Depends: %s\n" format (depends mkString ", "))
     if(!recommends.isEmpty)
-      sb append ("Recommends:     %s\n" format (recommends mkString ", "))
-    sb append ("Maintainer:     %s\n" format info.maintainer)
+      sb append ("Recommends: %s\n" format (recommends mkString ", "))
+    sb append ("Maintainer: %s\n" format info.maintainer)
     sb append ("Description: %s\n %s\n" format (info.summary, info.description))
     sb toString
   }
