@@ -58,7 +58,26 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
         IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
         cfile
     },
-    debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, target) map { (mappings, _, t) =>
+    debianConffilesFile <<= (linuxPackageMappings, target) map {
+      (mappings, dir) =>
+        val cfile = dir / "DEBIAN" / "conffiles"
+        val conffiles = for {
+           LinuxPackageMapping(files, meta, _) <- mappings
+           if meta.config != "false"
+           (_, name) <- files
+        } yield name
+        IO.writeLines(cfile, conffiles)
+        cfile
+    },
+    debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianConffilesFile, target) map { (mappings, _, _, t) =>
+      // First Create directories, in case we have any without files in them.
+      for {
+        LinuxPackageMapping(files, perms, zipped) <- mappings
+        (file, name) <- files
+        if file.isDirectory
+        tfile = t / name   
+        if !tfile.exists     
+      } tfile.mkdirs()
       for {
         LinuxPackageMapping(files, perms, zipped) <- mappings
         (file, name) <- files
