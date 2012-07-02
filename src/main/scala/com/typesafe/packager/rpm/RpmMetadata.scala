@@ -69,7 +69,10 @@ case class RpmSpec(meta: RpmMetadata,
     sb append ','
     sb append meta.group
     sb append ") "
-    sb append target
+    sb append (target.contains(' ') match {
+      case true => "\"%s\"" format target
+      case false => target
+    })
     sb append '\n'
     sb.toString
   }
