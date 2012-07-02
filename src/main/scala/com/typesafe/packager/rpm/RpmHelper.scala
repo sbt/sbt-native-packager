@@ -29,6 +29,14 @@ object RpmHelper {
       if(zipped) IO.gzip(from, to)
       else IO.copyFile(from, to, true)
     }
+    // First make sure directories are there....
+    IO createDirectories (for { 
+      mapping <- spec.mappings
+      (file, dest) <- mapping.mappings
+      if file.isDirectory
+      target = buildroot / dest
+    } yield target)
+    
     // We don't have to do any permission modifications since that's in the
     // the .spec file.
     for { 
