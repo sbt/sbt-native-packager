@@ -3,7 +3,6 @@ package debian
 
 import Keys._
 import sbt._
-import sbt.Keys.sourceFilter
 import com.typesafe.packager.linux.LinuxPackageMapping
 import com.typesafe.packager.linux.LinuxFileMetaData
 
