@@ -1,7 +1,7 @@
 Debian
 ======
 The debian package specification is very robust and powerful.  If you wish to do any advanced features, it's best to understand how
-the underlying packagign system works.  http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/ is an excellent tutorial.
+the underlying packaging system works.  http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/ is an excellent tutorial.
 
 
 Settings
@@ -23,7 +23,7 @@ Debian requires the following specific settings:
 
   ``linuxPackageMappings in Debian``
     Debian requires a ``/usr/share/doc/{package name}/changelog.gz`` file that describes
-    the version changes in this package.   These should be appended to the base linux versions.
+    the version changes in this package. These should be appended to the base linux versions.
 
 
 Tasks
