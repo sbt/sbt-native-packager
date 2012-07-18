@@ -5,6 +5,12 @@ import sbt.Keys._
 
 object SettingsHelper {
   
+  def addPackage(config: Configuration, packageTask: TaskKey[File], extension: String, classifier: Option[String] = None): Seq[Setting[_]] =
+    inConfig(config)(addArtifact(
+          name apply (Artifact(_, extension, extension, classifier = classifier, configurations = Iterable.empty, url = None, extraAttributes = Map.empty)),
+          packageTask
+    ))
+  
   def makeDeploymentSettings(config: Configuration, packageTask: TaskKey[File], extension: String): Seq[Setting[_]] = 
     (inConfig(config)(Classpaths.publishSettings)) ++ inConfig(config)(Seq(
       artifacts := Seq.empty,
@@ -29,8 +35,5 @@ object SettingsHelper {
                                  artifacts = as,
                                  checksums = checks,
                                  logging = UpdateLogging.DownloadOnly)
-      })) ++ inConfig(config)(addArtifact(
-          name apply (Artifact(_, extension, extension, classifier = None, configurations = Iterable.empty, url = None, extraAttributes = Map.empty)),
-          packageTask
-      ))
+      })) ++ addPackage(config, packageTask, extension)
 }
