@@ -1,4 +1,6 @@
-package com.typesafe.packager.debian
+package com.typesafe.sbt
+package packager
+package debian
 
 
 case class PackageInfo(

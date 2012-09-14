@@ -1,4 +1,6 @@
-package com.typesafe.packager.rpm
+package com.typesafe.sbt
+package packager
+package rpm
 
 import sbt._
 

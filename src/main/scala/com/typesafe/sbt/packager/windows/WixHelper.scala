@@ -1,4 +1,6 @@
-package com.typesafe.packager.windows
+package com.typesafe.sbt
+package packager
+package windows
 
 import Keys._
 import sbt._

@@ -1,4 +1,5 @@
-package com.typesafe.packager
+package com.typesafe.sbt
+package packager
 
 object Keys extends linux.Keys 
   with debian.DebianKeys 

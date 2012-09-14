@@ -1,4 +1,6 @@
-package com.typesafe.packager
+package com.typesafe.sbt
+
+import packager._
 
 import Keys.packageMsi
 import Keys.packageZipTarball
@@ -6,7 +8,7 @@ import Keys.packageXzTarball
 import sbt._
 import sbt.Keys.packageBin
 
-object PackagerPlugin extends Plugin 
+object SbtNativePackager extends Plugin 
     with linux.LinuxPlugin 
     with debian.DebianPlugin 
     with rpm.RpmPlugin
@@ -19,6 +21,8 @@ object PackagerPlugin extends Plugin
                          windowsSettings ++
                          universalSettings
   
+  val NativePackagerKeys = packager.Keys
+                         
   import SettingsHelper._
   def deploymentSettings = makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
                            makeDeploymentSettings(Rpm, packageBin in Rpm, "rpm") ++

@@ -1,4 +1,6 @@
-package com.typesafe.packager.linux
+package com.typesafe.sbt
+package packager
+package linux
 
 import sbt._
 

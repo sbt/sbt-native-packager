@@ -1,4 +1,5 @@
-package com.typesafe.packager
+package com.typesafe.sbt
+package packager
 package linux
 
 import Keys._

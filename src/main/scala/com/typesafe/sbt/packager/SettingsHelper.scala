@@ -1,7 +1,12 @@
-package com.typesafe.packager
+package com.typesafe.sbt
+package packager
 
 import sbt._
 import sbt.Keys._
+import sbt.Project.SettingsDefinition.unwrapSettingsDefinition
+import sbt.Scoped.t2ToTable2
+import sbt.Scoped.t3ToApp3
+import sbt.Scoped.t3ToTable3
 
 object SettingsHelper {
   

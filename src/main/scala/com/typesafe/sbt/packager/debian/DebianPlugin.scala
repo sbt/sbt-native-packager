@@ -1,10 +1,12 @@
-package com.typesafe.packager
+package com.typesafe.sbt
+package packager
 package debian
 
 import Keys._
 import sbt._
-import com.typesafe.packager.linux.LinuxPackageMapping
-import com.typesafe.packager.linux.LinuxFileMetaData
+import linux.LinuxPackageMapping
+import linux.LinuxFileMetaData
+import com.typesafe.sbt.packager.Hashing
 
 trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   val Debian = config("debian") extend Linux

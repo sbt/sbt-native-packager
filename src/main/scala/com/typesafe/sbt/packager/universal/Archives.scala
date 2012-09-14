@@ -1,4 +1,6 @@
-package com.typesafe.packager.universal
+package com.typesafe.sbt
+package packager
+package universal
 
 import sbt._
 /** Helper methods to package up files into compressed archives. */

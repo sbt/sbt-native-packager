@@ -2,9 +2,9 @@ sbtPlugin := true
 
 name := "sbt-native-packager"
 
-organization := "com.typesafe"
+organization := "com.typesafe.sbt"
 
-version := "0.4.4"
+version := "0.5.0"
 
 scalacOptions in Compile += "-deprecation"
 

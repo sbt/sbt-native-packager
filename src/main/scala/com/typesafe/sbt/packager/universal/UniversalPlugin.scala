@@ -1,4 +1,6 @@
-package com.typesafe.packager.universal
+package com.typesafe.sbt
+package packager
+package universal
 
 import sbt._
 import Keys._
