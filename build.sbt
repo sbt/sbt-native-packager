@@ -10,7 +10,7 @@ scalacOptions in Compile += "-deprecation"
 
 site.settings
 
-com.jsuereth.sbtsite.SiteKeys.siteMappings <+= (baseDirectory) map { dir => 
+com.typesafe.sbt.SbtSite.SiteKeys.siteMappings <+= (baseDirectory) map { dir => 
   val nojekyll = dir / "src" / "site" / ".nojekyll"
   nojekyll -> ".nojekyll"
 }
