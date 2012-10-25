@@ -21,7 +21,9 @@ trait LinuxPlugin extends Plugin{
         s.log.info("Generated man page for[" + file + "] =")
         s.log.info(man)
       }  
-    }
+    },
+    packageSummary in Linux := "",
+    packageDescription in Linux := ""
   )
   
   /** DSL for packaging files into .deb */

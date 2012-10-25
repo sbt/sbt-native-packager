@@ -12,6 +12,8 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
   
   def rpmSettings: Seq[Setting[_]] = Seq(
     rpmOs := "Linux",  // TODO - default to something else?
+    rpmRelease := "0",
+    rpmVendor := "",  // TODO - Maybe pull in organization?
     rpmLicense := None,
     rpmDistribution := None,
     rpmUrl := None,
@@ -24,6 +26,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmObsoletes := Seq.empty,
     rpmConflicts := Seq.empty,
     packageSummary in Rpm <<= packageSummary in Linux,
+    packageDescription in Rpm <<= packageDescription in Linux,
     target in Rpm <<= target(_ / "rpm")
   ) ++ inConfig(Rpm)(Seq(
     packageArchitecture := "noarch",

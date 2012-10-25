@@ -20,6 +20,8 @@ trait WindowsPlugin extends Plugin {
         f
       }
   ) ++ inConfig(Windows)(Seq(
+      // Disable windows generation by default.
+      wixConfig := <wix/>,
       mappings := Seq.empty,
       mappings in packageMsi <<= mappings,
       packageMsi <<= (mappings in packageMsi, wixFile, name, target, candleOptions, lightOptions, streams) map {(m, f, n, t, co, lo, s) =>
