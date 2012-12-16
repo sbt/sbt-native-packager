@@ -25,6 +25,13 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmPrerequisites := Seq.empty,
     rpmObsoletes := Seq.empty,
     rpmConflicts := Seq.empty,
+    rpmPretrans := None,
+    rpmPre := None,
+    rpmPost := None,
+    rpmVerifyscript := None,
+    rpmPosttrans := None,
+    rpmPreun := None,
+    rpmPostun := None,
     packageSummary in Rpm <<= packageSummary in Linux,
     packageDescription in Rpm <<= packageDescription in Linux,
     target in Rpm <<= target(_ / "rpm")
@@ -36,8 +43,10 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
       (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
     rpmDependencies <<=
       (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
+    rpmScripts <<=
+      (rpmPretrans,rpmPre,rpmPost,rpmVerifyscript,rpmPosttrans,rpmPreun,rpmPostun) apply RpmScripts,
     rpmSpecConfig <<=
-      (rpmMetadata, rpmDescription, rpmDependencies, linuxPackageMappings) map RpmSpec,
+      (rpmMetadata, rpmDescription, rpmDependencies, rpmScripts, linuxPackageMappings) map RpmSpec,
     packageBin <<= (rpmSpecConfig, target, streams) map { (spec, dir, s) =>
         RpmHelper.buildRpm(spec, dir, s.log)
     },

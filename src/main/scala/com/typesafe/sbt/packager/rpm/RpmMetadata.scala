@@ -48,9 +48,27 @@ case class RpmDependencies(
   }
 }
 
-case class RpmSpec(meta: RpmMetadata, 
-    desc: RpmDescription = RpmDescription(), 
+case class RpmScripts(
+    pretrans: Option[String] = None,
+    pre: Option[String] = None,
+    post: Option[String] = None,
+    verifyscript: Option[String] = None,
+    posttrans: Option[String] = None,
+    preun: Option[String] = None,
+    postun: Option[String] = None
+    ) {
+    def contents(): String = {
+        val labelledScripts = Seq("%pretrans","%pre","%post","%verifyscript","%posttrans","%preun","%postun")
+                         .zip(Seq(  pretrans,   pre,   post,   verifyscript,   posttrans,   preun,   postun))
+        labelledScripts.collect{case (a, Some(b))  => a + "\n" + b} .mkString("\n\n")
+    }
+
+}
+
+case class RpmSpec(meta: RpmMetadata,
+    desc: RpmDescription = RpmDescription(),
     deps: RpmDependencies = RpmDependencies(),
+    scriptlets: RpmScripts = RpmScripts(),
     mappings: Seq[LinuxPackageMapping] = Seq.empty) {
   
   private[this] def makeFilesLine(target: String, meta: LinuxFileMetaData, isDir: Boolean): String = {
@@ -136,8 +154,10 @@ case class RpmSpec(meta: RpmMetadata,
     // write build as moving everything into RPM directory.
     sb append installSection(tmpRoot)
     // TODO - Allow symlinks
-    // TODO - Allow scriptlets for installation
-    // "%prep", "%pretrans", "%pre", "%post", "%preun", "%postun", "%posttrans", "%verifyscript", "%clean"
+
+    // write scriptlets
+    sb append scriptlets.contents()
+
     // Write file mappings
     sb append fileSection
     // TODO - Write triggers...
