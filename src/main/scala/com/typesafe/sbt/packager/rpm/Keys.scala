@@ -34,6 +34,17 @@ trait RpmKeys {
   // SPEC
   val rpmSpecConfig = TaskKey[RpmSpec]("rpm-spec-config", "All the configuration for an RPM .spec file.")
   
+ // SCRIPTS
+  val rpmScripts = SettingKey[RpmScripts]("rpm-scripts", "Configuration of pre- and post-integration scripts.")
+
+  val rpmPretrans = SettingKey[Option[String]]("rpm-pretrans", "%pretrans scriptlet")
+  val rpmPre = SettingKey[Option[String]]("rpm-pre", "%pre scriptlet")
+  val rpmVerifyscript = SettingKey[Option[String]]("rpm-verifyscipt", "%verifyscript scriptlet")
+  val rpmPost = SettingKey[Option[String]]("rpm-post", "%post scriptlet")
+  val rpmPosttrans = SettingKey[Option[String]]("rpm-posttrans", "%posttrans scriptlet")
+  val rpmPreun = SettingKey[Option[String]]("rpm-preun", "%preun scriptlet")
+  val rpmPostun = SettingKey[Option[String]]("rpm-postun", "%postun scriptlet")
+
   // Building
   val rpmLint = TaskKey[Unit]("rpm-lint", "Runs rpmlint program against the genreated RPM, if available.")
 }
