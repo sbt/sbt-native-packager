@@ -32,5 +32,10 @@ object SbtNativePackager extends Plugin
                            makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
                            addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz")
   
+  object packageArchetype {
+    def java_application: Seq[Setting[_]] = 
+      packagerSettings ++ archetypes.JavaAppPackaging.settings
+  }
+                           
   // TODO - Add a few targets that detect the current OS and build a package for that OS.
 }
