@@ -3,13 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RedHat &mdash; sbt-native-packager v1.0a1 documentation</title>
+    <title>RedHat &mdash; sbt-native-packager 1.0a1 documentation</title>
+    
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
@@ -22,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="sbt-native-packager v1.0a1 documentation" href="index.html" />
+    <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
     <link rel="up" title="Writing Linux Packages" href="linux.html" />
     <link rel="next" title="Windows" href="windows.html" />
     <link rel="prev" title="Debian" href="debian.html" /> 
@@ -40,7 +43,7 @@
         <li class="right" >
           <a href="debian.html" title="Debian"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">sbt-native-packager v1.0a1 documentation</a> &raquo;</li>
+        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li>
           <li><a href="linux.html" accesskey="U">Writing Linux Packages</a> &raquo;</li> 
       </ul>
     </div>
@@ -49,7 +52,12 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">RedHat</a><ul>
-<li><a class="reference internal" href="#settings">Settings</a></li>
+<li><a class="reference internal" href="#settings">Settings</a><ul>
+<li><a class="reference internal" href="#informational-settings">Informational Settings</a></li>
+<li><a class="reference internal" href="#dependency-settings">Dependency Settings</a></li>
+<li><a class="reference internal" href="#scriptlet-settings">Scriptlet Settings</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#tasks">Tasks</a></li>
 </ul>
 </li>
@@ -69,7 +77,7 @@
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -89,19 +97,22 @@
             
   <div class="section" id="redhat">
 <h1>RedHat<a class="headerlink" href="#redhat" title="Permalink to this headline">¶</a></h1>
-<p>RedHat <tt class="docutils literal"><span class="pre">rpm</span></tt> files support a very advanced number of features.  To take full advantage of this environment, it&#8217;s best to understand how the <tt class="docutils literal"><span class="pre">rpm</span></tt> package system works.  <a class="reference external" href="http://fedoraproject.org/wiki/How_to_create_an_RPM_package">http://fedoraproject.org/wiki/How_to_create_an_RPM_package</a> is a good tutorial, but it focuses on building packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated &#8216;binary&#8217; packages.</p>
+<p>RedHat <tt class="docutils literal"><span class="pre">rpm</span></tt> files support a very advanced number of features.  To take full advantage of this environment, it's best to understand how the <tt class="docutils literal"><span class="pre">rpm</span></tt> package system works.  <a class="reference external" href="http://fedoraproject.org/wiki/How_to_create_an_RPM_package">http://fedoraproject.org/wiki/How_to_create_an_RPM_package</a> is a good tutorial, but it focuses on building packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated 'binary' packages.</p>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <p>Rpms require the following specific settings:</p>
 <dl class="docutils">
-<dt>name in Rpm := &#8220;sbt&#8221;,</dt>
-<dd><blockquote class="first">
-<div>version in Rpm &lt;&lt;= sbtVersion.identity,
-rpmRelease := &#8220;1&#8221;,
-rpmVendor := &#8220;typesafe&#8221;,
-rpmUrl := Some(&#8220;<a class="reference external" href="http://github.com/paulp/sbt-extras">http://github.com/paulp/sbt-extras</a>&#8221;),
-rpmLicense := Some(&#8220;BSD&#8221;),</div></blockquote>
-<dl class="last docutils">
+<dt>name in Rpm := &quot;sbt&quot;,</dt>
+<dd>version in Rpm &lt;&lt;= sbtVersion.identity,
+rpmRelease := &quot;1&quot;,
+rpmVendor := &quot;typesafe&quot;,
+rpmUrl := Some(&quot;<a class="reference external" href="http://github.com/paulp/sbt-extras">http://github.com/paulp/sbt-extras</a>&quot;),
+rpmLicense := Some(&quot;BSD&quot;),</dd>
+</dl>
+<div class="section" id="informational-settings">
+<h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt></dt>
 <dd>The name of the package for rpm (if different from general linux name).</dd>
 <dt><tt class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt></dt>
@@ -114,11 +125,46 @@ rpmLicense := Some(&#8220;BSD&#8221;),</div></blockquote>
 <dd>A url associated with the software in the RPM.</dd>
 <dt><tt class="docutils literal"><span class="pre">rpmLicense</span></tt></dt>
 <dd>The license associated with software in the RPM.</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmRequirements</span></tt></dt>
-<dd>The RPM packages that are required to be installed for this RPM to work.</dd>
 </dl>
+</div></blockquote>
+</div>
+<div class="section" id="dependency-settings">
+<h3>Dependency Settings<a class="headerlink" href="#dependency-settings" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">rpmRequirements</span></tt></dt>
+<dd><p class="first">The RPM packages that are required to be installed for this RPM to work.</p>
+<p><tt class="docutils literal"><span class="pre">rpmProvides</span></tt>
+The RPM package names that this RPM provides.</p>
+<p><tt class="docutils literal"><span class="pre">rpmPrerequisites</span></tt>
+The RPM packages this RPM needs before installation</p>
+<p><tt class="docutils literal"><span class="pre">rpmObsoletes</span></tt>
+The packages this RPM allows you to remove</p>
+<p class="last"><tt class="docutils literal"><span class="pre">rpmConflcits</span></tt>
+The packages this RPM conflicts with and cannot be installed with.</p>
 </dd>
 </dl>
+</div></blockquote>
+</div>
+<div class="section" id="scriptlet-settings">
+<h3>Scriptlet Settings<a class="headerlink" href="#scriptlet-settings" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p><tt class="docutils literal"><span class="pre">rpmPretrans</span></tt>
+The <tt class="docutils literal"><span class="pre">%pretrans</span></tt> scriptlet to run.</p>
+<p><tt class="docutils literal"><span class="pre">rpmPre</span></tt>
+The <tt class="docutils literal"><span class="pre">%pre</span></tt> scriptlet to run.</p>
+<p><tt class="docutils literal"><span class="pre">rpmVerifyScript</span></tt>
+The <tt class="docutils literal"><span class="pre">%verifyscript%</span></tt> scriptlet to run</p>
+<p><tt class="docutils literal"><span class="pre">rpmPost</span></tt>
+The <tt class="docutils literal"><span class="pre">%post</span></tt> scriptlet to run</p>
+<p><tt class="docutils literal"><span class="pre">rpmPosttrans</span></tt>
+The <tt class="docutils literal"><span class="pre">%posttrans</span></tt> scriptlet to run</p>
+<p><tt class="docutils literal"><span class="pre">rpmPreun</span></tt>
+The <tt class="docutils literal"><span class="pre">%preun</span></tt> scriptlet to run.</p>
+<p><tt class="docutils literal"><span class="pre">rpmPostun</span></tt>
+The <tt class="docutils literal"><span class="pre">%postun</span></tt> scriptlet to run.</p>
+</div></blockquote>
+</div>
 </div>
 <div class="section" id="tasks">
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
@@ -152,13 +198,13 @@ rpmLicense := Some(&#8220;BSD&#8221;),</div></blockquote>
         <li class="right" >
           <a href="debian.html" title="Debian"
              >previous</a> |</li>
-        <li><a href="index.html">sbt-native-packager v1.0a1 documentation</a> &raquo;</li>
+        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li>
           <li><a href="linux.html" >Writing Linux Packages</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, Josh Suereth.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

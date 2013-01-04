@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Getting Started &mdash; sbt-native-packager 1.0a1 documentation</title>
+    <title>Project Archetypes &mdash; sbt-native-packager 1.0a1 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
-    <link rel="next" title="Project Archetypes" href="archetypes.html" />
-    <link rel="prev" title="Installation" href="installation.html" /> 
+    <link rel="next" title="Writing Linux Packages" href="linux.html" />
+    <link rel="prev" title="Getting Started" href="gettingstarted.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,10 +37,10 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="archetypes.html" title="Project Archetypes"
+          <a href="linux.html" title="Writing Linux Packages"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="installation.html" title="Installation"
+          <a href="gettingstarted.html" title="Getting Started"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
       </ul>
@@ -49,21 +49,21 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Getting Started</a><ul>
-<li><a class="reference internal" href="#defining-a-new-package">Defining a new package</a></li>
+<li><a class="reference internal" href="#">Project Archetypes</a><ul>
+<li><a class="reference internal" href="#java-vanilla-application">Java Vanilla Application</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="installation.html"
-                        title="previous chapter">Installation</a></p>
+  <p class="topless"><a href="gettingstarted.html"
+                        title="previous chapter">Getting Started</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="archetypes.html"
-                        title="next chapter">Project Archetypes</a></p>
+  <p class="topless"><a href="linux.html"
+                        title="next chapter">Writing Linux Packages</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/gettingstarted.txt"
+    <li><a href="_sources/archetypes.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -87,23 +87,29 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>The sbt-native-packager is an sbt plugin.  Please follow the [[installation]] instructions for how to set it up on a project.</p>
-<p>The sbt-native-packager attempts to make building packages for different operating systems easier.  While it provides
-some basic abstractions around packaging, it also allows you to dig down into the nuts and bolts of each platform as
-neeeded to generate the best package possible.</p>
-<p>Most packages are split into two types of deployments:</p>
-<ol class="arabic simple">
-<li>'nix-style deployments.  Pushing scripts to <tt class="docutils literal"><span class="pre">/usr/bin</span></tt>, docs to <tt class="docutils literal"><span class="pre">/usr/share/man</span></tt>, etc.</li>
-<li>Windows/Universal-style deployments.  A single directory holds all the artifacts needed to run the application.</li>
-</ol>
-<p>Because of this, the Native packager splits defining of packages into two pieces:  <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span></tt> and <tt class="docutils literal"><span class="pre">linuxPackageMappings</span></tt>.</p>
-<div class="section" id="defining-a-new-package">
-<h2>Defining a new package<a class="headerlink" href="#defining-a-new-package" title="Permalink to this headline">¶</a></h2>
-<p>TODO - Write more.</p>
-<p>Note: That as of the latest version of the native packager plugin, project Archetypes are coming into existing, which
-drastically simplify creating native packages if your application fits a certain mold.</p>
+  <div class="section" id="project-archetypes">
+<h1>Project Archetypes<a class="headerlink" href="#project-archetypes" title="Permalink to this headline">¶</a></h1>
+<p>Project archetypes are default deployment scripts that try to &quot;do the right thing&quot; for a given type of project.
+Because not all projects are created equal, there is no one single archetype for all native packages, but a set
+of them for usage.</p>
+<p>Curently, in the nativepackager these archetypes are available:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Java Vanilla Application</li>
+</ul>
+</div></blockquote>
+<div class="section" id="java-vanilla-application">
+<h2>Java Vanilla Application<a class="headerlink" href="#java-vanilla-application" title="Permalink to this headline">¶</a></h2>
+<p>A Java vanilla application is a Java application that consists of a set of JARs and a main method.  There is no
+custom start scripts, or services.  It is just a bash/bat script that starts up a Java project.   To use
+this archetype in your build, do the following in your <tt class="docutils literal"><span class="pre">build.sbt</span></tt>:</p>
+<blockquote>
+<div><p>archetypes.java_application</p>
+<p>name := &quot;A-package-friendly-name&quot;</p>
+<p>packageSummary in Linux := &quot;The name you want displayed in package summaries&quot;,</p>
+<p>packageDescription in Linux := &quot; A descriptioin of your project&quot;,</p>
+<p>maintainer in Debian := &quot;Your Name &lt;<a class="reference external" href="mailto:your&#37;&#52;&#48;email&#46;com">your<span>&#64;</span>email<span>&#46;</span>com</a>&gt;&quot;</p>
+</div></blockquote>
 </div>
 </div>
 
@@ -120,10 +126,10 @@ drastically simplify creating native packages if your application fits a certain
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="archetypes.html" title="Project Archetypes"
+          <a href="linux.html" title="Writing Linux Packages"
              >next</a> |</li>
         <li class="right" >
-          <a href="installation.html" title="Installation"
+          <a href="gettingstarted.html" title="Getting Started"
              >previous</a> |</li>
         <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
       </ul>

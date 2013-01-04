@@ -14,7 +14,9 @@ to allow native packages to be created for all major operating systems, includin
 .. toctree::
    :maxdepth: 4
    
+   installation.rst
    gettingstarted.rst
+   archetypes.rst
    linux.rst
    windows.rst
    universal.rst

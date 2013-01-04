@@ -1,51 +1,27 @@
 Getting Started
 ===============
 
-The sbt-native-packager is a plugin.   To use it, first create a ``project/plugins.sbt`` file with the following. 
+The sbt-native-packager is an sbt plugin.  Please follow the [[installation]] instructions for how to set it up on a project.
 
-::
+The sbt-native-packager attempts to make building packages for different operating systems easier.  While it provides
+some basic abstractions around packaging, it also allows you to dig down into the nuts and bolts of each platform as
+neeeded to generate the best package possible.   
 
-  resolvers += Resolver.url("scalasbt", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
-  
-  addSbtPlugin("com.typesafe" % "sbt-native-packager" % "0.4.0")
+Most packages are split into two types of deployments:
 
+1. 'nix-style deployments.  Pushing scripts to ``/usr/bin``, docs to ``/usr/share/man``, etc.
+2. Windows/Universal-style deployments.  A single directory holds all the artifacts needed to run the application.
 
-Also, each operating system requires its own tools for download.
-
-Windows
--------
-
-Creating Windows ``msi`` packages requires the use of the Windows Installer Xml utilities.  These are available for download here: http://wix.sourceforge.net/downloadv35.html.  The plugin has only been tested with version 3.5+.
-
-
-RedHat/RPM-based linux distros
-------------------------------
-
-Creating ``rpm`` packages requires the use of the following command line tools:
-
-- ``rpmbuild``
-- ``rpm`` (optional)
-- ``rpmlint`` (optional)
-
-
-Debian-based linux distros
---------------------------
-
-Creating ``deb`` packages requires the use of the following command line tools:
-
-- ``dpkg-deb``
-- ``fakeroot``
-- ``chmod``
-- ``lintian`` (optional)
-
-Universal
----------
-
-Creating ``tgz`` or ``txz`` requires the use of the following command line tools:
-
-- ``gzip``
-- ``xz``
-- ``tar``
+Because of this, the Native packager splits defining of packages into two pieces:  ``mappings in Universal`` and ``linuxPackageMappings``.
 
 
 
+Defining a new package
+~~~~~~~~~~~~~~~~~~~~~~
+
+TODO - Write more.
+
+
+
+Note: That as of the latest version of the native packager plugin, project Archetypes are coming into existing, which
+drastically simplify creating native packages if your application fits a certain mold.

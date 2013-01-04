@@ -15,6 +15,10 @@ name in Rpm := "sbt",
     rpmUrl := Some("http://github.com/paulp/sbt-extras"),
     rpmLicense := Some("BSD"),
 
+
+Informational Settings
+~~~~~~~~~~~~~~~~~~~~~~
+
   ``name in Rpm``
     The name of the package for rpm (if different from general linux name).
 
@@ -33,8 +37,48 @@ name in Rpm := "sbt",
   ``rpmLicense``
     The license associated with software in the RPM.
 
+Dependency Settings
+~~~~~~~~~~~~~~~~~~~
+
   ``rpmRequirements``
     The RPM packages that are required to be installed for this RPM to work.
+    
+    ``rpmProvides``
+    The RPM package names that this RPM provides.
+    
+    ``rpmPrerequisites``
+    The RPM packages this RPM needs before installation
+    
+    ``rpmObsoletes``
+    The packages this RPM allows you to remove
+    
+    ``rpmConflcits``
+    The packages this RPM conflicts with and cannot be installed with.
+
+
+Scriptlet Settings
+~~~~~~~~~~~~~~~~~~
+    
+    ``rpmPretrans`` 
+    The ``%pretrans`` scriptlet to run.
+    
+    ``rpmPre``
+    The ``%pre`` scriptlet to run.
+    
+    ``rpmVerifyScript``
+    The ``%verifyscript%`` scriptlet to run
+    
+    ``rpmPost``
+    The ``%post`` scriptlet to run
+    
+    ``rpmPosttrans``
+    The ``%posttrans`` scriptlet to run
+    
+    ``rpmPreun``
+    The ``%preun`` scriptlet to run.
+    
+    ``rpmPostun``
+    The ``%postun`` scriptlet to run.
 
 
 Tasks
