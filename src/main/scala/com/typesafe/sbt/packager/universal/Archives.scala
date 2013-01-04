@@ -3,14 +3,16 @@ package packager
 package universal
 
 import sbt._
+
 /** Helper methods to package up files into compressed archives. */
 object Archives {
+  
   /** Makes a zip file in the given target directory using the given name. */
   def makeZip(target: File, name: String, mappings: Seq[(File, String)]): File = {
     val zip = target / (name + ".zip")
     // TODO - If mappings already start with the given name, don't add it?
     val m2 = mappings map { case (f, p) => f -> (name +"/"+p) }
-    sbt.IO.zip(m2, zip)
+    ZipHelper.zip(m2, zip)
     zip
   }
   

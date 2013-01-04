@@ -8,6 +8,8 @@ version := "0.5.0"
 
 scalacOptions in Compile += "-deprecation"
 
+libraryDependencies += "org.apache.commons" % "commons-compress" % "1.4.1"
+
 site.settings
 
 com.typesafe.sbt.SbtSite.SiteKeys.siteMappings <+= (baseDirectory) map { dir => 
