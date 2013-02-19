@@ -9,7 +9,7 @@ Add the following to your `project/plugins.sbt` or `~/.sbt/plugins.sbt` file:
     
     resolvers += Resolver.url("scalasbt", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
     
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.5.0")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.5.1")
 
 Then, in the project you wish to use the plugin, add the following settings:
 
@@ -66,9 +66,9 @@ Here's an example excerpt for the debian + rpm package of [sbt-extras](http://gi
                      dir -> ("/usr/lib/sbt/" + v),
                      jar -> ("/usr/lib/sbt/"+v+"/sbt-launch.jar")) withPerms "0755"
     },
-    // DEBIAN SPECIFIC    
+    // DEBIAN SPECIFIC
     name in Debian := "sbt",
-    version in Debian <<= (version, sbtVersion) apply { (v, sv) =>       
+    version in Debian <<= (version, sbtVersion) apply { (v, sv) =>
       sv + "-build-" + (v split "\\." map (_.toInt) dropWhile (_ == 0) map ("%02d" format _) mkString "")
     },
     debianPackageDependencies in Debian ++= Seq("curl", "java2-runtime", "bash (>= 2.05a-11)"),
