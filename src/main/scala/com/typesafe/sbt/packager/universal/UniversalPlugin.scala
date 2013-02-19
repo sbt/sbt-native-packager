@@ -30,6 +30,12 @@ trait UniversalPlugin extends Plugin {
       target in config <<= target apply (_ / config.name)
     )
   
+  def useNativeZip: Seq[Setting[_]] =
+    makePackageSettings(packageBin, Universal)(makeZip) ++
+    makePackageSettings(packageBin, UniversalDocs)(makeZip) ++
+    makePackageSettings(packageBin, UniversalSrc)(makeZip)
+    
+    
   private type Packager = (File, String, Seq[(File,String)]) => File
   /** Creates packaging settings for a given package key, configuration + archive type. */
   private[this] def makePackageSettings(packageKey: TaskKey[File], config: Configuration)(packager: Packager): Seq[Setting[_]] =
