@@ -31,9 +31,9 @@ trait UniversalPlugin extends Plugin {
     )
   
   def useNativeZip: Seq[Setting[_]] =
-    makePackageSettings(packageBin, Universal)(makeZip) ++
-    makePackageSettings(packageBin, UniversalDocs)(makeZip) ++
-    makePackageSettings(packageBin, UniversalSrc)(makeZip)
+    makePackageSettings(packageBin, Universal)(makeNativeZip) ++
+    makePackageSettings(packageBin, UniversalDocs)(makeNativeZip) ++
+    makePackageSettings(packageBin, UniversalSrc)(makeNativeZip)
     
     
   private type Packager = (File, String, Seq[(File,String)]) => File

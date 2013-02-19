@@ -15,6 +15,15 @@ object Archives {
     ZipHelper.zip(m2, zip)
     zip
   }
+
+  /** Makes a zip file in the given target directory using the given name. */
+  def makeNativeZip(target: File, name: String, mappings: Seq[(File, String)]): File = {
+    val zip = target / (name + ".zip")
+    // TODO - If mappings already start with the given name, don't add it?
+    val m2 = mappings map { case (f, p) => f -> (name +"/"+p) }
+    ZipHelper.zipNative(m2, zip)
+    zip
+  }
   
   /** GZips a file.  Returns the new gzipped file.
    * NOTE: This will 'consume' the input file.
