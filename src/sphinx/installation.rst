@@ -5,7 +5,7 @@ The sbt-native-packager is a plugin.   To use it, first create a ``project/plugi
 
 ::
 
-  addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.5.0")
+  addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.5.3")
 
 
 Also, each operating system requires its own tools for download.

@@ -9,7 +9,7 @@ Add the following to your `project/plugins.sbt` or `~/.sbt/plugins.sbt` file:
     
     resolvers += Resolver.url("scalasbt", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
     
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.5.2")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.5.3")
 
 Then, in the project you wish to use the plugin, add the following settings:
 
