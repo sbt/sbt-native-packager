@@ -35,6 +35,8 @@ object ZipHelper {
         case 0 => ()
         case n => sys.error("Failed to run native zip application!")
       }
+      
+      IO.copyFile(zipDir / name, outputZip)
     }
   
   /** Creates a zip file attempting to give files the appropriate unix permissions using Java 6 APIs.
