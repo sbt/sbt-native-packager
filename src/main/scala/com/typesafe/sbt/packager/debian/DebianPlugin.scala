@@ -34,7 +34,8 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     target in Debian <<= (target, name in Debian, version in Debian) apply ((t,n,v) => t / (n +"-"+ v)),
     linuxPackageMappings in Debian <<= linuxPackageMappings,
     packageDescription in Debian <<= packageDescription in Linux,
-    packageSummary in Debian <<= packageSummary in Linux
+    packageSummary in Debian <<= packageSummary in Linux,
+    debianMaintainerScripts := Seq.empty
   ) ++ inConfig(Debian)(Seq(
     name <<= name,
     version <<= version,
@@ -72,7 +73,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
         IO.writeLines(cfile, conffiles)
         cfile
     },
-    debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianConffilesFile, target) map { (mappings, _, _, t) =>
+    debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, target) map { (mappings, _, maintScripts, _, t) =>
       // First Create directories, in case we have any without files in them.
       for {
         LinuxPackageMapping(files, perms, zipped) <- mappings
@@ -89,6 +90,9 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       } copyAndFixPerms(file, tfile, perms, zipped)
       // TODO: Fix this ugly hack to permission directories correctly!
       for(file <- (t.***).get; if file.isDirectory) chmod(file, "0755")
+      // Put the maintainer files in `dir / "DEBIAN"` named as specified.
+      // Valid values for the name are preinst,postinst,prerm,postrm
+      for ((file, name) <- maintScripts) copyAndFixPerms(file, t / "DEBIAN" / name, LinuxFileMetaData())
       t
     },
     debianMD5sumsFile <<= (debianExplodedPackage, target) map {
