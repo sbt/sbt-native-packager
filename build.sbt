@@ -4,7 +4,7 @@ name := "sbt-native-packager"
 
 organization := "com.typesafe.sbt"
 
-version := "0.5.4"
+version := "0.5.5"
 
 scalacOptions in Compile += "-deprecation"
 
