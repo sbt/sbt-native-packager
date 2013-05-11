@@ -24,6 +24,8 @@ trait RpmKeys {
   val rpmDescription = SettingKey[RpmDescription]("rpm-description", "Description of this rpm.")
   
   // DEPENDENCIES
+  val rpmAutoprov = SettingKey[String]("rpm-autoprov", "enable/deactivating auto provisioning.")
+  val rpmAutoreq = SettingKey[String]("rpm-autoreq", "enable/deactivating auto requiering.")
   val rpmProvides = SettingKey[Seq[String]]("rpm-provides", "Packages this RPM provides.")
   val rpmRequirements = SettingKey[Seq[String]]("rpm-requirements", "Packages this RPM requires.")
   val rpmPrerequisites = SettingKey[Seq[String]]("rpm-prerequisites", "Packages this RPM need *before* installation.")
