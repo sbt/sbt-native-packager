@@ -20,6 +20,8 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmGroup := None,
     rpmPackager := None,
     rpmIcon := None,
+    rpmAutoprov := "yes",
+    rpmAutoreq := "yes",
     rpmProvides := Seq.empty,
     rpmRequirements := Seq.empty,
     rpmPrerequisites := Seq.empty,
@@ -38,7 +40,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
   ) ++ inConfig(Rpm)(Seq(
     packageArchitecture := "noarch",
     rpmMetadata <<=
-      (name, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription) apply (RpmMetadata.apply),
+      (name, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply (RpmMetadata.apply),
     rpmDescription <<=
       (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
     rpmDependencies <<=

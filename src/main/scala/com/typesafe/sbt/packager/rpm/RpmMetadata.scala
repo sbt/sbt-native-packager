@@ -13,7 +13,9 @@ case class RpmMetadata(
     vendor: String,
     os: String,
     summary: String,
-    description: String) {
+    description: String,
+    autoprov: String,
+    autoreq: String) {
 }
 
 /** 
@@ -144,6 +146,9 @@ case class RpmSpec(meta: RpmMetadata,
     sb append deps.contents
     
     // TODO - autoprov + autoreq
+
+    sb append ("autoprov: %s\n" format meta.autoprov)
+    sb append ("autoreq: %s\n" format meta.autoreq)
     
     sb append ("BuildRoot: %s\n\n" format rpmRoot.getAbsolutePath)
     
