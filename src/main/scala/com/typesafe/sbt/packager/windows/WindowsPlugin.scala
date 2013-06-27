@@ -23,8 +23,11 @@ trait WindowsPlugin extends Plugin {
       // Disable windows generation by default.
       wixConfig := <wix/>,
       mappings := Seq.empty,
-      mappings in packageMsi <<= mappings,
-      packageMsi <<= (mappings in packageMsi, wixFile, name, target, candleOptions, lightOptions, streams) map {(m, f, n, t, co, lo, s) =>
+      mappings in packageBin <<= mappings,
+      // TODO - Remove packageMsi after next major release.
+      mappings in packageMsi <<= mappings in packageBin,
+      packageMsi <<= packageBin,
+      packageBin <<= (mappings in packageMsi, wixFile, name, target, candleOptions, lightOptions, streams) map {(m, f, n, t, co, lo, s) =>
         val msi = t / (n + ".msi")
         // First we have to move everything (including the wix file) to our target directory.
         val wix = t / (n + ".wix")

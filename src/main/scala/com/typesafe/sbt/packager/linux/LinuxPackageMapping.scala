@@ -34,6 +34,7 @@ case class LinuxPackageMapping(
 }
 
 // TODO - Maybe this can support globbing symlinks?
+// Maybe it should share an ancestor with LinuxPackageMapping so we can configure symlinks the same time as normal files?
 case class LinuxSymlink(link: String, destination: String)
 object LinuxSymlink {
   // TODO - Does this belong here?
