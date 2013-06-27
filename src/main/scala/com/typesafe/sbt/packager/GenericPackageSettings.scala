@@ -22,6 +22,17 @@ trait GenericPackageSettings
   // into linux, and the conventions we expect.
   // It is by no means 100% accurate, but should be ok for the simplest cases.
   // For advanced users, use the underlying APIs.
+  
+  /**
+   * Maps linux file format from the universal from the conventions:
+   * 
+   * `<project>/src/linux` files are mapped directly into linux packages.
+   * `<universal>` files are placed under `/usr/share/<package-name>`
+   * `<universal>/bin` files are given symlinks in `/usr/bin`
+   * `<universal>/conf` directory is given a symlink to `/etc/<package-name>`
+   * Files in `conf/` or `etc/` directories are automatically marked as configuration.
+   * `../man/...1` files are automatically compressed into .gz files.
+   */
   def mapGenericMappingsToLinux(mappings: Seq[(File, String)])(rename: String => String): Seq[LinuxPackageMapping] = {
     val (directories, nondirectories) = mappings.partition(_._1.isDirectory)
     val (binaries, nonbinaries) = nondirectories.partition(_._1.canExecute)
@@ -44,7 +55,7 @@ trait GenericPackageSettings
     Seq(
       packageMappingWithRename((binaries ++ directories):_*) withUser "root" withGroup "root" withPerms "0755",
       packageMappingWithRename(compressedManPages:_*).gzipped withUser "root" withGroup "root" withPerms "0644",
-      packageMappingWithRename(configFiles:_*) withConfig("auto") withUser "root" withGroup "root" withPerms "0644",
+      packageMappingWithRename(configFiles:_*) withConfig() withUser "root" withGroup "root" withPerms "0644",
       packageMappingWithRename(remaining:_*) withUser "root" withGroup "root" withPerms "0644"
     )  
   }
@@ -84,7 +95,6 @@ trait GenericPackageSettings
           destination=installLocation+"/"+pkg+"/conf"))
       else Seq.empty
     }
-    // TODO - Map man pages?
   )
 
 }

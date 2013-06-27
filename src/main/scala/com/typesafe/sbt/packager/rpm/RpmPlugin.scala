@@ -48,7 +48,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmScripts <<=
       (rpmPretrans,rpmPre,rpmPost,rpmVerifyscript,rpmPosttrans,rpmPreun,rpmPostun) apply RpmScripts,
     rpmSpecConfig <<=
-      (rpmMetadata, rpmDescription, rpmDependencies, rpmScripts, linuxPackageMappings) map RpmSpec,
+      (rpmMetadata, rpmDescription, rpmDependencies, rpmScripts, linuxPackageMappings, linuxPackageSymlinks) map RpmSpec,
     packageBin <<= (rpmSpecConfig, target, streams) map { (spec, dir, s) =>
         RpmHelper.buildRpm(spec, dir, s.log)
     },

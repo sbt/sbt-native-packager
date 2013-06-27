@@ -35,3 +35,27 @@ case class LinuxPackageMapping(
 
 // TODO - Maybe this can support globbing symlinks?
 case class LinuxSymlink(link: String, destination: String)
+object LinuxSymlink {
+  // TODO - Does this belong here?
+  def makeSymLinks(symlinks: Seq[LinuxSymlink], pkgDir: File): Unit = {
+        for(link <- symlinks) {
+        // TODO - drop preceeding '/'
+        def dropFirstSlash(n: String): String =
+          if(n startsWith "/") n drop 1
+          else n
+        val from = pkgDir / dropFirstSlash(link.destination)
+        val to = pkgDir / dropFirstSlash(link.link)
+        val linkDir = to.getParentFile
+        if(!linkDir.isDirectory) IO.createDirectory(linkDir)
+        val name = IO.relativize(linkDir, to).getOrElse {
+          sys.error("Could not relativize names ("+to+") ("+linkDir+")!!! *(logic error)*")
+        }
+        val relativeLink = 
+        // TODO - if it already exists, delete it, or check accuracy...
+        if(!to.exists) Process(Seq("ln", "-s", from.getAbsolutePath, name), linkDir).! match {
+          case 0 => ()
+          case n => sys.error("Failed to symlink " + from + " to " + to)
+        }
+      }
+  }
+}

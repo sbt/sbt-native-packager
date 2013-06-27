@@ -4,6 +4,7 @@ package rpm
 
 import linux.{LinuxPackageMapping,LinuxFileMetaData}
 import sbt._
+import com.typesafe.sbt.packager.linux.LinuxSymlink
 
 case class RpmMetadata(
     name: String,
@@ -71,9 +72,20 @@ case class RpmSpec(meta: RpmMetadata,
     desc: RpmDescription = RpmDescription(),
     deps: RpmDependencies = RpmDependencies(),
     scriptlets: RpmScripts = RpmScripts(),
-    mappings: Seq[LinuxPackageMapping] = Seq.empty) {
+    mappings: Seq[LinuxPackageMapping] = Seq.empty,
+    symlinks: Seq[LinuxSymlink] = Seq.empty) {
+
+  private[this]  def fixFilename(n: String): String = {
+    val tmp = 
+      if(n startsWith "/") n
+      else "/" + n
+    if(tmp.contains(' ')) "\"%s\"" format tmp
+    else tmp
+  }
   
   private[this] def makeFilesLine(target: String, meta: LinuxFileMetaData, isDir: Boolean): String = {
+
+    
     val sb = new StringBuilder
     meta.config.toLowerCase match {
       case "false" => ()
@@ -90,10 +102,7 @@ case class RpmSpec(meta: RpmMetadata,
     sb append ','
     sb append meta.group
     sb append ") "
-    sb append (target.contains(' ') match {
-      case true => "\"%s\"" format target
-      case false => target
-    })
+    sb append fixFilename(target)
     sb append '\n'
     sb.toString
   }
@@ -106,6 +115,9 @@ case class RpmSpec(meta: RpmMetadata,
       mapping <- mappings
       (file, dest) <- mapping.mappings
     } sb append makeFilesLine(dest, mapping.fileData, file.isDirectory)
+    for {
+      link <- symlinks
+    } sb append (fixFilename(link.link) + "\n")
     sb.toString
   }
   

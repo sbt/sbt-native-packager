@@ -3,6 +3,7 @@ package packager
 package rpm
 
 import sbt._
+import com.typesafe.sbt.packager.linux.LinuxSymlink
 
 object RpmHelper {
 
@@ -47,6 +48,10 @@ object RpmHelper {
       if file.exists && !file.isDirectory()
       target = buildroot / dest
     } copyWithZip(file, target, mapping.zipped)
+    
+    
+    // Now we create symlinks
+    LinuxSymlink.makeSymLinks(spec.symlinks, buildroot)
   }
   
   private[this] def writeSpecFile(spec: RpmSpec, workArea: File, log: sbt.Logger): File = {
