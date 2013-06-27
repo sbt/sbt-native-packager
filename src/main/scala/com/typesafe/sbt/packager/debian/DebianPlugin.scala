@@ -5,15 +5,25 @@ package debian
 import Keys._
 import sbt._
 import linux.LinuxPackageMapping
+import linux.LinuxSymlink
 import linux.LinuxFileMetaData
 import com.typesafe.sbt.packager.Hashing
+import com.typesafe.sbt.packager.linux.LinuxSymlink
 
 trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   val Debian = config("debian") extend Linux
   
+  import com.typesafe.sbt.packager.universal.Archives
+
   private[this] final def copyAndFixPerms(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit = {
-    if(zipped) IO.gzip(from, to)
-    else IO.copyFile(from, to, true)
+    if(zipped) {
+      IO.withTemporaryDirectory { dir =>
+        val tmp = dir / from.getName
+        IO.copyFile(from, tmp)
+        val zipped = Archives.gzip(tmp)
+        IO.copyFile(zipped, to, true)
+      }
+    } else IO.copyFile(from, to, true)
     // If we have a directory, we need to alter the perms.
     chmod(to, perms.permissions)
     // TODO - Can we do anything about user/group ownership?
@@ -32,15 +42,15 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     debianPackageRecommends := Seq.empty,
     debianSignRole := "builder",
     target in Debian <<= (target, name in Debian, version in Debian) apply ((t,n,v) => t / (n +"-"+ v)),
+    name in Debian <<= (name in Linux),
+    version in Debian <<= (version in Linux),
     linuxPackageMappings in Debian <<= linuxPackageMappings,
     packageDescription in Debian <<= packageDescription in Linux,
     packageSummary in Debian <<= packageSummary in Linux,
+    maintainer in Debian <<= maintainer in Linux,
     debianMaintainerScripts := Seq.empty
   ) ++ inConfig(Debian)(Seq(
-    name <<= name,
-    version <<= version,
     packageArchitecture := "all",
-    maintainer := "",
     debianPackageInfo <<=
       (name, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
     debianPackageMetadata <<= 
@@ -59,6 +69,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       (data, size, dir) =>
         val cfile = dir / "DEBIAN" / "control"
         IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
+        chmod(cfile, "0644")
         cfile
     },
     debianConffilesFile <<= (linuxPackageMappings, target) map {
@@ -71,9 +82,20 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
            if file.isFile
         } yield name
         IO.writeLines(cfile, conffiles)
+        chmod(cfile, "0644")
         cfile
     },
-    debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, target) map { (mappings, _, maintScripts, _, t) =>
+    /*debianLinksfile <<= (name, linuxPackageSymlinks, target) map { (name, symlinks, dir) =>
+      val lfile = dir / "DEBIAN" / (name + ".links")
+      val content =
+        for {
+          LinuxSymlink(link, destination) <- symlinks
+        } yield link + "   " + destination
+      IO.writeLines(lfile, content)
+      chmod(lfile, "0644")
+      lfile
+    },*/
+    debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, linuxPackageSymlinks, target) map { (mappings, _, maintScripts, _, symlinks, t) =>
       // First Create directories, in case we have any without files in them.
       for {
         LinuxPackageMapping(files, perms, zipped) <- mappings
@@ -88,11 +110,35 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
         if !file.isDirectory && file.exists
         tfile = t / name        
       } copyAndFixPerms(file, tfile, perms, zipped)
+      
+            // Now generate relative symlinks
+      for(link <- symlinks) {
+        // TODO - drop preceeding '/'
+        def dropFirstSlash(n: String): String =
+          if(n startsWith "/") n drop 1
+          else n
+        val from = t / dropFirstSlash(link.destination)
+        val to = t / dropFirstSlash(link.link)
+        val linkDir = to.getParentFile
+        if(!linkDir.isDirectory) IO.createDirectory(linkDir)
+        val name = IO.relativize(linkDir, to).getOrElse {
+          sys.error("Could not relativize names ("+to+") ("+linkDir+")!!! *(logic error)*")
+        }
+        val relativeLink = 
+        // TODO - if it already exists, delete it, or check accuracy...
+        if(!to.exists) Process(Seq("ln", "-s", from.getAbsolutePath, name), linkDir).! match {
+          case 0 => ()
+          case n => sys.error("Failed to symlink " + from + " to " + to)
+        }
+      }
+      
+      
       // TODO: Fix this ugly hack to permission directories correctly!
       for(file <- (t.***).get; if file.isDirectory) chmod(file, "0755")
       // Put the maintainer files in `dir / "DEBIAN"` named as specified.
       // Valid values for the name are preinst,postinst,prerm,postrm
       for ((file, name) <- maintScripts) copyAndFixPerms(file, t / "DEBIAN" / name, LinuxFileMetaData())
+      
       t
     },
     debianMD5sumsFile <<= (debianExplodedPackage, target) map {
@@ -103,9 +149,12 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           if file.isFile
           if !(name startsWith "DEBIAN")
           if !(name contains "debian-binary")
+          // TODO - detect symlinks...
+          if file.getCanonicalPath == file.getAbsolutePath
           fixedName = if(name startsWith "/") name drop 1 else name
         } yield Hashing.md5Sum(file) + "  " + fixedName
         IO.writeLines(md5file, md5sums)
+        chmod(md5file, "0644")
         md5file
     },
     packageBin <<= (debianExplodedPackage, debianMD5sumsFile, target, streams) map { (pkgdir, _, tdir, s) =>

@@ -32,3 +32,6 @@ case class LinuxPackageMapping(
   /** Modifies the current package mapping to have gzipped data. */ 
   def gzipped = copy(zipped = true)
 }
+
+// TODO - Maybe this can support globbing symlinks?
+case class LinuxSymlink(link: String, destination: String)

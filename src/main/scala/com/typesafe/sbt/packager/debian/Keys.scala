@@ -18,6 +18,7 @@ trait DebianKeys {
   val debianControlFile = TaskKey[File]("debian-control-file", "Makes the debian package control file.")
   val debianMaintainerScripts = TaskKey[Seq[(File, String)]]("debian-maintainer-scripts", "Makes the debian maintainer scripts.")
   val debianConffilesFile = TaskKey[File]("debian-conffiles-file", "Makes the debian package conffiles file.")
+  val debianLinksfile= TaskKey[File]("debian-links-file", "Makes the debian package links file.")
   val debianMD5sumsFile = TaskKey[File]("debian-md5sums-file", "Makes the debian package md5sums file.")
   val debianZippedMappings = TaskKey[Seq[LinuxPackageMapping]]("debian-zipped-mappings", "Files that need to be gzipped when they hit debian.")
   val debianCombinedMappings = TaskKey[Seq[LinuxPackageMapping]]("debian-combined-mappings", "All the mappings of files for the final package.")
@@ -40,6 +41,7 @@ object Keys extends DebianKeys {
   // Package building
   def sourceDirectory = sbt.Keys.sourceDirectory
   def linuxPackageMappings = linux.Keys.linuxPackageMappings
+  def linuxPackageSymlinks = linux.Keys.linuxPackageSymlinks
   def packageBin = sbt.Keys.packageBin
   def target = sbt.Keys.target
   def streams = sbt.Keys.streams
