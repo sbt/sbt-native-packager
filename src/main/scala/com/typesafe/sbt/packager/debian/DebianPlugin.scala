@@ -115,7 +115,11 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       LinuxSymlink.makeSymLinks(symlinks, t)      
       
       // TODO: Fix this ugly hack to permission directories correctly!
-      for(file <- (t.***).get; if file.isDirectory) chmod(file, "0755")
+      for { 
+        file <- (t.***).get
+        if file.isDirectory
+        if file.getCanonicalPath == file.getAbsolutePath // Ignore symlinks.
+      } chmod(file, "0755")
       // Put the maintainer files in `dir / "DEBIAN"` named as specified.
       // Valid values for the name are preinst,postinst,prerm,postrm
       for ((file, name) <- maintScripts) copyAndFixPerms(file, t / "DEBIAN" / name, LinuxFileMetaData())

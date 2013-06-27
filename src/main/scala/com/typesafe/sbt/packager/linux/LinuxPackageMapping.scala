@@ -37,25 +37,43 @@ case class LinuxPackageMapping(
 // Maybe it should share an ancestor with LinuxPackageMapping so we can configure symlinks the same time as normal files?
 case class LinuxSymlink(link: String, destination: String)
 object LinuxSymlink {
+  
+  def makeRelative(from: String, to: String): String = {
+    val partsFrom: Seq[String] = from split "/" filterNot (_.isEmpty)
+    val partsTo: Seq[String] = to split "/" filterNot (_.isEmpty)
+          
+    val prefixAndOne = (1 to partsFrom.length).map(partsFrom.take).dropWhile(seq => partsTo.startsWith(seq)).headOption getOrElse sys.error("Cannot symlink to yourself!")
+    val prefix = prefixAndOne dropRight 1      
+    if(prefix.length > 0) {
+      val escapeCount = (partsTo.length - 1) - prefix.length
+      val escapes = (0 until escapeCount) map (i => "..")
+      val remainder = partsFrom drop prefix.length
+      (escapes ++ remainder).mkString("/")
+    } else from
+  }
   // TODO - Does this belong here?
-  def makeSymLinks(symlinks: Seq[LinuxSymlink], pkgDir: File): Unit = {
-        for(link <- symlinks) {
+  def makeSymLinks(symlinks: Seq[LinuxSymlink], pkgDir: File, relativeLinks: Boolean = true): Unit = {
+      for(link <- symlinks) {
         // TODO - drop preceeding '/'
         def dropFirstSlash(n: String): String =
           if(n startsWith "/") n drop 1
           else n
-        val from = pkgDir / dropFirstSlash(link.destination)
+        def addFirstSlash(n: String): String =
+          if(n startsWith "/") n
+          else "/" + n
         val to = pkgDir / dropFirstSlash(link.link)
         val linkDir = to.getParentFile
         if(!linkDir.isDirectory) IO.createDirectory(linkDir)
         val name = IO.relativize(linkDir, to).getOrElse {
           sys.error("Could not relativize names ("+to+") ("+linkDir+")!!! *(logic error)*")
         }
-        val relativeLink = 
+        val linkFinal = 
+          if(relativeLinks) makeRelative(link.destination, link.link)
+          else addFirstSlash(link.destination)
         // TODO - if it already exists, delete it, or check accuracy...
-        if(!to.exists) Process(Seq("ln", "-s", from.getAbsolutePath, name), linkDir).! match {
+        if(!to.exists) Process(Seq("ln", "-s", linkFinal, name), linkDir).! match {
           case 0 => ()
-          case n => sys.error("Failed to symlink " + from + " to " + to)
+          case n => sys.error("Failed to symlink " + link.destination + " to " + to)
         }
       }
   }
