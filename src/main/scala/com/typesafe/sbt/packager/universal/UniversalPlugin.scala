@@ -21,6 +21,7 @@ trait UniversalPlugin extends Plugin {
   /** Creates all package types for a given configuration */
   private[this] def makePackageSettingsForConfig(config: Configuration): Seq[Setting[_]] =
     makePackageSettings(packageBin, config)(makeZip) ++
+    makePackageSettings(packageOsxDmg, config)(makeDmg) ++
     makePackageSettings(packageZipTarball, config)(makeTgz) ++
     makePackageSettings(packageXzTarball, config)(makeTxz) ++
     inConfig(config)(Seq(
