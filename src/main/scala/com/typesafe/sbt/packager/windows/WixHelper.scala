@@ -7,11 +7,48 @@ import sbt._
 
 import collection.mutable.ArrayBuffer
 
+case class WindowsProductInfo(
+  id: String,  // UUID of the package
+  title: String, // Human readable name of the package
+  version: String, // Windows version
+  maintainer: String,
+  description: String,
+  upgradeId: String, // UUID for upgrading
+  comments: String = "",
+  installScope: String = "perMachine",
+  installerVersion: String = "200",
+  compressed: Boolean = true
+)
+
 /** Helper functions to deal with Wix/CAB craziness. */
 object WixHelper {
   /** Generates a windows friendly GUID for use in random locations in the build. */
-  //def makeGUID = java.util.UUID.generateUUID
+  def makeGUID: String = java.util.UUID.randomUUID.toString
   
+  
+  def makeWixConfig(
+      name: String, // package name
+      product: WindowsProductInfo,
+      rest: xml.Node): xml.Node = {
+    <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' 
+     xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+      <Product Id={product.id} 
+            Name={product.title} 
+            Language='1033'
+            Version={product.version}
+            Manufacturer={product.maintainer} 
+            UpgradeCode={product.upgradeId}>
+        <Package Description={product.description}
+              Comments={product.comments}
+              Manufacturer={product.maintainer} 
+              InstallScope={product.installScope}
+              InstallerVersion={product.installerVersion}
+              Compressed={if(product.compressed) "yes" else "no"} />
+         <Media Id='1' Cabinet={name+".cab"} EmbedCab='yes' />
+         {rest}
+       </Product>
+    </Wix>
+  }
   
   /** Modifies a string to be Wix ID friendly by removing all the bad 
    * characters and replacing with _.  Also limits the width to 70 (rather than

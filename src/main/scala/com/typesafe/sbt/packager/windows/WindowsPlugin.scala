@@ -14,6 +14,34 @@ trait WindowsPlugin extends Plugin {
       name in Windows <<= name,
       lightOptions := Seq.empty,
       candleOptions := Seq.empty,
+      wixProductId := WixHelper.makeGUID,
+      wixProductUpgradeId := WixHelper.makeGUID,
+      maintainer in Windows <<= maintainer,
+      packageSummary in Windows <<= packageSummary,
+      packageDescription in Windows <<= packageDescription,
+      wixPackageInfo <<= (
+          wixProductId, 
+          wixProductUpgradeId, 
+          version in Windows, 
+          maintainer in Windows,
+          packageSummary in Windows,
+          packageDescription in Windows) apply { (id, uid, version, mtr, title, desc) =>
+        WindowsProductInfo(
+          id = id,
+          title = title,
+          version = version,
+          maintainer = mtr,
+          description = desc,
+          upgradeId = uid,
+          comments = ""  // TODO - allow comments
+        )
+      },
+      wixProductConfig := <xml:group></xml:group>,
+      wixConfig <<= (name in Windows, wixPackageInfo, wixProductConfig) map { (name, product, nested) =>
+        WixHelper.makeWixConfig(name, product, nested)
+      },
+      wixConfig in Windows <<= wixConfig,
+      wixProductConfig in Windows <<= wixProductConfig,
       wixFile <<= (wixConfig in Windows, name in Windows, target in Windows) map { (c, n, t) =>
         val f = t / (n + ".wxs")
         IO.write(f, c.toString)
@@ -21,7 +49,6 @@ trait WindowsPlugin extends Plugin {
       }
   ) ++ inConfig(Windows)(Seq(
       // Disable windows generation by default.
-      wixConfig := <wix/>,
       mappings := Seq.empty,
       mappings in packageBin <<= mappings,
       // TODO - Remove packageMsi after next major release.
