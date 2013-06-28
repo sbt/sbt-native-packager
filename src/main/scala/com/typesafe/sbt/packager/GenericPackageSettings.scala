@@ -110,7 +110,7 @@ trait GenericPackageSettings
       for {
         (file, name) <- mappings
         if !file.isDirectory
-      } yield ComponentFile(name, editable = (name startsWith "conf/"))
+      } yield ComponentFile(name, editable = (name startsWith "conf"))
     val corePackage =
       WindowsFeature(
         id=name+"Core",

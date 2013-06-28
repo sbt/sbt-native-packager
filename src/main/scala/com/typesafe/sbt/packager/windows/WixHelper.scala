@@ -59,7 +59,7 @@ object WixHelper {
       for {
         f <- features
         ComponentFile(name, _) <- f.components
-      } yield name
+      } yield name.replaceAll("\\\\","/")
     // Now for directories...
     def parentDir(filename: String) = filename take (filename lastIndexOf '/')
     def simpleName(filename: String) = {
@@ -69,14 +69,15 @@ object WixHelper {
     val dirs = (filenames map parentDir).distinct
     // Now we need our directory tree xml?
     val dirToChilren = dirs groupBy parentDir
-    def dirXml(currentDir: String): scala.xml.Node = {
+    def dirXml(currentDir: String): scala.xml.Node = if(!currentDir.isEmpty){
+      println("Making directory xml for: " + currentDir)
       val children = dirToChilren.getOrElse(currentDir, Seq.empty)  
       <Directory Id={cleanStringForId(currentDir)} Name={simpleName(currentDir)}>
         {
           children map dirXml
         }
       </Directory>
-    }
+    } else <!-- -->
 
     // We need component helpers...
     case class ComponentInfo(id: String, xml: scala.xml.Node)
@@ -100,13 +101,15 @@ object WixHelper {
           </DirectoryRef>
         ComponentInfo(id, xml)
       case ComponentFile(name, editable) =>
-        val dir = parentDir(name)
-            val fname = simpleName(name)
-            val id = cleanStringForId(name)
+        val uname = name.replaceAll("\\\\", "/")
+        val dir = parentDir(uname)
+        val dirRef = if(dir.isEmpty) "INSTALLDIR" else cleanStringForId(dir)
+            val fname = simpleName(uname)
+            val id = cleanStringForId(uname)
             val xml = 
-            <DirectoryRef Id={cleanStringForId(dir)}>
+            <DirectoryRef Id={dirRef}>
               <Component Id={id} Guid={makeGUID}>
-                <File Id={"file_" + id} Name={cleanFileName(fname)} DiskId='1' Source={cleanFileName(name)}>
+                <File Id={"file_" + id} Name={cleanFileName(fname)} DiskId='1' Source={cleanFileName(uname)}>
                   {
                     if(editable) {
                       <xml:group>
