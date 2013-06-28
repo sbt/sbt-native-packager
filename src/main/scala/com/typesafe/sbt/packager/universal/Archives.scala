@@ -24,6 +24,63 @@ object Archives {
     ZipHelper.zipNative(m2, zip)
     zip
   }
+
+  
+  /** Makes a dmg file in the given target directory using the given name. 
+   *  
+   *  Note:  Only works on OSX
+   */
+  def makeDmg(target: File, name: String, mappings: Seq[(File, String)]): File = {
+    val t = target / "dmg"
+    val dmg = target / (name + ".dmg")
+    if(!t.isDirectory) IO.createDirectory(t)
+    val sizeBytes = mappings.map(_._1).filterNot(_.isDirectory).map(_.length).sum
+    // We should give ourselves a buffer....
+    val neededMegabytes = math.ceil((sizeBytes * 1.05) / (1024 * 1024)).toLong
+    
+    // Create the DMG file:
+    Process(Seq(
+        "hdiutil",
+        "create", 
+        "-megabytes", "%d" format neededMegabytes, 
+        "-fs", "HFS+", 
+        "-volname", name,  
+        name), Some(target)).! match {
+      case 0 => ()
+      case n => sys.error("Error creating dmg: " + dmg + ". Exit code " + n)
+    }
+    
+    // Now mount the DMG.
+    val mountPoint = (t / name)
+    if(!mountPoint.isDirectory) IO.createDirectory(mountPoint)
+    val mountedPath = mountPoint.getAbsolutePath
+    Process(Seq(
+        "hdiutil", "attach", dmg.getAbsolutePath,
+        "-readwrite",
+        "-mountpoint",
+        mountedPath), Some(target)).! match {
+      case 0 => ()
+      case n => sys.error("Unable to mount dmg: " + dmg + ". Exit code " + n)
+    }
+
+    // Now copy the files in
+    val m2 = mappings map { case (f, p) => f -> (mountPoint / p) }
+    IO.copy(m2)
+    // Update for permissions
+    for {
+      (from, to) <- m2
+      if from.canExecute()
+    } to.setExecutable(true, true)
+    
+    // Now unmount
+    Process(Seq("hdiutil", "detach", mountedPath), Some(target)).! match {
+      case 0 => ()
+      case n => sys.error("Unable to dismount dmg: " + dmg + ". Exit code " + n)
+    }
+    // Delete mount point
+    IO.delete(mountPoint)
+    dmg
+  }
   
   /** GZips a file.  Returns the new gzipped file.
    * NOTE: This will 'consume' the input file.
