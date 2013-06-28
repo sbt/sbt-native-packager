@@ -12,8 +12,11 @@ trait WindowsPlugin extends Plugin {
       sourceDirectory in Windows <<= sourceDirectory(_ / "windows"),
       target in Windows <<= target apply (_ / "windows"),
       name in Windows <<= name,
-      lightOptions := Seq.empty,
-      candleOptions := Seq.empty,
+      // Defaults so that our simplified building works
+      candleOptions := Seq("-ext", "WixUtilExtension"),
+      lightOptions := Seq("-ext", "WixUIExtension",
+                         "-ext", "WixUtilExtension",
+                         "-cultures:en-us"),
       wixProductId := WixHelper.makeGUID,
       wixProductUpgradeId := WixHelper.makeGUID,
       maintainer in Windows <<= maintainer,
@@ -36,7 +39,10 @@ trait WindowsPlugin extends Plugin {
           comments = ""  // TODO - allow comments
         )
       },
-      wixProductConfig := <xml:group></xml:group>,
+      wixFeatures := Seq.empty,
+      wixProductConfig <<= (name in Windows, wixPackageInfo, wixFeatures) map { (name, product, features) =>
+        WixHelper.makeWixProductConfig(name, product, features)
+      },
       wixConfig <<= (name in Windows, wixPackageInfo, wixProductConfig) map { (name, product, nested) =>
         WixHelper.makeWixConfig(name, product, nested)
       },

@@ -22,6 +22,7 @@ trait GenericPackageSettings
   // into linux, and the conventions we expect.
   // It is by no means 100% accurate, but should be ok for the simplest cases.
   // For advanced users, use the underlying APIs.
+  // Right now, it's also pretty focused on command line scripts packages.
   
   /**
    * Maps linux file format from the universal from the conventions:
@@ -96,5 +97,52 @@ trait GenericPackageSettings
       else Seq.empty
     }
   )
-
+  
+  def mapGenericFilesToWinows: Seq[Setting[_]] = Seq(
+    mappings in Windows <<= mappings in Universal,
+    wixFeatures <<= (name in Windows, mappings in Windows) map makeWindowsFeatures
+  )
+  // TODO select main script!  Filter Config links!
+  def makeWindowsFeatures(name: String, mappings: Seq[(File, String)]): Seq[windows.WindowsFeature] = {
+    import windows._
+    
+    val files =
+      for {
+        (file, name) <- mappings
+        if !file.isDirectory
+      } yield ComponentFile(name, editable = (name startsWith "conf/"))
+    val corePackage =
+      WindowsFeature(
+        id=name+"Core",
+        title=name,
+        desc="All core files.",
+        absent="disallow",
+        components = files
+      )
+    // TODO - Detect bat files to add paths...
+    val homeEnvVar = name.toUpperCase +"_HOME"
+    val addBinToPath =
+      // TODO - we may have issues here...
+      WindowsFeature(
+        id="AddBinToPath",
+        title="Update Enviornment Variables",
+        desc="Update PATH environment variables (requires restart).",
+        components = Seq(AddDirectoryToPath("bin"))
+      )
+    val configFileLinks =
+      WindowsFeature(
+          id="AddConfigLinks",
+          title="Configuration start menu links",
+          desc="Adds start menu shortcuts to edit configuration files.",
+          components = for {
+             (file, name) <- mappings
+             if !file.isDirectory
+             if name startsWith "conf/"
+          } yield AddShortCut(name)
+      )
+    // TODO - Add feature for shortcuts to binary scripts.
+    Seq(corePackage, addBinToPath, configFileLinks)
+  }
+  
+  
 }
