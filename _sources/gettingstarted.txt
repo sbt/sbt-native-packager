@@ -1,27 +1,34 @@
 Getting Started
 ===============
 
-The sbt-native-packager is an sbt plugin.  Please follow the [[installation]] instructions for how to set it up on a project.
+The sbt-native-packager is an sbt plugin.  Please follow the :ref:`Installation` instructions for how to set it up on a project.
 
 The sbt-native-packager attempts to make building packages for different operating systems easier.  While it provides
 some basic abstractions around packaging, it also allows you to dig down into the nuts and bolts of each platform as
 neeeded to generate the best package possible.   
 
-Most packages are split into two types of deployments:
 
-1. 'nix-style deployments.  Pushing scripts to ``/usr/bin``, docs to ``/usr/share/man``, etc.
-2. Windows/Universal-style deployments.  A single directory holds all the artifacts needed to run the application.
+Here's the basic architecture of the plugin:
 
-Because of this, the Native packager splits defining of packages into two pieces:  ``mappings in Universal`` and ``linuxPackageMappings``.
+.. image:: https://docs.google.com/drawings/d/1ASOPHY8UUGLDHrYYXFWqfYOuQe5sBioX8GKkeN3Yvd0/pub?w=960&amp;h=720
+   :height: 720 px
+   :width: 960 px
+   :alt: Architecture diagram.
+
+When using the full power of the plugin, all of the packaging is driven from the ``mappings in Universal`` setting, which defines
+what files will be included in the package.  These files are automatically moved around for the appropriate native packaging as needed.
+
+We'll examine each level of  packaging.
 
 
 
 Defining a new package
 ~~~~~~~~~~~~~~~~~~~~~~
 
-TODO - Write more.
+To define a new package, after installing the plugin and ensuring the basic settings are on the project, start configuring your package contents
+either using :ref:`Archetypes` or :ref:`Universal` hooks.  These will describe the appropriate way to begin packaging for your applciation.
 
 
 
-Note: That as of the latest version of the native packager plugin, project Archetypes are coming into existing, which
-drastically simplify creating native packages if your application fits a certain mold.
+
+

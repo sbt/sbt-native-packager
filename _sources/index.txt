@@ -16,7 +16,8 @@ to allow native packages to be created for all major operating systems, includin
    
    installation.rst
    gettingstarted.rst
-   archetypes.rst
+   universal.rst
    linux.rst
    windows.rst
-   universal.rst
+   archetypes.rst
+

@@ -26,8 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
-    <link rel="next" title="Writing Linux Packages" href="linux.html" />
-    <link rel="prev" title="Getting Started" href="gettingstarted.html" /> 
+    <link rel="prev" title="Windows" href="windows.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,10 +36,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="linux.html" title="Writing Linux Packages"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="gettingstarted.html" title="Getting Started"
+          <a href="windows.html" title="Windows"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
       </ul>
@@ -50,17 +46,14 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Project Archetypes</a><ul>
-<li><a class="reference internal" href="#java-vanilla-application">Java Vanilla Application</a></li>
+<li><a class="reference internal" href="#java-command-line-application">Java Command Line Application</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="gettingstarted.html"
-                        title="previous chapter">Getting Started</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="linux.html"
-                        title="next chapter">Writing Linux Packages</a></p>
+  <p class="topless"><a href="windows.html"
+                        title="previous chapter">Windows</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/archetypes.txt"
@@ -88,27 +81,36 @@
           <div class="body">
             
   <div class="section" id="project-archetypes">
-<h1>Project Archetypes<a class="headerlink" href="#project-archetypes" title="Permalink to this headline">¶</a></h1>
+<span id="archetypes"></span><h1>Project Archetypes<a class="headerlink" href="#project-archetypes" title="Permalink to this headline">¶</a></h1>
 <p>Project archetypes are default deployment scripts that try to &quot;do the right thing&quot; for a given type of project.
 Because not all projects are created equal, there is no one single archetype for all native packages, but a set
 of them for usage.</p>
+<p>The architecture of the plugin is set up so that you can customize your packages at any level of complexity.
+For example, if you'd like to write Windows Installer XML by hand and manually map files, you should be able to do this while
+still leveraging the default configuration for other platforms.</p>
 <p>Curently, in the nativepackager these archetypes are available:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Java Vanilla Application</li>
+<li>Java Command Line Application (Experimental)</li>
 </ul>
 </div></blockquote>
-<div class="section" id="java-vanilla-application">
-<h2>Java Vanilla Application<a class="headerlink" href="#java-vanilla-application" title="Permalink to this headline">¶</a></h2>
-<p>A Java vanilla application is a Java application that consists of a set of JARs and a main method.  There is no
+<div class="section" id="java-command-line-application">
+<h2>Java Command Line Application<a class="headerlink" href="#java-command-line-application" title="Permalink to this headline">¶</a></h2>
+<p>A Java Command Line application is a Java application that consists of a set of JARs and a main method.  There is no
 custom start scripts, or services.  It is just a bash/bat script that starts up a Java project.   To use
 this archetype in your build, do the following in your <tt class="docutils literal"><span class="pre">build.sbt</span></tt>:</p>
 <blockquote>
 <div><p>archetypes.java_application</p>
+<p>mapGenericFilesToLinux</p>
+<p>mapGenericFilesToWindows</p>
 <p>name := &quot;A-package-friendly-name&quot;</p>
-<p>packageSummary in Linux := &quot;The name you want displayed in package summaries&quot;,</p>
-<p>packageDescription in Linux := &quot; A descriptioin of your project&quot;,</p>
+<p>packageSummary in Linux := &quot;The name you want displayed in package summaries&quot;</p>
+<p>packageSummary in Windows := &quot;The name you want displayed in Add/Remove Programs&quot;</p>
+<p>packageDescription := &quot; A descriptioin of your project&quot;</p>
+<p>maintainer in Windows := &quot;Company&quot;</p>
 <p>maintainer in Debian := &quot;Your Name &lt;<a class="reference external" href="mailto:your&#37;&#52;&#48;email&#46;com">your<span>&#64;</span>email<span>&#46;</span>com</a>&gt;&quot;</p>
+<p>wixProductId := &quot;ce07be71-510d-414a-92d4-dff47631848a&quot;</p>
+<p>wixProductUpgradeId := &quot;4552fb0e-e257-4dbd-9ecb-dba9dbacf424&quot;</p>
 </div></blockquote>
 </div>
 </div>
@@ -126,10 +128,7 @@ this archetype in your build, do the following in your <tt class="docutils liter
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="linux.html" title="Writing Linux Packages"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="gettingstarted.html" title="Getting Started"
+          <a href="windows.html" title="Windows"
              >previous</a> |</li>
         <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
       </ul>

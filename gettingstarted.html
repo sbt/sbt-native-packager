@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
-    <link rel="next" title="Project Archetypes" href="archetypes.html" />
+    <link rel="next" title="Universal" href="universal.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
   </head>
   <body>
@@ -37,7 +37,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="archetypes.html" title="Project Archetypes"
+          <a href="universal.html" title="Universal"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="installation.html" title="Installation"
@@ -59,8 +59,8 @@
   <p class="topless"><a href="installation.html"
                         title="previous chapter">Installation</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="archetypes.html"
-                        title="next chapter">Project Archetypes</a></p>
+  <p class="topless"><a href="universal.html"
+                        title="next chapter">Universal</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/gettingstarted.txt"
@@ -89,21 +89,19 @@
             
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>The sbt-native-packager is an sbt plugin.  Please follow the [[installation]] instructions for how to set it up on a project.</p>
+<p>The sbt-native-packager is an sbt plugin.  Please follow the <a class="reference internal" href="installation.html#installation"><em>Installation</em></a> instructions for how to set it up on a project.</p>
 <p>The sbt-native-packager attempts to make building packages for different operating systems easier.  While it provides
 some basic abstractions around packaging, it also allows you to dig down into the nuts and bolts of each platform as
 neeeded to generate the best package possible.</p>
-<p>Most packages are split into two types of deployments:</p>
-<ol class="arabic simple">
-<li>'nix-style deployments.  Pushing scripts to <tt class="docutils literal"><span class="pre">/usr/bin</span></tt>, docs to <tt class="docutils literal"><span class="pre">/usr/share/man</span></tt>, etc.</li>
-<li>Windows/Universal-style deployments.  A single directory holds all the artifacts needed to run the application.</li>
-</ol>
-<p>Because of this, the Native packager splits defining of packages into two pieces:  <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span></tt> and <tt class="docutils literal"><span class="pre">linuxPackageMappings</span></tt>.</p>
+<p>Here's the basic architecture of the plugin:</p>
+<img alt="Architecture diagram." src="https://docs.google.com/drawings/d/1ASOPHY8UUGLDHrYYXFWqfYOuQe5sBioX8GKkeN3Yvd0/pub?w=960&amp;amp;h=720" style="width: 960px; height: 720px;" />
+<p>When using the full power of the plugin, all of the packaging is driven from the <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span></tt> setting, which defines
+what files will be included in the package.  These files are automatically moved around for the appropriate native packaging as needed.</p>
+<p>We'll examine each level of  packaging.</p>
 <div class="section" id="defining-a-new-package">
 <h2>Defining a new package<a class="headerlink" href="#defining-a-new-package" title="Permalink to this headline">¶</a></h2>
-<p>TODO - Write more.</p>
-<p>Note: That as of the latest version of the native packager plugin, project Archetypes are coming into existing, which
-drastically simplify creating native packages if your application fits a certain mold.</p>
+<p>To define a new package, after installing the plugin and ensuring the basic settings are on the project, start configuring your package contents
+either using <a class="reference internal" href="archetypes.html#archetypes"><em>Project Archetypes</em></a> or <a class="reference internal" href="universal.html#universal"><em>Universal</em></a> hooks.  These will describe the appropriate way to begin packaging for your applciation.</p>
 </div>
 </div>
 
@@ -120,7 +118,7 @@ drastically simplify creating native packages if your application fits a certain
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="archetypes.html" title="Project Archetypes"
+          <a href="universal.html" title="Universal"
              >next</a> |</li>
         <li class="right" >
           <a href="installation.html" title="Installation"

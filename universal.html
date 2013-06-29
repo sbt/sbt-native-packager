@@ -26,7 +26,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
-    <link rel="prev" title="Windows" href="windows.html" /> 
+    <link rel="next" title="Writing Linux Packages" href="linux.html" />
+    <link rel="prev" title="Getting Started" href="gettingstarted.html" /> 
   </head>
   <body>
     <div class="related">
@@ -36,7 +37,10 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="windows.html" title="Windows"
+          <a href="linux.html" title="Writing Linux Packages"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="Getting Started"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
       </ul>
@@ -46,6 +50,8 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Universal</a><ul>
+<li><a class="reference internal" href="#getting-started-with-universal-packaging">Getting Started with Universal Packaging</a></li>
+<li><a class="reference internal" href="#universal-conventions">Universal Conventions</a></li>
 <li><a class="reference internal" href="#configurations">Configurations</a></li>
 <li><a class="reference internal" href="#settings">Settings</a></li>
 <li><a class="reference internal" href="#commands">Commands</a></li>
@@ -54,8 +60,11 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="windows.html"
-                        title="previous chapter">Windows</a></p>
+  <p class="topless"><a href="gettingstarted.html"
+                        title="previous chapter">Getting Started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="linux.html"
+                        title="next chapter">Writing Linux Packages</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/universal.txt"
@@ -83,10 +92,87 @@
           <div class="body">
             
   <div class="section" id="universal">
-<h1>Universal<a class="headerlink" href="#universal" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Universal<a class="headerlink" href="#universal" title="Permalink to this headline">¶</a></h1>
 <p>Universal packaging just takes a plain <tt class="docutils literal"><span class="pre">mappings</span></tt> configuration and generates various
 package files for distribution.  It allows you to provide your users a distribution
 that is not tied to any particular platform, but may require manual labor to set up.</p>
+<div class="section" id="getting-started-with-universal-packaging">
+<h2>Getting Started with Universal Packaging<a class="headerlink" href="#getting-started-with-universal-packaging" title="Permalink to this headline">¶</a></h2>
+<p>By default, all files found in the <tt class="docutils literal"><span class="pre">src/universal</span></tt> directory are included in the distribution.  So, the first step
+in creating a a distribution is to place files in this directory in the layout you would like in the distributed zip file.</p>
+<p>To add build generated files to the distribution, simple add a <em>mapping</em> to the <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span></tt> setting.  Let's
+look at an example where we add the packaged jar of a project to the lib folder of a distribution:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;+=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="n">jar</span> <span class="k">=&gt;</span>
+  <span class="n">jar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">jar</span><span class="o">.</span><span class="n">getName</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The above does two things:</p>
+<ol class="arabic simple">
+<li>It depends on <tt class="docutils literal"><span class="pre">packageBin</span> <span class="pre">in</span> <span class="pre">Compile</span></tt> which will generate a jar file form the project.</li>
+<li>It creates a <em>mapping</em> (a <tt class="docutils literal"><span class="pre">Tuple2[File,</span> <span class="pre">String]</span></tt>) which denotes the file and the location in the distribution as a string.</li>
+</ol>
+<p>You can use this to add anything you desire to the package.</p>
+</div>
+<div class="section" id="universal-conventions">
+<h2>Universal Conventions<a class="headerlink" href="#universal-conventions" title="Permalink to this headline">¶</a></h2>
+<p>This plugin has a set of conventions for universal packages that enable the automatic generation of native packages.  The
+universal convention has the following package layout:</p>
+<div class="highlight-none"><div class="highlight"><pre>bin/
+   &lt;scripts and things you want on the path&gt;
+lib/
+   &lt;shared libraries&gt;
+conf/
+   &lt;configuration files that should be accessible using platform standard config locations.&gt;
+doc/
+   &lt;Documentation files that should be easily accessible. (index.html treated specially)&gt;
+</pre></div>
+</div>
+<p>If your plugin matches these conventions, you can enable the settings to automatically generate native layouts based on your universal package.  To do
+so, add the following to your build.sbt:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">mapGenericFilesToLinux</span>
+
+<span class="n">mapGenericFilesToWinows</span>
+</pre></div>
+</div>
+<p>In Linux, this mapping creates symlinks from platform locations to the install location of the universal package.  For example,
+given the following packaging:</p>
+<div class="highlight-none"><div class="highlight"><pre>bin/
+   cool-tool
+lib/
+   cool-tool.jar
+conf/
+   cool-tool.conf
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">mapGenericFilesToLinux</span></tt> settings will create the following package (symlinks denoted with <tt class="docutils literal"><span class="pre">-&gt;</span></tt>):</p>
+<div class="highlight-none"><div class="highlight"><pre>/usr/share/&lt;pkg-name&gt;/
+   bin/
+     cool-tool
+   lib/
+     cool-tool.jar
+   conf/
+     cool-tool.conf
+/usr/bin/
+     cool-tool  -&gt; /usr/share/&lt;package-name&gt;/bin/cool-tool
+/etc/&lt;pkg-name&gt; -&gt; /usr/share/&lt;package-name&gt;/conf
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">mapGenericFilesToWindows</span></tt> will construct an MSI that installs the application in <tt class="docutils literal"><span class="pre">&lt;Platform</span> <span class="pre">Program</span> <span class="pre">Files&gt;\&lt;Package</span> <span class="pre">Name&gt;</span></tt> and include
+the <tt class="docutils literal"><span class="pre">bin</span></tt> directory on Windows <tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable (optionally disabled).  While these mappings provide a great start to nice packaging, it still
+may be necessary to customize the native packaging for each platform.   This can be done by configuring those settings directly.</p>
+<p>For example, even using generic mapping, debian has a requirement for changelog files to be fully formed.  Using the above generic mapping, we can configure just this
+changelog in addition to the generic packaging by first defining a changelog in <tt class="docutils literal"><span class="pre">src/debian/changelog</span></tt> and then adding the following setting:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">&lt;+=</span> <span class="o">(</span><span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">,</span> <span class="n">sourceDirectory</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">dir</span><span class="o">)</span> <span class="k">=&gt;</span>
+  <span class="o">(</span><span class="n">packageMapping</span><span class="o">(</span>
+    <span class="o">(</span><span class="n">dir</span> <span class="o">/</span> <span class="s">&quot;changelog&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;/usr/share/doc/sbt/changelog.gz&quot;</span>
+  <span class="o">)</span> <span class="n">withUser</span> <span class="s">&quot;root&quot;</span> <span class="n">withGroup</span> <span class="s">&quot;root&quot;</span> <span class="n">withPerms</span> <span class="s">&quot;0644&quot;</span> <span class="n">gzipped</span><span class="o">)</span> <span class="n">asDocs</span><span class="o">()</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Notice how we're <em>only</em> modifying the package mappings for Debian linux packages.  For more information on the underlying packaging settings, see
+<a class="reference internal" href="windows.html#windows"><em>Windows</em></a> and <a class="reference internal" href="linux.html#linux"><em>Writing Linux Packages</em></a> documentation.</p>
+</div>
 <div class="section" id="configurations">
 <h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
 <p>Universal packaging provides three Configurations:</p>
@@ -103,14 +189,17 @@ that is not tied to any particular platform, but may require manual labor to set
 </div>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<p>The Universal packages are completely configured through the use of the mappings key.  Simply
+<p>As we showed before, the Universal packages are completely configured through the use of the mappings key.  Simply
 specify the desired mappings for a given configuration.  For Example:</p>
-<blockquote>
-<div><tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span> <span class="pre">&lt;+=</span> <span class="pre">packageBin</span> <span class="pre">in</span> <span class="pre">Compile</span> <span class="pre">map</span> <span class="pre">{</span> <span class="pre">p</span> <span class="pre">=&gt;</span> <span class="pre">p</span> <span class="pre">-&gt;</span> <span class="pre">&quot;lib/foo.jar&quot;</span> <span class="pre">}</span></tt></div></blockquote>
-<p>The different types of archives can also be configured through selection.</p>
-<blockquote>
-<div><tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span> <span class="pre">in</span> <span class="pre">package-zip-tarball</span> <span class="pre">+=</span> <span class="pre">file(&quot;README&quot;)</span> <span class="pre">-&gt;</span> <span class="pre">&quot;README&quot;</span></tt></div></blockquote>
-<p>Besides <tt class="docutils literal"><span class="pre">mappings</span></tt>, the <tt class="docutils literal"><span class="pre">name</span></tt>, <tt class="docutils literal"><span class="pre">sourceDirectory</span></tt> and <tt class="docutils literal"><span class="pre">target</span></tt> configurations are all respected.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;+=</span> <span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="n">map</span> <span class="o">{</span> <span class="n">p</span> <span class="k">=&gt;</span> <span class="n">p</span> <span class="o">-&gt;</span> <span class="s">&quot;lib/foo.jar&quot;</span> <span class="o">}</span>
+</pre></div>
+</div>
+<p>However, sometimes it may be advantageous to customize the files for each archive separately.  For example, perhaps
+the .tar.gz has an additional README plaintext file in additon to a README.html.  To add this just to the .tar.gz file,
+use the task-scope feature of sbt:</p>
+<div class="highlight-scala"><pre>mappings in Universal in package-zip-tarball += file("README") -&gt; "README</pre>
+</div>
+<p>Besides <tt class="docutils literal"><span class="pre">mappings</span></tt>, the <tt class="docutils literal"><span class="pre">name</span></tt>, <tt class="docutils literal"><span class="pre">sourceDirectory</span></tt> and <tt class="docutils literal"><span class="pre">target</span></tt> configurations are all respected by universal packaging.</p>
 <p><strong>Note: The Universal plugin will make anything in a bin/ directory executable.  This is to work around issues with JVM and file system manipulations.</strong></p>
 </div>
 <div class="section" id="commands">
@@ -124,6 +213,8 @@ specify the desired mappings for a given configuration.  For Example:</p>
 <dt><tt class="docutils literal"><span class="pre">universal:package-xz-tarball</span></tt></dt>
 <dd>Creates the <tt class="docutils literal"><span class="pre">txz</span></tt> universal package.  The <tt class="docutils literal"><span class="pre">xz</span></tt> command can get better compression
 for some types of archives.</dd>
+<dt><tt class="docutils literal"><span class="pre">universal:package-osx-dmg</span></tt></dt>
+<dd>Creates the <tt class="docutils literal"><span class="pre">dmg</span></tt> universal package.  This only work on OSX or systems with <tt class="docutils literal"><span class="pre">hdiutil</span></tt>.</dd>
 <dt><tt class="docutils literal"><span class="pre">universal-docs:package-bin</span></tt></dt>
 <dd>Creates the <tt class="docutils literal"><span class="pre">zip</span></tt> universal documentation package.</dd>
 <dt><tt class="docutils literal"><span class="pre">universal-docs:package-zip-tarball</span></tt></dt>
@@ -149,7 +240,10 @@ for some types of archives.</dd>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="windows.html" title="Windows"
+          <a href="linux.html" title="Writing Linux Packages"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="Getting Started"
              >previous</a> |</li>
         <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
       </ul>

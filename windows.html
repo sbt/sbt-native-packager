@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Windows &mdash; sbt-native-packager 1.0a1 documentation</title>
+    <title>Packaging for Windows &mdash; sbt-native-packager 1.0a1 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
-    <link rel="next" title="Universal" href="universal.html" />
+    <link rel="next" title="Project Archetypes" href="archetypes.html" />
     <link rel="prev" title="RedHat" href="redhat.html" /> 
   </head>
   <body>
@@ -37,7 +37,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="universal.html" title="Universal"
+          <a href="archetypes.html" title="Project Archetypes"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="redhat.html" title="RedHat"
@@ -49,7 +49,8 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Windows</a><ul>
+<li><a class="reference internal" href="#">Packaging for Windows</a><ul>
+<li><a class="reference internal" href="#feature-configuration">Feature configuration</a></li>
 <li><a class="reference internal" href="#settings">Settings</a></li>
 <li><a class="reference internal" href="#commands">Commands</a></li>
 <li><a class="reference internal" href="#utilities">Utilities</a></li>
@@ -61,8 +62,8 @@
   <p class="topless"><a href="redhat.html"
                         title="previous chapter">RedHat</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="universal.html"
-                        title="next chapter">Universal</a></p>
+  <p class="topless"><a href="archetypes.html"
+                        title="next chapter">Project Archetypes</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/windows.txt"
@@ -89,9 +90,54 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="windows">
-<h1>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h1>
-<p>The windows packaging is completely tied to the WIX installer toolset.  It's important to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial to how to create packages using wix.</p>
+  <div class="section" id="packaging-for-windows">
+<span id="windows"></span><h1>Packaging for Windows<a class="headerlink" href="#packaging-for-windows" title="Permalink to this headline">¶</a></h1>
+<p>The windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package, it's important to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial to how to create packages using wix.</p>
+<p>However, the native-packager provides a simple layer on top of wix that <em>may</em> be enough for most projects.  If it is not, just override <tt class="docutils literal"><span class="pre">wixConfig</span></tt> or <tt class="docutils literal"><span class="pre">wixFile</span></tt> settings.  Let's look at the layer above direct xml configuration.</p>
+<div class="section" id="feature-configuration">
+<h2>Feature configuration<a class="headerlink" href="#feature-configuration" title="Permalink to this headline">¶</a></h2>
+<p>The abstraction over wix allows you to configure &quot;features&quot; that users may optionally install.  These feature are higher level things, like a set of files or menu links.
+The currently supported compoennts of features are:</p>
+<ol class="arabic simple">
+<li>Files (<tt class="docutils literal"><span class="pre">ComponentFile</span></tt>)</li>
+<li>Path Configuration (<tt class="docutils literal"><span class="pre">AddDirectoryToPath</span></tt>)</li>
+<li>Menu Shortcuts (<tt class="docutils literal"><span class="pre">AddShortCuts</span></tt>)</li>
+</ol>
+<p>To create a new feature, simple instantiate the <tt class="docutils literal"><span class="pre">WindowsFeature</span></tt> class with the desired feature components that are included.</p>
+<p>Here's an example feature that installs a binary and a script, as well as path settings:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">wixFeatures</span> <span class="o">+=</span> <span class="nc">WindowsFeature</span><span class="o">(</span>
+    <span class="n">id</span><span class="o">=</span><span class="s">&quot;BinaryAndPath&quot;</span><span class="o">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s">&quot;My Project&#39;s Binaries and updated PATH settings&quot;</span><span class="o">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s">&quot;Update PATH environment variables (requires restart).&quot;</span><span class="o">,</span>
+    <span class="n">components</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+      <span class="nc">ComponentFile</span><span class="o">(</span><span class="s">&quot;bin/cool.bat&quot;</span><span class="o">),</span>
+      <span class="nc">ComponentFile</span><span class="o">(</span><span class="s">&quot;lib/cool.jar&quot;</span><span class="o">),</span>
+      <span class="nc">AddDirectoryToPath</span><span class="o">(</span><span class="s">&quot;bin&quot;</span><span class="o">))</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>All file references should line up exactly with those found in the <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></tt> configuration.   When generating an MSI, the plugin will first create
+a directory using all the <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></tt> and configure this for inclusion in a <tt class="docutils literal"><span class="pre">cab</span></tt> file.  If you'd like to add files to include, these must <em>first</em>
+be added to the mappings, and then to a feature.   For example, if we complete the above setting to include file mappings, we'd have the following:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">sourceDirectory</span> <span class="n">in</span> <span class="nc">Windows</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="n">jar</span><span class="o">,</span> <span class="n">dir</span><span class="o">)</span> <span class="k">=&gt;</span>
+  <span class="nc">Seq</span><span class="o">(</span><span class="n">jar</span> <span class="o">-&gt;</span> <span class="s">&quot;lib/cool.jar&quot;</span><span class="o">,</span> <span class="o">(</span><span class="n">dir</span> <span class="o">/</span> <span class="s">&quot;cool.bat&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;bin/cool.bat&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">wixFeatures</span> <span class="o">+=</span> <span class="nc">WindowsFeature</span><span class="o">(</span>
+    <span class="n">id</span><span class="o">=</span><span class="s">&quot;BinaryAndPath&quot;</span><span class="o">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s">&quot;My Project&#39;s Binaries and updated PATH settings&quot;</span><span class="o">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s">&quot;Update PATH environment variables (requires restart).&quot;</span><span class="o">,</span>
+    <span class="n">components</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+      <span class="nc">ComponentFile</span><span class="o">(</span><span class="s">&quot;bin/cool.bat&quot;</span><span class="o">),</span>
+      <span class="nc">ComponentFile</span><span class="o">(</span><span class="s">&quot;lib/cool.jar&quot;</span><span class="o">),</span>
+      <span class="nc">AddDirectoryToPath</span><span class="o">(</span><span class="s">&quot;bin&quot;</span><span class="o">))</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>Right now this layer is <em>very</em> limited in what it can accomplish, and hasn't been heavily debugged.  If you're interested in helping contribute, please
+do so!   However, for most command line tools, it should be sufficient for generating a basic <tt class="docutils literal"><span class="pre">msi</span></tt> that windows users can install.</p>
+<p>Now, let's look at the full set of windows settings.</p>
+</div>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <blockquote>
@@ -102,6 +148,18 @@
 <dd>the list of options to pass to the <tt class="docutils literal"><span class="pre">candle.exe</span></tt> command.</dd>
 <dt><tt class="docutils literal"><span class="pre">lightOptions</span></tt></dt>
 <dd>the list of options to pass to the <tt class="docutils literal"><span class="pre">light.exe</span></tt> command.  Most likely setting is: <tt class="docutils literal"><span class="pre">Seq(&quot;-ext&quot;,</span> <span class="pre">&quot;WixUIExtension&quot;,</span> <span class="pre">&quot;-cultures:en-us&quot;)</span></tt> for UI.</dd>
+<dt><tt class="docutils literal"><span class="pre">wixProductId</span></tt></dt>
+<dd>The GUID to use to identify the windows package/product.</dd>
+<dt><tt class="docutils literal"><span class="pre">wixProductUpgradeId</span></tt></dt>
+<dd>The GUID to use to identify the windows package/product <em>upgrade</em> identifier (see wix docs).</dd>
+<dt><tt class="docutils literal"><span class="pre">wixPackageInfo</span></tt></dt>
+<dd>The information used to autoconstruct the <tt class="docutils literal"><span class="pre">&lt;Product&gt;&lt;Package/&gt;</span></tt> portion of the wix xml.  <strong>Note: unused if ``wixConfig`` is overridden</strong></dd>
+<dt><tt class="docutils literal"><span class="pre">wixProductLicense</span></tt></dt>
+<dd>An (optional) <tt class="docutils literal"><span class="pre">rtf</span></tt> file to display as the product license during installation.  Default to looking for <tt class="docutils literal"><span class="pre">src/windows/License.rtf</span></tt></dd>
+<dt><tt class="docutils literal"><span class="pre">wixFeatures</span></tt></dt>
+<dd>A set of windows features that users can install with this package.  <strong>Note: unused if ``wixConfig`` is overridden</strong></dd>
+<dt><tt class="docutils literal"><span class="pre">wixProductConfig</span></tt></dt>
+<dd>inline XML to use for wix configuration.  This is everything nested inside the <tt class="docutils literal"><span class="pre">&lt;Product&gt;</span></tt> element.</dd>
 <dt><tt class="docutils literal"><span class="pre">wixConfig</span></tt></dt>
 <dd>inline XML to use for wix configuration.   This is used if the <tt class="docutils literal"><span class="pre">wixFile</span></tt> setting is not specified.</dd>
 <dt><tt class="docutils literal"><span class="pre">wixFile</span></tt></dt>
@@ -116,10 +174,10 @@ The WIX xml should use the relative locations in this mappings when references f
 <h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">windows:package-msi</span></tt></dt>
+<dt><tt class="docutils literal"><span class="pre">windows:package-bin</span></tt></dt>
 <dd>Creates the <tt class="docutils literal"><span class="pre">msi</span></tt> package.</dd>
 <dt><tt class="docutils literal"><span class="pre">wix-file</span></tt></dt>
-<dd>Generates the Wix xml file from <cite>wixConfig</cite> setings, unless overriden.</dd>
+<dd>Generates the Wix xml file from <cite>wixConfig</cite> and <cite>wixProductConfig</cite> setings, unless overriden.</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -157,7 +215,7 @@ directory of files for usage in the Features of an MSI.</dd>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="universal.html" title="Universal"
+          <a href="archetypes.html" title="Project Archetypes"
              >next</a> |</li>
         <li class="right" >
           <a href="redhat.html" title="RedHat"
