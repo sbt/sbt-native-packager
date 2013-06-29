@@ -98,7 +98,7 @@ trait GenericPackageSettings
     }
   )
   
-  def mapGenericFilesToWinows: Seq[Setting[_]] = Seq(
+  def mapGenericFilesToWindows: Seq[Setting[_]] = Seq(
     mappings in Windows <<= mappings in Universal,
     wixFeatures <<= (name in Windows, mappings in Windows) map makeWindowsFeatures
   )
