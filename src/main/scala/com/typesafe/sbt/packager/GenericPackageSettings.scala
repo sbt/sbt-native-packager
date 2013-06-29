@@ -129,19 +129,20 @@ trait GenericPackageSettings
         desc="Update PATH environment variables (requires restart).",
         components = Seq(AddDirectoryToPath("bin"))
       )
-    val configFileLinks =
+    val configLinks = for {
+             (file, name) <- mappings
+             if !file.isDirectory
+             if name startsWith "conf/"
+          } yield name
+    val menuLinks =
       WindowsFeature(
           id="AddConfigLinks",
           title="Configuration start menu links",
           desc="Adds start menu shortcuts to edit configuration files.",
-          components = for {
-             (file, name) <- mappings
-             if !file.isDirectory
-             if name startsWith "conf/"
-          } yield AddShortCut(name)
+          components = Seq(AddShortCuts(configLinks))
       )
     // TODO - Add feature for shortcuts to binary scripts.
-    Seq(corePackage, addBinToPath, configFileLinks)
+    Seq(corePackage, addBinToPath, menuLinks)
   }
   
   

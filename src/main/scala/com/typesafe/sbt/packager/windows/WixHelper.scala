@@ -39,8 +39,8 @@ case class ComponentFile(
  * per MSI.
  */
 case class AddDirectoryToPath(dir: String = "") extends FeatureComponent
-case class AddShortCut(
-   target: String,
+case class AddShortCuts(
+   target: Seq[String],
    workingDir: String="INSTALLDIR"
 ) extends FeatureComponent
 
@@ -53,7 +53,7 @@ object WixHelper {
   def makeGUID: String = java.util.UUID.randomUUID.toString
   
   // TODO - Fragment out this function a bit so it's not so ugly/random.  
-  def makeWixProductConfig(name: String, product: WindowsProductInfo, features: Seq[WindowsFeature]): scala.xml.Node = {
+  def makeWixProductConfig(name: String, product: WindowsProductInfo, features: Seq[WindowsFeature], license: Option[File] = None): scala.xml.Node = {
     // TODO - First we find directories...
     val filenames = 
       for {
@@ -70,7 +70,6 @@ object WixHelper {
     // Now we need our directory tree xml?
     val dirToChilren = dirs groupBy parentDir
     def dirXml(currentDir: String): scala.xml.Node = if(!currentDir.isEmpty){
-      println("Making directory xml for: " + currentDir)
       val children = dirToChilren.getOrElse(currentDir, Seq.empty)  
       <Directory Id={cleanStringForId(currentDir)} Name={simpleName(currentDir)}>
         {
@@ -122,18 +121,24 @@ object WixHelper {
               </Component>
             </DirectoryRef>
             ComponentInfo(id, xml)
-      case AddShortCut(target, workingDir) =>
-        val id = cleanStringForId(target)
-        val name = simpleName(target)
-        val desc = "Edit configuration file: " + name
+      case AddShortCuts(targets, workingDir) =>
+        val id = cleanStringForId("shortcut_"+makeGUID)
         val xml =
           <DirectoryRef Id="ApplicationProgramsFolder">
             <Component Id={id} Guid={makeGUID}>
-                <Shortcut Id={id+"_Shortcut"}
+                {
+                  for(target <- targets) yield {
+                    val name = simpleName(target)
+                    val desc = "Edit configuration file: " + name
+                    <Shortcut Id={id+"_Shortcut"}
                           Name={name}
                           Description={desc}
                           Target={"[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\")}
-                          WorkingDirectory="INSTALLDIR"/>              
+                          WorkingDirectory="INSTALLDIR"/>
+                  }
+                }
+              <RemoveFolder Id="ApplicationProgramsFolderRemove" Directory="ApplicationProgramsFolder" On="uninstall"/>
+              <RegistryValue Root="HKCU" Key={"Software\\"+product.maintainer+"\\"+name} Name="installed" Type="integer" Value="1" KeyPath="yes"/>
             </Component>
           </DirectoryRef>
         ComponentInfo(id, xml)
@@ -187,6 +192,11 @@ object WixHelper {
       <UIRef Id="WixUI_FeatureTree"/>
       <UIRef Id="WixUI_ErrorProgressText"/>
       <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR"/>
+      {
+        license.toSeq map { file =>
+          <WixVariable Id="WixUILicenseRtf" Value={file.getAbsolutePath} />
+        }
+      }
     </xml:group>
   }
   

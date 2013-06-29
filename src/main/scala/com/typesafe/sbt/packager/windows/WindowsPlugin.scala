@@ -22,6 +22,12 @@ trait WindowsPlugin extends Plugin {
       maintainer in Windows <<= maintainer,
       packageSummary in Windows <<= packageSummary,
       packageDescription in Windows <<= packageDescription,
+      wixProductLicense <<= (sourceDirectory in Windows) map { dir =>
+        // TODO - document this default.
+        val default = dir / "License.rtf"
+        if(default.exists) Some(default)
+        else None
+      },
       wixPackageInfo <<= (
           wixProductId, 
           wixProductUpgradeId, 
@@ -36,12 +42,12 @@ trait WindowsPlugin extends Plugin {
           maintainer = mtr,
           description = desc,
           upgradeId = uid,
-          comments = ""  // TODO - allow comments
+          comments = "TODO - we need comments."  // TODO - allow comments
         )
       },
       wixFeatures := Seq.empty,
-      wixProductConfig <<= (name in Windows, wixPackageInfo, wixFeatures) map { (name, product, features) =>
-        WixHelper.makeWixProductConfig(name, product, features)
+      wixProductConfig <<= (name in Windows, wixPackageInfo, wixFeatures, wixProductLicense) map { (name, product, features, license) =>
+        WixHelper.makeWixProductConfig(name, product, features, license)
       },
       wixConfig <<= (name in Windows, wixPackageInfo, wixProductConfig) map { (name, product, nested) =>
         WixHelper.makeWixConfig(name, product, nested)
