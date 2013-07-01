@@ -1,3 +1,5 @@
+.. _Linux:
+
 Writing Linux Packages
 ======================
 

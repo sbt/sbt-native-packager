@@ -8,12 +8,13 @@ import sbt._
 /** Plugin trait containing all the generic values used for
  * packaging linux software.
  */
-trait LinuxPlugin extends Plugin{
+trait LinuxPlugin extends Plugin {
   // TODO - is this needed
   val Linux = config("linux")
   
   def linuxSettings: Seq[Setting[_]] = Seq(
     linuxPackageMappings := Seq.empty,
+    linuxPackageSymlinks := Seq.empty,
     sourceDirectory in Linux <<= sourceDirectory apply (_ / "linux"),
     generateManPages <<= (sourceDirectory in Linux, sbt.Keys.streams) map { (dir, s) =>
       for( file <- (dir / "usr/share/man/man1" ** "*.1").get ) {
@@ -22,14 +23,15 @@ trait LinuxPlugin extends Plugin{
         s.log.info(man)
       }  
     },
-    packageSummary in Linux := "",
-    packageDescription in Linux := ""
+    packageSummary in Linux <<= packageSummary,
+    packageDescription in Linux <<= packageDescription
   )
   
   /** DSL for packaging files into .deb */
   def packageMapping(files: (File, String)*) = LinuxPackageMapping(files)
   
-  
+  // TODO - we'd like a set of conventions to take universal mappings and create linux package mappings.
+
   /** Create a ascii friendly string for a man page. */  
   final def makeMan(file: File): String = 
     Process("groff -man -Tascii " + file.getAbsolutePath).!!

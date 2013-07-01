@@ -67,6 +67,7 @@ object Keys extends RpmKeys {
   
   // SPEC
   def linuxPackageMappings = linux.Keys.linuxPackageMappings
+  def linuxPackageSymlinks = linux.Keys.linuxPackageSymlinks
   
   // Building
   def target = sbt.Keys.target

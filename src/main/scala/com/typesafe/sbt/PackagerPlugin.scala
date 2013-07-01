@@ -13,7 +13,8 @@ object SbtNativePackager extends Plugin
     with debian.DebianPlugin 
     with rpm.RpmPlugin
     with windows.WindowsPlugin
-    with universal.UniversalPlugin {
+    with universal.UniversalPlugin
+    with GenericPackageSettings {
 
   def packagerSettings = linuxSettings ++ 
                          debianSettings ++ 
@@ -38,4 +39,5 @@ object SbtNativePackager extends Plugin
   }
                            
   // TODO - Add a few targets that detect the current OS and build a package for that OS.
+  
 }
