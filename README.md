@@ -31,7 +31,7 @@ Here's an example excerpt for the native packaging of [sbt-launcher-packge](http
     maintainer := "Josh Suereth <joshua.suereth@typesafe.com>",
     packageSummary := "Simple Build Tool for Scala-driven builds",
     packageDescription := """This script provides a native way to run the Simple Build Tool,
-  a build tool for Scala software, also called SBT.""",
+    a build tool for Scala software, also called SBT.""",
     // Here we remove the jar file and launch lib from the symlinks:
     linuxPackageSymlinks <<= linuxPackageSymlinks map { links =>
       for { 
