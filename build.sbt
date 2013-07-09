@@ -26,3 +26,8 @@ git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 publishTo := Some(Resolver.url("sbt-plugin-releases", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns))
 
 publishMavenStyle := false
+
+scriptedSettings
+
+
+scriptedLaunchOpts <+= version apply { v => "-Dproject.version="+v }
