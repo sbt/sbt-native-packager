@@ -25,7 +25,10 @@ trait UniversalPlugin extends Plugin {
     makePackageSettings(packageZipTarball, config)(makeTgz) ++
     makePackageSettings(packageXzTarball, config)(makeTxz) ++
     inConfig(config)(Seq(
-      mappings <<= sourceDirectory map findSources
+      mappings <<= sourceDirectory map findSources,
+      dist <<= packageBin,
+      stagingDirectory <<= target apply (_ / "stage"),
+      stage <<= (stagingDirectory, mappings) map stageFiles
     )) ++ Seq(
       sourceDirectory in config <<= sourceDirectory apply (_ / config.name),
       target in config <<= target apply (_ / config.name)
@@ -36,6 +39,18 @@ trait UniversalPlugin extends Plugin {
     makePackageSettings(packageBin, UniversalDocs)(makeNativeZip) ++
     makePackageSettings(packageBin, UniversalSrc)(makeNativeZip)
     
+  
+    
+  private[this] def stageFiles(to: File, mappings: Seq[(File, String)]): Unit = {
+    val copies = mappings collect { case (f, p) => f -> (to / p) }
+    IO.copy(copies)
+    // Now set scripts to executable using Java's lack of understanding of permissions.
+    // TODO - Config file user-readable permissions....
+    for {
+      (from, to) <- copies
+      if from.canExecute
+    } to.setExecutable(true)
+  }
     
   private type Packager = (File, String, Seq[(File,String)]) => File
   /** Creates packaging settings for a given package key, configuration + archive type. */

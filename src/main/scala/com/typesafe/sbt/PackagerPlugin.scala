@@ -16,18 +16,25 @@ object SbtNativePackager extends Plugin
     with universal.UniversalPlugin
     with GenericPackageSettings {
 
+  val NativePackagerKeys = packager.Keys
+  
   def packagerSettings = linuxSettings ++ 
                          debianSettings ++ 
                          rpmSettings ++ 
                          windowsSettings ++
-                         universalSettings
+                         universalSettings ++
+                         Seq(                      // Bad defaults that let us at least not explode users who don't care about native packagers
+                            NativePackagerKeys. maintainer := "",
+                            NativePackagerKeys.packageDescription := "",
+                            NativePackagerKeys.packageSummary := ""
+                         )
+                         
   
-  val NativePackagerKeys = packager.Keys
                          
   import SettingsHelper._
   def deploymentSettings = makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
                            makeDeploymentSettings(Rpm, packageBin in Rpm, "rpm") ++
-                           makeDeploymentSettings(Windows, packageMsi in Windows, "msi") ++
+                           makeDeploymentSettings(Windows, packageBin in Windows, "msi") ++
                            makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
                            addPackage(Universal, packageZipTarball in Universal, "tgz") ++
                            makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
