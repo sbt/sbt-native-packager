@@ -29,5 +29,4 @@ object JavaAppBashScript {
   def mainClassDefine(mainClass: String) = 
     "declare -r app_mainclass=\"%s\"\n" format (mainClass)
   
-  
 }

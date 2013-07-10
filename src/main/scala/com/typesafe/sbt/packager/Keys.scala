@@ -11,6 +11,6 @@ object Keys extends linux.Keys
   
   // TODO - Do these keys belong here?
   val makeBashScript = TaskKey[Option[File]]("makeBashScript", "Creates or discovers the bash script used by this project.")
-  val makeBinScript = TaskKey[File]("makeBashScript", "Creates or discovers the binscript used by this project.")
+  val makeBatScript = TaskKey[Option[File]]("makeBatScript", "Creates or discovers the bat script used by this project.")
   
 }

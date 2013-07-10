@@ -24,10 +24,16 @@ object JavaAppPackaging {
       jar -> ("lib/" + jar.getName)
     },
     makeBashScript <<= (Keys.mainClass in Compile, target in Universal, name in Universal) map makeUniversalBinScript,
+    makeBatScript <<= (Keys.mainClass in Compile, target in Universal, name) map makeUniversalBatScript,
     mappings in Universal <++= (makeBashScript, name) map { (script, name) =>
       for {
         s <- script.toSeq  
       } yield s -> ("bin/" + name)
+    },
+    mappings in Universal <++= (makeBatScript, name) map { (script, name) =>
+      for {
+        s <- script.toSeq  
+      } yield s -> ("bin/" + name + ".bat")
     } 
   )
   
@@ -38,6 +44,14 @@ object JavaAppPackaging {
       IO.write(script, scriptBits)
       // TODO - Better control over this!
       script.setExecutable(true)
+      script
+    }
+  
+  def makeUniversalBatScript(mainClass: Option[String], tmpDir: File, name: String): Option[File] = 
+    for(mc <- mainClass) yield {
+      val scriptBits = JavaAppBatScript.generateScript(name, mc)
+      val script = tmpDir / "tmp" / "bin" / (name + ".bat")
+      IO.write(script, scriptBits)
       script
     }
   
