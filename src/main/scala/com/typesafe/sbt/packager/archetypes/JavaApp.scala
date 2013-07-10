@@ -18,25 +18,27 @@ import SbtNativePackager._
  */
 object JavaAppPackaging {
   
-  def settings =
-    defaultUniversalSettings ++
-    defaultLinuxSettings
-    
-  /// Universal packaging defaults.
-  def defaultUniversalSettings: Seq[Setting[_]] = Seq(
+  def settings: Seq[Setting[_]] = Seq(
     mappings in Universal <++= (Keys.managedClasspath in Compile) map universalDepMappings,
     mappings in Universal <+= (Keys.packageBin in Compile) map { jar =>
       jar -> ("lib/" + jar.getName)
     },
-    mappings in Universal <++= (Keys.mainClass in Compile, target in Universal, name in Universal) map makeUniversalBinScript 
+    makeBashScript <<= (Keys.mainClass in Compile, target in Universal, name in Universal) map makeUniversalBinScript,
+    mappings in Universal <++= (makeBashScript, name) map { (script, name) =>
+      for {
+        s <- script.toSeq  
+      } yield s -> ("bin/" + name)
+    } 
   )
   
-  def makeUniversalBinScript(mainClass: Option[String], tmpDir: File, name: String): Seq[(File, String)] = 
-    for(mc <- mainClass.toSeq) yield {
+  def makeUniversalBinScript(mainClass: Option[String], tmpDir: File, name: String): Option[File] = 
+    for(mc <- mainClass) yield {
       val scriptBits = JavaAppBashScript.generateScript(mc)
       val script = tmpDir / "tmp" / "bin" / name
       IO.write(script, scriptBits)
-      script -> ("bin/" + name)
+      // TODO - Better control over this!
+      script.setExecutable(true)
+      script
     }
   
   // Converts a managed classpath into a set of lib mappings.
@@ -47,32 +49,4 @@ object JavaAppPackaging {
       // TODO - Figure out what to do with jar files.
       if file.isFile
     } yield dep.data -> ("lib/" + dep.data.getName)
-    
-    
-  // Default linux settings are driven off of the universal settings.  
-  def defaultLinuxSettings: Seq[Setting[_]] = Seq(
-    linuxPackageMappings <+= (mappings in Universal, name in Linux) map filterLibs,
-    linuxPackageMappings <++= (mainClass in Compile, name in Linux, target in Linux) map makeLinuxBinScrit
-  )
-  
-  def filterLibs(mappings: Seq[(File, String)], name: String): LinuxPackageMapping = {
-    val libs = for {
-      (file, location) <- mappings
-      if location startsWith "lib/"
-    } yield file -> ("/usr/share/"+name+"/" + location)
-    packageMapping(libs:_*)
-  }
-  
-    
-  def makeLinuxBinScrit(mainClass: Option[String], name: String, tmpDir: File): Seq[LinuxPackageMapping] =
-    for(mc <- mainClass.toSeq) yield {
-      val scriptBits = JavaAppBashScript.generateScript(
-          mainClass = mc,
-          libDir = "/usr/share/" + name + "/lib")
-      val script = tmpDir / "tmp" / "bin" / name
-      IO.write(script, scriptBits)
-      val scriptMapping = script -> ("/usr/bin/" + name)
-      
-      packageMapping(scriptMapping).withPerms("0755")
-    }
 }

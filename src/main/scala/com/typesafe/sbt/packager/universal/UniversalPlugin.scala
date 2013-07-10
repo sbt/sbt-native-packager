@@ -61,7 +61,9 @@ trait UniversalPlugin extends Plugin {
     // TODO - Config file user-readable permissions....
     for {
       (from, to) <- copies
+      _ = println("staged: " + to.getAbsolutePath)
       if from.canExecute
+      _ = println("executable: " + to.getAbsolutePath)
     } to.setExecutable(true)
   }
     
