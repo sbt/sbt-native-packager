@@ -8,9 +8,9 @@ trait UniversalKeys {
   val packageZipTarball = TaskKey[File]("package-zip-tarball", "Creates a tgz package.")
   val packageXzTarball = TaskKey[File]("package-xz-tarball", "Creates a txz package.")
   val packageOsxDmg = TaskKey[File]("package-osx-dmg", "Creates a dmg package for OSX (only on osx).")
-  val stagingDirectory = SettingKey[File]("stagingDirectory", "The location where a staged distribution will be generated.")
   val stage = TaskKey[Unit]("stage", "Create a local directory with all the files laid out as they would be in the final distribution.")
   val dist = TaskKey[File]("dist", "Creates the distribution packages.")
+  val stagingDirectory = SettingKey[File]("stagingDirectory", "Directory where we stage distributions/releases.")
 }
 
 object Keys extends UniversalKeys {
@@ -21,4 +21,6 @@ object Keys extends UniversalKeys {
   def name = sbt.Keys.name
   def target = sbt.Keys.target
   def sourceDirectory = sbt.Keys.sourceDirectory
+  def streams = sbt.Keys.streams
+  def version = sbt.Keys.version
 }

@@ -5,6 +5,7 @@ package universal
 import sbt._
 import Keys._
 import Archives._
+import sbt.Keys.TaskStreams
 
 /** Defines behavior to construct a 'universal' zip for installation. */
 trait UniversalPlugin extends Plugin {
@@ -14,6 +15,13 @@ trait UniversalPlugin extends Plugin {
   
   /** The basic settings for the various packaging types. */ 
   def universalSettings: Seq[Setting[_]] = 
+    Seq[Setting[_]](
+      // For now, we provide delegates from dist/stage to universal...
+      dist <<= dist in Universal,
+      stage <<= stage in Universal,
+      // TODO - New default to naming, is this right?
+      name in Universal <<= (name, version) apply (_ + "-" + _)
+    ) ++
     makePackageSettingsForConfig(Universal) ++
     makePackageSettingsForConfig(UniversalDocs) ++ 
     makePackageSettingsForConfig(UniversalSrc)
@@ -26,7 +34,7 @@ trait UniversalPlugin extends Plugin {
     makePackageSettings(packageXzTarball, config)(makeTxz) ++
     inConfig(config)(Seq(
       mappings <<= sourceDirectory map findSources,
-      dist <<= packageBin,
+      dist <<= (packageBin, streams) map printDist,
       stagingDirectory <<= target apply (_ / "stage"),
       stage <<= (stagingDirectory, mappings) map stageFiles
     )) ++ Seq(
@@ -39,7 +47,12 @@ trait UniversalPlugin extends Plugin {
     makePackageSettings(packageBin, UniversalDocs)(makeNativeZip) ++
     makePackageSettings(packageBin, UniversalSrc)(makeNativeZip)
     
-  
+  private[this] def printDist(dist: File, streams: TaskStreams): File = {
+    streams.log.info("")
+    streams.log.info("Your package is ready in " + dist.getCanonicalPath)
+    streams.log.info("")
+    dist
+  }
     
   private[this] def stageFiles(to: File, mappings: Seq[(File, String)]): Unit = {
     val copies = mappings collect { case (f, p) => f -> (to / p) }
