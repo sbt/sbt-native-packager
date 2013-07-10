@@ -113,14 +113,13 @@ trait GenericPackageSettings
       } yield ComponentFile(name, editable = (name startsWith "conf"))
     val corePackage =
       WindowsFeature(
-        id=name+"Core",
+        id=WixHelper.cleanStringForId(name+"_core"),
         title=name,
         desc="All core files.",
         absent="disallow",
         components = files
       )
     // TODO - Detect bat files to add paths...
-    val homeEnvVar = name.toUpperCase +"_HOME"
     val addBinToPath =
       // TODO - we may have issues here...
       WindowsFeature(
