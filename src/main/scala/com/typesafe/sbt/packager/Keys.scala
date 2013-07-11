@@ -10,7 +10,14 @@ object Keys extends linux.Keys
   with universal.UniversalKeys {
   
   // TODO - Do these keys belong here?
+
+  // These keys are used by the JavaApp archetype.
+  val classpathOrdering = TaskKey[Seq[(File, String)]]("classpathOrdering", "The order of the classpath used at runtime for the bat/bash scripts.")
   val makeBashScript = TaskKey[Option[File]]("makeBashScript", "Creates or discovers the bash script used by this project.")
+  val bashScriptDefines = TaskKey[Seq[String]]("bashScriptDefines", "A list of definitions that should be written to the bash file template.")
+  val bashScriptExtraDefines = TaskKey[Seq[String]]("bashScriptExtraDefines", "A list of extra definitions that should be written to the bash file template.")
+  val scriptClasspath = TaskKey[Seq[String]]("scriptClasspath", "A list of relative filenames (to the lib/ folder in the distribution) of what to include on the classpath.")
   val makeBatScript = TaskKey[Option[File]]("makeBatScript", "Creates or discovers the bat script used by this project.")
+  val batScriptReplacements = TaskKey[Seq[(String,String)]]("batScriptReplacements", "Replacements of template parameters used in the windows bat script.")
   
 }

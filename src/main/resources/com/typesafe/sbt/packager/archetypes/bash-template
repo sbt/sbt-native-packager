@@ -137,16 +137,15 @@ is_function_defined() {
   declare -f "$1" > /dev/null
 }
 
-# If we're *not* running in a terminal, and we don't have any arguments, then we need to add the 'ui' parameter
+# Attempt to detect if the script is running via a GUI or not
+# TODO - Determine where/how we use this generically
 detect_terminal_for_ui() {
   [[ ! -t 0 ]] && [[ "${#residual_args}" == "0" ]] && {
-    addResidual "ui"
+    echo "true"
   }
   # SPECIAL TEST FOR MAC
   [[ "$(uname)" == "Darwin" ]] && [[ "$HOME" == "$PWD" ]] && [[ "${#residual_args}" == "0" ]] && {
-    echo "Detected MAC OSX launched script...."
-    echo "Swapping to UI"
-    addResidual "ui"
+    echo "true"
   }
 }
 
@@ -182,7 +181,6 @@ run() {
 
   # process the combined args, then reset "$@" to the residuals
   process_args "$@"
-  detect_terminal_for_ui
   set -- "${residual_args[@]}"
   argumentCount=$#
 
@@ -251,11 +249,10 @@ declare -a residual_args
 declare -a java_args
 declare -a app_commands
 declare -r app_home="$(realpath "$(dirname "$0")")"
-${{template_declares}}
-declare -r java_cmd=$(get_java_cmd)
 # TODO - Check whether this is ok in cygwin...
 declare -r lib_dir="${app_home}/../lib"
-declare -r app_classpath="$lib_dir/*"
+${{template_declares}}
+declare -r java_cmd=$(get_java_cmd)
 
 # Now check to see if it's a good enough version
 # TODO - Check to see if we have a configured default java version, otherwise use 1.6
