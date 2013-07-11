@@ -54,13 +54,25 @@ object JavaAppPackaging {
       IO.write(script, scriptBits)
       script
     }
-  
+
   // Converts a managed classpath into a set of lib mappings.
   def universalDepMappings(deps: Seq[Attributed[File]]): Seq[(File,String)] = 
     for {
       dep <- deps
       file = dep.data
-      // TODO - Figure out what to do with jar files.
       if file.isFile
-    } yield dep.data -> ("lib/" + dep.data.getName)
+      // TODO - Figure out what to do with jar files.
+    } yield {
+      val filename: Option[String] = for {
+            module <- dep.metadata.get(AttributeKey[ModuleID]("module-id"))
+            artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
+          } yield {
+            module.organization + "." +
+              module.name + "-" +
+              Option(artifact.name.replace(module.name, "")).filterNot(_.isEmpty).map(_ + "-").getOrElse("") +
+              module.revision + ".jar"
+      }
+        
+      dep.data -> ("lib/" + filename.getOrElse(file.getName))
+    }
 }
