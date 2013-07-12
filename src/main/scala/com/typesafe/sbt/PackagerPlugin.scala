@@ -41,8 +41,9 @@ object SbtNativePackager extends Plugin
                            addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz")
   
   object packageArchetype {
+    private[this] def genericMappingSettings: Seq[Setting[_]] = packagerSettings ++ mapGenericFilesToLinux ++ mapGenericFilesToWindows
     def java_application: Seq[Setting[_]] = 
-      packagerSettings ++ archetypes.JavaAppPackaging.settings
+      genericMappingSettings ++ archetypes.JavaAppPackaging.settings
   }
                            
   // TODO - Add a few targets that detect the current OS and build a package for that OS.

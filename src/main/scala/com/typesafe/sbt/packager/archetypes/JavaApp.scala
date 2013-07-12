@@ -4,7 +4,7 @@ package archetypes
 
 import Keys._
 import sbt._
-import sbt.Keys.{mappings, target, name, mainClass}
+import sbt.Keys.{mappings, target, name, mainClass, normalizedName}
 import linux.LinuxPackageMapping
 import SbtNativePackager._
 
@@ -18,61 +18,92 @@ import SbtNativePackager._
  */
 object JavaAppPackaging {
   
-  def settings =
-    defaultUniversalSettings ++
-    defaultLinuxSettings
-    
-  /// Universal packaging defaults.
-  def defaultUniversalSettings: Seq[Setting[_]] = Seq(
-    mappings in Universal <++= (Keys.managedClasspath in Compile) map universalDepMappings,
-    mappings in Universal <+= (Keys.packageBin in Compile) map { jar =>
-      jar -> ("lib/" + jar.getName)
+  def settings: Seq[Setting[_]] = Seq(
+    // Here we record the classpath as it's added to the mappings separately, so
+    // we can use its order to generate the bash/bat scripts.
+    scriptClasspathOrdering := Nil, 
+    scriptClasspathOrdering <+= (Keys.packageBin in Compile) map { jar =>
+	  jar -> ("lib/" + jar.getName)
+	},
+    scriptClasspathOrdering <++= (Keys.dependencyClasspath in Runtime) map universalDepMappings,
+    mappings in Universal <++= scriptClasspathOrdering,
+    scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames, 
+    bashScriptExtraDefines := Nil,
+    bashScriptDefines <<= (Keys.mainClass in Compile, scriptClasspath, bashScriptExtraDefines) map { (mainClass, cp, extras) =>
+      val hasMain =
+        for {
+          cn <- mainClass
+        } yield JavaAppBashScript.makeDefines(cn, appClasspath = cp, extras = extras)
+      hasMain getOrElse Nil
     },
-    mappings in Universal <++= (Keys.mainClass in Compile, target in Universal, name in Universal) map makeUniversalBinScript 
+    makeBashScript <<= (bashScriptDefines, target in Universal, normalizedName) map makeUniversalBinScript,
+    batScriptReplacements <<= (normalizedName, Keys.mainClass in Compile, scriptClasspath) map { (name, mainClass, cp) =>
+      mainClass map { mc => 
+        JavaAppBatScript.makeReplacements(name = name, mainClass = mc, appClasspath = cp)
+      } getOrElse Nil
+      
+    },
+    makeBatScript <<= (batScriptReplacements, target in Universal, normalizedName) map makeUniversalBatScript,
+    mappings in Universal <++= (makeBashScript, normalizedName) map { (script, name) =>
+      for {
+        s <- script.toSeq  
+      } yield s -> ("bin/" + name)
+    },
+    mappings in Universal <++= (makeBatScript, normalizedName) map { (script, name) =>
+      for {
+        s <- script.toSeq  
+      } yield s -> ("bin/" + name + ".bat")
+    } 
   )
   
-  def makeUniversalBinScript(mainClass: Option[String], tmpDir: File, name: String): Seq[(File, String)] = 
-    for(mc <- mainClass.toSeq) yield {
-      val scriptBits = JavaAppBashScript.generateScript(mc)
-      val script = tmpDir / "tmp" / "bin" / name
-      IO.write(script, scriptBits)
-      script -> ("bin/" + name)
+  def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =
+    for {
+      (file, name) <- mappings
+    } yield {
+      // Here we want the name relative to the lib/ folder...
+      // For now we just cheat...
+      if(name startsWith "lib/") name drop 4
+      else "../" + name
     }
   
+  def makeUniversalBinScript(defines: Seq[String], tmpDir: File, name: String): Option[File] = 
+    if(defines.isEmpty) None
+    else {
+      val scriptBits = JavaAppBashScript.generateScript(defines)
+      val script = tmpDir / "tmp" / "bin" / name
+      IO.write(script, scriptBits)
+      // TODO - Better control over this!
+      script.setExecutable(true)
+      Some(script)
+    }
+  
+  def makeUniversalBatScript(replacements: Seq[(String, String)], tmpDir: File, name: String): Option[File] = 
+    if(replacements.isEmpty) None
+    else {
+      val scriptBits = JavaAppBatScript.generateScript(replacements)
+      val script = tmpDir / "tmp" / "bin" / (name + ".bat")
+      IO.write(script, scriptBits)
+      Some(script)
+    }
+
   // Converts a managed classpath into a set of lib mappings.
   def universalDepMappings(deps: Seq[Attributed[File]]): Seq[(File,String)] = 
     for {
       dep <- deps
       file = dep.data
-      // TODO - Figure out what to do with jar files.
       if file.isFile
-    } yield dep.data -> ("lib/" + dep.data.getName)
-    
-    
-  // Default linux settings are driven off of the universal settings.  
-  def defaultLinuxSettings: Seq[Setting[_]] = Seq(
-    linuxPackageMappings <+= (mappings in Universal, name in Linux) map filterLibs,
-    linuxPackageMappings <++= (mainClass in Compile, name in Linux, target in Linux) map makeLinuxBinScrit
-  )
-  
-  def filterLibs(mappings: Seq[(File, String)], name: String): LinuxPackageMapping = {
-    val libs = for {
-      (file, location) <- mappings
-      if location startsWith "lib/"
-    } yield file -> ("/usr/share/"+name+"/" + location)
-    packageMapping(libs:_*)
-  }
-  
-    
-  def makeLinuxBinScrit(mainClass: Option[String], name: String, tmpDir: File): Seq[LinuxPackageMapping] =
-    for(mc <- mainClass.toSeq) yield {
-      val scriptBits = JavaAppBashScript.generateScript(
-          mainClass = mc,
-          libDir = "/usr/share/" + name + "/lib")
-      val script = tmpDir / "tmp" / "bin" / name
-      IO.write(script, scriptBits)
-      val scriptMapping = script -> ("/usr/bin/" + name)
-      
-      packageMapping(scriptMapping).withPerms("0755")
+      // TODO - Figure out what to do with jar files.
+    } yield {
+      val filename: Option[String] = for {
+        module <- dep.metadata.get(AttributeKey[ModuleID]("module-id"))
+        artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
+      } yield {
+        module.organization + "." +
+              module.name + "-" +
+              Option(artifact.name.replace(module.name, "")).filterNot(_.isEmpty).map(_ + "-").getOrElse("") +
+              module.revision + ".jar"
+      }
+        
+      dep.data -> ("lib/" + filename.getOrElse(file.getName))
     }
 }

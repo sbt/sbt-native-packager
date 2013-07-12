@@ -1,0 +1,3 @@
+# Create the distribution and ensure files show up.
+> dist
+$ exists target/universal/simple-test-0.1.0.zip
