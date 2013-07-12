@@ -218,7 +218,7 @@ object WixHelper {
               InstallScope={product.installScope}
               InstallerVersion={product.installerVersion}
               Compressed={if(product.compressed) "yes" else "no"} />
-         <Media Id='1' Cabinet={name+".cab"} EmbedCab='yes' />
+         <Media Id='1' Cabinet={cleanStringForId(name.toLowerCase)+".cab"} EmbedCab='yes' />
          {rest}
        </Product>
     </Wix>

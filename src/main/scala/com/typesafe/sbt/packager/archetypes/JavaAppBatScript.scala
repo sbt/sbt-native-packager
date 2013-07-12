@@ -13,7 +13,7 @@ object JavaAppBatScript {
      def cleanPath(path: String): String = path.replaceAll("/", "\\")
      def makeRelativePath(path: String): String =
        "%APP_LIB_DIR%\\" + cleanPath(path)
-     cp map makeRelativePath mkString ":"
+     cp map makeRelativePath mkString ";"
    }
     // TODO - Allow recursive replacements....
    def makeReplacements(
