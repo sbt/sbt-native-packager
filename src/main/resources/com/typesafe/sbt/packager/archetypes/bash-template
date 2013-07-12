@@ -217,10 +217,8 @@ loadConfigFile() {
 ###  ------------------------------- ###
 usage() {
  cat <<EOM
-Usage: $script_name [ui] [options]
+Usage: $script_name [options]
 
-  ui                 starts the Activator UI
-  new                Create a new project from a template
   -h | -help         print this message
   -v | -verbose      this runner is chattier
   -d | -debug        set sbt log level to debug

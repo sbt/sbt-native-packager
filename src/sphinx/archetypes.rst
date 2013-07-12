@@ -55,4 +55,4 @@ produces a universal layout that looks like the following:
        <Your project and dependent jar files here.>
 
 
-You can add additional files to the project by placeing things in ``src/windows``, ``src/universal`` or ``src/linux`` as needed.
+You can add additional files to the project by placing things in ``src/windows``, ``src/universal`` or ``src/linux`` as needed.

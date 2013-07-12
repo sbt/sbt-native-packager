@@ -20,14 +20,14 @@ object JavaAppPackaging {
   
   def settings: Seq[Setting[_]] = Seq(
     // Here we record the classpath as it's added to the mappings separately, so
-    // we cna use it to generate the bash/bat scripts.
-    classpathOrdering := Nil, 
-    classpathOrdering <+= (Keys.packageBin in Compile) map { jar =>
+    // we can use its order to generate the bash/bat scripts.
+    scriptClasspathOrdering := Nil, 
+    scriptClasspathOrdering <+= (Keys.packageBin in Compile) map { jar =>
 	  jar -> ("lib/" + jar.getName)
 	},
-    classpathOrdering <++= (Keys.managedClasspath in Compile) map universalDepMappings,
-    mappings in Universal <++= classpathOrdering,
-    scriptClasspath <<= classpathOrdering map makeRelativeClasspathNames, 
+    scriptClasspathOrdering <++= (Keys.dependencyClasspath in Runtime) map universalDepMappings,
+    mappings in Universal <++= scriptClasspathOrdering,
+    scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames, 
     bashScriptExtraDefines := Nil,
     bashScriptDefines <<= (Keys.mainClass in Compile, scriptClasspath, bashScriptExtraDefines) map { (mainClass, cp, extras) =>
       val hasMain =
