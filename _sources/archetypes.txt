@@ -17,9 +17,6 @@ Curently, in the nativepackager these archetypes are available:
   * Java Command Line Application (Experimental)
   
 
-
-  
-
 Java Command Line Application
 -----------------------------
 
@@ -30,17 +27,13 @@ this archetype in your build, do the following in your ``build.sbt``:
 
     archetypes.java_application
 
-    mapGenericFilesToLinux
-
-    mapGenericFilesToWindows
-    
     name := "A-package-friendly-name"
     
     packageSummary in Linux := "The name you want displayed in package summaries"
 
     packageSummary in Windows := "The name you want displayed in Add/Remove Programs"
 
-    packageDescription := " A descriptioin of your project"
+    packageDescription := " A description of your project"
 
     maintainer in Windows := "Company"
     
@@ -49,3 +42,17 @@ this archetype in your build, do the following in your ``build.sbt``:
     wixProductId := "ce07be71-510d-414a-92d4-dff47631848a"
 
     wixProductUpgradeId := "4552fb0e-e257-4dbd-9ecb-dba9dbacf424"
+
+
+This archetype will use the ``mainClass`` setting of sbt (automatically discovers your main class) to generate ``bat`` and ``bin`` scripts for your project.  It
+produces a universal layout that looks like the following:
+
+
+    bin/
+      <app_name>       <- BASH script
+      <app_name>.bat   <- cmd.exe script
+    lib/
+       <Your project and dependent jar files here.>
+
+
+You can add additional files to the project by placing things in ``src/windows``, ``src/universal`` or ``src/linux`` as needed.

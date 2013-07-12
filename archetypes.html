@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
-    <link rel="prev" title="Windows" href="windows.html" /> 
+    <link rel="prev" title="Packaging for Windows" href="windows.html" /> 
   </head>
   <body>
     <div class="related">
@@ -36,7 +36,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="windows.html" title="Windows"
+          <a href="windows.html" title="Packaging for Windows"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
       </ul>
@@ -53,7 +53,7 @@
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="windows.html"
-                        title="previous chapter">Windows</a></p>
+                        title="previous chapter">Packaging for Windows</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/archetypes.txt"
@@ -101,17 +101,27 @@ custom start scripts, or services.  It is just a bash/bat script that starts up 
 this archetype in your build, do the following in your <tt class="docutils literal"><span class="pre">build.sbt</span></tt>:</p>
 <blockquote>
 <div><p>archetypes.java_application</p>
-<p>mapGenericFilesToLinux</p>
-<p>mapGenericFilesToWindows</p>
 <p>name := &quot;A-package-friendly-name&quot;</p>
 <p>packageSummary in Linux := &quot;The name you want displayed in package summaries&quot;</p>
 <p>packageSummary in Windows := &quot;The name you want displayed in Add/Remove Programs&quot;</p>
-<p>packageDescription := &quot; A descriptioin of your project&quot;</p>
+<p>packageDescription := &quot; A description of your project&quot;</p>
 <p>maintainer in Windows := &quot;Company&quot;</p>
 <p>maintainer in Debian := &quot;Your Name &lt;<a class="reference external" href="mailto:your&#37;&#52;&#48;email&#46;com">your<span>&#64;</span>email<span>&#46;</span>com</a>&gt;&quot;</p>
 <p>wixProductId := &quot;ce07be71-510d-414a-92d4-dff47631848a&quot;</p>
 <p>wixProductUpgradeId := &quot;4552fb0e-e257-4dbd-9ecb-dba9dbacf424&quot;</p>
 </div></blockquote>
+<p>This archetype will use the <tt class="docutils literal"><span class="pre">mainClass</span></tt> setting of sbt (automatically discovers your main class) to generate <tt class="docutils literal"><span class="pre">bat</span></tt> and <tt class="docutils literal"><span class="pre">bin</span></tt> scripts for your project.  It
+produces a universal layout that looks like the following:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>bin/</dt>
+<dd>&lt;app_name&gt;       &lt;- BASH script
+&lt;app_name&gt;.bat   &lt;- cmd.exe script</dd>
+<dt>lib/</dt>
+<dd>&lt;Your project and dependent jar files here.&gt;</dd>
+</dl>
+</div></blockquote>
+<p>You can add additional files to the project by placing things in <tt class="docutils literal"><span class="pre">src/windows</span></tt>, <tt class="docutils literal"><span class="pre">src/universal</span></tt> or <tt class="docutils literal"><span class="pre">src/linux</span></tt> as needed.</p>
 </div>
 </div>
 
@@ -128,7 +138,7 @@ this archetype in your build, do the following in your <tt class="docutils liter
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="windows.html" title="Windows"
+          <a href="windows.html" title="Packaging for Windows"
              >previous</a> |</li>
         <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
       </ul>
