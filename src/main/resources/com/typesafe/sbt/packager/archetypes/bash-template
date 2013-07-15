@@ -7,6 +7,7 @@
 realpath () {
 (
   TARGET_FILE="$1"
+  CHECK_CYGWIN="$2"
 
   cd $(dirname "$TARGET_FILE")
   TARGET_FILE=$(basename "$TARGET_FILE")
@@ -21,7 +22,11 @@ realpath () {
   done
 
   # make sure we grab the actual windows path, instead of cygwin's path.
-  echo $(cygwinpath "$(pwd -P)/$TARGET_FILE")
+  if [[ "x$CHECK_CYGWIN" == "x" ]]; then
+    echo "$(pwd -P)/$TARGET_FILE"
+  else
+    echo $(cygwinpath "$(pwd -P)/$TARGET_FILE")
+  fi
 )
 }
 
@@ -58,6 +63,32 @@ make_url() {
   fi
 }
 
+# This crazy function reads in a vanilla "linux" classpath string (only : are separators, and all /),
+# and returns a classpath with windows style paths, and ; separators.
+fixCygwinClasspath() {
+  OLDIFS=$IFS
+  IFS=":"
+  read -a classpath_members <<< "$1"
+  declare -a fixed_members
+  IFS=$OLDIFS
+  for i in "${!classpath_members[@]}"
+  do
+    fixed_members[i]=$(realpath "${classpath_members[i]}" "fix")
+  done
+  IFS=";"
+  echo "${fixed_members[*]}"
+  IFS=$OLDIFS
+}
+
+# Fix the classpath we use for cygwin.
+fix_classpath() {
+  cp="$1"
+  if is_cygwin; then
+    echo "$(fixCygwinClasspath "$cp")"
+  else 
+    echo "$cp"
+  fi
+}
 # Detect if we should use JAVA_HOME or just try PATH.
 get_java_cmd() {
   if [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
@@ -195,7 +226,7 @@ run() {
     $(get_mem_opts $app_mem) \
     ${java_opts} \
     ${java_args[@]} \
-    -cp "$app_classpath" \
+    -cp "$(fix_classpath "$app_classpath")" \
     $app_mainclass \
     "${app_commands[@]}" \
     "${residual_args[@]}"
@@ -248,7 +279,7 @@ declare -a java_args
 declare -a app_commands
 declare -r app_home="$(realpath "$(dirname "$0")")"
 # TODO - Check whether this is ok in cygwin...
-declare -r lib_dir="${app_home}/../lib"
+declare -r lib_dir="$(realpath "${app_home}/../lib")"
 ${{template_declares}}
 declare -r java_cmd=$(get_java_cmd)
 
