@@ -1,0 +1,7 @@
+# Run the staging and check the script.
+> stage
+> show-files
+$ exists target/universal/stage/lib/org.test.play-bug-1499-foo-1.0.jar
+$ exists target/universal/stage/lib/org.test.play-bug-1499-common-1.0.jar
+$ exists target/universal/stage/lib/org.test.play-bug-1499-bar-1.0.jar
+$ exists target/universal/stage/lib/org.test.play-bug-1499-main-1.0.jar
