@@ -4,6 +4,7 @@ package archetypes
 
 import Keys._
 import sbt._
+import sbt.Project.Initialize
 import sbt.Keys.{mappings, target, name, mainClass, normalizedName}
 import linux.LinuxPackageMapping
 import SbtNativePackager._
@@ -22,10 +23,15 @@ object JavaAppPackaging {
     // Here we record the classpath as it's added to the mappings separately, so
     // we can use its order to generate the bash/bat scripts.
     scriptClasspathOrdering := Nil, 
-    scriptClasspathOrdering <+= (Keys.packageBin in Compile) map { jar =>
-	  jar -> ("lib/" + jar.getName)
+    // Note: This is sometimes on the classpath via depnedencyClasspath in Runtime.
+    // We need to figure out why sometimes the Attributed[File] is corrrectly configured
+    // and sometimes not.
+    scriptClasspathOrdering <+= (Keys.packageBin in Compile, Keys.projectID, Keys.artifact in Compile in Keys.packageBin) map { (jar, id, art) =>
+	  jar -> ("lib/" + makeJarName(id.organization,id.name,id.revision, art.name))
 	},
-    scriptClasspathOrdering <++= (Keys.dependencyClasspath in Runtime) map universalDepMappings,
+	projectDependencyArtifacts <<= findDependencyProjectArtifacts,
+	//scriptClasspathOrdering <++= projectDependencyMappings,
+    scriptClasspathOrdering <++= (Keys.dependencyClasspath in Runtime, projectDependencyArtifacts) map universalDepMappings,
     mappings in Universal <++= scriptClasspathOrdering,
     scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames, 
     bashScriptExtraDefines := Nil,
@@ -86,24 +92,91 @@ object JavaAppPackaging {
       Some(script)
     }
 
+  // Constructs a jar name from components...(ModuleID/Artifact)
+  def makeJarName(org: String, name: String, revision: String, artifactName: String): String =
+    (org + "." +
+    name + "-" +
+    Option(artifactName.replace(name, "")).filterNot(_.isEmpty).map(_ + "-").getOrElse("") +
+    revision + ".jar")
+  
+  // Determines a nicer filename for an attributed jar file, using the 
+  // ivy metadata if available.
+  def getJarFullFilename(dep: Attributed[File]): String = {
+    val filename: Option[String] = for {
+      module <- dep.metadata.get(AttributeKey[ModuleID]("module-id"))
+      artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
+    } yield makeJarName(module.organization, module.name, module.revision, artifact.name)
+    filename.getOrElse(dep.data.getName)
+  }
+  
+  // Here we grab the dependencies...
+  def dependencyProjectRefs(build: sbt.BuildDependencies, thisProject: ProjectRef): Seq[ProjectRef] = 
+    build.classpathTransitive.get(thisProject).getOrElse(Nil)
+  
+  def filterArtifacts(artifacts: Seq[(Artifact, File)], config: Option[String]): Seq[(Artifact, File)] =
+    for {
+      (art, file) <- artifacts
+      // TODO - Default to compile or default?
+      if art.configurations.exists(_.name == config.getOrElse("default"))
+    } yield art -> file
+  
+  def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[File]]] = 
+    stateTask flatMap { state =>
+      val extracted = Project extract state
+      // TODO - Is this correct?
+      val module = extracted.get(sbt.Keys.projectID in ref)
+      val artifactTask = extracted get (sbt.Keys.packagedArtifacts in ref)
+      for {
+        arts <- artifactTask
+      } yield {
+        for {
+          (art, file) <- arts.toSeq // TODO -Filter!
+        } yield {
+          sbt.Attributed.blank(file).
+          put(sbt.Keys.moduleID.key, module).
+          put(sbt.Keys.artifact.key, art)
+        }
+      }
+    }
+    
+  def findDependencyProjectArtifacts: Initialize[Task[Seq[Attributed[File]]]] =
+    (sbt.Keys.buildDependencies, sbt.Keys.thisProjectRef, sbt.Keys.state) apply { (build, thisProject, stateTask) =>
+      val refs = thisProject +: dependencyProjectRefs(build, thisProject)
+      // Dynamic lookup of dependencies...
+      val artTasks = (refs) map { ref => extractArtifacts(stateTask, ref) }
+      val allArtifactsTask: Task[Seq[Attributed[File]]] = 
+        artTasks.fold[Task[Seq[Attributed[File]]]](task(Nil)) { (previous, next) =>
+          for {
+            p <- previous
+            n <- next
+          } yield (p ++ n).distinct
+        }
+      allArtifactsTask
+    }
+  
+  def findRealDep(dep: Attributed[File], projectArts: Seq[Attributed[File]]): Option[Attributed[File]] = {
+    if(dep.data.isFile) Some(dep)
+    else {
+      projectArts.find { art =>
+        // TODO - Why is the module not showing up for project deps?
+        //(art.get(sbt.Keys.moduleID.key) ==  dep.get(sbt.Keys.moduleID.key)) &&
+        ((art.get(sbt.Keys.artifact.key), dep.get(sbt.Keys.artifact.key))) match {
+          case (Some(l), Some(r)) =>
+            // TODO - extra attributes and stuff for comparison?
+            // seems to break stuff if we do...
+            (l.name == r.name)
+          case _ => false
+        }
+      }
+    }
+  }
+  
   // Converts a managed classpath into a set of lib mappings.
-  def universalDepMappings(deps: Seq[Attributed[File]]): Seq[(File,String)] = 
+  def universalDepMappings(deps: Seq[Attributed[File]], projectArts: Seq[Attributed[File]]): Seq[(File,String)] = 
     for {
       dep <- deps
-      file = dep.data
-      if file.isFile
-      // TODO - Figure out what to do with jar files.
+      realDep <- findRealDep(dep, projectArts)
     } yield {
-      val filename: Option[String] = for {
-        module <- dep.metadata.get(AttributeKey[ModuleID]("module-id"))
-        artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
-      } yield {
-        module.organization + "." +
-              module.name + "-" +
-              Option(artifact.name.replace(module.name, "")).filterNot(_.isEmpty).map(_ + "-").getOrElse("") +
-              module.revision + ".jar"
-      }
-        
-      dep.data -> ("lib/" + filename.getOrElse(file.getName))
+      realDep.data-> ("lib/"+getJarFullFilename(realDep))
     }
 }

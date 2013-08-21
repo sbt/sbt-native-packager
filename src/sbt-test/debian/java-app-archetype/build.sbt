@@ -20,7 +20,15 @@ debianPackageRecommends in Debian += "git"
 
 TaskKey[Unit]("check-script") <<= (stagingDirectory in Universal, name, streams) map { (dir, name, streams) =>
   val script = dir / "bin" / name
-  val cmd = "bash " + script.getAbsolutePath
+  System.out.synchronized {
+    System.err.println("---SCIRPT---")
+    val scriptContents = IO.read(script)
+    System.err.println(scriptContents)
+    System.err.println("---END SCIRPT---")
+    for(file <- (dir.***).get)
+      System.err.println("\t"+file)
+  }
+  val cmd = "bash " + script.getAbsolutePath + " -d"
   val result =
     Process(cmd) ! streams.log match {
       case 0 => ()
