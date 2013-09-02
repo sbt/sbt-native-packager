@@ -128,7 +128,7 @@ addJava () {
 }
 addApp () {
   dlog "[addApp] arg = '$1'"
-  sbt_commands=( "${app_commands[@]}" "$1" )
+  app_commands=( "${app_commands[@]}" "$1" )
 }
 addResidual () {
   dlog "[residual] arg = '$1'"
