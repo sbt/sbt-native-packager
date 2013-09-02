@@ -88,9 +88,10 @@ if "%_JAVA_OPTS%"=="" set _JAVA_OPTS=%CFG_OPTS%
 
 :run
  
-set "APP_CLASSPATH=@@APP_CLASSPATH@@"
+@@APP_DEFINES@@
+
 rem TODO - figure out how to pass arguments....
-"%_JAVACMD%" %_JAVA_OPTS% %@@APP_ENV_NAME@@_OPTS% -cp "%APP_CLASSPATH%" @@APP_MAIN_CLASS@@ %CMDS%
+"%_JAVACMD%" %_JAVA_OPTS% %@@APP_ENV_NAME@@_OPTS% -cp "%APP_CLASSPATH%" %APP_MAIN_CLASS% %CMDS%
 if ERRORLEVEL 1 goto error
 goto end
 
