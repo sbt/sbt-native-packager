@@ -40,6 +40,7 @@ object JavaAppBashScript {
      for(line <- sbt.IO.readLinesURL(bashTemplateSource, charset)) {
        if(line contains """${{template_declares}}""") {
          sb append (defines mkString "\n")
+         sb append "\n"
        } else {
          sb append line
          sb append "\n"
