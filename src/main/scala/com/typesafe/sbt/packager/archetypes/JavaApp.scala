@@ -43,9 +43,10 @@ object JavaAppPackaging {
       hasMain getOrElse Nil
     },
     makeBashScript <<= (bashScriptDefines, target in Universal, normalizedName) map makeUniversalBinScript,
-    batScriptReplacements <<= (normalizedName, Keys.mainClass in Compile, scriptClasspath) map { (name, mainClass, cp) =>
+    batScriptExtraDefines := Nil,
+    batScriptReplacements <<= (normalizedName, Keys.mainClass in Compile, scriptClasspath, batScriptExtraDefines) map { (name, mainClass, cp, extras) =>
       mainClass map { mc => 
-        JavaAppBatScript.makeReplacements(name = name, mainClass = mc, appClasspath = cp)
+        JavaAppBatScript.makeReplacements(name = name, mainClass = mc, appClasspath = cp, extras = extras)
       } getOrElse Nil
       
     },
