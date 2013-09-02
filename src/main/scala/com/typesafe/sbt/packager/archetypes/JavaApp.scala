@@ -32,8 +32,9 @@ object JavaAppPackaging {
 	projectDependencyArtifacts <<= findDependencyProjectArtifacts,
 	//scriptClasspathOrdering <++= projectDependencyMappings,
     scriptClasspathOrdering <++= (Keys.dependencyClasspath in Runtime, projectDependencyArtifacts) map universalDepMappings,
+    scriptClasspathOrdering <<= (scriptClasspathOrdering) map {_.distinct},
     mappings in Universal <++= scriptClasspathOrdering,
-    scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames, 
+    scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames,
     bashScriptExtraDefines := Nil,
     bashScriptDefines <<= (Keys.mainClass in Compile, scriptClasspath, bashScriptExtraDefines) map { (mainClass, cp, extras) =>
       val hasMain =
@@ -149,7 +150,7 @@ object JavaAppPackaging {
           for {
             p <- previous
             n <- next
-          } yield (p ++ n).distinct
+          } yield (p ++ n)
         }
       allArtifactsTask
     }
