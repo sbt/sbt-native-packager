@@ -139,6 +139,13 @@ object JavaAppPackaging {
         }
       }
     }
+  
+  // TODO - Should we pull in more than just JARs?  How do native packages come in?
+  def isRuntimeArtifact(dep: Attributed[File]): Boolean =
+    dep.get(sbt.Keys.artifact.key).map(_.`type` == "jar").getOrElse {
+      val name = dep.data.getName
+      !(name.endsWith(".jar") || name.endsWith("-sources.jar") || name.endsWith("-javadoc.jar"))
+    }
     
   def findProjectDependencyArtifacts: Initialize[Task[Seq[Attributed[File]]]] =
     (sbt.Keys.buildDependencies, sbt.Keys.thisProjectRef, sbt.Keys.state) apply { (build, thisProject, stateTask) =>
@@ -150,12 +157,7 @@ object JavaAppPackaging {
           for {
             p <- previous
             n <- next
-          } yield (p ++ n)
-            .filterNot {
-              f =>
-                val name = f.data.getName
-                name.endsWith(".pom") || name.endsWith("-sources.jar") || name.endsWith("-javadoc.jar")
-            }
+          } yield (p ++ n.filter(isRuntimeArtifact))
         }
       allArtifactsTask
     }
@@ -182,7 +184,5 @@ object JavaAppPackaging {
     for {
       dep <- deps
       realDep <- findRealDep(dep, projectArts)
-    } yield {
-      realDep.data-> ("lib/"+getJarFullFilename(realDep))
-    }
+    } yield realDep.data-> ("lib/"+getJarFullFilename(realDep))
 }
