@@ -4,10 +4,6 @@ name := "sbt-native-packager"
 
 organization := "com.typesafe.sbt"
 
-git.baseVersion := "0.6.3"
-
-versionWithGit
-
 scalacOptions in Compile += "-deprecation"
 
 libraryDependencies += "org.apache.commons" % "commons-compress" % "1.4.1"
@@ -31,5 +27,9 @@ publishMavenStyle := false
 
 scriptedSettings
 
-
 scriptedLaunchOpts <+= version apply { v => "-Dproject.version="+v }
+
+
+
+
+
