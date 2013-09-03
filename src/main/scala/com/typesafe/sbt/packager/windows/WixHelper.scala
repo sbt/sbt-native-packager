@@ -51,26 +51,32 @@ case class AddShortCuts(
 object WixHelper {
   /** Generates a windows friendly GUID for use in random locations in the build. */
   def makeGUID: String = java.util.UUID.randomUUID.toString
-  
+
   // TODO - Fragment out this function a bit so it's not so ugly/random.  
   def makeWixProductConfig(name: String, product: WindowsProductInfo, features: Seq[WindowsFeature], license: Option[File] = None): scala.xml.Node = {
     // TODO - First we find directories...
-    val filenames = 
+    // Adds all subdirectories... there was a bug when there were directories with only subdirs and no files in the tree,
+    // so there was a gap and dirXml failed to create some directories
+    def allParentDirs(f: File): Seq[File] = if(f == null) Seq() else Seq(f) ++ allParentDirs(f.getParentFile)
+    val filenamesPrep =
       for {
         f <- features
         ComponentFile(name, _) <- f.components
-      } yield name.replaceAll("\\\\","/")
+      } yield allParentDirs(file(name))
+    val filenames = filenamesPrep.flatten.map(_.toString.replaceAll("\\\\","/")).filter(_ != "")
     // Now for directories...
-    def parentDir(filename: String) = filename take (filename lastIndexOf '/')
+    def parentDir(filename: String) = {/*println("xxxxxxxxxxx: " + (filename take (filename lastIndexOf '/')));*/ filename take (filename lastIndexOf '/')  }
     def simpleName(filename: String) = {
       val lastSlash = filename lastIndexOf '/'
       filename drop (lastSlash + 1)
     }
-    val dirs = (filenames map parentDir).distinct
+    val dirs = (filenames map parentDir).distinct;
+    // TODO println("DDDDDDDDDDDDDDD:" + dirs.toString)
     // Now we need our directory tree xml?
-    val dirToChilren = dirs groupBy parentDir
-    def dirXml(currentDir: String): scala.xml.Node = if(!currentDir.isEmpty){
-      val children = dirToChilren.getOrElse(currentDir, Seq.empty)  
+    val dirToChildren = dirs groupBy parentDir;
+    // TODO println("CCCCCCCCCCCCCCC:" + dirToChildren.toString)
+    def dirXml(currentDir: String): scala.xml.Node = if(!currentDir.isEmpty) {
+      val children = dirToChildren.getOrElse(currentDir, Seq.empty)
       <Directory Id={cleanStringForId(currentDir)} Name={simpleName(currentDir)}>
         {
           children map dirXml
@@ -88,7 +94,7 @@ object WixHelper {
         val pathAddition = 
           if(dir.isEmpty) "%"+homeEnvVar+"%"
           else "[INSTALLDIR]\\"+dir.replaceAll("\\/", "\\\\")
-        val id = cleanStringForId(dir) + "PathC"
+        val id = cleanStringForId(dir).takeRight(65) + "PathC"
         val guid = makeGUID
         val xml =
           <DirectoryRef Id={dirRef}>
@@ -104,11 +110,11 @@ object WixHelper {
         val dir = parentDir(uname)
         val dirRef = if(dir.isEmpty) "INSTALLDIR" else cleanStringForId(dir)
             val fname = simpleName(uname)
-            val id = cleanStringForId(uname)
+            val id = cleanStringForId(uname).takeRight(67)  // Room for "fl_"
             val xml = 
             <DirectoryRef Id={dirRef}>
               <Component Id={id} Guid={makeGUID}>
-                <File Id={"file_" + id} Name={cleanFileName(fname)} DiskId='1' Source={cleanFileName(uname)}>
+                <File Id={"fl_" + id} Name={cleanFileName(fname)} DiskId='1' Source={cleanFileName(uname)}>
                   {
                     if(editable) {
                       <xml:group>
@@ -122,7 +128,7 @@ object WixHelper {
             </DirectoryRef>
             ComponentInfo(id, xml)
       case AddShortCuts(targets, workingDir) =>
-        val id = cleanStringForId("shortcut_"+makeGUID)
+        val id = cleanStringForId("shortcut_" + makeGUID).takeRight(67)  // Room for "_SC"
         val xml =
           <DirectoryRef Id="ApplicationProgramsFolder">
             <Component Id={id} Guid={makeGUID}>
@@ -130,7 +136,7 @@ object WixHelper {
                   for(target <- targets) yield {
                     val name = simpleName(target)
                     val desc = "Edit configuration file: " + name
-                    <Shortcut Id={id+"_Shortcut"}
+                    <Shortcut Id={id+"_SC"}
                           Name={name}
                           Description={desc}
                           Target={"[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\")}
@@ -161,7 +167,7 @@ object WixHelper {
         </Directory>
         <Directory Id='ProgramFilesFolder' Name='PFiles'>
           <Directory Id='INSTALLDIR' Name={name}>
-            {dirToChilren("") map dirXml}
+            {dirToChildren("") map dirXml}
           </Directory>
         </Directory>
       </Directory>
@@ -218,17 +224,19 @@ object WixHelper {
               InstallScope={product.installScope}
               InstallerVersion={product.installerVersion}
               Compressed={if(product.compressed) "yes" else "no"} />
-         <Media Id='1' Cabinet={cleanStringForId(name.toLowerCase)+".cab"} EmbedCab='yes' />
+         <Media Id='1' Cabinet={cleanStringForId(name.toLowerCase).takeRight(66)+".cab"} EmbedCab='yes' />
          {rest}
        </Product>
     </Wix>
   }
-  
-  /** Modifies a string to be Wix ID friendly by removing all the bad 
+
+  /** Modifies a string to be Wix ID friendly by removing all the bad
    * characters and replacing with _.  Also limits the width to 70 (rather than
-   * 72) so we can safely add a few later.  We assume that's unique enough. 
+   * 72) so we can safely add a few later.
    */
-  def cleanStringForId(n: String) = n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(70)
+  def cleanStringForId(n: String) = {
+    n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(50) + (math.abs(n.hashCode).toString + "xxxxxxxxxxxxxxxxxxx").substring(0, 19)
+  }
   
   /** Cleans a file name for the Wix pre-processor.  Every $ should be doubled. */
   def cleanFileName(n: String) = {

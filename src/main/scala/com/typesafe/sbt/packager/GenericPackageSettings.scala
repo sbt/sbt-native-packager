@@ -113,7 +113,7 @@ trait GenericPackageSettings
       } yield ComponentFile(name, editable = (name startsWith "conf"))
     val corePackage =
       WindowsFeature(
-        id=WixHelper.cleanStringForId(name+"_core"),
+        id=WixHelper.cleanStringForId(name + "_core").takeRight(38),  // Must be no longer
         title=name,
         desc="All core files.",
         absent="disallow",
