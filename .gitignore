@@ -1,3 +1,11 @@
 project/project
-project/target
-target
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+*.iws
+.DS_Store
+log/
+target/
+.cache

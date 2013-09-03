@@ -23,14 +23,13 @@ object JavaAppPackaging {
     // Here we record the classpath as it's added to the mappings separately, so
     // we can use its order to generate the bash/bat scripts.
     scriptClasspathOrdering := Nil, 
-    // Note: This is sometimes on the classpath via depnedencyClasspath in Runtime.
+    // Note: This is sometimes on the classpath via dependencyClasspath in Runtime.
     // We need to figure out why sometimes the Attributed[File] is corrrectly configured
     // and sometimes not.
     scriptClasspathOrdering <+= (Keys.packageBin in Compile, Keys.projectID, Keys.artifact in Compile in Keys.packageBin) map { (jar, id, art) =>
 	  jar -> ("lib/" + makeJarName(id.organization,id.name,id.revision, art.name))
 	},
-	projectDependencyArtifacts <<= findDependencyProjectArtifacts,
-	//scriptClasspathOrdering <++= projectDependencyMappings,
+    projectDependencyArtifacts <<= findProjectDependencyArtifacts,
     scriptClasspathOrdering <++= (Keys.dependencyClasspath in Runtime, projectDependencyArtifacts) map universalDepMappings,
     scriptClasspathOrdering <<= (scriptClasspathOrdering) map {_.distinct},
     mappings in Universal <++= scriptClasspathOrdering,
@@ -141,7 +140,7 @@ object JavaAppPackaging {
       }
     }
     
-  def findDependencyProjectArtifacts: Initialize[Task[Seq[Attributed[File]]]] =
+  def findProjectDependencyArtifacts: Initialize[Task[Seq[Attributed[File]]]] =
     (sbt.Keys.buildDependencies, sbt.Keys.thisProjectRef, sbt.Keys.state) apply { (build, thisProject, stateTask) =>
       val refs = thisProject +: dependencyProjectRefs(build, thisProject)
       // Dynamic lookup of dependencies...
@@ -152,6 +151,11 @@ object JavaAppPackaging {
             p <- previous
             n <- next
           } yield (p ++ n)
+            .filterNot {
+              f =>
+                val name = f.data.getName
+                name.endsWith(".pom") || name.endsWith("-sources.jar") || name.endsWith("-javadoc.jar")
+            }
         }
       allArtifactsTask
     }
