@@ -7,15 +7,13 @@ This is a work in process project.  The goal is to be able to bundle up Scala so
 
 Add the following to your `project/plugins.sbt` or `~/.sbt/plugins.sbt` file:
     
-    resolvers += Resolver.url("scalasbt", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
-    
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.6.1")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.6.2")
 
-Then, in the project you wish to use the plugin, add the following settings:
+Then, in the project you wish to use the plugin, add the following settings to your `build.sbt`:
 
-    seq(packagerSettings:_*)
+    packagerSettings
 
-or
+or to a `Project` instantiation in `build.sbt`/`project/Build.scala`:
 
     settings(com.typesafe.sbt.SbtNativePackager.packagerSettings:_*)
 
