@@ -27,7 +27,7 @@ Using the sbt-native-packger plugin requires a bit of understanding of the under
 
 Here's an example using the java_application archetype to create native packaging:
 
-    archetypes.java_application
+    packageArchetype.java_application
 
     name := "A-package-friendly-name"
     
