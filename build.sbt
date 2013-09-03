@@ -4,7 +4,9 @@ name := "sbt-native-packager"
 
 organization := "com.typesafe.sbt"
 
-version := "0.6.2"
+git.baseVersion := "0.6.3"
+
+versionWithGit
 
 scalacOptions in Compile += "-deprecation"
 
