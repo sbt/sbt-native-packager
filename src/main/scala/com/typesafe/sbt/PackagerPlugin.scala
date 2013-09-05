@@ -24,7 +24,7 @@ object SbtNativePackager extends Plugin
                          windowsSettings ++
                          universalSettings ++
                          Seq(                      // Bad defaults that let us at least not explode users who don't care about native packagers
-                            NativePackagerKeys. maintainer := "",
+                            NativePackagerKeys.maintainer := "",
                             NativePackagerKeys.packageDescription := "",
                             NativePackagerKeys.packageSummary := ""
                          )
