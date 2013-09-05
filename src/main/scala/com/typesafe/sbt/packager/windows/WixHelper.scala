@@ -65,16 +65,14 @@ object WixHelper {
       } yield allParentDirs(file(name))
     val filenames = filenamesPrep.flatten.map(_.toString.replaceAll("\\\\","/")).filter(_ != "")
     // Now for directories...
-    def parentDir(filename: String) = {/*println("xxxxxxxxxxx: " + (filename take (filename lastIndexOf '/')));*/ filename take (filename lastIndexOf '/')  }
+    def parentDir(filename: String) = { filename take (filename lastIndexOf '/') }
     def simpleName(filename: String) = {
       val lastSlash = filename lastIndexOf '/'
       filename drop (lastSlash + 1)
     }
     val dirs = (filenames map parentDir).distinct;
-    // TODO println("DDDDDDDDDDDDDDD:" + dirs.toString)
     // Now we need our directory tree xml?
     val dirToChildren = dirs groupBy parentDir;
-    // TODO println("CCCCCCCCCCCCCCC:" + dirToChildren.toString)
     def dirXml(currentDir: String): scala.xml.Node = if(!currentDir.isEmpty) {
       val children = dirToChildren.getOrElse(currentDir, Seq.empty)
       <Directory Id={cleanStringForId(currentDir)} Name={simpleName(currentDir)}>
@@ -194,7 +192,7 @@ object WixHelper {
      <MajorUpgrade 
          AllowDowngrades="no" 
          Schedule="afterInstallInitialize"
-         DowngradeErrorMessage="A later version of [ProductName] is already installed.  Setup will no exit."/>  
+         DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit."/>
       <UIRef Id="WixUI_FeatureTree"/>
       <UIRef Id="WixUI_ErrorProgressText"/>
       <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR"/>
@@ -235,7 +233,7 @@ object WixHelper {
    * 72) so we can safely add a few later.
    */
   def cleanStringForId(n: String) = {
-    n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(50) + (math.abs(n.hashCode).toString + "xxxxxxxxxxxxxxxxxxx").substring(0, 19)
+    n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(60) + (math.abs(n.hashCode).toString + "xxxxxxxxx").substring(0, 9)
   }
   
   /** Cleans a file name for the Wix pre-processor.  Every $ should be doubled. */
