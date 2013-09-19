@@ -25,7 +25,7 @@ custom start scripts, or services.  It is just a bash/bat script that starts up 
 this archetype in your build, do the following in your ``build.sbt``:
 
 
-    archetypes.java_application
+    packageArchetype.java_application
 
     name := "A-package-friendly-name"
     
