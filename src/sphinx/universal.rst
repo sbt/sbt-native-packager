@@ -136,7 +136,7 @@ use the task-scope feature of sbt:
 
 .. code-block:: scala
 
-    mappings in Universal in package-zip-tarball += file("README") -> "README
+    mappings in Universal in package-zip-tarball += file("README") -> "README"
     
 Besides ``mappings``, the ``name``, ``sourceDirectory`` and ``target`` configurations are all respected by universal packaging.
 
