@@ -63,11 +63,11 @@ trait GenericPackageSettings
   
   def mapGenericFilesToLinux: Seq[Setting[_]] = Seq(
     // First we look at the src/linux files
-    linuxPackageMappings <++= (name in Universal, sourceDirectory in Linux) map { (pkg, dir) =>
+    linuxPackageMappings <++= (sourceDirectory in Linux) map { dir =>
       mapGenericMappingsToLinux((dir.*** --- dir) x relativeTo(dir))(identity)
     },
     // Now we look at the src/universal files.
-    linuxPackageMappings <++= (name in Universal, mappings in Universal) map { (pkg, mappings) =>
+    linuxPackageMappings <++= (normalizedName in Universal, mappings in Universal) map { (pkg, mappings) =>
       // TODO - More windows filters...
       def isWindowsFile(f: (File, String)): Boolean =
         f._2 endsWith ".bat"
@@ -77,7 +77,7 @@ trait GenericPackageSettings
       }
     },
     // Now we generate symlinks.
-    linuxPackageSymlinks <++= (name in Universal, mappings in Universal) map { (pkg, mappings) =>
+    linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal) map { (pkg, mappings) =>
         for {
           (file, name) <- mappings
           if !file.isDirectory
@@ -86,7 +86,7 @@ trait GenericPackageSettings
         } yield LinuxSymlink("/usr/" + name, installLocation+"/"+pkg+"/"+name)
     },
     // Map configuration files
-    linuxPackageSymlinks <++= (name in Universal, mappings in Universal) map { (pkg, mappings) =>
+    linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal) map { (pkg, mappings) =>
       val needsConfLink =
         mappings exists { case (file, name) =>
           (name startsWith "conf/") && !file.isDirectory
