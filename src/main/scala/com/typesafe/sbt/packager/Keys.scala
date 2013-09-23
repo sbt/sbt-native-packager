@@ -10,6 +10,7 @@ object Keys extends linux.Keys
   with universal.UniversalKeys {
   
   // TODO - Do these keys belong here?
+  def normalizedName = sbt.Keys.normalizedName
 
   // These keys are used by the JavaApp archetype.
   val makeBashScript = TaskKey[Option[File]]("makeBashScript", "Creates or discovers the bash script used by this project.")

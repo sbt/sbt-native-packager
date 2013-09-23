@@ -20,7 +20,7 @@ trait UniversalPlugin extends Plugin {
       dist <<= dist in Universal,
       stage <<= stage in Universal,
       // TODO - New default to naming, is this right?
-      name in Universal <<= (name, version) apply (_ + "-" + _)
+      name in Universal <<= (normalizedName, version) apply (_ + "-" + _)
     ) ++
     makePackageSettingsForConfig(Universal) ++
     makePackageSettingsForConfig(UniversalDocs) ++ 
