@@ -112,7 +112,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       } copyAndFixPerms(file, tfile, perms, zipped)
       
       // Now generate relative symlinks
-      LinuxSymlink.makeSymLinks(symlinks, t)      
+      LinuxSymlink.makeSymLinks(symlinks, t, false)      
       
       // TODO: Fix this ugly hack to permission directories correctly!
       for { 
