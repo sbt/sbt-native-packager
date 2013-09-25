@@ -105,7 +105,7 @@ object WixHelper {
         ComponentInfo(id, xml)
       case ComponentFile(name, editable) =>
         val uname = name.replaceAll("\\\\", "/")
-        val dir = parentDir(uname)
+        val dir = parentDir(uname).replaceAll("//", "/").stripSuffix("/").stripSuffix("/")
         val dirRef = if(dir.isEmpty) "INSTALLDIR" else cleanStringForId(dir)
             val fname = simpleName(uname)
             val id = cleanStringForId(uname).takeRight(67)  // Room for "fl_"
