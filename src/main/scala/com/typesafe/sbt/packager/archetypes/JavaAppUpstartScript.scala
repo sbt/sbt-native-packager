@@ -8,8 +8,7 @@ package com.typesafe.sbt.packager.archetypes
  */
 object JavaAppUpstartScript {
 
-  private[this] def upstartTemplateSource = getClass.getResource("upstart-template")
-  private[this] def charset = java.nio.charset.Charset.forName("UTF-8")
+  private[this] def upstartTemplateSource: java.net.URL = getClass.getResource("upstart-template")
 
   /**
    *
@@ -35,20 +34,7 @@ object JavaAppUpstartScript {
     "retries" -> retries.toString,
     "retryTimeout" -> retryTimeout.toString)
 
-  private def replace(line: String, replacements: Seq[(String, String)]): String = {
-    replacements.foldLeft(line) {
-      case (line, (key, value)) =>
-        ("\\$\\{\\{" + key + "\\}\\}").r.replaceAllIn(line, java.util.regex.Matcher.quoteReplacement(value))
-    }
-  }
-
-  def generateScript(replacements: Seq[(String, String)]): String = {
-    val sb = new StringBuilder
-    for (line <- sbt.IO.readLinesURL(upstartTemplateSource, charset)) {
-      sb append replace(line, replacements)
-      sb append "\n"
-    }
-    sb toString
-  }
+  def generateScript(replacements: Seq[(String, String)]): String =
+    TemplateWriter.generateScript(upstartTemplateSource, replacements)
 
 }

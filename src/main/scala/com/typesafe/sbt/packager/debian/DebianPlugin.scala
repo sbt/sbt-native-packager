@@ -10,7 +10,6 @@ import linux.LinuxSymlink
 import linux.LinuxFileMetaData
 import com.typesafe.sbt.packager.Hashing
 import com.typesafe.sbt.packager.linux.LinuxSymlink
-import com.typesafe.sbt.packager.archetypes.JavaAppUpstartScript
 
 trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   val Debian = config("debian") extend Linux
@@ -30,21 +29,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     chmod(to, perms.permissions)
     // TODO - Can we do anything about user/group ownership?
   }
-
-  private[this] final def chmod(file: File, perms: String): Unit =
-    Process(Seq("chmod", perms, file.getAbsolutePath)).! match {
-      case 0 => ()
-      case n => sys.error("Error running chmod " + perms + " " + file)
-    }
-
-  private[this] final def makeDebianUpstartScript(replacements: Seq[(String, String)], tmpDir: File, name: String): Option[File] =
-    if (replacements.isEmpty) None
-    else {
-      val scriptBits = JavaAppUpstartScript.generateScript(replacements)
-      val script = tmpDir / "tmp" / "bin" / (name + ".conf")
-      IO.write(script, scriptBits)
-      Some(script)
-    }
 
   def debianSettings: Seq[Setting[_]] = Seq(
     debianPriority := "optional",
@@ -95,19 +79,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           chmod(cfile, "0644")
           cfile
       },
-      debianUpstartScriptReplacements <<= (maintainer, packageSummary, normalizedName, version) map { (author, descr, name, version) =>
-        // TODO name-version is copied from UniversalPlugin. This should be consolidated
-        val chdir = GenericPackageSettings.installLocation + "/" + s"$name-$version" + "/bin"
-        JavaAppUpstartScript.makeReplacements(author = author, descr = descr, execScript = name, chdir = chdir)
-      },
-      debianUpstartFile <<= (linuxPackageMappings, debianUpstartScriptReplacements, normalizedName, target) map {
-        (mappings, replacements, name, dir) =>
-          val upstartFile = dir / "etc" / "init" / s"$name.conf"
-          val script = JavaAppUpstartScript.generateScript(replacements)
-          IO.writeLines(upstartFile, Seq(script), java.nio.charset.Charset.defaultCharset)
-          chmod(upstartFile, "0644")
-          upstartFile
-      },
       /*debianLinksfile <<= (name, linuxPackageSymlinks, target) map { (name, symlinks, dir) =>
       val lfile = dir / "DEBIAN" / (name + ".links")
       val content =
@@ -118,7 +89,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       chmod(lfile, "0644")
       lfile
     },*/
-      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianUpstartFile, linuxPackageSymlinks, target) map { (mappings, _, maintScripts, _, _, symlinks, t) =>
+      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, linuxPackageSymlinks, target) map { (mappings, _, maintScripts, _, symlinks, t) =>
         // First Create directories, in case we have any without files in them.
         for {
           LinuxPackageMapping(files, perms, zipped) <- mappings
@@ -166,7 +137,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           md5file
       },
       packageBin <<= (debianExplodedPackage, debianMD5sumsFile, target, streams) map { (pkgdir, _, tdir, s) =>
-        // Make the phackage.  We put this in fakeroot, so we can build the package with root owning files.
+        // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
         Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath), Some(tdir)) ! s.log match {
           case 0 => ()
           case x => sys.error("Failure packaging debian file.  Exit code: " + x)

@@ -93,15 +93,6 @@ object JavaAppPackaging {
       Some(script)
     }
 
-  def makeUniversalUpstartScript(replacements: Seq[(String, String)], tmpDir: File, name: String): Option[File] =
-    if (replacements.isEmpty) None
-    else {
-      val scriptBits = JavaAppUpstartScript.generateScript(replacements)
-      val script = tmpDir / "tmp" / "bin" / (name + ".conf")
-      IO.write(script, scriptBits)
-      Some(script)
-    }
-
   // Constructs a jar name from components...(ModuleID/Artifact)
   def makeJarName(org: String, name: String, revision: String, artifactName: String): String =
     (org + "." +
