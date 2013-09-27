@@ -284,7 +284,8 @@ EOM
 declare -a residual_args
 declare -a java_args
 declare -a app_commands
-declare -r app_home="$(realpath "$(dirname "$0")")"
+declare -r real_script_path="$(realpath "$0")"
+declare -r app_home="$(realpath "$(dirname "$real_script_path")")"
 # TODO - Check whether this is ok in cygwin...
 declare -r lib_dir="$(realpath "${app_home}/../lib")"
 ${{template_declares}}
