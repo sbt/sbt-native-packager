@@ -33,7 +33,7 @@ object JavaServerAppPackaging {
         JavaAppUpstartScript.makeReplacements(author = author, descr = descr, execScript = name, chdir = chdir)
       },
       debianMakeUpstartScript <<= (debianUpstartScriptReplacements, normalizedName, target in Universal) map makeDebianUpstartScript,      
-      linuxPackageMappings in Debian <++= (makeBashScript, normalizedName) map { (script, name) =>
+      linuxPackageMappings in Debian <++= (debianMakeUpstartScript, normalizedName) map { (script, name) =>
         for {
           s <- script.toSeq
         } yield LinuxPackageMapping(Seq(s -> ("/etc/init/" + name + ".conf"))).withPerms("0644")        
