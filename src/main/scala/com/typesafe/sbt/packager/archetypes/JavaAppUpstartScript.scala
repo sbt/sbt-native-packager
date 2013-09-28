@@ -10,6 +10,8 @@ object JavaAppUpstartScript {
 
   private[this] def upstartTemplateSource: java.net.URL = getClass.getResource("upstart-template")
 
+  private[this] def postinstTemplateSource: java.net.URL = getClass.getResource("postinst-template")
+  private[this] def preremTemplateSource: java.net.URL = getClass.getResource("prerem-template")
   /**
    *
    * @param author -
@@ -37,4 +39,9 @@ object JavaAppUpstartScript {
   def generateScript(replacements: Seq[(String, String)]): String =
     TemplateWriter.generateScript(upstartTemplateSource, replacements)
 
+    
+  def generatePrerem(appName: String): String =
+    TemplateWriter.generateScript(preremTemplateSource, Seq("app_name" -> appName))
+  def generatePostinst(appName: String): String =
+    TemplateWriter.generateScript(postinstTemplateSource, Seq("app_name" -> appName))
 }

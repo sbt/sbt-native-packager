@@ -43,7 +43,19 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     packageDescription in Debian <<= packageDescription in Linux,
     packageSummary in Debian <<= packageSummary in Linux,
     maintainer in Debian <<= maintainer in Linux,
-    debianMaintainerScripts := Seq.empty) ++ inConfig(Debian)(Seq(
+    debianMaintainerScripts := Seq.empty,
+    debianMakePreremScript := None,
+    debianMakePostinstScript := None,
+    // TODO - We should make sure there isn't one already specified...
+    debianMaintainerScripts <++= debianMakePreremScript map {
+      case Some(script) => Seq(script -> "prerem")
+      case None => Seq.empty
+    },
+    debianMaintainerScripts <++= debianMakePostinstScript map {
+      case Some(script) => Seq(script -> "postinst")
+      case None => Seq.empty
+    }
+  ) ++ inConfig(Debian)(Seq(
       packageArchitecture := "all",
       debianPackageInfo <<=
         (name, version, maintainer, packageSummary, packageDescription) apply PackageInfo,

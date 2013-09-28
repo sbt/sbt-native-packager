@@ -37,9 +37,27 @@ object JavaServerAppPackaging {
         for {
           s <- script.toSeq
         } yield LinuxPackageMapping(Seq(s -> ("/etc/init/" + name + ".conf"))).withPerms("0644")        
-      }
+      },
+      // TODO - only make these if the upstart config exists...
+      debianMakePreremScript <<= (normalizedName, target in Universal) map makeDebianPreremScript,
+      debianMakePostinstScript <<= (normalizedName, target in Universal) map makeDebianPostinstScript
     )
   
+    
+  private[this] final def makeDebianPreremScript(name: String, tmpDir: File): Option[File] = {
+    val scriptBits = JavaAppUpstartScript.generatePrerem(name)
+    val script = tmpDir / "tmp" / "bin" / "debian-prerem"
+    IO.write(script, scriptBits)
+    Some(script)
+  }
+  
+  private[this] final def makeDebianPostinstScript(name: String, tmpDir: File): Option[File] = {
+    val scriptBits = JavaAppUpstartScript.generatePostinst(name)
+    val script = tmpDir / "tmp" / "bin" / "debian-postinst"
+    IO.write(script, scriptBits)
+    Some(script)
+  }
+    
   private[this] final def makeDebianUpstartScript(replacements: Seq[(String, String)], name: String, tmpDir: File): Option[File] =
     if (replacements.isEmpty) None
     else {
