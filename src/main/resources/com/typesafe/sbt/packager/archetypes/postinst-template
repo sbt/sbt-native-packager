@@ -1,0 +1,2 @@
+initctl reload-configuration
+service ${{app_name}} start
