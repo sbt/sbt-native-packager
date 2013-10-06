@@ -123,7 +123,9 @@ object Archives {
         f.setExecutable(true, false)
       }
       IO.createDirectory(tarball.getParentFile)      
-      val distdir = IO.listFiles(rdir).head
+      val distdir = IO.listFiles(rdir).headOption.getOrElse {
+        sys.error("Unable to find tarball in directory: " + rdir.getAbsolutePath + ".\n  This could be an issue with the temporary filesystem used to create tarballs.")
+      }
       val tmptar = f / (relname + ".tar")
       Process(Seq("tar", "-pcvf", tmptar.getAbsolutePath, distdir.getName), Some(rdir)).! match {
         case 0 => ()
