@@ -74,7 +74,7 @@ If you use this configuration, you must fill out the `mappings in Universal`, `m
 Once you've configured your packaging how you like it, you can run the following commands:
 
 * `stage` - Creates the universal distribution under the `target/universal/stage` directory
-* `universal:pacakgeZipTarball` - Create the universal `.tgz` distribution.
+* `universal:packageZipTarball` - Create the universal `.tgz` distribution.
 * `universal:packageXzTarball` - Creates the universal `txz` distribution.  Note: xz sucks cpu like no other.
 * `universal:packageBin` - Creates the universal `zip` distribution
 * `windows:packageBin` - Creates the windows `msi` file.
