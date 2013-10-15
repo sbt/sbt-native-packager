@@ -41,6 +41,7 @@ object JavaAppBatScript {
     replacements :+ "APP_DEFINES" -> makeDefines(defines, replacements)
   }
 
+  // TODO - use more of the template writer for this...
   def replace(line: String, replacements: Seq[(String, String)]): String = {
     replacements.foldLeft(line) {
       case (line, (key, value)) =>
@@ -49,17 +50,7 @@ object JavaAppBatScript {
   }
 
   def generateScript(
-      replacements: Seq[(String,String)]): String = {
-    val sb = new StringBuffer
-    for(line <- sbt.IO.readLinesURL(bashTemplateSource, charset)) {
-      val fixed =
-        replacements.foldLeft(line) {
-          case (line, (key, value)) =>
-            line.replaceAll("@@"+key+"@@", java.util.regex.Matcher.quoteReplacement(value))
-        }
-      sb append fixed
-      sb append "\r\n"
-    }
-    sb.toString
-  }
+      replacements: Seq[(String,String)]): String = 
+    TemplateWriter.generateScript(bashTemplateSource, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
+    
 }

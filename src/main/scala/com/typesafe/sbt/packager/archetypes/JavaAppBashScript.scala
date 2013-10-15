@@ -10,8 +10,6 @@ object JavaAppBashScript {
   
   private[this] def bashTemplateSource =
     getClass.getResource("bash-template")
-  private[this] def charset =
-    java.nio.charset.Charset.forName("UTF-8")
     
   /** Creates the block of defines for a script.
    * 
@@ -36,17 +34,9 @@ object JavaAppBashScript {
     "declare -r app_classpath=\""+fullString+"\"\n"
   }  
   def generateScript(defines: Seq[String]): String = {
-     val sb = new StringBuffer
-     for(line <- sbt.IO.readLinesURL(bashTemplateSource, charset)) {
-       if(line contains """${{template_declares}}""") {
-         sb append (defines mkString "\n")
-         sb append "\n"
-       } else {
-         sb append line
-         sb append "\n"
-       }
-     }
-    sb.toString
+    val defineString = defines mkString "\n"
+    val replacements = Seq("template_declares" -> defineString)
+    TemplateWriter.generateScript(bashTemplateSource, replacements)
   }
   
   def configFileDefine(configFile: String) =
