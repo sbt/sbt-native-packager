@@ -132,7 +132,7 @@ trait GenericPackageSettings
              (file, name) <- mappings
              if !file.isDirectory
              if name startsWith "conf/"
-          } yield WixHelper.cleanStringForId(name)
+          } yield name.replaceAll("//", "/").stripSuffix("/").stripSuffix("/")
     val menuLinks =
       WindowsFeature(
           id="AddConfigLinks",

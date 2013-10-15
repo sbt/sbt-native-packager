@@ -1,6 +1,6 @@
 import NativePackagerKeys._
 
-packageArchetype.java_server
+play.Project.playScalaSettings  //packageArchetype.java_server
 
 name := "dtest"
 
