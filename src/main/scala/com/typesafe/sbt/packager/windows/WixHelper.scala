@@ -67,7 +67,9 @@ object WixHelper {
     // Now for directories...
     def parentDir(filename: String) = { filename take (filename lastIndexOf '/') }
     def simpleName(filename: String) = {
-      val lastSlash = filename lastIndexOf '/'
+      val lastSlash = 
+        if(filename contains '/') filename lastIndexOf '/'
+        else filename lastIndexOf '\\'
       filename drop (lastSlash + 1)
     }
     val dirs = (filenames map parentDir).distinct;
@@ -105,7 +107,7 @@ object WixHelper {
         ComponentInfo(id, xml)
       case ComponentFile(name, editable) =>
         val uname = name.replaceAll("\\\\", "/")
-        val dir = parentDir(uname)
+        val dir = parentDir(uname).replaceAll("//", "/").stripSuffix("/").stripSuffix("/")
         val dirRef = if(dir.isEmpty) "INSTALLDIR" else cleanStringForId(dir)
             val fname = simpleName(uname)
             val id = cleanStringForId(uname).takeRight(67)  // Room for "fl_"
@@ -134,8 +136,9 @@ object WixHelper {
                   for(target <- targets) yield {
                     val name = simpleName(target)
                     val desc = "Edit configuration file: " + name
+                    val cleanName = name.replaceAll("[\\.-\\\\//]+","_")
                     <Shortcut Id={id+"_SC"}
-                          Name={name}
+                          Name={cleanName}
                           Description={desc}
                           Target={"[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\")}
                           WorkingDirectory="INSTALLDIR"/>
