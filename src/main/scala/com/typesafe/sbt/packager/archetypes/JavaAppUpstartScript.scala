@@ -39,8 +39,7 @@ object JavaAppUpstartScript {
   def generateScript(replacements: Seq[(String, String)]): String =
     TemplateWriter.generateScript(upstartTemplateSource, replacements)
 
-    
-  def generatePrerem(appName: String): String =
+  def generatePrerm(appName: String): String =
     TemplateWriter.generateScript(preremTemplateSource, Seq("app_name" -> appName))
   def generatePostinst(appName: String): String =
     TemplateWriter.generateScript(postinstTemplateSource, Seq("app_name" -> appName))

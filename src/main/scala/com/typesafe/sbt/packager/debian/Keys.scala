@@ -28,9 +28,10 @@ trait DebianKeys {
   val debianSign = TaskKey[File]("debian-sign", "runs the dpkg-sig command to sign the generated deb file.")
   val debianSignRole = SettingKey[String]("debian-sign-role", "The role to use when signing a debian file (defaults to 'builder').")
 
-  
-  val debianMakePreremScript = TaskKey[Option[File]]("makePreremScript", "Creates or discovers the upstart script used by this project")
-  val debianMakePostinstScript = TaskKey[Option[File]]("makePostInstScript", "Creates or discovers the upstart script used by this project")
+  val debianMakePreinstScript = TaskKey[Option[File]]("makePreinstScript", "Creates or discovers the preinst script used by this project")
+  val debianMakePrermScript = TaskKey[Option[File]]("makePrermScript", "Creates or discovers the prerm script used by this project")
+  val debianMakePostinstScript = TaskKey[Option[File]]("makePostInstScript", "Creates or discovers the postinst script used by this project")
+  val debianMakePostrmScript = TaskKey[Option[File]]("makePostrmScript", "Creates or discovers the postrm script used by this project")
   val debianMakeUpstartScript = TaskKey[Option[File]]("makeUpstartScript", "Creates or discovers the upstart script used by this project")
   val debianUpstartScriptReplacements = TaskKey[Seq[(String, String)]]("upstartScriptReplacements",
     """|Replacements of template parameters used in the upstart script.

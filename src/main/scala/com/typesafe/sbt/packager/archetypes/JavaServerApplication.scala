@@ -23,9 +23,9 @@ object JavaServerAppPackaging {
 
   def settings: Seq[Setting[_]] =
     JavaAppPackaging.settings ++
-      debianUpstartSetttings
+      debianUpstartSettings
 
-  def debianUpstartSetttings: Seq[Setting[_]] =
+  def debianUpstartSettings: Seq[Setting[_]] =
     Seq(
       debianUpstartScriptReplacements <<= (maintainer in Debian, packageSummary in Debian, normalizedName, sbt.Keys.version) map { (author, descr, name, version) =>
         // TODO name-version is copied from UniversalPlugin. This should be consolidated into a setting (install location...)
@@ -39,12 +39,12 @@ object JavaServerAppPackaging {
         } yield LinuxPackageMapping(Seq(s -> ("/etc/init/" + name + ".conf"))).withPerms("0644")
       },
       // TODO - only make these if the upstart config exists...
-      debianMakePreremScript <<= (normalizedName, target in Universal) map makeDebianPreremScript,
+      debianMakePrermScript <<= (normalizedName, target in Universal) map makeDebianPrermScript,
       debianMakePostinstScript <<= (normalizedName, target in Universal) map makeDebianPostinstScript)
 
-  private[this] final def makeDebianPreremScript(name: String, tmpDir: File): Option[File] = {
-    val scriptBits = JavaAppUpstartScript.generatePrerem(name)
-    val script = tmpDir / "tmp" / "bin" / "debian-prerem"
+  private[this] final def makeDebianPrermScript(name: String, tmpDir: File): Option[File] = {
+    val scriptBits = JavaAppUpstartScript.generatePrerm(name)
+    val script = tmpDir / "tmp" / "bin" / "debian-prerm"
     IO.write(script, scriptBits)
     Some(script)
   }
