@@ -65,6 +65,19 @@ object ZipHelper {
     archive(mappings.toSeq, outputZip)
   }
   
+  /**
+   * Replaces windows backslash file separator with a forward slash, this ensures the zip file entry is correct for
+   * any system it is extracted on.
+   * @param path  The path of the file in the zip file
+   */
+  private def normalizePath(path: String) = {
+    val sep = java.io.File.separatorChar
+    if (sep == '/')
+      path
+    else
+      path.replace(sep, '/')
+  }
+
     
   private def archive(sources: Seq[FileMapping], outputFile: File): Unit = {
     if(outputFile.isDirectory) sys.error("Specified output file " + outputFile + " is a directory.")
@@ -73,7 +86,7 @@ object ZipHelper {
       IO createDirectory outputDir
       withZipOutput(outputFile) { output =>
         for(FileMapping(file, name, mode) <- sources; if !file.isDirectory) {
-          val entry = new ZipArchiveEntry(file, name)
+          val entry = new ZipArchiveEntry(file, normalizePath(name))
           // Now check to see if we have permissions for this sucker.
           mode foreach (entry.setUnixMode)
           output putArchiveEntry entry
