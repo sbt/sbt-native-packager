@@ -28,6 +28,10 @@ trait DebianKeys {
   val debianSign = TaskKey[File]("debian-sign", "runs the dpkg-sig command to sign the generated deb file.")
   val debianSignRole = SettingKey[String]("debian-sign-role", "The role to use when signing a debian file (defaults to 'builder').")
 
+  val debianControlScriptsDirectory = SettingKey[File]("""
+      debian-control-scripts-directory", "Directory where all debian control scripts reside.
+      Default is 'src/debian/DEBIAN'
+      """.stripMargin)
   val debianMakePreinstScript = TaskKey[Option[File]]("makePreinstScript", "Creates or discovers the preinst script used by this project")
   val debianMakePrermScript = TaskKey[Option[File]]("makePrermScript", "Creates or discovers the prerm script used by this project")
   val debianMakePostinstScript = TaskKey[Option[File]]("makePostInstScript", "Creates or discovers the postinst script used by this project")
@@ -45,7 +49,7 @@ trait DebianKeys {
       """.stripMargin)
 }
 
-/** Keys used for RPM specific settings. */
+/** Keys used for Debian specific settings. */
 object Keys extends DebianKeys {
   // Metadata keys
   def name = sbt.Keys.name

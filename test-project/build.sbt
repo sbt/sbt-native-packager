@@ -24,6 +24,8 @@ debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)
 
 debianPackageRecommends in Debian += "git"
 
+//debianMakePrermScript := Some(sourceDirectory.value / "deb" / "control" / "prerm") //change defaults
+
 
 TaskKey[Unit]("check-script") <<= (NativePackagerKeys.stagingDirectory in Universal, name, streams) map { (dir, name, streams) =>
   val script = dir / "bin" / name
@@ -45,3 +47,4 @@ TaskKey[Unit]("check-script") <<= (NativePackagerKeys.stagingDirectory in Univer
   val expected = "SUCCESS!"
   assert(output contains expected, "Failed to correctly run the main script!.  Found ["+output+"] wanted ["+expected+"]")
 }
+

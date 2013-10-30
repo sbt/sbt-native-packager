@@ -10,6 +10,7 @@ import linux.LinuxSymlink
 import linux.LinuxFileMetaData
 import com.typesafe.sbt.packager.Hashing
 import com.typesafe.sbt.packager.linux.LinuxSymlink
+import java.io.{ File => JFile }
 
 trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   val Debian = config("debian") extend Linux
@@ -30,6 +31,15 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     // TODO - Can we do anything about user/group ownership?
   }
 
+  private[this] def scriptMapping(scriptName: String)(script: Option[JFile], controlDir: JFile): Seq[(File, String)] = {
+    (script, controlDir) match {
+      case (Some(script), _) => Seq(script -> scriptName)
+      case (None, dir) =>
+        val script = dir / scriptName
+        if (script exists) Seq(file(script getAbsolutePath) -> scriptName) else Seq.empty
+    }
+  }
+
   def debianSettings: Seq[Setting[_]] = Seq(
     debianPriority := "optional",
     debianSection := "java",
@@ -43,28 +53,18 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     packageDescription in Debian <<= packageDescription in Linux,
     packageSummary in Debian <<= packageSummary in Linux,
     maintainer in Debian <<= maintainer in Linux,
+    debianControlScriptsDirectory := (sourceDirectory.value / "debian" / "DEBIAN"),
     debianMaintainerScripts := Seq.empty,
     debianMakePreinstScript := None,
     debianMakePrermScript := None,
     debianMakePostinstScript := None,
     debianMakePostrmScript := None,
+
     // TODO - We should make sure there isn't one already specified...
-    debianMaintainerScripts <++= debianMakePreinstScript map {
-      case Some(script) => Seq(script -> "preinst")
-      case None => Seq.empty
-    },
-    debianMaintainerScripts <++= debianMakePrermScript map {
-      case Some(script) => Seq(script -> "prerm")
-      case None => Seq.empty
-    },
-    debianMaintainerScripts <++= debianMakePostinstScript map {
-      case Some(script) => Seq(script -> "postinst")
-      case None => Seq.empty
-    },
-    debianMaintainerScripts <++= debianMakePostrmScript map {
-      case Some(script) => Seq(script -> "postrm")
-      case None => Seq.empty
-    }) ++ inConfig(Debian)(Seq(
+    debianMaintainerScripts <++= (debianMakePrermScript, debianControlScriptsDirectory) map scriptMapping("prerm"),
+    debianMaintainerScripts <++= (debianMakePreinstScript, debianControlScriptsDirectory) map scriptMapping("preinst"),
+    debianMaintainerScripts <++= (debianMakePostinstScript, debianControlScriptsDirectory) map scriptMapping("postinst"),
+    debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping("postrm")) ++ inConfig(Debian)(Seq(
       packageArchitecture := "all",
       debianPackageInfo <<=
         (name, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
