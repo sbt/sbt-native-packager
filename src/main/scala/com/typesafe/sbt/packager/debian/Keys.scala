@@ -41,9 +41,9 @@ trait DebianKeys {
     """|Replacements of template parameters used in the upstart script.
          |  Default supported templates:
          |  author - author of this project
+         |  descr - description
          |  name - normalized name of the app
          |  version - app version
-         |  mainClass - main class of this app
       """.stripMargin)
 
   val debianMakeUpstartScript = TaskKey[Option[File]]("makeUpstartScript", "Creates or discovers the upstart script used by this project")

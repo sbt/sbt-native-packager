@@ -27,7 +27,8 @@ debianPackageRecommends in Debian += "git"
 //debianMakePrermScript := Some(sourceDirectory.value / "deb" / "control" / "prerm") //change defaults
 
 
-TaskKey[Unit]("check-script") <<= (NativePackagerKeys.stagingDirectory in Universal, name, streams) map { (dir, name, streams) =>
+TaskKey[Unit]("check-script") <<= (NativePackagerKeys.stagingDirectory in Universal, target in Debian, name, version, maintainer in Debian, streams) map {
+ (dir, debTarget, name, version, author, streams) =>
   val script = dir / "bin" / name
   System.out.synchronized {
     System.err.println("---SCIRPT---")
@@ -46,5 +47,10 @@ TaskKey[Unit]("check-script") <<= (NativePackagerKeys.stagingDirectory in Univer
   val output = Process("bash " + script.getAbsolutePath).!!
   val expected = "SUCCESS!"
   assert(output contains expected, "Failed to correctly run the main script!.  Found ["+output+"] wanted ["+expected+"]")
+  // Check replacement
+  val prerm = debTarget / "DEBIAN" / "prerm"
+  val prermOutput = Process("bash " + prerm.getAbsolutePath).!!
+  val prermExpected = "removing ${{name}}-${{version}} from ${{author}}"
+  assert(prermOutput contains prermExpected, s"Failed to correctly run the prerm script!.  Found [${prermOutput}] wanted [${prermExpected}]")
 }
 
