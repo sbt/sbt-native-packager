@@ -10,6 +10,7 @@ import linux.LinuxSymlink
 import linux.LinuxFileMetaData
 import com.typesafe.sbt.packager.Hashing
 import com.typesafe.sbt.packager.linux.LinuxSymlink
+import com.typesafe.sbt.packager.archetypes.TemplateWriter
 
 trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   val Debian = config("debian") extend Linux
@@ -30,6 +31,23 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     // TODO - Can we do anything about user/group ownership?
   }
 
+  private[this] def filterAndFixPerms(script: File, replacements: DebianControlScriptReplacements, perms: LinuxFileMetaData): File = {
+    val filtered = TemplateWriter.generateScript(script.toURI.toURL, replacements.makeReplacements)
+    IO.delete(script)
+    IO.write(script, filtered)
+    chmod(script, perms.permissions)
+    script
+  }
+
+  private[this] def scriptMapping(scriptName: String)(script: Option[File], controlDir: File): Seq[(File, String)] = {
+    (script, controlDir) match {
+      case (Some(script), _) => Seq(script -> scriptName)
+      case (None, dir) =>
+        val script = dir / scriptName
+        if (script exists) Seq(file(script getAbsolutePath) -> scriptName) else Seq.empty
+    }
+  }
+
   def debianSettings: Seq[Setting[_]] = Seq(
     debianPriority := "optional",
     debianSection := "java",
@@ -43,28 +61,21 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     packageDescription in Debian <<= packageDescription in Linux,
     packageSummary in Debian <<= packageSummary in Linux,
     maintainer in Debian <<= maintainer in Linux,
+
+    // Debian Control Scripts
+    debianControlScriptsReplacements <<= (maintainer in Debian, packageSummary in Debian, normalizedName, version) apply DebianControlScriptReplacements,
+
+    debianControlScriptsDirectory := (sourceDirectory.value / "debian" / "DEBIAN"),
     debianMaintainerScripts := Seq.empty,
     debianMakePreinstScript := None,
     debianMakePrermScript := None,
     debianMakePostinstScript := None,
     debianMakePostrmScript := None,
-    // TODO - We should make sure there isn't one already specified...
-    debianMaintainerScripts <++= debianMakePreinstScript map {
-      case Some(script) => Seq(script -> "preinst")
-      case None => Seq.empty
-    },
-    debianMaintainerScripts <++= debianMakePrermScript map {
-      case Some(script) => Seq(script -> "prerm")
-      case None => Seq.empty
-    },
-    debianMaintainerScripts <++= debianMakePostinstScript map {
-      case Some(script) => Seq(script -> "postinst")
-      case None => Seq.empty
-    },
-    debianMaintainerScripts <++= debianMakePostrmScript map {
-      case Some(script) => Seq(script -> "postrm")
-      case None => Seq.empty
-    }) ++ inConfig(Debian)(Seq(
+
+    debianMaintainerScripts <++= (debianMakePrermScript, debianControlScriptsDirectory) map scriptMapping("prerm"),
+    debianMaintainerScripts <++= (debianMakePreinstScript, debianControlScriptsDirectory) map scriptMapping("preinst"),
+    debianMaintainerScripts <++= (debianMakePostinstScript, debianControlScriptsDirectory) map scriptMapping("postinst"),
+    debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping("postrm")) ++ inConfig(Debian)(Seq(
       packageArchitecture := "all",
       debianPackageInfo <<=
         (name, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
@@ -110,37 +121,42 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       chmod(lfile, "0644")
       lfile
     },*/
-      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, linuxPackageSymlinks, target) map { (mappings, _, maintScripts, _, symlinks, t) =>
-        // First Create directories, in case we have any without files in them.
-        for {
-          LinuxPackageMapping(files, perms, zipped) <- mappings
-          (file, name) <- files
-          if file.isDirectory
-          tfile = t / name
-          if !tfile.exists
-        } tfile.mkdirs()
-        for {
-          LinuxPackageMapping(files, perms, zipped) <- mappings
-          (file, name) <- files
-          if !file.isDirectory && file.exists
-          tfile = t / name
-        } copyAndFixPerms(file, tfile, perms, zipped)
+      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianControlScriptsReplacements, linuxPackageSymlinks, target)
+        map { (mappings, _, maintScripts, _, replacements, symlinks, t) =>
+          // First Create directories, in case we have any without files in them.
+          for {
+            LinuxPackageMapping(files, perms, zipped) <- mappings
+            (file, name) <- files
+            if file.isDirectory
+            tfile = t / name
+            if !tfile.exists
+          } tfile.mkdirs()
+          for {
+            LinuxPackageMapping(files, perms, zipped) <- mappings
+            (file, name) <- files
+            if !file.isDirectory && file.exists
+            tfile = t / name
+          } copyAndFixPerms(file, tfile, perms, zipped)
 
-        // Now generate relative symlinks
-        LinuxSymlink.makeSymLinks(symlinks, t, false)
+          // Now generate relative symlinks
+          LinuxSymlink.makeSymLinks(symlinks, t, false)
 
-        // TODO: Fix this ugly hack to permission directories correctly!
-        for {
-          file <- (t.***).get
-          if file.isDirectory
-          if file.getCanonicalPath == file.getAbsolutePath // Ignore symlinks.
-        } chmod(file, "0755")
-        // Put the maintainer files in `dir / "DEBIAN"` named as specified.
-        // Valid values for the name are preinst,postinst,prerm,postrm
-        for ((file, name) <- maintScripts) copyAndFixPerms(file, t / "DEBIAN" / name, LinuxFileMetaData())
+          // TODO: Fix this ugly hack to permission directories correctly!
+          for {
+            file <- (t.***).get
+            if file.isDirectory
+            if file.getCanonicalPath == file.getAbsolutePath // Ignore symlinks.
+          } chmod(file, "0755")
+          // Put the maintainer files in `dir / "DEBIAN"` named as specified.
+          // Valid values for the name are preinst,postinst,prerm,postrm
+          for ((file, name) <- maintScripts) {
+            val targetFile = t / "DEBIAN" / name
+            copyAndFixPerms(file, targetFile, LinuxFileMetaData())
+            filterAndFixPerms(targetFile, replacements, LinuxFileMetaData())
+          }
 
-        t
-      },
+          t
+        },
       debianMD5sumsFile <<= (debianExplodedPackage, target) map {
         (mappings, dir) =>
           val md5file = dir / "DEBIAN" / "md5sums"

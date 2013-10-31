@@ -1,0 +1,1 @@
+echo "installing ${{name}}-${{version}} from ${{author}}"

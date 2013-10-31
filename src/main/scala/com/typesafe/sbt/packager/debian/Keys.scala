@@ -28,10 +28,24 @@ trait DebianKeys {
   val debianSign = TaskKey[File]("debian-sign", "runs the dpkg-sig command to sign the generated deb file.")
   val debianSignRole = SettingKey[String]("debian-sign-role", "The role to use when signing a debian file (defaults to 'builder').")
 
+  // Debian control scripts
+  val debianControlScriptsDirectory = SettingKey[File]("debian-control-scripts-directory",
+    "Directory where all debian control scripts reside. Default is 'src/debian/DEBIAN'")
   val debianMakePreinstScript = TaskKey[Option[File]]("makePreinstScript", "Creates or discovers the preinst script used by this project")
   val debianMakePrermScript = TaskKey[Option[File]]("makePrermScript", "Creates or discovers the prerm script used by this project")
   val debianMakePostinstScript = TaskKey[Option[File]]("makePostInstScript", "Creates or discovers the postinst script used by this project")
   val debianMakePostrmScript = TaskKey[Option[File]]("makePostrmScript", "Creates or discovers the postrm script used by this project")
+
+  // Debian upstart scripts
+  val debianControlScriptsReplacements = SettingKey[DebianControlScriptReplacements]("debianControlScriptsReplacements",
+    """|Replacements of template parameters used in the upstart script.
+         |  Default supported templates:
+         |  author - author of this project
+         |  name - normalized name of the app
+         |  version - app version
+         |  mainClass - main class of this app
+      """.stripMargin)
+
   val debianMakeUpstartScript = TaskKey[Option[File]]("makeUpstartScript", "Creates or discovers the upstart script used by this project")
   val debianUpstartScriptReplacements = TaskKey[Seq[(String, String)]]("upstartScriptReplacements",
     """|Replacements of template parameters used in the upstart script.
@@ -45,7 +59,7 @@ trait DebianKeys {
       """.stripMargin)
 }
 
-/** Keys used for RPM specific settings. */
+/** Keys used for Debian specific settings. */
 object Keys extends DebianKeys {
   // Metadata keys
   def name = sbt.Keys.name
