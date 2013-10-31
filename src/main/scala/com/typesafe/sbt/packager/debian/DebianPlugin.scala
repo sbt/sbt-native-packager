@@ -11,7 +11,6 @@ import linux.LinuxFileMetaData
 import com.typesafe.sbt.packager.Hashing
 import com.typesafe.sbt.packager.linux.LinuxSymlink
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
-import java.io.{ File => JFile }
 
 trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   val Debian = config("debian") extend Linux
@@ -40,7 +39,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     script
   }
 
-  private[this] def scriptMapping(scriptName: String)(script: Option[JFile], controlDir: JFile): Seq[(File, String)] = {
+  private[this] def scriptMapping(scriptName: String)(script: Option[File], controlDir: File): Seq[(File, String)] = {
     (script, controlDir) match {
       case (Some(script), _) => Seq(script -> scriptName)
       case (None, dir) =>
