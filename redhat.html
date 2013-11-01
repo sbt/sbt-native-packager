@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RedHat &mdash; sbt-native-packager 1.0a1 documentation</title>
+    <title>RedHat &mdash; sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.0a1',
+        VERSION:     '0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
+    <link rel="top" title="sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation" href="index.html" />
     <link rel="up" title="Writing Linux Packages" href="linux.html" />
     <link rel="next" title="Packaging for Windows" href="windows.html" />
     <link rel="prev" title="Debian" href="debian.html" /> 
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="debian.html" title="Debian"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li>
+        <li><a href="index.html">sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation</a> &raquo;</li>
           <li><a href="linux.html" accesskey="U">Writing Linux Packages</a> &raquo;</li> 
       </ul>
     </div>
@@ -97,17 +97,17 @@
             
   <div class="section" id="redhat">
 <h1>RedHat<a class="headerlink" href="#redhat" title="Permalink to this headline">¶</a></h1>
-<p>RedHat <tt class="docutils literal"><span class="pre">rpm</span></tt> files support a very advanced number of features.  To take full advantage of this environment, it's best to understand how the <tt class="docutils literal"><span class="pre">rpm</span></tt> package system works.  <a class="reference external" href="http://fedoraproject.org/wiki/How_to_create_an_RPM_package">http://fedoraproject.org/wiki/How_to_create_an_RPM_package</a> is a good tutorial, but it focuses on building packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated 'binary' packages.</p>
+<p>RedHat <tt class="docutils literal"><span class="pre">rpm</span></tt> files support a very advanced number of features.  To take full advantage of this environment, it&#8217;s best to understand how the <tt class="docutils literal"><span class="pre">rpm</span></tt> package system works.  <a class="reference external" href="http://fedoraproject.org/wiki/How_to_create_an_RPM_package">http://fedoraproject.org/wiki/How_to_create_an_RPM_package</a> is a good tutorial, but it focuses on building packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated &#8216;binary&#8217; packages.</p>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <p>Rpms require the following specific settings:</p>
 <dl class="docutils">
-<dt>name in Rpm := &quot;sbt&quot;,</dt>
+<dt>name in Rpm := &#8220;sbt&#8221;,</dt>
 <dd>version in Rpm &lt;&lt;= sbtVersion.identity,
-rpmRelease := &quot;1&quot;,
-rpmVendor := &quot;typesafe&quot;,
-rpmUrl := Some(&quot;<a class="reference external" href="http://github.com/paulp/sbt-extras">http://github.com/paulp/sbt-extras</a>&quot;),
-rpmLicense := Some(&quot;BSD&quot;),</dd>
+rpmRelease := &#8220;1&#8221;,
+rpmVendor := &#8220;typesafe&#8221;,
+rpmUrl := Some(&#8220;<a class="reference external" href="http://github.com/paulp/sbt-extras">http://github.com/paulp/sbt-extras</a>&#8221;),
+rpmLicense := Some(&#8220;BSD&#8221;),</dd>
 </dl>
 <div class="section" id="informational-settings">
 <h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Permalink to this headline">¶</a></h3>
@@ -198,7 +198,7 @@ The <tt class="docutils literal"><span class="pre">%postun</span></tt> scriptlet
         <li class="right" >
           <a href="debian.html" title="Debian"
              >previous</a> |</li>
-        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li>
+        <li><a href="index.html">sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation</a> &raquo;</li>
           <li><a href="linux.html" >Writing Linux Packages</a> &raquo;</li> 
       </ul>
     </div>

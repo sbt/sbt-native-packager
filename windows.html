@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Packaging for Windows &mdash; sbt-native-packager 1.0a1 documentation</title>
+    <title>Packaging for Windows &mdash; sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.0a1',
+        VERSION:     '0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
+    <link rel="top" title="sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation" href="index.html" />
     <link rel="next" title="Project Archetypes" href="archetypes.html" />
     <link rel="prev" title="RedHat" href="redhat.html" /> 
   </head>
@@ -42,7 +42,7 @@
         <li class="right" >
           <a href="redhat.html" title="RedHat"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar">
@@ -92,11 +92,11 @@
             
   <div class="section" id="packaging-for-windows">
 <span id="windows"></span><h1>Packaging for Windows<a class="headerlink" href="#packaging-for-windows" title="Permalink to this headline">¶</a></h1>
-<p>The windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package, it's important to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial to how to create packages using wix.</p>
-<p>However, the native-packager provides a simple layer on top of wix that <em>may</em> be enough for most projects.  If it is not, just override <tt class="docutils literal"><span class="pre">wixConfig</span></tt> or <tt class="docutils literal"><span class="pre">wixFile</span></tt> settings.  Let's look at the layer above direct xml configuration.</p>
+<p>The windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package, it&#8217;s important to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial to how to create packages using wix.</p>
+<p>However, the native-packager provides a simple layer on top of wix that <em>may</em> be enough for most projects.  If it is not, just override <tt class="docutils literal"><span class="pre">wixConfig</span></tt> or <tt class="docutils literal"><span class="pre">wixFile</span></tt> settings.  Let&#8217;s look at the layer above direct xml configuration.</p>
 <div class="section" id="feature-configuration">
 <h2>Feature configuration<a class="headerlink" href="#feature-configuration" title="Permalink to this headline">¶</a></h2>
-<p>The abstraction over wix allows you to configure &quot;features&quot; that users may optionally install.  These feature are higher level things, like a set of files or menu links.
+<p>The abstraction over wix allows you to configure &#8220;features&#8221; that users may optionally install.  These feature are higher level things, like a set of files or menu links.
 The currently supported compoennts of features are:</p>
 <ol class="arabic simple">
 <li>Files (<tt class="docutils literal"><span class="pre">ComponentFile</span></tt>)</li>
@@ -104,7 +104,7 @@ The currently supported compoennts of features are:</p>
 <li>Menu Shortcuts (<tt class="docutils literal"><span class="pre">AddShortCuts</span></tt>)</li>
 </ol>
 <p>To create a new feature, simple instantiate the <tt class="docutils literal"><span class="pre">WindowsFeature</span></tt> class with the desired feature components that are included.</p>
-<p>Here's an example feature that installs a binary and a script, as well as path settings:</p>
+<p>Here&#8217;s an example feature that installs a binary and a script, as well as path settings:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">wixFeatures</span> <span class="o">+=</span> <span class="nc">WindowsFeature</span><span class="o">(</span>
     <span class="n">id</span><span class="o">=</span><span class="s">&quot;BinaryAndPath&quot;</span><span class="o">,</span>
     <span class="n">title</span><span class="o">=</span><span class="s">&quot;My Project&#39;s Binaries and updated PATH settings&quot;</span><span class="o">,</span>
@@ -117,8 +117,8 @@ The currently supported compoennts of features are:</p>
 </pre></div>
 </div>
 <p>All file references should line up exactly with those found in the <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></tt> configuration.   When generating an MSI, the plugin will first create
-a directory using all the <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></tt> and configure this for inclusion in a <tt class="docutils literal"><span class="pre">cab</span></tt> file.  If you'd like to add files to include, these must <em>first</em>
-be added to the mappings, and then to a feature.   For example, if we complete the above setting to include file mappings, we'd have the following:</p>
+a directory using all the <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></tt> and configure this for inclusion in a <tt class="docutils literal"><span class="pre">cab</span></tt> file.  If you&#8217;d like to add files to include, these must <em>first</em>
+be added to the mappings, and then to a feature.   For example, if we complete the above setting to include file mappings, we&#8217;d have the following:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">sourceDirectory</span> <span class="n">in</span> <span class="nc">Windows</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="n">jar</span><span class="o">,</span> <span class="n">dir</span><span class="o">)</span> <span class="k">=&gt;</span>
   <span class="nc">Seq</span><span class="o">(</span><span class="n">jar</span> <span class="o">-&gt;</span> <span class="s">&quot;lib/cool.jar&quot;</span><span class="o">,</span> <span class="o">(</span><span class="n">dir</span> <span class="o">/</span> <span class="s">&quot;cool.bat&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;bin/cool.bat&quot;</span><span class="o">)</span>
 <span class="o">}</span>
@@ -134,9 +134,9 @@ be added to the mappings, and then to a feature.   For example, if we complete t
 <span class="o">)</span>
 </pre></div>
 </div>
-<p>Right now this layer is <em>very</em> limited in what it can accomplish, and hasn't been heavily debugged.  If you're interested in helping contribute, please
+<p>Right now this layer is <em>very</em> limited in what it can accomplish, and hasn&#8217;t been heavily debugged.  If you&#8217;re interested in helping contribute, please
 do so!   However, for most command line tools, it should be sufficient for generating a basic <tt class="docutils literal"><span class="pre">msi</span></tt> that windows users can install.</p>
-<p>Now, let's look at the full set of windows settings.</p>
+<p>Now, let&#8217;s look at the full set of windows settings.</p>
 </div>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
@@ -220,7 +220,7 @@ directory of files for usage in the Features of an MSI.</dd>
         <li class="right" >
           <a href="redhat.html" title="RedHat"
              >previous</a> |</li>
-        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

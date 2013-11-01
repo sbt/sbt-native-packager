@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Writing Linux Packages &mdash; sbt-native-packager 1.0a1 documentation</title>
+    <title>Writing Linux Packages &mdash; sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.0a1',
+        VERSION:     '0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0a1 documentation" href="index.html" />
+    <link rel="top" title="sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation" href="index.html" />
     <link rel="next" title="Debian" href="debian.html" />
     <link rel="prev" title="Universal" href="universal.html" /> 
   </head>
@@ -42,7 +42,7 @@
         <li class="right" >
           <a href="universal.html" title="Universal"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar">
@@ -113,16 +113,16 @@
 </div>
 <div class="section" id="package-mappings">
 <h2>Package Mappings<a class="headerlink" href="#package-mappings" title="Permalink to this headline">¶</a></h2>
-<p>Most of the work in generating a linux package is constructing package mappings.  These 'map' a file to a location on disk where it should reside as well as information about that file.   Package mappings allow the specification of file ownership, permissions and whether or not the file can be considered &quot;configuration&quot;.</p>
+<p>Most of the work in generating a linux package is constructing package mappings.  These &#8216;map&#8217; a file to a location on disk where it should reside as well as information about that file.   Package mappings allow the specification of file ownership, permissions and whether or not the file can be considered &#8220;configuration&#8221;.</p>
 <blockquote>
-<div>Note that while the <tt class="docutils literal"><span class="pre">sbt-native-packager</span></tt> plugin allows you to specify all of this information, not all platforms will make use of the information.  It's best to be specific
+<div>Note that while the <tt class="docutils literal"><span class="pre">sbt-native-packager</span></tt> plugin allows you to specify all of this information, not all platforms will make use of the information.  It&#8217;s best to be specific
 about how you want files handled and run tests on each platform you wish to deploy to.</div></blockquote>
 <p>A package mapping takes this general form</p>
 <div class="highlight-python"><pre>(packageMapping(
     file -&gt; "/usr/share/man/man1/sbt.1.gz"
   ) withPerms "0644" gzipped) asDocs()</pre>
 </div>
-<p>Let's look at each of the methods supported in the packageMapping 'library'.</p>
+<p>Let&#8217;s look at each of the methods supported in the packageMapping &#8216;library&#8217;.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">packageMapping(mappings:</span> <span class="pre">(File,</span> <span class="pre">String)*)</span></tt></dt>
@@ -146,6 +146,7 @@ placed inside the <tt class="docutils literal"><span class="pre">%config()`</spa
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="debian.html#getting-started">Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debian.html#settings">Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debian.html#tasks">Tasks</a></li>
 </ul>
@@ -178,7 +179,7 @@ placed inside the <tt class="docutils literal"><span class="pre">%config()`</spa
         <li class="right" >
           <a href="universal.html" title="Universal"
              >previous</a> |</li>
-        <li><a href="index.html">sbt-native-packager 1.0a1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">sbt-native-packager 0.6.3-58910bb71fb3e77a1999c35aa3d2bb2657db9fc1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
