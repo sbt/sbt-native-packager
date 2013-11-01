@@ -65,7 +65,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     // Debian Control Scripts
     debianControlScriptsReplacements <<= (maintainer in Debian, packageSummary in Debian, normalizedName, version) apply DebianControlScriptReplacements,
 
-    debianControlScriptsDirectory := (sourceDirectory.value / "debian" / "DEBIAN"),
+    debianControlScriptsDirectory <<= (sourceDirectory) apply (_ / "debian" / "DEBIAN"),
     debianMaintainerScripts := Seq.empty,
     debianMakePreinstScript := None,
     debianMakePrermScript := None,
