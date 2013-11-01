@@ -153,7 +153,13 @@ get_mem_opts () {
   (( $perm < 1024 )) || perm=1024
   local codecache=$(( $perm / 2 ))
 
-  echo "-Xms${mem}m -Xmx${mem}m -XX:MaxPermSize=${perm}m -XX:ReservedCodeCacheSize=${codecache}m"
+  # if we detect any of these settings in ${java_opts} we need to NOT output our settings.
+  # The reason is the Xms/Xmx, if they don't line up, cause errors.
+  if [[ "${java_opts}" == *-Xmx* ]] || [[ "${java_opts}" == *-Xms* ]] || [[ "${java_opts}" == *-XX:MaxPermSize* ]] || [[ "${java_opts}" == *-XX:ReservedCodeCacheSize* ]]; then
+     echo ""
+  else 
+    echo "-Xms${mem}m -Xmx${mem}m -XX:MaxPermSize=${perm}m -XX:ReservedCodeCacheSize=${codecache}m"
+  fi
 }
 require_arg () {
   local type="$1"
@@ -228,6 +234,12 @@ run() {
     addJava "-Djline.terminal=jline.UnixTerminal"
     addJava "-Dsbt.cygwin=true"
   fi
+  
+  # Now we check to see if there are any java opts on the environemnt. These get listed first, with the script able to override them.
+  if [[ "$JAVA_OPTS" != "" ]]; then
+    java_opts="${JAVA_OPTS}"
+  fi
+  
   # run sbt
   execRunner "$java_cmd" \
     $(get_mem_opts $app_mem) \
