@@ -1,6 +1,6 @@
 import NativePackagerKeys._
 
-play.Project.playScalaSettings  //packageArchetype.java_server
+play.Project.playScalaSettings  
 
 name := "dtest"
 
@@ -12,6 +12,7 @@ val dtestProj = ProjectRef(buildLoc, "np")
 
 version in dtestProj := "0.2.0"
 
+packageArchetype.java_server
 
 maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 
