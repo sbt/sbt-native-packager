@@ -3,7 +3,7 @@ package packager
 package debian
 
 import sbt._
-import linux.LinuxPackageMapping
+import linux.{ LinuxPackageMapping, LinuxPackageTemplateMapping }
 
 /** DEB packaging specifc build targets. */
 trait DebianKeys {
@@ -35,6 +35,9 @@ trait DebianKeys {
   val debianMakePrermScript = TaskKey[Option[File]]("makePrermScript", "Creates or discovers the prerm script used by this project")
   val debianMakePostinstScript = TaskKey[Option[File]]("makePostInstScript", "Creates or discovers the postinst script used by this project")
   val debianMakePostrmScript = TaskKey[Option[File]]("makePostrmScript", "Creates or discovers the postrm script used by this project")
+
+  // Debian template directories
+  val debianMakeTemplateDirectories = TaskKey[Seq[LinuxPackageTemplateMapping]]("debianMakeTemplateDirectories", "Creates empty directories put into the .deb file")
 
   // Debian upstart scripts
   val debianControlScriptsReplacements = SettingKey[DebianControlScriptReplacements]("debianControlScriptsReplacements",

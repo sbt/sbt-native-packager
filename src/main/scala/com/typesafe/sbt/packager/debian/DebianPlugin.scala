@@ -5,12 +5,13 @@ package debian
 import Keys._
 import sbt._
 import sbt.Keys.{ mappings, target, name, mainClass, normalizedName }
-import linux.LinuxPackageMapping
+import linux.{ LinuxPackageMapping, LinuxPackageTemplateMapping }
 import linux.LinuxSymlink
 import linux.LinuxFileMetaData
 import com.typesafe.sbt.packager.Hashing
 import com.typesafe.sbt.packager.linux.LinuxSymlink
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
+import Path.relativizeFile
 
 trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   val Debian = config("debian") extend Linux
@@ -111,6 +112,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           chmod(cfile, "0644")
           cfile
       },
+      debianMakeTemplateDirectories := Seq.empty,
       /*debianLinksfile <<= (name, linuxPackageSymlinks, target) map { (name, symlinks, dir) =>
       val lfile = dir / "DEBIAN" / (name + ".links")
       val content =
@@ -121,8 +123,8 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       chmod(lfile, "0644")
       lfile
     },*/
-      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianControlScriptsReplacements, linuxPackageSymlinks, target)
-        map { (mappings, _, maintScripts, _, replacements, symlinks, t) =>
+      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianControlScriptsReplacements, linuxPackageSymlinks, debianMakeTemplateDirectories, target)
+        map { (mappings, _, maintScripts, _, replacements, symlinks, templates, t) =>
           // First Create directories, in case we have any without files in them.
           for {
             LinuxPackageMapping(files, perms, zipped) <- mappings
@@ -153,6 +155,16 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
             val targetFile = t / "DEBIAN" / name
             copyAndFixPerms(file, targetFile, LinuxFileMetaData())
             filterAndFixPerms(targetFile, replacements, LinuxFileMetaData())
+          }
+
+          // Generate template directories
+          for {
+            LinuxPackageTemplateMapping(dirs, perms) <- templates
+            dir <- dirs
+            tfile = t / dir
+          } {
+            tfile mkdirs ()
+            chmod(tfile, perms.permissions)
           }
 
           t
