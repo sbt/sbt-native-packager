@@ -27,6 +27,15 @@ debianPackageRecommends in Debian += "git"
 
 //debianMakePrermScript := Some(sourceDirectory.value / "deb" / "control" / "prerm") //change defaults
 
+// adding template directories
+//debianMakeTemplateDirectories in Debian += packageTemplateMapping(
+//    "/var/log/" + name.value,
+//    "/etc/" + name.value
+//)
+
+//debianMakeTemplateDirectories in Debian += (packageTemplateMapping(
+//    "/var/log/private"
+//) withPerms "0644" )
 
 TaskKey[Unit]("check-script") <<= (NativePackagerKeys.stagingDirectory in Universal, target in Debian, name, version, maintainer in Debian, streams) map {
  (dir, debTarget, name, version, author, streams) =>
