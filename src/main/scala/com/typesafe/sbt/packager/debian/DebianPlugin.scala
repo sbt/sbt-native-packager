@@ -123,30 +123,27 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     },*/
       debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianControlScriptsReplacements, linuxPackageSymlinks, target)
         map { (mappings, _, maintScripts, _, replacements, symlinks, t) =>
-          // First Create directories, in case we have any without files in them.
-          for {
-            LinuxPackageMapping(files, perms, zipped) <- mappings
-            (file, name) <- files
-            if file.isDirectory
-            tfile = t / name
-            if !tfile.exists
-          } tfile.mkdirs()
-          for {
-            LinuxPackageMapping(files, perms, zipped) <- mappings
-            (file, name) <- files
-            if !file.isDirectory && file.exists
-            tfile = t / name
-          } copyAndFixPerms(file, tfile, perms, zipped)
 
+          // Create files and directories
+          mappings foreach {
+            case LinuxPackageMapping(paths, perms, zipped) =>
+              val (dirs, files) = paths.partition(_._1.isDirectory)
+              dirs map {
+                case (_, name) => t / name
+              } foreach { targetDir =>
+                targetDir mkdirs ()
+                chmod(targetDir, perms.permissions)
+              }
+
+              files map {
+                case (file, name) => (file, t / name)
+              } foreach {
+                case (source, target) => copyAndFixPerms(source, target, perms, zipped)
+              }
+          }
           // Now generate relative symlinks
           LinuxSymlink.makeSymLinks(symlinks, t, false)
 
-          // TODO: Fix this ugly hack to permission directories correctly!
-          for {
-            file <- (t.***).get
-            if file.isDirectory
-            if file.getCanonicalPath == file.getAbsolutePath // Ignore symlinks.
-          } chmod(file, "0755")
           // Put the maintainer files in `dir / "DEBIAN"` named as specified.
           // Valid values for the name are preinst,postinst,prerm,postrm
           for ((file, name) <- maintScripts) {
