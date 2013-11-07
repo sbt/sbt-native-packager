@@ -1,6 +1,6 @@
 @REM @@APP_NAME@@ launcher script
 @REM
-@REM Envioronment:
+@REM Environment:
 @REM JAVA_HOME - location of a JDK home dir (optional if java on path)
 @REM CFG_OPTS  - JVM options (optional)
 @REM Configuration:
@@ -45,22 +45,9 @@ for /F %%j in ('"%_JAVACMD%" -version  2^>^&1') do (
   if %%~j==Java set JAVAINSTALLED=1
 )
 
-rem Detect the same thing about javac
-if "%_JAVACCMD%"=="" (
-  if not "%JAVA_HOME%"=="" (
-    if exist "%JAVA_HOME%\bin\javac.exe" set "_JAVACCMD=%JAVA_HOME%\bin\javac.exe"
-  )
-)
-if "%_JAVACCMD%"=="" set _JAVACCMD=javac
-for /F %%j in ('"%_JAVACCMD%" -version 2^>^&1') do (
-  if %%~j==javac set JAVACINSTALLED=1
-)
-
 rem BAT has no logical or, so we do it OLD SCHOOL! Oppan Redmond Style
 set JAVAOK=true
 if not defined JAVAINSTALLED set JAVAOK=false
-rem TODO - JAVAC is an optional requirement.
-if not defined JAVACINSTALLED set JAVAOK=false
 
 if "%JAVAOK%"=="false" (
   echo.
