@@ -37,6 +37,8 @@ Here's what to add to your `build.sbt`:
 
 If you'd like to add additional files to the installation dir, simply add them to the universal mappings:
 
+    import com.typesafe.sbt.SbtNativePackager.Universal
+    
     mappings in Universal += {
       file("my/local/conffile") -> "conf/my.conf"
     }
