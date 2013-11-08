@@ -3,6 +3,15 @@
 This is a work in process project.  The goal is to be able to bundle up Scala software built with SBT for native packaging systems, like deb, rpm, homebrew, msi.
 
 
+## Issues/Discussions
+
+*  **Discussion/Questions**:
+  If you wish to ask questions about the native packager, we're very active on [Stack Overflow](http://stackoverflow.com/questions/tagged/sbt).  You can either use the `sbt` tag or the `sbt-native-packager` tag.  They also have far better search support for working around issues.
+* **Docs**:
+   Our docs are [available online](http://scala-sbt.org/sbt-native-packager).  If you'd like to help improve the docs, they're part of this repository in the `src/sphinx` directory.
+* **Issues/Feature Requests**:
+  Finally, any bugs or features you find you need, please report to our [issue tracker](https://github.com/sbt/sbt-native-packager/issues/new).
+
 ## Installation ##
 
 Add the following to your `project/plugins.sbt` file:
