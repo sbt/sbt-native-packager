@@ -56,14 +56,18 @@ The above adds a configuration file from the local project at `my/local/conffile
 at `conf/my.conf`.
 
 
-### Java Server Application  ###
+### Java Server Application (Experimental)  ###
 
 If you are packaging a server, the configuration will be similar to a vanilla Java Application, except that the native
 packager will include service hooks inside the MSI, DEB and RPM.   For DEB, these hooks will use upstart.  For RPM,
 they will use init.d and for MSIs, there will be windows service hooks.
 
-Right now there is no active release with Java Server hooks, but the next release of native packager will include
-upstart hooks for DEB packages.
+*Right now there is no active release with complete Java Server hooks. You should be able to start experimenting with Java server hooks using debian packaging and the upstart system.*
+
+Here's what to add to your `build.sbt`:
+
+    packageArchetype.java_server
+
 
 ### By-hand packaging ###
 
