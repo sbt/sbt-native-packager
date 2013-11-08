@@ -28,7 +28,7 @@ object JavaAppPackaging {
     // We need to figure out why sometimes the Attributed[File] is corrrectly configured
     // and sometimes not.
     scriptClasspathOrdering <+= (Keys.packageBin in Compile, Keys.projectID, Keys.artifact in Compile in Keys.packageBin) map { (jar, id, art) =>
-      jar -> ("lib/" + makeJarName(id.organization, id.name, id.revision, art.name))
+      jar -> ("lib/" + makeJarName(id.organization, id.name, id.revision, art.name, art.classifier))
     },
     projectDependencyArtifacts <<= findProjectDependencyArtifacts,
     scriptClasspathOrdering <++= (Keys.dependencyClasspath in Runtime, projectDependencyArtifacts) map universalDepMappings,
@@ -94,11 +94,13 @@ object JavaAppPackaging {
     }
 
   // Constructs a jar name from components...(ModuleID/Artifact)
-  def makeJarName(org: String, name: String, revision: String, artifactName: String): String =
+  def makeJarName(org: String, name: String, revision: String, artifactName: String, artifactClassifier: Option[String]): String =
     (org + "." +
       name + "-" +
       Option(artifactName.replace(name, "")).filterNot(_.isEmpty).map(_ + "-").getOrElse("") +
-      revision + ".jar")
+      revision +
+      artifactClassifier.filterNot(_.isEmpty).map("-" + _).getOrElse("") +
+      ".jar")
 
   // Determines a nicer filename for an attributed jar file, using the 
   // ivy metadata if available.
@@ -106,7 +108,7 @@ object JavaAppPackaging {
     val filename: Option[String] = for {
       module <- dep.metadata.get(AttributeKey[ModuleID]("module-id"))
       artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
-    } yield makeJarName(module.organization, module.name, module.revision, artifact.name)
+    } yield makeJarName(module.organization, module.name, module.revision, artifact.name, artifact.classifier)
     filename.getOrElse(dep.data.getName)
   }
 
