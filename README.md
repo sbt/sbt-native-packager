@@ -17,7 +17,7 @@ This is a work in process project.  The goal is to be able to bundle up Scala so
 Add the following to your `project/plugins.sbt` file:
     
 
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.6.3")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.6.4")
 
 
 Then, in the project you wish to use the plugin, You need to select what kind of project you are packaging:
