@@ -34,7 +34,7 @@ trait LinuxPlugin extends Plugin {
    * @param dir - use some directory, e.g. target.value
    * @param files
    */
-  def packageTemplateMapping(dir: File, files: String*) = LinuxPackageMapping(files map ((dir, _)))
+  def packageTemplateMapping(files: String*)(dir: File = new File(sys.props("java.io.tmpdir"))) = LinuxPackageMapping(files map ((dir, _)))
 
   // TODO - we'd like a set of conventions to take universal mappings and create linux package mappings.
 
