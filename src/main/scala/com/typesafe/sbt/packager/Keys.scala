@@ -12,7 +12,7 @@ object Keys extends linux.Keys
   // TODO - Do these keys belong here?
   def normalizedName = sbt.Keys.normalizedName
 
-  // These keys are used by the JavaApp archetype.
+  // These keys are used by the JavaApp/JavaServer archetypes.
   val makeBashScript = TaskKey[Option[File]]("makeBashScript", "Creates or discovers the bash script used by this project.")
   val bashScriptDefines = TaskKey[Seq[String]]("bashScriptDefines", "A list of definitions that should be written to the bash file template.")
   val bashScriptExtraDefines = TaskKey[Seq[String]]("bashScriptExtraDefines", "A list of extra definitions that should be written to the bash file template.")
@@ -28,4 +28,5 @@ object Keys extends linux.Keys
          |  APP_NAME - the name of the app
          |  APP_DEFINES - the defines to go into the app
          |  """.stripMargin)
+  val defaultLinuxInstallLocation = SettingKey[String]("defaultLinuxInstallLocation", "The location where we will install generic linux packages.")
 }

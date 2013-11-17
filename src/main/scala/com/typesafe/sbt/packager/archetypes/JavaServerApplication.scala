@@ -27,9 +27,9 @@ object JavaServerAppPackaging {
 
   def debianUpstartSettings: Seq[Setting[_]] =
     Seq(
-      debianUpstartScriptReplacements <<= (maintainer in Debian, packageSummary in Debian, normalizedName, sbt.Keys.version) map { (author, descr, name, version) =>
+      debianUpstartScriptReplacements <<= (maintainer in Debian, packageSummary in Debian, normalizedName, sbt.Keys.version, defaultLinuxInstallLocation) map { (author, descr, name, version, installLocation) =>
         // TODO name-version is copied from UniversalPlugin. This should be consolidated into a setting (install location...)
-        val chdir = GenericPackageSettings.installLocation + "/" + name + "/bin"
+        val chdir = installLocation + "/" + name + "/bin"
         JavaAppUpstartScript.makeReplacements(author = author, descr = descr, execScript = name, chdir = chdir)
       },
       debianMakeUpstartScript <<= (debianUpstartScriptReplacements, normalizedName, target in Universal) map makeDebianUpstartScript,
