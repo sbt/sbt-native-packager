@@ -102,6 +102,6 @@ object RpmHelper {
     }
   }
   
-  def evalMacro(macro: String): String = 
-    Process(Seq("rpm", "--eval", '%' + macro)) !!
+  def evalMacro(mcro: String): String = 
+    Process(Seq("rpm", "--eval", '%' + mcro)).!!
 }

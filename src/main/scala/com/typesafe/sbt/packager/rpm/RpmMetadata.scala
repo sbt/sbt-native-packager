@@ -25,7 +25,6 @@ case class RpmMetadata(
 case class RpmDescription(
     license: Option[String] = None,
     distribution: Option[String] = None,
-    //vendor: Option[String] = None,
     url: Option[String] = None,
     group: Option[String] = None,
     packager: Option[String] = None,
@@ -74,6 +73,34 @@ case class RpmSpec(meta: RpmMetadata,
     scriptlets: RpmScripts = RpmScripts(),
     mappings: Seq[LinuxPackageMapping] = Seq.empty,
     symlinks: Seq[LinuxSymlink] = Seq.empty) {
+
+
+  // TODO - here we want to validate that all the data we have is ok to place
+  // in the RPM.  e.g. the Description/vendor etc. must meet specific requirements.
+  // For now we just check existence.
+  def validate(log: Logger): Unit = {
+    def ensureOr[T](value: T, msg: String, validator: T => Boolean): Boolean = {
+      if(validator(value)) true
+      else {
+        log.error(msg)
+        false
+      }
+    }
+    def isNonEmpty(s: String): Boolean = !s.isEmpty
+    val emptyValidators =
+       Seq(
+         ensureOr(meta.name, "`name in Rpm` is empty.  Please provide one.", isNonEmpty),
+         ensureOr(meta.version, "`version in Rpm` is empty.  Please provide a vaid version for the rpm SPEC.", isNonEmpty),
+         ensureOr(meta.release, "`rpmRelease in Rpm` is empty.  Please provide a valid release number for the rpm SPEC.", isNonEmpty),
+         ensureOr(meta.arch, "`packageArchitecture in Rpm` is empty.  Please provide a valid archiecture for the rpm SPEC.", isNonEmpty),
+         ensureOr(meta.vendor, "`rpmVendor in Rpm` is empty.  Please provide a valid vendor for the rpm SPEC.", isNonEmpty),
+         ensureOr(meta.os, "`rpmOs in Rpm` is empty.  Please provide a valid os vaue for the rpm SPEC.", isNonEmpty),
+         ensureOr(meta.summary, "`packageSummary in Rpm` is empty.  Please provide a valid summary for the rpm SPEC.", isNonEmpty),
+         ensureOr(meta.description, "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty)
+       )
+    // TODO - Continue validating after this point?
+    if(!emptyValidators.forall(identity)) sys.error("There are issues with the rpm spec data.")
+  }
 
   private[this]  def fixFilename(n: String): String = {
     val tmp = 

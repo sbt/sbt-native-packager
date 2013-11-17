@@ -50,6 +50,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmSpecConfig <<=
       (rpmMetadata, rpmDescription, rpmDependencies, rpmScripts, linuxPackageMappings, linuxPackageSymlinks) map RpmSpec,
     packageBin <<= (rpmSpecConfig, target, streams) map { (spec, dir, s) =>
+        spec.validate(s.log)
         RpmHelper.buildRpm(spec, dir, s.log)
     },
     rpmLint <<= (packageBin, streams) map { (rpm, s) =>
