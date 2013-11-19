@@ -10,7 +10,7 @@ object JavaAppBatScript {
     name.toUpperCase.replaceAll("\\W", "_")   
   
   def makeWindowsRelativeClasspathDefine(cp: Seq[String]): String = {
-    def cleanPath(path: String): String = path.replaceAll("/", "\\")
+    def cleanPath(path: String): String = path.replaceAll("/", "\\\\")
     def makeRelativePath(path: String): String =
       "%APP_LIB_DIR%\\" + cleanPath(path)
     "set \"APP_CLASSPATH=" + (cp map makeRelativePath mkString ";") + "\""
