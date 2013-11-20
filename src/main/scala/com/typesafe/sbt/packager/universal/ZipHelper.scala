@@ -40,6 +40,9 @@ object ZipHelper {
     }
   
   /** Creates a zip file attempting to give files the appropriate unix permissions using Java 6 APIs.
+   * Note: This is known to have some odd issues on MacOSX whereby executable permissions
+   * are not actually discovered, even though the Info-Zip headers exist and work on
+   * many variants of linux.  Yay Apple.
    * @param sources   The files to include in the zip file.
    * @param outputZip The location of the output file.
    */

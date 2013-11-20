@@ -127,6 +127,11 @@ object WixHelper {
               </Component>
             </DirectoryRef>
             ComponentInfo(id, xml)
+      // TODO - To have shortcuts, you MUST put something in the registry.  Here,
+      // We should have shortcuts actually provide us with what they want in the registry,
+      // rather than forcing it to be something.
+      // Also, we need some mechanism to ensure the start menu folder is removed in the event
+      // that we remove all menu items.
       case AddShortCuts(targets, workingDir) =>
         val id = cleanStringForId("shortcut_" + makeGUID).takeRight(67)  // Room for "_SC"
         val xml =

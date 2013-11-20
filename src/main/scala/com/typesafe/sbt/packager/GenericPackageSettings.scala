@@ -7,16 +7,12 @@ import sbt.Keys.{name, mappings, sourceDirectory}
 import linux.LinuxSymlink
 import linux.LinuxPackageMapping
 
-object GenericPackageSettings {
-  val installLocation = "/usr/share"
-}
 trait GenericPackageSettings 
     extends linux.LinuxPlugin 
     with debian.DebianPlugin 
     with rpm.RpmPlugin
     with windows.WindowsPlugin
     with universal.UniversalPlugin {
-  import GenericPackageSettings._
   
   // This method wires a lot of hand-coded generalities about how to map directories
   // into linux, and the conventions we expect.
@@ -33,6 +29,8 @@ trait GenericPackageSettings
    * `<universal>/conf` directory is given a symlink to `/etc/<package-name>`
    * Files in `conf/` or `etc/` directories are automatically marked as configuration.
    * `../man/...1` files are automatically compressed into .gz files.
+   *
+   * TODO - We need to figure out how to handle ownership here.
    */
   def mapGenericMappingsToLinux(mappings: Seq[(File, String)])(rename: String => String): Seq[LinuxPackageMapping] = {
     val (directories, nondirectories) = mappings.partition(_._1.isDirectory)
@@ -62,12 +60,16 @@ trait GenericPackageSettings
   }
   
   def mapGenericFilesToLinux: Seq[Setting[_]] = Seq(
+
+    // Default place to install code.
+    defaultLinuxInstallLocation := "/usr/share",
+
     // First we look at the src/linux files
     linuxPackageMappings <++= (sourceDirectory in Linux) map { dir =>
       mapGenericMappingsToLinux((dir.*** --- dir) x relativeTo(dir))(identity)
     },
     // Now we look at the src/universal files.
-    linuxPackageMappings <++= (normalizedName in Universal, mappings in Universal) map { (pkg, mappings) =>
+    linuxPackageMappings <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation) map { (pkg, mappings, installLocation) =>
       // TODO - More windows filters...
       def isWindowsFile(f: (File, String)): Boolean =
         f._2 endsWith ".bat"
@@ -77,7 +79,7 @@ trait GenericPackageSettings
       }
     },
     // Now we generate symlinks.
-    linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal) map { (pkg, mappings) =>
+    linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation) map { (pkg, mappings, installLocation) =>
         for {
           (file, name) <- mappings
           if !file.isDirectory
@@ -86,7 +88,7 @@ trait GenericPackageSettings
         } yield LinuxSymlink("/usr/" + name, installLocation+"/"+pkg+"/"+name)
     },
     // Map configuration files
-    linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal) map { (pkg, mappings) =>
+    linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation) map { (pkg, mappings, installLocation) =>
       val needsConfLink =
         mappings exists { case (file, name) =>
           (name startsWith "conf/") && !file.isDirectory

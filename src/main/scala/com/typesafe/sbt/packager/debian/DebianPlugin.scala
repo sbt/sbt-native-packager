@@ -111,16 +111,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           chmod(cfile, "0644")
           cfile
       },
-      /*debianLinksfile <<= (name, linuxPackageSymlinks, target) map { (name, symlinks, dir) =>
-      val lfile = dir / "DEBIAN" / (name + ".links")
-      val content =
-        for {
-          LinuxSymlink(link, destination) <- symlinks
-        } yield link + "   " + destination
-      IO.writeLines(lfile, content)
-      chmod(lfile, "0644")
-      lfile
-    },*/
       debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianControlScriptsReplacements, linuxPackageSymlinks, target)
         map { (mappings, _, maintScripts, _, replacements, symlinks, t) =>
 
@@ -162,7 +152,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
             if file.isFile
             if !(name startsWith "DEBIAN")
             if !(name contains "debian-binary")
-            // TODO - detect symlinks...
+            // TODO - detect symlinks with Java7 (when we can) rather than hackery...
             if file.getCanonicalPath == file.getAbsolutePath
             fixedName = if (name startsWith "/") name drop 1 else name
           } yield Hashing.md5Sum(file) + "  " + fixedName
