@@ -57,6 +57,20 @@ trait DebianKeys {
          |  retries - on fail, how often should a restart be tried
          |  retryTimeout - pause between retries
       """.stripMargin)
+
+  // Debian sysVinit scripts
+  val debianMakeSysVinitScript = TaskKey[Option[File]]("makeSysVinitScript", "Creates or discovers the sysVinit script used by this project")
+  val debianSysVinitScriptReplacements = TaskKey[Seq[(String, String)]]("sysVinitScriptReplacements",
+    """|Replacements of template parameters used in the sysVinit script.
+      |  Default supported templates:
+      |  execScript - name of the script in /usr/bin
+      |  daemonUser - daemon user
+      |  author - author of this project
+      |  descr - short description
+      |  retries - on fail, how often should a restart be tried
+      |  retryTimeout - pause between retries
+    """.stripMargin)
+
 }
 
 /** Keys used for Debian specific settings. */

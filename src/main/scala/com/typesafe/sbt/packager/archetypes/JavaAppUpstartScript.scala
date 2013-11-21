@@ -6,12 +6,10 @@ package com.typesafe.sbt.packager.archetypes
  * Makes use of the associated upstart-template, with a few hooks
  *
  */
-object JavaAppUpstartScript {
+object JavaAppUpstartScript extends JavaAppScript {
 
-  private[this] def upstartTemplateSource: java.net.URL = getClass.getResource("upstart-template")
+  protected def templateSource: java.net.URL = getClass.getResource("upstart-template")
 
-  private[this] def postinstTemplateSource: java.net.URL = getClass.getResource("postinst-template")
-  private[this] def preremTemplateSource: java.net.URL = getClass.getResource("prerem-template")
   /**
    *
    * @param author -
@@ -36,8 +34,48 @@ object JavaAppUpstartScript {
     "retries" -> retries.toString,
     "retryTimeout" -> retryTimeout.toString)
 
+}
+
+object JavaAppSysVinitScript extends JavaAppScript {
+  protected def templateSource: java.net.URL = getClass.getResource("sysvinit-template")
+
+
+  /**
+   *
+   * @param author -
+   * @param description - short description
+   * @return Seq of key,replacement pairs
+   */
+  def makeReplacements(
+    author: String,
+    description: String,
+    appDir: String,
+    appName: String,
+    appMainClass: String,
+    appClasspath: String
+
+    ): Seq[(String, String)] =
+    Seq(
+      "author" -> author,
+      "descr" -> description,
+      "app_name" -> appName,
+      "app_dir" -> appDir,
+      "app_main_class" -> appMainClass,
+      "app_classpath" -> appClasspath
+    )
+}
+
+
+trait JavaAppScript {
+
+  protected def templateSource: java.net.URL
+
+  protected def postinstTemplateSource: java.net.URL = getClass.getResource("postinst-template")
+  protected def preremTemplateSource: java.net.URL = getClass.getResource("prerem-template")
+
+
   def generateScript(replacements: Seq[(String, String)]): String =
-    TemplateWriter.generateScript(upstartTemplateSource, replacements)
+    TemplateWriter.generateScript(templateSource, replacements)
 
   def generatePrerm(appName: String): String =
     TemplateWriter.generateScript(preremTemplateSource, Seq("app_name" -> appName))
