@@ -1,0 +1,6 @@
+# Adding ${{group}} as system group
+if ! getent group ${{group}} > /dev/null 2>&1
+then
+    echo "Creating system group: ${{group}}"
+	addgroup --system ${{group}}
+fi
