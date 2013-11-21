@@ -89,6 +89,7 @@ object ZipHelper {
       IO createDirectory outputDir
       withZipOutput(outputFile) { output =>
         for(FileMapping(file, name, mode) <- sources; if !file.isDirectory) {
+          if(!file.exists) sys.error("Specified input file " + file + " does not exist")
           val entry = new ZipArchiveEntry(file, normalizePath(name))
           // Now check to see if we have permissions for this sucker.
           mode foreach (entry.setUnixMode)
