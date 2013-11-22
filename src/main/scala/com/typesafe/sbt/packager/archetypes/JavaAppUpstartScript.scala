@@ -13,7 +13,7 @@ object JavaAppUpstartScript extends JavaAppScript {
   /**
    *
    * @param author -
-   * @param description - short description
+   * @param descr - short description
    * @param execScript - name of the script in /usr/bin
    * @param chdir - execution path of the script
    * @param retries - on fail, how often should a restart be tried
@@ -52,7 +52,8 @@ object JavaAppSysVinitScript extends JavaAppScript {
     appDir: String,
     appName: String,
     appMainClass: String,
-    appClasspath: String
+    appClasspath: String,
+    daemonUser: String
 
     ): Seq[(String, String)] =
     Seq(
@@ -61,7 +62,8 @@ object JavaAppSysVinitScript extends JavaAppScript {
       "app_name" -> appName,
       "app_dir" -> appDir,
       "app_main_class" -> appMainClass,
-      "app_classpath" -> appClasspath
+      "app_classpath" -> appClasspath,
+      "daemon_user" -> daemonUser
     )
 }
 

@@ -10,11 +10,11 @@
 ### END INIT INFO
 
 PIDFILE=/var/run/${{app_name}}.pid
+DAEMON_USER=${{daemon_user}}
 
 . /lib/init/vars.sh
 . /lib/lsb/init-functions
 
-#TODO: fix this
 get_java_cmd() {
   if [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
     echo "$JAVA_HOME/bin/java"
@@ -31,12 +31,12 @@ case "$1" in
 
 start)  log_daemon_msg "Starting ${{app_name}}"
 
-        start-stop-daemon --background --start --make-pidfile --pidfile $PIDFILE --exec $RUN_CMD
+        start-stop-daemon --background --start --chuid $DAEMON_USER --make-pidfile --pidfile $PIDFILE --exec $RUN_CMD
 
 	;;
 stop)   log_daemon_msg "Stopping ${{app_name}}"
 
-	start-stop-daemon --stop --pidfile $PIDFILE --chuid $DAEMONUSER
+	start-stop-daemon --stop --pidfile $PIDFILE --chuid $DAEMON_USER
 
         RETVAL=$?
         [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE

@@ -91,5 +91,8 @@ object Keys extends DebianKeys {
   def target = sbt.Keys.target
   def streams = sbt.Keys.streams
 
+  //init script parameters
+  def daemonUser = linux.Keys.daemonUser
+
   val debianPackageInstallSize = TaskKey[Long]("debian-installed-size")
 }

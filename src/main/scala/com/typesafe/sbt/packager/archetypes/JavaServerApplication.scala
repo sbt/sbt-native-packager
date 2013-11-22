@@ -43,7 +43,7 @@ object JavaServerAppPackaging extends JavaServerAppPackaging {
       debianMakePostinstScript <<= (normalizedName, target in Universal) map makeDebianPostinstScript)
 
 
-  protected final def makeDebianUpstartScript(replacements: Seq[(String, String)], name: String, tmpDir: File): Option[File] =
+  private def makeDebianUpstartScript(replacements: Seq[(String, String)], name: String, tmpDir: File): Option[File] =
     if (replacements.isEmpty) None
     else {
       val scriptBits = JavaAppUpstartScript.generateScript(replacements)
@@ -61,9 +61,9 @@ object JavaServerAppSysVinitPackaging extends JavaServerAppPackaging {
 
   def debianSysVinitSettings: Seq[Setting[_]] = {
     Seq(
-      debianSysVinitScriptReplacements <<= (maintainer in Debian, packageSummary in Debian,
+      debianSysVinitScriptReplacements <<= (maintainer in Debian, packageSummary in Debian, daemonUser in Debian,
         normalizedName, name, sbt.Keys.version, defaultLinuxInstallLocation, sbt.Keys.mainClass in Compile, scriptClasspath)
-          map { (author, descr, normalizedName, name, version, installLocation, mainClass, cp) =>
+          map { (author, descr, daemonUser, normalizedName, name, version, installLocation, mainClass, cp) =>
       // TODO name-version is copied from UniversalPlugin. This should be consolidated into a setting (install location...)
         val appDir = installLocation + "/" + normalizedName
         val appClasspath = cp.map(appDir + "/lib/" + _).mkString(":")
@@ -73,7 +73,8 @@ object JavaServerAppSysVinitPackaging extends JavaServerAppPackaging {
           appDir = appDir,
           appName = name,
           appClasspath = appClasspath,
-          appMainClass = mainClass.getOrElse("") //TODO: is it possible
+          appMainClass = mainClass.get,
+          daemonUser = daemonUser
         )
       },
       debianMakeSysVinitScript <<= (debianSysVinitScriptReplacements, normalizedName, target in Universal) map makeDebianSysVinitScript,
@@ -88,7 +89,7 @@ object JavaServerAppSysVinitPackaging extends JavaServerAppPackaging {
   }
 
 
-  protected final def makeDebianSysVinitScript(replacements: Seq[(String, String)], name: String, tmpDir: File): Option[File] =
+  private def makeDebianSysVinitScript(replacements: Seq[(String, String)], name: String, tmpDir: File): Option[File] =
     if (replacements.isEmpty) None
     else {
       val scriptBits = JavaAppSysVinitScript.generateScript(replacements)
