@@ -46,8 +46,6 @@ object SbtNativePackager extends Plugin
       genericMappingSettings ++ archetypes.JavaAppPackaging.settings
     def java_server: Seq[Setting[_]] =
       genericMappingSettings ++ archetypes.JavaServerAppPackaging.settings
-    def java_server_sysvinit: Seq[Setting[_]] =
-      genericMappingSettings ++ archetypes.JavaServerAppSysVinitPackaging.settings
   }
                            
   // TODO - Add a few targets that detect the current OS and build a package for that OS.
