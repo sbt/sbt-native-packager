@@ -69,9 +69,14 @@ trait UniversalPlugin extends Plugin {
   /** Creates packaging settings for a given package key, configuration + archive type. */
   private[this] def makePackageSettings(packageKey: TaskKey[File], config: Configuration)(packager: Packager): Seq[Setting[_]] =
     inConfig(config)(Seq(
-      mappings in packageKey <<= mappings,
+      mappings in packageKey <<= mappings map checkMappings,
       packageKey <<= (target, name, mappings in packageKey) map packager
     ))
+
+  /** check that all mapped files actually exist */
+  private[this] def checkMappings(mappings: Seq[(File,String)]) : Seq[(File,String)] = {
+    mappings collect { case (f, p) => if(f.exists) (f, p) else sys.error("Mapped file " + f + " does not exist.") }
+  }
     
   /** Finds all sources in a source directory. */
   private[this] def findSources(sourceDir: File): Seq[(File, String)] =
