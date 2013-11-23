@@ -1,6 +1,13 @@
 import NativePackagerKeys._
+import com.typesafe.sbt.packager.archetypes.ServerLoader
 
-packageArchetype.java_server_sysvinit
+packageArchetype.java_server
+
+serverLoading in Debian := ServerLoader.SystemV
+
+daemonUser in Debian := "root"
+
+mainClass in Compile := Some("empty")
 
 name := "debian-test"
 
