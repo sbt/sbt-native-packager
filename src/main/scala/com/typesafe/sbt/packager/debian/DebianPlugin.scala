@@ -111,8 +111,8 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           chmod(cfile, "0644")
           cfile
       },
-      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianControlScriptsReplacements, linuxPackageSymlinks, target)
-        map { (mappings, _, maintScripts, _, replacements, symlinks, t) =>
+      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianControlScriptsReplacements, linuxPackageSymlinks, target, streams)
+        map { (mappings, _, maintScripts, _, replacements, symlinks, t, streams) =>
 
           // Create files and directories
           mappings foreach {
@@ -142,6 +142,32 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
             filterAndFixPerms(targetFile, replacements, LinuxFileMetaData())
           }
 
+          // Check for non root user/group and append to postinst / postrm
+          // filter all root mappings, map to (user,group) key, group by, append everything
+          mappings filter {
+            case LinuxPackageMapping(_, LinuxFileMetaData("root", "root", _, _, _), _) => false
+            case _ => true
+          } map {
+            case LinuxPackageMapping(paths, LinuxFileMetaData(user, group, _, _, _), _) => (user, group) -> paths
+          } groupBy (_._1) foreach {
+            case ((user, group), pathList) =>
+              streams.log info ("Altering postrm/postinst files to add user " + user + " and group " + group)
+              val postinst = t / "DEBIAN" / "postinst"
+              val postrm = t / "DEBIAN" / "postrm"
+
+              val replacements = Seq("group" -> group, "user" -> user)
+              IO.append(postinst, TemplateWriter.generateScript(DebianPlugin.postinstGroupaddTemplateSource, replacements))
+              IO.append(postinst, TemplateWriter.generateScript(DebianPlugin.postinstUseraddTemplateSource, replacements))
+
+              // remove key, flatten it and then go through each file
+              pathList.map(_._2).flatten foreach {
+                case (_, target) =>
+                  val pathReplacements = replacements :+ ("path" -> target.toString)
+                  IO.append(postinst, TemplateWriter.generateScript(DebianPlugin.postinstChownTemplateSource, pathReplacements))
+              }
+
+              IO.append(postrm, TemplateWriter.generateScript(DebianPlugin.postrmPurgeTemplateSource, replacements))
+          }
           t
         },
       debianMD5sumsFile <<= (debianExplodedPackage, target) map {
@@ -179,4 +205,11 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
         Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
       }))
 
+}
+
+object DebianPlugin {
+  private def postinstGroupaddTemplateSource: java.net.URL = getClass.getResource("postinst-groupadd")
+  private def postinstUseraddTemplateSource: java.net.URL = getClass.getResource("postinst-useradd")
+  private def postinstChownTemplateSource: java.net.URL = getClass.getResource("postinst-chown")
+  private def postrmPurgeTemplateSource: java.net.URL = getClass.getResource("postrm-purge")
 }

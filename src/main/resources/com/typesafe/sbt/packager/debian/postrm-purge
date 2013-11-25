@@ -1,0 +1,14 @@
+# Deleting user: ${{user}} and group: ${{group}}
+case "$1" in
+   remove|failed-upgrade|abort-upgrade|abort-install|disappear)
+   ;;
+   purge)
+        deluser --quiet --system ${{user}} > /dev/null || true
+        delgroup --quiet --system ${{group}} > /dev/null || true
+   ;;
+   upgrade)
+   ;;
+   *)
+      echo "postinst called with unknown argument \`\$1'" >&2
+   ;;
+esac
