@@ -70,8 +70,9 @@ object LinuxSymlink {
         val linkFinal = 
           if(relativeLinks) makeRelative(link.destination, link.link)
           else addFirstSlash(link.destination)
-        // TODO - if it already exists, delete it, or check accuracy...
-        if(!to.exists) Process(Seq("ln", "-s", linkFinal, name), linkDir).! match {
+        // from ln man page
+        // -f --force remove existing destination files
+        if(!to.exists) Process(Seq("ln", "-sf", linkFinal, name), linkDir).! match {
           case 0 => ()
           case n => sys.error("Failed to symlink " + link.destination + " to " + to)
         }
