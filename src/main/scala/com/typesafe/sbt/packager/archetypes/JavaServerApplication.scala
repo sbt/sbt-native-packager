@@ -20,48 +20,70 @@ import com.typesafe.sbt.packager.linux.LinuxPackageMapping
  *  **NOTE:  EXPERIMENTAL**   This currently only supports debian upstart scripts.
  */
 object JavaServerAppPackaging {
+  import ServerLoader._
 
-  def settings: Seq[Setting[_]] =
-    JavaAppPackaging.settings ++
-      debianUpstartSettings
+  def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ debianSettings
 
-  def debianUpstartSettings: Seq[Setting[_]] =
+  def debianSettings: Seq[Setting[_]] =
     Seq(
-      debianUpstartScriptReplacements <<= (maintainer in Debian, packageSummary in Debian, normalizedName, sbt.Keys.version, defaultLinuxInstallLocation) map { (author, descr, name, version, installLocation) =>
+      debianStartScriptReplacements <<= (
+        maintainer in Debian, packageSummary in Debian, serverLoading in Debian, daemonUser in Debian, normalizedName, sbt.Keys.version, defaultLinuxInstallLocation, sbt.Keys.mainClass in Compile, scriptClasspath)
+        map { (author, descr, loader, daemonUser, name, version, installLocation, mainClass, cp) =>
         // TODO name-version is copied from UniversalPlugin. This should be consolidated into a setting (install location...)
-        val chdir = installLocation + "/" + name + "/bin"
-        JavaAppUpstartScript.makeReplacements(author = author, descr = descr, execScript = name, chdir = chdir)
+        val appDir = installLocation + "/" + name
+        val chdir = appDir + "/bin"
+        val appClasspath = cp.map(appDir + "/lib/" + _).mkString(":")
+
+        JavaAppStartScript.makeReplacements(
+          author = author,
+          description = descr,
+          execScript = name,
+          chdir = chdir,
+          appName = name,
+          appClasspath = appClasspath,
+          appMainClass = mainClass.get,
+          daemonUser = daemonUser
+        )
       },
-      debianMakeUpstartScript <<= (debianUpstartScriptReplacements, normalizedName, target in Universal) map makeDebianUpstartScript,
-      linuxPackageMappings in Debian <++= (debianMakeUpstartScript, normalizedName) map { (script, name) =>
+      debianMakeStartScript <<= (debianStartScriptReplacements, normalizedName, target in Universal, serverLoading in Debian) map makeDebianStartScript,
+      linuxPackageMappings in Debian <++= (debianMakeStartScript, normalizedName, serverLoading in Debian) map { (script, name, loader) =>
+        val (path, permissions) = loader match {
+          case Upstart => ("/etc/init/" + name + ".conf", "0644")
+          case SystemV => ("/etc/init.d/" + name, "0755")
+        }
+
         for {
           s <- script.toSeq
-        } yield LinuxPackageMapping(Seq(s -> ("/etc/init/" + name + ".conf"))).withPerms("0644")
+        } yield LinuxPackageMapping(Seq(s -> path)).withPerms(permissions)
       },
       // TODO - only make these if the upstart config exists...
       debianMakePrermScript <<= (normalizedName, target in Universal) map makeDebianPrermScript,
       debianMakePostinstScript <<= (normalizedName, target in Universal) map makeDebianPostinstScript)
 
-  private[this] final def makeDebianPrermScript(name: String, tmpDir: File): Option[File] = {
-    val scriptBits = JavaAppUpstartScript.generatePrerm(name)
+
+  private def makeDebianStartScript(
+    replacements: Seq[(String, String)], name: String, tmpDir: File, loader: ServerLoader): Option[File] =
+    if (replacements.isEmpty) None
+    else {
+      val scriptBits = JavaAppStartScript.generateScript(replacements, loader)
+      val script = tmpDir / "tmp" / "bin" / name
+      IO.write(script, scriptBits)
+      Some(script)
+    }
+
+
+  protected def makeDebianPrermScript(name: String, tmpDir: File): Option[File] = {
+    val scriptBits = JavaAppStartScript.generatePrerm(name)
     val script = tmpDir / "tmp" / "bin" / "debian-prerm"
     IO.write(script, scriptBits)
     Some(script)
   }
 
-  private[this] final def makeDebianPostinstScript(name: String, tmpDir: File): Option[File] = {
-    val scriptBits = JavaAppUpstartScript.generatePostinst(name)
+
+  protected def makeDebianPostinstScript(name: String, tmpDir: File): Option[File] = {
+    val scriptBits = JavaAppStartScript.generatePostinst(name)
     val script = tmpDir / "tmp" / "bin" / "debian-postinst"
     IO.write(script, scriptBits)
     Some(script)
   }
-
-  private[this] final def makeDebianUpstartScript(replacements: Seq[(String, String)], name: String, tmpDir: File): Option[File] =
-    if (replacements.isEmpty) None
-    else {
-      val scriptBits = JavaAppUpstartScript.generateScript(replacements)
-      val script = tmpDir / "tmp" / "bin" / (name + ".conf")
-      IO.write(script, scriptBits)
-      Some(script)
-    }
 }

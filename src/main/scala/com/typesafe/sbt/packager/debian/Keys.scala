@@ -46,8 +46,8 @@ trait DebianKeys {
          |  version - app version
       """.stripMargin)
 
-  val debianMakeUpstartScript = TaskKey[Option[File]]("makeUpstartScript", "Creates or discovers the upstart script used by this project")
-  val debianUpstartScriptReplacements = TaskKey[Seq[(String, String)]]("upstartScriptReplacements",
+  val debianMakeStartScript = TaskKey[Option[File]]("makeStartScript", "Creates or discovers the start script used by this project")
+  val debianStartScriptReplacements = TaskKey[Seq[(String, String)]]("upstartScriptReplacements",
     """|Replacements of template parameters used in the upstart script.
          |  Default supported templates:
          |  execScript - name of the script in /usr/bin
@@ -56,8 +56,13 @@ trait DebianKeys {
          |  chdir - execution path of the script
          |  retries - on fail, how often should a restart be tried
          |  retryTimeout - pause between retries
+         |  appName - name of application
+         |  appClasspath - application classpath
+         |  appMainClass - main class to start
+         |  daemonUser - daemon user
       """.stripMargin)
 }
+
 
 /** Keys used for Debian specific settings. */
 object Keys extends DebianKeys {
@@ -76,6 +81,10 @@ object Keys extends DebianKeys {
   def packageBin = sbt.Keys.packageBin
   def target = sbt.Keys.target
   def streams = sbt.Keys.streams
+
+  //init script parameters
+  def daemonUser = linux.Keys.daemonUser
+  def serverLoading = linux.Keys.serverLoading
 
   val debianPackageInstallSize = TaskKey[Long]("debian-installed-size")
 }
