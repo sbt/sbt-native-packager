@@ -1,10 +1,10 @@
-#! /bin/sh
+#! /bin/bash
 
 ### BEGIN INIT INFO
 # Provides:	${{app_name}}
 # Required-Start: $syslog
 # Required-Stop: $syslog
-# Default-Start:	2 3 4 5
+# Default-Start: 2 3 4 5
 # Default-Stop:
 # Short-Description: ${{descr}}
 ### END INIT INFO
