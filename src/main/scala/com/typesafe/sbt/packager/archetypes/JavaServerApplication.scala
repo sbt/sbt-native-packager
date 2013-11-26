@@ -4,9 +4,7 @@ package archetypes
 
 import Keys._
 import sbt._
-import sbt.Project.Initialize
-import sbt.Keys.{ mappings, target, name, mainClass, normalizedName }
-import linux.LinuxPackageMapping
+import sbt.Keys.{ target, mainClass, normalizedName }
 import SbtNativePackager._
 import com.typesafe.sbt.packager.linux.LinuxPackageMapping
 
@@ -27,7 +25,8 @@ object JavaServerAppPackaging {
   def debianSettings: Seq[Setting[_]] =
     Seq(
       debianStartScriptReplacements <<= (
-        maintainer in Debian, packageSummary in Debian, serverLoading in Debian, daemonUser in Debian, normalizedName, sbt.Keys.version, defaultLinuxInstallLocation, sbt.Keys.mainClass in Compile, scriptClasspath)
+        maintainer in Debian, packageSummary in Debian, serverLoading in Debian, daemonUser in Debian, normalizedName,
+          sbt.Keys.version, defaultLinuxInstallLocation, mainClass in Compile, scriptClasspath)
         map { (author, descr, loader, daemonUser, name, version, installLocation, mainClass, cp) =>
         // TODO name-version is copied from UniversalPlugin. This should be consolidated into a setting (install location...)
         val appDir = installLocation + "/" + name
@@ -45,8 +44,10 @@ object JavaServerAppPackaging {
           daemonUser = daemonUser
         )
       },
-      debianMakeStartScript <<= (debianStartScriptReplacements, normalizedName, target in Universal, serverLoading in Debian) map makeDebianStartScript,
-      linuxPackageMappings in Debian <++= (debianMakeStartScript, normalizedName, serverLoading in Debian) map { (script, name, loader) =>
+      debianMakeStartScript <<= (debianStartScriptReplacements, normalizedName, target in Universal, serverLoading in Debian)
+        map makeDebianStartScript,
+      linuxPackageMappings in Debian <++= (debianMakeStartScript, normalizedName, serverLoading in Debian)
+        map { (script, name, loader) =>
         val (path, permissions) = loader match {
           case Upstart => ("/etc/init/" + name + ".conf", "0644")
           case SystemV => ("/etc/init.d/" + name, "0755")
@@ -66,7 +67,7 @@ object JavaServerAppPackaging {
     if (replacements.isEmpty) None
     else {
       val scriptBits = JavaAppStartScript.generateScript(replacements, loader)
-      val script = tmpDir / "tmp" / "bin" / name
+      val script = tmpDir / "tmp" / "bin" / s"$name.$loader"
       IO.write(script, scriptBits)
       Some(script)
     }
