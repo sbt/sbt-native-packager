@@ -9,15 +9,15 @@
 # Short-Description: ${{descr}}
 ### END INIT INFO
 
-. /etc/default/${{app_name}}
-. /lib/init/vars.sh
-. /lib/lsb/init-functions
+test -e /etc/default/${{app_name}} && source /etc/default/${{app_name}}
+source /lib/init/vars.sh
+source /lib/lsb/init-functions
 
 get_java_cmd() {
-  if [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+  if [ -x "$JAVA_HOME/bin/java" ]; then
     echo "$JAVA_HOME/bin/java"
   else
-    echo "java"
+    echo `which java`
   fi
 }
 
@@ -32,18 +32,18 @@ if [ -z "$JAVA_CMD" ]; then
 fi
 
 # smb could define some additional options in $RUN_OPTS
-RUN_CMD=$JAVA_CMD -cp ${{app_classpath}} ${{app_main_class}} $RUN_OPTS
+RUN_CMD="-cp ${{app_classpath}} ${{app_main_class}} $RUN_OPTS"
 
 
 start_daemon() {
     log_daemon_msg "Starting ${{app_name}}"
-    start-stop-daemon --background --start --chuid $DAEMON_USER --make-pidfile --pidfile $PIDFILE --exec $RUN_CMD
+    start-stop-daemon --background --start --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --exec "$JAVA_CMD" --start -- $RUN_CMD
 }
 
 
 stop_daemon() {
     log_daemon_msg "Stopping ${{app_name}}"
-	start-stop-daemon --stop --pidfile $PIDFILE --chuid $DAEMON_USER
+	start-stop-daemon --stop --pidfile "$PIDFILE" --user "$DAEMON_USER"
 
     RETVAL=$?
     [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
