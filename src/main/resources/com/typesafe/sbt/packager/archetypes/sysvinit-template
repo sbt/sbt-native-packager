@@ -9,7 +9,7 @@
 # Short-Description: ${{descr}}
 ### END INIT INFO
 
-. /etc/default/${{appName}}
+. /etc/default/${{app_name}}
 . /lib/init/vars.sh
 . /lib/lsb/init-functions
 
