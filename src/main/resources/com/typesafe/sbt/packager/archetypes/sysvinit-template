@@ -9,9 +9,7 @@
 # Short-Description: ${{descr}}
 ### END INIT INFO
 
-PIDFILE=/var/run/${{app_name}}.pid
-DAEMON_USER=${{daemon_user}}
-
+. /etc/default/${{appName}}
 . /lib/init/vars.sh
 . /lib/lsb/init-functions
 
@@ -23,27 +21,51 @@ get_java_cmd() {
   fi
 }
 
-JAVA_CMD=$(get_java_cmd)
+PIDFILE=/var/run/${{app_name}}.pid
 
-RUN_CMD=$JAVA_CMD -cp ${{app_classpath}} ${{app_main_class}}
+if [ -z "$DAEMON_USER" ]; then
+    DAEMON_USER=${{daemon_user}}
+fi
+
+if [ -z "$JAVA_CMD" ]; then
+    JAVA_CMD=$(get_java_cmd)
+fi
+
+# smb could define some additional options in $RUN_OPTS
+RUN_CMD=$JAVA_CMD -cp ${{app_classpath}} ${{app_main_class}} $RUN_OPTS
+
+
+start_daemon() {
+    log_daemon_msg "Starting ${{app_name}}"
+    start-stop-daemon --background --start --chuid $DAEMON_USER --make-pidfile --pidfile $PIDFILE --exec $RUN_CMD
+}
+
+
+stop_daemon() {
+    log_daemon_msg "Stopping ${{app_name}}"
+	start-stop-daemon --stop --pidfile $PIDFILE --chuid $DAEMON_USER
+
+    RETVAL=$?
+    [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
+    exit 2
+}
+
 
 case "$1" in
 
-start)  log_daemon_msg "Starting ${{app_name}}"
-
-        start-stop-daemon --background --start --chuid $DAEMON_USER --make-pidfile --pidfile $PIDFILE --exec $RUN_CMD
-
+start)
+    start_daemon
 	;;
-stop)   log_daemon_msg "Stopping ${{app_name}}"
-
-	start-stop-daemon --stop --pidfile $PIDFILE --chuid $DAEMON_USER
-
-        RETVAL=$?
-        [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
-        exit 2
+stop)
+    stop_daemon
 	;;
-*)      log_daemon_msg "Usage: /etc/init.d/${{app_name}} {start|stop}"
-        exit 2
-        ;;
+restart)
+    stop_daemon
+    start_daemon
+    ;;
+*)
+    log_daemon_msg "Usage: /etc/init.d/${{app_name}} {start|stop}"
+    exit 2
+    ;;
 esac
 exit 0
