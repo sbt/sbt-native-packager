@@ -61,6 +61,7 @@ trait DebianKeys {
          |  appMainClass - main class to start
          |  daemonUser - daemon user
       """.stripMargin)
+  val debianMakeEtcDefault = TaskKey[Option[File]]("makeEtcDefault", "Creates or discovers the /etc/default/ script")
 }
 
 

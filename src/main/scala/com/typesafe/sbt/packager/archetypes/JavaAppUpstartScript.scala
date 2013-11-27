@@ -10,8 +10,8 @@ object JavaAppStartScript {
 
   protected def upstartTemplateSource: java.net.URL = getClass.getResource("upstart-template")
   protected def sysvinitTemplateSource: java.net.URL = getClass.getResource("sysvinit-template")
-
   protected def postinstTemplateSource: java.net.URL = getClass.getResource("postinst-template")
+  protected def postinstSysvinitTemplateSource: java.net.URL = getClass.getResource("postinst-sysvinit-template")
   protected def preremTemplateSource: java.net.URL = getClass.getResource("prerem-template")
 
 
@@ -28,8 +28,13 @@ object JavaAppStartScript {
     TemplateWriter.generateScript(preremTemplateSource, Seq("app_name" -> appName))
 
 
-  def generatePostinst(appName: String): String =
-    TemplateWriter.generateScript(postinstTemplateSource, Seq("app_name" -> appName))
+  def generatePostinst(appName: String, loader: ServerLoader): String =
+    loader match {
+      case Upstart =>
+        TemplateWriter.generateScript(postinstTemplateSource, Seq("app_name" -> appName))
+      case SystemV =>
+        TemplateWriter.generateScript(postinstSysvinitTemplateSource, Seq("app_name" -> appName))
+    }
 
 
   /**
