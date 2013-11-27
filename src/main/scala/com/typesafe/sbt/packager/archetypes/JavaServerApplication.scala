@@ -6,7 +6,7 @@ import Keys._
 import sbt._
 import sbt.Keys.{ target, mainClass, normalizedName }
 import SbtNativePackager._
-import com.typesafe.sbt.packager.linux.LinuxPackageMapping
+import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping}
 
 /**
  * This class contains the default settings for creating and deploying an archetypical Java application.
@@ -50,7 +50,7 @@ object JavaServerAppPackaging {
       debianMakeEtcDefault <<= (normalizedName, target in Universal, serverLoading in Debian)
         map makeEtcDefaultScript,
       linuxPackageMappings in Debian <++= (debianMakeEtcDefault, normalizedName) map {(conf, name) =>
-        conf.map(c => LinuxPackageMapping(Seq(c -> s"/etc/default/$name"))).toSeq
+        conf.map(c => LinuxPackageMapping(Seq(c -> s"/etc/default/$name")).withConfig()).toSeq
       },
       linuxPackageMappings in Debian <++= (debianMakeStartScript, normalizedName, serverLoading in Debian)
         map { (script, name, loader) =>
@@ -72,7 +72,6 @@ object JavaServerAppPackaging {
     replacements: Seq[(String, String)], name: String, tmpDir: File, loader: ServerLoader): Option[File] =
     if (replacements.isEmpty) None
     else {
-      println(s"generating start script")
       val scriptBits = JavaAppStartScript.generateScript(replacements, loader)
       val script = tmpDir / "tmp" / "bin" / s"$name.$loader"
       IO.write(script, scriptBits)
@@ -96,7 +95,6 @@ object JavaServerAppPackaging {
   }
 
   protected def makeEtcDefaultScript(name: String, tmpDir: File, loader: ServerLoader): Option[File] = {
-    println(s"generating etc default")
     loader match {
       case Upstart => None
       case SystemV => {

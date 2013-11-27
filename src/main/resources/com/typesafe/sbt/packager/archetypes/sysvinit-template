@@ -37,7 +37,7 @@ RUN_CMD="-cp ${{app_classpath}} ${{app_main_class}} $RUN_OPTS"
 
 start_daemon() {
     log_daemon_msg "Starting ${{app_name}}"
-    start-stop-daemon --background --start --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --exec "$JAVA_CMD" --start -- "$RUN_CMD"
+    start-stop-daemon --background --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --exec "$JAVA_CMD" --start -- $RUN_CMD
 }
 
 
@@ -49,7 +49,6 @@ stop_daemon() {
     [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
     exit 2
 }
-
 
 case "$1" in
 
