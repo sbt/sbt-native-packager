@@ -301,7 +301,8 @@ declare -r app_home="$(realpath "$(dirname "$real_script_path")")"
 # TODO - Check whether this is ok in cygwin...
 declare -r lib_dir="$(realpath "${app_home}/../lib")"
 ${{template_declares}}
-declare -r java_cmd=$(get_java_cmd)
+# java_cmd is overrode in process_args when -java-home is used
+declare java_cmd=$(get_java_cmd)
 
 # Now check to see if it's a good enough version
 # TODO - Check to see if we have a configured default java version, otherwise use 1.6
