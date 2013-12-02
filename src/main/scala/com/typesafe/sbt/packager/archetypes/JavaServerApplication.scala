@@ -6,7 +6,7 @@ import Keys._
 import sbt._
 import sbt.Keys.{ target, mainClass, normalizedName }
 import SbtNativePackager._
-import com.typesafe.sbt.packager.linux.LinuxPackageMapping
+import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping}
 
 /**
  * This class contains the default settings for creating and deploying an archetypical Java application.
@@ -21,6 +21,7 @@ object JavaServerAppPackaging {
   import ServerLoader._
 
   def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ debianSettings
+  protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource("etc-default-template")
 
   def debianSettings: Seq[Setting[_]] =
     Seq(
@@ -46,6 +47,11 @@ object JavaServerAppPackaging {
       },
       debianMakeStartScript <<= (debianStartScriptReplacements, normalizedName, target in Universal, serverLoading in Debian)
         map makeDebianStartScript,
+      debianMakeEtcDefault <<= (normalizedName, target in Universal, serverLoading in Debian)
+        map makeEtcDefaultScript,
+      linuxPackageMappings in Debian <++= (debianMakeEtcDefault, normalizedName) map {(conf, name) =>
+        conf.map(c => LinuxPackageMapping(Seq(c -> s"/etc/default/$name")).withConfig()).toSeq
+      },
       linuxPackageMappings in Debian <++= (debianMakeStartScript, normalizedName, serverLoading in Debian)
         map { (script, name, loader) =>
         val (path, permissions) = loader match {
@@ -59,7 +65,7 @@ object JavaServerAppPackaging {
       },
       // TODO - only make these if the upstart config exists...
       debianMakePrermScript <<= (normalizedName, target in Universal) map makeDebianPrermScript,
-      debianMakePostinstScript <<= (normalizedName, target in Universal) map makeDebianPostinstScript)
+      debianMakePostinstScript <<= (normalizedName, target in Universal, serverLoading in Debian) map makeDebianPostinstScript)
 
 
   private def makeDebianStartScript(
@@ -81,10 +87,22 @@ object JavaServerAppPackaging {
   }
 
 
-  protected def makeDebianPostinstScript(name: String, tmpDir: File): Option[File] = {
-    val scriptBits = JavaAppStartScript.generatePostinst(name)
+  protected def makeDebianPostinstScript(name: String, tmpDir: File, loader: ServerLoader): Option[File] = {
+    val scriptBits = JavaAppStartScript.generatePostinst(name, loader)
     val script = tmpDir / "tmp" / "bin" / "debian-postinst"
     IO.write(script, scriptBits)
     Some(script)
+  }
+
+  protected def makeEtcDefaultScript(name: String, tmpDir: File, loader: ServerLoader): Option[File] = {
+    loader match {
+      case Upstart => None
+      case SystemV => {
+        val scriptBits = TemplateWriter.generateScript(etcDefaultTemplateSource, Seq.empty)
+        val script = tmpDir / "tmp" / "bin" / "etc-default"
+        IO.write(script, scriptBits)
+        Some(script)
+      }
+    }
   }
 }
