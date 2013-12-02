@@ -43,7 +43,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     (script, controlDir) match {
       // check if user defined script exists
       case (_, dir) if (dir / scriptName).exists =>
-        Seq(file(dir / scriptName getAbsolutePath) -> scriptName)
+        Seq(file((dir / scriptName).getAbsolutePath) -> scriptName)
       // create mappings for generated script
       case (scr, _) => scr.toSeq.map(_ -> scriptName)
     }
