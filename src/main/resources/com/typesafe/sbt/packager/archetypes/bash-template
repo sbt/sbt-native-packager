@@ -201,6 +201,8 @@ process_args () {
     -v|-verbose) verbose=1 && shift ;;
       -d|-debug) debug=1 && shift ;;
 
+    -no-version-check) no_version_check=1 && shift ;;
+
            -mem) require_arg integer "$1" "$2" && app_mem="$2" && shift 2 ;;
      -jvm-debug) require_arg port "$1" "$2" && addDebugger $2 && shift 2 ;;
 
@@ -235,6 +237,11 @@ run() {
     addJava "-Dsbt.cygwin=true"
   fi
   
+  # check java version
+  if [[ ! $no_version_check ]]; then
+    java_version_check
+  fi
+
   # Now we check to see if there are any java opts on the environemnt. These get listed first, with the script able to override them.
   if [[ "$JAVA_OPTS" != "" ]]; then
     java_opts="${JAVA_OPTS}"
@@ -262,6 +269,29 @@ loadConfigFile() {
   cat "$1" | sed '/^\#/d'
 }
 
+# Now check to see if it's a good enough version
+# TODO - Check to see if we have a configured default java version, otherwise use 1.6
+java_version_check() { 
+  declare -r java_version=$("$java_cmd" -version 2>&1 | awk -F '"' '/version/ {print $2}')
+  if [[ "$java_version" == "" ]]; then
+    echo
+    echo No java installations was detected.
+    echo Please go to http://www.java.com/getjava/ and download
+    echo
+    exit 1
+  elif [[ ! "$java_version" > "1.6" ]]; then
+    echo
+    echo The java installation you have is not up to date
+    echo $app_name requires at least version 1.6+, you have
+    echo version $java_version
+    echo
+    echo Please go to http://www.java.com/getjava/ and download
+    echo a valid Java Runtime and install before running $app_name.
+    echo
+    exit 1
+  fi
+}
+
 ###  ------------------------------- ###
 ###  Start of customized settings    ###
 ###  ------------------------------- ###
@@ -272,6 +302,7 @@ Usage: $script_name [options]
   -h | -help         print this message
   -v | -verbose      this runner is chattier
   -d | -debug        set sbt log level to debug
+  -no-version-check  Don't run the java version check.
   -mem    <integer>  set memory options (default: $sbt_mem, which is $(get_mem_opts $sbt_mem))
   -jvm-debug <port>  Turn on JVM debugging, open at the given port.
 
@@ -303,28 +334,6 @@ declare -r lib_dir="$(realpath "${app_home}/../lib")"
 ${{template_declares}}
 # java_cmd is overrode in process_args when -java-home is used
 declare java_cmd=$(get_java_cmd)
-
-# Now check to see if it's a good enough version
-# TODO - Check to see if we have a configured default java version, otherwise use 1.6
-declare -r java_version=$("$java_cmd" -version 2>&1 | awk -F '"' '/version/ {print $2}')
-if [[ "$java_version" == "" ]]; then
-  echo
-  echo No java installations was detected.
-  echo Please go to http://www.java.com/getjava/ and download
-  echo
-  exit 1
-elif [[ ! "$java_version" > "1.6" ]]; then
-  echo
-  echo The java installation you have is not up to date
-  echo $app_name requires at least version 1.6+, you have
-  echo version $java_version
-  echo
-  echo Please go to http://www.java.com/getjava/ and download
-  echo a valid Java Runtime and install before running $app_name.
-  echo
-  exit 1
-fi
-
 
 # if configuration files exist, prepend their contents to $@ so it can be processed by this runner
 [[ -f "$script_conf_file" ]] && set -- $(loadConfigFile "$script_conf_file") "$@"
