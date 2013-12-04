@@ -41,12 +41,14 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
 
   private[this] def scriptMapping(scriptName: String)(script: Option[File], controlDir: File): Seq[(File, String)] = {
     (script, controlDir) match {
-      case (Some(script), _) => Seq(script -> scriptName)
-      case (None, dir) =>
-        val script = dir / scriptName
-        if (script exists) Seq(file(script getAbsolutePath) -> scriptName) else Seq.empty
+      // check if user defined script exists
+      case (_, dir) if (dir / scriptName).exists =>
+        Seq(file((dir / scriptName).getAbsolutePath) -> scriptName)
+      // create mappings for generated script
+      case (scr, _) => scr.toSeq.map(_ -> scriptName)
     }
   }
+
 
   def debianSettings: Seq[Setting[_]] = Seq(
     debianPriority := "optional",
