@@ -88,13 +88,14 @@ If you use this configuration, you must fill out the `mappings in Universal`, `m
 
 Once you've configured your packaging how you like it, you can run the following commands:
 
-* `stage` - Creates the universal distribution under the `target/universal/stage` directory
-* `universal:packageZipTarball` - Create the universal `.tgz` distribution.
-* `universal:packageXzTarball` - Creates the universal `txz` distribution.  Note: xz sucks cpu like no other.
-* `universal:packageBin` - Creates the universal `zip` distribution
-* `windows:packageBin` - Creates the windows `msi` file.
-* `debian:packageBin` - Creates the debian `deb` file.
-* `rpm:packageBin` - Creates the redhast `rpm` file.
+* `stage` - Creates an universal distribution under the `target/universal/stage` directory
+* `universal:package-zip-tarball` - Creates an universal `.tgz` distribution.
+* `universal:package-xz-tarball` - Creates an universal `txz` distribution.  Note: xz sucks cpu like no other.
+* `universal:package-bin` - Creates an universal `zip` distribution
+* `windows:package-bin` - Creates a Windows `msi` file.
+* `windows:package-msi` - Creates a Windows `msi` file.
+* `debian:package-bin` - Creates a Debian `deb` file.
+* `rpm:package-bin` - Creates a Red Hat `rpm` file.
 
 
 ### Publishing to bintray ###
