@@ -6,7 +6,7 @@ import Keys._
 import sbt._
 import sbt.Keys.{ target, mainClass, normalizedName }
 import SbtNativePackager._
-import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping }
+import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
 
 /**
  * This class contains the default settings for creating and deploying an archetypical Java application.
@@ -61,6 +61,13 @@ object JavaServerAppPackaging {
             s <- script.toSeq
           } yield LinuxPackageMapping(Seq(s -> path)).withPerms(permissions)
         },
+      // TODO the /var/log should be generalized like defaultLinuxInstallLocation
+      linuxPackageMappings in Debian <+= (normalizedName) map {
+        name => packageTemplateMapping("/var/log/" + name)()
+      },
+      linuxPackageSymlinks in Debian <+= (normalizedName, defaultLinuxInstallLocation) map {
+        (name, install) => LinuxSymlink(install + "/" + name + "/logs", "/var/log/" + name)
+      },
       // TODO - only make these if the upstart config exists...
       debianMakePrermScript <<= (normalizedName, target in Universal) map makeDebianPrermScript,
       debianMakePostinstScript <<= (normalizedName, target in Universal, serverLoading in Debian) map makeDebianPostinstScript)
