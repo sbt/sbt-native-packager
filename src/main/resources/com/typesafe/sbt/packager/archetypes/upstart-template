@@ -15,12 +15,10 @@ start on runlevel [2345]
 respawn
 respawn limit ${{retries}} ${{retryTimeout}}
 
-# TODO - this wasn't working on my ubuntu...
 # set the working directory of the job processes
-#chdir ${{chdir}}
+chdir ${{chdir}}
 
 # Start the process
 script
-  cd ${{chdir}}
-  exec ${{exec}}
+  exec ./bin/${{exec}}
 end script
