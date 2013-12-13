@@ -25,11 +25,12 @@ object JavaServerAppPackaging {
 
   def debianSettings: Seq[Setting[_]] =
     Seq(
+      serverLoading := Upstart,
+      daemonUser := "root",
       debianStartScriptReplacements <<= (
         maintainer in Debian, packageSummary in Debian, serverLoading in Debian, daemonUser in Debian, normalizedName,
         sbt.Keys.version, defaultLinuxInstallLocation, mainClass in Compile, scriptClasspath)
         map { (author, descr, loader, daemonUser, name, version, installLocation, mainClass, cp) =>
-          // TODO name-version is copied from UniversalPlugin. This should be consolidated into a setting (install location...)
           val appDir = installLocation + "/" + name
           val appClasspath = cp.map(appDir + "/lib/" + _).mkString(":")
 
