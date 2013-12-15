@@ -41,12 +41,13 @@ trait LinuxPlugin extends Plugin {
    * don't appear in the mapping
    * @param dirs - directories to map
    */
-  def packageDirectoryAndContentsMapping(dirs: (File, String)*) = LinuxPackageMapping(
-    for {
-      (src, dest) <- dirs
-      path <- (src ***).get
-      if !path.isDirectory
-    } yield path -> path.toString.replaceFirst(src.toString, dest))
+  def packageDirectoryAndContentsMapping(dirs: (File, String)*) = LinuxPackageMapping(mapDirectoryAndContents(dirs: _*))
+
+  def mapDirectoryAndContents(dirs: (File, String)*): Seq[(File, String)] = for {
+    (src, dest) <- dirs
+    path <- (src ***).get
+    if !path.isDirectory
+  } yield path -> path.toString.replaceFirst(src.toString, dest)
 
   // TODO - we'd like a set of conventions to take universal mappings and create linux package mappings.
 
