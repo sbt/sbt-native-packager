@@ -163,8 +163,8 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
 
               // remove key, flatten it and then go through each file
               pathList.map(_._2).flatten foreach {
-                case (_, target) =>
-                  val pathReplacements = replacements :+ ("path" -> target.toString)
+                case (file, name) =>
+                  val pathReplacements = replacements :+ ("path" -> (file / name).getAbsolutePath)
                   IO.append(postinst, TemplateWriter.generateScript(DebianPlugin.postinstChownTemplateSource, pathReplacements))
               }
 
