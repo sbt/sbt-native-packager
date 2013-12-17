@@ -43,28 +43,41 @@ start_daemon() {
 
 stop_daemon() {
     log_daemon_msg "Stopping ${{app_name}}"
-	start-stop-daemon --stop --pidfile "$PIDFILE" --user "$DAEMON_USER"
+	start-stop-daemon --stop --pidfile "$PIDFILE"
 
     RETVAL=$?
     [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
-    exit 2
 }
 
 case "$1" in
 
-start)
+  start)
     start_daemon
-	;;
-stop)
+	  ;;
+  stop)
     stop_daemon
-	;;
-restart)
+	  ;;
+  restart)
     stop_daemon
     start_daemon
     ;;
-*)
+  status)
+    start-stop-daemon --status --pidfile "$PIDFILE"
+    case "$?" in
+    0)
+      log_daemon_msg "{{app_name}} is running"
+      ;;
+    1)
+      log_daemon_msg "{{app_name}} is not running and the pid file exists"
+      ;;
+    3)
+      log_daemon_msg "{{app_name}} is not running"
+      ;;
+    *)
+      log_daemon_msg "Unable to determine {{app_name}} status"
+      ;;
+  *)
     log_daemon_msg "Usage: /etc/init.d/${{app_name}} {start|stop}"
-    exit 2
     ;;
 esac
 exit 0
