@@ -62,12 +62,13 @@ object JavaServerAppPackaging {
             s <- script.toSeq
           } yield LinuxPackageMapping(Seq(s -> path)).withPerms(permissions)
         },
-      // TODO the /var/log should be generalized like defaultLinuxInstallLocation
-      linuxPackageMappings in Debian <+= (normalizedName) map {
-        name => packageTemplateMapping("/var/log/" + name)()
+      // TODO should we add daemonGroup config?
+      linuxPackageMappings in Debian <+= (normalizedName, daemonUser in Debian, defaultLinuxLogsLocation) map {
+        (name, user, logsDir) =>
+          LinuxPackageMapping(Seq(new File(logsDir) -> name)).withUser(user).withGroup(user)
       },
-      linuxPackageSymlinks in Debian <+= (normalizedName, defaultLinuxInstallLocation) map {
-        (name, install) => LinuxSymlink(install + "/" + name + "/logs", "/var/log/" + name)
+      linuxPackageSymlinks in Debian <+= (normalizedName, defaultLinuxInstallLocation, defaultLinuxLogsLocation) map {
+        (name, install, logsDir) => LinuxSymlink(s"$install/$name/logs", s"$logsDir/$name")
       },
       // TODO - only make these if the upstart config exists...
       debianMakePrermScript <<= (normalizedName, target in Universal) map makeDebianPrermScript,
