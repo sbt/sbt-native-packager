@@ -36,14 +36,22 @@ RUN_CMD="-cp ${{app_classpath}} ${{app_main_class}} $RUN_OPTS"
 
 
 start_daemon() {
-    log_daemon_msg "Starting ${{app_name}}"
+    log_daemon_msg "Starting" "${{app_name}}"
     start-stop-daemon --background --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --exec "$JAVA_CMD" --start -- $RUN_CMD
+    log_end_msg $?
 }
 
 
 stop_daemon() {
-    log_daemon_msg "Stopping ${{app_name}}"
-	start-stop-daemon --stop --pidfile "$PIDFILE"
+
+  log_daemon_msg "Stopping" "${{app_name}}"
+	  if start-stop-daemon --status --pidfile "$PIDFILE"; then
+		  start-stop-daemon --stop --pidfile "$PIDFILE"
+		  log_end_msg $?
+	  else
+		  log_progress_msg "not running"
+		  log_end_msg 1
+	  fi
 
     RETVAL=$?
     [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
@@ -53,31 +61,37 @@ case "$1" in
 
   start)
     start_daemon
+    exit $?
 	  ;;
   stop)
     stop_daemon
+    exit $?
 	  ;;
   restart)
     stop_daemon
     start_daemon
+    exit $?
     ;;
   status)
     start-stop-daemon --status --pidfile "$PIDFILE"
     case "$?" in
     0)
-      log_daemon_msg "{{app_name}} is running"
+      echo "${{app_name}} is running"
       ;;
     1)
-      log_daemon_msg "{{app_name}} is not running and the pid file exists"
+      echo "${{app_name}} is not running and the pid file exists"
       ;;
     3)
-      log_daemon_msg "{{app_name}} is not running"
+      echo "${{app_name}} is not running"
       ;;
     *)
-      log_daemon_msg "Unable to determine {{app_name}} status"
+      echo "Unable to determine ${{app_name}} status"
       ;;
+  esac
+  exit $?
+    ;;
   *)
-    log_daemon_msg "Usage: /etc/init.d/${{app_name}} {start|stop}"
+    log_daemon_msg "Usage: /etc/init.d/${{app_name}} {start|stop|restart|status}"
     ;;
 esac
 exit 0
