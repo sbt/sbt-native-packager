@@ -40,20 +40,22 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     script
   }
 
-  private[this] def scriptMapping(scriptName: String)(script: Option[File], controlDir: File, target: File): (File, String) = {
+
+  private[this] def prependAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
+    val old = IO.readLines(script)
+    IO.writeLines(script, lines ++ old, append = false)
+    chmod(script, perms.permissions)
+    script
+  }
+
+
+  private[this] def scriptMapping(scriptName: String)(script: Option[File], controlDir: File): Seq[(File, String)] = {
     (script, controlDir) match {
       // check if user defined script exists
       case (_, dir) if (dir / scriptName).exists =>
-        file((dir / scriptName).getAbsolutePath) -> scriptName
+        Seq(file((dir / scriptName).getAbsolutePath) -> scriptName)
       // create mappings for generated script
-      case (Some(scr), _) => scr -> scriptName
-      // create empty control script because sometimes we want append to control files in debianExploadedPackage task
-      case (None, _) =>
-        val d = target / Names.Debian
-        d.mkdirs()
-        val empty = d / scriptName
-        empty.createNewFile()
-        empty -> scriptName
+      case (scr, _) => scr.toSeq.map(_ -> scriptName)
     }
   }
 
@@ -82,10 +84,10 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     debianMakePostinstScript := None,
     debianMakePostrmScript := None,
 
-    debianMaintainerScripts <+= (debianMakePrermScript, debianControlScriptsDirectory, target in Debian) map scriptMapping(Names.Prerm),
-    debianMaintainerScripts <+= (debianMakePreinstScript, debianControlScriptsDirectory, target in Debian) map scriptMapping(Names.Preinst),
-    debianMaintainerScripts <+= (debianMakePostinstScript, debianControlScriptsDirectory, target in Debian) map scriptMapping(Names.Postinst),
-    debianMaintainerScripts <+= (debianMakePostrmScript, debianControlScriptsDirectory, target in Debian) map scriptMapping(Names.Postrm)) ++ inConfig(Debian)(Seq(
+    debianMaintainerScripts <++= (debianMakePrermScript, debianControlScriptsDirectory) map scriptMapping(Names.Prerm),
+    debianMaintainerScripts <++= (debianMakePreinstScript, debianControlScriptsDirectory) map scriptMapping(Names.Preinst),
+    debianMaintainerScripts <++= (debianMakePostinstScript, debianControlScriptsDirectory) map scriptMapping(Names.Postinst),
+    debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping(Names.Postrm)) ++ inConfig(Debian)(Seq(
       packageArchitecture := "all",
       debianPackageInfo <<=
         (name, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
@@ -166,17 +168,24 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
               val postrm = t / Names.Debian / Names.Postrm
 
               val replacements = Seq("group" -> group, "user" -> user)
-              IO.append(postinst, TemplateWriter.generateScript(DebianPlugin.postinstGroupaddTemplateSource, replacements))
-              IO.append(postinst, TemplateWriter.generateScript(DebianPlugin.postinstUseraddTemplateSource, replacements))
+
+              val userGroupAdd = Seq(
+                TemplateWriter.generateScript(DebianPlugin.postinstGroupaddTemplateSource, replacements),
+                TemplateWriter.generateScript(DebianPlugin.postinstUseraddTemplateSource, replacements)
+              )
+
+              prependAndFixPerms(postinst, userGroupAdd, LinuxFileMetaData())
 
               // remove key, flatten it and then go through each file
               pathList.map(_._2).flatten foreach {
                 case (_, target) =>
                   val pathReplacements = replacements :+ ("path" -> target.toString)
-                  IO.append(postinst, TemplateWriter.generateScript(DebianPlugin.postinstChownTemplateSource, pathReplacements))
+                  val chownAdd = Seq(TemplateWriter.generateScript(DebianPlugin.postinstChownTemplateSource, pathReplacements))
+                  prependAndFixPerms(postinst, chownAdd, LinuxFileMetaData())
               }
 
-              IO.append(postrm, TemplateWriter.generateScript(DebianPlugin.postrmPurgeTemplateSource, replacements))
+              val purgeAdd = Seq(TemplateWriter.generateScript(DebianPlugin.postrmPurgeTemplateSource, replacements))
+              prependAndFixPerms(postrm, purgeAdd, LinuxFileMetaData())
           }
           t
         },
