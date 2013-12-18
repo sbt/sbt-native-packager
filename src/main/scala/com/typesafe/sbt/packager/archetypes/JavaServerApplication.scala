@@ -62,9 +62,13 @@ object JavaServerAppPackaging {
             s <- script.toSeq
           } yield LinuxPackageMapping(Seq(s -> path)).withPerms(permissions)
         },
-      // TODO the /var/log should be generalized like defaultLinuxInstallLocation
-      linuxPackageMappings in Debian <+= (normalizedName) map {
-        name => packageTemplateMapping("/var/log/" + name)()
+      // TODO should we specify daemonGroup in configs?
+      linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxLogsLocation, target in Debian, daemonUser in Debian) map {
+        (name, logsDir, target, user) =>
+          // create empty var/log directory
+          val d = target / logsDir
+          d.mkdirs()
+          LinuxPackageMapping(Seq(d -> s"$logsDir/$name"), LinuxFileMetaData(user, user))
       },
       linuxPackageSymlinks in Debian <+= (normalizedName, defaultLinuxInstallLocation) map {
         (name, install) => LinuxSymlink(install + "/" + name + "/logs", "/var/log/" + name)
