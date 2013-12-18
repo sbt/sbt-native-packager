@@ -29,4 +29,5 @@ object Keys extends linux.Keys
          |  APP_DEFINES - the defines to go into the app
          |  """.stripMargin)
   val defaultLinuxInstallLocation = SettingKey[String]("defaultLinuxInstallLocation", "The location where we will install generic linux packages.")
+  val defaultLinuxLogsLocation = SettingKey[String]("defaultLinuxLogsLocation", "The location where application logs will be stored.")
 }
