@@ -36,6 +36,22 @@ trait LinuxPlugin extends Plugin {
    */
   def packageTemplateMapping(files: String*)(dir: File = new File(sys.props("java.io.tmpdir"))) = LinuxPackageMapping(files map ((dir, _)))
 
+  /**
+   * @see #mapDirectoryAndContents
+   * @param dirs - directories to map
+   */
+  def packageDirectoryAndContentsMapping(dirs: (File, String)*) = LinuxPackageMapping(mapDirectoryAndContents(dirs: _*))
+
+  /**
+   * This method includes files and directories.
+   *
+   * @param dirs - directories to map
+   */
+  def mapDirectoryAndContents(dirs: (File, String)*): Seq[(File, String)] = for {
+    (src, dest) <- dirs
+    path <- (src ***).get
+  } yield path -> path.toString.replaceFirst(src.toString, dest)
+
   // TODO - we'd like a set of conventions to take universal mappings and create linux package mappings.
 
   /** Create a ascii friendly string for a man page. */
