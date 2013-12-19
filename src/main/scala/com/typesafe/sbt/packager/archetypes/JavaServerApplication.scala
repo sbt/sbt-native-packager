@@ -49,7 +49,7 @@ object JavaServerAppPackaging {
       debianMakeEtcDefault <<= (normalizedName, target in Universal, serverLoading in Debian)
         map makeEtcDefaultScript,
       linuxPackageMappings in Debian <++= (debianMakeEtcDefault, normalizedName) map { (conf, name) =>
-        conf.map(c => LinuxPackageMapping(Seq(c -> s"/etc/default/$name")).withConfig()).toSeq
+        conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name))).withConfig()).toSeq
       },
       linuxPackageMappings in Debian <++= (debianMakeStartScript, normalizedName, serverLoading in Debian)
         map { (script, name, loader) =>
@@ -82,7 +82,7 @@ object JavaServerAppPackaging {
     if (replacements.isEmpty) None
     else {
       val scriptBits = JavaAppStartScript.generateScript(replacements, loader)
-      val script = tmpDir / "tmp" / "bin" / s"$name.$loader"
+      val script = tmpDir / "tmp" / "init" / name
       IO.write(script, scriptBits)
       Some(script)
     }
@@ -106,7 +106,7 @@ object JavaServerAppPackaging {
       case Upstart => None
       case SystemV => {
         val scriptBits = TemplateWriter.generateScript(etcDefaultTemplateSource, Seq.empty)
-        val script = tmpDir / "tmp" / "bin" / "etc-default"
+        val script = tmpDir / "tmp" / "etc" / "default" / name
         IO.write(script, scriptBits)
         Some(script)
       }
