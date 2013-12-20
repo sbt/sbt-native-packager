@@ -6,7 +6,7 @@ import Keys._
 import sbt._
 import sbt.Keys.{ target, mainClass, normalizedName }
 import SbtNativePackager._
-import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
+import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
 
 /**
  * This class contains the default settings for creating and deploying an archetypical Java application.
@@ -19,6 +19,7 @@ import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping,
  */
 object JavaServerAppPackaging {
   import ServerLoader._
+  import LinuxPlugin.Users
 
   def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ debianSettings
   protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource("etc-default-template")
@@ -26,7 +27,7 @@ object JavaServerAppPackaging {
   def debianSettings: Seq[Setting[_]] =
     Seq(
       serverLoading := Upstart,
-      daemonUser := "root",
+      daemonUser := Users.Root,
       debianStartScriptReplacements <<= (
         maintainer in Debian, packageSummary in Debian, serverLoading in Debian, daemonUser in Debian, normalizedName,
         sbt.Keys.version, defaultLinuxInstallLocation, mainClass in Compile, scriptClasspath)
@@ -68,7 +69,7 @@ object JavaServerAppPackaging {
           // create empty var/log directory
           val d = target / logsDir
           d.mkdirs()
-          LinuxPackageMapping(Seq(d -> s"$logsDir/$name"), LinuxFileMetaData(user, user))
+          LinuxPackageMapping(Seq(d -> (logsDir + "/" + name)), LinuxFileMetaData(user, user))
       },
       linuxPackageSymlinks in Debian <+= (normalizedName, defaultLinuxInstallLocation) map {
         (name, install) => LinuxSymlink(install + "/" + name + "/logs", "/var/log/" + name)

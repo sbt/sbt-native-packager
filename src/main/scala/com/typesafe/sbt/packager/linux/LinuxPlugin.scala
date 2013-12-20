@@ -58,3 +58,9 @@ trait LinuxPlugin extends Plugin {
   final def makeMan(file: File): String =
     Process("groff -man -Tascii " + file.getAbsolutePath).!!
 }
+
+object LinuxPlugin {
+  object Users {
+    val Root = "root"
+  }
+}
