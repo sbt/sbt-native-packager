@@ -13,7 +13,9 @@ trait GenericPackageSettings
     with rpm.RpmPlugin
     with windows.WindowsPlugin
     with universal.UniversalPlugin {
-  
+
+  import linux.LinuxPlugin.Users
+
   // This method wires a lot of hand-coded generalities about how to map directories
   // into linux, and the conventions we expect.
   // It is by no means 100% accurate, but should be ok for the simplest cases.
@@ -52,10 +54,10 @@ trait GenericPackageSettings
     }
     
     Seq(
-      packageMappingWithRename((binaries ++ directories):_*) withUser "root" withGroup "root" withPerms "0755",
-      packageMappingWithRename(compressedManPages:_*).gzipped withUser "root" withGroup "root" withPerms "0644",
-      packageMappingWithRename(configFiles:_*) withConfig() withUser "root" withGroup "root" withPerms "0644",
-      packageMappingWithRename(remaining:_*) withUser "root" withGroup "root" withPerms "0644"
+      packageMappingWithRename((binaries ++ directories):_*) withUser Users.Root withGroup Users.Root withPerms "0755",
+      packageMappingWithRename(compressedManPages:_*).gzipped withUser Users.Root withGroup Users.Root withPerms "0644",
+      packageMappingWithRename(configFiles:_*) withConfig() withUser Users.Root withGroup Users.Root withPerms "0644",
+      packageMappingWithRename(remaining:_*) withUser Users.Root withGroup Users.Root withPerms "0644"
     )  
   }
   

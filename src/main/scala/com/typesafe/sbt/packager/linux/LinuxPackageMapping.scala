@@ -3,10 +3,11 @@ package packager
 package linux
 
 import sbt._
+import LinuxPlugin.Users
 
 case class LinuxFileMetaData(
-  user: String = "root",
-  group: String = "root",
+  user: String = Users.Root,
+  group: String = Users.Root,
   permissions: String = "755",
   config: String = "false",
   docs: Boolean = false) {

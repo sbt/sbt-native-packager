@@ -17,6 +17,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
 
   import com.typesafe.sbt.packager.universal.Archives
   import DebianPlugin.Names
+  import linux.LinuxPlugin.Users
 
   private[this] final def copyAndFixPerms(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit = {
     if (zipped) {
@@ -157,7 +158,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           // Check for non root user/group and append to postinst / postrm
           // filter all root mappings, map to (user,group) key, group by, append everything
           mappings filter {
-            case LinuxPackageMapping(_, LinuxFileMetaData("root", "root", _, _, _), _) => false
+            case LinuxPackageMapping(_, LinuxFileMetaData(Users.Root, Users.Root, _, _, _), _) => false
             case _ => true
           } map {
             case LinuxPackageMapping(paths, LinuxFileMetaData(user, group, _, _, _), _) => (user, group) -> paths
