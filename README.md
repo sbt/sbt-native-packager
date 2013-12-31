@@ -10,7 +10,7 @@ This is a work in process project.  The goal is to be able to bundle up Scala so
 * **Docs**:
    Our docs are [available online](http://scala-sbt.org/sbt-native-packager).  If you'd like to help improve the docs, they're part of this repository in the `src/sphinx` directory.
 * **Issues/Feature Requests**:
-  Finally, any bugs or features you find you need, please report to our [issue tracker](https://github.com/sbt/sbt-native-packager/issues/new).
+  Finally, any bugs or features you find you need, please report to our [issue tracker](https://github.com/sbt/sbt-native-packager/issues/new).  Please check the [compatibility matrix](https://github.com/sbt/sbt-native-packager/wiki/Tested-On) to see if your system is able to produce the packages you want.
 
 ## Installation ##
 
