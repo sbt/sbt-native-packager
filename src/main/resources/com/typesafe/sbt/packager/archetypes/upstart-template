@@ -18,6 +18,9 @@ respawn limit ${{retries}} ${{retryTimeout}}
 # set the working directory of the job processes
 chdir ${{chdir}}
 
+# changes to the user and group before running the job's process
+setuid ${{daemon_user}}
+
 # Start the process
 script
   exec ./bin/${{exec}}

@@ -170,13 +170,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
 
               val replacements = Seq("group" -> group, "user" -> user)
 
-              val userGroupAdd = Seq(
-                TemplateWriter.generateScript(DebianPlugin.postinstGroupaddTemplateSource, replacements),
-                TemplateWriter.generateScript(DebianPlugin.postinstUseraddTemplateSource, replacements)
-              )
-
-              prependAndFixPerms(postinst, userGroupAdd, LinuxFileMetaData())
-
               // remove key, flatten it and then go through each file
               pathList.map(_._2).flatten foreach {
                 case (_, target) =>
@@ -184,6 +177,13 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
                   val chownAdd = Seq(TemplateWriter.generateScript(DebianPlugin.postinstChownTemplateSource, pathReplacements))
                   prependAndFixPerms(postinst, chownAdd, LinuxFileMetaData())
               }
+
+              val userGroupAdd = Seq(
+                TemplateWriter.generateScript(DebianPlugin.postinstGroupaddTemplateSource, replacements),
+                TemplateWriter.generateScript(DebianPlugin.postinstUseraddTemplateSource, replacements)
+              )
+
+              prependAndFixPerms(postinst, userGroupAdd, LinuxFileMetaData())
 
               val purgeAdd = Seq(TemplateWriter.generateScript(DebianPlugin.postrmPurgeTemplateSource, replacements))
               prependAndFixPerms(postrm, purgeAdd, LinuxFileMetaData())
