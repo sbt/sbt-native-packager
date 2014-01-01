@@ -50,6 +50,13 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   }
 
 
+  private[this] def appendAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
+    IO.writeLines(script, lines)
+    chmod(script, perms.permissions)
+    script
+  }
+
+
   private[this] def scriptMapping(scriptName: String)(script: Option[File], controlDir: File): Seq[(File, String)] = {
     (script, controlDir) match {
       // check if user defined script exists
@@ -186,7 +193,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
               prependAndFixPerms(postinst, userGroupAdd, LinuxFileMetaData())
 
               val purgeAdd = Seq(TemplateWriter.generateScript(DebianPlugin.postrmPurgeTemplateSource, replacements))
-              prependAndFixPerms(postrm, purgeAdd, LinuxFileMetaData())
+              appendAndFixPerms(postrm, purgeAdd, LinuxFileMetaData())
           }
           t
         },
