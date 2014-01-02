@@ -51,7 +51,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
 
 
   private[this] def appendAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
-    IO.writeLines(script, lines)
+    IO.writeLines(script, lines, append = true)
     chmod(script, perms.permissions)
     script
   }
