@@ -61,7 +61,7 @@ object JavaServerAppPackaging {
 
           for {
             s <- script.toSeq
-          } yield LinuxPackageMapping(Seq(s -> path)).withPerms(permissions)
+          } yield LinuxPackageMapping(Seq(s -> path)).withPerms(permissions).withConfig()
         },
       // TODO should we specify daemonGroup in configs?
       linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxLogsLocation, target in Debian, daemonUser in Debian) map {
