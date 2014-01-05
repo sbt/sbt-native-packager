@@ -14,7 +14,8 @@ still leveraging the default configuration for other platforms.
 
 Curently, in the nativepackager these archetypes are available:
 
-  * Java Command Line Application (Experimental)
+  * Java Command Line Application
+  * Java Server Application (Experimental - Debian Only)
   
 
 Java Command Line Application
@@ -24,6 +25,7 @@ A Java Command Line application is a Java application that consists of a set of 
 custom start scripts, or services.  It is just a bash/bat script that starts up a Java project.   To use
 this archetype in your build, do the following in your ``build.sbt``:
 
+.. code-block:: scala
 
     packageArchetype.java_application
 
@@ -47,6 +49,7 @@ this archetype in your build, do the following in your ``build.sbt``:
 This archetype will use the ``mainClass`` setting of sbt (automatically discovers your main class) to generate ``bat`` and ``bin`` scripts for your project.  It
 produces a universal layout that looks like the following:
 
+.. code-block:: none
 
     bin/
       <app_name>       <- BASH script
@@ -83,3 +86,92 @@ application. The primary differneces are:
   * Creates a startup config file in ``/etc/default/<pkg>``
 
 
+For Debian servers, you can select to either use SystemV or Upstart for your servers.  By default, Upstart (the current Ubuntu LTS default), is used.  To switch to SystemV, add the following:
+
+.. code-block:: scala
+
+    import NativePackagerKeys._
+    import com.typesafe.sbt.packager.archetypes.ServerLoader
+
+    serverLoading in Debian := ServerLoader.SystemV
+
+By default, the native packager will install and run services using the ``root`` user and group.  This is not a good default for services, which should not be exposed to root access.  You can change the installation and usage user via the ``daemonUser`` key:
+
+.. code-block:: scala
+
+    daemonUser in Debian := "my_app_user"
+
+The archetype will automatically append/prepend the creation/deletion of the user
+to your packaging for Debian.
+
+
+Overriding Templates
+--------------------
+
+You can override the default template used to generate any of the scripts in
+any archetype.   Listed below are the overridable files and variables that
+you can use when generating scripts.
+
+``src/templates/bat-template``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Creating a file here will override the default template used to
+generate the ``.bat`` script for windows distributions.
+
+**Syntax**
+
+``@@APP_ENV_NAME@@`` - will be replaced with the script friendly name of your package.
+
+``@@APP_NAME@@`` - will be replaced with user friendly name of your package.
+
+``@APP_DEIFNES@@`` - will be replaced with a set of variable definitions, like
+  ``APP_MAIN_CLASS``, ``APP_MAIN_CLASS``.
+
+You can define addiitonal variable deifnitions using ``batScriptExtraDefines``.
+
+``src/templates/bash-template``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Creating a file here will override the default template used to 
+generate the BASH start script found in ``bin/<application>`` in the
+universal distribution
+
+**Syntax**
+
+``${{template_declares}}`` - Will be replaced with a series of ``declare <var>``
+lines based on the ``bashScriptDefines`` key.  You can add more defines to
+the ``bashScriptExtraDefines`` that will be used in addition to the default set:
+
+* ``app_mainclass`` - The main class entry point for the application.
+* ``app_classpath`` - The complete classpath for the application (in order).
+
+
+
+``src/templates/start``
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Creating a file here will override either the init.d startup script or
+the upstart start script.  It will either be located at
+``/etc/init/<application>`` or ``/etc/init.d/<application>`` depending on which
+serverLoader is being used.
+
+**Syntax**
+
+You can use ``${{variable_name}}`` to reference variables when writing your scirpt.  The default set of variables is:
+
+* ``descr`` - The description of the server.
+* ``author`` - The configured author name.
+* ``exec`` - The script/binary to execute when starting the server
+* ``chdir`` - The working directory for the server.
+* ``retries`` - The number of times to retry starting the server.
+* ``retryTimeout`` - The amount of time to wait before trying to run the server.
+* ``app_name`` - The name of the application (linux friendly)
+* ``app_main_class`` - The main class / entry point of the application.
+* ``app_classpath`` - The (ordered) classpath of the application.
+* ``daemon_user`` - The user that the server should run as.
+
+``src/templates/etc-default``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Creating a file here will override the ``/etc/default/<application>`` template
+used when SystemV is the server loader.

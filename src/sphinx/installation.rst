@@ -5,7 +5,7 @@ Installation
 
 The sbt-native-packager is a plugin.   To use it, first create a ``project/plugins.sbt`` file with the following. 
 
-::
+.. code-block:: scala
 
   addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.6.3")
 
@@ -46,8 +46,3 @@ Creating ``tgz`` or ``txz`` requires the use of the following command line tools
 - ``gzip``
 - ``xz``
 - ``tar``
-
-
-
-
-
