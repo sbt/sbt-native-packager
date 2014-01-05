@@ -5,7 +5,7 @@ package archetypes
 import Keys._
 import sbt._
 import sbt.Project.Initialize
-import sbt.Keys.{ mappings, target, name, mainClass, normalizedName }
+import sbt.Keys.{ mappings, target, name, mainClass, normalizedName, sourceDirectory }
 import linux.LinuxPackageMapping
 import SbtNativePackager._
 
@@ -43,7 +43,8 @@ object JavaAppPackaging {
         } yield JavaAppBashScript.makeDefines(cn, appClasspath = cp, extras = extras)
       hasMain getOrElse Nil
     },
-    makeBashScript <<= (bashScriptDefines, target in Universal, normalizedName) map makeUniversalBinScript,
+    // TODO - Overridable bash template.
+    makeBashScript <<= (bashScriptDefines, target in Universal, normalizedName, sourceDirectory in Compile) map makeUniversalBinScript,
     batScriptExtraDefines := Nil,
     batScriptReplacements <<= (normalizedName, Keys.mainClass in Compile, scriptClasspath, batScriptExtraDefines) map { (name, mainClass, cp, extras) =>
       mainClass map { mc =>
@@ -51,7 +52,7 @@ object JavaAppPackaging {
       } getOrElse Nil
 
     },
-    makeBatScript <<= (batScriptReplacements, target in Universal, normalizedName) map makeUniversalBatScript,
+    makeBatScript <<= (batScriptReplacements, target in Universal, normalizedName, sourceDirectory in Compile) map makeUniversalBatScript,
     mappings in Universal <++= (makeBashScript, normalizedName) map { (script, name) =>
       for {
         s <- script.toSeq
@@ -73,10 +74,13 @@ object JavaAppPackaging {
       else "../" + name
     }
 
-  def makeUniversalBinScript(defines: Seq[String], tmpDir: File, name: String): Option[File] =
+  def makeUniversalBinScript(defines: Seq[String], tmpDir: File, name: String, sourceDir: File): Option[File] =
     if (defines.isEmpty) None
     else {
-      val scriptBits = JavaAppBashScript.generateScript(defines)
+      val defaultTemplateLocation = sourceDir / "templates" / "bash-template"
+      val scriptBits = 
+        if(defaultTemplateLocation.exists) JavaAppBashScript.generateScript(defines, defaultTemplateLocation.toURI.toURL)
+        else JavaAppBashScript.generateScript(defines)
       val script = tmpDir / "tmp" / "bin" / name
       IO.write(script, scriptBits)
       // TODO - Better control over this!
@@ -84,10 +88,13 @@ object JavaAppPackaging {
       Some(script)
     }
 
-  def makeUniversalBatScript(replacements: Seq[(String, String)], tmpDir: File, name: String): Option[File] =
+  def makeUniversalBatScript(replacements: Seq[(String, String)], tmpDir: File, name: String, sourceDir: File): Option[File] =
     if (replacements.isEmpty) None
     else {
-      val scriptBits = JavaAppBatScript.generateScript(replacements)
+      val defaultTemplateLocation = sourceDir / "templates" / "bat-template"
+      val scriptBits = 
+        if(defaultTemplateLocation.exists) JavaAppBatScript.generateScript(replacements, defaultTemplateLocation.toURI.toURL)
+        else JavaAppBatScript.generateScript(replacements)
       val script = tmpDir / "tmp" / "bin" / (name + ".bat")
       IO.write(script, scriptBits)
       Some(script)

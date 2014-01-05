@@ -56,3 +56,30 @@ produces a universal layout that looks like the following:
 
 
 You can add additional files to the project by placing things in ``src/windows``, ``src/universal`` or ``src/linux`` as needed.
+
+
+Java Server
+-----------
+
+This archetype is designed for Java applications that are intended to run as
+servers or services.  This archetype includes wiring such that the application
+is started immediately upon startup.
+
+Currently supported operating systems:
+
+* Ubuntu 12.04 LTS - Upstart
+* Ubuntu 12.04 LTS - init.d
+
+
+The Java Server archetype has a similar installation layout as the java
+application. The primary differneces are:
+
+* Linux
+
+  * ``/var/log/<pkg>`` is symlinked from ``<install>/log``
+
+  * Creates a start script in ``/etc/init.d`` or ``/etc/init/``
+
+  * Creates a startup config file in ``/etc/default/<pkg>``
+
+
