@@ -47,12 +47,12 @@ object JavaServerAppPackaging {
             daemonUser = daemonUser)
         },
       // TODO - Default locations shouldn't be so hacky.
-      linuxStartScriptTemplate in Debian <<= (serverLoading in Debian, sourceDirectory in Compile) map { (loader, dir) =>
+      linuxStartScriptTemplate in Debian <<= (serverLoading in Debian, sourceDirectory) map { (loader, dir) =>
         JavaAppStartScript.defaultStartScriptTemplate(loader, dir / "templates" / "start")
       },
       debianMakeStartScript <<= (debianStartScriptReplacements, normalizedName, target in Universal, linuxStartScriptTemplate in Debian)
         map makeDebianStartScript,
-      linuxEtcDefaultTemplate in Debian <<= sourceDirectory in Compile map { dir =>
+      linuxEtcDefaultTemplate in Debian <<= sourceDirectory map { dir =>
         val overrideScript = dir / "templates" / "etc-default"
         if(overrideScript.exists) overrideScript.toURI.toURL
         else etcDefaultTemplateSource

@@ -44,7 +44,7 @@ object JavaAppPackaging {
       hasMain getOrElse Nil
     },
     // TODO - Overridable bash template.
-    makeBashScript <<= (bashScriptDefines, target in Universal, normalizedName, sourceDirectory in Compile) map makeUniversalBinScript,
+    makeBashScript <<= (bashScriptDefines, target in Universal, normalizedName, sourceDirectory) map makeUniversalBinScript,
     batScriptExtraDefines := Nil,
     batScriptReplacements <<= (normalizedName, Keys.mainClass in Compile, scriptClasspath, batScriptExtraDefines) map { (name, mainClass, cp, extras) =>
       mainClass map { mc =>
@@ -52,7 +52,7 @@ object JavaAppPackaging {
       } getOrElse Nil
 
     },
-    makeBatScript <<= (batScriptReplacements, target in Universal, normalizedName, sourceDirectory in Compile) map makeUniversalBatScript,
+    makeBatScript <<= (batScriptReplacements, target in Universal, normalizedName, sourceDirectory) map makeUniversalBatScript,
     mappings in Universal <++= (makeBashScript, normalizedName) map { (script, name) =>
       for {
         s <- script.toSeq
