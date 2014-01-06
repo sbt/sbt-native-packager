@@ -62,7 +62,9 @@ If you are packaging a server, the configuration will be similar to a vanilla Ja
 packager will include service hooks inside the MSI, DEB and RPM.   For DEB, these hooks will use upstart.  For RPM,
 they will use init.d and for MSIs, there will be windows service hooks.
 
-*Right now there is no active release with complete Java Server hooks. You should be able to start experimenting with Java server hooks using debian packaging and the upstart system.*
+To try out the experimental java server archetype, add this to your `project/plugins.sbt`:
+
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-M1")
 
 Here's what to add to your `build.sbt`:
 
