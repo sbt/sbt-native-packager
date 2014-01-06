@@ -4,7 +4,7 @@ package archetypes
 
 import Keys._
 import sbt._
-import sbt.Keys.{ target, mainClass, normalizedName }
+import sbt.Keys.{ target, mainClass, normalizedName, sourceDirectory }
 import SbtNativePackager._
 import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
 
@@ -28,6 +28,7 @@ object JavaServerAppPackaging {
     Seq(
       serverLoading := Upstart,
       daemonUser := Users.Root,
+      // This one is begging for sbt 0.13 syntax...
       debianStartScriptReplacements <<= (
         maintainer in Debian, packageSummary in Debian, serverLoading in Debian, daemonUser in Debian, normalizedName,
         sbt.Keys.version, defaultLinuxInstallLocation, mainClass in Compile, scriptClasspath)
@@ -45,9 +46,18 @@ object JavaServerAppPackaging {
             appMainClass = mainClass.get,
             daemonUser = daemonUser)
         },
-      debianMakeStartScript <<= (debianStartScriptReplacements, normalizedName, target in Universal, serverLoading in Debian)
+      // TODO - Default locations shouldn't be so hacky.
+      linuxStartScriptTemplate in Debian <<= (serverLoading in Debian, sourceDirectory) map { (loader, dir) =>
+        JavaAppStartScript.defaultStartScriptTemplate(loader, dir / "templates" / "start")
+      },
+      debianMakeStartScript <<= (debianStartScriptReplacements, normalizedName, target in Universal, linuxStartScriptTemplate in Debian)
         map makeDebianStartScript,
-      debianMakeEtcDefault <<= (normalizedName, target in Universal, serverLoading in Debian)
+      linuxEtcDefaultTemplate in Debian <<= sourceDirectory map { dir =>
+        val overrideScript = dir / "templates" / "etc-default"
+        if(overrideScript.exists) overrideScript.toURI.toURL
+        else etcDefaultTemplateSource
+      },
+      debianMakeEtcDefault <<= (normalizedName, target in Universal, serverLoading in Debian, linuxEtcDefaultTemplate in Debian)
         map makeEtcDefaultScript,
       linuxPackageMappings in Debian <++= (debianMakeEtcDefault, normalizedName) map { (conf, name) =>
         conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name))).withConfig()).toSeq
@@ -58,7 +68,6 @@ object JavaServerAppPackaging {
             case Upstart => ("/etc/init/" + name + ".conf", "0644")
             case SystemV => ("/etc/init.d/" + name, "0755")
           }
-
           for {
             s <- script.toSeq
           } yield LinuxPackageMapping(Seq(s -> path)).withPerms(permissions)
@@ -79,10 +88,10 @@ object JavaServerAppPackaging {
       debianMakePostinstScript <<= (normalizedName, target in Universal, serverLoading in Debian) map makeDebianPostinstScript)
 
   private def makeDebianStartScript(
-    replacements: Seq[(String, String)], name: String, tmpDir: File, loader: ServerLoader): Option[File] =
+    replacements: Seq[(String, String)], name: String, tmpDir: File, template: URL): Option[File] =
     if (replacements.isEmpty) None
     else {
-      val scriptBits = JavaAppStartScript.generateScript(replacements, loader)
+      val scriptBits = TemplateWriter.generateScript(template, replacements)
       val script = tmpDir / "tmp" / "init" / name
       IO.write(script, scriptBits)
       Some(script)
@@ -102,11 +111,11 @@ object JavaServerAppPackaging {
     Some(script)
   }
 
-  protected def makeEtcDefaultScript(name: String, tmpDir: File, loader: ServerLoader): Option[File] = {
+  protected def makeEtcDefaultScript(name: String, tmpDir: File, loader: ServerLoader, source: java.net.URL): Option[File] = {
     loader match {
       case Upstart => None
       case SystemV => {
-        val scriptBits = TemplateWriter.generateScript(etcDefaultTemplateSource, Seq.empty)
+        val scriptBits = TemplateWriter.generateScript(source, Seq.empty)
         val script = tmpDir / "tmp" / "etc" / "default" / name
         IO.write(script, scriptBits)
         Some(script)

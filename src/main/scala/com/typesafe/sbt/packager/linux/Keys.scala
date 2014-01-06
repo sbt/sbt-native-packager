@@ -16,6 +16,9 @@ trait Keys {
   val linuxPackageMappings = TaskKey[Seq[LinuxPackageMapping]]("linux-package-mappings", "File to install location mappings including owner and privileges.")
   val linuxPackageSymlinks = TaskKey[Seq[LinuxSymlink]]("linux-package-symlinks", "Symlinks we should produce in the underlying package.")
   val generateManPages = TaskKey[Unit]("generate-man-pages", "Shows all the man files in the current project")  
+  
+  val linuxStartScriptTemplate = TaskKey[URL]("linuxStartScriptTemplate", "The location of the template start script file we use for debian (upstart or init.d")
+  val linuxEtcDefaultTemplate = TaskKey[URL]("linuxEtcDefaultTemplate", "The location of the /etc/default/<pkg> template script.")
 }
 
 object Keys extends Keys {

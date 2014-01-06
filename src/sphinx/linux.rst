@@ -33,7 +33,9 @@ Most of the work in generating a linux package is constructing package mappings.
   Note that while the ``sbt-native-packager`` plugin allows you to specify all of this information, not all platforms will make use of the information.  It's best to be specific
   about how you want files handled and run tests on each platform you wish to deploy to.
 
-A package mapping takes this general form ::
+A package mapping takes this general form
+
+.. code-block:: scala
 
     (packageMapping(
         file -> "/usr/share/man/man1/sbt.1.gz"

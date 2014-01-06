@@ -16,6 +16,7 @@ object Keys extends linux.Keys
   val makeBashScript = TaskKey[Option[File]]("makeBashScript", "Creates or discovers the bash script used by this project.")
   val bashScriptDefines = TaskKey[Seq[String]]("bashScriptDefines", "A list of definitions that should be written to the bash file template.")
   val bashScriptExtraDefines = TaskKey[Seq[String]]("bashScriptExtraDefines", "A list of extra definitions that should be written to the bash file template.")
+  val bashScriptConfigLocation = TaskKey[Option[String]]("bashScriptConfigLocation", "The location where the bash script will load default argument configuration from.")
   val batScriptExtraDefines = TaskKey[Seq[String]]("batScriptExtraDefines", "A list of extra definitions that should be written to the bat file template.")
   val scriptClasspathOrdering = TaskKey[Seq[(File, String)]]("scriptClasspathOrdering", "The order of the classpath used at runtime for the bat/bash scripts.")
   val projectDependencyArtifacts = TaskKey[Seq[Attributed[File]]]("projectDependencyArtifacts", "The set of exported artifacts from our dependent projects.")

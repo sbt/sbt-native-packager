@@ -50,7 +50,7 @@ object JavaAppBatScript {
   }
 
   def generateScript(
-      replacements: Seq[(String,String)]): String = 
-    TemplateWriter.generateScript(bashTemplateSource, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
+      replacements: Seq[(String,String)], template: java.net.URL = bashTemplateSource): String = 
+    TemplateWriter.generateScript(template, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
     
 }

@@ -8,7 +8,9 @@ Settings
 
 Rpms require the following specific settings:
 
-name in Rpm := "sbt",
+.. code-block:: scala
+
+    name in Rpm := "sbt",
     version in Rpm <<= sbtVersion.identity,
     rpmRelease := "1",
     rpmVendor := "typesafe",

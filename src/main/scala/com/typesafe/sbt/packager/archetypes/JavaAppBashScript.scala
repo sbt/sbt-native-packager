@@ -1,5 +1,7 @@
 package com.typesafe.sbt.packager.archetypes
 
+import java.net.URL
+
 /**
  * Constructs a bash script for running a java application.
  * 
@@ -33,10 +35,10 @@ object JavaAppBashScript {
     val fullString = cp map (n => "$lib_dir/"+n) mkString ":"
     "declare -r app_classpath=\""+fullString+"\"\n"
   }  
-  def generateScript(defines: Seq[String]): String = {
+  def generateScript(defines: Seq[String], template: URL = bashTemplateSource): String = {
     val defineString = defines mkString "\n"
     val replacements = Seq("template_declares" -> defineString)
-    TemplateWriter.generateScript(bashTemplateSource, replacements)
+    TemplateWriter.generateScript(template, replacements)
   }
   
   def configFileDefine(configFile: String) =
