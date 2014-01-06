@@ -60,13 +60,22 @@ produces a universal layout that looks like the following:
 
 You can add additional files to the project by placing things in ``src/windows``, ``src/universal`` or ``src/linux`` as needed.
 
+The default bash script also supports having a configuration file.  This config file can be used to specify default arguments to the BASH script.
+To define a config location for your bash script, you can manually override the template defines:
+
+.. code-block:: scala
+
+    bashScriptConfigLocation := "$app_home/conf/my.conf"
+
+
+This string can include any variable defines in the BASH script. In this case, ``app_home`` refers to the install location of the script.
 
 Java Server
 -----------
 
 This archetype is designed for Java applications that are intended to run as
-servers or services.  This archetype includes wiring such that the application
-is started immediately upon startup.
+servers or services.  This archetype includes wiring an application to start 
+immediately upon startup.
 
 Currently supported operating systems:
 
@@ -75,7 +84,7 @@ Currently supported operating systems:
 
 
 The Java Server archetype has a similar installation layout as the java
-application. The primary differneces are:
+application archetype. The primary differneces are:
 
 * Linux
 
@@ -102,7 +111,9 @@ By default, the native packager will install and run services using the ``root``
     daemonUser in Debian := "my_app_user"
 
 The archetype will automatically append/prepend the creation/deletion of the user
-to your packaging for Debian.
+to your packaging for Debian.  *Note:* All specified users are **deleted** on an ``apt-get purge <dpkg>``.
+
+
 
 
 Overriding Templates
@@ -124,10 +135,10 @@ generate the ``.bat`` script for windows distributions.
 
 ``@@APP_NAME@@`` - will be replaced with user friendly name of your package.
 
-``@APP_DEIFNES@@`` - will be replaced with a set of variable definitions, like
+``@APP_DEFINES@@`` - will be replaced with a set of variable definitions, like
   ``APP_MAIN_CLASS``, ``APP_MAIN_CLASS``.
 
-You can define addiitonal variable deifnitions using ``batScriptExtraDefines``.
+You can define addiitonal variable definitions using ``batScriptExtraDefines``.
 
 ``src/templates/bash-template``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -36,11 +36,12 @@ object JavaAppPackaging {
     mappings in Universal <++= scriptClasspathOrdering,
     scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames,
     bashScriptExtraDefines := Nil,
-    bashScriptDefines <<= (Keys.mainClass in Compile, scriptClasspath, bashScriptExtraDefines) map { (mainClass, cp, extras) =>
+    bashScriptConfigLocation <<= bashScriptConfigLocation ?? None,
+    bashScriptDefines <<= (Keys.mainClass in Compile, scriptClasspath, bashScriptExtraDefines, bashScriptConfigLocation) map { (mainClass, cp, extras, config) =>
       val hasMain =
         for {
           cn <- mainClass
-        } yield JavaAppBashScript.makeDefines(cn, appClasspath = cp, extras = extras)
+        } yield JavaAppBashScript.makeDefines(cn, appClasspath = cp, extras = extras, configFile = config)
       hasMain getOrElse Nil
     },
     // TODO - Overridable bash template.
