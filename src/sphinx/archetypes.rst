@@ -75,7 +75,11 @@ Java Server
 
 This archetype is designed for Java applications that are intended to run as
 servers or services.  This archetype includes wiring an application to start 
-immediately upon startup.
+immediately upon startup. To activate this archetype replace ``packageArchetype.java_application`` with
+
+.. code-block:: scala
+
+    packageArchetype.java_server
 
 Currently supported operating systems:
 
