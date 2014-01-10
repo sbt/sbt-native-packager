@@ -98,7 +98,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping(Names.Postrm)) ++ inConfig(Debian)(Seq(
       packageArchitecture := "all",
       debianPackageInfo <<=
-        (name, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
+        (normalizedName, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
       debianPackageMetadata <<=
         (debianPackageInfo,
           debianPriority, packageArchitecture, debianSection,
