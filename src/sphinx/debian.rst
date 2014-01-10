@@ -122,8 +122,8 @@ A basic example to depend on java and recommend a git installation.
 
     debianPackageRecommends in Debian += "git"
     
-To hook into the .. _debian package lifecycle: https://wiki.debian.org/MaintainerScripts you
-can add ``preinst``,``postinst``,``prerm`` and/or``postrm`` scripts. Just place them into
+To hook into the debian package lifecycle (https://wiki.debian.org/MaintainerScripts) you
+can add ``preinst`` , ``postinst`` , ``prerm`` and/or ``postrm`` scripts. Just place them into
 ``src/debian/DEBIAN``.
 
 If you use the ``packageArchetype.java_server`` there are predefined ``postinst`` and
