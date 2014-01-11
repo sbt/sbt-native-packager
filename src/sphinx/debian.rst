@@ -127,7 +127,8 @@ can add ``preinst`` , ``postinst`` , ``prerm`` and/or ``postrm`` scripts. Just p
 ``src/debian/DEBIAN``.
 
 If you use the ``packageArchetype.java_server`` there are predefined ``postinst`` and
-``preinst`` files, which start/stop the application on install/remove calls.
+``preinst`` files, which start/stop the application on install/remove calls. Existing
+maintainer scripts will be extended not overidden.
 
 Your control scripts are in a different castle.. directory? No problem.
 
@@ -151,4 +152,9 @@ The default configuration looks like this (that means you don't have to add anyt
       
     daemonUser := "root"
     
-Change these values as you need. For more informations look at the :ref:`Archetypes` page
+Change these values as you need. When you change the ``daemonUser`` make sure
+you alter the ``packageMappings`` correctly. All users you define in the
+``packageMappings`` will be generated within in the ``postinst`` script and
+removed with ``apt-get purge`` through the ``postrm`` script.
+
+For more informations look at the :ref:`Archetypes` page.
