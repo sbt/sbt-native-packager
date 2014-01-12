@@ -80,8 +80,8 @@ For a basic debian packaging your ``build.sbt`` must contain the following setti
       
 When you run ``sbt debian:packageBin`` you will find a debian package in your ``target`` folder.
 
-Multi OS Packagin with Debian
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Multi OS Packaging with Debian
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you package for multiple operating systems you may have to be a bit more explicit in your ``build.sbt``.
 For example
