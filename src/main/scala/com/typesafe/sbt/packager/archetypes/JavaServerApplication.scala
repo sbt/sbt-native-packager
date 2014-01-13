@@ -85,6 +85,7 @@ object JavaServerAppPackaging {
       },
       // TODO - only make these if the upstart config exists...
       debianMakePrermScript <<= (normalizedName, target in Universal) map makeDebianPrermScript,
+      debianMakePostrmScript <<= (normalizedName, target in Universal, serverLoading in Debian) map makeDebianPostrmScript,
       debianMakePostinstScript <<= (normalizedName, target in Universal, serverLoading in Debian) map makeDebianPostinstScript)
 
   private def makeDebianStartScript(
@@ -102,6 +103,16 @@ object JavaServerAppPackaging {
     val script = tmpDir / "tmp" / "bin" / "debian-prerm"
     IO.write(script, scriptBits)
     Some(script)
+  }
+
+  protected def makeDebianPostrmScript(name: String, tmpDir: File, loader: ServerLoader): Option[File] = {
+    JavaAppStartScript.generatePostrm(name, loader) match {
+      case Some(scriptBits) =>
+        val script = tmpDir / "tmp" / "bin" / "debian-postrm"
+        IO.write(script, scriptBits)
+        Some(script)
+      case None => None
+    }
   }
 
   protected def makeDebianPostinstScript(name: String, tmpDir: File, loader: ServerLoader): Option[File] = {
