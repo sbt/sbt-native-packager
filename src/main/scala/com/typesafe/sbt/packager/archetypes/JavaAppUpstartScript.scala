@@ -15,6 +15,7 @@ object JavaAppStartScript {
   protected def sysvinitTemplateSource: URL = getClass.getResource("sysvinit-template")
   protected def postinstTemplateSource: URL = getClass.getResource("postinst-template")
   protected def postinstSysvinitTemplateSource: URL = getClass.getResource("postinst-sysvinit-template")
+  protected def postrmSysvinitTemplateSource: URL = getClass.getResource("postrm-sysvinit-template")
   protected def preremTemplateSource: URL = getClass.getResource("prerem-template")
   
   
@@ -28,6 +29,15 @@ object JavaAppStartScript {
 
   def generatePrerm(appName: String, template: java.net.URL = preremTemplateSource): String =
     TemplateWriter.generateScript(template, Seq("app_name" -> appName))
+
+
+  def generatePostrm(appName: String, loader: ServerLoader, template: Option[java.net.URL] = None): Option[String] =
+    (template, loader) match {
+      case (Some(template), _) => Option(TemplateWriter.generateScript(template, Seq("app_name" -> appName)))
+      case (_, SystemV) =>
+        Option(TemplateWriter.generateScript(postrmSysvinitTemplateSource, Seq("app_name" -> appName)))
+      case (_, _) => None
+    }
 
 
   def generatePostinst(appName: String, loader: ServerLoader, template: Option[java.net.URL] = None): String =
