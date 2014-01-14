@@ -54,7 +54,7 @@ object JavaServerAppPackaging {
         map makeDebianStartScript,
       linuxEtcDefaultTemplate in Debian <<= sourceDirectory map { dir =>
         val overrideScript = dir / "templates" / "etc-default"
-        if(overrideScript.exists) overrideScript.toURI.toURL
+        if (overrideScript.exists) overrideScript.toURI.toURL
         else etcDefaultTemplateSource
       },
       debianMakeEtcDefault <<= (normalizedName, target in Universal, serverLoading in Debian, linuxEtcDefaultTemplate in Debian)
@@ -84,7 +84,7 @@ object JavaServerAppPackaging {
         (name, install) => LinuxSymlink(install + "/" + name + "/logs", "/var/log/" + name)
       },
       // TODO - only make these if the upstart config exists...
-      debianMakePrermScript <<= (normalizedName, target in Universal) map makeDebianPrermScript,
+      debianMakePrermScript <<= (normalizedName, target in Universal, serverLoading in Debian) map makeDebianPrermScript,
       debianMakePostrmScript <<= (normalizedName, target in Universal, serverLoading in Debian) map makeDebianPostrmScript,
       debianMakePostinstScript <<= (normalizedName, target in Universal, serverLoading in Debian) map makeDebianPostinstScript)
 
@@ -98,8 +98,8 @@ object JavaServerAppPackaging {
       Some(script)
     }
 
-  protected def makeDebianPrermScript(name: String, tmpDir: File): Option[File] = {
-    val scriptBits = JavaAppStartScript.generatePrerm(name)
+  protected def makeDebianPrermScript(name: String, tmpDir: File, loader: ServerLoader): Option[File] = {
+    val scriptBits = JavaAppStartScript.generatePrerm(loader, name)
     val script = tmpDir / "tmp" / "bin" / "debian-prerm"
     IO.write(script, scriptBits)
     Some(script)

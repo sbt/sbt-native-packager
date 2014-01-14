@@ -11,25 +11,31 @@ object JavaAppStartScript {
 
   import ServerLoader._
 
-  protected def upstartTemplateSource: URL = getClass.getResource("upstart-template")
-  protected def sysvinitTemplateSource: URL = getClass.getResource("sysvinit-template")
-  protected def postinstTemplateSource: URL = getClass.getResource("postinst-template")
-  protected def postinstSysvinitTemplateSource: URL = getClass.getResource("postinst-sysvinit-template")
-  protected def postrmSysvinitTemplateSource: URL = getClass.getResource("postrm-sysvinit-template")
-  protected def preremTemplateSource: URL = getClass.getResource("prerem-template")
-  
-  
+  // Upstart
+  protected def upstartTemplateSource: URL = getClass.getResource("upstart/template")
+  protected def postinstUpstartTemplateSource: URL = getClass.getResource("upstart/postinst-template")
+  protected def preremUpstartTemplateSource: URL = getClass.getResource("upstart/prerem-template")
+
+  // SystemV
+  protected def sysvinitTemplateSource: URL = getClass.getResource("systemv/template")
+  protected def postinstSysvinitTemplateSource: URL = getClass.getResource("systemv/postinst-template")
+  protected def preremSysvinitTemplateSource: URL = getClass.getResource("systemv/prerem-template")
+  protected def postrmSysvinitTemplateSource: URL = getClass.getResource("systemv/postrm-template")
+
+  // TODO maybe refactor the pattern matching (this is so copy'n' paste pattern)
   def defaultStartScriptTemplate(loader: ServerLoader, defaultLocation: File): URL =
-    if(defaultLocation.exists) defaultLocation.toURI.toURL
+    if (defaultLocation.exists) defaultLocation.toURI.toURL
     else loader match {
       case Upstart => upstartTemplateSource
       case SystemV => sysvinitTemplateSource
     }
 
-
-  def generatePrerm(appName: String, template: java.net.URL = preremTemplateSource): String =
-    TemplateWriter.generateScript(template, Seq("app_name" -> appName))
-
+  def generatePrerm(loader: ServerLoader, appName: String, template: Option[java.net.URL] = None): String =
+    (template, loader) match {
+      case (Some(template), _) => TemplateWriter.generateScript(template, Seq("app_name" -> appName))
+      case (_, SystemV) => TemplateWriter.generateScript(preremSysvinitTemplateSource, Seq("app_name" -> appName))
+      case (_, Upstart) => TemplateWriter.generateScript(preremUpstartTemplateSource, Seq("app_name" -> appName))
+    }
 
   def generatePostrm(appName: String, loader: ServerLoader, template: Option[java.net.URL] = None): Option[String] =
     (template, loader) match {
@@ -39,17 +45,15 @@ object JavaAppStartScript {
       case (_, _) => None
     }
 
-
   def generatePostinst(appName: String, loader: ServerLoader, template: Option[java.net.URL] = None): String =
     (template, loader) match {
       // User has overriden the default.
-      case (Some(template), _) => TemplateWriter.generateScript(template, Seq("app_name" -> appName)) 
+      case (Some(template), _) => TemplateWriter.generateScript(template, Seq("app_name" -> appName))
       case (_, Upstart) =>
-        TemplateWriter.generateScript(postinstTemplateSource, Seq("app_name" -> appName))
+        TemplateWriter.generateScript(postinstUpstartTemplateSource, Seq("app_name" -> appName))
       case (_, SystemV) =>
         TemplateWriter.generateScript(postinstSysvinitTemplateSource, Seq("app_name" -> appName))
     }
-
 
   /**
    *
@@ -82,10 +86,8 @@ object JavaAppStartScript {
       "app_name" -> appName,
       "app_main_class" -> appMainClass,
       "app_classpath" -> appClasspath,
-      "daemon_user" -> daemonUser
-    )
+      "daemon_user" -> daemonUser)
 }
-
 
 object ServerLoader extends Enumeration {
   type ServerLoader = Value
