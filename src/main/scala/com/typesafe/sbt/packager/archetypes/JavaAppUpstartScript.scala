@@ -10,50 +10,67 @@ import java.net.URL
 object JavaAppStartScript {
 
   import ServerLoader._
+  import com.typesafe.sbt.packager.debian.DebianPlugin.Names._
+  val startScript = "start"
 
-  // Upstart
-  protected def upstartTemplateSource: URL = getClass.getResource("upstart/template")
-  protected def postinstUpstartTemplateSource: URL = getClass.getResource("upstart/postinst-template")
-  protected def preremUpstartTemplateSource: URL = getClass.getResource("upstart/prerem-template")
+  private val upstartScripts = Seq(startScript, Postinst, Prerm)
+  private val systemvScripts = Seq(startScript, Postinst, Prerm, Postrm)
 
-  // SystemV
-  protected def sysvinitTemplateSource: URL = getClass.getResource("systemv/template")
-  protected def postinstSysvinitTemplateSource: URL = getClass.getResource("systemv/postinst-template")
-  protected def preremSysvinitTemplateSource: URL = getClass.getResource("systemv/prerem-template")
-  protected def postrmSysvinitTemplateSource: URL = getClass.getResource("systemv/postrm-template")
-
-  // TODO maybe refactor the pattern matching (this is so copy'n' paste pattern)
+  /**
+   * Generating the URL to the startScript template.
+   * 1. Looking in defaultLocation
+   * 2. Using default fallback
+   *
+   * @param loader - used, when no file in the defaultLocation
+   * @param defaultLocation - use if exists
+   */
   def defaultStartScriptTemplate(loader: ServerLoader, defaultLocation: File): URL =
     if (defaultLocation.exists) defaultLocation.toURI.toURL
-    else loader match {
-      case Upstart => upstartTemplateSource
-      case SystemV => sysvinitTemplateSource
-    }
+    else templateUrl(startScript, loader) get
 
-  def generatePrerm(loader: ServerLoader, appName: String, template: Option[java.net.URL] = None): String =
-    (template, loader) match {
-      case (Some(template), _) => TemplateWriter.generateScript(template, Seq("app_name" -> appName))
-      case (_, SystemV) => TemplateWriter.generateScript(preremSysvinitTemplateSource, Seq("app_name" -> appName))
-      case (_, Upstart) => TemplateWriter.generateScript(preremUpstartTemplateSource, Seq("app_name" -> appName))
-    }
+  /**
+   * Generating the start script depending on the serverLoader.
+   *
+   * @param loader - which startup system
+   * @param replacements - default replacements
+   * @param template - if specified, it will override the default one
+   */
+  def generateStartScript(
+    loader: ServerLoader,
+    replacements: Seq[(String, String)],
+    template: Option[URL] = None): Option[String] = generateTemplate(startScript, loader, replacements, template)
 
-  def generatePostrm(appName: String, loader: ServerLoader, template: Option[java.net.URL] = None): Option[String] =
-    (template, loader) match {
-      case (Some(template), _) => Option(TemplateWriter.generateScript(template, Seq("app_name" -> appName)))
-      case (_, SystemV) =>
-        Option(TemplateWriter.generateScript(postrmSysvinitTemplateSource, Seq("app_name" -> appName)))
-      case (_, _) => None
-    }
+  /**
+   *
+   * @param templateName - DebianPlugin.Names for maintainer scripts and "start"
+   * @param loader - which startup system
+   * @param replacements - default replacements
+   * @param template - if specified, it will override the default one
+   */
+  def generateTemplate(
+    templateName: String,
+    loader: ServerLoader,
+    replacements: Seq[(String, String)],
+    template: Option[URL] = None): Option[String] = {
 
-  def generatePostinst(appName: String, loader: ServerLoader, template: Option[java.net.URL] = None): String =
-    (template, loader) match {
-      // User has overriden the default.
-      case (Some(template), _) => TemplateWriter.generateScript(template, Seq("app_name" -> appName))
-      case (_, Upstart) =>
-        TemplateWriter.generateScript(postinstUpstartTemplateSource, Seq("app_name" -> appName))
-      case (_, SystemV) =>
-        TemplateWriter.generateScript(postinstSysvinitTemplateSource, Seq("app_name" -> appName))
+    // use template orElse search for a default
+    val url = templateUrl(templateName, loader, template)
+
+    // if an url was found, create the script
+    url map { template =>
+      TemplateWriter generateScript (template, replacements)
     }
+  }
+
+  def templateUrl(templateName: String, loader: ServerLoader, template: Option[URL] = None): Option[URL] = template orElse {
+    Option(loader match {
+      case Upstart if (upstartScripts contains templateName) =>
+        getClass getResource ("upstart/" + templateName + "-template")
+      case SystemV if (systemvScripts contains templateName) =>
+        getClass getResource ("systemv/" + templateName + "-template")
+      case _ => null
+    })
+  }
 
   /**
    *
