@@ -1,6 +1,6 @@
 language: scala
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION scripted rpm/* debian/* universal/*
+  - sbt ++$TRAVIS_SCALA_VERSION "scripted rpm/* debian/* universal/*"
 scala:
   - 2.10.3
 jdk:
