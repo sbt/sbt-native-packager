@@ -26,7 +26,7 @@ object JavaAppStartScript {
    */
   def defaultStartScriptTemplate(loader: ServerLoader, defaultLocation: File): URL =
     if (defaultLocation.exists) defaultLocation.toURI.toURL
-    else templateUrl(startScript, loader) get
+    else templateUrl(startScript, loader) getOrElse sys.error("Default startscript not available for loader: " + loader)
 
   /**
    * Generating the start script depending on the serverLoader.
