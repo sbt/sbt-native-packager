@@ -1,4 +1,4 @@
 #Some start script options could be overridden here
-#RUN_OPTS=""
+RUN_OPTS="${{run_opts}}"
 #DAEMON_USER=""
 #JAVA_CMD=""

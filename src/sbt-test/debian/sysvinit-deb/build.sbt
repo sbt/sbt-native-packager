@@ -20,3 +20,4 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
+javaOptions in run ++= Seq("-d64")
