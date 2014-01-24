@@ -88,8 +88,6 @@ object JavaAppStartScript {
     execScript: String,
     chdir: String,
     appName: String,
-    appMainClass: String,
-    appClasspath: String,
     daemonUser: String,
     retries: Int = 0,
     retryTimeout: Int = 60): Seq[(String, String)] =
@@ -101,8 +99,6 @@ object JavaAppStartScript {
       "retries" -> retries.toString,
       "retryTimeout" -> retryTimeout.toString,
       "app_name" -> appName,
-      "app_main_class" -> appMainClass,
-      "app_classpath" -> appClasspath,
       "daemon_user" -> daemonUser)
 }
 
