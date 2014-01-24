@@ -13,13 +13,6 @@ test -e /etc/default/${{app_name}} && source /etc/default/${{app_name}}
 source /lib/init/vars.sh
 source /lib/lsb/init-functions
 
-get_java_cmd() {
-  if [ -x "$JAVA_HOME/bin/java" ]; then
-    echo "$JAVA_HOME/bin/java"
-  else
-    echo $(which java)
-  fi
-}
 
 PIDFILE=/var/run/${{app_name}}.pid
 
@@ -27,17 +20,14 @@ if [ -z "$DAEMON_USER" ]; then
     DAEMON_USER=${{daemon_user}}
 fi
 
-if [ -z "$JAVA_CMD" ]; then
-    JAVA_CMD=$(get_java_cmd)
-fi
 
 # smb could define some additional options in $RUN_OPTS
-RUN_CMD="-cp ${{app_classpath}} ${{app_main_class}} $RUN_OPTS"
+RUN_CMD="${{chdir}}/bin/${{app_name}}"
 
 
 start_daemon() {
     log_daemon_msg "Starting" "${{app_name}}"
-    start-stop-daemon --background --chdir ${{chdir}} --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --exec "$JAVA_CMD" --start -- $RUN_CMD
+    start-stop-daemon --background --chdir ${{chdir}} --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --exec "$RUN_CMD" --start -- $RUN_OPTS
     log_end_msg $?
 }
 
