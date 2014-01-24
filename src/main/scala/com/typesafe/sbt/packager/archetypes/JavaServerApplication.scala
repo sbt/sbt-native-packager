@@ -4,7 +4,7 @@ package archetypes
 
 import Keys._
 import sbt._
-import sbt.Keys.{ target, mainClass, normalizedName, sourceDirectory }
+import sbt.Keys.{ target, mainClass, normalizedName, sourceDirectory, javaOptions, run}
 import SbtNativePackager._
 import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
 import com.typesafe.sbt.packager.debian.DebianPlugin
@@ -72,7 +72,7 @@ object JavaServerAppPackaging {
         if (overrideScript.exists) overrideScript.toURI.toURL
         else etcDefaultTemplateSource
       },
-      debianMakeEtcDefault <<= (normalizedName, target in Universal, serverLoading in Debian, linuxEtcDefaultTemplate in Debian)
+      debianMakeEtcDefault <<= (normalizedName, target in Universal, serverLoading in Debian, linuxEtcDefaultTemplate in Debian, javaOptions in run)
         map makeEtcDefaultScript,
       linuxPackageMappings in Debian <++= (debianMakeEtcDefault, normalizedName) map { (conf, name) =>
         conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name))).withConfig()).toSeq
@@ -106,11 +106,11 @@ object JavaServerAppPackaging {
     }
   }
 
-  protected def makeEtcDefaultScript(name: String, tmpDir: File, loader: ServerLoader, source: java.net.URL): Option[File] = {
+  protected def makeEtcDefaultScript(name: String, tmpDir: File, loader: ServerLoader, source: java.net.URL, javaOpts: Seq[String]): Option[File] = {
     loader match {
       case Upstart => None
       case SystemV => {
-        val scriptBits = TemplateWriter.generateScript(source, Seq.empty)
+        val scriptBits = TemplateWriter.generateScript(source, Seq("run_opts" -> javaOpts.mkString(" ")))
         val script = tmpDir / "tmp" / "etc" / "default" / name
         IO.write(script, scriptBits)
         Some(script)
