@@ -127,7 +127,8 @@ execRunner () {
     echo ""
   }
 
-  exec "$@"
+  # We Don't use "exec" here for our pids to be accurate.
+  "$@"
 }
 addJava () {
   dlog "[addJava] arg = '$1'"

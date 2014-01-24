@@ -33,10 +33,9 @@ object JavaServerAppPackaging {
       // This one is begging for sbt 0.13 syntax...
       debianScriptReplacements <<= (
         maintainer in Debian, packageSummary in Debian, serverLoading in Debian, daemonUser in Debian, normalizedName,
-        sbt.Keys.version, defaultLinuxInstallLocation, mainClass in Compile, scriptClasspath)
-        map { (author, descr, loader, daemonUser, name, version, installLocation, mainClass, cp) =>
+        sbt.Keys.version, defaultLinuxInstallLocation)
+        map { (author, descr, loader, daemonUser, name, version, installLocation) =>
           val appDir = installLocation + "/" + name
-          val appClasspath = cp.map(appDir + "/lib/" + _).mkString(":")
 
           JavaAppStartScript.makeReplacements(
             author = author,
@@ -44,8 +43,6 @@ object JavaServerAppPackaging {
             execScript = name,
             chdir = appDir,
             appName = name,
-            appClasspath = appClasspath,
-            appMainClass = mainClass.get,
             daemonUser = daemonUser)
         },
       // TODO - Default locations shouldn't be so hacky.
