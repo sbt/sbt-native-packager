@@ -5,7 +5,7 @@ packageArchetype.java_server
 
 serverLoading in Debian := ServerLoader.Upstart
 
-daemonUser in Debian := "daemonUser"
+appUser in Linux := "daemonUser"
 
 mainClass in Compile := Some("empty")
 
@@ -27,6 +27,7 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
   assert(postinst contains "addgroup --system daemonUser", "postinst misses addgroup for daemonUser: " + postinst)
   assert(postinst contains "useradd --system --no-create-home --gid daemonUser --shell /bin/false daemonUser", "postinst misses useradd for daemonUser: " + postinst)
   assert(postinst contains "chown daemonUser:daemonUser /var/log/debian-test", "postinst misses chown daemonUser /var/log/debian-test: " + postinst)
+  assert(postinst contains "chown daemonUser:daemonUser /usr/share/debian-test/bin/debian-test", "postinst misses chown daemonUser /usr/share/debian-test/bin/debian-test: " + postinst)
   assert(postrm contains "deluser --quiet --system daemonUser > /dev/null || true", "postrm misses purging daemonUser user: " + postrm)
   assert(postrm contains "delgroup --quiet --system daemonUser > /dev/null || true", "postrm misses purging daemonUser group: " + postrm)
   out.log.success("Successfully tested upstart control files")

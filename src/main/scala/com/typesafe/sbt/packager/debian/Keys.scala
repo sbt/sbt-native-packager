@@ -83,6 +83,9 @@ object Keys extends DebianKeys {
   def target = sbt.Keys.target
   def streams = sbt.Keys.streams
 
+  // file ownership
+  def appUser = linux.Keys.appUser
+
   //init script parameters
   def daemonUser = linux.Keys.daemonUser
   def serverLoading = linux.Keys.serverLoading
