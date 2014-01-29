@@ -19,7 +19,7 @@
 
 # Setting -X directly (-J is stripped)
 # -J-X
-# -J-Xmx 1024
+# -J-Xmx1024
 
 # Add additional jvm parameters
 # -Dkey=val
