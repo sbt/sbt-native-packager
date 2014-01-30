@@ -55,15 +55,15 @@ object JavaServerAppPackaging {
         map { (tmpDir, loader, replacements, template) =>
           makeDebianMaintainerScript(JavaAppStartScript.startScript, Some(template))(tmpDir, loader, replacements)
         },
-      linuxPackageMappings in Debian <++= (debianMakeStartScript, normalizedName, serverLoading in Debian, appUser in Linux)
-        map { (script, name, loader, owner) =>
+      linuxPackageMappings in Debian <++= (debianMakeStartScript, normalizedName, serverLoading in Debian, appUser in Linux, appGroup in Linux)
+        map { (script, name, loader, owner, ownerGroup) =>
           val (path, permissions) = loader match {
             case Upstart => ("/etc/init/" + name + ".conf", "0644")
             case SystemV => ("/etc/init.d/" + name, "0755")
           }
           for {
             s <- script.toSeq
-          } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(owner, owner, permissions, "true"))
+          } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(owner, ownerGroup, permissions, "true"))
         },
 
       // === etc config mapping ===
@@ -75,18 +75,18 @@ object JavaServerAppPackaging {
       },
       debianMakeEtcDefault <<= (normalizedName, target in Universal, linuxEtcDefaultTemplate in Debian, debianScriptReplacements)
         map makeEtcDefaultScript,
-      linuxPackageMappings in Debian <++= (debianMakeEtcDefault, normalizedName, appUser in Linux) map { (conf, name, owner) =>
-        conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)), LinuxFileMetaData(owner, owner)).withConfig()).toSeq
+      linuxPackageMappings in Debian <++= (debianMakeEtcDefault, normalizedName, appUser in Linux, appGroup in Linux) map { (conf, name, owner, ownerGroup) =>
+        conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)), LinuxFileMetaData(owner, ownerGroup)).withConfig()).toSeq
       },
       // TODO should we specify daemonGroup in configs?
 
       // === logging directory mapping ===
-      linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxLogsLocation, target in Debian, appUser in Linux) map {
-        (name, logsDir, target, user) =>
+      linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxLogsLocation, target in Debian, appUser in Linux, appGroup in Linux) map {
+        (name, logsDir, target, user, group) =>
           // create empty var/log directory
           val d = target / logsDir
           d.mkdirs()
-          LinuxPackageMapping(Seq(d -> (logsDir + "/" + name)), LinuxFileMetaData(user, user))
+          LinuxPackageMapping(Seq(d -> (logsDir + "/" + name)), LinuxFileMetaData(user, group))
       },
       linuxPackageSymlinks in Debian <+= (normalizedName, defaultLinuxInstallLocation) map {
         (name, install) => LinuxSymlink(install + "/" + name + "/logs", "/var/log/" + name)

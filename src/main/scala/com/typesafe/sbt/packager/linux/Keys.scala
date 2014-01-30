@@ -12,6 +12,7 @@ trait Keys {
   val packageDescription = SettingKey[String]("package-description", "The description of the package.  Used when searching.")
   val maintainer = SettingKey[String]("maintainer", "The name/email address of a maintainer for the native package.")
   val appUser = SettingKey[String]("app-user", "The owner of the files in the package")
+  val appGroup = SettingKey[String]("app-group", "The group owner of the files in the package")
   val daemonUser = SettingKey[String]("daemon-user", "User to start application daemon")
   val serverLoading = SettingKey[ServerLoader]("server-loader", "Loading system to be used for application start script")
   val linuxPackageMappings = TaskKey[Seq[LinuxPackageMapping]]("linux-package-mappings", "File to install location mappings including owner and privileges.")

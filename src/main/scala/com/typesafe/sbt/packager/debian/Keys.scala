@@ -85,6 +85,7 @@ object Keys extends DebianKeys {
 
   // file ownership
   def appUser = linux.Keys.appUser
+  def appGroup = linux.Keys.appGroup
 
   //init script parameters
   def daemonUser = linux.Keys.daemonUser

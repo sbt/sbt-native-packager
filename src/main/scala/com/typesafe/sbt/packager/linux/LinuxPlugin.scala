@@ -27,7 +27,7 @@ trait LinuxPlugin extends Plugin {
     },
     packageSummary in Linux <<= packageSummary,
     packageDescription in Linux <<= packageDescription,
-    appUser := Users.Root)
+    appUser := Users.Root, appGroup <<= appUser in Linux)
 
   /** DSL for packaging files into .deb */
   def packageMapping(files: (File, String)*) = LinuxPackageMapping(files)
