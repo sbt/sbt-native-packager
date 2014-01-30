@@ -4,6 +4,7 @@ package linux
 
 import Keys._
 import sbt._
+import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
 
 /**
  * Plugin trait containing all the generic values used for
@@ -25,7 +26,8 @@ trait LinuxPlugin extends Plugin {
       }
     },
     packageSummary in Linux <<= packageSummary,
-    packageDescription in Linux <<= packageDescription)
+    packageDescription in Linux <<= packageDescription,
+    appUser := Users.Root)
 
   /** DSL for packaging files into .deb */
   def packageMapping(files: (File, String)*) = LinuxPackageMapping(files)
