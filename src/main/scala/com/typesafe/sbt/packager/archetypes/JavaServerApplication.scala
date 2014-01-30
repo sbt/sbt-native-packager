@@ -67,12 +67,13 @@ object JavaServerAppPackaging {
         },
 
       // === etc config mapping ===
+      bashScriptConfigLocation <<= normalizedName map (name => Some("/etc/default/" + name)),
       linuxEtcDefaultTemplate in Debian <<= sourceDirectory map { dir =>
         val overrideScript = dir / "templates" / "etc-default"
         if (overrideScript.exists) overrideScript.toURI.toURL
         else etcDefaultTemplateSource
       },
-      debianMakeEtcDefault <<= (normalizedName, target in Universal, serverLoading in Debian, linuxEtcDefaultTemplate in Debian)
+      debianMakeEtcDefault <<= (normalizedName, target in Universal, linuxEtcDefaultTemplate in Debian, debianScriptReplacements)
         map makeEtcDefaultScript,
       linuxPackageMappings in Debian <++= (debianMakeEtcDefault, normalizedName) map { (conf, name) =>
         conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name))).withConfig()).toSeq
@@ -106,15 +107,10 @@ object JavaServerAppPackaging {
     }
   }
 
-  protected def makeEtcDefaultScript(name: String, tmpDir: File, loader: ServerLoader, source: java.net.URL): Option[File] = {
-    loader match {
-      case Upstart => None
-      case SystemV => {
-        val scriptBits = TemplateWriter.generateScript(source, Seq.empty)
-        val script = tmpDir / "tmp" / "etc" / "default" / name
-        IO.write(script, scriptBits)
-        Some(script)
-      }
-    }
+  protected def makeEtcDefaultScript(name: String, tmpDir: File, source: java.net.URL, replacements: Seq[(String, String)]): Option[File] = {
+    val scriptBits = TemplateWriter.generateScript(source, replacements)
+    val script = tmpDir / "tmp" / "etc" / "default" / name
+    IO.write(script, scriptBits)
+    Some(script)
   }
 }

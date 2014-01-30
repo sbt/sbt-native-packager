@@ -3,7 +3,9 @@
 $ exists target/debian-test-0.1.0.deb
 
 $ exists target/debian-test-0.1.0/etc
+$ exists target/debian-test-0.1.0/etc/default/debian-test
 $ exists target/debian-test-0.1.0/etc/init/debian-test.conf
+
 # Check defaults
 $ exists target/debian-test-0.1.0/DEBIAN/prerm
 $ exists target/debian-test-0.1.0/DEBIAN/postinst
