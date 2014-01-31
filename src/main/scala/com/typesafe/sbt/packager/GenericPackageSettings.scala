@@ -33,7 +33,7 @@ trait GenericPackageSettings
    * `../man/...1` files are automatically compressed into .gz files.
    *
    */
-  def mapGenericMappingsToLinux(mappings: Seq[(File, String)], user: String)(rename: String => String): Seq[LinuxPackageMapping] = {
+  def mapGenericMappingsToLinux(mappings: Seq[(File, String)], user: String, group: String)(rename: String => String): Seq[LinuxPackageMapping] = {
     val (directories, nondirectories) = mappings.partition(_._1.isDirectory)
     val (binaries, nonbinaries) = nondirectories.partition(_._1.canExecute)
     val (manPages, nonManPages) = nonbinaries partition {
@@ -53,13 +53,13 @@ trait GenericPackageSettings
     }
     
     Seq(
-      packageMappingWithRename((binaries ++ directories):_*) withUser user withGroup user withPerms "0755",
-      packageMappingWithRename(compressedManPages:_*).gzipped withUser user withGroup user withPerms "0644",
-      packageMappingWithRename(configFiles:_*) withConfig() withUser user withGroup user withPerms "0644",
-      packageMappingWithRename(remaining:_*) withUser user withGroup user withPerms "0644"
+      packageMappingWithRename((binaries ++ directories):_*) withUser user withGroup group withPerms "0755",
+      packageMappingWithRename(compressedManPages:_*).gzipped withUser user withGroup group withPerms "0644",
+      packageMappingWithRename(configFiles:_*) withConfig() withUser user withGroup group withPerms "0644",
+      packageMappingWithRename(remaining:_*) withUser user withGroup group withPerms "0644"
     )  
   }
-  
+
   def mapGenericFilesToLinux: Seq[Setting[_]] = Seq(
 
     // Default place to install code.
@@ -67,17 +67,17 @@ trait GenericPackageSettings
     defaultLinuxLogsLocation := "/var/log",
 
     // First we look at the src/linux files
-    linuxPackageMappings <++= (sourceDirectory in Linux, appUser in Linux) map { (dir, user) =>
-      mapGenericMappingsToLinux((dir.*** --- dir) x relativeTo(dir), user)(identity)
+    linuxPackageMappings <++= (sourceDirectory in Linux, appUser in Linux, appGroup in Linux) map { (dir, user, group) =>
+      mapGenericMappingsToLinux((dir.*** --- dir) x relativeTo(dir), user, group)(identity)
     },
     // Now we look at the src/universal files.
-    linuxPackageMappings <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation, appUser in Linux) map {
-      (pkg, mappings, installLocation, user) =>
+    linuxPackageMappings <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation, appUser in Linux, appGroup in Linux) map {
+      (pkg, mappings, installLocation, user, group) =>
       // TODO - More windows filters...
       def isWindowsFile(f: (File, String)): Boolean =
         f._2 endsWith ".bat"
       
-      mapGenericMappingsToLinux(mappings filterNot isWindowsFile, user) { name =>
+      mapGenericMappingsToLinux(mappings filterNot isWindowsFile, user, group) { name =>
         installLocation + "/" + pkg + "/" + name
       }
     },

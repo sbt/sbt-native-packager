@@ -6,7 +6,7 @@ import Keys._
 import sbt._
 import sbt.Project.Initialize
 import sbt.Keys.{ mappings, target, name, mainClass, normalizedName, sourceDirectory }
-import linux.LinuxPackageMapping
+import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping}
 import SbtNativePackager._
 
 /**
@@ -63,6 +63,13 @@ object JavaAppPackaging {
       for {
         s <- script.toSeq
       } yield s -> ("bin/" + name + ".bat")
+    },
+    linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxInstallLocation, target in Debian, appUser in Linux, appGroup in Linux) map {
+      (name, installLocation, target, user, group) =>
+      // create empty var/log directory
+        val d = target / installLocation
+        d.mkdirs()
+        LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData(user, group))
     })
 
   def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =
