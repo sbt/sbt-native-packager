@@ -128,7 +128,7 @@ can add ``preinst`` , ``postinst`` , ``prerm`` and/or ``postrm`` scripts. Just p
 
 If you use the ``packageArchetype.java_server`` there are predefined ``postinst`` and
 ``preinst`` files, which start/stop the application on install/remove calls. Existing
-maintainer scripts will be extended not overidden.
+maintainer scripts will be extended not overridden.
 
 Your control scripts are in a different castle.. directory? No problem.
 
@@ -149,12 +149,14 @@ The default configuration looks like this (that means you don't have to add anyt
     import com.typesafe.sbt.packager.archetypes.ServerLoader.{Upstart, SystemV}
 
     serverLoading := Upstart
-      
-    daemonUser := "root"
-    
-Change these values as you need. When you change the ``daemonUser`` make sure
-you alter the ``packageMappings`` correctly. All users you define in the
-``packageMappings`` will be generated within in the ``postinst`` script and
-removed with ``apt-get purge`` through the ``postrm`` script.
 
-For more informations look at the :ref:`Archetypes` page.
+The default configuration will create a default system user and group for ownerships of the
+installed files. This user will also be used to execute the daemon service so it does
+not run as the **root** user.
+
+This default can be overridden using the ``appUser`` and ``appGroup`` keys, change
+these values as you need. The user or group you define in the appropriate keys will be
+created within in the ``postinst`` script and removed with ``apt-get purge`` through the
+``postrm`` script.
+
+For more information look at the :ref:`Archetypes` page.

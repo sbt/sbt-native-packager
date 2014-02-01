@@ -75,9 +75,10 @@ For debian packaging there are a few things generated for you
 * A template folder `/var/log/<app-name>`
 * A symlink `/installdir/<app-name>/logs` to `/var/log/<app-name` (Installdir is by default `/usr/share`)
 * Default `serverLoading` is `Upstart` (you can choose SystemV with `com.typesafe.sbt.packager.archetypes.ServerLoader.SystemV` )
-* Default `daemonUser` is _root_
-* If you choose different permissions than the default ones for your packages, _add-user_ and _remove-user_ statements will be added to
-the `postrm` and `postinst` control files
+* Default `appUser` is the normalized name of the package
+* Default `daemonUser` is `appUser`
+* _add-user_ and _remove-user_ statements will be added to
+the `postrm` and `postinst` control files for `appUser`
 
 ### By-hand packaging ###
 

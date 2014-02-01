@@ -4,6 +4,7 @@ package linux
 
 import Keys._
 import sbt._
+import sbt.Keys.{ normalizedName }
 import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
 
 /**
@@ -27,7 +28,7 @@ trait LinuxPlugin extends Plugin {
     },
     packageSummary in Linux <<= packageSummary,
     packageDescription in Linux <<= packageDescription,
-    appUser := Users.Root, appGroup <<= appUser in Linux)
+    appUser <<= normalizedName, appGroup <<= appUser in Linux)
 
   /** DSL for packaging files into .deb */
   def packageMapping(files: (File, String)*) = LinuxPackageMapping(files)

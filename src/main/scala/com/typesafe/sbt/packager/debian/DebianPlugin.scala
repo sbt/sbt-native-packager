@@ -4,9 +4,8 @@ package debian
 
 import Keys._
 import sbt._
-import sbt.Keys.{ mappings, target, name, mainClass, normalizedName }
+import sbt.Keys.{ target, name, normalizedName, TaskStreams }
 import linux.LinuxPackageMapping
-import linux.LinuxSymlink
 import linux.LinuxFileMetaData
 import com.typesafe.sbt.packager.Hashing
 import com.typesafe.sbt.packager.linux.LinuxSymlink
@@ -14,6 +13,7 @@ import com.typesafe.sbt.packager.archetypes.TemplateWriter
 
 trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   val Debian = config("debian") extend Linux
+  val UserNamePattern = "^[a-z][-a-z0-9_]*$".r
 
   import com.typesafe.sbt.packager.universal.Archives
   import DebianPlugin.Names
@@ -57,6 +57,15 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
   }
 
 
+  private[this] def createFileIfRequired(script: File, perms: LinuxFileMetaData): File = {
+    if (!script.exists()) {
+      script.createNewFile()
+      chmod(script, perms.permissions)
+    }
+    script
+  }
+
+
   private[this] def scriptMapping(scriptName: String)(script: Option[File], controlDir: File): Seq[(File, String)] = {
     (script, controlDir) match {
       // check if user defined script exists
@@ -64,6 +73,15 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
         Seq(file((dir / scriptName).getAbsolutePath) -> scriptName)
       // create mappings for generated script
       case (scr, _) => scr.toSeq.map(_ -> scriptName)
+    }
+  }
+
+  private[this] def validateUserGroupNames(user: String, streams: TaskStreams) {
+    if ((UserNamePattern findFirstIn user).isEmpty) {
+      streams.log.warn("The user or group '" + user + "' may contain invalid characters for Debian based distributions")
+    }
+    if (user.length > 32) {
+      streams.log.warn("The length of '" + user + "' must be not be greater than 32 characters for Debian based distributions.")
     }
   }
 
@@ -172,8 +190,8 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           } groupBy (_._1) foreach {
             case ((user, group), pathList) =>
               streams.log info ("Altering postrm/postinst files to add user " + user + " and group " + group)
-              val postinst = t / Names.Debian / Names.Postinst
-              val postrm = t / Names.Debian / Names.Postrm
+              val postinst = createFileIfRequired(t / Names.Debian / Names.Postinst, LinuxFileMetaData())
+              val postrm = createFileIfRequired(t / Names.Debian / Names.Postrm, LinuxFileMetaData())
 
               val replacements = Seq("group" -> group, "user" -> user)
 
@@ -184,6 +202,9 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
                   val chownAdd = Seq(TemplateWriter.generateScript(DebianPlugin.postinstChownTemplateSource, pathReplacements))
                   prependAndFixPerms(postinst, chownAdd, LinuxFileMetaData())
               }
+
+              validateUserGroupNames(user, streams)
+              validateUserGroupNames(group, streams)
 
               val userGroupAdd = Seq(
                 TemplateWriter.generateScript(DebianPlugin.postinstGroupaddTemplateSource, replacements),
