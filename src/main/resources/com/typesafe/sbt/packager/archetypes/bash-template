@@ -304,7 +304,7 @@ Usage: $script_name [options]
   -v | -verbose      this runner is chattier
   -d | -debug        set sbt log level to debug
   -no-version-check  Don't run the java version check.
-  -mem    <integer>  set memory options (default: $sbt_mem, which is $(get_mem_opts $sbt_mem))
+  -mem <integer>     set memory options in MB (default: $sbt_mem, which is $(get_mem_opts $sbt_mem))
   -jvm-debug <port>  Turn on JVM debugging, open at the given port.
 
   # java version (default: java from PATH, currently $(java -version 2>&1 | grep version))
