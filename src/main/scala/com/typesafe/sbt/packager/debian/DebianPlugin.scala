@@ -41,7 +41,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     script
   }
 
-
   private[this] def prependAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
     val old = IO.readLines(script)
     IO.writeLines(script, lines ++ old, append = false)
@@ -49,13 +48,11 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     script
   }
 
-
   private[this] def appendAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
     IO.writeLines(script, lines, append = true)
     chmod(script, perms.permissions)
     script
   }
-
 
   private[this] def createFileIfRequired(script: File, perms: LinuxFileMetaData): File = {
     if (!script.exists()) {
@@ -64,7 +61,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     }
     script
   }
-
 
   private[this] def scriptMapping(scriptName: String)(script: Option[File], controlDir: File): Seq[(File, String)] = {
     (script, controlDir) match {
@@ -84,7 +80,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       streams.log.warn("The length of '" + user + "' must be not be greater than 32 characters for Debian based distributions.")
     }
   }
-
 
   def debianSettings: Seq[Setting[_]] = Seq(
     debianPriority := "optional",
@@ -131,6 +126,11 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       },
       debianControlFile <<= (debianPackageMetadata, debianPackageInstallSize, target) map {
         (data, size, dir) =>
+          if (data.info.description == null || data.info.description.isEmpty) {
+            sys.error(
+              """packageDescription in Debian cannot be empty. Use 
+                 packageDescription in Debian := "My package Description"""")
+          }
           val cfile = dir / Names.Debian / Names.Control
           IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
           chmod(cfile, "0644")
@@ -208,8 +208,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
 
               val userGroupAdd = Seq(
                 TemplateWriter.generateScript(DebianPlugin.postinstGroupaddTemplateSource, replacements),
-                TemplateWriter.generateScript(DebianPlugin.postinstUseraddTemplateSource, replacements)
-              )
+                TemplateWriter.generateScript(DebianPlugin.postinstUseraddTemplateSource, replacements))
 
               prependAndFixPerms(postinst, userGroupAdd, LinuxFileMetaData())
 
@@ -268,7 +267,6 @@ object DebianPlugin {
     val Control = "control"
     val Conffiles = "conffiles"
   }
-
 
   private def postinstGroupaddTemplateSource: java.net.URL = getClass.getResource("postinst-groupadd")
   private def postinstUseraddTemplateSource: java.net.URL = getClass.getResource("postinst-useradd")
