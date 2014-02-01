@@ -64,7 +64,7 @@ they will use init.d and for MSIs, there will be windows service hooks.
 
 To try out the experimental java server archetype, add this to your `project/plugins.sbt`:
 
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-M1")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-M2")
 
 Here's what to add to your `build.sbt`:
 
