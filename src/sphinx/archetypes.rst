@@ -108,15 +108,18 @@ For Debian servers, you can select to either use SystemV or Upstart for your ser
 
     serverLoading in Debian := ServerLoader.SystemV
 
-By default, the native packager will install and run services using the ``root`` user and group.  This is not a good default for services, which should not be exposed to root access.  You can change the installation and usage user via the ``daemonUser`` key:
+By default, the native packager will install and run services using a user and group based on your package name.  You can change the installation and usage user via the ``appUser`` and ``appGroup`` key:
 
 .. code-block:: scala
 
-    daemonUser in Debian := "my_app_user"
+    appUser in Linux := "my_app_user"
+
+    appGroup in Linux := "my_app_group"
 
 The archetype will automatically append/prepend the creation/deletion of the user
 to your packaging for Debian.  *Note:* All specified users are **deleted** on an ``apt-get purge <dpkg>``.
 
+*Note:* It is not a good idea to use **root** as the ``appUser`` for services as it represents a security risk.
 
 
 
