@@ -2,10 +2,10 @@
 
 ### BEGIN INIT INFO
 # Provides:	${{app_name}}
-# Required-Start: $syslog
-# Required-Stop: $syslog
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
 # Default-Start: 2 3 4 5
-# Default-Stop:
+# Default-Stop: 0 1 6
 # Short-Description: ${{descr}}
 ### END INIT INFO
 
@@ -57,7 +57,7 @@ case "$1" in
     stop_daemon
     exit $?
 	  ;;
-  restart)
+  restart|force-reload)
     stop_daemon
     start_daemon
     exit $?
