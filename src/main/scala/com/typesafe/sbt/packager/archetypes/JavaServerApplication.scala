@@ -88,8 +88,8 @@ object JavaServerAppPackaging {
           d.mkdirs()
           LinuxPackageMapping(Seq(d -> (logsDir + "/" + name)), LinuxFileMetaData(user, group))
       },
-      linuxPackageSymlinks in Debian <+= (normalizedName, defaultLinuxInstallLocation) map {
-        (name, install) => LinuxSymlink(install + "/" + name + "/logs", "/var/log/" + name)
+      linuxPackageSymlinks in Debian <+= (normalizedName, defaultLinuxInstallLocation, defaultLinuxLogsLocation) map {
+        (name, install, logsDir) => LinuxSymlink(install + "/" + name + "/logs", logsDir + "/" + name)
       },
 
       // === Maintainer scripts === 
