@@ -1,0 +1,15 @@
+# Run the debian packaging.
+> debian:package-bin
+$ exists target/debian-test-0.1.0.deb
+
+$ exists target/debian-test-0.1.0/etc
+$ exists target/debian-test-0.1.0/etc/default/debian-test
+$ exists target/debian-test-0.1.0/etc/init/debian-test.conf
+
+# Check defaults
+$ exists target/debian-test-0.1.0/DEBIAN/prerm
+$ exists target/debian-test-0.1.0/DEBIAN/postinst
+
+# Check that the non-standard log directory was used
+$ exists target/debian-test-0.1.0/non-standard/log/debian-test
+> check-softlink target/debian-test-0.1.0/usr/share/debian-test/logs points to /non-standard/log/debian-test
