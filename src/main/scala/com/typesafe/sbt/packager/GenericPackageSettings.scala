@@ -88,7 +88,7 @@ trait GenericPackageSettings
           if !file.isDirectory
           if name startsWith "bin/"
           if !(name endsWith ".bat")  // IGNORE windows-y things.
-        } yield LinuxSymlink("/usr/" + name, installLocation.stripPrefix("/usr/")+"/"+pkg+"/"+name)
+        } yield LinuxSymlink("/usr/" + name, installLocation+"/"+pkg+"/"+name)
     },
     // Map configuration files
     linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation) map { (pkg, mappings, installLocation) =>
