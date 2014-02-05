@@ -49,7 +49,8 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
 
 TaskKey[Unit]("check-rpm-version") <<= (target, streams) map { (target, out) =>
   val fullRpmVersion = Process("rpm", Seq("--version")) !! 
-  val rpmVersion = fullRpmVersion stripPrefix "RPM-Version "
+  val firstDigit = fullRpmVersion indexWhere Character.isDigit
+  val rpmVersion = fullRpmVersion substring firstDigit
   out.log.info("Found rpmVersion: " + rpmVersion)
   val (major, minor, patch) = rpmVersion.trim.split("\\.").map(_.toInt) match {
     case Array(major) => (major, 0, 0)
