@@ -189,7 +189,8 @@ case class RpmSpec(meta: RpmMetadata,
     sb append ("autoprov: %s\n" format meta.autoprov)
     sb append ("autoreq: %s\n" format meta.autoreq)
     
-    sb append ("BuildRoot: %s\n\n" format rpmRoot.getAbsolutePath)
+    sb append ("BuildRoot: %s\n" format rpmRoot.getAbsolutePath)
+    sb append ("BuildArch: %s\n\n" format meta.arch)
     
     sb append "%description\n"
     sb append meta.description
