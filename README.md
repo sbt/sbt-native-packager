@@ -44,16 +44,17 @@ Here's what to add to your `build.sbt`:
 
     packageArchetype.java_application
 
-If you'd like to add additional files to the installation dir, simply add them to the universal mappings:
+If you'd like to add additional files or directories to the installation dir, simply add them to the universal mappings:
 
     import com.typesafe.sbt.SbtNativePackager.Universal
     
     mappings in Universal += {
       file("my/local/conffile") -> "conf/my.conf"
+      file("my/local/dir") -> "dir"
     }
 
 The above adds a configuration file from the local project at `my/local/conffile` into the installation directory
-at `conf/my.conf`.
+at `conf/my.conf`. It also copies the directory fomr the local project at `my/local/dir` into the installation directory at `dir`.
 
 
 ### Java Server Application (Experimental)  ###
