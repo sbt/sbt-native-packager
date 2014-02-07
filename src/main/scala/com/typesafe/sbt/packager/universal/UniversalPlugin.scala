@@ -36,7 +36,7 @@ trait UniversalPlugin extends Plugin {
       mappings <<= sourceDirectory map findSources,
       dist <<= (packageBin, streams) map printDist,
       stagingDirectory <<= target apply (_ / "stage"),
-      stage <<= (stagingDirectory, mappings) map stageFiles
+      stage <<= (stagingDirectory, mappings, streams) map stageFilesAndDirectories
     )) ++ Seq(
       sourceDirectory in config <<= sourceDirectory apply (_ / config.name),
       target in config <<= target apply (_ / config.name)
@@ -54,15 +54,21 @@ trait UniversalPlugin extends Plugin {
     dist
   }
     
-  private[this] def stageFiles(to: File, mappings: Seq[(File, String)]): Unit = {
-    val copies = mappings collect { case (f, p) => f -> (to / p) }
-    IO.copy(copies)
+  private[this] def stageFilesAndDirectories(to: File, mappings: Seq[(File, String)], streams: TaskStreams): Unit = {
+    val copies =  mappings collect { case (f,p) => f -> (to / p) }
+    val (files, directories) = copies partition {case (f ,p) => f.isFile }
+    // copy files
+    IO.copy(files)
+    //copy directories with there full content
+    directories.map {case (f, p) => IO.copyDirectory(f, p, overwrite = true)}
     // Now set scripts to executable using Java's lack of understanding of permissions.
     // TODO - Config file user-readable permissions....
     for {
-      (from, to) <- copies
+      (from, to) <- files
       if from.canExecute
-    } to.setExecutable(true)
+    } {
+      to.setExecutable(true)
+    }
   }
     
   private type Packager = (File, String, Seq[(File,String)]) => File
@@ -77,7 +83,7 @@ trait UniversalPlugin extends Plugin {
   private[this] def checkMappings(mappings: Seq[(File,String)]) : Seq[(File,String)] = {
     mappings collect { case (f, p) => if(f.exists) (f, p) else sys.error("Mapped file " + f + " does not exist.") }
   }
-    
+
   /** Finds all sources in a source directory. */
   private[this] def findSources(sourceDir: File): Seq[(File, String)] =
     sourceDir.*** --- sourceDir x relativeTo(sourceDir)
