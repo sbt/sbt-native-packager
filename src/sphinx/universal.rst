@@ -142,6 +142,40 @@ Besides ``mappings``, the ``name``, ``sourceDirectory`` and ``target`` configura
 
 **Note: The Universal plugin will make anything in a bin/ directory executable.  This is to work around issues with JVM and file system manipulations.**
 
+Mapping Examples
+----------------
+SBT provides and IO and .. Path: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html API, which
+lets you define custom mappings easily. The files will appear in the generate universal zip, but also in your
+debian/rpm/msi/dmg builds as described above in the conventions.
+
+The ``packageBin in Compile`` dependency is only needed, if your files get generated
+during the ``packageBin`` command or before. For static files you can remove it.
+
+Mapping a complete directory.
+
+.. code-block:: scala
+
+    mappings in Universal <++= (packageBin in Compile, target ) map { (_, target) =>
+        val dir = target / "scala-2.10" / "api"
+        (dir.***) pair relativeTo(dir.getParentFile)
+    } 
+
+This maps the ``api`` folder directly to the generate universal zip. ``dir.***`` is a short way for
+``dir ** "*"``, which means _select all files including dir_. ``relativeTo(dir.getParentFile)``
+generates a function with a ``file -> Option[String]`` mapping, which tries to generate a relative
+string path from ``dir.getParentFile`` to the passed in file. ``pair`` uses the ``relativeTo``
+function to generate a mapping ``File -> String``, which is _your file_ to _relative destination_.
+
+Mapping the content of a directory.
+
+.. code-block:: scala
+
+    mappings in Universal <++= (packageBin in Compile, target ) map { (_, target) =>
+        val dir = target / "scala-2.10" / "api"
+        (dir.*** --- dir) pair relativeTo(dir)
+    }
+    
+The ``dir`` gets excluded and is used as root for ``relativeTo(dir)``.
 
 Commands
 --------
