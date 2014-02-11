@@ -9,6 +9,8 @@ sbtVersion in Global := {
 
 scalaVersion in Global := "2.9.2"
 
+crossScalaVersions := Seq("2.9.2", "2.10.2")
+
 name := "sbt-native-packager"
 
 organization := "com.typesafe.sbt"
@@ -30,13 +32,15 @@ ghpages.settings
 
 git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 
-publishTo := Some(Resolver.url("sbt-plugin-releases", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns))
+Bintray.settings
 
 publishMavenStyle := false
 
 scriptedSettings
 
 scriptedLaunchOpts <+= version apply { v => "-Dproject.version="+v }
+
+Release.settings
 
 
 
