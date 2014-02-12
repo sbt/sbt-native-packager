@@ -166,6 +166,14 @@ generates a function with a ``file -> Option[String]`` mapping, which tries to g
 string path from ``dir.getParentFile`` to the passed in file. ``pair`` uses the ``relativeTo``
 function to generate a mapping ``File -> String``, which is _your file_ to _relative destination_.
 
+It exists some helper methods to map a complete directory in more human readable way.
+
+.. code-block:: scala
+
+    import NativePackagerHelper._
+
+    mappings in Universal ++= directory("SomeResourcesToInclude")
+
 Mapping the content of a directory.
 
 .. code-block:: scala
@@ -176,6 +184,14 @@ Mapping the content of a directory.
     }
     
 The ``dir`` gets excluded and is used as root for ``relativeTo(dir)``.
+
+It also exists some helper methods to simplify writing of such mapping.
+
+.. code-block:: scala
+
+    import NativePackagerHelper._
+
+    mappings in Universal ++= contentOf("SomeResourcesToInclude")
 
 Commands
 --------

@@ -17,7 +17,9 @@ object SbtNativePackager extends Plugin
     with GenericPackageSettings {
 
   val NativePackagerKeys = packager.Keys
-  
+
+  val NativePackagerHelper = packager.MappingsHelper
+
   def packagerSettings = linuxSettings ++ 
                          debianSettings ++ 
                          rpmSettings ++ 
@@ -47,7 +49,8 @@ object SbtNativePackager extends Plugin
     def java_server: Seq[Setting[_]] =
       genericMappingSettings ++ archetypes.JavaServerAppPackaging.settings
   }
-                           
+
+
   // TODO - Add a few targets that detect the current OS and build a package for that OS.
   
 }
