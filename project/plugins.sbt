@@ -14,3 +14,6 @@ libraryDependencies <+= (sbtVersion) { sv =>
 
 // Scripted plugin needs to declare this as a dependency
 libraryDependencies += "jline" % "jline" % "2.11"
+
+// For our bintray publishing
+libraryDependencies += "net.databinder" %% "dispatch-http" % "0.8.10"
