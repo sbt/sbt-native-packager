@@ -41,7 +41,7 @@ trait RpmKeys {
 
   val rpmPretrans = SettingKey[Option[String]]("rpm-pretrans", "%pretrans scriptlet")
   val rpmPre = SettingKey[Option[String]]("rpm-pre", "%pre scriptlet")
-  val rpmVerifyscript = SettingKey[Option[String]]("rpm-verifyscipt", "%verifyscript scriptlet")
+  val rpmVerifyscript = SettingKey[Option[String]]("rpm-verifyscript", "%verifyscript scriptlet")
   val rpmPost = SettingKey[Option[String]]("rpm-post", "%post scriptlet")
   val rpmPosttrans = SettingKey[Option[String]]("rpm-posttrans", "%posttrans scriptlet")
   val rpmPreun = SettingKey[Option[String]]("rpm-preun", "%preun scriptlet")
