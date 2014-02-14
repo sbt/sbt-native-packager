@@ -93,7 +93,7 @@ object WixHelper {
         val homeEnvVar = archetypes.JavaAppBatScript.makeEnvFriendlyName(name) +"_HOME"
         val pathAddition = 
           if(dir.isEmpty) "%"+homeEnvVar+"%"
-          else "[INSTALLDIR]\\"+dir.replaceAll("\\/", "\\\\")
+          else "[INSTALLDIR]"+dir.replaceAll("\\/", "\\\\")
         val id = cleanStringForId(dir).takeRight(65) + "PathC"
         val guid = makeGUID
         val xml =
