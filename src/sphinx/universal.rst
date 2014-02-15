@@ -172,7 +172,14 @@ It exists some helper methods to map a complete directory in more human readable
 
     import NativePackagerHelper._
 
+    //For dynamic content, e.g. something in the target directory which depends on a Task
+    mappings in Universal <++= (packageBin in Compile, target) map { (_, target) =>
+      directory(target / "scala-2.10" / "api")
+    }
+
+    //For static content it can be added to mappings directly
     mappings in Universal ++= directory("SomeResourcesToInclude")
+
 
 Mapping the content of a directory.
 
@@ -191,6 +198,12 @@ It also exists some helper methods to simplify writing of such mapping.
 
     import NativePackagerHelper._
 
+    //For dynamic content, e.g. something in the target directory which depends on a Task
+    mappings in Universal <++= (packageBin in Compile, target) map { (_, target) =>
+      contentOf(target / "scala-2.10" / "api")
+    }
+
+    //For static content it can be added to mappings directly
     mappings in Universal ++= contentOf("SomeResourcesToInclude")
 
 Commands
