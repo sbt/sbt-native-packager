@@ -8,7 +8,11 @@ object MappingsHelper {
 
   /** return a Seq of mappings which effect is to add a whole directory in the generated package */
   def directory(sourceDir: File): Seq[(File, String)] = {
-    sourceDir.*** pair relativeTo(sourceDir.getParentFile)
+    val parentFile = sourceDir.getParentFile
+    if (parentFile != null)
+      sourceDir.*** pair relativeTo(sourceDir.getParentFile)
+    else
+      sourceDir.*** pair basic
   }
 
   /** It lightens the build file if one wants to give a string instead of file. */
@@ -26,6 +30,5 @@ object MappingsHelper {
   def contentOf(sourceDir: String): Seq[(File, String)] = {
     contentOf(file(sourceDir))
   }
-
 }
 
