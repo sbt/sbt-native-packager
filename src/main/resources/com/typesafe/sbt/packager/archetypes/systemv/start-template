@@ -9,7 +9,6 @@
 # Short-Description: ${{descr}}
 ### END INIT INFO
 
-test -e /etc/default/${{app_name}} && source /etc/default/${{app_name}}
 source /lib/init/vars.sh
 source /lib/lsb/init-functions
 
