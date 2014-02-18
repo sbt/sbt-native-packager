@@ -81,7 +81,7 @@ object JavaServerAppPackaging {
       // TODO should we specify daemonGroup in configs?
 
       // === logging directory mapping ===
-      linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxLogsLocation, target in Debian, appUser in Linux, appGroup in Linux) map {
+      linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxLogsLocation, target in Debian, daemonUser in Linux, appGroup in Linux) map {
         (name, logsDir, target, user, group) =>
           // create empty var/log directory
           val d = target / logsDir
