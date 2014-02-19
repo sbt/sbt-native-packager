@@ -1,6 +1,12 @@
 # Run the debian packaging.
 > debian:package-bin
 $ exists target/debian-test-0.1.0.deb
+
+# Template directories
 $ exists target/debian-test-0.1.0/opt/test/debian-test
 $ exists target/debian-test-0.1.0/opt/test/other
 
+# Directories with  content
+$ exists target/debian-test-0.1.0/usr/share/conf
+$ exists target/debian-test-0.1.0/usr/share/conf/application.conf
+$ exists target/debian-test-0.1.0/usr/share/conf/log4j.properties

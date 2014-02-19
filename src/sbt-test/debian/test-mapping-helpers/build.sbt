@@ -1,4 +1,5 @@
 import NativePackagerKeys._
+import com.typesafe.sbt.packager.MappingsHelper._
 
 packagerSettings
 
@@ -23,3 +24,8 @@ linuxPackageMappings in Debian += packageTemplateMapping(Seq("/opt/test/other"):
 linuxPackageMappings in Debian <+= (Keys.normalizedName, target) map { (name, tmp) =>
     packageTemplateMapping("/opt/test/" + name)(tmp)
 }
+
+// Consider using mappings in Universal
+linuxPackageMappings in Debian += packageDirectoryAndContentsMapping(
+    file("src/resources/conf") -> "/usr/share/conf"
+)
