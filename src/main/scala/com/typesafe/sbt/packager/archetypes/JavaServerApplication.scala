@@ -29,12 +29,11 @@ object JavaServerAppPackaging {
   def debianSettings: Seq[Setting[_]] =
     Seq(
       serverLoading := Upstart,
-      daemonUser <<= appUser in Linux,
       // This one is begging for sbt 0.13 syntax...
       debianScriptReplacements <<= (
-        maintainer in Debian, packageSummary in Debian, serverLoading in Debian, daemonUser in Debian, normalizedName,
+        maintainer in Debian, packageSummary in Debian, serverLoading in Debian, daemonUser in Linux, daemonGroup in Linux, normalizedName,
         sbt.Keys.version, defaultLinuxInstallLocation)
-        map { (author, descr, loader, daemonUser, name, version, installLocation) =>
+        map { (author, descr, loader, daemonUser, daemonGroup, name, version, installLocation) =>
           val appDir = installLocation + "/" + name
 
           JavaAppStartScript.makeReplacements(
@@ -43,7 +42,8 @@ object JavaServerAppPackaging {
             execScript = name,
             chdir = appDir,
             appName = name,
-            daemonUser = daemonUser)
+            daemonUser = daemonUser,
+            daemonGroup = daemonGroup)
         },
       // TODO - Default locations shouldn't be so hacky.
 
@@ -55,7 +55,7 @@ object JavaServerAppPackaging {
         map { (tmpDir, loader, replacements, template) =>
           makeDebianMaintainerScript(JavaAppStartScript.startScript, Some(template))(tmpDir, loader, replacements)
         },
-      linuxPackageMappings in Debian <++= (debianMakeStartScript, normalizedName, serverLoading in Debian, appUser in Linux, appGroup in Linux)
+      linuxPackageMappings in Debian <++= (debianMakeStartScript, normalizedName, serverLoading in Debian, daemonUser in Linux, daemonGroup in Linux)
         map { (script, name, loader, owner, ownerGroup) =>
           val (path, permissions) = loader match {
             case Upstart => ("/etc/init/" + name + ".conf", "0644")
@@ -75,13 +75,13 @@ object JavaServerAppPackaging {
       },
       debianMakeEtcDefault <<= (normalizedName, target in Universal, linuxEtcDefaultTemplate in Debian, debianScriptReplacements)
         map makeEtcDefaultScript,
-      linuxPackageMappings in Debian <++= (debianMakeEtcDefault, normalizedName, appUser in Linux, appGroup in Linux) map { (conf, name, owner, ownerGroup) =>
+      linuxPackageMappings in Debian <++= (debianMakeEtcDefault, normalizedName, daemonUser in Linux, daemonGroup in Linux) map { (conf, name, owner, ownerGroup) =>
         conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)), LinuxFileMetaData(owner, ownerGroup)).withConfig()).toSeq
       },
       // TODO should we specify daemonGroup in configs?
 
       // === logging directory mapping ===
-      linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxLogsLocation, target in Debian, appUser in Linux, appGroup in Linux) map {
+      linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxLogsLocation, target in Debian, daemonUser in Linux, daemonGroup in Linux) map {
         (name, logsDir, target, user, group) =>
           // create empty var/log directory
           val d = target / logsDir

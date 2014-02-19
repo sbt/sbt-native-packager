@@ -28,7 +28,8 @@ trait LinuxPlugin extends Plugin {
     },
     packageSummary in Linux <<= packageSummary,
     packageDescription in Linux <<= packageDescription,
-    appUser <<= normalizedName, appGroup <<= appUser in Linux)
+    daemonUser in Linux <<= normalizedName,
+    daemonGroup <<= daemonUser in Linux)
 
   /** DSL for packaging files into .deb */
   def packageMapping(files: (File, String)*) = LinuxPackageMapping(files)
