@@ -1,5 +1,5 @@
 import NativePackagerKeys._
-import com.typesafe.sbt.packager.MappingsHelper._
+import NativePackagerHelper._
 
 packagerSettings
 
