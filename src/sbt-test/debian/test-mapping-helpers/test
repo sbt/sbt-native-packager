@@ -1,0 +1,6 @@
+# Run the debian packaging.
+> debian:package-bin
+$ exists target/debian-test-0.1.0.deb
+$ exists target/debian-test-0.1.0/opt/test/debian-test
+$ exists target/debian-test-0.1.0/opt/test/other
+
