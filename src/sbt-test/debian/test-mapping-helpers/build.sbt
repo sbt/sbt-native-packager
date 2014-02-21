@@ -27,5 +27,5 @@ linuxPackageMappings in Debian <+= (Keys.normalizedName, target) map { (name, tm
 
 // Consider using mappings in Universal
 linuxPackageMappings in Debian += packageDirectoryAndContentsMapping(
-    file("src/resources/conf") -> "/usr/share/conf"
+    (baseDirectory.value / "src" / "resources" / "conf") -> "/usr/share/conf"
 )

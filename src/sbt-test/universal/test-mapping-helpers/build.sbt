@@ -22,7 +22,7 @@ mappings in Universal <+= (packageBin in Compile, sourceDirectory ) map { (_, sr
     conf -> "conf/application.conf"
 }
 
-TaskKey[Unit]("unzip") <<= (packageBin in Universal) map { (zipFile) =>
+TaskKey[Unit]("unzip") <<= (packageBin in Universal, streams) map { (zipFile, streams) =>
     val args = Seq(zipFile.getAbsolutePath)
-    Process("unzip", args) !
+    Process("unzip", args) !  streams.log
 }
