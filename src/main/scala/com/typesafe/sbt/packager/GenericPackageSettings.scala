@@ -64,6 +64,7 @@ trait GenericPackageSettings
     // Default place to install code.
     defaultLinuxInstallLocation := "/usr/share",
     defaultLinuxLogsLocation := "/var/log",
+    defaultLinuxConfigLocation := "/etc",
 
     // First we look at the src/linux files
     linuxPackageMappings <++= (sourceDirectory in Linux, daemonUser in Linux, daemonGroup in Linux) map { (dir, user, group) =>
