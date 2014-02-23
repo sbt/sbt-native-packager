@@ -68,7 +68,7 @@ trait GenericPackageSettings
 
     // First we look at the src/linux files
     linuxPackageMappings <++= (sourceDirectory in Linux, daemonUser in Linux, daemonGroup in Linux) map { (dir, user, group) =>
-      mapGenericMappingsToLinux((dir.*** --- dir) x relativeTo(dir), user, group)(identity)
+      mapGenericMappingsToLinux(MappingsHelper contentOf dir, user, group)(identity)
     },
     // Now we look at the src/universal files.
     linuxPackageMappings <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation, daemonUser in Linux, daemonGroup in Linux) map {
@@ -91,14 +91,15 @@ trait GenericPackageSettings
       } yield LinuxSymlink("/usr/" + name, installLocation + "/" + pkg + "/" + name)
     },
     // Map configuration files
-    linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation) map { (pkg, mappings, installLocation) =>
+    linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation, defaultLinuxConfigLocation)
+    	map { (pkg, mappings, installLocation, configLocation) =>
       val needsConfLink =
         mappings exists {
           case (file, name) =>
             (name startsWith "conf/") && !file.isDirectory
         }
       if (needsConfLink) Seq(LinuxSymlink(
-        link = "/etc/" + pkg,
+        link = configLocation + "/" + pkg,
         destination = installLocation + "/" + pkg + "/conf"))
       else Seq.empty
     })
