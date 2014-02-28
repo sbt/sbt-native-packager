@@ -4,17 +4,20 @@ import java.io.File
 import java.net.URL
 
 /**
- * Constructs an start script for running a java application.
- *
+ *  Trait for building start scripts.
  */
-object JavaAppStartScript {
+trait JavaAppStartScriptBuilder {
 
   import ServerLoader._
-  import com.typesafe.sbt.packager.debian.DebianPlugin.Names._
-  val startScript = "start"
 
-  private val upstartScripts = Seq(startScript, Postinst, Prerm)
-  private val systemvScripts = Seq(startScript, Postinst, Prerm, Postrm)
+  /** Name of the start script template without '-template' suffix */
+  val startScript: String
+
+  /** Scripts to include for upstart. By default only startScript */
+  val upstartScripts: Seq[String]
+
+  /** Scripts to include for ssystemV. By default only startScript */
+  val systemvScripts: Seq[String]
 
   /**
    * Generating the URL to the startScript template.
@@ -27,18 +30,6 @@ object JavaAppStartScript {
   def defaultStartScriptTemplate(loader: ServerLoader, defaultLocation: File): URL =
     if (defaultLocation.exists) defaultLocation.toURI.toURL
     else templateUrl(startScript, loader) getOrElse sys.error("Default startscript not available for loader: " + loader)
-
-  /**
-   * Generating the start script depending on the serverLoader.
-   *
-   * @param loader - which startup system
-   * @param replacements - default replacements
-   * @param template - if specified, it will override the default one
-   */
-  def generateStartScript(
-    loader: ServerLoader,
-    replacements: Seq[(String, String)],
-    template: Option[URL] = None): Option[String] = generateTemplate(startScript, loader, replacements, template)
 
   /**
    *
@@ -62,6 +53,9 @@ object JavaAppStartScript {
     }
   }
 
+  /**
+   * @return url to the template if it's defined for the server loader
+   */
   def templateUrl(templateName: String, loader: ServerLoader, template: Option[URL] = None): Option[URL] = template orElse {
     Option(loader match {
       case Upstart if (upstartScripts contains templateName) =>
@@ -102,6 +96,28 @@ object JavaAppStartScript {
       "app_name" -> appName,
       "daemon_user" -> daemonUser,
       "daemon_group" -> daemonGroup)
+}
+
+/**
+ * Constructs an start script for running a java application.
+ * Can build the neccessary maintainer scripts, too.
+ */
+object JavaAppStartScript {
+
+  object Rpm extends JavaAppStartScriptBuilder {
+    val startScript = "start-rpm"
+    val upstartScripts = Seq(startScript)
+    val systemvScripts = Seq(startScript)
+  }
+
+  object Debian extends JavaAppStartScriptBuilder {
+    import com.typesafe.sbt.packager.debian.DebianPlugin.Names._
+
+    val startScript = "start-debian"
+    val upstartScripts = Seq(startScript, Postinst, Prerm)
+    val systemvScripts = Seq(startScript, Postinst, Prerm, Postrm)
+  }
+
 }
 
 object ServerLoader extends Enumeration {
