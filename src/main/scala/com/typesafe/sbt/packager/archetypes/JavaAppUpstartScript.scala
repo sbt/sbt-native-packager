@@ -89,6 +89,7 @@ object JavaAppStartScript {
     chdir: String,
     appName: String,
     daemonUser: String,
+    daemonGroup: String,
     retries: Int = 0,
     retryTimeout: Int = 60): Seq[(String, String)] =
     Seq(
@@ -99,7 +100,8 @@ object JavaAppStartScript {
       "retries" -> retries.toString,
       "retryTimeout" -> retryTimeout.toString,
       "app_name" -> appName,
-      "daemon_user" -> daemonUser)
+      "daemon_user" -> daemonUser,
+      "daemon_group" -> daemonGroup)
 }
 
 object ServerLoader extends Enumeration {
