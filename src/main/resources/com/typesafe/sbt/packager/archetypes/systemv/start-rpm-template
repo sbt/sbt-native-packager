@@ -1,0 +1,133 @@
+#!/bin/sh
+#
+# ${{app_name}} <${{app_name}}>
+#
+# chkconfig: - 20 80
+# description: ${{descr}}
+#
+
+### BEGIN INIT INFO
+# Provides: ${{app_name}}
+# Required-Start: 
+# Required-Stop: 
+# Should-Start: 
+# Should-Stop: 
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: ${{descr}}
+# Description: ${{descr}}
+### END INIT INFO
+
+### -----------------
+# This script was created using following sources
+# 
+# http://stackoverflow.com/questions/8124345/call-to-daemon-in-a-etc-init-d-script-is-blocking-not-running-in-background
+# https://fedoraproject.org/wiki/Packaging:SysVInitScript#Initscript_template
+### -----------------
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+prog="${{app_name}}"
+
+# FIXME The pid file should be handled by the executed script
+# The pid can be filled in in this script
+PIDFILE=/var/run/${{app_name}}/running.pid
+
+if [ -z "$DAEMON_USER" ]; then
+    DAEMON_USER=${{daemon_user}}
+fi
+
+
+# smb could define some additional options in $RUN_OPTS
+RUN_CMD="${{chdir}}/bin/${{app_name}}"
+
+[ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+
+lockfile=/var/lock/subsys/$prog
+
+start() {
+    [ -x $RUN_CMD ] || exit 5
+    echo -n $"Starting $prog: "
+    cd ${{chdir}}
+    
+    # FIXME figure out how to use daemon correctly
+    nohup runuser $DAEMON_USER ${RUN_CMD} >/dev/null 2>&1 &
+    
+    # The way to go, but doesn't work properly
+	# If the app creates the pid file this gets messy
+	# daemon --user $DAEMON_USER --pidfile $PIDFILE $RUN_CMD &
+    
+    
+    retval=$?   # last error code
+    PID=$!      # pid of last backgrounded process
+    [ $retval -eq 0 ] && touch ${lockfile} && success || failure
+    
+    # Insert pid into pid file for CentOS killproc function
+    echo
+    echo $PID > ${PIDFILE}
+    return $retval
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc -p $PIDFILE $prog
+    retval=$?
+    [ $retval -eq 0 ] && rm -f $lockfile
+    return $retval
+}
+
+restart() {
+    stop
+    start
+}
+
+reload() {
+    restart
+}
+
+force_reload() {
+    restart
+}
+
+rh_status() {
+    # run checks to determine if the service is running or use generic status
+    status -p $PIDFILE -l $lockfile $prog
+}
+
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+
+
+case "$1" in
+    start)
+        rh_status_q && exit 0
+        $1
+        ;;
+    stop)
+        rh_status_q || exit 0
+        $1
+        ;;
+    restart)
+        $1
+        ;;
+    reload)
+        rh_status || exit 7
+        $1
+        ;;
+    force-reload)
+        force_reload
+        ;;
+    status)
+        rh_status
+        ;;
+    condrestart|try-restart)
+        rh_status || exit 0
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
+        exit 2
+esac
+exit $?

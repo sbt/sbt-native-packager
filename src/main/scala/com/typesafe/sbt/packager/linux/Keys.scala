@@ -4,6 +4,7 @@ package linux
 
 import sbt._
 import com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader
+import com.typesafe.sbt.packager.archetypes.JavaAppStartScriptBuilder
 
 /** Linux packaging generic build targets. */
 trait Keys {
@@ -18,8 +19,26 @@ trait Keys {
   val linuxPackageSymlinks = TaskKey[Seq[LinuxSymlink]]("linux-package-symlinks", "Symlinks we should produce in the underlying package.")
   val generateManPages = TaskKey[Unit]("generate-man-pages", "Shows all the man files in the current project")
 
+  val linuxMakeStartScript = TaskKey[Option[File]]("makeStartScript", "Creates or discovers the start script used by this project")
   val linuxStartScriptTemplate = TaskKey[URL]("linuxStartScriptTemplate", "The location of the template start script file we use for debian (upstart or init.d")
   val linuxEtcDefaultTemplate = TaskKey[URL]("linuxEtcDefaultTemplate", "The location of the /etc/default/<pkg> template script.")
+  val linuxJavaAppStartScriptBuilder = SettingKey[JavaAppStartScriptBuilder]("linuxJavaAppStartScriptBuilder", "Responsible for loading the start scripts. Only used with archetype.java_server")
+  val linuxScriptReplacements = SettingKey[Seq[(String, String)]]("linuxScriptReplacements",
+    """|Replacements of template parameters used in linux scripts.
+         |  Default supported templates:
+         |  execScript - name of the script in /usr/bin
+         |  author - author of this project
+         |  descr - short description
+         |  chdir - execution path of the script
+         |  retries - on fail, how often should a restart be tried
+         |  retryTimeout - pause between retries
+         |  appName - name of application
+         |  appClasspath - application classpath
+         |  appMainClass - main class to start
+         |  daemonUser - daemon user
+      """.stripMargin)
+
+  val makeEtcDefault = TaskKey[Option[File]]("makeEtcDefault", "Creates or discovers the /etc/default/ script")
 }
 
 object Keys extends Keys {
