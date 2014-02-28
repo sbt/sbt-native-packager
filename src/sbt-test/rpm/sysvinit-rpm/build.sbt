@@ -23,9 +23,7 @@ rpmLicense := Some("BSD")
 
 TaskKey[Unit]("unzipAndCheck") <<= (packageBin in Rpm, streams) map { (rpmFile, streams) =>
     val rpmPath = Seq(rpmFile.getAbsolutePath)
-    Process(s"cp ${rpmFile.getAbsolutePath} /home/muki") ! streams.log
     Process("rpm2cpio" , rpmPath) #| Process("cpio -i --make-directories") !  streams.log
-    Process("ls -Al usr/share/rpm-test/") ! streams.log
     // TODO check symlinks
     ()
 }
