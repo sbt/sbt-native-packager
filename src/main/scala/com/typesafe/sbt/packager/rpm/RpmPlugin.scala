@@ -9,11 +9,11 @@ import sbt._
 /** Plugin trait containing all generic values used for packaging linux software. */
 trait RpmPlugin extends Plugin with LinuxPlugin {
   val Rpm = config("rpm") extend Linux
-  
+
   def rpmSettings: Seq[Setting[_]] = Seq(
-    rpmOs := "Linux",  // TODO - default to something else?
+    rpmOs := "Linux", // TODO - default to something else?
     rpmRelease := "0",
-    rpmVendor := "",  // TODO - Maybe pull in organization?
+    rpmVendor := "", // TODO - Maybe pull in organization?
     rpmLicense := None,
     rpmDistribution := None,
     rpmUrl := None,
@@ -38,26 +38,32 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     packageDescription in Rpm <<= packageDescription in Linux,
     target in Rpm <<= target(_ / "rpm")
   ) ++ inConfig(Rpm)(Seq(
-    packageArchitecture := "noarch",
-    rpmMetadata <<=
-      (name, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply (RpmMetadata.apply),
-    rpmDescription <<=
-      (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
-    rpmDependencies <<=
-      (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
-    rpmScripts <<=
-      (rpmPretrans,rpmPre,rpmPost,rpmVerifyscript,rpmPosttrans,rpmPreun,rpmPostun) apply RpmScripts,
-    rpmSpecConfig <<=
-      (rpmMetadata, rpmDescription, rpmDependencies, rpmScripts, linuxPackageMappings, linuxPackageSymlinks) map RpmSpec,
-    packageBin <<= (rpmSpecConfig, target, streams) map { (spec, dir, s) =>
+      packageArchitecture := "noarch",
+      rpmMetadata <<=
+        (name, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply (RpmMetadata.apply),
+      rpmDescription <<=
+        (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
+      rpmDependencies <<=
+        (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
+      rpmScripts <<=
+        (rpmPretrans, rpmPre, rpmPost, rpmVerifyscript, rpmPosttrans, rpmPreun, rpmPostun) apply RpmScripts,
+      rpmSpecConfig <<=
+        (rpmMetadata, rpmDescription, rpmDependencies, rpmScripts, linuxPackageMappings, linuxPackageSymlinks) map RpmSpec,
+      packageBin <<= (rpmSpecConfig, target, streams) map { (spec, dir, s) =>
         spec.validate(s.log)
         RpmHelper.buildRpm(spec, dir, s.log)
-    },
-    rpmLint <<= (packageBin, streams) map { (rpm, s) =>
-       (Process(Seq("rpmlint", "-v", rpm.getAbsolutePath)) ! s.log)  match {
+      },
+      rpmLint <<= (packageBin, streams) map { (rpm, s) =>
+        (Process(Seq("rpmlint", "-v", rpm.getAbsolutePath)) ! s.log) match {
           case 0 => ()
           case x => sys.error("Failed to run rpmlint, exit status: " + x)
-       }
-    }
-  ))
+        }
+      }
+    ))
+}
+
+object RpmPlugin {
+
+  def postuninstallTemplateSource: java.net.URL = getClass.getResource("postuninstall")
+  def postinstTemplateSource: java.net.URL = getClass.getResource("preinstall")
 }

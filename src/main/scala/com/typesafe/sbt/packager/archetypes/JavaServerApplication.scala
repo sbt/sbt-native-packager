@@ -8,6 +8,7 @@ import sbt.Keys.{ target, mainClass, normalizedName, sourceDirectory, streams }
 import SbtNativePackager._
 import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
 import com.typesafe.sbt.packager.debian.DebianPlugin
+import com.typesafe.sbt.packager.rpm.RpmPlugin
 
 /**
  * This class contains the default settings for creating and deploying an archetypical Java application.
@@ -38,7 +39,7 @@ object JavaServerAppPackaging {
     linuxScriptReplacements <<= (
       maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, normalizedName,
       sbt.Keys.version, defaultLinuxInstallLocation, linuxJavaAppStartScriptBuilder in Debian)
-      map { (author, descr, daemonUser, daemonGroup, name, version, installLocation, builder) =>
+      apply { (author, descr, daemonUser, daemonGroup, name, version, installLocation, builder) =>
         val appDir = installLocation + "/" + name
 
         builder.makeReplacements(
@@ -111,7 +112,19 @@ object JavaServerAppPackaging {
       map { (tmpDir, loader, replacements, template, builder) =>
         makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
       },
-    linuxPackageMappings in Rpm <++= (normalizedName, linuxMakeStartScript in Rpm, serverLoading in Rpm) map startScriptMapping)
+    linuxPackageMappings in Rpm <++= (normalizedName, linuxMakeStartScript in Rpm, serverLoading in Rpm) map startScriptMapping,
+
+    // == Maintainer scripts ===
+    // TODO this is very basic - align debian and rpm plugin
+    rpmPre <<= (rpmPre, linuxScriptReplacements) apply { (pre, replacements) =>
+      val scriptBits = TemplateWriter.generateScript(RpmPlugin.postinstTemplateSource, replacements)
+      Some(pre.map(_ + "\n").getOrElse("") + scriptBits)
+    },
+    rpmPostun <<= (rpmPostun, linuxScriptReplacements) apply { (post, replacements) =>
+      val scriptBits = TemplateWriter.generateScript(RpmPlugin.postinstTemplateSource, replacements)
+      Some(post.map(_ + "\n").getOrElse("") + scriptBits)
+    }
+  )
 
   /* ==========================================  */
   /* ============ Helper Methods ==============  */

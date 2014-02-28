@@ -23,7 +23,7 @@ trait Keys {
   val linuxStartScriptTemplate = TaskKey[URL]("linuxStartScriptTemplate", "The location of the template start script file we use for debian (upstart or init.d")
   val linuxEtcDefaultTemplate = TaskKey[URL]("linuxEtcDefaultTemplate", "The location of the /etc/default/<pkg> template script.")
   val linuxJavaAppStartScriptBuilder = SettingKey[JavaAppStartScriptBuilder]("linuxJavaAppStartScriptBuilder", "Responsible for loading the start scripts. Only used with archetype.java_server")
-  val linuxScriptReplacements = TaskKey[Seq[(String, String)]]("linuxScriptReplacements",
+  val linuxScriptReplacements = SettingKey[Seq[(String, String)]]("linuxScriptReplacements",
     """|Replacements of template parameters used in linux scripts.
          |  Default supported templates:
          |  execScript - name of the script in /usr/bin

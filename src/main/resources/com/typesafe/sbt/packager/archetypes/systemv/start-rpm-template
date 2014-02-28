@@ -51,11 +51,12 @@ start() {
     echo -n $"Starting $prog: "
     cd ${{chdir}}
     
-    # exec="nohup ${RUN_CMD} >/dev/null 2>&1 &" # doesn't work
-    # daemon --user $DAEMON_USER --pidfile $PIDFILE $exec # doesn't work
-    
     # FIXME figure out how to use daemon correctly
-    nohup ${RUN_CMD} >/dev/null 2>&1 &
+    nohup runuser $DAEMON_USER ${RUN_CMD} >/dev/null 2>&1 &
+    
+    # The way to go, but doesn't work properly
+	# If the app creates the pid file this gets messy
+	# daemon --user $DAEMON_USER --pidfile $PIDFILE $RUN_CMD &
     
     
     retval=$?   # last error code
@@ -72,7 +73,7 @@ stop() {
     echo -n $"Stopping $prog: "
     killproc -p $PIDFILE $prog
     retval=$?
-    [ $retval -eq 0 ] && rm -f $lockfile && rm -f $PIDFILE
+    [ $retval -eq 0 ] && rm -f $lockfile
     return $retval
 }
 
