@@ -10,6 +10,9 @@ trait JavaAppStartScriptBuilder {
 
   import ServerLoader._
 
+  /** Used for prefix files generated with this builder */
+  val name: String
+
   /** Name of the start script template without '-template' suffix */
   val startScript: String
 
@@ -105,6 +108,7 @@ trait JavaAppStartScriptBuilder {
 object JavaAppStartScript {
 
   object Rpm extends JavaAppStartScriptBuilder {
+    val name = "rpm"
     val startScript = "start-rpm"
     val upstartScripts = Seq(startScript)
     val systemvScripts = Seq(startScript)
@@ -113,6 +117,7 @@ object JavaAppStartScript {
   object Debian extends JavaAppStartScriptBuilder {
     import com.typesafe.sbt.packager.debian.DebianPlugin.Names._
 
+    val name = "debian"
     val startScript = "start-debian"
     val upstartScripts = Seq(startScript, Postinst, Prerm)
     val systemvScripts = Seq(startScript, Postinst, Prerm, Postrm)

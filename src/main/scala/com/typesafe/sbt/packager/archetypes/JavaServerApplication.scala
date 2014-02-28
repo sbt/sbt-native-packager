@@ -36,9 +36,9 @@ object JavaServerAppPackaging {
   def linuxSettings: Seq[Setting[_]] = Seq(
     // This one is begging for sbt 0.13 syntax...
     linuxScriptReplacements <<= (
-      maintainer in Debian, packageSummary in Debian, serverLoading in Debian, daemonUser in Linux, daemonGroup in Linux, normalizedName,
+      maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, normalizedName,
       sbt.Keys.version, defaultLinuxInstallLocation, linuxJavaAppStartScriptBuilder in Debian)
-      map { (author, descr, loader, daemonUser, daemonGroup, name, version, installLocation, builder) =>
+      map { (author, descr, daemonUser, daemonGroup, name, version, installLocation, builder) =>
         val appDir = installLocation + "/" + name
 
         builder.makeReplacements(
@@ -51,13 +51,8 @@ object JavaServerAppPackaging {
           daemonGroup = daemonGroup)
       },
     // === logging directory mapping ===
-    linuxPackageMappings <+= (normalizedName, defaultLinuxLogsLocation, target in Debian, daemonUser in Linux, daemonGroup in Linux) map {
-      (name, logsDir, target, user, group) =>
-        // TODO use packageTemplateMapping here
-        // create empty var/log directory
-        val d = target / logsDir
-        d.mkdirs()
-        LinuxPackageMapping(Seq(d -> (logsDir + "/" + name)), LinuxFileMetaData(user, group))
+    linuxPackageMappings <+= (normalizedName, defaultLinuxLogsLocation, daemonUser in Linux, daemonGroup in Linux) map {
+      (name, logsDir, user, group) => packageTemplateMapping(logsDir + "/" + name)() withUser user withGroup group withPerms "755"
     },
     linuxPackageSymlinks <+= (normalizedName, defaultLinuxInstallLocation, defaultLinuxLogsLocation) map {
       (name, install, logsDir) => LinuxSymlink(install + "/" + name + "/logs", logsDir + "/" + name)
@@ -69,7 +64,7 @@ object JavaServerAppPackaging {
       if (overrideScript.exists) overrideScript.toURI.toURL
       else etcDefaultTemplateSource
     },
-    makeEtcDefault <<= (normalizedName, target in Universal, linuxEtcDefaultTemplate in Debian, linuxScriptReplacements)
+    makeEtcDefault <<= (normalizedName, target in Universal, linuxEtcDefaultTemplate, linuxScriptReplacements)
       map makeEtcDefaultScript,
     linuxPackageMappings <++= (makeEtcDefault, normalizedName) map { (conf, name) =>
       conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)),
@@ -135,7 +130,7 @@ object JavaServerAppPackaging {
   protected def makeMaintainerScript(scriptName: String, template: Option[URL] = None)(
     tmpDir: File, loader: ServerLoader, replacements: Seq[(String, String)], builder: JavaAppStartScriptBuilder): Option[File] = {
     builder.generateTemplate(scriptName, loader, replacements, template) map { scriptBits =>
-      val script = tmpDir / "tmp" / "bin" / ("debian-" + scriptName)
+      val script = tmpDir / "tmp" / "bin" / (builder.name + scriptName)
       IO.write(script, scriptBits)
       script
     }
