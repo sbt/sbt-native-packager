@@ -9,9 +9,8 @@ $ exists etc/init.d/rpm-test
 
 $ exists usr/share/rpm-test
 
-# TODO generate a mainClass to generate bin files
-# $ exists usr/share/rpm-test/bin
-# $ exists usr/share/rpm-test/bin/rpm-test
+$ exists usr/share/rpm-test/bin
+$ exists usr/share/rpm-test/bin/rpm-test
 
 $ exists usr/share/rpm-test/conf
 $ exists usr/share/rpm-test/lib

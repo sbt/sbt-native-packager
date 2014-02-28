@@ -21,6 +21,8 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
+mainClass in (Compile, run) := Some("com.example.MainApp")
+
 TaskKey[Unit]("unzipAndCheck") <<= (packageBin in Rpm, streams) map { (rpmFile, streams) =>
     val rpmPath = Seq(rpmFile.getAbsolutePath)
     Process("rpm2cpio" , rpmPath) #| Process("cpio -i --make-directories") !  streams.log
