@@ -67,17 +67,17 @@ trait GenericPackageSettings
     defaultLinuxConfigLocation := "/etc",
 
     // First we look at the src/linux files
-    linuxPackageMappings <++= (sourceDirectory in Linux, daemonUser in Linux, daemonGroup in Linux) map { (dir, user, group) =>
-      mapGenericMappingsToLinux(MappingsHelper contentOf dir, user, group)(identity)
+    linuxPackageMappings <++= (sourceDirectory in Linux) map { dir =>
+      mapGenericMappingsToLinux(MappingsHelper contentOf dir, Users.Root, Users.Root)(identity)
     },
     // Now we look at the src/universal files.
-    linuxPackageMappings <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation, daemonUser in Linux, daemonGroup in Linux) map {
-      (pkg, mappings, installLocation, user, group) =>
+    linuxPackageMappings <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation) map {
+      (pkg, mappings, installLocation) =>
         // TODO - More windows filters...
         def isWindowsFile(f: (File, String)): Boolean =
           f._2 endsWith ".bat"
 
-        mapGenericMappingsToLinux(mappings filterNot isWindowsFile, user, group) { name =>
+        mapGenericMappingsToLinux(mappings filterNot isWindowsFile, Users.Root, Users.Root) { name =>
           installLocation + "/" + pkg + "/" + name
         }
     },
@@ -92,17 +92,17 @@ trait GenericPackageSettings
     },
     // Map configuration files
     linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation, defaultLinuxConfigLocation)
-    	map { (pkg, mappings, installLocation, configLocation) =>
-      val needsConfLink =
-        mappings exists {
-          case (file, name) =>
-            (name startsWith "conf/") && !file.isDirectory
-        }
-      if (needsConfLink) Seq(LinuxSymlink(
-        link = configLocation + "/" + pkg,
-        destination = installLocation + "/" + pkg + "/conf"))
-      else Seq.empty
-    })
+      map { (pkg, mappings, installLocation, configLocation) =>
+        val needsConfLink =
+          mappings exists {
+            case (file, name) =>
+              (name startsWith "conf/") && !file.isDirectory
+          }
+        if (needsConfLink) Seq(LinuxSymlink(
+          link = configLocation + "/" + pkg,
+          destination = installLocation + "/" + pkg + "/conf"))
+        else Seq.empty
+      })
 
   def mapGenericFilesToWindows: Seq[Setting[_]] = Seq(
     mappings in Windows <<= mappings in Universal,
