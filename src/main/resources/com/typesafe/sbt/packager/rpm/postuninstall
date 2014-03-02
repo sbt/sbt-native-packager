@@ -1,11 +1,12 @@
-# Adding system user/group : ${{daemon_user}} and ${{daemon_group}}
-if ! getent group | grep -q "^${{daemon_group}}:" ;
-then
-    echo "Deleting system group: ${{daemon_group}}"
-    groupdel ${{daemon_group}}
-fi
-if ! getent passwd | grep -q "^${{daemon_user}}:"; 
+# Removing system user/group : ${{daemon_user}} and ${{daemon_group}}
+echo "Try deleting system user and group [${{daemon_user}}:${{daemon_group}}]"
+if getent passwd | grep -q "^${{daemon_user}}:"; 
 then
     echo "Deleting system user: ${{daemon_user}}"
     userdel ${{daemon_user}}
+fi
+if getent group | grep -q "^${{daemon_group}}:" ;
+then
+    echo "Deleting system group: ${{daemon_group}}"
+    groupdel ${{daemon_group}}
 fi

@@ -121,7 +121,7 @@ object JavaServerAppPackaging {
       Some(pre.map(_ + "\n").getOrElse("") + scriptBits)
     },
     rpmPostun <<= (rpmPostun, linuxScriptReplacements) apply { (post, replacements) =>
-      val scriptBits = TemplateWriter.generateScript(RpmPlugin.postinstTemplateSource, replacements)
+      val scriptBits = TemplateWriter.generateScript(RpmPlugin.postuninstallTemplateSource, replacements)
       Some(post.map(_ + "\n").getOrElse("") + scriptBits)
     }
   )

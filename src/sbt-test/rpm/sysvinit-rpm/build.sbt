@@ -10,8 +10,7 @@ maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 
 packageSummary := "Test rpm package"
 
-packageDescription := """A fun package description of our software,
-  with multiple lines."""
+packageDescription := "Description"
 
 rpmRelease := "1"
 
@@ -25,7 +24,12 @@ mainClass in (Compile, run) := Some("com.example.MainApp")
 
 TaskKey[Unit]("unzipAndCheck") <<= (packageBin in Rpm, streams) map { (rpmFile, streams) =>
     val rpmPath = Seq(rpmFile.getAbsolutePath)
-    Process("rpm2cpio" , rpmPath) #| Process("cpio -i --make-directories") !  streams.log
+    Process("rpm2cpio" , rpmPath) #| Process("cpio -i --make-directories") ! streams.log
+    val scriptlets = Process("rpm -qp --scripts " + rpmFile.getAbsolutePath) !! streams.log
+    assert(scriptlets contains "groupadd --system rpm-test", "groupadd not present in \n" + scriptlets)
+    assert(scriptlets contains "useradd --gid rpm-test --no-create-home --system -c 'Test rpm package' rpm-test", "Incorrect useradd command in \n" + scriptlets)
+    assert(scriptlets contains "groupdel rpm-test", "groupdel not present in \n" + scriptlets)
+    assert(scriptlets contains "userdel rpm-test", "userdel rpm not present in \n" + scriptlets)
     // TODO check symlinks
     ()
 }
