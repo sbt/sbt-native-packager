@@ -17,3 +17,6 @@ libraryDependencies += "jline" % "jline" % "2.11"
 
 // For our bintray publishing
 libraryDependencies += "net.databinder" %% "dispatch-http" % "0.8.10"
+
+// For code formatting
+addSbtPlugin("com.typesafe.sbt" % "sbt-scalariform" % "1.3.0")
