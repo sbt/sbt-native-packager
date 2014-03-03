@@ -114,4 +114,4 @@ Once you've configured your packaging how you like it, you can run the following
 [Bintray](bintray.com) has support for publishing RPM + DEB files into shared repositories.  We can do this from sbt
 using the sbt-native-packager.  TODO - outline details once we have them fleshed out.
 
-A more complex project, which bundles the sbt project, can be found [here](https://github.com/sbt/sbt-launcher-package/blob/full-packaging/project/packaging.scala).
+A more complex project, which bundles the sbt project, can be found [here](https://github.com/sbt/sbt-launcher-package/blob/master/project/packaging.scala).
