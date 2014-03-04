@@ -13,14 +13,13 @@ source /lib/init/vars.sh
 source /lib/lsb/init-functions
 
 
-PIDFILE=/var/run/${{app_name}}.pid
+PIDFILE=/var/run/${{app_name}}/running.pid
 
 if [ -z "$DAEMON_USER" ]; then
     DAEMON_USER=${{daemon_user}}
 fi
 
 
-# smb could define some additional options in $RUN_OPTS
 RUN_CMD="${{chdir}}/bin/${{app_name}}"
 
 
