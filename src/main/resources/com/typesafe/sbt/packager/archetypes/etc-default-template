@@ -25,7 +25,7 @@
 # -Dkey=val
 
 # For play applications you may set
-# -Dpidfile.path=/var/run/${{app_name}}.pid
+# -Dpidfile.path=/var/run/${{app_name}}/play.pid
 
 # Turn on JVM debugging, open at the given port
 # -jvm-debug <port>  
