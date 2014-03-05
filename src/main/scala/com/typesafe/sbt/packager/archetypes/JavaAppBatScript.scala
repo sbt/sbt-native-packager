@@ -1,14 +1,14 @@
 package com.typesafe.sbt.packager.archetypes
 
 object JavaAppBatScript {
-   private[this] def bashTemplateSource =
+  private[this] def bashTemplateSource =
     getClass.getResource("bat-template")
   private[this] def charset =
     java.nio.charset.Charset.forName("UTF-8")
-    
+
   def makeEnvFriendlyName(name: String): String =
-    name.toUpperCase.replaceAll("\\W", "_")   
-  
+    name.toUpperCase.replaceAll("\\W", "_")
+
   def makeWindowsRelativeClasspathDefine(cp: Seq[String]): String = {
     def cleanPath(path: String): String = path.replaceAll("/", "\\\\")
     def makeRelativePath(path: String): String =
@@ -25,13 +25,13 @@ object JavaAppBatScript {
   }
 
   def makeReplacements(
-      name: String,
-      mainClass: String,
-      appClasspath: Seq[String] = Seq("*"),
-      extras: Seq[String] = Nil): Seq[(String, String)] = {
+    name: String,
+    mainClass: String,
+    appClasspath: Seq[String] = Seq("*"),
+    extras: Seq[String] = Nil): Seq[(String, String)] = {
     val replacements = Seq(
-        "APP_NAME" -> name,
-        "APP_ENV_NAME" -> makeEnvFriendlyName(name)
+      "APP_NAME" -> name,
+      "APP_ENV_NAME" -> makeEnvFriendlyName(name)
     )
     val defines = Seq(
       makeWindowsRelativeClasspathDefine(appClasspath),
@@ -45,12 +45,12 @@ object JavaAppBatScript {
   def replace(line: String, replacements: Seq[(String, String)]): String = {
     replacements.foldLeft(line) {
       case (line, (key, value)) =>
-        line.replaceAll("@@"+key+"@@", java.util.regex.Matcher.quoteReplacement(value))
+        line.replaceAll("@@" + key + "@@", java.util.regex.Matcher.quoteReplacement(value))
     }
   }
 
   def generateScript(
-      replacements: Seq[(String,String)], template: java.net.URL = bashTemplateSource): String = 
+    replacements: Seq[(String, String)], template: java.net.URL = bashTemplateSource): String =
     TemplateWriter.generateScript(template, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
-    
+
 }

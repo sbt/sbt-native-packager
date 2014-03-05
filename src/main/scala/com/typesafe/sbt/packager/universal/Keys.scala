@@ -15,7 +15,7 @@ trait UniversalKeys {
 
 object Keys extends UniversalKeys {
   def mappings = sbt.Keys.mappings
-  def packageBin = sbt.Keys.packageBin  
+  def packageBin = sbt.Keys.packageBin
   def packageSrc = sbt.Keys.packageSrc
   def packageDoc = sbt.Keys.packageDoc
   def name = sbt.Keys.name
