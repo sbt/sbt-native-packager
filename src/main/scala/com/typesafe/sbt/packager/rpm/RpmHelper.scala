@@ -75,10 +75,10 @@ object RpmHelper {
     val args: Seq[String] = Seq(
         "rpmbuild",
         "-bb",
+        "--target", spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os,
         "--buildroot", buildRoot.getAbsolutePath,
-        "--define", "_topdir " + workArea.getAbsolutePath,
-        "--target", spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os
-     ) ++ ( 
+        "--define", "_topdir " + workArea.getAbsolutePath
+     ) ++ (
        if(gpg) Seq("--define", "_gpg_name " + "<insert keyname>", "--sign") 
        else Seq.empty 
      ) ++ Seq(spec.meta.name + ".spec")
