@@ -20,8 +20,10 @@ object MappingsHelper {
     directory(file(sourceDir))
   }
 
-  /** return a Seq of mappings which effect is to add the content of directory in the generated package,
-    *  excluding the directory itself */
+  /**
+   * return a Seq of mappings which effect is to add the content of directory in the generated package,
+   *  excluding the directory itself
+   */
   def contentOf(sourceDir: File): Seq[(File, String)] = {
     (sourceDir.*** --- sourceDir) pair relativeTo(sourceDir)
   }

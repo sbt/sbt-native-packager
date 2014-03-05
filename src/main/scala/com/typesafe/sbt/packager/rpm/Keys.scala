@@ -12,7 +12,7 @@ trait RpmKeys {
   val rpmOs = SettingKey[String]("rpm-os", "Name of the os for this RPM.")
   val rpmRelease = SettingKey[String]("rpm-release", "Special release number for this rpm (vs. the software).")
   val rpmMetadata = SettingKey[RpmMetadata]("rpm-metadata", "Metadata associated with the generated RPM.")
-  
+
   // DESCRIPTION KEYS
   // TODO - Summary and license are required.
   val rpmLicense = SettingKey[Option[String]]("rpm-license", "License of the code within the RPM.")
@@ -22,7 +22,7 @@ trait RpmKeys {
   val rpmPackager = SettingKey[Option[String]]("rpm-packger", "Person who packaged this rpm.")
   val rpmIcon = SettingKey[Option[String]]("rpm-icon", "name of the icon to use with this RPM.")
   val rpmDescription = SettingKey[RpmDescription]("rpm-description", "Description of this rpm.")
-  
+
   // DEPENDENCIES
   val rpmAutoprov = SettingKey[String]("rpm-autoprov", "enable/deactivating auto provisioning.")
   val rpmAutoreq = SettingKey[String]("rpm-autoreq", "enable/deactivating auto requiering.")
@@ -32,10 +32,10 @@ trait RpmKeys {
   val rpmObsoletes = SettingKey[Seq[String]]("rpm-obsoletes", "Packages this RPM makes obsolete.")
   val rpmConflicts = SettingKey[Seq[String]]("rpm-conflicts", "Packages this RPM conflicts with.")
   val rpmDependencies = SettingKey[RpmDependencies]("rpm-dependencies", "Configuration of dependency info for this RPM.")
-  
+
   // SPEC
   val rpmSpecConfig = TaskKey[RpmSpec]("rpm-spec-config", "All the configuration for an RPM .spec file.")
-  
+
   // SCRIPTS
   val rpmScripts = SettingKey[RpmScripts]("rpm-scripts", "Configuration of pre- and post-integration scripts.")
 
@@ -49,7 +49,7 @@ trait RpmKeys {
 
   // Building
   val rpmLint = TaskKey[Unit]("rpm-lint", "Runs rpmlint program against the genreated RPM, if available.")
-  
+
 }
 
 /** Keys used in RPM Settings. */
@@ -61,21 +61,21 @@ object Keys extends RpmKeys {
   def packageArchitecture = linux.Keys.packageArchitecture
   def packageDescription = linux.Keys.packageDescription
   def packageSummary = linux.Keys.packageSummary
-  
+
   // DESCRIPTION KEYS
-  
+
   // DEPENDENCIES
-  
+
   // SPEC
   def linuxPackageMappings = linux.Keys.linuxPackageMappings
   def linuxPackageSymlinks = linux.Keys.linuxPackageSymlinks
-  
+
   // Building
   def target = sbt.Keys.target
   def packageBin = sbt.Keys.packageBin
-  
+
   //init script parameters
   def serverLoading = linux.Keys.serverLoading
-  
-  def streams = sbt.Keys.streams  
+
+  def streams = sbt.Keys.streams
 }
