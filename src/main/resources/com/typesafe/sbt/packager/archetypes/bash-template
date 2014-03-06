@@ -196,8 +196,10 @@ detect_terminal_for_ui() {
 
 # Processes incoming arguments and places them in appropriate global variables.  called by the run method.
 process_args () {
+  local no_more_snp_opts=0
   while [[ $# -gt 0 ]]; do
     case "$1" in
+             --) shift && no_more_snp_opts=1 && break ;;
        -h|-help) usage; exit 1 ;;
     -v|-verbose) verbose=1 && shift ;;
       -d|-debug) debug=1 && shift ;;
@@ -214,6 +216,12 @@ process_args () {
               *) addResidual "$1" && shift ;;
     esac
   done
+
+  if [[ no_more_snp_opts ]]; then
+    while [[ $# -gt 0 ]]; do
+      addResidual "$1" && shift
+    done
+  fi
 
   is_function_defined process_my_args && {
     myargs=("${residual_args[@]}")
@@ -316,8 +324,13 @@ Usage: $script_name [options]
   -J-X               pass option -X directly to the java runtime
                      (-J is stripped)
 
-In the case of duplicated or conflicting options, the order above
-shows precedence: JAVA_OPTS lowest, command line options highest.
+  # special option
+  --                 To stop parsing built-in commands from the rest of the command-line.
+                     e.g.) enabling debug and sending -d as app argument
+                     \$ ./start-script -d -- -d
+
+In the case of duplicated or conflicting options, basically the order above
+shows precedence: JAVA_OPTS lowest, command line options highest except "--".
 EOM
 }
 
