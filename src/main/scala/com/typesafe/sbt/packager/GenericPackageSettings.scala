@@ -3,7 +3,7 @@ package packager
 
 import Keys._
 import sbt._
-import sbt.Keys.{ name, mappings, sourceDirectory }
+import sbt.Keys.{ name, mappings, sourceDirectory, normalizedName }
 import linux.LinuxSymlink
 import linux.LinuxPackageMapping
 
