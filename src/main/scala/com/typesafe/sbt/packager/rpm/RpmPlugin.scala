@@ -64,6 +64,8 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
 
 object RpmPlugin {
 
+  def preinstTemplateSource: java.net.URL = getClass.getResource("preinstall")
+  def postinstTemplateSource: java.net.URL = getClass.getResource("postinstall")
+  def preuninstallTemplateSource: java.net.URL = getClass.getResource("preuninstall")
   def postuninstallTemplateSource: java.net.URL = getClass.getResource("postuninstall")
-  def postinstTemplateSource: java.net.URL = getClass.getResource("preinstall")
 }

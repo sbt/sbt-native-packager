@@ -2,7 +2,7 @@
 #
 # ${{app_name}} <${{app_name}}>
 #
-# chkconfig: - 20 80
+# chkconfig: 2345 20 80
 # description: ${{descr}}
 #
 

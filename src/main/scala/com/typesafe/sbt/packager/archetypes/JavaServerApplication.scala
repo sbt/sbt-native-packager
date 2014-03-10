@@ -37,6 +37,7 @@ object JavaServerAppPackaging {
   def linuxSettings: Seq[Setting[_]] = Seq(
     // This one is begging for sbt 0.13 syntax...
     linuxScriptReplacements <<= (
+      // TODO do we need to separated rpm and debian maintainers?
       maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, normalizedName,
       sbt.Keys.version, defaultLinuxInstallLocation, linuxJavaAppStartScriptBuilder in Debian)
       apply { (author, descr, daemonUser, daemonGroup, name, version, installLocation, builder) =>
@@ -117,11 +118,19 @@ object JavaServerAppPackaging {
     // == Maintainer scripts ===
     // TODO this is very basic - align debian and rpm plugin
     rpmPre <<= (rpmPre, linuxScriptReplacements) apply { (pre, replacements) =>
+      val scriptBits = TemplateWriter.generateScript(RpmPlugin.preinstTemplateSource, replacements)
+      Some(pre.map(_ + "\n").getOrElse("") + scriptBits)
+    },
+    rpmPost <<= (rpmPost, linuxScriptReplacements) apply { (pre, replacements) =>
       val scriptBits = TemplateWriter.generateScript(RpmPlugin.postinstTemplateSource, replacements)
       Some(pre.map(_ + "\n").getOrElse("") + scriptBits)
     },
     rpmPostun <<= (rpmPostun, linuxScriptReplacements) apply { (post, replacements) =>
       val scriptBits = TemplateWriter.generateScript(RpmPlugin.postuninstallTemplateSource, replacements)
+      Some(post.map(_ + "\n").getOrElse("") + scriptBits)
+    },
+    rpmPreun <<= (rpmPostun, linuxScriptReplacements) apply { (post, replacements) =>
+      val scriptBits = TemplateWriter.generateScript(RpmPlugin.preuninstallTemplateSource, replacements)
       Some(post.map(_ + "\n").getOrElse("") + scriptBits)
     }
   )
