@@ -9,9 +9,6 @@ object Keys extends linux.Keys
   with windows.WindowsKeys
   with universal.UniversalKeys {
 
-  // TODO - Do these keys belong here?
-  def normalizedName = sbt.Keys.normalizedName
-
   // These keys are used by the JavaApp/JavaServer archetypes.
   val makeBashScript = TaskKey[Option[File]]("makeBashScript", "Creates or discovers the bash script used by this project.")
   val bashScriptDefines = TaskKey[Seq[String]]("bashScriptDefines", "A list of definitions that should be written to the bash file template.")
