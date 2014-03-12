@@ -5,7 +5,11 @@ package linux
 import Keys._
 import sbt._
 import sbt.Keys.{ normalizedName }
-import packager.Keys.{ defaultLinuxInstallLocation, defaultLinuxConfigLocation }
+import packager.Keys.{
+  defaultLinuxInstallLocation,
+  defaultLinuxConfigLocation,
+  defaultLinuxLogsLocation
+}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
 import com.typesafe.sbt.packager.archetypes.JavaAppStartScript
 
@@ -32,6 +36,9 @@ trait LinuxPlugin extends Plugin {
     packageDescription in Linux <<= packageDescription,
     daemonUser in Linux <<= normalizedName,
     daemonGroup <<= daemonUser in Linux,
+    defaultLinuxInstallLocation := "/usr/share",
+    defaultLinuxLogsLocation := "/var/log",
+    defaultLinuxConfigLocation := "/etc",
 
     // This one is begging for sbt 0.13 syntax...
     linuxScriptReplacements <<= (
