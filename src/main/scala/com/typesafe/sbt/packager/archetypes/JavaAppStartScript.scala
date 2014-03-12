@@ -70,6 +70,7 @@ trait JavaAppStartScriptBuilder {
   }
 
   /**
+   * TODO move this to TemplateWriter or case class
    *
    * @param author -
    * @param description - short description

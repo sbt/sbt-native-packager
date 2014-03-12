@@ -5,7 +5,13 @@ package linux
 import Keys._
 import sbt._
 import sbt.Keys.{ normalizedName }
+import packager.Keys.{
+  defaultLinuxInstallLocation,
+  defaultLinuxConfigLocation,
+  defaultLinuxLogsLocation
+}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
+import com.typesafe.sbt.packager.archetypes.JavaAppStartScript
 
 /**
  * Plugin trait containing all the generic values used for
@@ -29,7 +35,30 @@ trait LinuxPlugin extends Plugin {
     packageSummary in Linux <<= packageSummary,
     packageDescription in Linux <<= packageDescription,
     daemonUser in Linux <<= normalizedName,
-    daemonGroup <<= daemonUser in Linux)
+    daemonGroup <<= daemonUser in Linux,
+    defaultLinuxInstallLocation := "/usr/share",
+    defaultLinuxLogsLocation := "/var/log",
+    defaultLinuxConfigLocation := "/etc",
+
+    // This one is begging for sbt 0.13 syntax...
+    linuxScriptReplacements <<= (
+      maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, normalizedName,
+      sbt.Keys.version, defaultLinuxInstallLocation)
+      apply { (author, descr, daemonUser, daemonGroup, name, version, installLocation) =>
+        val appDir = installLocation + "/" + name
+
+        // TODO Making replacements should be done somewhere else. Maybe TemplateWriter
+        JavaAppStartScript.Debian.makeReplacements(
+          author = author,
+          description = descr,
+          execScript = name,
+          chdir = appDir,
+          appName = name,
+          daemonUser = daemonUser,
+          daemonGroup = daemonGroup)
+      }
+
+  )
 
   /** DSL for packaging files into .deb */
   def packageMapping(files: (File, String)*) = LinuxPackageMapping(files)

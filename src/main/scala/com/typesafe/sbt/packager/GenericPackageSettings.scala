@@ -61,11 +61,6 @@ trait GenericPackageSettings
 
   def mapGenericFilesToLinux: Seq[Setting[_]] = Seq(
 
-    // Default place to install code.
-    defaultLinuxInstallLocation := "/usr/share",
-    defaultLinuxLogsLocation := "/var/log",
-    defaultLinuxConfigLocation := "/etc",
-
     // First we look at the src/linux files
     linuxPackageMappings <++= (sourceDirectory in Linux) map { dir =>
       mapGenericMappingsToLinux(MappingsHelper contentOf dir, Users.Root, Users.Root)(identity)

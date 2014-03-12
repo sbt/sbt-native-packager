@@ -27,7 +27,8 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
   val postrm = IO.read(debian / "postrm")
   val prerm = IO.read(debian / "prerm")
   // This is a fragile test
-  assert(postinst equals "echo 'custom postinst'\n", "Wrong postinst:\n" + postinst)
+  // echo 'custom postinst ${{app_name}} ${{chdir}} ${{daemonUser}} ${{daemonGroup}}'
+  assert(postinst equals "echo 'custom postinst debian-test /usr/share/debian-test root root'\n", "Wrong postinst:\n" + postinst)
   assert(preinst equals "echo 'custom preinst'\n", "Wrong preinst:\n" + preinst)
   assert(postrm equals "echo 'custom postrm'\n", "Wrong postrm:\n" + postrm)
   assert(prerm equals "echo 'custom prerm'\n", "Wrong prerm:\n" + prerm)
