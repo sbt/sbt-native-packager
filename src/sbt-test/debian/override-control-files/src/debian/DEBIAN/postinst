@@ -1,1 +1,1 @@
-echo 'custom postinst'
+echo 'custom postinst ${{app_name}} ${{chdir}} ${{daemon_user}} ${{daemon_group}}'

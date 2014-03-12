@@ -36,31 +36,6 @@ trait DebianKeys {
   val debianMakePostinstScript = TaskKey[Option[File]]("makePostInstScript", "Creates or discovers the postinst script used by this project")
   val debianMakePostrmScript = TaskKey[Option[File]]("makePostrmScript", "Creates or discovers the postrm script used by this project")
 
-  // Debian upstart scripts
-  val debianControlScriptsReplacements = SettingKey[DebianControlScriptReplacements]("debianControlScriptsReplacements",
-    """|Replacements of template parameters used in the upstart script.
-         |  Default supported templates:
-         |  author - author of this project
-         |  descr - description
-         |  name - normalized name of the app
-         |  version - app version
-      """.stripMargin)
-
-  @deprecated("use linuxScriptReplacements", "0.7.0")
-  val debianScriptReplacements = TaskKey[Seq[(String, String)]]("upstartScriptReplacements",
-    """|Replacements of template parameters used in the upstart script.
-         |  Default supported templates:
-         |  execScript - name of the script in /usr/bin
-         |  author - author of this project
-         |  descr - short description
-         |  chdir - execution path of the script
-         |  retries - on fail, how often should a restart be tried
-         |  retryTimeout - pause between retries
-         |  appName - name of application
-         |  appClasspath - application classpath
-         |  appMainClass - main class to start
-         |  daemonUser - daemon user
-      """.stripMargin)
 }
 
 /** Keys used for Debian specific settings. */

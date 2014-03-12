@@ -5,10 +5,9 @@ package debian
 import Keys._
 import sbt._
 import sbt.Keys.{ target, name, normalizedName, TaskStreams }
-import linux.LinuxPackageMapping
-import linux.LinuxFileMetaData
+import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
+import linux.Keys.{ linuxScriptReplacements }
 import com.typesafe.sbt.packager.Hashing
-import com.typesafe.sbt.packager.linux.LinuxSymlink
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 
 trait DebianPlugin extends Plugin with linux.LinuxPlugin {
@@ -33,8 +32,8 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     // TODO - Can we do anything about user/group ownership?
   }
 
-  private[this] def filterAndFixPerms(script: File, replacements: DebianControlScriptReplacements, perms: LinuxFileMetaData): File = {
-    val filtered = TemplateWriter.generateScript(script.toURI.toURL, replacements.makeReplacements)
+  private[this] def filterAndFixPerms(script: File, replacements: Seq[(String, String)], perms: LinuxFileMetaData): File = {
+    val filtered = TemplateWriter.generateScript(script.toURI.toURL, replacements)
     IO.delete(script)
     IO.write(script, filtered)
     chmod(script, perms.permissions)
@@ -95,9 +94,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     packageSummary in Debian <<= packageSummary in Linux,
     maintainer in Debian <<= maintainer in Linux,
 
-    // Debian Control Scripts
-    debianControlScriptsReplacements <<= (maintainer in Debian, packageSummary in Debian, normalizedName, version) apply DebianControlScriptReplacements,
-
     debianControlScriptsDirectory <<= (sourceDirectory) apply (_ / "debian" / Names.Debian),
     debianMaintainerScripts := Seq.empty,
     debianMakePreinstScript := None,
@@ -149,7 +145,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           chmod(cfile, "0644")
           cfile
       },
-      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianControlScriptsReplacements, linuxPackageSymlinks, target, streams)
+      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, linuxScriptReplacements, linuxPackageSymlinks, target, streams)
         map { (mappings, _, maintScripts, _, replacements, symlinks, t, streams) =>
 
           // Create files and directories

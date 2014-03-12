@@ -35,23 +35,6 @@ object JavaServerAppPackaging {
    * - config directory
    */
   def linuxSettings: Seq[Setting[_]] = Seq(
-    // This one is begging for sbt 0.13 syntax...
-    linuxScriptReplacements <<= (
-      // TODO do we need to separated rpm and debian maintainers?
-      maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, normalizedName,
-      sbt.Keys.version, defaultLinuxInstallLocation, linuxJavaAppStartScriptBuilder in Debian)
-      apply { (author, descr, daemonUser, daemonGroup, name, version, installLocation, builder) =>
-        val appDir = installLocation + "/" + name
-
-        builder.makeReplacements(
-          author = author,
-          description = descr,
-          execScript = name,
-          chdir = appDir,
-          appName = name,
-          daemonUser = daemonUser,
-          daemonGroup = daemonGroup)
-      },
     // === logging directory mapping ===
     linuxPackageMappings <+= (normalizedName, defaultLinuxLogsLocation, daemonUser in Linux, daemonGroup in Linux) map {
       (name, logsDir, user, group) => packageTemplateMapping(logsDir + "/" + name)() withUser user withGroup group withPerms "755"
