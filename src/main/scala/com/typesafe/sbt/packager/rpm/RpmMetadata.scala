@@ -130,6 +130,21 @@ case class RpmSpec(meta: RpmMetadata,
     sb.toString
   }
 
+  /**
+   * @see http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build/
+   * @see #195
+   */
+  private[this] def macro_os_install_post: String = {
+    """
+    %define __os_install_post \
+        /usr/lib/rpm/brp-compress \
+        %{!?__debug_package:/usr/lib/rpm/brp-strip %{__strip}} \
+        /usr/lib/rpm/brp-strip-static-archive %{__strip} \
+        /usr/lib/rpm/brp-strip-comment-note %{__strip} %{__objdump} \
+        %{nil}
+    """
+  }
+
   private[this] def fileSection: String = {
     val sb = new StringBuilder
     sb append "\n%files\n"
@@ -201,6 +216,9 @@ case class RpmSpec(meta: RpmMetadata,
 
     // Write file mappings
     sb append fileSection
+
+    // Write macros
+    sb append macro_os_install_post
     // TODO - Write triggers...
     // TODO - Write changelog...
 
