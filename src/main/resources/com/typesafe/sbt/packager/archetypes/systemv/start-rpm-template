@@ -64,6 +64,7 @@ start() {
     [ $retval -eq 0 ] && touch ${lockfile} && success || failure
     
     # Insert pid into pid file for CentOS killproc function
+    [ -d "/var/run/${{app_name}}" ] || install -d -o "$DAEMON_USER" -m750 "/var/run/${{app_name}}"
     echo
     echo $PID > ${PIDFILE}
     return $retval
