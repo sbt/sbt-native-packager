@@ -34,6 +34,9 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
   assert(!(postinst contains "useradd --system --no-create-home --gid daemonuser --shell /bin/false daemonuser"), "postinst has useradd for daemongroup: " + postinst)
   assert(postrm contains "deluser --quiet --system daemonuser > /dev/null || true", "postrm misses purging daemonuser user: " + postrm)
   assert(postrm contains "delgroup --quiet --system daemongroup > /dev/null || true", "postrm misses purging daemongroup group: " + postrm)
+  assert(!(postinst contains "chown debian-test:daemongroup"), "postinst contains wrong user: \n" + postinst)
+  assert(!(postinst contains "chown daemonuser:debian-test"), "postinst contains wrong group: \n" + postinst)
+  assert(!(postinst contains "chown debian-test:debian-test"), "postinst contains wrong user and group: \n" + postinst)
   out.log.success("Successfully tested upstart control files")
   ()
 }
