@@ -5,6 +5,7 @@ package rpm
 import Keys._
 import linux._
 import sbt._
+import java.nio.charset.Charset
 
 /** Plugin trait containing all generic values used for packaging linux software. */
 trait RpmPlugin extends Plugin with LinuxPlugin {
@@ -34,6 +35,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmPosttrans := None,
     rpmPreun := None,
     rpmPostun := None,
+    rpmBrpJavaRepackJars := false,
     packageSummary in Rpm <<= packageSummary in Linux,
     packageDescription in Rpm <<= packageDescription in Linux,
     target in Rpm <<= target(_ / "rpm")
@@ -45,6 +47,12 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
         (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
       rpmDependencies <<=
         (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
+      rpmPre <<= (rpmPre, rpmBrpJavaRepackJars) apply {
+        case (_, true) => None
+        case (pre, false) =>
+          val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
+          Some(pre.map(_ + "\n").getOrElse("") + scriptBits)
+      },
       rpmScripts <<=
         (rpmPretrans, rpmPre, rpmPost, rpmVerifyscript, rpmPosttrans, rpmPreun, rpmPostun) apply RpmScripts,
       rpmSpecConfig <<=
@@ -64,8 +72,9 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
 
 object RpmPlugin {
 
-  def preinstTemplateSource: java.net.URL = getClass.getResource("preinstall")
-  def postinstTemplateSource: java.net.URL = getClass.getResource("postinstall")
-  def preuninstallTemplateSource: java.net.URL = getClass.getResource("preuninstall")
-  def postuninstallTemplateSource: java.net.URL = getClass.getResource("postuninstall")
+  def preinstTemplateSource: java.net.URL = getClass getResource "preinstall"
+  def postinstTemplateSource: java.net.URL = getClass getResource "postinstall"
+  def preuninstallTemplateSource: java.net.URL = getClass getResource "preuninstall"
+  def postuninstallTemplateSource: java.net.URL = getClass getResource "postuninstall"
+  def osPostInstallMacro: java.net.URL = getClass getResource "brpJavaRepackJar"
 }
