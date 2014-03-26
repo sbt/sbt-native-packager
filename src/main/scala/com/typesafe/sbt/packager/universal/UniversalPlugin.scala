@@ -3,6 +3,7 @@ package packager
 package universal
 
 import sbt._
+import sbt.Keys.cacheDirectory
 import Keys._
 import Archives._
 import sbt.Keys.TaskStreams
@@ -36,7 +37,7 @@ trait UniversalPlugin extends Plugin {
         mappings <<= sourceDirectory map findSources,
         dist <<= (packageBin, streams) map printDist,
         stagingDirectory <<= target apply (_ / "stage"),
-        stage <<= (stagingDirectory, mappings) map stageFiles
+        stage <<= (cacheDirectory, stagingDirectory, mappings) map stageFiles(config.name)
       )) ++ Seq(
         sourceDirectory in config <<= sourceDirectory apply (_ / config.name),
         target in config <<= target apply (_ / config.name)
@@ -54,9 +55,12 @@ trait UniversalPlugin extends Plugin {
     dist
   }
 
-  private[this] def stageFiles(to: File, mappings: Seq[(File, String)]): Unit = {
-    val copies = mappings collect { case (f, p) => f -> (to / p) }
-    IO.copy(copies)
+  private[this] def stageFiles(config: String)(cacheDirectory: File, to: File, mappings: Seq[(File, String)]): Unit = {
+    val cache = cacheDirectory / ("packager-mappings-" + config)
+    val copies = mappings map {
+      case (file, path) => file -> (to / path)
+    }
+    Sync(cache)(copies)
     // Now set scripts to executable using Java's lack of understanding of permissions.
     // TODO - Config file user-readable permissions....
     for {
