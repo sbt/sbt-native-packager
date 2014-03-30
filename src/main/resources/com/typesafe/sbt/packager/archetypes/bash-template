@@ -158,6 +158,8 @@ get_mem_opts () {
   # The reason is the Xms/Xmx, if they don't line up, cause errors.
   if [[ "${java_opts}" == *-Xmx* ]] || [[ "${java_opts}" == *-Xms* ]] || [[ "${java_opts}" == *-XX:MaxPermSize* ]] || [[ "${java_opts}" == *-XX:ReservedCodeCacheSize* ]]; then
      echo ""
+  elif [[ !$no_java_version_check ]] && [[ java_version > "1.8" ]]; then
+    echo "-Xms${mem}m -Xmx${mem}m -XX:ReservedCodeCacheSize=${codecache}m"
   else 
     echo "-Xms${mem}m -Xmx${mem}m -XX:MaxPermSize=${perm}m -XX:ReservedCodeCacheSize=${codecache}m"
   fi
