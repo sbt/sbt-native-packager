@@ -161,10 +161,10 @@ Mapping a complete directory.
     } 
 
 This maps the ``api`` folder directly to the generate universal zip. ``dir.***`` is a short way for
-``dir ** "*"``, which means _select all files including dir_. ``relativeTo(dir.getParentFile)``
+``dir ** "*"``, which means _select all files including *dir*. ``relativeTo(dir.getParentFile)``
 generates a function with a ``file -> Option[String]`` mapping, which tries to generate a relative
 string path from ``dir.getParentFile`` to the passed in file. ``pair`` uses the ``relativeTo``
-function to generate a mapping ``File -> String``, which is _your file_ to _relative destination_.
+function to generate a mapping ``File -> String``, which is *your file* to *relative destination*.
 
 It exists some helper methods to map a complete directory in more human readable way.
 
