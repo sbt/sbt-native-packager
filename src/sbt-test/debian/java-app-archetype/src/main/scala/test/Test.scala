@@ -1,5 +1,9 @@
 package test
 
 object Test extends App {
-  println("SUCCESS!")
+  Option(sys.props("result.string")) match {
+  	case Some(value) => println(value)
+  	case _ => println("SUCCESS!")
+  }
+  
 }

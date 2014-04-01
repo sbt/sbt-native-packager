@@ -249,12 +249,12 @@ run() {
   if [[ "$JAVA_OPTS" != "" ]]; then
     java_opts="${JAVA_OPTS}"
   fi
-  
+
   # run sbt
   execRunner "$java_cmd" \
     $(get_mem_opts $app_mem) \
-    ${java_opts} \
-    ${java_args[@]} \
+    ${java_opts[@]} \
+    "${java_args[@]}" \
     -cp "$(fix_classpath "$app_classpath")" \
     $app_mainclass \
     "${app_commands[@]}" \
