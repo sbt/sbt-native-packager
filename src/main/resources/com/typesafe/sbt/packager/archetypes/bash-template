@@ -127,7 +127,7 @@ execRunner () {
     echo ""
   }
 
-  # We Don't use "exec" here for our pids to be accurate.
+  # we use "exec" here for our pids to be accurate.
   exec "$@"
 }
 addJava () {
@@ -162,14 +162,6 @@ get_mem_opts () {
     echo "-Xms${mem}m -Xmx${mem}m -XX:ReservedCodeCacheSize=${codecache}m"
   else 
     echo "-Xms${mem}m -Xmx${mem}m -XX:MaxPermSize=${perm}m -XX:ReservedCodeCacheSize=${codecache}m"
-  fi
-}
-require_arg () {
-  local type="$1"
-  local opt="$2"
-  local arg="$3"
-  if [[ -z "$arg" ]] || [[ "${arg:0:1}" == "-" ]]; then
-    die "$opt requires <$type> argument"
   fi
 }
 require_arg () {
