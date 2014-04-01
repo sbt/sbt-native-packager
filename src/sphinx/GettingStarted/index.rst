@@ -14,5 +14,5 @@ neeeded to generate the best package possible.
    
    MyFirstProject.rst
    AddingConfiguration.rst
-   WritingDocumentation.rst
    GeneratingFiles.rst
+   WritingDocumentation.rst

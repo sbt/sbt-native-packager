@@ -103,4 +103,4 @@ The resulting structure is the following ::
 
 Here, we can see that the entire ``conf`` directory for the application is exposed on ``/etc`` as is standard for other linux applications.  By convention, all files in the universal ``conf`` directory are marked as configuration files when packaged, allowing users to modify them.
 
-Now that we have a basic application created, let's write some documentation for it.
+Now that we have a basic application created, let's :doc:`add some generated files <GeneratingFiles>`.
