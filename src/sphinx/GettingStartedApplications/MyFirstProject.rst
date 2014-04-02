@@ -118,6 +118,19 @@ This generates a debian file that will install the following owners and files ::
 
 So, the default packaing takes the "universal" distribution and places it inside a ``/usr/share`` directory, owned by a user for the application.   In addition, there is a a symlink in ``/usr/bin`` to the distributed bin script.  This allows users on the platform to run the ``example-cli`` as a native install.
 
+We can generate other packages via the following tasks.  Here's a complete list of current options.
+
+* ``universal:packageBin`` - Generates a universal zip file
+* ``universal:packageZipTarball`` - Generates a universal tgz file
+* ``debian:packageBin`` - Generates a deb
+* ``rpm:packageBin`` - Generates an rpm
+* ``universal::packageOsxDmg`` - Generates a DMG file with the same contents as the universal zip/tgz.
+* ``windows:packageBin`` - Generates an MSI 
+
+While we only covered the necessary configuration for ``debian``, each package type beyond ``universal`` requires some additonal
+configuration relative to that packager.  For example, windows MSIs require UUIDs for all packages which are used to uniquely
+identifiy two packages that may have the same name.
+
 Next, let's look at how to :doc:`Add configuration files <AddingConfiguration>` to use with our script.
 
 
