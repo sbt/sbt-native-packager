@@ -25,3 +25,26 @@ Currently the native package supports the following installation targets for ser
 | Windows       | Windows Services   |           |
 +---------------+--------------------+-----------+
 
+What is a Server Archetype
+==========================
+
+A server project extends the basic ``java_application`` with some server specific features,
+which are currently on
+
+Linux
+~~~~~
+
+* ``/var/log/<pkg>`` is symlinked from ``<install-location>/log``
+
+* ``/var/run/<pkg>`` is created with write privileges for the ``daemonUser``
+  
+* ``/etc/<pkg>`` is symlinked from ``<install-location>/conf``
+
+* Creates a start script in ``/etc/init.d`` (SystemV) or ``/etc/init/`` (Upstart)
+
+* Creates a startup config file in ``/etc/default/<pkg>``
+
+
+Next, let's :doc:`get started with simple application <MyFirstProject>`
+
+
