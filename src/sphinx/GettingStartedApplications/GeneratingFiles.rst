@@ -44,4 +44,8 @@ You can see the license file is now included in the distribution.
 
 TODO - Describe linuxPackageMappings
 
-TODO - Transition into Writing documentation (like man pages).
+With control over mappings, you can rework any aspect of the native packager defaults just be overriding
+which files are used.   However,  sometimes the defaults don't need to be completely replaced, just altered a bit.
+
+Next, let's look at :doc:`how to provide our own BASH template <OverridingTemplates>` that the native packager will use when generating
+the script.

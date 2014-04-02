@@ -15,6 +15,7 @@ to allow native packages to be created for all major operating systems, includin
    :maxdepth: 1
    
    installation.rst
-   /GettingStarted/index.rst
+   /GettingStartedApplications/index.rst
+   /GettingStartedServers/index.rst
    /DetailedTopics/index.rst
 

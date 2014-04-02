@@ -1,5 +1,5 @@
-Getting Started with sbt-native-packager
-########################################
+Getting Started with Applications
+#################################
 
 The sbt-native-packager is an sbt plugin for bundling your application for a variety of platforms.  
 
@@ -15,4 +15,5 @@ neeeded to generate the best package possible.
    MyFirstProject.rst
    AddingConfiguration.rst
    GeneratingFiles.rst
+   OverridingTemplates.rst
    WritingDocumentation.rst
