@@ -42,7 +42,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'sbt-native-packager'
-copyright = u'2011, Josh Suereth'
+copyright = u'2014 sbt-native-packager team'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

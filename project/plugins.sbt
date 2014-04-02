@@ -6,7 +6,7 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.5.2")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.6.2")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "0.7.1")
+addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "0.7.2")
 
 libraryDependencies <+= (sbtVersion) { sv =>
   "org.scala-sbt" % "scripted-plugin" % sv

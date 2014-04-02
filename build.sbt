@@ -30,9 +30,6 @@ com.typesafe.sbt.SbtSite.SiteKeys.siteMappings <+= (baseDirectory) map { dir =>
 
 site.sphinxSupport()
 
-// Ensure ~ works with docs
-watchSources in Global ++= (sourceDirectory in com.typesafe.sbt.site.SphinxSupport.Sphinx).value.***.get
-
 ghpages.settings
 
 git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
