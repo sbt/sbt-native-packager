@@ -103,4 +103,32 @@ The resulting structure is the following ::
 
 Here, we can see that the entire ``conf`` directory for the application is exposed on ``/etc`` as is standard for other linux applications.  By convention, all files in the universal ``conf`` directory are marked as configuration files when packaged, allowing users to modify them.
 
-Now that we have a basic application created, let's :doc:`add some generated files <GeneratingFiles>`.
+Configuring for Windows
+~~~~~~~~~~~~~~~~~~~~~~~
+While we just covered how to do configuration for linux/mac, windows offers some subtle differences.
+
+First, while the BASH file allows you to configure where to load JVM options and default arguments, in
+windows we can only configure JVM options.  The path is hardcoded, as well to:
+
+``<install directory>/@@APP_ENV_NAME@@_config.txt``
+
+where ``@@APP_ENV_NAME@@`` is replaced with an environment friendly name for your app.   In this example, that would be: ``EXAMPLE_CLI``.
+
+We can provide a configuration for JVM options on windows by creating a ``src/universal/EXAMPLE_CLI_config.txt`` file with the following contents ::
+
+    -Xmx512M
+    -Xms128M
+
+This will add each line of the file as arguments to the JVM when running your application.
+
+
+Now, if we want to add the typesafe config library again, we need to write the ``config.file`` property into the JVM options again.
+
+One means of doing this is hooking the ``batScriptExtraDefines`` key.  This allows us to insert various BAT settings/commands into the script.  Let's use this to hook the config file location, using the other variables in the BASH script.  Modify your ``build.sbt`` as follows  ::
+
+    batScriptExtraDefines += """set _JAVA_OPTS=%_JAVA_OPTS% -Dconfig.file=%EXAMPLE_CLI_HOME%\\conf\\app.config"""
+
+Now, the windows version will also load the configuration from the ``conf/`` directory of the package.
+
+
+Next, let's :doc:`add some generated files <GeneratingFiles>`.
