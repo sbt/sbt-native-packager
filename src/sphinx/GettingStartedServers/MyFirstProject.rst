@@ -16,7 +16,7 @@ with
     packageArchetype.java_server
 
 
-which will activate all server specific settings. As the server settings are dependend
+which will activate all server specific settings. As the server settings are dependent
 on which OS your using the following sections will provide details for each supported
 OS.
 
