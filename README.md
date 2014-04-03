@@ -19,101 +19,14 @@ This is a work in process project.  The goal is to be able to bundle up Scala so
 Add the following to your `project/plugins.sbt` file:
     
 
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.6.4")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-RC2")
 
 
-Then, in the project you wish to use the plugin, You need to select what kind of project you are packaging:
+## Documentation ##
 
-### Java Application ###
-
-If you are packaging a Java Application, this implies that you have *one* main method defined in the project.  The
-native packager will generate two scrips to run your application (one for 'nix [bash] and one for windows [bat]). The
-generic layout of your application will be:
-
-     <installation-dir>
-        bin/
-           <app>             <- bash script
-           <app>.bat         <- windows script
-        lib/
-           *.jar             <- binaries
-
-When mapping to debian or RPM, the packager will create symlinks in /usr/bin to the installation directory of your
-program.   If you include a `conf/` directory with configuration, this will show up as a symlink under `/etc/<app>/`.
-On windows, the directory structure remains unchanged, however the MSI will include a hook to automatically add
-the `bin/` directory to the windows PATH.
-
-Here's what to add to your `build.sbt`:
-
-    packageArchetype.java_application
-
-If you'd like to add additional files to the installation dir, simply add them to the universal mappings:
-
-    import com.typesafe.sbt.SbtNativePackager.Universal
-    
-    mappings in Universal += {
-      file("my/local/conffile") -> "conf/my.conf"
-    }
-
-The above adds a configuration file from the local project at `my/local/conffile` into the installation directory
-at `conf/my.conf`.
+There's a complete "getting started" guide and more detailed topics available at [the sbt-native-packager site](http://scala-sbt.org/sbt-native-packager).  
 
 
-### Java Server Application (Experimental)  ###
-
-If you are packaging a server, the configuration will be similar to a vanilla Java Application, except that the native
-packager will include service hooks inside the MSI, DEB and RPM.   For DEB, these hooks will use upstart.  For RPM,
-they will use init.d and for MSIs, there will be windows service hooks.
-
-To try out the experimental java server archetype, add this to your `project/plugins.sbt`:
-
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-M2")
-
-Here's what to add to your `build.sbt`:
-
-    packageArchetype.java_server
-
-For debian packaging there are a few things generated for you
-
-* A template folder `/var/log/<app-name>`
-* A symlink `/installdir/<app-name>/logs` to `/var/log/<app-name` (Installdir is by default `/usr/share`)
-* Default `serverLoading` is `Upstart` (you can choose SystemV with `com.typesafe.sbt.packager.archetypes.ServerLoader.SystemV` )
-* Default `appUser` is the normalized name of the package
-* Default `daemonUser` is `appUser`
-* _add-user_ and _remove-user_ statements will be added to
-the `postrm` and `postinst` control files for `appUser`
-
-### By-hand packaging ###
-
-If you'd like to wire all of your packages by hand, use the minmal set of configuration provided.  In your
-`build.sbt` enter the following:
-
-    packagerSettings
-
-or to a `Project` instantiation in `build.sbt`/`project/Build.scala`:
-
-    settings(com.typesafe.sbt.SbtNativePackager.packagerSettings:_*)
-    
-If you use this configuration, you must fill out the `mappings in Universal`, `mappings in Windows`,
-`linuxPackageMappings` and `wixXml` settings yourself.
+Please feel free to [contribute documentation](https://github.com/sbt/sbt-native-packager/tree/master/src/sphinx), or raise issues where you feel it may be lacking.
 
 
-## Usage ##
-
-Once you've configured your packaging how you like it, you can run the following commands:
-
-* `stage` - Creates an universal distribution under the `target/universal/stage` directory
-* `universal:package-zip-tarball` - Creates an universal `.tgz` distribution.
-* `universal:package-xz-tarball` - Creates an universal `txz` distribution.  Note: xz sucks cpu like no other.
-* `universal:package-bin` - Creates an universal `zip` distribution
-* `windows:package-bin` - Creates a Windows `msi` file.
-* `windows:package-msi` - Creates a Windows `msi` file.
-* `debian:package-bin` - Creates a Debian `deb` file.
-* `rpm:package-bin` - Creates a Red Hat `rpm` file.
-
-
-### Publishing to bintray ###
-
-[Bintray](bintray.com) has support for publishing RPM + DEB files into shared repositories.  We can do this from sbt
-using the sbt-native-packager.  TODO - outline details once we have them fleshed out.
-
-A more complex project, which bundles the sbt project, can be found [here](https://github.com/sbt/sbt-launcher-package/blob/master/project/packaging.scala).
