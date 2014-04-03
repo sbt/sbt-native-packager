@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Adding configuration &mdash; sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation" href="../index.html" />
+    <link rel="up" title="Getting Started with Applications" href="index.html" />
+    <link rel="next" title="Generating files for the package" href="GeneratingFiles.html" />
+    <link rel="prev" title="My First Packaged Project" href="MyFirstProject.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          sbt-native-packager</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started with Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStartedServers/index.html">Getting Started with Servers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DetailedTopics/index.html">Advanced Topics</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Adding configuration</a><ul>
+<li><a class="reference internal" href="#configuring-for-windows">Configuring for Windows</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="MyFirstProject.html" title="Previous Chapter: My First Packaged Project"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; My First Package...</span>
+    </a>
+  </li>
+  <li>
+    <a href="GeneratingFiles.html" title="Next Chapter: Generating files for the package"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Generating files... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/GettingStartedApplications/AddingConfiguration.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="adding-configuration">
+<h1>Adding configuration<a class="headerlink" href="#adding-configuration" title="Permalink to this headline">¶</a></h1>
+<p>After <a class="reference internal" href="MyFirstProject.html"><em>creating a package</em></a>, the very next thing needed, usually, is the ability for users/ops to customize the application once it&#8217;s deployed.   Let&#8217;s add some configuration to the newly deployed application.</p>
+<p>There are generally two types of configurations:</p>
+<ul class="simple">
+<li>Configuring the JVM and the process</li>
+<li>Configuring the Application itself.</li>
+</ul>
+<p>The native packager provides a direct hook into the generated scripts for JVM configuration. Let&#8217;s make use of this.  First, add the following to the <tt class="docutils literal"><span class="pre">src/universal/conf/jvmopts</span></tt> file in the project</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">-</span><span class="n">DsomeProperty</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>Now, if we run the <tt class="docutils literal"><span class="pre">stage</span></tt> task, we&#8217;ll see this file show up in the distribution</p>
+<div class="highlight-python"><pre>$ sbt stage
+$ ls target/universal/stage
+   bin/
+   conf/
+   lib/
+$ ls target/unviersal/stage/conf
+   jvmopts</pre>
+</div>
+<p>By default, any file in the <tt class="docutils literal"><span class="pre">src/universal</span></tt> directory is packaged.  This is a convenient way to include things like licenses, and readmes.</p>
+<p>Now, we need to modify the script templates to load this configuration.  To do so, add the following
+to <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
+<div class="highlight-python"><pre>bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts")</pre>
+</div>
+<p>Here, we define the configuration location for the BASH script too look for the <tt class="docutils literal"><span class="pre">conf/jvmopts</span></tt> file.  Now, let&#8217;s run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">stage</span></tt> and then execute the script in debug mode to see what command line it executes</p>
+<div class="highlight-python"><pre>./target/universal/stage/bin/example-cli -d
+    # Executing command line:
+    java
+    -Xms1024m
+    -Xmx1024m
+    -XX:MaxPermSize=256m
+    -XX:ReservedCodeCacheSize=128m
+    -DsomeProperty=true
+    -cp
+    /home/jsuereth/projects/sbt/sbt-native-packager/tutorial-example/target/universal/stage/lib/example-cli.example-cli-1.0.jar:/home/jsuereth/projects/sbt/sbt-native-packager/tutorial-example/target/universal/stage/lib/org.scala-lang.scala-library-2.10.3.jar:/home/jsuereth/projects/sbt/sbt-native-packager/tutorial-example/target/universal/stage/lib/com.typesafe.config-1.2.0.jar
+    TestApp</pre>
+</div>
+<p>The configuration file for bash scripts takes arguments for the BASH file on each line, and allows comments which start with the <tt class="docutils literal"><span class="pre">#</span></tt> character.  Essentially, this provides a set of default arguments when calling the script.</p>
+<p>Now that we have ability to configure the JVM, let&#8217;s add in a more robust method of customizing the applciation.  We&#8217;ll be using the <a class="reference external" href="https://github.com/typesafehub/config">Typesafe Config</a> library for this purpose.</p>
+<p>First, let&#8217;s add it as a dependency in <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;com.typesafe&quot;</span> <span class="o">%</span> <span class="s">&quot;config&quot;</span> <span class="o">%</span> <span class="s">&quot;1.2.0&quot;</span>
+</pre></div>
+</div>
+<p>Next, let&#8217;s create the configuration file itself.  Add the following to <tt class="docutils literal"><span class="pre">src/universal/conf/app.config</span></tt></p>
+<div class="highlight-python"><pre>example {
+  greeting = "Hello, World!"
+}</pre>
+</div>
+<p>Now, we need a means of telling the typesafe config library where to find our configuration.  The library supports
+a JVM property &#8220;<tt class="docutils literal"><span class="pre">config.file</span></tt>&#8221; which it will use to look for configuration.   Let&#8217;s expose this file
+in the startup BASH script.  To do so, add the following to <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
+<div class="highlight-python"><pre>bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/app.config""""</pre>
+</div>
+<p>This line modifies the generated BASH script to add the JVM options the location of the application configuration on disk.  Now, let&#8217;s modify the application (<tt class="docutils literal"><span class="pre">src/main/scala/TestApp.scala</span></tt>) to read this configuration</p>
+<div class="highlight-python"><pre>import com.typesafe.config.ConfigFactory
+
+object TestApp extends App {
+  val config = ConfigFactory.load()
+  println(config.getString("example.greeting"))
+}</pre>
+</div>
+<p>Now, let&#8217;s try it out on the command line</p>
+<div class="highlight-python"><pre>$ sbt stage
+$ ./target/universal/stage/bin/example-cli
+Hello, World!</pre>
+</div>
+<p>Finally, let&#8217;s see what this configuration looks like in a linux distribution.  Let&#8217;s run the debian packaging again</p>
+<div class="highlight-python"><pre>$ sbt debian:packageBin</pre>
+</div>
+<p>The resulting structure is the following</p>
+<div class="highlight-python"><pre>/usr/
+  share/example-cli/
+    conf/
+      app.config
+      jvmopts
+    bin/
+      example-cli
+    lib/
+      example-cli.example-cli-1.0.jar
+      org.scala-lang.scala-library-2.10.3.jar
+  bin/
+    example-cli -&gt; ../share/example-cli/bin/example-cli
+/etc/
+   example-cli -&gt; /usr/share/example-cli/conf</pre>
+</div>
+<p>Here, we can see that the entire <tt class="docutils literal"><span class="pre">conf</span></tt> directory for the application is exposed on <tt class="docutils literal"><span class="pre">/etc</span></tt> as is standard for other linux applications.  By convention, all files in the universal <tt class="docutils literal"><span class="pre">conf</span></tt> directory are marked as configuration files when packaged, allowing users to modify them.</p>
+<div class="section" id="configuring-for-windows">
+<h2>Configuring for Windows<a class="headerlink" href="#configuring-for-windows" title="Permalink to this headline">¶</a></h2>
+<p>While we just covered how to do configuration for linux/mac, windows offers some subtle differences.</p>
+<p>First, while the BASH file allows you to configure where to load JVM options and default arguments, in
+windows we can only configure JVM options.  The path is hardcoded, as well to:</p>
+<p><tt class="docutils literal"><span class="pre">&lt;install</span> <span class="pre">directory&gt;/&#64;&#64;APP_ENV_NAME&#64;&#64;_config.txt</span></tt></p>
+<p>where <tt class="docutils literal"><span class="pre">&#64;&#64;APP_ENV_NAME&#64;&#64;</span></tt> is replaced with an environment friendly name for your app.   In this example, that would be: <tt class="docutils literal"><span class="pre">EXAMPLE_CLI</span></tt>.</p>
+<p>We can provide a configuration for JVM options on windows by creating a <tt class="docutils literal"><span class="pre">src/universal/EXAMPLE_CLI_config.txt</span></tt> file with the following contents</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">-</span><span class="n">Xmx512M</span>
+<span class="o">-</span><span class="n">Xms128M</span>
+</pre></div>
+</div>
+<p>This will add each line of the file as arguments to the JVM when running your application.</p>
+<p>Now, if we want to add the typesafe config library again, we need to write the <tt class="docutils literal"><span class="pre">config.file</span></tt> property into the JVM options again.</p>
+<p>One means of doing this is hooking the <tt class="docutils literal"><span class="pre">batScriptExtraDefines</span></tt> key.  This allows us to insert various BAT settings/commands into the script.  Let&#8217;s use this to hook the config file location, using the other variables in the BASH script.  Modify your <tt class="docutils literal"><span class="pre">build.sbt</span></tt> as follows</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">batScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;set _JAVA_OPTS=%_JAVA_OPTS% -Dconfig.file=</span><span class="si">%E</span><span class="s">XAMPLE_CLI_HOME%</span><span class="se">\\</span><span class="s">conf</span><span class="se">\\</span><span class="s">app.config&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>Now, the windows version will also load the configuration from the <tt class="docutils literal"><span class="pre">conf/</span></tt> directory of the package.</p>
+<p>Next, let&#8217;s <a class="reference internal" href="GeneratingFiles.html"><em>add some generated files</em></a>.</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014 sbt-native-packager team.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

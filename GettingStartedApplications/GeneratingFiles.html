@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Generating files for the package &mdash; sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation" href="../index.html" />
+    <link rel="up" title="Getting Started with Applications" href="index.html" />
+    <link rel="next" title="Overriding templates" href="OverridingTemplates.html" />
+    <link rel="prev" title="Adding configuration" href="AddingConfiguration.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          sbt-native-packager</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started with Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStartedServers/index.html">Getting Started with Servers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DetailedTopics/index.html">Advanced Topics</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Generating files for the package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="AddingConfiguration.html" title="Previous Chapter: Adding configuration"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Adding configura...</span>
+    </a>
+  </li>
+  <li>
+    <a href="OverridingTemplates.html" title="Next Chapter: Overriding templates"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Overriding templ... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/GettingStartedApplications/GeneratingFiles.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="generating-files-for-the-package">
+<h1>Generating files for the package<a class="headerlink" href="#generating-files-for-the-package" title="Permalink to this headline">¶</a></h1>
+<p>Let&#8217;s dynamically (in the build) construct some files that should be included in the package.</p>
+<p>For the example, let&#8217;s download a license file for our application and add it to the distribution. First,
+let&#8217;s create a task which will download a license file.  Add the following to build.sbt</p>
+<div class="highlight-python"><pre>val downloadLicense = taskKey[File]("Downloads the latest license file.")
+
+downloadLicense := {
+  val location = target.value / "downloads" / "LICENSE"
+  location.getParentFile.mkdirs()
+  IO.download(url("http://www.schillmania.com/projects/soundmanager2/license.txt?txt"), location)
+  location
+}</pre>
+</div>
+<p>Now, we have a taks that will download the BSD license when run.  Note:  We assume that the license file is
+something you host on your own website and keep up to date separately form the package.</p>
+<p>Next, let&#8217;s wire this license into the package.   The native package, by default, works with <strong>mappings</strong>.
+In sbt, a <strong>mappings</strong> object is a grouping of files and relative locations, e.g</p>
+<div class="highlight-python"><pre>/home/jsuereth/projects/example/src/universal/conf/app.config -&gt; conf/app.config
+/home/jsuereth/projects/example/src/universal/conf/jvmopts -&gt; conf/jvmopts</pre>
+</div>
+<p>shows the mapping of the configuration files we set up <a class="reference internal" href="AddingConfiguration.html"><em>previously</em></a>.  We can directly
+append files to the mappings rather than relying on the native packager to find things.  Let&#8217;s add
+the license in the root of the package we&#8217;re creating.  Add the following to the <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
+<div class="highlight-python"><pre>mappings in Universal += downloadLicense.value -&gt; "LICENSE"</pre>
+</div>
+<p>This is appending a new mapping to those used for packaging.  In this case, we reference the file returned by
+the <tt class="docutils literal"><span class="pre">downloadLicense</span></tt> task and put it in the root directory of the package, calling it <tt class="docutils literal"><span class="pre">LICENSE</span></tt>.  We
+can verify this by checking the <tt class="docutils literal"><span class="pre">stage</span></tt> task</p>
+<div class="highlight-python"><pre>$ sbt stage
+$ ls target/universal/stage
+bin  conf  lib  LICENSE</pre>
+</div>
+<p>You can see the license file is now included in the distribution.</p>
+<p>TODO - Describe linuxPackageMappings</p>
+<p>With control over mappings, you can rework any aspect of the native packager defaults just be overriding
+which files are used.   However,  sometimes the defaults don&#8217;t need to be completely replaced, just altered a bit.</p>
+<p>Next, let&#8217;s look at <a class="reference internal" href="OverridingTemplates.html"><em>how to provide our own BASH template</em></a> that the native packager will use when generating
+the script.</p>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014 sbt-native-packager team.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

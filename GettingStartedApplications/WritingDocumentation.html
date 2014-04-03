@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Writing Documentation &mdash; sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation" href="../index.html" />
+    <link rel="up" title="Getting Started with Applications" href="index.html" />
+    <link rel="next" title="Getting Started with Servers" href="../GettingStartedServers/index.html" />
+    <link rel="prev" title="Overriding templates" href="OverridingTemplates.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          sbt-native-packager</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started with Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStartedServers/index.html">Getting Started with Servers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DetailedTopics/index.html">Advanced Topics</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Writing Documentation</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="OverridingTemplates.html" title="Previous Chapter: Overriding templates"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Overriding templ...</span>
+    </a>
+  </li>
+  <li>
+    <a href="../GettingStartedServers/index.html" title="Next Chapter: Getting Started with Servers"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Getting Started ... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/GettingStartedApplications/WritingDocumentation.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="writing-documentation">
+<h1>Writing Documentation<a class="headerlink" href="#writing-documentation" title="Permalink to this headline">¶</a></h1>
+<p>There are many ways to document your projects, and many ways to expose them.  While the native packager places
+no limit on WHAT is included in a package, there are some things which receive special treatment.</p>
+<p>Specifically: linux man pages.</p>
+<p>To create a linux man page for the application, let&#8217;s create a <tt class="docutils literal"><span class="pre">src/linux/usr/share/man/man1/example-cli.1</span></tt> file</p>
+<div class="highlight-python"><pre>.\" Process this file with
+.\" groff -man -Tascii example-cli.1
+.\"
+.TH EXAMPLE_CLI 1 "NOVEMBER 2011" Linux "User Manuals"
+.SH NAME
+example-cli \- Example CLI
+.SH SYNOPSIS
+.B example-cli [-h]</pre>
+</div>
+<p>Notice the location of the file.  Any file under <tt class="docutils literal"><span class="pre">src/linux</span></tt> is automatically included, relative to <tt class="docutils literal"><span class="pre">/</span></tt>, in linux packages (deb, rpm).  That means the man file will <strong>not</strong> appear in the universal package (confusing linux users).</p>
+<p>Now that the man page is created, we can use a few tasks provided to view it in sbt.  Let&#8217;s look in the sbt console</p>
+<div class="highlight-python"><pre>$ sbt
+&gt; generateManPages
+[info] Generated man page for[/home/jsuereth/projects/sbt/sbt-native-packager/tutorial-example/src/linux/usr/share/man/man1/example-cli.1] =
+[info] EXAMPLE_CLI(1)                   User Manuals                   EXAMPLE_CLI(1)
+[info]
+[info]
+[info]
+[info] NAME
+[info]        example-cli - Example CLI
+[info]
+[info] SYNOPSIS
+[info]        example-cli [-h]
+[info]
+[info]
+[info]
+[info] Linux                            NOVEMBER 2011                  EXAMPLE_CLI(1)</pre>
+</div>
+<p>We can use this task to work on the man pages and ensure they&#8217;ll look ok.  You can also directly use <tt class="docutils literal"><span class="pre">groff</span></tt> to view changes in
+your man pages.</p>
+<p>In addition to providing the means to view the man page, the native packager will also automatically <tt class="docutils literal"><span class="pre">gzip</span></tt> man pages for the
+distribution.  The resulting man page is stored in <tt class="docutils literal"><span class="pre">/usr/share/man/man1/example-cli.1.gz</span></tt> in linux distributions.</p>
+<p>TODO - A bit more on other documentation methods.</p>
+<p>That&#8217;s the end fo the getting started guide for Java Applications!  Feel free to read the guide on Java Servers, which offers a few differences in how configuration is done, necessary for packaging to underlying systems.</p>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014 sbt-native-packager team.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

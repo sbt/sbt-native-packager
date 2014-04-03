@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Packaging for Windows &mdash; sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation" href="../index.html" />
+    <link rel="up" title="Advanced Topics" href="index.html" />
+    <link rel="prev" title="Debian" href="debian.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          sbt-native-packager</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStartedApplications/index.html">Getting Started with Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStartedServers/index.html">Getting Started with Servers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Advanced Topics</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Packaging for Windows</a><ul>
+<li><a class="reference internal" href="#feature-configuration">Feature configuration</a></li>
+<li><a class="reference internal" href="#settings">Settings</a></li>
+<li><a class="reference internal" href="#commands">Commands</a></li>
+<li><a class="reference internal" href="#utilities">Utilities</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="debian.html" title="Previous Chapter: Debian"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Debian</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/DetailedTopics/windows.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="packaging-for-windows">
+<span id="windows"></span><h1>Packaging for Windows<a class="headerlink" href="#packaging-for-windows" title="Permalink to this headline">¶</a></h1>
+<p>The windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package, it&#8217;s important to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial to how to create packages using wix.</p>
+<p>However, the native-packager provides a simple layer on top of wix that <em>may</em> be enough for most projects.  If it is not, just override <tt class="docutils literal"><span class="pre">wixConfig</span></tt> or <tt class="docutils literal"><span class="pre">wixFile</span></tt> settings.  Let&#8217;s look at the layer above direct xml configuration.</p>
+<div class="section" id="feature-configuration">
+<h2>Feature configuration<a class="headerlink" href="#feature-configuration" title="Permalink to this headline">¶</a></h2>
+<p>The abstraction over wix allows you to configure &#8220;features&#8221; that users may optionally install.  These feature are higher level things, like a set of files or menu links.
+The currently supported compoennts of features are:</p>
+<ol class="arabic simple">
+<li>Files (<tt class="docutils literal"><span class="pre">ComponentFile</span></tt>)</li>
+<li>Path Configuration (<tt class="docutils literal"><span class="pre">AddDirectoryToPath</span></tt>)</li>
+<li>Menu Shortcuts (<tt class="docutils literal"><span class="pre">AddShortCuts</span></tt>)</li>
+</ol>
+<p>To create a new feature, simple instantiate the <tt class="docutils literal"><span class="pre">WindowsFeature</span></tt> class with the desired feature components that are included.</p>
+<p>Here&#8217;s an example feature that installs a binary and a script, as well as path settings:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">wixFeatures</span> <span class="o">+=</span> <span class="nc">WindowsFeature</span><span class="o">(</span>
+    <span class="n">id</span><span class="o">=</span><span class="s">&quot;BinaryAndPath&quot;</span><span class="o">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s">&quot;My Project&#39;s Binaries and updated PATH settings&quot;</span><span class="o">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s">&quot;Update PATH environment variables (requires restart).&quot;</span><span class="o">,</span>
+    <span class="n">components</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+      <span class="nc">ComponentFile</span><span class="o">(</span><span class="s">&quot;bin/cool.bat&quot;</span><span class="o">),</span>
+      <span class="nc">ComponentFile</span><span class="o">(</span><span class="s">&quot;lib/cool.jar&quot;</span><span class="o">),</span>
+      <span class="nc">AddDirectoryToPath</span><span class="o">(</span><span class="s">&quot;bin&quot;</span><span class="o">))</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>All file references should line up exactly with those found in the <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></tt> configuration.   When generating an MSI, the plugin will first create
+a directory using all the <tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></tt> and configure this for inclusion in a <tt class="docutils literal"><span class="pre">cab</span></tt> file.  If you&#8217;d like to add files to include, these must <em>first</em>
+be added to the mappings, and then to a feature.   For example, if we complete the above setting to include file mappings, we&#8217;d have the following:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">sourceDirectory</span> <span class="n">in</span> <span class="nc">Windows</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="n">jar</span><span class="o">,</span> <span class="n">dir</span><span class="o">)</span> <span class="k">=&gt;</span>
+  <span class="nc">Seq</span><span class="o">(</span><span class="n">jar</span> <span class="o">-&gt;</span> <span class="s">&quot;lib/cool.jar&quot;</span><span class="o">,</span> <span class="o">(</span><span class="n">dir</span> <span class="o">/</span> <span class="s">&quot;cool.bat&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;bin/cool.bat&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">wixFeatures</span> <span class="o">+=</span> <span class="nc">WindowsFeature</span><span class="o">(</span>
+    <span class="n">id</span><span class="o">=</span><span class="s">&quot;BinaryAndPath&quot;</span><span class="o">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s">&quot;My Project&#39;s Binaries and updated PATH settings&quot;</span><span class="o">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s">&quot;Update PATH environment variables (requires restart).&quot;</span><span class="o">,</span>
+    <span class="n">components</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+      <span class="nc">ComponentFile</span><span class="o">(</span><span class="s">&quot;bin/cool.bat&quot;</span><span class="o">),</span>
+      <span class="nc">ComponentFile</span><span class="o">(</span><span class="s">&quot;lib/cool.jar&quot;</span><span class="o">),</span>
+      <span class="nc">AddDirectoryToPath</span><span class="o">(</span><span class="s">&quot;bin&quot;</span><span class="o">))</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>Right now this layer is <em>very</em> limited in what it can accomplish, and hasn&#8217;t been heavily debugged.  If you&#8217;re interested in helping contribute, please
+do so!   However, for most command line tools, it should be sufficient for generating a basic <tt class="docutils literal"><span class="pre">msi</span></tt> that windows users can install.</p>
+<p>Now, let&#8217;s look at the full set of windows settings.</p>
+</div>
+<div class="section" id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Windows</span></tt></dt>
+<dd>The name of the generated msi file.</dd>
+<dt><tt class="docutils literal"><span class="pre">candleOptions</span></tt></dt>
+<dd>the list of options to pass to the <tt class="docutils literal"><span class="pre">candle.exe</span></tt> command.</dd>
+<dt><tt class="docutils literal"><span class="pre">lightOptions</span></tt></dt>
+<dd>the list of options to pass to the <tt class="docutils literal"><span class="pre">light.exe</span></tt> command.  Most likely setting is: <tt class="docutils literal"><span class="pre">Seq(&quot;-ext&quot;,</span> <span class="pre">&quot;WixUIExtension&quot;,</span> <span class="pre">&quot;-cultures:en-us&quot;)</span></tt> for UI.</dd>
+<dt><tt class="docutils literal"><span class="pre">wixProductId</span></tt></dt>
+<dd>The GUID to use to identify the windows package/product.</dd>
+<dt><tt class="docutils literal"><span class="pre">wixProductUpgradeId</span></tt></dt>
+<dd>The GUID to use to identify the windows package/product <em>upgrade</em> identifier (see wix docs).</dd>
+<dt><tt class="docutils literal"><span class="pre">wixPackageInfo</span></tt></dt>
+<dd>The information used to autoconstruct the <tt class="docutils literal"><span class="pre">&lt;Product&gt;&lt;Package/&gt;</span></tt> portion of the wix xml.  <strong>Note: unused if ``wixConfig`` is overridden</strong></dd>
+<dt><tt class="docutils literal"><span class="pre">wixProductLicense</span></tt></dt>
+<dd>An (optional) <tt class="docutils literal"><span class="pre">rtf</span></tt> file to display as the product license during installation.  Default to looking for <tt class="docutils literal"><span class="pre">src/windows/License.rtf</span></tt></dd>
+<dt><tt class="docutils literal"><span class="pre">wixFeatures</span></tt></dt>
+<dd>A set of windows features that users can install with this package.  <strong>Note: unused if ``wixConfig`` is overridden</strong></dd>
+<dt><tt class="docutils literal"><span class="pre">wixProductConfig</span></tt></dt>
+<dd>inline XML to use for wix configuration.  This is everything nested inside the <tt class="docutils literal"><span class="pre">&lt;Product&gt;</span></tt> element.</dd>
+<dt><tt class="docutils literal"><span class="pre">wixConfig</span></tt></dt>
+<dd>inline XML to use for wix configuration.   This is used if the <tt class="docutils literal"><span class="pre">wixFile</span></tt> setting is not specified.</dd>
+<dt><tt class="docutils literal"><span class="pre">wixFile</span></tt></dt>
+<dd>The file containing WIX xml that defines the build.</dd>
+<dt><tt class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">packageMsi</span> <span class="pre">in</span> <span class="pre">Windows</span></tt></dt>
+<dd>A list of file-&gt;location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a <tt class="docutils literal"><span class="pre">cab</span></tt> or embedded <tt class="docutils literal"><span class="pre">cab</span></tt> for the <tt class="docutils literal"><span class="pre">msi</span></tt>.
+The WIX xml should use the relative locations in this mappings when references files for the package.</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">windows:package-bin</span></tt></dt>
+<dd>Creates the <tt class="docutils literal"><span class="pre">msi</span></tt> package.</dd>
+<dt><tt class="docutils literal"><span class="pre">wix-file</span></tt></dt>
+<dd>Generates the Wix xml file from <cite>wixConfig</cite> and <cite>wixProductConfig</cite> setings, unless overriden.</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
+<p>The native-packager plugin provides a few handy utilities for generating Wix XML.  These
+utilities are located in the <tt class="docutils literal"><span class="pre">com.typesafe.packager.windows.WixHelper</span></tt> object.  Among
+these are the following functions:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">cleanStringForId(String):</span> <span class="pre">String</span></tt></dt>
+<dd>Takes in a string and returns a wix-friendly identifier.  Note: truncates to 50 characters.</dd>
+<dt><tt class="docutils literal"><span class="pre">cleanFileName(String):</span> <span class="pre">String</span></tt></dt>
+<dd>Takes in a file name and replaces any <tt class="docutils literal"><span class="pre">$</span></tt> with <tt class="docutils literal"><span class="pre">$$</span></tt> to make it past the Wix preprocessor.</dd>
+<dt><tt class="docutils literal"><span class="pre">generateComponentsAndDirectoryXml(File):</span> <span class="pre">(Seq[String],</span> <span class="pre">scala.xml.Node)</span></tt></dt>
+<dd>This method will take a file and generate <tt class="docutils literal"><span class="pre">&lt;Directory&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;Component&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;File&gt;</span></tt>
+XML elements for all files/directories contained in the given file.  It will return the
+<tt class="docutils literal"><span class="pre">Id</span></tt> settings for any generated components.  This is a handy way to package a large
+directory of files for usage in the Features of an MSI.</dd>
+</dl>
+</div></blockquote>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014 sbt-native-packager team.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Project Archetypes &mdash; sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation" href="../index.html" />
+    <link rel="up" title="Advanced Topics" href="index.html" />
+    <link rel="next" title="Universal" href="universal.html" />
+    <link rel="prev" title="Advanced Topics" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          sbt-native-packager</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStartedApplications/index.html">Getting Started with Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStartedServers/index.html">Getting Started with Servers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Advanced Topics</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Project Archetypes</a><ul>
+<li><a class="reference internal" href="#java-command-line-application">Java Command Line Application</a></li>
+<li><a class="reference internal" href="#java-server">Java Server</a></li>
+<li><a class="reference internal" href="#overriding-templates">Overriding Templates</a><ul>
+<li><a class="reference internal" href="#src-templates-bat-template"><tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt></a></li>
+<li><a class="reference internal" href="#src-templates-bash-template"><tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt></a></li>
+<li><a class="reference internal" href="#src-templates-start"><tt class="docutils literal"><span class="pre">src/templates/start</span></tt></a></li>
+<li><a class="reference internal" href="#src-templates-etc-default"><tt class="docutils literal"><span class="pre">src/templates/etc-default</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="index.html" title="Previous Chapter: Advanced Topics"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Advanced Topics</span>
+    </a>
+  </li>
+  <li>
+    <a href="universal.html" title="Next Chapter: Universal"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Universal &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/DetailedTopics/archetypes.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="project-archetypes">
+<span id="archetypes"></span><h1>Project Archetypes<a class="headerlink" href="#project-archetypes" title="Permalink to this headline">¶</a></h1>
+<p>Project archetypes are default deployment scripts that try to &#8220;do the right thing&#8221; for a given type of project.
+Because not all projects are created equal, there is no one single archetype for all native packages, but a set
+of them for usage.</p>
+<p>The architecture of the plugin is set up so that you can customize your packages at any level of complexity.
+For example, if you&#8217;d like to write Windows Installer XML by hand and manually map files, you should be able to do this while
+still leveraging the default configuration for other platforms.</p>
+<p>Curently, in the nativepackager these archetypes are available:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Java Command Line Application</li>
+<li>Java Server Application (Experimental - Debian Only)</li>
+</ul>
+</div></blockquote>
+<div class="section" id="java-command-line-application">
+<h2>Java Command Line Application<a class="headerlink" href="#java-command-line-application" title="Permalink to this headline">¶</a></h2>
+<p>A Java Command Line application is a Java application that consists of a set of JARs and a main method.  There is no
+custom start scripts, or services.  It is just a bash/bat script that starts up a Java project.   To use
+this archetype in your build, do the following in your <tt class="docutils literal"><span class="pre">build.sbt</span></tt>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">packageArchetype</span><span class="o">.</span><span class="n">java_application</span>
+
+<span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;A-package-friendly-name&quot;</span>
+
+<span class="n">packageSummary</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;The name you want displayed in package summaries&quot;</span>
+
+<span class="n">packageSummary</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">:=</span> <span class="s">&quot;The name you want displayed in Add/Remove Programs&quot;</span>
+
+<span class="n">packageDescription</span> <span class="o">:=</span> <span class="s">&quot; A description of your project&quot;</span>
+
+<span class="n">maintainer</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">:=</span> <span class="s">&quot;Company&quot;</span>
+
+<span class="n">maintainer</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="s">&quot;Your Name &lt;your@email.com&gt;&quot;</span>
+
+<span class="n">wixProductId</span> <span class="o">:=</span> <span class="s">&quot;ce07be71-510d-414a-92d4-dff47631848a&quot;</span>
+
+<span class="n">wixProductUpgradeId</span> <span class="o">:=</span> <span class="s">&quot;4552fb0e-e257-4dbd-9ecb-dba9dbacf424&quot;</span>
+</pre></div>
+</div>
+<p>This archetype will use the <tt class="docutils literal"><span class="pre">mainClass</span></tt> setting of sbt (automatically discovers your main class) to generate <tt class="docutils literal"><span class="pre">bat</span></tt> and <tt class="docutils literal"><span class="pre">bin</span></tt> scripts for your project.  It
+produces a universal layout that looks like the following:</p>
+<div class="highlight-none"><div class="highlight"><pre>bin/
+  &lt;app_name&gt;       &lt;- BASH script
+  &lt;app_name&gt;.bat   &lt;- cmd.exe script
+lib/
+   &lt;Your project and dependent jar files here.&gt;
+</pre></div>
+</div>
+<p>You can add additional files to the project by placing things in <tt class="docutils literal"><span class="pre">src/windows</span></tt>, <tt class="docutils literal"><span class="pre">src/universal</span></tt> or <tt class="docutils literal"><span class="pre">src/linux</span></tt> as needed.</p>
+<p>The default bash script also supports having a configuration file.  This config file can be used to specify default arguments to the BASH script.
+To define a config location for your bash script, you can manually override the template defines:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">bashScriptConfigLocation</span> <span class="o">:=</span> <span class="s">&quot;$app_home/conf/my.conf&quot;</span>
+</pre></div>
+</div>
+<p>This string can include any variable defines in the BASH script. In this case, <tt class="docutils literal"><span class="pre">app_home</span></tt> refers to the install location of the script.</p>
+</div>
+<div class="section" id="java-server">
+<h2>Java Server<a class="headerlink" href="#java-server" title="Permalink to this headline">¶</a></h2>
+<p>This archetype is designed for Java applications that are intended to run as
+servers or services.  This archetype includes wiring an application to start
+immediately upon startup. To activate this archetype replace <tt class="docutils literal"><span class="pre">packageArchetype.java_application</span></tt> with</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">packageArchetype</span><span class="o">.</span><span class="n">java_server</span>
+</pre></div>
+</div>
+<p>Currently supported operating systems:</p>
+<ul class="simple">
+<li>Ubuntu 12.04 LTS - Upstart</li>
+<li>Ubuntu 12.04 LTS - init.d</li>
+</ul>
+<p>The Java Server archetype has a similar installation layout as the java
+application archetype. The primary differneces are:</p>
+<ul class="simple">
+<li>Linux<ul>
+<li><tt class="docutils literal"><span class="pre">/var/log/&lt;pkg&gt;</span></tt> is symlinked from <tt class="docutils literal"><span class="pre">&lt;install&gt;/log</span></tt></li>
+<li>Creates a start script in <tt class="docutils literal"><span class="pre">/etc/init.d</span></tt> or <tt class="docutils literal"><span class="pre">/etc/init/</span></tt></li>
+<li>Creates a startup config file in <tt class="docutils literal"><span class="pre">/etc/default/&lt;pkg&gt;</span></tt></li>
+</ul>
+</li>
+</ul>
+<p>For Debian servers, you can select to either use SystemV or Upstart for your servers.  By default, Upstart (the current Ubuntu LTS default), is used.  To switch to SystemV, add the following:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">NativePackagerKeys._</span>
+<span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.archetypes.ServerLoader</span>
+
+<span class="n">serverLoading</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">ServerLoader</span><span class="o">.</span><span class="nc">SystemV</span>
+</pre></div>
+</div>
+<p>By default, the native packager will install and run services using a user and group based on your package name.  You can change the installation and usage user via the <tt class="docutils literal"><span class="pre">appUser</span></tt> and <tt class="docutils literal"><span class="pre">appGroup</span></tt> key:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">appUser</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;my_app_user&quot;</span>
+
+<span class="n">appGroup</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;my_app_group&quot;</span>
+</pre></div>
+</div>
+<p>The archetype will automatically append/prepend the creation/deletion of the user
+to your packaging for Debian.  <em>Note:</em> All specified users are <strong>deleted</strong> on an <tt class="docutils literal"><span class="pre">apt-get</span> <span class="pre">purge</span> <span class="pre">&lt;dpkg&gt;</span></tt>.</p>
+<p><em>Note:</em> It is not a good idea to use <strong>root</strong> as the <tt class="docutils literal"><span class="pre">appUser</span></tt> for services as it represents a security risk.</p>
+</div>
+<div class="section" id="overriding-templates">
+<h2>Overriding Templates<a class="headerlink" href="#overriding-templates" title="Permalink to this headline">¶</a></h2>
+<p>You can override the default template used to generate any of the scripts in
+any archetype.   Listed below are the overridable files and variables that
+you can use when generating scripts.</p>
+<div class="section" id="src-templates-bat-template">
+<h3><tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt><a class="headerlink" href="#src-templates-bat-template" title="Permalink to this headline">¶</a></h3>
+<p>Creating a file here will override the default template used to
+generate the <tt class="docutils literal"><span class="pre">.bat</span></tt> script for windows distributions.</p>
+<p><strong>Syntax</strong></p>
+<p><tt class="docutils literal"><span class="pre">&#64;&#64;APP_ENV_NAME&#64;&#64;</span></tt> - will be replaced with the script friendly name of your package.</p>
+<p><tt class="docutils literal"><span class="pre">&#64;&#64;APP_NAME&#64;&#64;</span></tt> - will be replaced with user friendly name of your package.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">&#64;APP_DEFINES&#64;&#64;</span></tt> - will be replaced with a set of variable definitions, like</dt>
+<dd><tt class="docutils literal"><span class="pre">APP_MAIN_CLASS</span></tt>, <tt class="docutils literal"><span class="pre">APP_MAIN_CLASS</span></tt>.</dd>
+</dl>
+<p>You can define addiitonal variable definitions using <tt class="docutils literal"><span class="pre">batScriptExtraDefines</span></tt>.</p>
+</div>
+<div class="section" id="src-templates-bash-template">
+<h3><tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt><a class="headerlink" href="#src-templates-bash-template" title="Permalink to this headline">¶</a></h3>
+<p>Creating a file here will override the default template used to
+generate the BASH start script found in <tt class="docutils literal"><span class="pre">bin/&lt;application&gt;</span></tt> in the
+universal distribution</p>
+<p><strong>Syntax</strong></p>
+<p><tt class="docutils literal"><span class="pre">${{template_declares}}</span></tt> - Will be replaced with a series of <tt class="docutils literal"><span class="pre">declare</span> <span class="pre">&lt;var&gt;</span></tt>
+lines based on the <tt class="docutils literal"><span class="pre">bashScriptDefines</span></tt> key.  You can add more defines to
+the <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span></tt> that will be used in addition to the default set:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">app_mainclass</span></tt> - The main class entry point for the application.</li>
+<li><tt class="docutils literal"><span class="pre">app_classpath</span></tt> - The complete classpath for the application (in order).</li>
+</ul>
+</div>
+<div class="section" id="src-templates-start">
+<h3><tt class="docutils literal"><span class="pre">src/templates/start</span></tt><a class="headerlink" href="#src-templates-start" title="Permalink to this headline">¶</a></h3>
+<p>Creating a file here will override either the init.d startup script or
+the upstart start script.  It will either be located at
+<tt class="docutils literal"><span class="pre">/etc/init/&lt;application&gt;</span></tt> or <tt class="docutils literal"><span class="pre">/etc/init.d/&lt;application&gt;</span></tt> depending on which
+serverLoader is being used.</p>
+<p><strong>Syntax</strong></p>
+<p>You can use <tt class="docutils literal"><span class="pre">${{variable_name}}</span></tt> to reference variables when writing your scirpt.  The default set of variables is:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">descr</span></tt> - The description of the server.</li>
+<li><tt class="docutils literal"><span class="pre">author</span></tt> - The configured author name.</li>
+<li><tt class="docutils literal"><span class="pre">exec</span></tt> - The script/binary to execute when starting the server</li>
+<li><tt class="docutils literal"><span class="pre">chdir</span></tt> - The working directory for the server.</li>
+<li><tt class="docutils literal"><span class="pre">retries</span></tt> - The number of times to retry starting the server.</li>
+<li><tt class="docutils literal"><span class="pre">retryTimeout</span></tt> - The amount of time to wait before trying to run the server.</li>
+<li><tt class="docutils literal"><span class="pre">app_name</span></tt> - The name of the application (linux friendly)</li>
+<li><tt class="docutils literal"><span class="pre">app_main_class</span></tt> - The main class / entry point of the application.</li>
+<li><tt class="docutils literal"><span class="pre">app_classpath</span></tt> - The (ordered) classpath of the application.</li>
+<li><tt class="docutils literal"><span class="pre">daemon_user</span></tt> - The user that the server should run as.</li>
+</ul>
+</div>
+<div class="section" id="src-templates-etc-default">
+<h3><tt class="docutils literal"><span class="pre">src/templates/etc-default</span></tt><a class="headerlink" href="#src-templates-etc-default" title="Permalink to this headline">¶</a></h3>
+<p>Creating a file here will override the <tt class="docutils literal"><span class="pre">/etc/default/&lt;application&gt;</span></tt> template
+used when SystemV is the server loader.</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014 sbt-native-packager team.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
