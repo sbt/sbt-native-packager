@@ -101,7 +101,7 @@ Jar Repackaging
 ---------------
 
 rpm repackages jars by default (described in this `blog post`_) in order to optimize jars.
-This behaviour is turned of by default with this setting.
+This behaviour is turned off by default with this setting.
 
 .. code-block:: scala
 
