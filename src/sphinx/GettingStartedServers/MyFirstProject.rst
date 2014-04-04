@@ -43,6 +43,29 @@ There are additional parameters available to configure.
     
     daemonGroup in Linux := daemonUser.value    // group which will execute the application
 
+Default Mappings
+================
+
+The ``java_server`` archetype creates a default package structure with the following access
+rights. **<package>** is a placeholder for your actual application name. By default this is
+``normalizedName``.
+
+===============================  ======  ===========  =======
+Folder                           User    Permissions  Purpose
+===============================  ======  ===========  =======
+/usr/share/**<package>**         root    755 / (655)  static, non-changeable files
+/etc/default/**<package>**.conf  root    644          default config file
+/etc/**<package>**               root    644          config folder -> link to /usr/share/**<package-name>**/conf
+/var/run/**<package>**           daemon  644          if the application generates a pid on its own
+/var/log/**<package>**           daemon  644          log folder -> symlinked from /usr/share/**<package>**/log
+===============================  ======  ===========  =======
+
+You can read more on best practices on `wikipedia filesystem hierarchy`_, `debian policies`_ and in
+this `native packager discussion`_.
+
+.. _wikipedia filesystem hierarchy: http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+.. _debian policies: https://www.debian.org/doc/debian-policy/ch-files.html
+.. _native packager discussion: https://github.com/sbt/sbt-native-packager/pull/174
 
 Debian (.deb)
 =============
