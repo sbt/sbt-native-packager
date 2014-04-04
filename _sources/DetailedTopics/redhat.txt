@@ -81,6 +81,9 @@ Scriptlet Settings
     
     ``rpmPostun``
     The ``%postun`` scriptlet to run.
+    
+    ``rpmBrpJavaRepackJars``
+    appends ``__os_install_post`` scriplet to ``rpmPre`` avoiding jar repackaging
 
 
 Tasks
@@ -93,3 +96,26 @@ The Rpm support grants the following commands:
 
   ``rpm:rpmlint``
     Generates the ``.rpm`` file and runs the ``rpmlint`` command to look for issues in the package.  Useful for debugging.
+    
+Jar Repackaging
+---------------
+
+rpm repackages jars by default (described in this `blog post`_) in order to optimize jars.
+This behaviour is turned off by default with this setting.
+
+.. code-block:: scala
+
+    rpmBrpJavaRepackJars := false
+    
+Note that this appends content to your ``rpmPre`` definition, so make sure not to override it.
+For more information on this topic follow these links:
+
+* `issue #195`_
+* `pullrequest #199`_
+* `OpenSuse issue`_
+
+  .. _blog post: http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build
+  .. _issue #195: https://github.com/sbt/sbt-native-packager/issues/195
+  .. _pullrequest #199: https://github.com/sbt/sbt-native-packager/pull/199
+  .. _OpenSuse issue: https://github.com/sbt/sbt-native-packager/issues/215
+  

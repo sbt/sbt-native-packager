@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RedHat &mdash; sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation</title>
+    <title>RedHat &mdash; sbt-native-packager 0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd',
+        VERSION:     '0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Debian" href="debian.html" />
     <link rel="prev" title="RedHat" href="" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -94,6 +94,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#tasks">Tasks</a></li>
+<li><a class="reference internal" href="#jar-repackaging">Jar Repackaging</a></li>
 </ul>
 </li>
 </ul>
@@ -103,7 +104,6 @@
             
             
               
-                
   <li>
     <a href="" title="Previous Chapter: RedHat"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; RedHat</span>
     </a>
@@ -112,7 +112,6 @@
     <a href="debian.html" title="Next Chapter: Debian"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Debian &raquo;</span>
     </a>
   </li>
-              
             
             
             
@@ -211,6 +210,8 @@ The <tt class="docutils literal"><span class="pre">%posttrans</span></tt> script
 The <tt class="docutils literal"><span class="pre">%preun</span></tt> scriptlet to run.</p>
 <p><tt class="docutils literal"><span class="pre">rpmPostun</span></tt>
 The <tt class="docutils literal"><span class="pre">%postun</span></tt> scriptlet to run.</p>
+<p><tt class="docutils literal"><span class="pre">rpmBrpJavaRepackJars</span></tt>
+appends <tt class="docutils literal"><span class="pre">__os_install_post</span></tt> scriplet to <tt class="docutils literal"><span class="pre">rpmPre</span></tt> avoiding jar repackaging</p>
 </div></blockquote>
 </div>
 </div>
@@ -225,6 +226,21 @@ The <tt class="docutils literal"><span class="pre">%postun</span></tt> scriptlet
 <dd>Generates the <tt class="docutils literal"><span class="pre">.rpm</span></tt> file and runs the <tt class="docutils literal"><span class="pre">rpmlint</span></tt> command to look for issues in the package.  Useful for debugging.</dd>
 </dl>
 </div></blockquote>
+</div>
+<div class="section" id="jar-repackaging">
+<h2>Jar Repackaging<a class="headerlink" href="#jar-repackaging" title="Permalink to this headline">¶</a></h2>
+<p>rpm repackages jars by default (described in this <a class="reference external" href="http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build">blog post</a>) in order to optimize jars.
+This behaviour is turned off by default with this setting.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">rpmBrpJavaRepackJars</span> <span class="o">:=</span> <span class="kc">false</span>
+</pre></div>
+</div>
+<p>Note that this appends content to your <tt class="docutils literal"><span class="pre">rpmPre</span></tt> definition, so make sure not to override it.
+For more information on this topic follow these links:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/195">issue #195</a></li>
+<li><a class="reference external" href="https://github.com/sbt/sbt-native-packager/pull/199">pullrequest #199</a></li>
+<li><a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/215">OpenSuse issue</a></li>
+</ul>
 </div>
 </div>
 

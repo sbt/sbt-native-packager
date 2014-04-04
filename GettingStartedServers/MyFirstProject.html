@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>My First Packaged Server Project &mdash; sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation</title>
+    <title>My First Packaged Server Project &mdash; sbt-native-packager 0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd',
+        VERSION:     '0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e documentation" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -49,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.7-c1c0edc869c50be165b9dec061cb24a8f4e294dd</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -85,6 +85,7 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">My First Packaged Server Project</a><ul>
 <li><a class="reference internal" href="#linux">Linux</a><ul>
+<li><a class="reference internal" href="#default-mappings">Default Mappings</a></li>
 <li><a class="reference internal" href="#debian-deb">Debian (.deb)</a></li>
 <li><a class="reference internal" href="#rpm-rpm">RPM (.rpm)</a></li>
 </ul>
@@ -98,8 +99,6 @@
               
             
             
-              
-                
               
             
             
@@ -162,6 +161,56 @@ require the following information:</p>
 
 <span class="n">daemonGroup</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="n">daemonUser</span><span class="o">.</span><span class="n">value</span>    <span class="c1">// group which will execute the application</span>
 </pre></div>
+</div>
+<div class="section" id="default-mappings">
+<h3>Default Mappings<a class="headerlink" href="#default-mappings" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">java_server</span></tt> archetype creates a default package structure with the following access
+rights. <strong>&lt;package&gt;</strong> is a placeholder for your actual application name. By default this is
+<tt class="docutils literal"><span class="pre">normalizedName</span></tt>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="6%" />
+<col width="10%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Folder</th>
+<th class="head">User</th>
+<th class="head">Permissions</th>
+<th class="head">Purpose</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>/usr/share/<strong>&lt;package&gt;</strong></td>
+<td>root</td>
+<td>755 / (655)</td>
+<td>static, non-changeable files</td>
+</tr>
+<tr class="row-odd"><td>/etc/default/<strong>&lt;package&gt;</strong>.conf</td>
+<td>root</td>
+<td>644</td>
+<td>default config file</td>
+</tr>
+<tr class="row-even"><td>/etc/<strong>&lt;package&gt;</strong></td>
+<td>root</td>
+<td>644</td>
+<td>config folder -&gt; link to /usr/share/<strong>&lt;package-name&gt;</strong>/conf</td>
+</tr>
+<tr class="row-odd"><td>/var/run/<strong>&lt;package&gt;</strong></td>
+<td>daemon</td>
+<td>644</td>
+<td>if the application generates a pid on its own</td>
+</tr>
+<tr class="row-even"><td>/var/log/<strong>&lt;package&gt;</strong></td>
+<td>daemon</td>
+<td>644</td>
+<td>log folder -&gt; symlinked from /usr/share/<strong>&lt;package&gt;</strong>/log</td>
+</tr>
+</tbody>
+</table>
+<p>You can read more on best practices on <a class="reference external" href="http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard">wikipedia filesystem hierarchy</a>, <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-files.html">debian policies</a> and in
+this <a class="reference external" href="https://github.com/sbt/sbt-native-packager/pull/174">native packager discussion</a>.</p>
 </div>
 <div class="section" id="debian-deb">
 <h3>Debian (.deb)<a class="headerlink" href="#debian-deb" title="Permalink to this headline">¶</a></h3>
