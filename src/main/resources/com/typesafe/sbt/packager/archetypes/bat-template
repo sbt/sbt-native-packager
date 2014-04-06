@@ -73,6 +73,78 @@ rem We use the value of the JAVA_OPTS environment variable if defined, rather th
 set _JAVA_OPTS=%JAVA_OPTS%
 if "%_JAVA_OPTS%"=="" set _JAVA_OPTS=%CFG_OPTS%
 
+rem We keep in _JAVA_PARAMS all -J-prefixed and -D-prefixed arguments
+rem "-J" is stripped, "-D" is left as is, and everything is appended to JAVA_OPTS
+set _JAVA_PARAMS=
+
+:param_beforeloop
+if [%1]==[] goto param_afterloop
+set _TEST_PARAM=%~1
+
+rem ignore arguments that do not start with '-'
+if not "%_TEST_PARAM:~0,1%"=="-" (
+  shift
+  goto param_beforeloop
+)
+
+set _TEST_PARAM=%~1
+if "%_TEST_PARAM:~0,2%"=="-J" (
+  rem strip -J prefix
+  set _TEST_PARAM=%_TEST_PARAM:~2%
+)
+
+if "%_TEST_PARAM:~0,2%"=="-D" (
+  rem test if this was double-quoted property "-Dprop=42"
+  for /F "delims== tokens=1-2" %%G in ("%_TEST_PARAM%") DO (
+    if not "%%G" == "%_TEST_PARAM%" (
+      rem double quoted: "-Dprop=42" -> -Dprop="42"
+      set _JAVA_PARAMS=%%G="%%H"
+    ) else if [%2] neq [] (
+      rem it was a normal property: -Dprop=42 or -Drop="42"
+      set _JAVA_PARAMS=%_TEST_PARAM%=%2
+      shift
+    )
+  )
+) else (
+  rem a JVM property, we just append it
+  set _JAVA_PARAMS=%_TEST_PARAM%
+)
+
+:param_loop
+shift
+
+if [%1]==[] goto param_afterloop
+set _TEST_PARAM=%~1
+
+rem ignore arguments that do not start with '-'
+if not "%_TEST_PARAM:~0,1%"=="-" goto param_loop
+
+set _TEST_PARAM=%~1
+if "%_TEST_PARAM:~0,2%"=="-J" (
+  rem strip -J prefix
+  set _TEST_PARAM=%_TEST_PARAM:~2%
+)
+
+if "%_TEST_PARAM:~0,2%"=="-D" (
+  rem test if this was double-quoted property "-Dprop=42"
+  for /F "delims== tokens=1-2" %%G in ("%_TEST_PARAM%") DO (
+    if not "%%G" == "%_TEST_PARAM%" (
+      rem double quoted: "-Dprop=42" -> -Dprop="42"
+      set _JAVA_PARAMS=%_JAVA_PARAMS% %%G="%%H"
+    ) else if [%2] neq [] (
+      rem it was a normal property: -Dprop=42 or -Drop="42"
+      set _JAVA_PARAMS=%_JAVA_PARAMS% %_TEST_PARAM%=%2
+      shift
+    )
+  )
+) else (
+  rem a JVM property, we just append it
+  set _JAVA_PARAMS=%_JAVA_PARAMS% %_TEST_PARAM%
+)
+goto param_loop
+:param_afterloop
+
+set _JAVA_OPTS=%_JAVA_OPTS% %_JAVA_PARAMS%
 :run
  
 @@APP_DEFINES@@
