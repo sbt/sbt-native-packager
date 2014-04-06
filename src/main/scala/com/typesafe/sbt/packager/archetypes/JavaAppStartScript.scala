@@ -109,10 +109,12 @@ trait JavaAppStartScriptBuilder {
 object JavaAppStartScript {
 
   object Rpm extends JavaAppStartScriptBuilder {
+    import com.typesafe.sbt.packager.rpm.RpmPlugin.Names._
+
     val name = "rpm"
     val startScript = "start-rpm"
     val upstartScripts = Seq(startScript)
-    val systemvScripts = Seq(startScript)
+    val systemvScripts = Seq(startScript, Pre, Post, Preun, Postun)
   }
 
   object Debian extends JavaAppStartScriptBuilder {
