@@ -33,3 +33,12 @@ TaskKey[Unit]("unzipAndCheck") <<= (packageBin in Rpm, streams) map { (rpmFile, 
     ()
 }
 
+TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
+    val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+    assert(spec contains "echo postinst", "'echo 'postinst' not present in \n" + spec)
+    assert(spec contains "echo preinst", "'echo 'preinst' not present in \n" + spec)
+    assert(spec contains "echo postun", "'echo 'postun' not present in \n" + spec)
+    assert(spec contains "echo preun", "'echo 'preun' not present in \n" + spec)
+    ()
+}
+

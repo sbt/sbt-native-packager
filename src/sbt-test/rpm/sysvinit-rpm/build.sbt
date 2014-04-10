@@ -34,3 +34,11 @@ TaskKey[Unit]("unzipAndCheck") <<= (packageBin in Rpm, streams) map { (rpmFile, 
     ()
 }
 
+TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
+    val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+    assert(spec contains "groupadd --system rpm-test", "groupadd not present in \n" + spec)
+    assert(spec contains "useradd --gid rpm-test --no-create-home --system -c 'Test rpm package' rpm-test", "Incorrect useradd command in \n" + spec)
+    assert(spec contains "groupdel rpm-test", "groupdel not present in \n" + spec)
+    assert(spec contains "userdel rpm-test", "userdel rpm not present in \n" + spec)
+    ()
+}

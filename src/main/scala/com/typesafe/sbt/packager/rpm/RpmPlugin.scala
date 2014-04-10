@@ -52,7 +52,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
       rpmDependencies <<=
         (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
       rpmPre <<= (rpmPre, rpmBrpJavaRepackJars) apply {
-        case (_, true) => None
+        case (pre, true) => pre
         case (pre, false) =>
           val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
           Some(pre.map(_ + "\n").getOrElse("") + scriptBits)

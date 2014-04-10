@@ -18,3 +18,8 @@ $ exists var/log/rpm-test
 $ exists var/run/rpm-test
 
 # TODO symlinks aren't checked
+
+> check-spec-file
+> set NativePackagerKeys.rpmBrpJavaRepackJars := true
+> check-spec-file
+
