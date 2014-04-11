@@ -64,12 +64,12 @@ object JavaAppPackaging {
         s <- script.toSeq
       } yield s -> ("bin/" + name + ".bat")
     },
-    linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxInstallLocation, target in Debian, daemonUser in Linux, daemonGroup in Linux) map {
-      (name, installLocation, target, user, group) =>
+    linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxInstallLocation, target in Debian) map {
+      (name, installLocation, target) =>
         // create empty var/log directory
         val d = target / installLocation
         d.mkdirs()
-        LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData(user, group))
+        LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData())
     })
 
   def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =
