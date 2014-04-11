@@ -38,6 +38,8 @@ trait RpmKeys {
 
   // SCRIPTS
   val rpmScripts = SettingKey[RpmScripts]("rpm-scripts", "Configuration of pre- and post-integration scripts.")
+  val rpmScriptsDirectory = SettingKey[File]("rpm-scriptlets-directory",
+    "Directory where all debian control scripts reside. Default is 'src/rpm/scriptlets'")
 
   val rpmPretrans = SettingKey[Option[String]]("rpm-pretrans", "%pretrans scriptlet")
   val rpmPre = SettingKey[Option[String]]("rpm-pre", "%pre scriptlet")

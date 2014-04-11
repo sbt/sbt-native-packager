@@ -2,8 +2,6 @@
 > rpm:package-bin
 $ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 
-> check-spec-file
-
 # Check rpm contents
 > unzipAndCheck
 $ exists etc/default/rpm-test
@@ -14,7 +12,6 @@ $ exists usr/share/rpm-test
 $ exists usr/share/rpm-test/bin
 $ exists usr/share/rpm-test/bin/rpm-test
 
-$ exists usr/share/rpm-test/conf
 $ exists usr/share/rpm-test/lib
 
 $ exists var/log/rpm-test
@@ -22,5 +19,7 @@ $ exists var/run/rpm-test
 
 # TODO symlinks aren't checked
 
+> check-spec-file
 > set NativePackagerKeys.rpmBrpJavaRepackJars := true
 > check-spec-file
+

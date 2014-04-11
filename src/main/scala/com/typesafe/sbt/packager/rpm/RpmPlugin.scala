@@ -5,11 +5,14 @@ package rpm
 import Keys._
 import linux._
 import sbt._
+import sbt.Keys.sourceDirectory
 import java.nio.charset.Charset
 
 /** Plugin trait containing all generic values used for packaging linux software. */
 trait RpmPlugin extends Plugin with LinuxPlugin {
   val Rpm = config("rpm") extend Linux
+
+  import RpmPlugin.Names
 
   def rpmSettings: Seq[Setting[_]] = Seq(
     rpmOs := "Linux", // TODO - default to something else?
@@ -36,6 +39,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmPreun := None,
     rpmPostun := None,
     rpmBrpJavaRepackJars := false,
+    rpmScriptsDirectory <<= sourceDirectory apply (_ / "rpm" / Names.Scriptlets),
     packageSummary in Rpm <<= packageSummary in Linux,
     packageDescription in Rpm <<= packageDescription in Linux,
     target in Rpm <<= target(_ / "rpm")
@@ -48,7 +52,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
       rpmDependencies <<=
         (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
       rpmPre <<= (rpmPre, rpmBrpJavaRepackJars) apply {
-        case (_, true) => None
+        case (pre, true) => pre
         case (pre, false) =>
           val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
           Some(pre.map(_ + "\n").getOrElse("") + scriptBits)
@@ -72,9 +76,15 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
 
 object RpmPlugin {
 
-  def preinstTemplateSource: java.net.URL = getClass getResource "preinstall"
-  def postinstTemplateSource: java.net.URL = getClass getResource "postinstall"
-  def preuninstallTemplateSource: java.net.URL = getClass getResource "preuninstall"
-  def postuninstallTemplateSource: java.net.URL = getClass getResource "postuninstall"
   def osPostInstallMacro: java.net.URL = getClass getResource "brpJavaRepackJar"
+
+  object Names {
+    val Scriptlets = "scriptlets"
+
+    //maintainer script names
+    val Post = "post-rpm"
+    val Pre = "pre-rpm"
+    val Postun = "postun-rpm"
+    val Preun = "preun-rpm"
+  }
 }

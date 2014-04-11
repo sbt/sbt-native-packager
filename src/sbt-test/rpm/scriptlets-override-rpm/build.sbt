@@ -26,19 +26,19 @@ TaskKey[Unit]("unzipAndCheck") <<= (packageBin in Rpm, streams) map { (rpmFile, 
     val rpmPath = Seq(rpmFile.getAbsolutePath)
     Process("rpm2cpio" , rpmPath) #| Process("cpio -i --make-directories") ! streams.log
     val scriptlets = Process("rpm -qp --scripts " + rpmFile.getAbsolutePath) !! streams.log
-    assert(scriptlets contains "groupadd --system rpm-test", "groupadd not present in \n" + scriptlets)
-    assert(scriptlets contains "useradd --gid rpm-test --no-create-home --system -c 'Test rpm package' rpm-test", "Incorrect useradd command in \n" + scriptlets)
-    assert(scriptlets contains "groupdel rpm-test", "groupdel not present in \n" + scriptlets)
-    assert(scriptlets contains "userdel rpm-test", "userdel rpm not present in \n" + scriptlets)
-    // TODO check symlinks
+    assert(scriptlets contains "echo postinst", "'echo 'postinst' not present in \n" + scriptlets)
+    assert(scriptlets contains "echo preinst", "'echo 'preinst' not present in \n" + scriptlets)
+    assert(scriptlets contains "echo postun", "'echo 'postun' not present in \n" + scriptlets)
+    assert(scriptlets contains "echo preun", "'echo 'preun' not present in \n" + scriptlets)
     ()
 }
 
 TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
     val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
-    assert(spec contains "groupadd --system rpm-test", "groupadd not present in \n" + spec)
-    assert(spec contains "useradd --gid rpm-test --no-create-home --system -c 'Test rpm package' rpm-test", "Incorrect useradd command in \n" + spec)
-    assert(spec contains "groupdel rpm-test", "groupdel not present in \n" + spec)
-    assert(spec contains "userdel rpm-test", "userdel rpm not present in \n" + spec)
+    assert(spec contains "echo postinst", "'echo 'postinst' not present in \n" + spec)
+    assert(spec contains "echo preinst", "'echo 'preinst' not present in \n" + spec)
+    assert(spec contains "echo postun", "'echo 'postun' not present in \n" + spec)
+    assert(spec contains "echo preun", "'echo 'preun' not present in \n" + spec)
     ()
 }
+

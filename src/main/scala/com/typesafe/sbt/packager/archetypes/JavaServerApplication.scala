@@ -22,7 +22,6 @@ import com.typesafe.sbt.packager.rpm.RpmPlugin
 object JavaServerAppPackaging {
   import ServerLoader._
   import LinuxPlugin.Users
-  import DebianPlugin.Names.{ Preinst, Postinst, Prerm, Postrm }
 
   def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ linuxSettings ++ debianSettings ++ rpmSettings
   protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource("etc-default-template")
@@ -61,7 +60,8 @@ object JavaServerAppPackaging {
       packageTemplateMapping("/var/run/" + name)() withUser user withGroup group withPerms "755"
     })
 
-  def debianSettings: Seq[Setting[_]] =
+  def debianSettings: Seq[Setting[_]] = {
+    import DebianPlugin.Names.{ Preinst, Postinst, Prerm, Postrm }
     Seq(
       linuxJavaAppStartScriptBuilder in Debian := JavaAppStartScript.Debian,
       serverLoading := Upstart,
@@ -81,41 +81,45 @@ object JavaServerAppPackaging {
       debianMakePostinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements, linuxJavaAppStartScriptBuilder in Debian) map makeMaintainerScript(Postinst),
       debianMakePrermScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements, linuxJavaAppStartScriptBuilder in Debian) map makeMaintainerScript(Prerm),
       debianMakePostrmScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements, linuxJavaAppStartScriptBuilder in Debian) map makeMaintainerScript(Postrm))
+  }
 
-  def rpmSettings: Seq[Setting[_]] = Seq(
-    linuxJavaAppStartScriptBuilder in Rpm := JavaAppStartScript.Rpm,
-    serverLoading in Rpm := SystemV,
+  def rpmSettings: Seq[Setting[_]] = {
+    import RpmPlugin.Names.{ Pre, Post, Preun, Postun }
+    Seq(
+      linuxJavaAppStartScriptBuilder in Rpm := JavaAppStartScript.Rpm,
+      serverLoading in Rpm := SystemV,
 
-    // === Startscript creation ===
-    linuxStartScriptTemplate in Rpm <<= (serverLoading in Rpm, sourceDirectory, linuxJavaAppStartScriptBuilder in Rpm) map {
-      (loader, dir, builder) =>
-        builder.defaultStartScriptTemplate(loader, dir / "templates" / "start")
-    },
-    linuxMakeStartScript in Rpm <<= (target in Universal, serverLoading in Rpm, linuxScriptReplacements, linuxStartScriptTemplate in Rpm, linuxJavaAppStartScriptBuilder in Rpm)
-      map { (tmpDir, loader, replacements, template, builder) =>
-        makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
+      // === Startscript creation ===
+      linuxStartScriptTemplate in Rpm <<= (serverLoading in Rpm, sourceDirectory, linuxJavaAppStartScriptBuilder in Rpm) map {
+        (loader, dir, builder) =>
+          builder.defaultStartScriptTemplate(loader, dir / "templates" / "start")
       },
-    linuxPackageMappings in Rpm <++= (normalizedName, linuxMakeStartScript in Rpm, serverLoading in Rpm) map startScriptMapping,
+      linuxMakeStartScript in Rpm <<= (target in Universal, serverLoading in Rpm, linuxScriptReplacements, linuxStartScriptTemplate in Rpm, linuxJavaAppStartScriptBuilder in Rpm)
+        map { (tmpDir, loader, replacements, template, builder) =>
+          makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
+        },
+      linuxPackageMappings in Rpm <++= (normalizedName, linuxMakeStartScript in Rpm, serverLoading in Rpm) map startScriptMapping,
 
-    // == Maintainer scripts ===
-    // TODO this is very basic - align debian and rpm plugin
-    rpmPre <<= (rpmPre, linuxScriptReplacements) apply { (pre, replacements) =>
-      val scriptBits = TemplateWriter.generateScript(RpmPlugin.preinstTemplateSource, replacements)
-      Some(pre.map(_ + "\n").getOrElse("") + scriptBits)
-    },
-    rpmPost <<= (rpmPost, linuxScriptReplacements) apply { (pre, replacements) =>
-      val scriptBits = TemplateWriter.generateScript(RpmPlugin.postinstTemplateSource, replacements)
-      Some(pre.map(_ + "\n").getOrElse("") + scriptBits)
-    },
-    rpmPostun <<= (rpmPostun, linuxScriptReplacements) apply { (post, replacements) =>
-      val scriptBits = TemplateWriter.generateScript(RpmPlugin.postuninstallTemplateSource, replacements)
-      Some(post.map(_ + "\n").getOrElse("") + scriptBits)
-    },
-    rpmPreun <<= (rpmPostun, linuxScriptReplacements) apply { (post, replacements) =>
-      val scriptBits = TemplateWriter.generateScript(RpmPlugin.preuninstallTemplateSource, replacements)
-      Some(post.map(_ + "\n").getOrElse("") + scriptBits)
-    }
-  )
+      // == Maintainer scripts ===
+      // TODO this is very basic - align debian and rpm plugin
+      rpmPre <<= (rpmScriptsDirectory, rpmPre, linuxScriptReplacements, serverLoading in Rpm, linuxJavaAppStartScriptBuilder in Rpm) apply {
+        (dir, pre, replacements, loader, builder) =>
+          Some(pre.map(_ + "\n").getOrElse("") + rpmScriptletContent(dir, Pre, loader, replacements, builder))
+      },
+      rpmPost <<= (rpmScriptsDirectory, rpmPost, linuxScriptReplacements, serverLoading in Rpm, linuxJavaAppStartScriptBuilder in Rpm) apply {
+        (dir, post, replacements, loader, builder) =>
+          Some(post.map(_ + "\n").getOrElse("") + rpmScriptletContent(dir, Post, loader, replacements, builder))
+      },
+      rpmPostun <<= (rpmScriptsDirectory, rpmPostun, linuxScriptReplacements, serverLoading in Rpm, linuxJavaAppStartScriptBuilder in Rpm) apply {
+        (dir, postun, replacements, loader, builder) =>
+          Some(postun.map(_ + "\n").getOrElse("") + rpmScriptletContent(dir, Postun, loader, replacements, builder))
+      },
+      rpmPreun <<= (rpmScriptsDirectory, rpmPreun, linuxScriptReplacements, serverLoading in Rpm, linuxJavaAppStartScriptBuilder in Rpm) apply {
+        (dir, preun, replacements, loader, builder) =>
+          Some(preun.map(_ + "\n").getOrElse("") + rpmScriptletContent(dir, Preun, loader, replacements, builder))
+      }
+    )
+  }
 
   /* ==========================================  */
   /* ============ Helper Methods ==============  */
@@ -145,5 +149,12 @@ object JavaServerAppPackaging {
     val script = tmpDir / "tmp" / "etc" / "default" / name
     IO.write(script, scriptBits)
     Some(script)
+  }
+
+  protected def rpmScriptletContent(dir: File, script: String,
+    loader: ServerLoader, replacements: Seq[(String, String)], builder: JavaAppStartScriptBuilder): String = {
+    val file = (dir / script)
+    val template = if (file exists) Some(file.toURI.toURL) else None
+    builder.generateTemplate(script, loader, replacements, template).getOrElse(sys.error("Could generate content for script: " + script))
   }
 }
