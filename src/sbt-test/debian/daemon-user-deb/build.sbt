@@ -37,6 +37,7 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
   assert(!(postinst contains "chown debian-test:daemongroup"), "postinst contains wrong user: \n" + postinst)
   assert(!(postinst contains "chown daemonuser:debian-test"), "postinst contains wrong group: \n" + postinst)
   assert(!(postinst contains "chown debian-test:debian-test"), "postinst contains wrong user and group: \n" + postinst)
+  assert(!(postinst contains "chown daemonuser:daemongroup /usr/share/debian-test"), "postinst contains chown /usr/share/app_name:  \n" + postinst)
   out.log.success("Successfully tested upstart control files")
   ()
 }

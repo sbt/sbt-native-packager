@@ -75,7 +75,6 @@ object JavaServerAppPackaging {
           makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
         },
       linuxPackageMappings in Debian <++= (normalizedName, linuxMakeStartScript in Debian, serverLoading in Debian) map startScriptMapping,
-      // TODO should we specify daemonGroup in configs?
 
       // === Maintainer scripts === 
       debianMakePreinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements, linuxJavaAppStartScriptBuilder in Debian) map makeMaintainerScript(Preinst),
