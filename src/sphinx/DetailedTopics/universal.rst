@@ -142,16 +142,40 @@ Besides ``mappings``, the ``name``, ``sourceDirectory`` and ``target`` configura
 
 **Note: The Universal plugin will make anything in a bin/ directory executable.  This is to work around issues with JVM and file system manipulations.**
 
+MappingsHelper
+--------------
+
+The `MappingsHelper`_ class provides a set of helper functions to make mapping directories easier.
+
+.. code-block:: scala
+
+    import NativePackagerHelper._
+    
+    mappings in Universal ++= directory("src/main/resources/cache")
+    
+    mappings in Universal ++= contentOf("src/main/resources/docs")
+    
+    mappings in Universal <++= sourceDirectory map (src => directory(src / "main" / "resources" / "cache"))
+    
+    mappings in Universal <++= sourceDirectory map (src => contentOf(src / "main" / "resources" / "docs"))
+
+
+.. _MappingsHelper: https://github.com/sbt/sbt-native-packager/blob/master/src/main/scala/com/typesafe/sbt/packager/MappingsHelper.scala
+
 Mapping Examples
 ----------------
-SBT provides and IO and .. Path: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html API, which
+
+SBT provides and IO and `Path`_ API, which
 lets you define custom mappings easily. The files will appear in the generate universal zip, but also in your
 debian/rpm/msi/dmg builds as described above in the conventions.
+
+.. _Path: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html
 
 The ``packageBin in Compile`` dependency is only needed, if your files get generated
 during the ``packageBin`` command or before. For static files you can remove it.
 
-Mapping a complete directory.
+Mapping a complete directory
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: scala
 
@@ -181,7 +205,8 @@ It exists some helper methods to map a complete directory in more human readable
     mappings in Universal ++= directory("SomeResourcesToInclude")
 
 
-Mapping the content of a directory.
+Mapping the content of a directory
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: scala
 
@@ -191,20 +216,6 @@ Mapping the content of a directory.
     }
     
 The ``dir`` gets excluded and is used as root for ``relativeTo(dir)``.
-
-It also exists some helper methods to simplify writing of such mapping.
-
-.. code-block:: scala
-
-    import NativePackagerHelper._
-
-    //For dynamic content, e.g. something in the target directory which depends on a Task
-    mappings in Universal <++= (packageBin in Compile, target) map { (_, target) =>
-      contentOf(target / "scala-2.10" / "api")
-    }
-
-    //For static content it can be added to mappings directly
-    mappings in Universal ++= contentOf("SomeResourcesToInclude")
 
 Commands
 --------
