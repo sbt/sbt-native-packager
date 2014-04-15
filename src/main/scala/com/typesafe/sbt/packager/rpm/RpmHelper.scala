@@ -77,7 +77,7 @@ object RpmHelper {
       "--target", spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os,
       "--buildroot", buildRoot.getAbsolutePath,
       "--define", "_topdir " + workArea.getAbsolutePath,
-      "--define", "_tmppath " + workArea.getAbsolutePath + "/tmp-buildroot"
+      "--define", "_tmppath " + IO.createTemporaryDirectory.getAbsolutePath
     ) ++ (
         if (gpg) Seq("--define", "_gpg_name " + "<insert keyname>", "--sign")
         else Seq.empty
