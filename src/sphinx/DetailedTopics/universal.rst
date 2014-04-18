@@ -29,6 +29,15 @@ The above does two things:
 
 You can use this to add anything you desire to the package.
 
+**Note**
+
+..
+
+    If you are using an ``application archetype`` or the ``playframework``, the jar mapping is already defined and
+    you should not include these in your ``build.sbt``. `issue 227`_
+    
+.. _issue 227: https://github.com/sbt/sbt-native-packager/issues/227
+
 
 Universal Conventions
 ---------------------
