@@ -71,20 +71,23 @@ object RpmHelper {
     val specsDir = workArea / "SPECS"
     val gpg = false
     // TODO - Full GPG support (with GPG plugin).
-    val args: Seq[String] = Seq(
-      "rpmbuild",
-      "-bb",
-      "--target", spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os,
-      "--buildroot", buildRoot.getAbsolutePath,
-      "--define", "_topdir " + workArea.getAbsolutePath
-    ) ++ (
+    IO.withTemporaryDirectory { tmpRpmBuildDir =>
+      val args: Seq[String] = Seq(
+        "rpmbuild",
+        "-bb",
+        "--target", spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os,
+        "--buildroot", buildRoot.getAbsolutePath,
+        "--define", "_topdir " + workArea.getAbsolutePath,
+        "--define", "_tmppath " + tmpRpmBuildDir.getAbsolutePath
+      ) ++ (
         if (gpg) Seq("--define", "_gpg_name " + "<insert keyname>", "--sign")
         else Seq.empty
       ) ++ Seq(spec.meta.name + ".spec")
-    log.debug("Executing rpmbuild with: " + args.mkString(" "))
-    (Process(args, Some(specsDir)) ! log) match {
-      case 0 => ()
-      case 1 => sys.error("Unable to run rpmbuild, check output for details.")
+      log.debug("Executing rpmbuild with: " + args.mkString(" "))
+      (Process(args, Some(specsDir)) ! log) match {
+        case 0 => ()
+        case 1 => sys.error("Unable to run rpmbuild, check output for details.")
+      }
     }
   }
 
