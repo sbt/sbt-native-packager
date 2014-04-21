@@ -124,7 +124,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
         (data, size, dir) =>
           if (data.info.description == null || data.info.description.isEmpty) {
             sys.error(
-              """packageDescription in Debian cannot be empty. Use 
+              """packageDescription in Debian cannot be empty. Use
                  packageDescription in Debian := "My package Description"""")
           }
           val cfile = dir / Names.Debian / Names.Control
@@ -188,8 +188,12 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
               streams.log info ("Altering postrm/postinst files to add user " + user + " and group " + group)
               val postinst = createFileIfRequired(t / Names.Debian / Names.Postinst, LinuxFileMetaData())
               val postrm = createFileIfRequired(t / Names.Debian / Names.Postrm, LinuxFileMetaData())
+              val prerm = createFileIfRequired(t / Names.Debian / Names.Prerm, LinuxFileMetaData())
+              val headerScript = IO.readLinesURL(DebianPlugin.headerSource)
 
               val replacements = Seq("group" -> group, "user" -> user)
+
+              prependAndFixPerms(prerm, headerScript, LinuxFileMetaData())
 
               // remove key, flatten it and then go through each file
               pathList.map(_._2).flatten foreach {
@@ -207,9 +211,11 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
                 TemplateWriter.generateScript(DebianPlugin.postinstUseraddTemplateSource, replacements))
 
               prependAndFixPerms(postinst, userGroupAdd, LinuxFileMetaData())
+              prependAndFixPerms(postinst, headerScript, LinuxFileMetaData())
 
               val purgeAdd = Seq(TemplateWriter.generateScript(DebianPlugin.postrmPurgeTemplateSource, replacements))
               appendAndFixPerms(postrm, purgeAdd, LinuxFileMetaData())
+              prependAndFixPerms(postrm, headerScript, LinuxFileMetaData())
           }
           t
         },
@@ -268,4 +274,5 @@ object DebianPlugin {
   private def postinstUseraddTemplateSource: java.net.URL = getClass.getResource("postinst-useradd")
   private def postinstChownTemplateSource: java.net.URL = getClass.getResource("postinst-chown")
   private def postrmPurgeTemplateSource: java.net.URL = getClass.getResource("postrm-purge")
+  private def headerSource: java.net.URL = getClass.getResource("header")
 }
