@@ -20,3 +20,15 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
+TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =>
+  val header = "#!/bin/sh"
+  val debian = target / "debian-test-0.1.0" / "DEBIAN"
+  val postinst = IO.read(debian / "postinst")
+  val postrm = IO.read(debian / "postrm")
+  Seq(postinst, postrm) foreach { script =>
+    assert(script.startsWith(header), "script doesn't start with #!/bin/sh header:\n" + script)
+    assert(header.r.findAllIn(script).length == 1, "script contains more than one header line:\n" + script)
+  }
+  out.log.success("Successfully tested systemV control files")
+  ()
+}
