@@ -7,6 +7,7 @@ object Keys extends linux.Keys
   with debian.DebianKeys
   with rpm.RpmKeys
   with windows.WindowsKeys
+  with docker.DockerKeys
   with universal.UniversalKeys {
 
   // These keys are used by the JavaApp/JavaServer archetypes.
