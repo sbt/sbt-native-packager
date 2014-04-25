@@ -55,7 +55,7 @@ trait UniversalPlugin extends Plugin {
     dist
   }
 
-  private[this] def stageFiles(config: String)(cacheDirectory: File, to: File, mappings: Seq[(File, String)]): Unit = {
+  def stageFiles(config: String)(cacheDirectory: File, to: File, mappings: Seq[(File, String)]): Unit = {
     val cache = cacheDirectory / ("packager-mappings-" + config)
     val copies = mappings map {
       case (file, path) => file -> (to / path)
