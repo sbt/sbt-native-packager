@@ -36,7 +36,7 @@ trait LinuxPlugin extends Plugin {
     packageDescription in Linux <<= packageDescription,
     daemonUser in Linux <<= normalizedName,
     daemonGroup in Linux <<= daemonUser in Linux,
-    daemonShell in Linux := "bin/false",
+    daemonShell in Linux := "/bin/false",
     defaultLinuxInstallLocation := "/usr/share",
     defaultLinuxLogsLocation := "/var/log",
     defaultLinuxConfigLocation := "/etc",
