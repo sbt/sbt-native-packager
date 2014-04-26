@@ -88,6 +88,7 @@ trait JavaAppStartScriptBuilder {
     appName: String,
     daemonUser: String,
     daemonGroup: String,
+    daemonShell: String,
     retries: Int = 0,
     retryTimeout: Int = 60): Seq[(String, String)] =
     Seq(
@@ -99,7 +100,8 @@ trait JavaAppStartScriptBuilder {
       "retryTimeout" -> retryTimeout.toString,
       "app_name" -> appName,
       "daemon_user" -> daemonUser,
-      "daemon_group" -> daemonGroup)
+      "daemon_group" -> daemonGroup,
+      "daemon_shell" -> daemonShell)
 }
 
 /**

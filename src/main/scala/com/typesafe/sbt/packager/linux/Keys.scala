@@ -14,6 +14,7 @@ trait Keys {
   val maintainer = SettingKey[String]("maintainer", "The name/email address of a maintainer for the native package.")
   val daemonUser = SettingKey[String]("daemon-user", "User to start application daemon")
   val daemonGroup = SettingKey[String]("daemon-group", "Group to start application daemon")
+  val daemonShell = SettingKey[String]("daemon-shell", "Shell provided for the daemon user")
   val serverLoading = SettingKey[ServerLoader]("server-loader", "Loading system to be used for application start script")
   val linuxPackageMappings = TaskKey[Seq[LinuxPackageMapping]]("linux-package-mappings", "File to install location mappings including owner and privileges.")
   val linuxPackageSymlinks = TaskKey[Seq[LinuxSymlink]]("linux-package-symlinks", "Symlinks we should produce in the underlying package.")

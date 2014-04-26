@@ -1,0 +1,10 @@
+# Run the debian packaging.
+> debian:package-bin
+$ exists target/debian-test-0.1.0.deb
+
+# Check defaults
+$ exists target/debian-test-0.1.0/DEBIAN/prerm
+$ exists target/debian-test-0.1.0/DEBIAN/postinst
+
+# Check files for defaults
+> check-control-files
