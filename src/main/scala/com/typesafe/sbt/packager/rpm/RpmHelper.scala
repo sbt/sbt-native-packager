@@ -80,9 +80,9 @@ object RpmHelper {
         "--define", "_topdir " + workArea.getAbsolutePath,
         "--define", "_tmppath " + tmpRpmBuildDir.getAbsolutePath
       ) ++ (
-        if (gpg) Seq("--define", "_gpg_name " + "<insert keyname>", "--sign")
-        else Seq.empty
-      ) ++ Seq(spec.meta.name + ".spec")
+          if (gpg) Seq("--define", "_gpg_name " + "<insert keyname>", "--sign")
+          else Seq.empty
+        ) ++ Seq(spec.meta.name + ".spec")
       log.debug("Executing rpmbuild with: " + args.mkString(" "))
       (Process(args, Some(specsDir)) ! log) match {
         case 0 => ()

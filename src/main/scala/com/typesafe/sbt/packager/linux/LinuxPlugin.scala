@@ -36,15 +36,16 @@ trait LinuxPlugin extends Plugin {
     packageDescription in Linux <<= packageDescription,
     daemonUser in Linux <<= normalizedName,
     daemonGroup in Linux <<= daemonUser in Linux,
+    daemonShell in Linux := "/bin/false",
     defaultLinuxInstallLocation := "/usr/share",
     defaultLinuxLogsLocation := "/var/log",
     defaultLinuxConfigLocation := "/etc",
 
     // This one is begging for sbt 0.13 syntax...
     linuxScriptReplacements <<= (
-      maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, normalizedName,
+      maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, daemonShell in Linux, normalizedName,
       sbt.Keys.version, defaultLinuxInstallLocation)
-      apply { (author, descr, daemonUser, daemonGroup, name, version, installLocation) =>
+      apply { (author, descr, daemonUser, daemonGroup, daemonShell, name, version, installLocation) =>
         val appDir = installLocation + "/" + name
 
         // TODO Making replacements should be done somewhere else. Maybe TemplateWriter
@@ -55,7 +56,8 @@ trait LinuxPlugin extends Plugin {
           chdir = appDir,
           appName = name,
           daemonUser = daemonUser,
-          daemonGroup = daemonGroup)
+          daemonGroup = daemonGroup,
+          daemonShell = daemonShell)
       }
 
   )

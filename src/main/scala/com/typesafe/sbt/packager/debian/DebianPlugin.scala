@@ -6,7 +6,7 @@ import Keys._
 import sbt._
 import sbt.Keys.{ target, name, normalizedName, TaskStreams }
 import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
-import linux.Keys.{ linuxScriptReplacements }
+import linux.Keys.{ linuxScriptReplacements, daemonShell }
 import com.typesafe.sbt.packager.Hashing
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 
@@ -145,8 +145,8 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           chmod(cfile, "0644")
           cfile
       },
-      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, linuxScriptReplacements, linuxPackageSymlinks, target, streams)
-        map { (mappings, _, maintScripts, _, replacements, symlinks, t, streams) =>
+      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, daemonShell in Linux, linuxScriptReplacements, linuxPackageSymlinks, target, streams)
+        map { (mappings, _, maintScripts, _, shell, replacements, symlinks, t, streams) =>
 
           // Create files and directories
           mappings foreach {
@@ -191,7 +191,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
               val prerm = createFileIfRequired(t / Names.Debian / Names.Prerm, LinuxFileMetaData())
               val headerScript = IO.readLinesURL(DebianPlugin.headerSource)
 
-              val replacements = Seq("group" -> group, "user" -> user)
+              val replacements = Seq("group" -> group, "user" -> user, "shell" -> shell)
 
               prependAndFixPerms(prerm, headerScript, LinuxFileMetaData())
 
