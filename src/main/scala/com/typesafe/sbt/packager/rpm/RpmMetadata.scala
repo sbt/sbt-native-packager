@@ -169,7 +169,7 @@ case class RpmSpec(meta: RpmMetadata,
     sb append ("Version: %s\n" format meta.version)
     sb append ("Release: %s\n" format meta.release)
     sb append ("Summary: %s\n" format meta.summary)
-    sb append ("prefix: %s\n" format meta.prefix)
+    meta.prefix foreach { v => sb append ("prefix: %s\n" format v) }
 
     desc.license foreach { v => sb append ("License: %s\n" format v) }
     desc.distribution foreach { v => sb append ("Distribution: %s\n" format v) }

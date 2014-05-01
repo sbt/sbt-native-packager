@@ -47,7 +47,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
   ) ++ inConfig(Rpm)(Seq(
       packageArchitecture := "noarch",
       rpmMetadata <<=
-        (name, version, rpmRelease, rpmPrefix, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply (RpmMetadata.apply),
+        (name, version, rpmRelease, rpmPrefix, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply RpmMetadata,
       rpmDescription <<=
         (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
       rpmDependencies <<=
