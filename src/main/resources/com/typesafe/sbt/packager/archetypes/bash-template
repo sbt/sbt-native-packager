@@ -166,6 +166,7 @@ get_mem_opts () {
      [[ "${java_args[@]}" == *-XX:MaxPermSize* ]] || 
      [[ "${java_args[@]}" == *-XX:ReservedCodeCacheSize* ]];
   then
+    echo ""
   elif [[ !$no_java_version_check ]] && [[ java_version > "1.8" ]]; then
     echo "-Xms${mem}m -Xmx${mem}m -XX:ReservedCodeCacheSize=${codecache}m"
   else 
