@@ -41,15 +41,20 @@ trait LinuxPlugin extends Plugin {
     defaultLinuxLogsLocation := "/var/log",
     defaultLinuxConfigLocation := "/etc",
 
+    startRunlevels := Seq(2, 3, 4, 5),
+    stopRunlevels := Seq(0, 1, 6),
+    requiredStartFacilities := Seq("$remote_fs", "$syslog"),
+    requiredStopFacilities := Seq("$remote_fs", "$syslog"),
+    linuxJavaAppStartScriptBuilder := JavaAppStartScript.Debian,
     // This one is begging for sbt 0.13 syntax...
     linuxScriptReplacements <<= (
       maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, daemonShell in Linux, normalizedName,
-      sbt.Keys.version, defaultLinuxInstallLocation)
-      apply { (author, descr, daemonUser, daemonGroup, daemonShell, name, version, installLocation) =>
+      sbt.Keys.version, defaultLinuxInstallLocation, linuxJavaAppStartScriptBuilder)
+      apply { (author, descr, daemonUser, daemonGroup, daemonShell, name, version, installLocation, builder) =>
         val appDir = installLocation + "/" + name
 
         // TODO Making replacements should be done somewhere else. Maybe TemplateWriter
-        JavaAppStartScript.Debian.makeReplacements(
+        builder.makeReplacements(
           author = author,
           description = descr,
           execScript = name,
