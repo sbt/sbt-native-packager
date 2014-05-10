@@ -9,9 +9,9 @@ After installing the native packager, let's set up a raw sbt project to experime
 sbt builds should always specify which version of sbt they are designed to use.  This helps keeps builds consistent between developers,
 and documents to users which version of sbt you require for the build.
 
-Next, let's add the native packager to our build by created a ``project/plguins.sbt`` file with the following contents ::
+Next, let's add the native packager to our build by created a ``project/plugins.sbt`` file with the following contents ::
 
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-RC1")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-RC2")
 
 Now, the build needs to be configured for packaging.  Let's define the ``build.sbt`` file as follows
 
@@ -70,7 +70,7 @@ platforms.  There are two ways to do this in the sbt console ::
     > universal:packageBin
     [info] /home/jsuereth/projects/sbt/sbt-native-packager/tutorial-example/target/universal/example-cli-1.0.zip
 
-    > universal:packageZipTarabell
+    > universal:packageZipTarball
     [info] /home/jsuereth/projects/sbt/sbt-native-packager/tutorial-example/target/universal/example-cli-1.0.tgz
 
 This task simple constructs either a tgz or zip file with the exact same contents we found in the staged directory.
