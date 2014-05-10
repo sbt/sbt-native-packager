@@ -65,13 +65,20 @@ object JavaServerAppPackaging {
     Seq(
       linuxJavaAppStartScriptBuilder in Debian := JavaAppStartScript.Debian,
       serverLoading := Upstart,
-
       // === Startscript creation ===
+      linuxScriptReplacements in Debian <++= (requiredStartFacilities in Debian, requiredStopFacilities in Debian, startRunlevels in Debian, stopRunlevels in Debian) apply {
+        (startFacilities, stopFacilities, startLevels, stopLevels) =>
+          println("appending replacements")
+          println("stop fac " + stopFacilities)
+          Seq("start_runlevels" -> startLevels.mkString(" "), "stop_runlevels" -> stopLevels.mkString(" "),
+            "start_facilities" -> startFacilities.mkString(" "), "stop_facilities" -> stopFacilities.mkString(" "))
+      },
       linuxStartScriptTemplate in Debian <<= (serverLoading in Debian, sourceDirectory, linuxJavaAppStartScriptBuilder in Debian) map {
         (loader, dir, builder) => builder.defaultStartScriptTemplate(loader, dir / "templates" / "start")
       },
-      linuxMakeStartScript in Debian <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements, linuxStartScriptTemplate in Debian, linuxJavaAppStartScriptBuilder in Debian)
+      linuxMakeStartScript in Debian <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements in Debian, linuxStartScriptTemplate in Debian, linuxJavaAppStartScriptBuilder in Debian)
         map { (tmpDir, loader, replacements, template, builder) =>
+          println(replacements)
           makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
         },
       linuxPackageMappings in Debian <++= (normalizedName, linuxMakeStartScript in Debian, serverLoading in Debian) map startScriptMapping,

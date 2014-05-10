@@ -2,10 +2,10 @@
 
 ### BEGIN INIT INFO
 # Provides:	${{app_name}}
-# Required-Start: $remote_fs $syslog
-# Required-Stop: $remote_fs $syslog
-# Default-Start: 2 3 4 5
-# Default-Stop: 0 1 6
+# Required-Start: ${{start_facilities}}
+# Required-Stop: ${{stop_facilities}}
+# Default-Start: ${{start_runlevels}}
+# Default-Stop: ${{stop_runlevels}}
 # Short-Description: ${{descr}}
 ### END INIT INFO
 
