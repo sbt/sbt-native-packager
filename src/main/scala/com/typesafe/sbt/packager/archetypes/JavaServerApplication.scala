@@ -26,6 +26,26 @@ object JavaServerAppPackaging {
   def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ linuxSettings ++ debianSettings ++ rpmSettings
   protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource("etc-default-template")
 
+  def makeStartScriptReplacements(
+    requiredStartFacilities: Seq[String],
+    requiredStopFacilities: Seq[String],
+    startRunlevels: Seq[Int],
+    stopRunlevels: Seq[Int],
+    loader: ServerLoader.ServerLoader): Seq[(String, String)] = {
+    loader match {
+      case ServerLoader.SystemV =>
+        Seq("start_runlevels" -> startRunlevels.mkString(" "),
+          "stop_runlevels" -> stopRunlevels.mkString(" "),
+          "start_facilities" -> requiredStartFacilities.mkString(" "),
+          "stop_facilities" -> requiredStopFacilities.mkString(" "))
+      case ServerLoader.Upstart =>
+        Seq("start_runlevels" -> startRunlevels.mkString(""),
+          "stop_runlevels" -> stopRunlevels.mkString(""),
+          "start_facilities" -> requiredStartFacilities.mkString(" and "),
+          "stop_facilities" -> requiredStopFacilities.mkString(" and "))
+    }
+  }
+
   /**
    * general settings which apply to all linux server archetypes
    *
@@ -34,6 +54,8 @@ object JavaServerAppPackaging {
    * - config directory
    */
   def linuxSettings: Seq[Setting[_]] = Seq(
+    startRunlevels := Seq(2, 3, 4, 5),
+    stopRunlevels := Seq(0, 1, 6),
     // === logging directory mapping ===
     linuxPackageMappings <+= (normalizedName, defaultLinuxLogsLocation, daemonUser in Linux, daemonGroup in Linux) map {
       (name, logsDir, user, group) => packageTemplateMapping(logsDir + "/" + name)() withUser user withGroup group withPerms "755"
@@ -63,16 +85,19 @@ object JavaServerAppPackaging {
   def debianSettings: Seq[Setting[_]] = {
     import DebianPlugin.Names.{ Preinst, Postinst, Prerm, Postrm }
     Seq(
+      requiredStartFacilities in Debian <<= (serverLoading in Debian) apply {
+        case ServerLoader.SystemV => Seq("$remote_fs", "$syslog")
+        case ServerLoader.Upstart => Seq("networking")
+      },
+      requiredStopFacilities in Debian <<= (serverLoading in Debian) apply {
+        case ServerLoader.SystemV => Seq("$remote_fs", "$syslog")
+        case ServerLoader.Upstart => Seq("networking")
+      },
       linuxJavaAppStartScriptBuilder in Debian := JavaAppStartScript.Debian,
       serverLoading := Upstart,
       // === Startscript creation ===
-      linuxScriptReplacements in Debian <++= (requiredStartFacilities in Debian, requiredStopFacilities in Debian, startRunlevels in Debian, stopRunlevels in Debian) apply {
-        (startFacilities, stopFacilities, startLevels, stopLevels) =>
-          println("appending replacements")
-          println("stop fac " + stopFacilities)
-          Seq("start_runlevels" -> startLevels.mkString(" "), "stop_runlevels" -> stopLevels.mkString(" "),
-            "start_facilities" -> startFacilities.mkString(" "), "stop_facilities" -> stopFacilities.mkString(" "))
-      },
+      linuxScriptReplacements in Debian <++= (requiredStartFacilities in Debian, requiredStopFacilities in Debian, startRunlevels in Debian, stopRunlevels in Debian, serverLoading in Debian) apply
+        makeStartScriptReplacements,
       linuxStartScriptTemplate in Debian <<= (serverLoading in Debian, sourceDirectory, linuxJavaAppStartScriptBuilder in Debian) map {
         (loader, dir, builder) => builder.defaultStartScriptTemplate(loader, dir / "templates" / "start")
       },
@@ -93,9 +118,19 @@ object JavaServerAppPackaging {
   def rpmSettings: Seq[Setting[_]] = {
     import RpmPlugin.Names.{ Pre, Post, Preun, Postun }
     Seq(
+      requiredStartFacilities in Rpm <<= (serverLoading in Rpm) apply {
+        case ServerLoader.SystemV => Seq("$remote_fs", "$syslog")
+        case ServerLoader.Upstart => Seq("networking")
+      },
+      requiredStopFacilities in Rpm <<= (serverLoading in Rpm) apply {
+        case ServerLoader.SystemV => Seq("$remote_fs", "$syslog")
+        case ServerLoader.Upstart => Seq("networking")
+      },
       linuxJavaAppStartScriptBuilder in Rpm := JavaAppStartScript.Rpm,
       serverLoading in Rpm := SystemV,
 
+      linuxScriptReplacements in Rpm <++= (requiredStartFacilities in Rpm, requiredStopFacilities in Rpm, startRunlevels in Rpm, stopRunlevels in Rpm, serverLoading in Rpm) apply
+        makeStartScriptReplacements,
       // === Startscript creation ===
       linuxStartScriptTemplate in Rpm <<= (serverLoading in Rpm, sourceDirectory, linuxJavaAppStartScriptBuilder in Rpm) map {
         (loader, dir, builder) =>

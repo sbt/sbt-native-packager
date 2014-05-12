@@ -11,7 +11,7 @@ import packager.Keys.{
   defaultLinuxLogsLocation
 }
 import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
-import com.typesafe.sbt.packager.archetypes.JavaAppStartScript
+import com.typesafe.sbt.packager.archetypes.{ ServerLoader, JavaAppStartScript }
 
 /**
  * Plugin trait containing all the generic values used for
@@ -41,10 +41,6 @@ trait LinuxPlugin extends Plugin {
     defaultLinuxLogsLocation := "/var/log",
     defaultLinuxConfigLocation := "/etc",
 
-    startRunlevels := Seq(2, 3, 4, 5),
-    stopRunlevels := Seq(0, 1, 6),
-    requiredStartFacilities := Seq("$remote_fs", "$syslog"),
-    requiredStopFacilities := Seq("$remote_fs", "$syslog"),
     linuxJavaAppStartScriptBuilder := JavaAppStartScript.Debian,
     // This one is begging for sbt 0.13 syntax...
     linuxScriptReplacements <<= (
