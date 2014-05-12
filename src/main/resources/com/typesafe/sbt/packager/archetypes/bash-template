@@ -156,8 +156,17 @@ get_mem_opts () {
 
   # if we detect any of these settings in ${java_opts} we need to NOT output our settings.
   # The reason is the Xms/Xmx, if they don't line up, cause errors.
-  if [[ "${java_opts}" == *-Xmx* ]] || [[ "${java_opts}" == *-Xms* ]] || [[ "${java_opts}" == *-XX:MaxPermSize* ]] || [[ "${java_opts}" == *-XX:ReservedCodeCacheSize* ]]; then
-     echo ""
+  if [[ "${java_opts}" == *-Xmx* ]] ||
+     [[ "${java_opts}" == *-Xms* ]] ||
+     [[ "${java_opts}" == *-XX:MaxPermSize* ]] ||
+     [[ "${java_opts}" == *-XX:ReservedCodeCacheSize* ]] ||
+     # check java arguments for settings, too
+     [[ "${java_args[@]}" == *-Xmx* ]] ||
+     [[ "${java_args[@]}" == *-Xms* ]] || 
+     [[ "${java_args[@]}" == *-XX:MaxPermSize* ]] || 
+     [[ "${java_args[@]}" == *-XX:ReservedCodeCacheSize* ]];
+  then
+    echo ""
   elif [[ !$no_java_version_check ]] && [[ java_version > "1.8" ]]; then
     echo "-Xms${mem}m -Xmx${mem}m -XX:ReservedCodeCacheSize=${codecache}m"
   else 
@@ -332,6 +341,7 @@ EOM
 ###  Main script                     ###
 ###  ------------------------------- ###
 
+declare debug=0
 declare -a residual_args
 declare -a java_args
 declare -a app_commands
