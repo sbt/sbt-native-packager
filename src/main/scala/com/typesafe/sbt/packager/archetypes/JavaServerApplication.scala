@@ -120,11 +120,11 @@ object JavaServerAppPackaging {
     Seq(
       requiredStartFacilities in Rpm <<= (serverLoading in Rpm) apply {
         case ServerLoader.SystemV => Seq("$remote_fs", "$syslog")
-        case ServerLoader.Upstart => Seq("networking")
+        case ServerLoader.Upstart => Seq("local-filesystems")
       },
       requiredStopFacilities in Rpm <<= (serverLoading in Rpm) apply {
         case ServerLoader.SystemV => Seq("$remote_fs", "$syslog")
-        case ServerLoader.Upstart => Seq("networking")
+        case ServerLoader.Upstart => Seq("local-filesystems")
       },
       linuxJavaAppStartScriptBuilder in Rpm := JavaAppStartScript.Rpm,
       serverLoading in Rpm := SystemV,
