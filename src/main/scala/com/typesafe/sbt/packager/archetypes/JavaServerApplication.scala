@@ -26,23 +26,44 @@ object JavaServerAppPackaging {
   def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ linuxSettings ++ debianSettings ++ rpmSettings
   protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource("etc-default-template")
 
-  def makeStartScriptReplacements(
-    requiredStartFacilities: Seq[String],
-    requiredStopFacilities: Seq[String],
-    startRunlevels: Seq[Int],
-    stopRunlevels: Seq[Int],
+  private[this] def makeStartScriptReplacements(
+    requiredStartFacilities: String,
+    requiredStopFacilities: String,
+    startRunlevels: String,
+    stopRunlevels: String,
     loader: ServerLoader.ServerLoader): Seq[(String, String)] = {
     loader match {
       case ServerLoader.SystemV =>
-        Seq("start_runlevels" -> startRunlevels.mkString(" "),
-          "stop_runlevels" -> stopRunlevels.mkString(" "),
-          "start_facilities" -> requiredStartFacilities.mkString(" "),
-          "stop_facilities" -> requiredStopFacilities.mkString(" "))
+        Seq("start_runlevels" -> startRunlevels,
+          "stop_runlevels" -> stopRunlevels,
+          "start_facilities" -> requiredStartFacilities,
+          "stop_facilities" -> requiredStopFacilities)
       case ServerLoader.Upstart =>
-        Seq("start_runlevels" -> startRunlevels.mkString(""),
-          "stop_runlevels" -> stopRunlevels.mkString(""),
-          "start_facilities" -> requiredStartFacilities.mkString(" and "),
-          "stop_facilities" -> requiredStopFacilities.mkString(" and "))
+        Seq("start_runlevels" -> startRunlevels,
+          "stop_runlevels" -> stopRunlevels,
+          "start_facilities" -> requiredStartFacilities,
+          "stop_facilities" -> requiredStopFacilities)
+    }
+  }
+
+  private[this] def defaultFacilities(loader: ServerLoader.ServerLoader): String = {
+    loader match {
+      case ServerLoader.SystemV => "$remote_fs $syslog"
+      case ServerLoader.Upstart => "networking"
+    }
+  }
+
+  private[this] def defaultStartRunlevels(loader: ServerLoader.ServerLoader): String = {
+    loader match {
+      case ServerLoader.SystemV => "2 3 4 5"
+      case ServerLoader.Upstart => "2345"
+    }
+  }
+
+  private[this] def defaultStopRunlevels(loader: ServerLoader.ServerLoader): String = {
+    loader match {
+      case ServerLoader.SystemV => "0 1 6"
+      case ServerLoader.Upstart => "016"
     }
   }
 
@@ -54,8 +75,6 @@ object JavaServerAppPackaging {
    * - config directory
    */
   def linuxSettings: Seq[Setting[_]] = Seq(
-    startRunlevels := Seq(2, 3, 4, 5),
-    stopRunlevels := Seq(0, 1, 6),
     // === logging directory mapping ===
     linuxPackageMappings <+= (normalizedName, defaultLinuxLogsLocation, daemonUser in Linux, daemonGroup in Linux) map {
       (name, logsDir, user, group) => packageTemplateMapping(logsDir + "/" + name)() withUser user withGroup group withPerms "755"
@@ -85,16 +104,12 @@ object JavaServerAppPackaging {
   def debianSettings: Seq[Setting[_]] = {
     import DebianPlugin.Names.{ Preinst, Postinst, Prerm, Postrm }
     Seq(
-      requiredStartFacilities in Debian <<= (serverLoading in Debian) apply {
-        case ServerLoader.SystemV => Seq("$remote_fs", "$syslog")
-        case ServerLoader.Upstart => Seq("networking")
-      },
-      requiredStopFacilities in Debian <<= (serverLoading in Debian) apply {
-        case ServerLoader.SystemV => Seq("$remote_fs", "$syslog")
-        case ServerLoader.Upstart => Seq("networking")
-      },
+      serverLoading in Debian := Upstart,
+      startRunlevels in Debian <<= (serverLoading in Debian) apply defaultStartRunlevels,
+      stopRunlevels in Debian <<= (serverLoading in Debian) apply defaultStopRunlevels,
+      requiredStartFacilities in Debian <<= (serverLoading in Debian) apply defaultFacilities,
+      requiredStopFacilities in Debian <<= (serverLoading in Debian) apply defaultFacilities,
       linuxJavaAppStartScriptBuilder in Debian := JavaAppStartScript.Debian,
-      serverLoading := Upstart,
       // === Startscript creation ===
       linuxScriptReplacements in Debian <++= (requiredStartFacilities in Debian, requiredStopFacilities in Debian, startRunlevels in Debian, stopRunlevels in Debian, serverLoading in Debian) apply
         makeStartScriptReplacements,
@@ -118,17 +133,12 @@ object JavaServerAppPackaging {
   def rpmSettings: Seq[Setting[_]] = {
     import RpmPlugin.Names.{ Pre, Post, Preun, Postun }
     Seq(
-      requiredStartFacilities in Rpm <<= (serverLoading in Rpm) apply {
-        case ServerLoader.SystemV => Seq("$remote_fs", "$syslog")
-        case ServerLoader.Upstart => Seq("local-filesystems")
-      },
-      requiredStopFacilities in Rpm <<= (serverLoading in Rpm) apply {
-        case ServerLoader.SystemV => Seq("$remote_fs", "$syslog")
-        case ServerLoader.Upstart => Seq("local-filesystems")
-      },
-      linuxJavaAppStartScriptBuilder in Rpm := JavaAppStartScript.Rpm,
       serverLoading in Rpm := SystemV,
-
+      startRunlevels in Rpm <<= (serverLoading in Debian) apply defaultStartRunlevels,
+      stopRunlevels in Rpm <<= (serverLoading in Debian) apply defaultStopRunlevels,
+      requiredStartFacilities in Rpm <<= (serverLoading in Rpm) apply defaultFacilities,
+      requiredStopFacilities in Rpm <<= (serverLoading in Rpm) apply defaultFacilities,
+      linuxJavaAppStartScriptBuilder in Rpm := JavaAppStartScript.Rpm,
       linuxScriptReplacements in Rpm <++= (requiredStartFacilities in Rpm, requiredStopFacilities in Rpm, startRunlevels in Rpm, stopRunlevels in Rpm, serverLoading in Rpm) apply
         makeStartScriptReplacements,
       // === Startscript creation ===
