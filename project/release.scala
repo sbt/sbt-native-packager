@@ -10,8 +10,8 @@ object Release {
     val classifier: Parser[String] = ("-" ~ ID) map {
       case (dash, id) => dash + id
     }
-    val version: Parser[String] = (Digit ~ chars(".0123456789").* ~ classifier) map {
-      case ((first, rest), rest2) => ((first +: rest).mkString + rest2)
+    val version: Parser[String] = (Digit ~ chars(".0123456789").* ~ classifier.?) map {
+      case ((first, rest), optClass) => ((first +: rest).mkString + optClass.getOrElse(""))
     }
     val complete = (chars("v") ~ token(version, "<version number>")) map {
       case (v, num) => v + num
