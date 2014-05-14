@@ -8,12 +8,12 @@
 
 ### BEGIN INIT INFO
 # Provides: ${{app_name}}
-# Required-Start: 
-# Required-Stop: 
-# Should-Start: 
-# Should-Stop: 
-# Default-Start: 2 3 4 5
-# Default-Stop: 0 1 6
+# Required-Start: ${{start_facilities}}
+# Required-Stop: ${{stop_facilities}}
+# Default-Start: ${{start_runlevels}}
+# Default-Stop: ${{stop_runlevels}}
+# Should-Start:
+# Should-Stop:
 # Short-Description: ${{descr}}
 # Description: ${{descr}}
 ### END INIT INFO

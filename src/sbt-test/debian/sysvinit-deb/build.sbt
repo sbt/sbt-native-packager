@@ -20,9 +20,9 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-requiredStartFacilities := Seq("$test-service")
+requiredStartFacilities := "$test-service"
 
-requiredStartFacilities in Debian := Seq("$test-deb-service")
+requiredStartFacilities in Debian := "$test-deb-service"
 
 TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =>
   val header = "#!/bin/sh"

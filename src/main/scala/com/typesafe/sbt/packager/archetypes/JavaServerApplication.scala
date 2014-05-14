@@ -26,6 +26,47 @@ object JavaServerAppPackaging {
   def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ linuxSettings ++ debianSettings ++ rpmSettings
   protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource("etc-default-template")
 
+  private[this] def makeStartScriptReplacements(
+    requiredStartFacilities: String,
+    requiredStopFacilities: String,
+    startRunlevels: String,
+    stopRunlevels: String,
+    loader: ServerLoader.ServerLoader): Seq[(String, String)] = {
+    loader match {
+      case ServerLoader.SystemV =>
+        Seq("start_runlevels" -> startRunlevels,
+          "stop_runlevels" -> stopRunlevels,
+          "start_facilities" -> requiredStartFacilities,
+          "stop_facilities" -> requiredStopFacilities)
+      case ServerLoader.Upstart =>
+        Seq("start_runlevels" -> startRunlevels,
+          "stop_runlevels" -> stopRunlevels,
+          "start_facilities" -> requiredStartFacilities,
+          "stop_facilities" -> requiredStopFacilities)
+    }
+  }
+
+  private[this] def defaultFacilities(loader: ServerLoader.ServerLoader): String = {
+    loader match {
+      case ServerLoader.SystemV => "$remote_fs $syslog"
+      case ServerLoader.Upstart => "networking"
+    }
+  }
+
+  private[this] def defaultStartRunlevels(loader: ServerLoader.ServerLoader): String = {
+    loader match {
+      case ServerLoader.SystemV => "2 3 4 5"
+      case ServerLoader.Upstart => "2345"
+    }
+  }
+
+  private[this] def defaultStopRunlevels(loader: ServerLoader.ServerLoader): String = {
+    loader match {
+      case ServerLoader.SystemV => "0 1 6"
+      case ServerLoader.Upstart => "016"
+    }
+  }
+
   /**
    * general settings which apply to all linux server archetypes
    *
@@ -63,16 +104,15 @@ object JavaServerAppPackaging {
   def debianSettings: Seq[Setting[_]] = {
     import DebianPlugin.Names.{ Preinst, Postinst, Prerm, Postrm }
     Seq(
+      serverLoading in Debian := Upstart,
+      startRunlevels in Debian <<= (serverLoading in Debian) apply defaultStartRunlevels,
+      stopRunlevels in Debian <<= (serverLoading in Debian) apply defaultStopRunlevels,
+      requiredStartFacilities in Debian <<= (serverLoading in Debian) apply defaultFacilities,
+      requiredStopFacilities in Debian <<= (serverLoading in Debian) apply defaultFacilities,
       linuxJavaAppStartScriptBuilder in Debian := JavaAppStartScript.Debian,
-      serverLoading := Upstart,
       // === Startscript creation ===
-      linuxScriptReplacements in Debian <++= (requiredStartFacilities in Debian, requiredStopFacilities in Debian, startRunlevels in Debian, stopRunlevels in Debian) apply {
-        (startFacilities, stopFacilities, startLevels, stopLevels) =>
-          println("appending replacements")
-          println("stop fac " + stopFacilities)
-          Seq("start_runlevels" -> startLevels.mkString(" "), "stop_runlevels" -> stopLevels.mkString(" "),
-            "start_facilities" -> startFacilities.mkString(" "), "stop_facilities" -> stopFacilities.mkString(" "))
-      },
+      linuxScriptReplacements in Debian <++= (requiredStartFacilities in Debian, requiredStopFacilities in Debian, startRunlevels in Debian, stopRunlevels in Debian, serverLoading in Debian) apply
+        makeStartScriptReplacements,
       linuxStartScriptTemplate in Debian <<= (serverLoading in Debian, sourceDirectory, linuxJavaAppStartScriptBuilder in Debian) map {
         (loader, dir, builder) => builder.defaultStartScriptTemplate(loader, dir / "templates" / "start")
       },
@@ -93,9 +133,14 @@ object JavaServerAppPackaging {
   def rpmSettings: Seq[Setting[_]] = {
     import RpmPlugin.Names.{ Pre, Post, Preun, Postun }
     Seq(
-      linuxJavaAppStartScriptBuilder in Rpm := JavaAppStartScript.Rpm,
       serverLoading in Rpm := SystemV,
-
+      startRunlevels in Rpm <<= (serverLoading in Debian) apply defaultStartRunlevels,
+      stopRunlevels in Rpm <<= (serverLoading in Debian) apply defaultStopRunlevels,
+      requiredStartFacilities in Rpm <<= (serverLoading in Rpm) apply defaultFacilities,
+      requiredStopFacilities in Rpm <<= (serverLoading in Rpm) apply defaultFacilities,
+      linuxJavaAppStartScriptBuilder in Rpm := JavaAppStartScript.Rpm,
+      linuxScriptReplacements in Rpm <++= (requiredStartFacilities in Rpm, requiredStopFacilities in Rpm, startRunlevels in Rpm, stopRunlevels in Rpm, serverLoading in Rpm) apply
+        makeStartScriptReplacements,
       // === Startscript creation ===
       linuxStartScriptTemplate in Rpm <<= (serverLoading in Rpm, sourceDirectory, linuxJavaAppStartScriptBuilder in Rpm) map {
         (loader, dir, builder) =>
