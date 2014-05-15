@@ -106,6 +106,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     debianMaintainerScripts <++= (debianMakePostinstScript, debianControlScriptsDirectory) map scriptMapping(Names.Postinst),
     debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping(Names.Postrm)) ++ inConfig(Debian)(Seq(
       packageArchitecture := "all",
+      normalizedName <<= name apply Project.normalizeModuleID,
       debianPackageInfo <<=
         (normalizedName, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
       debianPackageMetadata <<=

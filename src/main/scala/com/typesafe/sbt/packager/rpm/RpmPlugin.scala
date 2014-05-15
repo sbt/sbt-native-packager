@@ -40,13 +40,16 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmPostun := None,
     rpmBrpJavaRepackJars := false,
     rpmScriptsDirectory <<= sourceDirectory apply (_ / "rpm" / Names.Scriptlets),
+    // Explicitly defer  default settings to generic Linux Settings.
     packageSummary in Rpm <<= packageSummary in Linux,
     packageDescription in Rpm <<= packageDescription in Linux,
-    target in Rpm <<= target(_ / "rpm")
+    target in Rpm <<= target(_ / "rpm"),
+    name in Rpm <<= name in Linux
   ) ++ inConfig(Rpm)(Seq(
+      normalizedName <<= name apply Project.normalizeModuleID,
       packageArchitecture := "noarch",
       rpmMetadata <<=
-        (name, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply (RpmMetadata.apply),
+        (normalizedName, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply (RpmMetadata.apply),
       rpmDescription <<=
         (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
       rpmDependencies <<=

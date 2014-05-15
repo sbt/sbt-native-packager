@@ -5,6 +5,7 @@ package universal
 import sbt._
 
 trait UniversalKeys {
+  val packageFilename = SettingKey[String]("package-filename", "The base filename for the universal packages.")
   val packageZipTarball = TaskKey[File]("package-zip-tarball", "Creates a tgz package.")
   val packageXzTarball = TaskKey[File]("package-xz-tarball", "Creates a txz package.")
   val packageOsxDmg = TaskKey[File]("package-osx-dmg", "Creates a dmg package for OSX (only on osx).")

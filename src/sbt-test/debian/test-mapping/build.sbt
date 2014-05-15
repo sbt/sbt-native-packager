@@ -6,6 +6,8 @@ mapGenericFilesToLinux
 
 name := "debian-test"
 
+name in Debian := "debian-test-override"
+
 version := "0.1.0"
 
 maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"

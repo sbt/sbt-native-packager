@@ -64,7 +64,7 @@ object JavaAppPackaging {
         s <- script.toSeq
       } yield s -> ("bin/" + name + ".bat")
     },
-    linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxInstallLocation, target in Debian) map {
+    linuxPackageMappings in Debian <+= (normalizedName in Debian, defaultLinuxInstallLocation, target in Debian) map {
       (name, installLocation, target) =>
         // create empty var/log directory
         val d = target / installLocation

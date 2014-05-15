@@ -34,7 +34,9 @@ trait LinuxPlugin extends Plugin {
     },
     packageSummary in Linux <<= packageSummary,
     packageDescription in Linux <<= packageDescription,
-    daemonUser in Linux <<= normalizedName,
+    name in Linux <<= name,
+    normalizedName in Linux <<= (name in Linux) apply Project.normalizeModuleID,
+    daemonUser in Linux <<= normalizedName in Linux,
     daemonGroup in Linux <<= daemonUser in Linux,
     daemonShell in Linux := "/bin/false",
     defaultLinuxInstallLocation := "/usr/share",
@@ -44,7 +46,7 @@ trait LinuxPlugin extends Plugin {
     linuxJavaAppStartScriptBuilder := JavaAppStartScript.Debian,
     // This one is begging for sbt 0.13 syntax...
     linuxScriptReplacements <<= (
-      maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, daemonShell in Linux, normalizedName,
+      maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, daemonShell in Linux, normalizedName in Linux,
       sbt.Keys.version, defaultLinuxInstallLocation, linuxJavaAppStartScriptBuilder)
       apply { (author, descr, daemonUser, daemonGroup, daemonShell, name, version, installLocation, builder) =>
         val appDir = installLocation + "/" + name

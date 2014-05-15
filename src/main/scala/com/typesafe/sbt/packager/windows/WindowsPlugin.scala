@@ -11,6 +11,7 @@ trait WindowsPlugin extends Plugin {
   def windowsSettings: Seq[Setting[_]] = Seq(
     sourceDirectory in Windows <<= sourceDirectory(_ / "windows"),
     target in Windows <<= target apply (_ / "windows"),
+    // TODO - Should this use normalized name like the linux guys?
     name in Windows <<= name,
     // Defaults so that our simplified building works
     candleOptions := Seq("-ext", "WixUtilExtension"),

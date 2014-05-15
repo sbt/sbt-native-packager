@@ -47,5 +47,7 @@ trait Keys {
 }
 
 object Keys extends Keys {
+  def name = sbt.Keys.name
+  def normalizedName = sbt.Keys.normalizedName
   def sourceDirectory = sbt.Keys.sourceDirectory
 }

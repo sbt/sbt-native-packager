@@ -76,20 +76,20 @@ object JavaServerAppPackaging {
    */
   def linuxSettings: Seq[Setting[_]] = Seq(
     // === logging directory mapping ===
-    linuxPackageMappings <+= (normalizedName, defaultLinuxLogsLocation, daemonUser in Linux, daemonGroup in Linux) map {
+    linuxPackageMappings <+= (normalizedName in Linux, defaultLinuxLogsLocation, daemonUser in Linux, daemonGroup in Linux) map {
       (name, logsDir, user, group) => packageTemplateMapping(logsDir + "/" + name)() withUser user withGroup group withPerms "755"
     },
-    linuxPackageSymlinks <+= (normalizedName, defaultLinuxInstallLocation, defaultLinuxLogsLocation) map {
+    linuxPackageSymlinks <+= (normalizedName in Linux, defaultLinuxInstallLocation, defaultLinuxLogsLocation) map {
       (name, install, logsDir) => LinuxSymlink(install + "/" + name + "/logs", logsDir + "/" + name)
     },
     // === etc config mapping ===
-    bashScriptConfigLocation <<= normalizedName map (name => Some("/etc/default/" + name)),
+    bashScriptConfigLocation <<= (normalizedName in Linux) map (name => Some("/etc/default/" + name)),
     linuxEtcDefaultTemplate <<= sourceDirectory map { dir =>
       val overrideScript = dir / "templates" / "etc-default"
       if (overrideScript.exists) overrideScript.toURI.toURL
       else etcDefaultTemplateSource
     },
-    makeEtcDefault <<= (normalizedName, target in Universal, linuxEtcDefaultTemplate, linuxScriptReplacements)
+    makeEtcDefault <<= (normalizedName in Linux, target in Universal, linuxEtcDefaultTemplate, linuxScriptReplacements)
       map makeEtcDefaultScript,
     linuxPackageMappings <++= (makeEtcDefault, normalizedName) map { (conf, name) =>
       conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)),
@@ -97,7 +97,7 @@ object JavaServerAppPackaging {
     },
 
     // === /var/run/app pid folder ===
-    linuxPackageMappings <+= (normalizedName, daemonUser in Linux, daemonGroup in Linux) map { (name, user, group) =>
+    linuxPackageMappings <+= (normalizedName in Linux, daemonUser in Linux, daemonGroup in Linux) map { (name, user, group) =>
       packageTemplateMapping("/var/run/" + name)() withUser user withGroup group withPerms "755"
     })
 
@@ -121,7 +121,7 @@ object JavaServerAppPackaging {
           println(replacements)
           makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
         },
-      linuxPackageMappings in Debian <++= (normalizedName, linuxMakeStartScript in Debian, serverLoading in Debian) map startScriptMapping,
+      linuxPackageMappings in Debian <++= (normalizedName in Linux, linuxMakeStartScript in Debian, serverLoading in Debian) map startScriptMapping,
 
       // === Maintainer scripts === 
       debianMakePreinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements, linuxJavaAppStartScriptBuilder in Debian) map makeMaintainerScript(Preinst),
@@ -150,7 +150,7 @@ object JavaServerAppPackaging {
         map { (tmpDir, loader, replacements, template, builder) =>
           makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
         },
-      linuxPackageMappings in Rpm <++= (normalizedName, linuxMakeStartScript in Rpm, serverLoading in Rpm) map startScriptMapping,
+      linuxPackageMappings in Rpm <++= (normalizedName in Linux, linuxMakeStartScript in Rpm, serverLoading in Rpm) map startScriptMapping,
 
       // == Maintainer scripts ===
       // TODO this is very basic - align debian and rpm plugin

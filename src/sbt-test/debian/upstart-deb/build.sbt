@@ -11,6 +11,8 @@ mainClass in Compile := Some("empty")
 
 name := "debian-test"
 
+name in Debian := "debian-test"
+
 version := "0.1.0"
 
 maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
