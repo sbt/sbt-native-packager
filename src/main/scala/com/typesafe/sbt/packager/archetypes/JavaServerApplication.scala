@@ -43,6 +43,8 @@ object JavaServerAppPackaging {
           "stop_runlevels" -> stopRunlevels,
           "start_facilities" -> requiredStartFacilities,
           "stop_facilities" -> requiredStopFacilities)
+      case ServerLoader.Systemd =>
+        Seq("start_facilities" -> requiredStartFacilities)
     }
   }
 
@@ -50,6 +52,7 @@ object JavaServerAppPackaging {
     loader match {
       case ServerLoader.SystemV => "$remote_fs $syslog"
       case ServerLoader.Upstart => "networking"
+      case ServerLoader.Systemd => "network.target"
     }
   }
 
@@ -57,6 +60,7 @@ object JavaServerAppPackaging {
     loader match {
       case ServerLoader.SystemV => "2 3 4 5"
       case ServerLoader.Upstart => "2345"
+      case ServerLoader.Systemd => ""
     }
   }
 
@@ -64,6 +68,7 @@ object JavaServerAppPackaging {
     loader match {
       case ServerLoader.SystemV => "0 1 6"
       case ServerLoader.Upstart => "016"
+      case ServerLoader.Systemd => ""
     }
   }
 
@@ -181,6 +186,7 @@ object JavaServerAppPackaging {
     val (path, permissions) = loader match {
       case Upstart => ("/etc/init/" + name + ".conf", "0644")
       case SystemV => ("/etc/init.d/" + name, "0755")
+      case Systemd => ("/usr/lib/systemd/system/" + name + ".service", "0644")
     }
     for {
       s <- script.toSeq
