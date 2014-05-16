@@ -37,7 +37,6 @@ object SbtNativePackager extends Plugin
   def deploymentSettings = makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
     makeDeploymentSettings(Rpm, packageBin in Rpm, "rpm") ++
     makeDeploymentSettings(Windows, packageBin in Windows, "msi") ++
-    makeDeploymentSettings(Docker, packageBin in Docker, "tgz") ++
     makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
     addPackage(Universal, packageZipTarball in Universal, "tgz") ++
     makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
