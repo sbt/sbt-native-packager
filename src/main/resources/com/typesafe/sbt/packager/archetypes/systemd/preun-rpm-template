@@ -1,0 +1,3 @@
+# Halting ${{app_name}}
+echo "Shutdown ${{app_name}}"
+systemctl stop ${{app_name}}

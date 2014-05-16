@@ -31,44 +31,52 @@ object JavaServerAppPackaging {
     requiredStopFacilities: String,
     startRunlevels: String,
     stopRunlevels: String,
-    loader: ServerLoader.ServerLoader): Seq[(String, String)] = {
+    loader: ServerLoader): Seq[(String, String)] = {
     loader match {
-      case ServerLoader.SystemV =>
+      case SystemV =>
         Seq("start_runlevels" -> startRunlevels,
           "stop_runlevels" -> stopRunlevels,
           "start_facilities" -> requiredStartFacilities,
           "stop_facilities" -> requiredStopFacilities)
-      case ServerLoader.Upstart =>
+      case Upstart =>
         Seq("start_runlevels" -> startRunlevels,
           "stop_runlevels" -> stopRunlevels,
           "start_facilities" -> requiredStartFacilities,
           "stop_facilities" -> requiredStopFacilities)
-      case ServerLoader.Systemd =>
+      case Systemd =>
         Seq("start_facilities" -> requiredStartFacilities)
     }
   }
 
-  private[this] def defaultFacilities(loader: ServerLoader.ServerLoader): String = {
+  private[this] def defaultFacilities(loader: ServerLoader): String = {
     loader match {
-      case ServerLoader.SystemV => "$remote_fs $syslog"
-      case ServerLoader.Upstart => "networking"
-      case ServerLoader.Systemd => "network.target"
+      case SystemV => "$remote_fs $syslog"
+      case Upstart => "networking"
+      case Systemd => "network.target"
     }
   }
 
-  private[this] def defaultStartRunlevels(loader: ServerLoader.ServerLoader): String = {
+  private[this] def defaultStartRunlevels(loader: ServerLoader): String = {
     loader match {
-      case ServerLoader.SystemV => "2 3 4 5"
-      case ServerLoader.Upstart => "2345"
-      case ServerLoader.Systemd => ""
+      case SystemV => "2 3 4 5"
+      case Upstart => "2345"
+      case Systemd => ""
     }
   }
 
-  private[this] def defaultStopRunlevels(loader: ServerLoader.ServerLoader): String = {
+  private[this] def defaultStopRunlevels(loader: ServerLoader): String = {
     loader match {
-      case ServerLoader.SystemV => "0 1 6"
-      case ServerLoader.Upstart => "016"
-      case ServerLoader.Systemd => ""
+      case SystemV => "0 1 6"
+      case Upstart => "016"
+      case Systemd => ""
+    }
+  }
+
+  private[this] def getStartScriptLocation(loader: ServerLoader): String = {
+    loader match {
+      case Upstart => "/etc/init/"
+      case SystemV => "/etc/init.d/"
+      case Systemd => "/usr/lib/systemd/system/"
     }
   }
 
@@ -121,12 +129,12 @@ object JavaServerAppPackaging {
       linuxStartScriptTemplate in Debian <<= (serverLoading in Debian, sourceDirectory, linuxJavaAppStartScriptBuilder in Debian) map {
         (loader, dir, builder) => builder.defaultStartScriptTemplate(loader, dir / "templates" / "start")
       },
+      defaultLinuxStartScriptLocation in Debian <<= (serverLoading in Debian) apply getStartScriptLocation,
       linuxMakeStartScript in Debian <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements in Debian, linuxStartScriptTemplate in Debian, linuxJavaAppStartScriptBuilder in Debian)
         map { (tmpDir, loader, replacements, template, builder) =>
-          println(replacements)
           makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
         },
-      linuxPackageMappings in Debian <++= (normalizedName, linuxMakeStartScript in Debian, serverLoading in Debian) map startScriptMapping,
+      linuxPackageMappings in Debian <++= (normalizedName, linuxMakeStartScript in Debian, serverLoading in Debian, defaultLinuxStartScriptLocation in Debian) map startScriptMapping,
 
       // === Maintainer scripts === 
       debianMakePreinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements, linuxJavaAppStartScriptBuilder in Debian) map makeMaintainerScript(Preinst),
@@ -139,8 +147,8 @@ object JavaServerAppPackaging {
     import RpmPlugin.Names.{ Pre, Post, Preun, Postun }
     Seq(
       serverLoading in Rpm := SystemV,
-      startRunlevels in Rpm <<= (serverLoading in Debian) apply defaultStartRunlevels,
-      stopRunlevels in Rpm <<= (serverLoading in Debian) apply defaultStopRunlevels,
+      startRunlevels in Rpm <<= (serverLoading in Rpm) apply defaultStartRunlevels,
+      stopRunlevels in Rpm <<= (serverLoading in Rpm) apply defaultStopRunlevels,
       requiredStartFacilities in Rpm <<= (serverLoading in Rpm) apply defaultFacilities,
       requiredStopFacilities in Rpm <<= (serverLoading in Rpm) apply defaultFacilities,
       linuxJavaAppStartScriptBuilder in Rpm := JavaAppStartScript.Rpm,
@@ -151,11 +159,12 @@ object JavaServerAppPackaging {
         (loader, dir, builder) =>
           builder.defaultStartScriptTemplate(loader, dir / "templates" / "start")
       },
-      linuxMakeStartScript in Rpm <<= (target in Universal, serverLoading in Rpm, linuxScriptReplacements, linuxStartScriptTemplate in Rpm, linuxJavaAppStartScriptBuilder in Rpm)
+      linuxMakeStartScript in Rpm <<= (target in Universal, serverLoading in Rpm, linuxScriptReplacements in Rpm, linuxStartScriptTemplate in Rpm, linuxJavaAppStartScriptBuilder in Rpm)
         map { (tmpDir, loader, replacements, template, builder) =>
           makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
         },
-      linuxPackageMappings in Rpm <++= (normalizedName, linuxMakeStartScript in Rpm, serverLoading in Rpm) map startScriptMapping,
+      defaultLinuxStartScriptLocation in Rpm <<= (serverLoading in Rpm) apply getStartScriptLocation,
+      linuxPackageMappings in Rpm <++= (normalizedName, linuxMakeStartScript in Rpm, serverLoading in Rpm, defaultLinuxStartScriptLocation in Rpm) map startScriptMapping,
 
       // == Maintainer scripts ===
       // TODO this is very basic - align debian and rpm plugin
@@ -182,7 +191,7 @@ object JavaServerAppPackaging {
   /* ============ Helper Methods ==============  */
   /* ==========================================  */
 
-  protected def startScriptMapping(name: String, script: Option[File], loader: ServerLoader): Seq[LinuxPackageMapping] = {
+  protected def startScriptMapping(name: String, script: Option[File], loader: ServerLoader, scriptDir: String): Seq[LinuxPackageMapping] = {
     val (path, permissions) = loader match {
       case Upstart => ("/etc/init/" + name + ".conf", "0644")
       case SystemV => ("/etc/init.d/" + name, "0755")

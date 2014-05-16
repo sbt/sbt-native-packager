@@ -122,7 +122,7 @@ object JavaAppStartScript {
     val startScript = "start-rpm"
     val upstartScripts = Seq(startScript)
     val systemvScripts = Seq(startScript, Pre, Post, Preun, Postun)
-    val systemdScripts = Seq(startScript)
+    val systemdScripts = Seq(startScript, Pre, Post, Preun, Postun)
   }
 
   object Debian extends JavaAppStartScriptBuilder {
