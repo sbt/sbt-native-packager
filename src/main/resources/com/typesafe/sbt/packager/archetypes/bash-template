@@ -341,7 +341,6 @@ EOM
 ###  Main script                     ###
 ###  ------------------------------- ###
 
-declare debug=0
 declare -a residual_args
 declare -a java_args
 declare -a app_commands
