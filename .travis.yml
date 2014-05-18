@@ -6,7 +6,6 @@ script:
   - sbt ++$TRAVIS_SCALA_VERSION "scripted rpm/* debian/* universal/*"
 scala:
   - 2.10.3
-  - 2.11.0
 jdk:
   - openjdk6
   - openjdk7
