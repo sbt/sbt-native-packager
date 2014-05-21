@@ -3,14 +3,21 @@
 Installation
 ===============
 
-The sbt-native-packager is a plugin.   To use it, first create a ``project/plugins.sbt`` file with the following. 
+The sbt-native-packager is a plugin. To use it, first create a ``project/plugins.sbt`` file with the following. 
 
 .. code-block:: scala
 
-  addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-RC2")
+  addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.1")
 
 
 Also, each operating system requires its own tools for download.
+
+For the native packager keys add this to your build.sbt
+
+.. code-block:: scala
+
+  import com.typesafe.sbt.SbtNativePackager._
+  import NativePackagerKeys._
 
 Windows
 -------
