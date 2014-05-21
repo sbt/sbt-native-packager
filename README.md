@@ -26,7 +26,7 @@ For the native packager keys add this to your `build.sbt`
 
 
     import com.typesafe.sbt.SbtNativePackager._
-    import import NativePackagerKeys._
+    import NativePackagerKeys._
 
 
 ## Documentation ##
