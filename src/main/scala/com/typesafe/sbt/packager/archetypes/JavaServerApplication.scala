@@ -49,21 +49,21 @@ object JavaServerAppPackaging {
   private[this] def defaultFacilities(loader: ServerLoader.ServerLoader): String = {
     loader match {
       case ServerLoader.SystemV => "$remote_fs $syslog"
-      case ServerLoader.Upstart => "networking"
+      case ServerLoader.Upstart => "[networking]"
     }
   }
 
   private[this] def defaultStartRunlevels(loader: ServerLoader.ServerLoader): String = {
     loader match {
       case ServerLoader.SystemV => "2 3 4 5"
-      case ServerLoader.Upstart => "2345"
+      case ServerLoader.Upstart => "[2345]"
     }
   }
 
   private[this] def defaultStopRunlevels(loader: ServerLoader.ServerLoader): String = {
     loader match {
       case ServerLoader.SystemV => "0 1 6"
-      case ServerLoader.Upstart => "016"
+      case ServerLoader.Upstart => "[016]"
     }
   }
 
@@ -118,7 +118,6 @@ object JavaServerAppPackaging {
       },
       linuxMakeStartScript in Debian <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements in Debian, linuxStartScriptTemplate in Debian, linuxJavaAppStartScriptBuilder in Debian)
         map { (tmpDir, loader, replacements, template, builder) =>
-          println(replacements)
           makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
         },
       linuxPackageMappings in Debian <++= (normalizedName, linuxMakeStartScript in Debian, serverLoading in Debian) map startScriptMapping,
