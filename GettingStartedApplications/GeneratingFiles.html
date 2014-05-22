@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -6,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Generating files for the package &mdash; sbt-native-packager 0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e documentation</title>
+    <title>Generating files for the package &mdash; sbt-native-packager 0.7-9213b178b5bdf5de0847cfdbb0dff375a0ff93f9 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e',
+        VERSION:     '0.7-9213b178b5bdf5de0847cfdbb0dff375a0ff93f9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-9213b178b5bdf5de0847cfdbb0dff375a0ff93f9 documentation" href="../index.html" />
     <link rel="up" title="Getting Started with Applications" href="index.html" />
     <link rel="next" title="Overriding templates" href="OverridingTemplates.html" />
     <link rel="prev" title="Adding configuration" href="AddingConfiguration.html" />
@@ -52,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.7-0b8899feebb5cc89d6ae16f6a0126c2534d8920e</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-9213b178b5bdf5de0847cfdbb0dff375a0ff93f9</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -68,9 +67,9 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul>
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started with Applications</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Getting Started with Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../GettingStartedServers/index.html">Getting Started with Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../DetailedTopics/index.html">Advanced Topics</a></li>
 </ul>
@@ -94,6 +93,7 @@
             
             
               
+                
   <li>
     <a href="AddingConfiguration.html" title="Previous Chapter: Adding configuration"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Adding configura...</span>
     </a>
@@ -102,6 +102,7 @@
     <a href="OverridingTemplates.html" title="Next Chapter: Overriding templates"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Overriding templ... &raquo;</span>
     </a>
   </li>
+              
             
             
             
@@ -137,33 +138,37 @@
 <p>Let&#8217;s dynamically (in the build) construct some files that should be included in the package.</p>
 <p>For the example, let&#8217;s download a license file for our application and add it to the distribution. First,
 let&#8217;s create a task which will download a license file.  Add the following to build.sbt</p>
-<div class="highlight-python"><pre>val downloadLicense = taskKey[File]("Downloads the latest license file.")
+<div class="highlight-python"><div class="highlight"><pre>val downloadLicense = taskKey[File](&quot;Downloads the latest license file.&quot;)
 
 downloadLicense := {
-  val location = target.value / "downloads" / "LICENSE"
+  val location = target.value / &quot;downloads&quot; / &quot;LICENSE&quot;
   location.getParentFile.mkdirs()
-  IO.download(url("http://www.schillmania.com/projects/soundmanager2/license.txt?txt"), location)
+  IO.download(url(&quot;http://www.schillmania.com/projects/soundmanager2/license.txt?txt&quot;), location)
   location
-}</pre>
+}
+</pre></div>
 </div>
 <p>Now, we have a taks that will download the BSD license when run.  Note:  We assume that the license file is
 something you host on your own website and keep up to date separately form the package.</p>
 <p>Next, let&#8217;s wire this license into the package.   The native package, by default, works with <strong>mappings</strong>.
 In sbt, a <strong>mappings</strong> object is a grouping of files and relative locations, e.g</p>
-<div class="highlight-python"><pre>/home/jsuereth/projects/example/src/universal/conf/app.config -&gt; conf/app.config
-/home/jsuereth/projects/example/src/universal/conf/jvmopts -&gt; conf/jvmopts</pre>
+<div class="highlight-python"><div class="highlight"><pre>/home/jsuereth/projects/example/src/universal/conf/app.config -&gt; conf/app.config
+/home/jsuereth/projects/example/src/universal/conf/jvmopts -&gt; conf/jvmopts
+</pre></div>
 </div>
 <p>shows the mapping of the configuration files we set up <a class="reference internal" href="AddingConfiguration.html"><em>previously</em></a>.  We can directly
 append files to the mappings rather than relying on the native packager to find things.  Let&#8217;s add
 the license in the root of the package we&#8217;re creating.  Add the following to the <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
-<div class="highlight-python"><pre>mappings in Universal += downloadLicense.value -&gt; "LICENSE"</pre>
+<div class="highlight-python"><div class="highlight"><pre>mappings in Universal += downloadLicense.value -&gt; &quot;LICENSE&quot;
+</pre></div>
 </div>
 <p>This is appending a new mapping to those used for packaging.  In this case, we reference the file returned by
 the <tt class="docutils literal"><span class="pre">downloadLicense</span></tt> task and put it in the root directory of the package, calling it <tt class="docutils literal"><span class="pre">LICENSE</span></tt>.  We
 can verify this by checking the <tt class="docutils literal"><span class="pre">stage</span></tt> task</p>
-<div class="highlight-python"><pre>$ sbt stage
+<div class="highlight-python"><div class="highlight"><pre>$ sbt stage
 $ ls target/universal/stage
-bin  conf  lib  LICENSE</pre>
+bin  conf  lib  LICENSE
+</pre></div>
 </div>
 <p>You can see the license file is now included in the distribution.</p>
 <p>TODO - Describe linuxPackageMappings</p>
@@ -186,7 +191,7 @@ the script.</p>
     </p>
     <p>
         &copy; Copyright 2014 sbt-native-packager team.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
     </p>
   </div>
 </footer>
