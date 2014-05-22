@@ -9,12 +9,12 @@ author "${{author}}"
 # See a list of stanzas here: http://upstart.ubuntu.com/wiki/Stanzas#respawn
 
 # When to start the service
-start on runlevel [${{start_runlevels}}]
-start on started [${{start_facilities}}]
+start on runlevel ${{start_runlevels}}
+start on started ${{start_facilities}}
 
 # When to stop the service
-stop on runlevel [${{stop_runlevels}}]
-stop on stopping [${{stop_facilities}}]
+stop on runlevel ${{stop_runlevels}}
+stop on stopping ${{stop_facilities}}
 
 # Automatically restart process if crashed. Tries ${{retries}} times every ${{retryTimeout}} seconds
 respawn
