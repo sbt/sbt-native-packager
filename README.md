@@ -28,6 +28,17 @@ For the native packager keys add this to your `build.sbt`
     import com.typesafe.sbt.SbtNativePackager._
     import NativePackagerKeys._
 
+## Experimental systemd bootsystem support ##
+
+Native packager have an experimental `systemd` bootsystem. 
+Currently it works on Fedora `Fedora release 20 (Heisenbug)` and doesn't work on Ubuntu because of partial `systemd` support in `Ubuntu 14.04 LTS`. 
+To enable this feature follow [My First Packaged Server Project guide](http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html) and use `Systemd` as server loader:
+  
+  
+    import com.typesafe.sbt.packager.archetypes.ServerLoader.Systemd
+    serverLoading in Rpm := Systemd
+  
+Any help on testing and improving this feature is appreciated so feel free to report bugs or making PR.
 
 ## Documentation ##
 
