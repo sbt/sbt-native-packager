@@ -158,6 +158,7 @@ The `MappingsHelper`_ class provides a set of helper functions to make mapping d
 
 .. code-block:: scala
 
+    import com.typesafe.sbt.SbtNativePackager._
     import NativePackagerHelper._
     
     mappings in Universal ++= directory("src/main/resources/cache")
@@ -203,6 +204,7 @@ It exists some helper methods to map a complete directory in more human readable
 
 .. code-block:: scala
 
+    import com.typesafe.sbt.SbtNativePackager._
     import NativePackagerHelper._
 
     //For dynamic content, e.g. something in the target directory which depends on a Task

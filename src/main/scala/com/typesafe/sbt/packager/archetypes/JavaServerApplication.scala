@@ -51,7 +51,7 @@ object JavaServerAppPackaging {
   private[this] def defaultFacilities(loader: ServerLoader): String = {
     loader match {
       case SystemV => "$remote_fs $syslog"
-      case Upstart => "networking"
+      case Upstart => "[networking]"
       case Systemd => "network.target"
     }
   }
@@ -59,7 +59,7 @@ object JavaServerAppPackaging {
   private[this] def defaultStartRunlevels(loader: ServerLoader): String = {
     loader match {
       case SystemV => "2 3 4 5"
-      case Upstart => "2345"
+      case Upstart => "[2345]"
       case Systemd => ""
     }
   }
@@ -67,7 +67,7 @@ object JavaServerAppPackaging {
   private[this] def defaultStopRunlevels(loader: ServerLoader): String = {
     loader match {
       case SystemV => "0 1 6"
-      case Upstart => "016"
+      case Upstart => "[016]"
       case Systemd => ""
     }
   }
