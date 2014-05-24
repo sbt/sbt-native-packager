@@ -30,7 +30,7 @@ For the native packager keys add this to your `build.sbt`
 
 ## Experimental systemd bootsystem support ##
 
-Native packager have an experimental `systemd` bootsystem. 
+Native packager now provides experimental `systemd` startup scripts.
 Currently it works on Fedora `Fedora release 20 (Heisenbug)` and doesn't work on Ubuntu because of partial `systemd` support in `Ubuntu 14.04 LTS`. 
 To enable this feature follow [My First Packaged Server Project guide](http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html) and use `Systemd` as server loader:
   
