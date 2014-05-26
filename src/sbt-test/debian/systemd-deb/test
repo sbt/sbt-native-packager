@@ -1,0 +1,7 @@
+# Run the debian packaging.
+> debian:package-bin
+$ exists target/debian-test-0.1.0.deb
+
+$ exists target/debian-test-0.1.0/usr/lib/systemd/system/debian-test.service
+
+> check-startup-script

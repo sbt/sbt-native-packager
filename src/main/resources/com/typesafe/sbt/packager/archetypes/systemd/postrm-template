@@ -1,0 +1,1 @@
+systemctl disable ${{app_name}}.service

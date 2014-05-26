@@ -1,0 +1,8 @@
+# Run the debian packaging.
+> rpm:packageBin
+$ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
+
+> unzip
+$ exists usr/lib/systemd/system/rpm-test.service
+
+> checkStartupScript

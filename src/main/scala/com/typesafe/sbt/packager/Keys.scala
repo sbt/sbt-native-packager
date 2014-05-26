@@ -30,4 +30,5 @@ object Keys extends linux.Keys
   val defaultLinuxInstallLocation = SettingKey[String]("defaultLinuxInstallLocation", "The location where we will install generic linux packages.")
   val defaultLinuxLogsLocation = SettingKey[String]("defaultLinuxLogsLocation", "The location where application logs will be stored.")
   val defaultLinuxConfigLocation = SettingKey[String]("defaultLinuxConfigLocation", "The location where application config files will be stored")
+  val defaultLinuxStartScriptLocation = SettingKey[String]("defaultLinuxStartScriptLocation", "The location where start script for server application will be stored")
 }
