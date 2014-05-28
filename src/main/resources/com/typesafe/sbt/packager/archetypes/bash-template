@@ -9,14 +9,14 @@ realpath () {
   TARGET_FILE="$1"
   CHECK_CYGWIN="$2"
 
-  cd $(dirname "$TARGET_FILE")
+  cd "$(dirname "$TARGET_FILE")"
   TARGET_FILE=$(basename "$TARGET_FILE")
 
   COUNT=0
   while [ -L "$TARGET_FILE" -a $COUNT -lt 100 ]
   do
       TARGET_FILE=$(readlink "$TARGET_FILE")
-      cd $(dirname "$TARGET_FILE")
+      cd "$(dirname "$TARGET_FILE")"
       TARGET_FILE=$(basename "$TARGET_FILE")
       COUNT=$(($COUNT + 1))
   done
@@ -132,18 +132,19 @@ execRunner () {
 }
 addJava () {
   dlog "[addJava] arg = '$1'"
-  java_args=( "${java_args[@]}" "$1" )
+  java_args+=( "$1" )
 }
 addApp () {
   dlog "[addApp] arg = '$1'"
-  app_commands=( "${app_commands[@]}" "$1" )
+  app_commands+=( "$1" )
 }
 addResidual () {
   dlog "[residual] arg = '$1'"
-  residual_args=( "${residual_args[@]}" "$1" )
+  residual_args+=( "$1" )
 }
 addDebugger () {
-  addJava "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$1"
+  addJava "-Xdebug"
+  addJava "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$1"
 }
 # a ham-fisted attempt to move some memory settings in concert
 # so they need not be messed around with individually.
