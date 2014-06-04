@@ -2,7 +2,7 @@ package com.typesafe.sbt
 
 import packager._
 
-import Keys.packageMsi
+import debian.Keys.genChanges
 import Keys.packageZipTarball
 import Keys.packageXzTarball
 import sbt._
@@ -40,7 +40,8 @@ object SbtNativePackager extends Plugin
     makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
     addPackage(Universal, packageZipTarball in Universal, "tgz") ++
     makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
-    addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz")
+    addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz") ++
+    makeDeploymentSettings(Debian, genChanges in Debian, "changes")
 
   object packageArchetype {
     private[this] def genericMappingSettings: Seq[Setting[_]] = packagerSettings ++ mapGenericFilesToLinux ++ mapGenericFilesToWindows
