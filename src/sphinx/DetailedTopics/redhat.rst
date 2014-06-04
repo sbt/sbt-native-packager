@@ -57,6 +57,12 @@ Dependency Settings
     ``rpmConflcits``
     The packages this RPM conflicts with and cannot be installed with.
 
+Meta Settings
+~~~~~~~~~~~~~
+
+    ``rpmPrefix``
+    The path passed set as the base for the revocable package
+
 
 Scriptlet Settings
 ~~~~~~~~~~~~~~~~~~
@@ -96,6 +102,62 @@ The Rpm support grants the following commands:
 
   ``rpm:rpmlint``
     Generates the ``.rpm`` file and runs the ``rpmlint`` command to look for issues in the package.  Useful for debugging.
+
+
+Rpm Prefix
+----------
+The rpm prefix allows you to create a relocatable package as defined by http://www.rpm.org/max-rpm/s1-rpm-reloc-prefix-tag.html.  This optional setting with a handful of overrides to scriptlets and templates will allow you to create a working java_server archetype that can be relocated in the file system.  
+
+Example Settings
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: scala
+
+    defaultLinuxInstallLocation := "/opt/package_root",
+    rpmPrefix := Some(defaultLinuxInstallLocation),
+    linuxPackageSymlinks := Seq.empty,
+    defaultLinuxLogsLocation := defaultLinuxInstallLocation + "/" + name
+  
+
+Template Changes
+~~~~~~~~~~~~~~~~~~
+Apply the following changes to the default init start script.  You can find this in the sbt-native-packager source.
+
+
+``src/templates/start``
+
+.. code-block:: bash
+    
+    ...
+    [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+ 
+    # smb could define some additional options in $RUN_OPTS
+    RUN_CMD="${PACKAGE_PREFIX}/${{app_name}}/bin/${{app_name}}"
+    ...
+
+
+
+Scriptlet Changes
+~~~~~~~~~~~~~~~~~~
+Apply the following changes to the scriptlets that can be found in the sbt-native-packager source.
+
+``src/rpm/scriptlets/post-rpm``
+
+.. code-block:: bash
+
+    ...
+    echo "PACKAGE_PREFIX=${RPM_INSTALL_PREFIX}" > /etc/sysconfig/${{app_name}}
+    ...
+
+``src/rpm/scriptlets/preun-rpm``
+
+.. code-block:: bash
+
+    ...
+    rm /etc/sysconfig/${{app_name}}
+    ...
+
+
     
 Jar Repackaging
 ---------------
