@@ -218,10 +218,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
               appendAndFixPerms(postrm, purgeAdd, LinuxFileMetaData())
               prependAndFixPerms(postrm, headerScript, LinuxFileMetaData())
           }
-          changelog match {
-            case None       =>
-            case Some(file) => copyAndFixPerms(file, t / Names.Debian / Names.Changelog, LinuxFileMetaData("0644"))
-          }
           t
         },
       debianMD5sumsFile <<= (debianExplodedPackage, target) map {
@@ -248,8 +244,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
             case 0 => ()
             case x => sys.error("Failure packaging debian file.  Exit code: " + x)
           }
-          val files = pkgdir / Names.Debian / Names.Files
-          IO.writeLines(files, List(s"$archive $section $priority"))
           tdir / ".." / archive
         },
       debianSign <<= (packageBin, debianSignRole, streams) map { (deb, role, s) =>
@@ -262,21 +256,27 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       lintian <<= packageBin map { file =>
         Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
       },
-      genChanges <<= (packageBin, target, debianChangelog, name, version, packageArchitecture) map { (_, tdir, changelog, name, version, arch) =>
-        changelog match {
-          case None => sys.error("Cannot generate .changes file without a changelog")
-          case Some(_) => {
-            val changesFile: File = tdir / s"../${name}_${version}_${arch}.changes"
-            try {
-              val changes: String = Process(Seq("dpkg-genchanges", "-b", s"-l${Names.Debian}/${Names.Changelog}", s"-c${Names.Debian}/${Names.Control}", s"-f${Names.Debian}/${Names.Files}"), Some(tdir)) !!
-              val allChanges = List(changes)
-              IO.writeLines(changesFile, allChanges)
-            } catch {
-              case e: Exception => sys.error(s"Failure generating changes file. ${e.getStackTraceString}")
+      genChanges <<= (packageBin, target, debianChangelog, name, version, debianPackageMetadata) map {
+        (pkg, tdir, changelog, name, version, data) =>
+          changelog match {
+            case None => sys.error("Cannot generate .changes file without a changelog")
+            case Some(chlog) => {
+              val debSrc = tdir / "../tmp" / Names.DebianSource
+              debSrc.mkdirs()
+              copyAndFixPerms(chlog, debSrc / Names.Changelog, LinuxFileMetaData("0644"))
+              IO.writeLines(debSrc / Names.Files, List(s"${pkg.getName} ${data.section} ${data.priority}"))
+              IO.writeLines(debSrc / Names.Control, List(data.makeSourceControl()))
+              val changesFile: File = tdir / s"../${name}_${version}_${data.architecture}.changes"
+              try {
+                val changes: String = Process(Seq("dpkg-genchanges", "-b"), Some(tdir / "../tmp")) !!
+                val allChanges = List(changes)
+                IO.writeLines(changesFile, allChanges)
+              } catch {
+                case e: Exception => sys.error(s"Failure generating changes file. ${e.getStackTraceString}")
+              }
+              changesFile
             }
-            changesFile
           }
-        }
 
       }))
 
@@ -284,6 +284,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
 
 object DebianPlugin {
   object Names {
+    val DebianSource = "debian"
     val Debian = "DEBIAN"
 
     //maintainer script names

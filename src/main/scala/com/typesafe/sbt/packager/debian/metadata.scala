@@ -35,6 +35,25 @@ case class PackageMetaData(
     sb append ("Description: %s\n %s\n" format (info.summary, info.description))
     sb toString
   }
+
+  def makeSourceControl(): String = {
+    val sb = new StringBuilder
+    sb append ("Source: %s\n" format info.name)
+    sb append ("Maintainer: %s\n" format info.maintainer)
+    sb append ("Section: %s\n" format section)
+    sb append ("Priority: %s\n\n" format priority)
+
+    sb append ("Package: %s\n" format info.name)
+    sb append ("Architecture: %s\n" format architecture)
+    sb append ("Section: %s\n" format section)
+    sb append ("Priority: %s\n" format priority)
+    if (!depends.isEmpty)
+      sb append ("Depends: %s\n" format (depends mkString ", "))
+    if (!recommends.isEmpty)
+      sb append ("Recommends: %s\n" format (recommends mkString ", "))
+    sb append ("Description: %s\n %s\n" format (info.summary, info.description))
+    sb toString
+  }
 }
 
 /**
