@@ -20,6 +20,7 @@ case class PackageMetaData(
   def makeContent(installSizeEstimate: Long = 0L): String = {
     // TODO: Pretty print with line wrap.
     val sb = new StringBuilder
+    sb append ("Source: %s\n" format info.name)
     sb append ("Package: %s\n" format info.name)
     sb append ("Version: %s\n" format info.version)
     sb append ("Section: %s\n" format section)

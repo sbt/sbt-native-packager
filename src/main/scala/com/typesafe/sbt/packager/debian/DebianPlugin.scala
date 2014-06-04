@@ -100,6 +100,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
     debianMakePrermScript := None,
     debianMakePostinstScript := None,
     debianMakePostrmScript := None,
+    debianChangelog := None,
 
     debianMaintainerScripts <++= (debianMakePrermScript, debianControlScriptsDirectory) map scriptMapping(Names.Prerm),
     debianMaintainerScripts <++= (debianMakePreinstScript, debianControlScriptsDirectory) map scriptMapping(Names.Preinst),
@@ -145,8 +146,8 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           chmod(cfile, "0644")
           cfile
       },
-      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, daemonShell in Linux, linuxScriptReplacements, linuxPackageSymlinks, target, streams)
-        map { (mappings, _, maintScripts, _, shell, replacements, symlinks, t, streams) =>
+      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianChangelog, daemonShell in Linux, linuxScriptReplacements, linuxPackageSymlinks, target, streams)
+        map { (mappings, _, maintScripts, _, changelog, shell, replacements, symlinks, t, streams) =>
 
           // Create files and directories
           mappings foreach {
@@ -217,6 +218,10 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
               appendAndFixPerms(postrm, purgeAdd, LinuxFileMetaData())
               prependAndFixPerms(postrm, headerScript, LinuxFileMetaData())
           }
+          changelog match {
+            case None       =>
+            case Some(file) => copyAndFixPerms(file, t / Names.Debian / Names.Changelog, LinuxFileMetaData("0644"))
+          }
           t
         },
       debianMD5sumsFile <<= (debianExplodedPackage, target) map {
@@ -235,14 +240,18 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           chmod(md5file, "0644")
           md5file
       },
-      packageBin <<= (debianExplodedPackage, debianMD5sumsFile, target, streams) map { (pkgdir, _, tdir, s) =>
-        // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
-        Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath), Some(tdir)) ! s.log match {
-          case 0 => ()
-          case x => sys.error("Failure packaging debian file.  Exit code: " + x)
-        }
-        file(tdir.getAbsolutePath + ".deb")
-      },
+      packageBin <<= (debianExplodedPackage, debianMD5sumsFile, debianSection, debianPriority, name, version, packageArchitecture, target, streams)
+        map { (pkgdir, _, section, priority, name, version, arch, tdir, s) =>
+          // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
+          val archive = s"${name}_${version}_${arch}.deb"
+          Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath, s"../$archive"), Some(tdir)) ! s.log match {
+            case 0 => ()
+            case x => sys.error("Failure packaging debian file.  Exit code: " + x)
+          }
+          val files = pkgdir / Names.Debian / Names.Files
+          IO.writeLines(files, List(s"$archive $section $priority"))
+          tdir / ".." / archive
+        },
       debianSign <<= (packageBin, debianSignRole, streams) map { (deb, role, s) =>
         Process(Seq("dpkg-sig", "-s", role, deb.getAbsolutePath), Some(deb.getParentFile())) ! s.log match {
           case 0 => ()
@@ -252,6 +261,23 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       },
       lintian <<= packageBin map { file =>
         Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
+      },
+      genChanges <<= (packageBin, target, debianChangelog, name, version, packageArchitecture) map { (_, tdir, changelog, name, version, arch) =>
+        changelog match {
+          case None => sys.error("Cannot generate .changes file without a changelog")
+          case Some(_) => {
+            val changesFile: File = tdir / s"../${name}_${version}_${arch}.changes"
+            try {
+              val changes: String = Process(Seq("dpkg-genchanges", "-b", s"-l${Names.Debian}/${Names.Changelog}", s"-c${Names.Debian}/${Names.Control}", s"-f${Names.Debian}/${Names.Files}"), Some(tdir)) !!
+              val allChanges = List(changes)
+              IO.writeLines(changesFile, allChanges)
+            } catch {
+              case e: Exception => sys.error(s"Failure generating changes file. ${e.getStackTraceString}")
+            }
+            changesFile
+          }
+        }
+
       }))
 
 }
@@ -268,6 +294,9 @@ object DebianPlugin {
 
     val Control = "control"
     val Conffiles = "conffiles"
+
+    val Changelog = "changelog"
+    val Files = "files"
   }
 
   private def postinstGroupaddTemplateSource: java.net.URL = getClass.getResource("postinst-groupadd")
