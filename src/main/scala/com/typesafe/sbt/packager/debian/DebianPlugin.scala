@@ -239,8 +239,8 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
       packageBin <<= (debianExplodedPackage, debianMD5sumsFile, debianSection, debianPriority, name, version, packageArchitecture, target, streams)
         map { (pkgdir, _, section, priority, name, version, arch, tdir, s) =>
           // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
-          val archive = s"${name}_${version}_${arch}.deb"
-          Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath, s"../$archive"), Some(tdir)) ! s.log match {
+          val archive = name + "_" + version + "_" + arch + ".deb"
+          Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath, "../" + archive), Some(tdir)) ! s.log match {
             case 0 => ()
             case x => sys.error("Failure packaging debian file.  Exit code: " + x)
           }
@@ -261,18 +261,21 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin {
           changelog match {
             case None => sys.error("Cannot generate .changes file without a changelog")
             case Some(chlog) => {
+              // dpkg-genchanges needs a debian "source" directory, different from the DEBIAN "binary" directory
               val debSrc = tdir / "../tmp" / Names.DebianSource
               debSrc.mkdirs()
               copyAndFixPerms(chlog, debSrc / Names.Changelog, LinuxFileMetaData("0644"))
-              IO.writeLines(debSrc / Names.Files, List(s"${pkg.getName} ${data.section} ${data.priority}"))
+              IO.writeLines(debSrc / Names.Files, List(pkg.getName + " " + data.section + " " + data.priority))
+              // dpkg-genchanges needs a "source" control file, located in a "debian" directory
               IO.writeLines(debSrc / Names.Control, List(data.makeSourceControl()))
-              val changesFile: File = tdir / s"../${name}_${version}_${data.architecture}.changes"
+              val changesFileName = name + "_" + version + "_" + data.architecture + ".changes"
+              val changesFile: File = tdir / ".." / changesFileName
               try {
-                val changes: String = Process(Seq("dpkg-genchanges", "-b"), Some(tdir / "../tmp")) !!
+                val changes = Process(Seq("dpkg-genchanges", "-b"), Some(tdir / "../tmp")) !!
                 val allChanges = List(changes)
                 IO.writeLines(changesFile, allChanges)
               } catch {
-                case e: Exception => sys.error(s"Failure generating changes file. ${e.getStackTraceString}")
+                case e: Exception => sys.error("Failure generating changes file." + e.getStackTraceString)
               }
               changesFile
             }
