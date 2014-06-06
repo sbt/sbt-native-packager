@@ -14,6 +14,7 @@ trait DebianKeys {
   val debianPackageRecommends = SettingKey[Seq[String]]("debian-package-recommends", "Packages recommended to use with the currently packaged one.")
   val debianPackageInfo = SettingKey[PackageInfo]("debian-package-info", "Information (name, version, etc.) about a debian package.")
   val debianPackageMetadata = SettingKey[PackageMetaData]("debian-package-metadata", "Meta data used when constructing a debian package.")
+  val debianChangelog = SettingKey[Option[File]]("debian-changelog", "The changelog for this deb file")
   // Package building
   val debianControlFile = TaskKey[File]("debian-control-file", "Makes the debian package control file.")
   val debianMaintainerScripts = TaskKey[Seq[(File, String)]]("debian-maintainer-scripts", "Makes the debian maintainer scripts.")
@@ -27,6 +28,7 @@ trait DebianKeys {
   val lintian = TaskKey[Unit]("lintian", "runs the debian lintian tool on the current package.")
   val debianSign = TaskKey[File]("debian-sign", "runs the dpkg-sig command to sign the generated deb file.")
   val debianSignRole = SettingKey[String]("debian-sign-role", "The role to use when signing a debian file (defaults to 'builder').")
+  val genChanges = TaskKey[File]("gen-changes", "runs the dpkg-genchanges command to generate the .changes file.")
 
   // Debian control scripts
   val debianControlScriptsDirectory = SettingKey[File]("debian-control-scripts-directory",

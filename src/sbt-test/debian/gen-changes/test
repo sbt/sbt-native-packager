@@ -1,3 +1,4 @@
 # Run the debian packaging.
-> debian:package-bin
+> debian:gen-changes
 $ exists target/debian-test_0.1.0_all.deb
+$ exists target/debian-test_0.1.0_all.changes
