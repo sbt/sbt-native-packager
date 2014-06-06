@@ -215,6 +215,7 @@ process_args () {
 
      -java-home) require_arg path "$1" "$2" && java_cmd="$2/bin/java" && shift 2 ;;
 
+    -javaagent*) addJava "$1" && shift ;;
             -D*) addJava "$1" && shift ;;
             -J*) addJava "${1:2}" && shift ;;
               *) addResidual "$1" && shift ;;
