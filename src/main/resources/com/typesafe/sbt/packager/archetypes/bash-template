@@ -4,6 +4,11 @@
 ###  Helper methods for BASH scripts ###
 ###  ------------------------------- ###
 
+die() {
+  echo "$@" 1>&2
+  exit 1
+}
+
 realpath () {
 (
   TARGET_FILE="$1"
