@@ -110,7 +110,11 @@ trait GenericPackageSettings
       for {
         (file, name) <- mappings
         if !file.isDirectory
-      } yield ComponentFile(name, editable = (name startsWith "conf"))
+      } yield {
+	//For `editable` replaced startWith by endsWith. Like this it makes more sense to me (for `.conf` files) but not sure
+	//Add boolean for windows services (see ComponentFile)
+	ComponentFile(name, editable = (name endsWith "conf"), isWindowsService = (name endsWith "service.exe"))
+      }
     val corePackage =
       WindowsFeature(
         id = WixHelper.cleanStringForId(name + "_core").takeRight(38), // Must be no longer

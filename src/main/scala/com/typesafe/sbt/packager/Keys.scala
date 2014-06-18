@@ -22,6 +22,8 @@ object Keys extends linux.Keys
   val projectDependencyArtifacts = TaskKey[Seq[Attributed[File]]]("projectDependencyArtifacts", "The set of exported artifacts from our dependent projects.")
   val scriptClasspath = TaskKey[Seq[String]]("scriptClasspath", "A list of relative filenames (to the lib/ folder in the distribution) of what to include on the classpath.")
   val makeBatScript = TaskKey[Option[File]]("makeBatScript", "Creates or discovers the bat script used by this project.")
+  val getWinswExe = TaskKey[Option[File]]("getWinswExe", "Retrieve Winsw Exe and place it into /bin for Windows") //Maybe this task should be in SettingKey and/or somewhere else
+  val createWinswXml = TaskKey[Option[File]]("createWinswXml", "Create XML Service description used by Winsw exe.") //Maybe this task should be in SettingKey and/or somewhere else
   val batScriptReplacements = TaskKey[Seq[(String, String)]]("batScriptReplacements",
     """|Replacements of template parameters used in the windows bat script.
          |  Default supported templates:

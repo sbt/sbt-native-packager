@@ -32,7 +32,10 @@ case class WindowsFeature(
 /** Adds a file into a given windows feature. */
 case class ComponentFile(
   source: String,
-  editable: Boolean = false) extends FeatureComponent
+  editable: Boolean = false,
+  //To avoid to duplicate a big amount of code I place this simple boolean here but we probably want more control over the service
+  // I'm pretty sure it would be better to create a ComponentService that would extends ComponentFile but after I don't know how to deal with it with the pattern matching vs avoid duplicate code (scala stuff that I'm not comfortable with (yet?))
+  isWindowsService: Boolean = false) extends FeatureComponent
 /**
  * Will add the directory to the windows path.  NOTE: Only one of these
  * per MSI.
@@ -58,7 +61,7 @@ object WixHelper {
     val filenamesPrep =
       for {
         f <- features
-        ComponentFile(name, _) <- f.components
+	ComponentFile(name, _, _) <- f.components
       } yield allParentDirs(file(name))
     val filenames = filenamesPrep.flatten.map(_.toString.replaceAll("\\\\", "/")).filter(_ != "")
     // Now for directories...
@@ -102,7 +105,7 @@ object WixHelper {
             </Component>
           </DirectoryRef>
         ComponentInfo(id, xml)
-      case ComponentFile(name, editable) =>
+      case ComponentFile(name, editable, isWindowsService) =>
         val uname = name.replaceAll("\\\\", "/")
         val dir = parentDir(uname).replaceAll("//", "/").stripSuffix("/").stripSuffix("/")
         val dirRef = if (dir.isEmpty) "INSTALLDIR" else cleanStringForId(dir)
@@ -121,6 +124,12 @@ object WixHelper {
                   } else Seq.empty
                 }
               </File>
+	      {
+		if (isWindowsService) { //So far simple config but we will give more options to control the service.
+		  <ServiceInstall Name={ cleanFileName(fname) } ErrorControl="normal" Start="auto" Type="ownProcess" Vital="yes">
+		  </ServiceInstall>
+		} else Seq.empty
+	      }
             </Component>
           </DirectoryRef>
         ComponentInfo(id, xml)

@@ -9,6 +9,8 @@ import SbtNativePackager._
 import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin
+//TODO wrap `mappings` to avoid name conflict? Something like `WinswFileMapping` ? I don't know yet how to do this will see later
+import com.typesafe.sbt.packager.windows.Keys.{ mappings }
 
 /**
  * This class contains the default settings for creating and deploying an archetypical Java application.
@@ -23,7 +25,7 @@ object JavaServerAppPackaging {
   import ServerLoader._
   import LinuxPlugin.Users
 
-  def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ linuxSettings ++ debianSettings ++ rpmSettings
+  def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ linuxSettings ++ debianSettings ++ rpmSettings ++ windowsSettings
   protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource("etc-default-template")
 
   private[this] def makeStartScriptReplacements(
@@ -78,6 +80,41 @@ object JavaServerAppPackaging {
       case SystemV => "/etc/init.d/"
       case Systemd => "/usr/lib/systemd/system/"
     }
+  }
+
+  /**
+   * Experimental Windows settings
+   *
+   */
+  def windowsSettings: Seq[Setting[_]] = {
+
+    //QUESTION : not sure about `Windows` scope.
+    // My original idea was to provide winsw config with MSI but also with ZIP file
+    // Maybe something like :
+    // windows:packageBin -> generate MSI with windows service files but create a separate Windows feature to not install the Windows Service
+    // windows:packageZip -> generate ZIP with windows service files
+
+    Seq(
+      //get WinswExe file
+      getWinswExe <<= (target in Windows) map doGetWinswExe,
+      //TODO use batScriptExtraDefines ? Definitly it's not generic enough and this must be review
+      //Create the xml file that go with winsw exe
+      createWinswXml <<= (normalizedName, Keys.mainClass in Compile, scriptClasspath, target in Windows) map doCreateWinswXml,
+      /*
+       * Mappings exe and xml files
+       */
+      //Exe
+      mappings in Windows <++= (getWinswExe, normalizedName) map { (file, name) =>
+	for {
+	  s <- file.toSeq
+	} yield s -> ("bin/" + name + "_service.exe")
+      },
+      //Xml
+      mappings in Windows <++= (createWinswXml, normalizedName) map { (file, name) =>
+	for {
+	  s <- file.toSeq
+	} yield s -> ("bin/" + name + "_service.xml")
+      })
   }
 
   /**
@@ -184,8 +221,7 @@ object JavaServerAppPackaging {
       rpmPreun <<= (rpmScriptsDirectory, rpmPreun, linuxScriptReplacements, serverLoading in Rpm, linuxJavaAppStartScriptBuilder in Rpm) apply {
         (dir, preun, replacements, loader, builder) =>
           Some(preun.map(_ + "\n").getOrElse("") + rpmScriptletContent(dir, Preun, loader, replacements, builder))
-      }
-    )
+      })
   }
 
   /* ==========================================  */
@@ -224,5 +260,86 @@ object JavaServerAppPackaging {
     val file = (dir / script)
     val template = if (file exists) Some(file.toURI.toURL) else None
     builder.generateTemplate(script, loader, replacements, template).getOrElse(sys.error("Could generate content for script: " + script))
+  }
+
+  /* ==========================================  */
+  /* ===== Windows Winsw helpers Methods ======  */
+  /* ==========================================  */
+
+  /**
+   * Retrieve winsw.exe and place it into windows/tmp folder.
+   *
+   * So far, we only get the exe from jenkins repository (version is fixed to the current latest version 1.16).
+   * Current URL is : http://repo.jenkins-ci.org/releases/com/sun/winsw/winsw/1.16/winsw-1.16-bin.exe
+   *
+   * Original name for this task is `downloadWinsw` but `download` sounds too restrictive. I (Maxence) prefer `get`.
+   *
+   *
+   * TODO
+   * We maybe want to provide mode options to get the exe
+   * 1. Give alternative URL to download
+   * 2. Embedded a tested exe into sbt-native-packager
+   * 3. Try to find the exe in the project (for example look in /conf or something similar)
+   * 4. Give custom path
+   */
+  protected def doGetWinswExe(windowsDir: File): Option[File] = {
+
+    //QUESTION laguiz how to get streams.log here ?
+
+    //TODO laguiz we have to also package the license somewhere
+
+    //TODO laguiz give the option to provide the exe from (see scaladoc above for more details on these options)
+    println("DEBUG executing doGetWinswExe(tmpDir: File, normalizedProjectName: String): Option[File]")
+    val uri = s"http://repo.jenkins-ci.org/releases/com/sun/winsw/winsw/1.16/winsw-1.16-bin.exe" //Default URL where we fetch the bin (this could be the out-of-the-box option)
+    val fileToDownload = url(uri);
+    val binFileName = "winsw.exe";
+    val resultFile = windowsDir / "tmp" / "bin" / binFileName;
+    //    if (resultFile.exists()) {
+    //      //FIXME laguiz how to get streams.log here ?
+    //      println("We found service exe. No need to download it again.")
+    //    } else {
+    IO.download(fileToDownload, resultFile)
+    //    }
+    Some(resultFile)
+  }
+
+  /**
+   * Create the Winsw XML file needed by the exe file
+   * Give more options to user
+   */
+  protected def doCreateWinswXml(name: String, mainClass: Option[String], appClasspath: Seq[String] = Seq("*"), windowsDir: File): Option[File] = {
+
+    val xmlFileName = name + "_service.xml";
+    val resultFile = windowsDir / "tmp" / "bin" / xmlFileName;
+
+    //TODO laguiz this is specific to play and it should be somewhere else... extra options?
+    val noPid = scala.xml.Unparsed("""-Dpidfile.path="NUL"""")
+    val doubleQuote = scala.xml.Unparsed(""""""")
+
+    //Take all libraries in classpath and create the final Strings with `;` and relative path to `..\lib\`
+    //Here gain this is maybe only specific to Play...
+    val relativeAppClasspath =
+      appClasspath map {
+	(s) => """..\lib\""" + s;
+      } mkString (";")
+
+    //Basic arguments support
+    //How to provide PID no generation optional? By using a boolean ? By detecting Play project automativally?
+    val xml = {
+      <service>
+	<id>{ name }</id>
+	<name>{ name }</name>
+	<description>{ name }</description>
+	<executable>java</executable>
+	<arguments>-cp { doubleQuote }{ relativeAppClasspath }{ doubleQuote } { noPid } { mainClass.getOrElse("Main") }</arguments>
+	<logmode>rotate</logmode>
+	<onfailure action="restart"/>
+      </service>
+    }
+
+    IO.write(resultFile, xml.toString);
+
+    Some(resultFile)
+
   }
 }
