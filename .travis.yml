@@ -1,6 +1,5 @@
 language: scala
 os:
-  - osx
   - linux
 script:
   - sbt ++$TRAVIS_SCALA_VERSION "scripted rpm/* debian/* universal/*"
