@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Universal &mdash; sbt-native-packager 0.7-f654a12243bd2868e553d4250510ac4eb4ec2097 documentation</title>
+    <title>Universal &mdash; sbt-native-packager 0.7.2-RC2 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.7-f654a12243bd2868e553d4250510ac4eb4ec2097',
+        VERSION:     '0.7.2-RC2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.7-f654a12243bd2868e553d4250510ac4eb4ec2097 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7.2-RC2 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Writing Linux Packages" href="linux.html" />
     <link rel="prev" title="Project Archetypes" href="archetypes.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.7-f654a12243bd2868e553d4250510ac4eb4ec2097</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -265,7 +265,8 @@ use the task-scope feature of sbt:</p>
 <div class="section" id="mappingshelper">
 <h2>MappingsHelper<a class="headerlink" href="#mappingshelper" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="https://github.com/sbt/sbt-native-packager/blob/master/src/main/scala/com/typesafe/sbt/packager/MappingsHelper.scala">MappingsHelper</a> class provides a set of helper functions to make mapping directories easier.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">NativePackagerHelper._</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.SbtNativePackager._</span>
+<span class="k">import</span> <span class="nn">NativePackagerHelper._</span>
 
 <span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">directory</span><span class="o">(</span><span class="s">&quot;src/main/resources/cache&quot;</span><span class="o">)</span>
 
@@ -298,7 +299,8 @@ generates a function with a <tt class="docutils literal"><span class="pre">file<
 string path from <tt class="docutils literal"><span class="pre">dir.getParentFile</span></tt> to the passed in file. <tt class="docutils literal"><span class="pre">pair</span></tt> uses the <tt class="docutils literal"><span class="pre">relativeTo</span></tt>
 function to generate a mapping <tt class="docutils literal"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">String</span></tt>, which is <em>your file</em> to <em>relative destination</em>.</p>
 <p>It exists some helper methods to map a complete directory in more human readable way.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">NativePackagerHelper._</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.SbtNativePackager._</span>
+<span class="k">import</span> <span class="nn">NativePackagerHelper._</span>
 
 <span class="c1">//For dynamic content, e.g. something in the target directory which depends on a Task</span>
 <span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">target</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">target</span><span class="o">)</span> <span class="k">=&gt;</span>
