@@ -11,14 +11,11 @@ and documents to users which version of sbt you require for the build.
 
 Next, let's add the native packager to our build by created a ``project/plugins.sbt`` file with the following contents ::
 
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.1")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-RC2")
 
 Now, the build needs to be configured for packaging.  Let's define the ``build.sbt`` file as follows
 
 .. code-block:: scala
-
-    import com.typesafe.sbt.SbtNativePackager._
-    import NativePackagerKeys._
 
     name := "example-cli"
 
