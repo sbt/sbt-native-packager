@@ -10,6 +10,7 @@ trait DockerKeys {
   val dockerPackageMappings = TaskKey[Seq[(File, String)]]("docker-package-mappings", "Generates location mappings for Docker build.")
 
   val dockerBaseImage = SettingKey[String]("dockerBaseImage", "Base image for Dockerfile.")
+  val dockerExposedPorts = SettingKey[Seq[Int]]("dockerExposedPorts", "Ports exposed by Docker image")
 }
 
 object Keys extends DockerKeys {
