@@ -8,8 +8,8 @@ import sbt._
 trait DockerPlugin extends Plugin with UniversalPlugin {
   val Docker = config("docker") extend Universal
 
-  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, name: String) = {
-    Dockerfile(
+  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, name: String, exposedPorts: Seq[Int]) = {
+    val dockerCommands = Seq(
       Cmd("FROM", dockerBaseImage),
       Cmd("MAINTAINER", maintainer),
       Cmd("ADD", "files /"),
@@ -18,12 +18,21 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
       Cmd("USER", daemonUser),
       ExecCmd("ENTRYPOINT", "bin/%s" format name),
       ExecCmd("CMD")
-    ).makeContent
+    )
+
+    val exposeCommand: Option[CmdLike] = {
+      if (exposedPorts.isEmpty)
+        None
+      else
+        Some(Cmd("EXPOSE", exposedPorts.mkString(" ")))
+    }
+
+    Dockerfile(dockerCommands ++ exposeCommand: _*).makeContent
   }
 
   private[this] final def generateDockerConfig(
-    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, normalizedName: String, target: File) = {
-    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, normalizedName)
+    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, normalizedName: String, exposedPorts: Seq[Int], target: File) = {
+    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, normalizedName, exposedPorts)
 
     val f = target / "Dockerfile"
     IO.write(f, dockerContent)
@@ -53,6 +62,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
       daemonUser := "daemon",
       publishArtifact := false,
       defaultLinuxInstallLocation := "/opt/docker",
+      dockerExposedPorts := Seq(),
       dockerPackageMappings <<= (sourceDirectory) map { dir =>
         MappingsHelper contentOf dir
       },
@@ -65,9 +75,9 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
           contextDir
       },
       dockerGenerateConfig <<=
-        (dockerBaseImage, defaultLinuxInstallLocation, maintainer, daemonUser, normalizedName, target) map {
-          case (dockerBaseImage, baseDirectory, maintainer, daemonUser, normalizedName, target) =>
-            generateDockerConfig(dockerBaseImage, baseDirectory, maintainer, daemonUser, normalizedName, target)
+        (dockerBaseImage, defaultLinuxInstallLocation, maintainer, daemonUser, normalizedName, dockerExposedPorts, target) map {
+          case (dockerBaseImage, baseDirectory, maintainer, daemonUser, normalizedName, exposedPorts, target) =>
+            generateDockerConfig(dockerBaseImage, baseDirectory, maintainer, daemonUser, normalizedName, exposedPorts, target)
         }
     ))
 }
