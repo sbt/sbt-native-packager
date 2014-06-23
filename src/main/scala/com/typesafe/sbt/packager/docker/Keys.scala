@@ -16,6 +16,7 @@ trait DockerKeys {
 object Keys extends DockerKeys {
   def cacheDirectory = sbt.Keys.cacheDirectory
   def mappings = sbt.Keys.mappings
+  def name = sbt.Keys.name
   def publishArtifact = sbt.Keys.publishArtifact
   def sourceDirectory = sbt.Keys.sourceDirectory
   def target = sbt.Keys.target

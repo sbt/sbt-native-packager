@@ -56,6 +56,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
 
   def dockerSettings: Seq[Setting[_]] = Seq(
     dockerBaseImage := "dockerfile/java",
+    name in Docker <<= name,
     sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
     target in Docker <<= target apply (_ / "docker")
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
@@ -67,6 +68,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
         MappingsHelper contentOf dir
       },
       mappings <++= dockerPackageMappings,
+      normalizedName <<= name apply Project.normalizeModuleID,
       stage <<= (dockerGenerateConfig, dockerGenerateContext) map { (configFile, contextDir) => () },
       dockerGenerateContext <<= (cacheDirectory, mappings, target) map {
         (cacheDirectory, mappings, t) =>
