@@ -8,7 +8,7 @@ import sbt._
 trait DockerPlugin extends Plugin with UniversalPlugin {
   val Docker = config("docker") extend Universal
 
-  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, name: String, exposedPorts: Seq[Int]) = {
+  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, name: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String]) = {
     val dockerCommands = Seq(
       Cmd("FROM", dockerBaseImage),
       Cmd("MAINTAINER", maintainer),
@@ -27,12 +27,27 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
         Some(Cmd("EXPOSE", exposedPorts.mkString(" ")))
     }
 
-    Dockerfile(dockerCommands ++ exposeCommand: _*).makeContent
+    // If the exposed volume does not exist, the volume is made available
+    // with root ownership. This may be too strict for some directories,
+    // and we lose the feature that all directories below the install path
+    // can be written to by the binary. Therefore the directories are
+    // created before the ownership is changed.
+    val volumeCommands: Seq[CmdLike] = {
+      if (exposedVolumes.isEmpty)
+        Seq()
+      else
+        Seq(
+          ExecCmd("RUN", Seq("mkdir", "-p") ++ exposedVolumes: _*),
+          ExecCmd("VOLUME", exposedVolumes: _*)
+        )
+    }
+
+    Dockerfile(volumeCommands ++ exposeCommand ++ dockerCommands: _*).makeContent
   }
 
   private[this] final def generateDockerConfig(
-    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, normalizedName: String, exposedPorts: Seq[Int], target: File) = {
-    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, normalizedName, exposedPorts)
+    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, normalizedName: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File) = {
+    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, normalizedName, exposedPorts, exposedVolumes)
 
     val f = target / "Dockerfile"
     IO.write(f, dockerContent)
@@ -63,6 +78,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
       publishArtifact := false,
       defaultLinuxInstallLocation := "/opt/docker",
       dockerExposedPorts := Seq(),
+      dockerExposedVolumes := Seq(),
       dockerPackageMappings <<= (sourceDirectory) map { dir =>
         MappingsHelper contentOf dir
       },
@@ -75,9 +91,9 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
           contextDir
       },
       dockerGenerateConfig <<=
-        (dockerBaseImage, defaultLinuxInstallLocation, maintainer, daemonUser, normalizedName, dockerExposedPorts, target) map {
-          case (dockerBaseImage, baseDirectory, maintainer, daemonUser, normalizedName, exposedPorts, target) =>
-            generateDockerConfig(dockerBaseImage, baseDirectory, maintainer, daemonUser, normalizedName, exposedPorts, target)
+        (dockerBaseImage, defaultLinuxInstallLocation, maintainer, daemonUser, normalizedName, dockerExposedPorts, dockerExposedVolumes, target) map {
+          case (dockerBaseImage, baseDirectory, maintainer, daemonUser, normalizedName, exposedPorts, exposedVolumes, target) =>
+            generateDockerConfig(dockerBaseImage, baseDirectory, maintainer, daemonUser, normalizedName, exposedPorts, exposedVolumes, target)
         }
     ))
 }
