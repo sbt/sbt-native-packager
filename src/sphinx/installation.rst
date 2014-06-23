@@ -53,3 +53,13 @@ Creating ``tgz`` or ``txz`` requires the use of the following command line tools
 - ``gzip``
 - ``xz``
 - ``tar``
+
+Docker
+------
+
+Creating Docker images requires the use of the following command line tools:
+
+- ``docker``
+
+It is currently not possible to provide authentication for Docker repositories from within the build. The ``docker`` binary used by the build should already have been configured with the appropriate authentication details.
+See https://docs.docker.com/reference/commandline/cli/#login.

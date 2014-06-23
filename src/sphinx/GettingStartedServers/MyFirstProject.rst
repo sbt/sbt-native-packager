@@ -108,6 +108,44 @@ Windows
 
 Planned for 0.8.0
 
+Docker
+******
+
+A basic ``build.sbt`` for Docker requires the ``linux.Keys.maintainer`` setting:
+
+
+.. code-block:: scala
+
+    maintainer in Linux := "John Smith <john.smith@example.com>"
+
+
+There are a number of other available settings:
+
+.. code-block:: scala
+
+    daemonUser in Docker := normalizedName.value // user in the Docker image which will execute the application (must already exist)
+
+    dockerBaseImage := "dockerfile/java" // Docker image to use as a base for the application image
+
+    dockerExposedPorts in Docker := Seq(9000, 9443) // Ports to expose from container for Docker container linking
+
+    dockerExposedVolumes in Docker := Seq("/opt/docker/logs") // Data volumes to make available in image
+
+    dockerRepository := Some("dockerusername") // Repository used when publishing Docker image
+
+A directory with appropriate contents for building a Docker image can be created with ::
+
+  docker:stage
+
+To build an image and store it in the local Docker server, use ::
+
+  docker:publishLocal
+
+To build an image, publish locally, and then push to a remote Docker repository, use ::
+
+  docker:publish
+
+
 Next, let's look at how to :doc:`Add configuration files <AddingConfiguration>` to use with our script.
 
 

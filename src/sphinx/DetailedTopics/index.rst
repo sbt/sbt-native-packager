@@ -12,3 +12,4 @@ Advanced Topics
    redhat.rst
    debian.rst
    windows.rst
+   docker.rst
