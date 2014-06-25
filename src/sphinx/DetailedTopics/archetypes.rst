@@ -92,7 +92,7 @@ application archetype. The primary differneces are:
 
 * Linux
 
-  * ``/var/log/<pkg>`` is symlinked from ``<install>/log``
+  * ``/var/log/<pkg>`` is symlinked from ``<install>/logs``
 
   * Creates a start script in ``/etc/init.d`` or ``/etc/init/``
 
