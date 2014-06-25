@@ -126,9 +126,10 @@ We can generate other packages via the following tasks.  Here's a complete list 
 * ``universal:packageBin`` - Generates a universal zip file
 * ``universal:packageZipTarball`` - Generates a universal tgz file
 * ``debian:packageBin`` - Generates a deb
+* ``docker:publishLocal`` - Builds a Docker image using the local Docker server
 * ``rpm:packageBin`` - Generates an rpm
 * ``universal::packageOsxDmg`` - Generates a DMG file with the same contents as the universal zip/tgz.
-* ``windows:packageBin`` - Generates an MSI 
+* ``windows:packageBin`` - Generates an MSI
 
 While we only covered the necessary configuration for ``debian``, each package type beyond ``universal`` requires some additonal
 configuration relative to that packager.  For example, windows MSIs require UUIDs for all packages which are used to uniquely

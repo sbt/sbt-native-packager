@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>My First Packaged Server Project &mdash; sbt-native-packager 0.7.2-RC2 documentation</title>
+    <title>My First Packaged Server Project &mdash; sbt-native-packager 0.7-e9a76b47ef12ec72004648b1ec192c8edc276639 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.7.2-RC2',
+        VERSION:     '0.7-e9a76b47ef12ec72004648b1ec192c8edc276639',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.7.2-RC2 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-e9a76b47ef12ec72004648b1ec192c8edc276639 documentation" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -48,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-e9a76b47ef12ec72004648b1ec192c8edc276639</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,6 +90,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#windows">Windows</a></li>
+<li><a class="reference internal" href="#docker">Docker</a></li>
 </ul>
 </li>
 </ul>
@@ -245,6 +246,37 @@ ends with <em>success</em> you are fine.</p>
 <div class="section" id="windows">
 <h2>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
 <p>Planned for 0.8.0</p>
+</div>
+<div class="section" id="docker">
+<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h2>
+<p>A basic <tt class="docutils literal"><span class="pre">build.sbt</span></tt> for Docker requires the <tt class="docutils literal"><span class="pre">linux.Keys.maintainer</span></tt> setting:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">maintainer</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;John Smith &lt;john.smith@example.com&gt;&quot;</span>
+</pre></div>
+</div>
+<p>There are a number of other available settings:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">daemonUser</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="n">normalizedName</span><span class="o">.</span><span class="n">value</span> <span class="c1">// user in the Docker image which will execute the application (must already exist)</span>
+
+<span class="n">dockerBaseImage</span> <span class="o">:=</span> <span class="s">&quot;dockerfile/java&quot;</span> <span class="c1">// Docker image to use as a base for the application image</span>
+
+<span class="n">dockerExposedPorts</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="mi">9000</span><span class="o">,</span> <span class="mi">9443</span><span class="o">)</span> <span class="c1">// Ports to expose from container for Docker container linking</span>
+
+<span class="n">dockerExposedVolumes</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;/opt/docker/logs&quot;</span><span class="o">)</span> <span class="c1">// Data volumes to make available in image</span>
+
+<span class="n">dockerRepository</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;dockerusername&quot;</span><span class="o">)</span> <span class="c1">// Repository used when publishing Docker image</span>
+</pre></div>
+</div>
+<p>A directory with appropriate contents for building a Docker image can be created with</p>
+<div class="highlight-python"><div class="highlight"><pre>docker:stage
+</pre></div>
+</div>
+<p>To build an image and store it in the local Docker server, use</p>
+<div class="highlight-python"><div class="highlight"><pre>docker:publishLocal
+</pre></div>
+</div>
+<p>To build an image, publish locally, and then push to a remote Docker repository, use</p>
+<div class="highlight-python"><div class="highlight"><pre>docker:publish
+</pre></div>
+</div>
 <p>Next, let&#8217;s look at how to <a class="reference internal" href="AddingConfiguration.html"><em>Add configuration files</em></a> to use with our script.</p>
 </div>
 </div>

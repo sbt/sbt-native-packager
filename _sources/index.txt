@@ -8,6 +8,7 @@ to allow native packages to be created for all major operating systems, includin
 * Debian DEB packages
 * RedHat RPM packages
 * Universal (Zipped) packages
+* Docker images
 
 
 

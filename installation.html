@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Installation &mdash; sbt-native-packager 0.7.2-RC2 documentation</title>
+    <title>Installation &mdash; sbt-native-packager 0.7-e9a76b47ef12ec72004648b1ec192c8edc276639 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.7.2-RC2',
+        VERSION:     '0.7-e9a76b47ef12ec72004648b1ec192c8edc276639',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.7.2-RC2 documentation" href="index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-e9a76b47ef12ec72004648b1ec192c8edc276639 documentation" href="index.html" />
     <link rel="next" title="Getting Started with Applications" href="GettingStartedApplications/index.html" />
     <link rel="prev" title="SBT - Native Packager Plugin" href="index.html" />
 <meta charset='utf-8'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-e9a76b47ef12ec72004648b1ec192c8edc276639</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -89,6 +89,7 @@
 <li><a class="reference internal" href="#redhat-rpm-based-linux-distros">RedHat/RPM-based linux distros</a></li>
 <li><a class="reference internal" href="#debian-based-linux-distros">Debian-based linux distros</a></li>
 <li><a class="reference internal" href="#universal">Universal</a></li>
+<li><a class="reference internal" href="#docker">Docker</a></li>
 </ul>
 </li>
 </ul>
@@ -181,6 +182,15 @@
 <li><tt class="docutils literal"><span class="pre">xz</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">tar</span></tt></li>
 </ul>
+</div>
+<div class="section" id="docker">
+<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h2>
+<p>Creating Docker images requires the use of the following command line tools:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">docker</span></tt></li>
+</ul>
+<p>It is currently not possible to provide authentication for Docker repositories from within the build. The <tt class="docutils literal"><span class="pre">docker</span></tt> binary used by the build should already have been configured with the appropriate authentication details.
+See <a class="reference external" href="https://docs.docker.com/reference/commandline/cli/#login">https://docs.docker.com/reference/commandline/cli/#login</a>.</p>
 </div>
 </div>
 
