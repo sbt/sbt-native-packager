@@ -10,6 +10,17 @@ import linux.Keys.{ linuxScriptReplacements, daemonShell }
 import com.typesafe.sbt.packager.Hashing
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 
+/**
+ * This provides a dpgk based implementation for debian packaging.
+ * Your machine must have dpkg installed to use this.
+ *
+ * {{
+ *    packageBin in Debian <<= debianNativePackaging in Debian
+ * }}
+ *
+ *
+ *
+ */
 trait NativePackaging { this: DebianPlugin with linux.LinuxPlugin =>
 
   import com.typesafe.sbt.packager.universal.Archives
@@ -17,80 +28,6 @@ trait NativePackaging { this: DebianPlugin with linux.LinuxPlugin =>
   import linux.LinuxPlugin.Users
 
   private[debian] def debianNativeSettings: Seq[Setting[_]] = Seq(
-    debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianChangelog, daemonShell in Linux, linuxScriptReplacements, linuxPackageSymlinks, target, streams)
-      map { (mappings, _, maintScripts, _, changelog, shell, replacements, symlinks, t, streams) =>
-
-        // Create files and directories
-        mappings foreach {
-          case LinuxPackageMapping(paths, perms, zipped) =>
-            val (dirs, files) = paths.partition(_._1.isDirectory)
-            dirs map {
-              case (_, name) => t / name
-            } foreach { targetDir =>
-              targetDir mkdirs ()
-              chmod(targetDir, perms.permissions)
-            }
-
-            files map {
-              case (file, name) => (file, t / name)
-            } foreach {
-              case (source, target) => copyAndFixPerms(source, target, perms, zipped)
-            }
-        }
-        // Now generate relative symlinks
-        LinuxSymlink.makeSymLinks(symlinks, t, false)
-
-        // Put the maintainer files in `dir / "DEBIAN"` named as specified.
-        // Valid values for the name are preinst,postinst,prerm,postrm
-        for ((file, name) <- maintScripts) {
-          val targetFile = t / Names.Debian / name
-          copyAndFixPerms(file, targetFile, LinuxFileMetaData())
-          filterAndFixPerms(targetFile, replacements, LinuxFileMetaData())
-        }
-
-        // Check for non root user/group and append to postinst / postrm
-        // filter all root mappings, map to (user,group) key, group by, append everything
-        mappings filter {
-          case LinuxPackageMapping(_, LinuxFileMetaData(Users.Root, Users.Root, _, _, _), _) => false
-          case _ => true
-        } map {
-          case LinuxPackageMapping(paths, LinuxFileMetaData(user, group, _, _, _), _) => (user, group) -> paths
-        } groupBy (_._1) foreach {
-          case ((user, group), pathList) =>
-            streams.log info ("Altering postrm/postinst files to add user " + user + " and group " + group)
-            val postinst = createFileIfRequired(t / Names.Debian / Names.Postinst, LinuxFileMetaData())
-            val postrm = createFileIfRequired(t / Names.Debian / Names.Postrm, LinuxFileMetaData())
-            val prerm = createFileIfRequired(t / Names.Debian / Names.Prerm, LinuxFileMetaData())
-            val headerScript = IO.readLinesURL(Native.headerSource)
-
-            val replacements = Seq("group" -> group, "user" -> user, "shell" -> shell)
-
-            prependAndFixPerms(prerm, headerScript, LinuxFileMetaData())
-
-            // remove key, flatten it and then go through each file
-            pathList.map(_._2).flatten foreach {
-              case (_, target) =>
-                val pathReplacements = replacements :+ ("path" -> target.toString)
-                val chownAdd = Seq(TemplateWriter.generateScript(Native.postinstChownTemplateSource, pathReplacements))
-                prependAndFixPerms(postinst, chownAdd, LinuxFileMetaData())
-            }
-
-            validateUserGroupNames(user, streams)
-            validateUserGroupNames(group, streams)
-
-            val userGroupAdd = Seq(
-              TemplateWriter.generateScript(Native.postinstGroupaddTemplateSource, replacements),
-              TemplateWriter.generateScript(Native.postinstUseraddTemplateSource, replacements))
-
-            prependAndFixPerms(postinst, userGroupAdd, LinuxFileMetaData())
-            prependAndFixPerms(postinst, headerScript, LinuxFileMetaData())
-
-            val purgeAdd = Seq(TemplateWriter.generateScript(Native.postrmPurgeTemplateSource, replacements))
-            appendAndFixPerms(postrm, purgeAdd, LinuxFileMetaData())
-            prependAndFixPerms(postrm, headerScript, LinuxFileMetaData())
-        }
-        t
-      },
     genChanges <<= (packageBin, target, debianChangelog, name, version, debianPackageMetadata) map {
       (pkg, tdir, changelog, name, version, data) =>
         changelog match {
@@ -126,60 +63,21 @@ trait NativePackaging { this: DebianPlugin with linux.LinuxPlugin =>
     },
     lintian <<= packageBin map { file =>
       Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
+    },
+
+    /** Implementation of the actual packaging  */
+    debianNativePackaging <<= (debianExplodedPackage, debianMD5sumsFile, debianSection, debianPriority, name, version, packageArchitecture, target, streams) map {
+      (pkgdir, _, section, priority, name, version, arch, tdir, s) =>
+        s.log.info("Building debian package with native implementation")
+        // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
+        val archive = name + "_" + version + "_" + arch + ".deb"
+        Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath, "../" + archive), Some(tdir)) ! s.log match {
+          case 0 => ()
+          case x => sys.error("Failure packaging debian file.  Exit code: " + x)
+        }
+        tdir / ".." / archive
     }
   )
-
-  private final def copyAndFixPerms(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit = {
-    if (zipped) {
-      IO.withTemporaryDirectory { dir =>
-        val tmp = dir / from.getName
-        IO.copyFile(from, tmp)
-        val zipped = Archives.gzip(tmp)
-        IO.copyFile(zipped, to, true)
-      }
-    } else IO.copyFile(from, to, true)
-    // If we have a directory, we need to alter the perms.
-    chmod(to, perms.permissions)
-    // TODO - Can we do anything about user/group ownership?
-  }
-
-  private final def filterAndFixPerms(script: File, replacements: Seq[(String, String)], perms: LinuxFileMetaData): File = {
-    val filtered = TemplateWriter.generateScript(script.toURI.toURL, replacements)
-    IO.delete(script)
-    IO.write(script, filtered)
-    chmod(script, perms.permissions)
-    script
-  }
-
-  private final def prependAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
-    val old = IO.readLines(script)
-    IO.writeLines(script, lines ++ old, append = false)
-    chmod(script, perms.permissions)
-    script
-  }
-
-  private final def appendAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
-    IO.writeLines(script, lines, append = true)
-    chmod(script, perms.permissions)
-    script
-  }
-
-  private final def createFileIfRequired(script: File, perms: LinuxFileMetaData): File = {
-    if (!script.exists()) {
-      script.createNewFile()
-      chmod(script, perms.permissions)
-    }
-    script
-  }
-
-  private final def validateUserGroupNames(user: String, streams: TaskStreams) {
-    if ((UserNamePattern findFirstIn user).isEmpty) {
-      streams.log.warn("The user or group '" + user + "' may contain invalid characters for Debian based distributions")
-    }
-    if (user.length > 32) {
-      streams.log.warn("The length of '" + user + "' must be not be greater than 32 characters for Debian based distributions.")
-    }
-  }
 
 }
 
@@ -189,26 +87,6 @@ trait NativePackaging { this: DebianPlugin with linux.LinuxPlugin =>
  *
  */
 object Native {
-
-  /**
-   * The plugin needs to mixin the NativePackaging trait to make this
-   * task definition work.
-   *
-   * {{
-   *    packageBin in Debian <<= Native()
-   * }}
-   */
-  def apply(): Def.Initialize[Task[java.io.File]] =
-    (debianExplodedPackage, debianMD5sumsFile, debianSection, debianPriority, name, version, packageArchitecture, target, streams) map {
-      (pkgdir, _, section, priority, name, version, arch, tdir, s) =>
-        // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
-        val archive = name + "_" + version + "_" + arch + ".deb"
-        Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath, "../" + archive), Some(tdir)) ! s.log match {
-          case 0 => ()
-          case x => sys.error("Failure packaging debian file.  Exit code: " + x)
-        }
-        tdir / ".." / archive
-    }
 
   /* static assets definitions */
 
