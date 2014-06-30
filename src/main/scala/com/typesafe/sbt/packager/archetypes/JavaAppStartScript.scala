@@ -19,8 +19,11 @@ trait JavaAppStartScriptBuilder {
   /** Scripts to include for upstart. By default only startScript */
   val upstartScripts: Seq[String]
 
-  /** Scripts to include for ssystemV. By default only startScript */
+  /** Scripts to include for systemV. By default only startScript */
   val systemvScripts: Seq[String]
+
+  /** Scripts to include for systemd. By default only startScript */
+  val systemdScripts: Seq[String]
 
   /**
    * Generating the URL to the startScript template.
@@ -61,10 +64,12 @@ trait JavaAppStartScriptBuilder {
    */
   def templateUrl(templateName: String, loader: ServerLoader, template: Option[URL] = None): Option[URL] = template orElse {
     Option(loader match {
-      case Upstart if (upstartScripts contains templateName) =>
+      case Upstart if upstartScripts contains templateName =>
         getClass getResource ("upstart/" + templateName + "-template")
-      case SystemV if (systemvScripts contains templateName) =>
+      case SystemV if systemvScripts contains templateName =>
         getClass getResource ("systemv/" + templateName + "-template")
+      case Systemd if systemdScripts contains templateName =>
+        getClass getResource ("systemd/" + templateName + "-template")
       case _ => null
     })
   }
@@ -117,6 +122,7 @@ object JavaAppStartScript {
     val startScript = "start-rpm"
     val upstartScripts = Seq(startScript)
     val systemvScripts = Seq(startScript, Pre, Post, Preun, Postun)
+    val systemdScripts = Seq(startScript, Pre, Post, Preun, Postun)
   }
 
   object Debian extends JavaAppStartScriptBuilder {
@@ -126,11 +132,12 @@ object JavaAppStartScript {
     val startScript = "start-debian"
     val upstartScripts = Seq(startScript, Postinst, Prerm)
     val systemvScripts = Seq(startScript, Postinst, Prerm, Postrm)
+    val systemdScripts = Seq(startScript, Postinst, Prerm, Postrm)
   }
 
 }
 
 object ServerLoader extends Enumeration {
   type ServerLoader = Value
-  val Upstart, SystemV = Value
+  val Upstart, SystemV, Systemd = Value
 }

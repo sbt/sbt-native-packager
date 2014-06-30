@@ -11,6 +11,7 @@ trait RpmKeys {
   val rpmVendor = SettingKey[String]("rpm-vendor", "Name of the vendor for this RPM.")
   val rpmOs = SettingKey[String]("rpm-os", "Name of the os for this RPM.")
   val rpmRelease = SettingKey[String]("rpm-release", "Special release number for this rpm (vs. the software).")
+  val rpmPrefix = SettingKey[Option[String]]("rpm-prefix", "File system prefix for relocatable package.")
   val rpmMetadata = SettingKey[RpmMetadata]("rpm-metadata", "Metadata associated with the generated RPM.")
 
   // DESCRIPTION KEYS

@@ -11,11 +11,14 @@ and documents to users which version of sbt you require for the build.
 
 Next, let's add the native packager to our build by created a ``project/plugins.sbt`` file with the following contents ::
 
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-RC2")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.1")
 
 Now, the build needs to be configured for packaging.  Let's define the ``build.sbt`` file as follows
 
 .. code-block:: scala
+
+    import com.typesafe.sbt.SbtNativePackager._
+    import NativePackagerKeys._
 
     name := "example-cli"
 
@@ -123,9 +126,10 @@ We can generate other packages via the following tasks.  Here's a complete list 
 * ``universal:packageBin`` - Generates a universal zip file
 * ``universal:packageZipTarball`` - Generates a universal tgz file
 * ``debian:packageBin`` - Generates a deb
+* ``docker:publishLocal`` - Builds a Docker image using the local Docker server
 * ``rpm:packageBin`` - Generates an rpm
 * ``universal::packageOsxDmg`` - Generates a DMG file with the same contents as the universal zip/tgz.
-* ``windows:packageBin`` - Generates an MSI 
+* ``windows:packageBin`` - Generates an MSI
 
 While we only covered the necessary configuration for ``debian``, each package type beyond ``universal`` requires some additonal
 configuration relative to that packager.  For example, windows MSIs require UUIDs for all packages which are used to uniquely

@@ -4,19 +4,24 @@
 ###  Helper methods for BASH scripts ###
 ###  ------------------------------- ###
 
+die() {
+  echo "$@" 1>&2
+  exit 1
+}
+
 realpath () {
 (
   TARGET_FILE="$1"
   CHECK_CYGWIN="$2"
 
-  cd $(dirname "$TARGET_FILE")
+  cd "$(dirname "$TARGET_FILE")"
   TARGET_FILE=$(basename "$TARGET_FILE")
 
   COUNT=0
   while [ -L "$TARGET_FILE" -a $COUNT -lt 100 ]
   do
       TARGET_FILE=$(readlink "$TARGET_FILE")
-      cd $(dirname "$TARGET_FILE")
+      cd "$(dirname "$TARGET_FILE")"
       TARGET_FILE=$(basename "$TARGET_FILE")
       COUNT=$(($COUNT + 1))
   done
@@ -132,18 +137,19 @@ execRunner () {
 }
 addJava () {
   dlog "[addJava] arg = '$1'"
-  java_args=( "${java_args[@]}" "$1" )
+  java_args+=( "$1" )
 }
 addApp () {
   dlog "[addApp] arg = '$1'"
-  app_commands=( "${app_commands[@]}" "$1" )
+  app_commands+=( "$1" )
 }
 addResidual () {
   dlog "[residual] arg = '$1'"
-  residual_args=( "${residual_args[@]}" "$1" )
+  residual_args+=( "$1" )
 }
 addDebugger () {
-  addJava "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$1"
+  addJava "-Xdebug"
+  addJava "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$1"
 }
 # a ham-fisted attempt to move some memory settings in concert
 # so they need not be messed around with individually.
@@ -167,7 +173,7 @@ get_mem_opts () {
      [[ "${java_args[@]}" == *-XX:ReservedCodeCacheSize* ]];
   then
     echo ""
-  elif [[ !$no_java_version_check ]] && [[ java_version > "1.8" ]]; then
+  elif [[ !$no_version_check ]] && [[ "$java_version" > "1.8" ]]; then
     echo "-Xms${mem}m -Xmx${mem}m -XX:ReservedCodeCacheSize=${codecache}m"
   else 
     echo "-Xms${mem}m -Xmx${mem}m -XX:MaxPermSize=${perm}m -XX:ReservedCodeCacheSize=${codecache}m"
@@ -284,7 +290,7 @@ loadConfigFile() {
 # Now check to see if it's a good enough version
 # TODO - Check to see if we have a configured default java version, otherwise use 1.6
 java_version_check() { 
-  declare -r java_version=$("$java_cmd" -version 2>&1 | awk -F '"' '/version/ {print $2}')
+  readonly java_version=$("$java_cmd" -version 2>&1 | awk -F '"' '/version/ {print $2}')
   if [[ "$java_version" == "" ]]; then
     echo
     echo No java installations was detected.
@@ -341,7 +347,6 @@ EOM
 ###  Main script                     ###
 ###  ------------------------------- ###
 
-declare debug=0
 declare -a residual_args
 declare -a java_args
 declare -a app_commands

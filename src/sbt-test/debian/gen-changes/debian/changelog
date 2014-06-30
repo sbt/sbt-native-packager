@@ -1,0 +1,5 @@
+debian-test (0.1.0) UNRELEASED; urgency=low
+
+  * Initial release.
+
+ -- John Doe <john.doe@somedomain.com>  Wed, 04 Jun 2014 15:31:10 +0200

@@ -17,6 +17,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
   def rpmSettings: Seq[Setting[_]] = Seq(
     rpmOs := "Linux", // TODO - default to something else?
     rpmRelease := "0",
+    rpmPrefix := None,
     rpmVendor := "", // TODO - Maybe pull in organization?
     rpmLicense := None,
     rpmDistribution := None,
@@ -49,7 +50,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
       normalizedName <<= name apply Project.normalizeModuleID,
       packageArchitecture := "noarch",
       rpmMetadata <<=
-        (normalizedName, version, rpmRelease, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply (RpmMetadata.apply),
+        (normalizedName, version, rpmRelease, rpmPrefix, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply RpmMetadata,
       rpmDescription <<=
         (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
       rpmDependencies <<=

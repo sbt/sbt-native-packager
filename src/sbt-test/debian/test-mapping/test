@@ -1,6 +1,4 @@
 # Run the debian packaging.
 > debian:package-bin
 $ exists target/debian-test-override-0.1.0.deb
-
-
 # TODO - Test that the generic mapping did the right thing.

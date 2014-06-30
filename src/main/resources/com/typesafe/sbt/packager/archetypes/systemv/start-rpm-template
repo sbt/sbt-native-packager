@@ -52,8 +52,8 @@ start() {
     cd ${{chdir}}
     
     # FIXME figure out how to use daemon correctly
-    nohup runuser $DAEMON_USER ${RUN_CMD} >/dev/null 2>&1 &
-    
+    nohup runuser $DAEMON_USER ${RUN_CMD} >> /var/log/${{app_name}}/daemon.log 2>&1 &
+
     # The way to go, but doesn't work properly
 	# If the app creates the pid file this gets messy
 	# daemon --user $DAEMON_USER --pidfile $PIDFILE $RUN_CMD &

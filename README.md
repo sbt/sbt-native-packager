@@ -19,7 +19,38 @@ This is a work in process project.  The goal is to be able to bundle up Scala so
 Add the following to your `project/plugins.sbt` file:
     
 
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.0-RC2")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.1")
+    
+
+For the native packager keys add this to your `build.sbt`
+
+
+    import com.typesafe.sbt.SbtNativePackager._
+    import NativePackagerKeys._
+
+## Experimental systemd bootsystem support ##
+
+Native packager now provides experimental `systemd` startup scripts.
+Currently it works on Fedora `Fedora release 20 (Heisenbug)` and doesn't work on Ubuntu because of partial `systemd` support in `Ubuntu 14.04 LTS`. 
+To enable this feature follow [My First Packaged Server Project guide](http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html) and use `Systemd` as server loader:
+  
+  
+    import com.typesafe.sbt.packager.archetypes.ServerLoader.Systemd
+    serverLoading in Rpm := Systemd
+  
+Any help on testing and improving this feature is appreciated so feel free to report bugs or making PR.
+
+## Experimental Docker support ##
+
+Native packager now provides experimental `Docker` images.
+To enable this feature follow [My First Packaged Server Project guide](http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html) and use one of the provided Docker tasks for generating images.
+The only essential extra setting for creating a local image for testing is:
+
+    maintainer in Docker := "John Smith <john.smith@example.com>"
+
+To publish the image, ``dockerRepository`` should also be set.
+
+As with the `systemd` support, help with testing and improvements is appreciated.
 
 
 ## Documentation ##
