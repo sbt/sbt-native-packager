@@ -158,7 +158,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
         MappingsHelper contentOf dir
       },
       mappings <++= dockerPackageMappings,
-      normalizedName <<= name apply Project.normalizeModuleID,
+      normalizedName <<= name apply StringUtilities.normalize,
       stage <<= (dockerGenerateConfig, dockerGenerateContext) map { (configFile, contextDir) => () },
       dockerGenerateContext <<= (cacheDirectory, mappings, target) map {
         (cacheDirectory, mappings, t) =>
