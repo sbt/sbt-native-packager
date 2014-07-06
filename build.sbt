@@ -4,7 +4,7 @@ sbtPlugin := true
 
 sbtVersion in Global := {
   scalaBinaryVersion.value match {
-    case "2.10" => "0.13.0"
+    case "2.10" => "0.13.5"
     case "2.9.2" => "0.12.4"
   }
 }
