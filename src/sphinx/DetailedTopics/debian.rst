@@ -165,3 +165,16 @@ created within in the ``postinst`` script and removed with ``apt-get purge`` thr
 ``postrm`` script.
 
 For more information look at the :ref:`Archetypes` page.
+
+Use JDeb for Debian Packaging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If don't run a linux or mac system with ``dpkg`` installed, you can configure the
+debian packaging be done by `jdeb`_ . To enable this just set another packaging
+implementation in your ``build.sbt``
+
+.. code-block:: scala
+
+    packageBin in Debian <<= debianJDebPackaging in Debian
+    
+.. _jdeb: https://github.com/tcurdt/jdeb
