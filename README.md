@@ -52,6 +52,15 @@ To publish the image, ``dockerRepository`` should also be set.
 
 As with the `systemd` support, help with testing and improvements is appreciated.
 
+## Experimental JDeb support ##
+
+If don't run a linux or mac system with ``dpkg`` installed, you can configure the
+debian packaging be done by [jdeb](https://github.com/tcurdt/jdeb). To enable this just set another packaging
+implementation in your `build.sbt`
+
+```scala
+packageBin in Debian <<= debianJDebPackaging in Debian
+```
 
 ## Documentation ##
 
