@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Debian &mdash; sbt-native-packager 0.7-e9a76b47ef12ec72004648b1ec192c8edc276639 documentation</title>
+    <title>Debian &mdash; sbt-native-packager 0.7.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.7-e9a76b47ef12ec72004648b1ec192c8edc276639',
+        VERSION:     '0.7.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.7-e9a76b47ef12ec72004648b1ec192c8edc276639 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7.2 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Packaging for Windows" href="windows.html" />
     <link rel="prev" title="RedHat" href="redhat.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.7-e9a76b47ef12ec72004648b1ec192c8edc276639</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -94,6 +94,7 @@
 <li><a class="reference internal" href="#multi-os-packaging-with-debian">Multi OS Packaging with Debian</a></li>
 <li><a class="reference internal" href="#customizing-debian-packaging">Customizing Debian Packaging</a></li>
 <li><a class="reference internal" href="#customizing-debian-server-archetype">Customizing Debian Server Archetype</a></li>
+<li><a class="reference internal" href="#use-jdeb-for-debian-packaging">Use JDeb for Debian Packaging</a></li>
 </ul>
 </li>
 </ul>
@@ -283,6 +284,15 @@ these values as you need. The user or group you define in the appropriate keys w
 created within in the <tt class="docutils literal"><span class="pre">postinst</span></tt> script and removed with <tt class="docutils literal"><span class="pre">apt-get</span> <span class="pre">purge</span></tt> through the
 <tt class="docutils literal"><span class="pre">postrm</span></tt> script.</p>
 <p>For more information look at the <a class="reference internal" href="archetypes.html#archetypes"><em>Project Archetypes</em></a> page.</p>
+</div>
+<div class="section" id="use-jdeb-for-debian-packaging">
+<h3>Use JDeb for Debian Packaging<a class="headerlink" href="#use-jdeb-for-debian-packaging" title="Permalink to this headline">¶</a></h3>
+<p>If don&#8217;t run a linux or mac system with <tt class="docutils literal"><span class="pre">dpkg</span></tt> installed, you can configure the
+debian packaging be done by <a class="reference external" href="https://github.com/tcurdt/jdeb">jdeb</a> . To enable this just set another packaging
+implementation in your <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">&lt;&lt;=</span> <span class="n">debianJDebPackaging</span> <span class="n">in</span> <span class="nc">Debian</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
