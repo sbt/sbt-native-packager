@@ -3,10 +3,9 @@ package com.typesafe.sbt
 import packager._
 
 import debian.Keys.genChanges
-import Keys.packageZipTarball
-import Keys.packageXzTarball
+import Keys.{ packageName, packageZipTarball, packageXzTarball }
 import sbt._
-import sbt.Keys.packageBin
+import sbt.Keys.{ normalizedName, packageBin }
 
 object SbtNativePackager extends Plugin
   with linux.LinuxPlugin
@@ -30,7 +29,8 @@ object SbtNativePackager extends Plugin
     Seq( // Bad defaults that let us at least not explode users who don't care about native packagers
       NativePackagerKeys.maintainer := "",
       NativePackagerKeys.packageDescription := "",
-      NativePackagerKeys.packageSummary := ""
+      NativePackagerKeys.packageSummary := "",
+      packageName <<= normalizedName
     )
 
   import SettingsHelper._
