@@ -90,7 +90,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
   }
 
   def publishLocalDocker(context: File, tag: String, log: Logger): Unit = {
-    val cmd = Seq("docker", "build", "-t", tag, ".")
+    val cmd = Seq("docker", "build", "--force-rm", "-t", tag, ".")
     val cwd = context.getParentFile
 
     log.debug("Executing " + cmd.mkString(" "))
