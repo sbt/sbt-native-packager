@@ -16,6 +16,9 @@ trait DebianKeys {
   val debianPackageMetadata = SettingKey[PackageMetaData]("debian-package-metadata", "Meta data used when constructing a debian package.")
   val debianChangelog = SettingKey[Option[File]]("debian-changelog", "The changelog for this deb file")
   // Package building
+  val debianNativePackaging = TaskKey[File]("debian-packaging-native", "Builds the debian package with native cli tools")
+  val debianJDebPackaging = TaskKey[File]("debian-packaging-jdeb", "Builds the debian package with jdeb (java-based)")
+
   val debianControlFile = TaskKey[File]("debian-control-file", "Makes the debian package control file.")
   val debianMaintainerScripts = TaskKey[Seq[(File, String)]]("debian-maintainer-scripts", "Makes the debian maintainer scripts.")
   val debianConffilesFile = TaskKey[File]("debian-conffiles-file", "Makes the debian package conffiles file.")

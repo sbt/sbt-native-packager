@@ -9,9 +9,12 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
   val Docker = config("docker") extend Universal
 
   private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, name: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String]) = {
-    val dockerCommands = Seq(
+    val headerCommands = Seq(
       Cmd("FROM", dockerBaseImage),
-      Cmd("MAINTAINER", maintainer),
+      Cmd("MAINTAINER", maintainer)
+    )
+
+    val dockerCommands = Seq(
       Cmd("ADD", "files /"),
       Cmd("WORKDIR", "%s" format dockerBaseDirectory),
       ExecCmd("RUN", "chown", "-R", daemonUser, "."),
@@ -42,7 +45,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
         )
     }
 
-    Dockerfile(volumeCommands ++ exposeCommand ++ dockerCommands: _*).makeContent
+    Dockerfile(headerCommands ++ volumeCommands ++ exposeCommand ++ dockerCommands: _*).makeContent
   }
 
   private[this] final def generateDockerConfig(
@@ -90,7 +93,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
   }
 
   def publishLocalDocker(context: File, tag: String, log: Logger): Unit = {
-    val cmd = Seq("docker", "build", "-t", tag, ".")
+    val cmd = Seq("docker", "build", "--force-rm", "-t", tag, ".")
     val cwd = context.getParentFile
 
     log.debug("Executing " + cmd.mkString(" "))
@@ -158,7 +161,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
         MappingsHelper contentOf dir
       },
       mappings <++= dockerPackageMappings,
-      normalizedName <<= name apply Project.normalizeModuleID,
+      normalizedName <<= name apply StringUtilities.normalize,
       stage <<= (dockerGenerateConfig, dockerGenerateContext) map { (configFile, contextDir) => () },
       dockerGenerateContext <<= (cacheDirectory, mappings, target) map {
         (cacheDirectory, mappings, t) =>

@@ -4,7 +4,7 @@ sbtPlugin := true
 
 sbtVersion in Global := {
   scalaBinaryVersion.value match {
-    case "2.10" => "0.13.0"
+    case "2.10" => "0.13.5"
     case "2.9.2" => "0.12.4"
   }
 }
@@ -19,7 +19,10 @@ organization := "com.typesafe.sbt"
 
 scalacOptions in Compile += "-deprecation"
 
-libraryDependencies += "org.apache.commons" % "commons-compress" % "1.4.1"
+libraryDependencies ++= Seq(
+    "org.apache.commons" % "commons-compress" % "1.4.1",
+    "org.vafer" % "jdeb" % "1.2" artifacts (Artifact("jdeb", "jar", "jar"))
+)
 
 site.settings
 
