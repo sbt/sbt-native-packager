@@ -23,18 +23,20 @@ object SettingsHelper {
       ivyModule <<= (ivySbt, moduleSettings) map { (i, s) => new i.Module(s) },
       deliverLocalConfiguration <<= (crossTarget, ivyLoggingLevel) map { (outDir, level) => Classpaths.deliverConfig(outDir, logging = level) },
       deliverConfiguration <<= deliverLocalConfiguration,
-      publishConfiguration <<= (packagedArtifacts, checksums, publishTo) map { (as, checks, publishTo) =>
+      publishConfiguration <<= (packagedArtifacts, checksums, publishTo, isSnapshot) map { (as, checks, publishTo, isSnap) =>
         new PublishConfiguration(ivyFile = None,
           resolverName = Classpaths.getPublishTo(publishTo).name,
           artifacts = as,
           checksums = checks,
-          logging = UpdateLogging.DownloadOnly)
+          logging = UpdateLogging.DownloadOnly,
+          overwrite = isSnap)
       },
-      publishLocalConfiguration <<= (packagedArtifacts, checksums) map { (as, checks) =>
+      publishLocalConfiguration <<= (packagedArtifacts, checksums, isSnapshot) map { (as, checks, isSnap) =>
         new PublishConfiguration(ivyFile = None,
           resolverName = "local",
           artifacts = as,
           checksums = checks,
-          logging = UpdateLogging.DownloadOnly)
+          logging = UpdateLogging.DownloadOnly,
+          overwrite = isSnap)
       })) ++ addPackage(config, packageTask, extension)
 }
