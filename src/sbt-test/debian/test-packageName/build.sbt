@@ -2,7 +2,7 @@ import NativePackagerKeys._
 
 packagerSettings
 
-mapGenericFilesToLinux
+packageArchetype.java_server
 
 name := "debian-test"
 

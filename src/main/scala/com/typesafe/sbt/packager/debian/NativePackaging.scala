@@ -4,7 +4,7 @@ package debian
 
 import Keys._
 import sbt._
-import sbt.Keys.{ target, name, normalizedName, TaskStreams }
+import sbt.Keys.{ target, name, TaskStreams }
 import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
 import linux.Keys.{ linuxScriptReplacements, daemonShell }
 import com.typesafe.sbt.packager.Hashing

@@ -8,5 +8,8 @@ $ exists target/debian-test-override-0.1.0/DEBIAN/control
 $ exists target/debian-test-override-0.1.0/usr/
 $ exists target/debian-test-override-0.1.0/usr/share/
 $ exists target/debian-test-override-0.1.0/usr/share/debian-test-package/
+$ exists target/debian-test-override-0.1.0/var/log/debian-test-package/
+$ exists target/debian-test-override-0.1.0/var/run/debian-test-package/
+$ exists target/debian-test-override-0.1.0/etc/default/debian-test-package/
 # Testing control script 
 # TODO - Test that the generic mapping did the right thing.

@@ -35,6 +35,7 @@ trait LinuxPlugin extends Plugin {
     packageSummary in Linux <<= packageSummary,
     packageDescription in Linux <<= packageDescription,
     name in Linux <<= name,
+    packageName in Linux <<= packageName,
     normalizedName in Linux <<= (name in Linux) apply Project.normalizeModuleID,
     daemonUser in Linux <<= normalizedName in Linux,
     daemonGroup in Linux <<= daemonUser in Linux,

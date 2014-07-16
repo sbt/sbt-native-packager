@@ -27,6 +27,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
     debianSignRole := "builder",
     target in Debian <<= (target, name in Debian, version in Debian) apply ((t, n, v) => t / (n + "-" + v)),
     name in Debian <<= (name in Linux),
+    packageName in Debian <<= (packageName in Linux),
     version in Debian <<= (version in Linux),
     linuxPackageMappings in Debian <<= linuxPackageMappings,
     packageDescription in Debian <<= packageDescription in Linux,
@@ -46,15 +47,15 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
     debianMaintainerScripts <++= (debianMakePrermScript, debianControlScriptsDirectory) map scriptMapping(Names.Prerm),
     debianMaintainerScripts <++= (debianMakePreinstScript, debianControlScriptsDirectory) map scriptMapping(Names.Preinst),
     debianMaintainerScripts <++= (debianMakePostinstScript, debianControlScriptsDirectory) map scriptMapping(Names.Postinst),
-    debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping(Names.Postrm)) ++ inConfig(Debian)(
-      /* ==== Debian scoped settings ==== */
+    debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping(Names.Postrm)) ++
+    /* ==== Debian scoped settings ==== */
+    inConfig(Debian)(
       Seq(
         packageArchitecture := "all",
         debianPackageInfo <<=
-          (normalizedName, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
+          (packageName, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
         debianPackageMetadata <<=
-          (debianPackageInfo,
-            debianPriority, packageArchitecture, debianSection,
+          (debianPackageInfo, debianPriority, packageArchitecture, debianSection,
             debianPackageDependencies, debianPackageRecommends) apply PackageMetaData,
         debianPackageInstallSize <<= linuxPackageMappings map { mappings =>
           (for {
