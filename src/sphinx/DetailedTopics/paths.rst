@@ -13,6 +13,9 @@ Quick Reference Table
 ---------------------
 This table gives you a quick overview of the setting and the scope you should use.
 Paths which do not begin with a ``/`` are relative to the universal directory.
+The scopes are ordered from general to specific, so a more specific one will override
+the generic one. Only the listed scopes for a setting a relevant. Any changes in other
+scopes will have no effect!
 
 ========================================================  ===================  =====================  =======
 output path                                               scopes               archetype              comment
