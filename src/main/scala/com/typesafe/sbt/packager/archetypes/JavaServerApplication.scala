@@ -4,7 +4,7 @@ package archetypes
 
 import Keys._
 import sbt._
-import sbt.Keys.{ target, mainClass, normalizedName, sourceDirectory, streams }
+import sbt.Keys.{ target, mainClass, sourceDirectory, streams }
 import SbtNativePackager._
 import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
 import com.typesafe.sbt.packager.debian.DebianPlugin
@@ -131,9 +131,9 @@ object JavaServerAppPackaging {
       },
       defaultLinuxStartScriptLocation <<= (serverLoading) apply getStartScriptLocation,
       linuxMakeStartScript <<= (target in Universal, serverLoading, linuxScriptReplacements, linuxStartScriptTemplate, linuxJavaAppStartScriptBuilder)
-      map { (tmpDir, loader, replacements, template, builder) =>
-      makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
-      },
+        map { (tmpDir, loader, replacements, template, builder) =>
+          makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
+        },
       linuxPackageMappings <++= (packageName, linuxMakeStartScript, serverLoading, defaultLinuxStartScriptLocation) map startScriptMapping
     )) ++ Seq(
       // === Maintainer scripts === 

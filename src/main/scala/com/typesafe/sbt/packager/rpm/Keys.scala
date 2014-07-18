@@ -61,6 +61,7 @@ trait RpmKeys {
 object Keys extends RpmKeys {
   // METADATA keys.
   def name = sbt.Keys.name
+  def packageName = packager.Keys.packageName
   def normalizedName = sbt.Keys.normalizedName
   def version = sbt.Keys.version
   def maintainer = linux.Keys.maintainer
