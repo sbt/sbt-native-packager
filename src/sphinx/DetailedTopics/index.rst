@@ -13,3 +13,4 @@ Advanced Topics
    debian.rst
    windows.rst
    docker.rst
+   paths.rst
