@@ -1,0 +1,11 @@
+# Run the zip packaging.
+> show universal:package-bin
+$ exists target/universal/simple-package.zip
+
+# Run the tgz packaging.
+> universal:package-zip-tarball
+$ exists target/universal/simple-package.tgz
+
+# Run the txz packaging.
+> universal:package-xz-tarball
+$ exists target/universal/simple-package.txz
