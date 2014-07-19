@@ -45,7 +45,7 @@ object JavaAppPackaging {
       hasMain getOrElse Nil
     },
     // TODO - Overridable bash template.
-    makeBashScript <<= (bashScriptDefines, target in Universal, normalizedName, sourceDirectory) map makeUniversalBinScript,
+    makeBashScript <<= (bashScriptDefines, target in Universal, packageName, sourceDirectory) map makeUniversalBinScript,
     batScriptExtraDefines := Nil,
     batScriptReplacements <<= (normalizedName, Keys.mainClass in Compile, scriptClasspath, batScriptExtraDefines) map { (name, mainClass, cp, extras) =>
       mainClass map { mc =>
@@ -53,18 +53,18 @@ object JavaAppPackaging {
       } getOrElse Nil
 
     },
-    makeBatScript <<= (batScriptReplacements, target in Universal, normalizedName, sourceDirectory) map makeUniversalBatScript,
-    mappings in Universal <++= (makeBashScript, normalizedName) map { (script, name) =>
+    makeBatScript <<= (batScriptReplacements, target in Universal, packageName, sourceDirectory) map makeUniversalBatScript,
+    mappings in Universal <++= (makeBashScript, packageName) map { (script, name) =>
       for {
         s <- script.toSeq
       } yield s -> ("bin/" + name)
     },
-    mappings in Universal <++= (makeBatScript, normalizedName) map { (script, name) =>
+    mappings in Universal <++= (makeBatScript, packageName) map { (script, name) =>
       for {
         s <- script.toSeq
       } yield s -> ("bin/" + name + ".bat")
     },
-    linuxPackageMappings in Debian <+= (normalizedName, defaultLinuxInstallLocation, target in Debian) map {
+    linuxPackageMappings in Debian <+= (packageName in Debian, defaultLinuxInstallLocation, target in Debian) map {
       (name, installLocation, target) =>
         // create empty var/log directory
         val d = target / installLocation

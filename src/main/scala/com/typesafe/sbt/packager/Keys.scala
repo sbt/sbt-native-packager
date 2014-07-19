@@ -11,6 +11,7 @@ object Keys extends linux.Keys
   with universal.UniversalKeys {
 
   // These keys are used by the JavaApp/JavaServer archetypes.
+  val packageName = SettingKey[String]("packageName", "Name of the created output package. Used for dirs/scripts.")
   val makeBashScript = TaskKey[Option[File]]("makeBashScript", "Creates or discovers the bash script used by this project.")
   val bashScriptDefines = TaskKey[Seq[String]]("bashScriptDefines", "A list of definitions that should be written to the bash file template.")
   val bashScriptExtraDefines = TaskKey[Seq[String]]("bashScriptExtraDefines", "A list of extra definitions that should be written to the bash file template.")
@@ -27,8 +28,11 @@ object Keys extends linux.Keys
          |  APP_NAME - the name of the app
          |  APP_DEFINES - the defines to go into the app
          |  """.stripMargin)
+
+  // TODO put these into the linux plugin
   val defaultLinuxInstallLocation = SettingKey[String]("defaultLinuxInstallLocation", "The location where we will install generic linux packages.")
   val defaultLinuxLogsLocation = SettingKey[String]("defaultLinuxLogsLocation", "The location where application logs will be stored.")
   val defaultLinuxConfigLocation = SettingKey[String]("defaultLinuxConfigLocation", "The location where application config files will be stored")
   val defaultLinuxStartScriptLocation = SettingKey[String]("defaultLinuxStartScriptLocation", "The location where start script for server application will be stored")
+
 }

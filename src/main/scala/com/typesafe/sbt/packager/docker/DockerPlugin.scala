@@ -49,8 +49,8 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
   }
 
   private[this] final def generateDockerConfig(
-    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, normalizedName: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File) = {
-    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, normalizedName, exposedPorts, exposedVolumes)
+    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, packageName: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File) = {
+    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, packageName, exposedPorts, exposedVolumes)
 
     val f = target / "Dockerfile"
     IO.write(f, dockerContent)
@@ -149,9 +149,16 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
   def dockerSettings: Seq[Setting[_]] = Seq(
     dockerBaseImage := "dockerfile/java",
     name in Docker <<= name,
+    packageName in Docker <<= packageName,
     dockerRepository := None,
     sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
-    target in Docker <<= target apply (_ / "docker")
+    target in Docker <<= target apply (_ / "docker"),
+
+    // TODO this must be changed, when there is a setting for the startScripts name
+    dockerGenerateConfig <<=
+      (dockerBaseImage in Docker, defaultLinuxInstallLocation in Docker, maintainer in Docker, daemonUser in Docker,
+        packageName /* this is not scoped!*/ , dockerExposedPorts in Docker, dockerExposedVolumes in Docker, target in Docker) map
+        generateDockerConfig
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
       daemonUser := "daemon",
       defaultLinuxInstallLocation := "/opt/docker",
@@ -161,7 +168,6 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
         MappingsHelper contentOf dir
       },
       mappings <++= dockerPackageMappings,
-      normalizedName <<= name apply StringUtilities.normalize,
       stage <<= (dockerGenerateConfig, dockerGenerateContext) map { (configFile, contextDir) => () },
       dockerGenerateContext <<= (cacheDirectory, mappings, target) map {
         (cacheDirectory, mappings, t) =>
@@ -169,7 +175,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
           stageFiles("docker")(cacheDirectory, contextDir, mappings)
           contextDir
       },
-      dockerTarget <<= (dockerRepository, normalizedName, version) map {
+      dockerTarget <<= (dockerRepository, packageName, version) map {
         (repo, name, version) =>
           repo.map(_ + "/").getOrElse("") + name + ":" + version
       },
@@ -180,11 +186,6 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
       publish <<= (publishLocal, dockerTarget, streams) map {
         (_, target, s) =>
           publishDocker(target, s.log)
-      },
-      dockerGenerateConfig <<=
-        (dockerBaseImage, defaultLinuxInstallLocation, maintainer, daemonUser, normalizedName, dockerExposedPorts, dockerExposedVolumes, target) map {
-          case (dockerBaseImage, baseDirectory, maintainer, daemonUser, normalizedName, exposedPorts, exposedVolumes, target) =>
-            generateDockerConfig(dockerBaseImage, baseDirectory, maintainer, daemonUser, normalizedName, exposedPorts, exposedVolumes, target)
-        }
+      }
     ))
 }

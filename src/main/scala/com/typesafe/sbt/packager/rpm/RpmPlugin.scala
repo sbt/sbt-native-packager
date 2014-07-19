@@ -2,10 +2,10 @@ package com.typesafe.sbt
 package packager
 package rpm
 
-import Keys._
-import linux._
 import sbt._
 import sbt.Keys.sourceDirectory
+import rpm.Keys._
+import linux._
 import java.nio.charset.Charset
 
 /** Plugin trait containing all generic values used for packaging linux software. */
@@ -41,13 +41,17 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmPostun := None,
     rpmBrpJavaRepackJars := false,
     rpmScriptsDirectory <<= sourceDirectory apply (_ / "rpm" / Names.Scriptlets),
+    // Explicitly defer  default settings to generic Linux Settings.
     packageSummary in Rpm <<= packageSummary in Linux,
     packageDescription in Rpm <<= packageDescription in Linux,
-    target in Rpm <<= target(_ / "rpm")
+    target in Rpm <<= target(_ / "rpm"),
+    name in Rpm <<= name in Linux,
+    packageName in Rpm <<= packageName in Linux
   ) ++ inConfig(Rpm)(Seq(
+      normalizedName <<= name apply Project.normalizeModuleID,
       packageArchitecture := "noarch",
       rpmMetadata <<=
-        (name, version, rpmRelease, rpmPrefix, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply RpmMetadata,
+        (packageName, version, rpmRelease, rpmPrefix, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply RpmMetadata,
       rpmDescription <<=
         (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
       rpmDependencies <<=

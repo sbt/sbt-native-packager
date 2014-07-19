@@ -21,7 +21,11 @@ trait UniversalPlugin extends Plugin {
       dist <<= dist in Universal,
       stage <<= stage in Universal,
       // TODO - New default to naming, is this right?
-      name in Universal <<= (normalizedName, version) apply (_ + "-" + _)
+      // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
+      name in Universal <<= name,
+      name in UniversalDocs <<= name in Universal,
+      name in UniversalSrc <<= name in Universal,
+      packageName in Universal <<= packageName
     ) ++
       makePackageSettingsForConfig(Universal) ++
       makePackageSettingsForConfig(UniversalDocs) ++
@@ -34,6 +38,8 @@ trait UniversalPlugin extends Plugin {
       makePackageSettings(packageZipTarball, config)(makeTgz) ++
       makePackageSettings(packageXzTarball, config)(makeTxz) ++
       inConfig(config)(Seq(
+        normalizedName <<= name apply Project.normalizeModuleID,
+        packageName <<= (packageName, version) apply (_ + "-" + _),
         mappings <<= sourceDirectory map findSources,
         dist <<= (packageBin, streams) map printDist,
         stagingDirectory <<= target apply (_ / "stage"),
@@ -74,7 +80,7 @@ trait UniversalPlugin extends Plugin {
   private[this] def makePackageSettings(packageKey: TaskKey[File], config: Configuration)(packager: Packager): Seq[Setting[_]] =
     inConfig(config)(Seq(
       mappings in packageKey <<= mappings map checkMappings,
-      packageKey <<= (target, name, mappings in packageKey) map packager
+      packageKey <<= (target, packageName, mappings in packageKey) map packager
     ))
 
   /** check that all mapped files actually exist */

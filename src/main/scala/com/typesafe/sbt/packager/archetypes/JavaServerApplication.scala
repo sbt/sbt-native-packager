@@ -4,7 +4,7 @@ package archetypes
 
 import Keys._
 import sbt._
-import sbt.Keys.{ target, mainClass, normalizedName, sourceDirectory, streams }
+import sbt.Keys.{ target, mainClass, sourceDirectory, streams }
 import SbtNativePackager._
 import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
 import com.typesafe.sbt.packager.debian.DebianPlugin
@@ -89,53 +89,53 @@ object JavaServerAppPackaging {
    */
   def linuxSettings: Seq[Setting[_]] = Seq(
     // === logging directory mapping ===
-    linuxPackageMappings <+= (normalizedName, defaultLinuxLogsLocation, daemonUser in Linux, daemonGroup in Linux) map {
+    linuxPackageMappings <+= (packageName in Linux, defaultLinuxLogsLocation, daemonUser in Linux, daemonGroup in Linux) map {
       (name, logsDir, user, group) => packageTemplateMapping(logsDir + "/" + name)() withUser user withGroup group withPerms "755"
     },
-    linuxPackageSymlinks <+= (normalizedName, defaultLinuxInstallLocation, defaultLinuxLogsLocation) map {
+    linuxPackageSymlinks <+= (packageName in Linux, defaultLinuxInstallLocation, defaultLinuxLogsLocation) map {
       (name, install, logsDir) => LinuxSymlink(install + "/" + name + "/logs", logsDir + "/" + name)
     },
     // === etc config mapping ===
-    bashScriptConfigLocation <<= normalizedName map (name => Some("/etc/default/" + name)),
+    bashScriptConfigLocation <<= (packageName in Linux) map (name => Some("/etc/default/" + name)),
     linuxEtcDefaultTemplate <<= sourceDirectory map { dir =>
       val overrideScript = dir / "templates" / "etc-default"
       if (overrideScript.exists) overrideScript.toURI.toURL
       else etcDefaultTemplateSource
     },
-    makeEtcDefault <<= (normalizedName, target in Universal, linuxEtcDefaultTemplate, linuxScriptReplacements)
+    makeEtcDefault <<= (packageName in Linux, target in Universal, linuxEtcDefaultTemplate, linuxScriptReplacements)
       map makeEtcDefaultScript,
-    linuxPackageMappings <++= (makeEtcDefault, normalizedName) map { (conf, name) =>
+    linuxPackageMappings <++= (makeEtcDefault, packageName in Linux) map { (conf, name) =>
       conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)),
         LinuxFileMetaData(Users.Root, Users.Root)).withConfig()).toSeq
     },
 
     // === /var/run/app pid folder ===
-    linuxPackageMappings <+= (normalizedName, daemonUser in Linux, daemonGroup in Linux) map { (name, user, group) =>
+    linuxPackageMappings <+= (packageName in Linux, daemonUser in Linux, daemonGroup in Linux) map { (name, user, group) =>
       packageTemplateMapping("/var/run/" + name)() withUser user withGroup group withPerms "755"
     })
 
   def debianSettings: Seq[Setting[_]] = {
     import DebianPlugin.Names.{ Preinst, Postinst, Prerm, Postrm }
-    Seq(
-      serverLoading in Debian := Upstart,
-      startRunlevels in Debian <<= (serverLoading in Debian) apply defaultStartRunlevels,
-      stopRunlevels in Debian <<= (serverLoading in Debian) apply defaultStopRunlevels,
-      requiredStartFacilities in Debian <<= (serverLoading in Debian) apply defaultFacilities,
-      requiredStopFacilities in Debian <<= (serverLoading in Debian) apply defaultFacilities,
-      linuxJavaAppStartScriptBuilder in Debian := JavaAppStartScript.Debian,
+    inConfig(Debian)(Seq(
+      serverLoading := Upstart,
+      startRunlevels <<= (serverLoading) apply defaultStartRunlevels,
+      stopRunlevels <<= (serverLoading) apply defaultStopRunlevels,
+      requiredStartFacilities <<= (serverLoading) apply defaultFacilities,
+      requiredStopFacilities <<= (serverLoading) apply defaultFacilities,
+      linuxJavaAppStartScriptBuilder := JavaAppStartScript.Debian,
       // === Startscript creation ===
-      linuxScriptReplacements in Debian <++= (requiredStartFacilities in Debian, requiredStopFacilities in Debian, startRunlevels in Debian, stopRunlevels in Debian, serverLoading in Debian) apply
+      linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
         makeStartScriptReplacements,
-      linuxStartScriptTemplate in Debian <<= (serverLoading in Debian, sourceDirectory, linuxJavaAppStartScriptBuilder in Debian) map {
+      linuxStartScriptTemplate <<= (serverLoading, sourceDirectory, linuxJavaAppStartScriptBuilder) map {
         (loader, dir, builder) => builder.defaultStartScriptTemplate(loader, dir / "templates" / "start")
       },
-      defaultLinuxStartScriptLocation in Debian <<= (serverLoading in Debian) apply getStartScriptLocation,
-      linuxMakeStartScript in Debian <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements in Debian, linuxStartScriptTemplate in Debian, linuxJavaAppStartScriptBuilder in Debian)
+      defaultLinuxStartScriptLocation <<= (serverLoading) apply getStartScriptLocation,
+      linuxMakeStartScript <<= (target in Universal, serverLoading, linuxScriptReplacements, linuxStartScriptTemplate, linuxJavaAppStartScriptBuilder)
         map { (tmpDir, loader, replacements, template, builder) =>
           makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
         },
-      linuxPackageMappings in Debian <++= (normalizedName, linuxMakeStartScript in Debian, serverLoading in Debian, defaultLinuxStartScriptLocation in Debian) map startScriptMapping,
-
+      linuxPackageMappings <++= (packageName, linuxMakeStartScript, serverLoading, defaultLinuxStartScriptLocation) map startScriptMapping
+    )) ++ Seq(
       // === Maintainer scripts === 
       debianMakePreinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements, linuxJavaAppStartScriptBuilder in Debian) map makeMaintainerScript(Preinst),
       debianMakePostinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements, linuxJavaAppStartScriptBuilder in Debian) map makeMaintainerScript(Postinst),
@@ -145,15 +145,16 @@ object JavaServerAppPackaging {
 
   def rpmSettings: Seq[Setting[_]] = {
     import RpmPlugin.Names.{ Pre, Post, Preun, Postun }
-    Seq(
-      serverLoading in Rpm := SystemV,
-      startRunlevels in Rpm <<= (serverLoading in Rpm) apply defaultStartRunlevels,
-      stopRunlevels in Rpm <<= (serverLoading in Rpm) apply defaultStopRunlevels,
-      requiredStartFacilities in Rpm <<= (serverLoading in Rpm) apply defaultFacilities,
-      requiredStopFacilities in Rpm <<= (serverLoading in Rpm) apply defaultFacilities,
-      linuxJavaAppStartScriptBuilder in Rpm := JavaAppStartScript.Rpm,
-      linuxScriptReplacements in Rpm <++= (requiredStartFacilities in Rpm, requiredStopFacilities in Rpm, startRunlevels in Rpm, stopRunlevels in Rpm, serverLoading in Rpm) apply
-        makeStartScriptReplacements,
+    inConfig(Rpm)(Seq(
+      serverLoading := SystemV,
+      startRunlevels <<= (serverLoading) apply defaultStartRunlevels,
+      stopRunlevels in Rpm <<= (serverLoading) apply defaultStopRunlevels,
+      requiredStartFacilities in Rpm <<= (serverLoading) apply defaultFacilities,
+      requiredStopFacilities in Rpm <<= (serverLoading) apply defaultFacilities,
+      linuxJavaAppStartScriptBuilder := JavaAppStartScript.Rpm,
+      linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
+        makeStartScriptReplacements
+    )) ++ Seq(
       // === Startscript creation ===
       linuxStartScriptTemplate in Rpm <<= (serverLoading in Rpm, sourceDirectory, linuxJavaAppStartScriptBuilder in Rpm) map {
         (loader, dir, builder) =>
@@ -164,7 +165,7 @@ object JavaServerAppPackaging {
           makeMaintainerScript(builder.startScript, Some(template))(tmpDir, loader, replacements, builder)
         },
       defaultLinuxStartScriptLocation in Rpm <<= (serverLoading in Rpm) apply getStartScriptLocation,
-      linuxPackageMappings in Rpm <++= (normalizedName, linuxMakeStartScript in Rpm, serverLoading in Rpm, defaultLinuxStartScriptLocation in Rpm) map startScriptMapping,
+      linuxPackageMappings in Rpm <++= (packageName in Rpm, linuxMakeStartScript in Rpm, serverLoading in Rpm, defaultLinuxStartScriptLocation in Rpm) map startScriptMapping,
 
       // == Maintainer scripts ===
       // TODO this is very basic - align debian and rpm plugin

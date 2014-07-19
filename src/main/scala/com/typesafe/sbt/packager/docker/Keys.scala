@@ -20,6 +20,9 @@ object Keys extends DockerKeys {
   def cacheDirectory = sbt.Keys.cacheDirectory
   def mappings = sbt.Keys.mappings
   def name = sbt.Keys.name
+  def packageName = universal.Keys.packageName
+  def normalizedName = universal.Keys.normalizedName
+  def stage = universal.Keys.stage
   def publish = sbt.Keys.publish
   def publishArtifact = sbt.Keys.publishArtifact
   def publishLocal = sbt.Keys.publishLocal
@@ -28,8 +31,6 @@ object Keys extends DockerKeys {
   def target = sbt.Keys.target
   def version = sbt.Keys.version
   def defaultLinuxInstallLocation = packager.Keys.defaultLinuxInstallLocation
-  def normalizedName = universal.Keys.normalizedName
-  def stage = universal.Keys.stage
   def daemonUser = linux.Keys.daemonUser
   def maintainer = linux.Keys.maintainer
 }

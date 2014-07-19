@@ -66,7 +66,7 @@ trait GenericPackageSettings
       mapGenericMappingsToLinux(MappingsHelper contentOf dir, Users.Root, Users.Root)(identity)
     },
     // Now we look at the src/universal files.
-    linuxPackageMappings <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation) map {
+    linuxPackageMappings <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation) map {
       (pkg, mappings, installLocation) =>
         // TODO - More windows filters...
         def isWindowsFile(f: (File, String)): Boolean =
@@ -77,7 +77,7 @@ trait GenericPackageSettings
         }
     },
     // Now we generate symlinks.
-    linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation) map { (pkg, mappings, installLocation) =>
+    linuxPackageSymlinks <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation) map { (pkg, mappings, installLocation) =>
       for {
         (file, name) <- mappings
         if !file.isDirectory
@@ -86,7 +86,7 @@ trait GenericPackageSettings
       } yield LinuxSymlink("/usr/" + name, installLocation + "/" + pkg + "/" + name)
     },
     // Map configuration files
-    linuxPackageSymlinks <++= (normalizedName in Universal, mappings in Universal, defaultLinuxInstallLocation, defaultLinuxConfigLocation)
+    linuxPackageSymlinks <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation, defaultLinuxConfigLocation)
       map { (pkg, mappings, installLocation, configLocation) =>
         val needsConfLink =
           mappings exists {
