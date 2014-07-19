@@ -36,15 +36,13 @@ logs                                                      Linux                J
 ``<defaultLinuxInstallLocation>``                         Global, Docker                              Installation path inside the container
 ========================================================  ===================  =====================  =======
 
-      
-
 
 
 
 Settings
 --------
 
-Debian requires the following specific settings:
+These settings configure the path behaviour
 
   ``name``
     Use for the normal jar generation process
@@ -54,4 +52,11 @@ Debian requires the following specific settings:
 
   ``packageName``
     Defaults to ``normalizedName``. Can be override in different scopes
+
+  ``defaultLinuxInstallationLocation``
+    Defaults to ``/usr/share/``. Used to determine the installation path for for linux packages (rpm, debian)
+    
+  ``defaultLinuxLogLocation``
+    Defaults to ``/var/log/``. Used to determine the log path for linux packages (rpm, debian).
+    
 
