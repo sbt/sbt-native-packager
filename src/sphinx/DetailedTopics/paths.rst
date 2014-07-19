@@ -33,7 +33,7 @@ logs                                                      Linux                J
 /etc/init.d/``<packageName>``                             Linux, Debian, Rpm   JavaServerApplication  For SystemV
 /etc/init/``<packageName>``                               Linux, Debian, Rpm   JavaServerApplication  For Upstart
 /usr/lib/systemd/system/``<packageName>``.service         Linux, Debian, Rpm   JavaServerApplication  For Systemd
-``<defaultLinuxInstallLocation>``                         Global, Docker                              Installation path inside the container
+``<defaultLinuxInstallLocation>``                         Docker                                      Installation path inside the container
 ========================================================  ===================  =====================  =======
 
 

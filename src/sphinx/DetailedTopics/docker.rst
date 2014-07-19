@@ -15,7 +15,8 @@ Docker images require the following setting:
 
 .. code-block:: scala
 
-    maintainer in Linux := "John Smith <john.smith@example.com>"
+    import NativePackagerKeys._
+    maintainer in Docker := "John Smith <john.smith@example.com>"
 
 It may require these settings:
 
