@@ -36,8 +36,8 @@ trait LinuxPlugin extends Plugin {
     packageDescription in Linux <<= packageDescription,
     name in Linux <<= name,
     packageName in Linux <<= packageName,
-    normalizedName in Linux <<= (name in Linux) apply Project.normalizeModuleID,
-    daemonUser in Linux <<= normalizedName in Linux,
+    executableScriptName in Linux <<= executableScriptName,
+    daemonUser in Linux <<= packageName in Linux,
     daemonGroup in Linux <<= daemonUser in Linux,
     daemonShell in Linux := "/bin/false",
     defaultLinuxInstallLocation := "/usr/share",
@@ -47,16 +47,17 @@ trait LinuxPlugin extends Plugin {
     linuxJavaAppStartScriptBuilder := JavaAppStartScript.Debian,
     // This one is begging for sbt 0.13 syntax...
     linuxScriptReplacements <<= (
-      maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, daemonShell in Linux, normalizedName in Linux,
+      maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, daemonShell in Linux,
+      packageName in Linux, executableScriptName in Linux,
       sbt.Keys.version, defaultLinuxInstallLocation, linuxJavaAppStartScriptBuilder)
-      apply { (author, descr, daemonUser, daemonGroup, daemonShell, name, version, installLocation, builder) =>
+      apply { (author, descr, daemonUser, daemonGroup, daemonShell, name, execScript, version, installLocation, builder) =>
         val appDir = installLocation + "/" + name
 
         // TODO Making replacements should be done somewhere else. Maybe TemplateWriter
         builder.makeReplacements(
           author = author,
           description = descr,
-          execScript = name,
+          execScript = execScript,
           chdir = appDir,
           appName = name,
           daemonUser = daemonUser,

@@ -12,6 +12,7 @@ object Keys extends linux.Keys
 
   // These keys are used by the JavaApp/JavaServer archetypes.
   val packageName = SettingKey[String]("packageName", "Name of the created output package. Used for dirs/scripts.")
+  val executableScriptName = SettingKey[String]("executableScriptName", "Name of the executing script.")
   val makeBashScript = TaskKey[Option[File]]("makeBashScript", "Creates or discovers the bash script used by this project.")
   val bashScriptDefines = TaskKey[Seq[String]]("bashScriptDefines", "A list of definitions that should be written to the bash file template.")
   val bashScriptExtraDefines = TaskKey[Seq[String]]("bashScriptExtraDefines", "A list of extra definitions that should be written to the bash file template.")

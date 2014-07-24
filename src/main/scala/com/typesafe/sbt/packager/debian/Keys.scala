@@ -48,6 +48,7 @@ object Keys extends DebianKeys {
   // Metadata keys
   def name = sbt.Keys.name
   def packageName = linux.Keys.packageName
+  def executableScriptName = linux.Keys.executableScriptName
   def version = sbt.Keys.version
   def maintainer = linux.Keys.maintainer
   def packageArchitecture = linux.Keys.packageArchitecture

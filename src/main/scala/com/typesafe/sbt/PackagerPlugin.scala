@@ -30,7 +30,8 @@ object SbtNativePackager extends Plugin
       NativePackagerKeys.maintainer := "",
       NativePackagerKeys.packageDescription := "",
       NativePackagerKeys.packageSummary := "",
-      packageName <<= normalizedName
+      NativePackagerKeys.packageName <<= normalizedName,
+      NativePackagerKeys.executableScriptName <<= NativePackagerKeys.packageName
     )
 
   import SettingsHelper._

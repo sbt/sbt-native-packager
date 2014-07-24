@@ -21,7 +21,7 @@ object Keys extends DockerKeys {
   def mappings = sbt.Keys.mappings
   def name = sbt.Keys.name
   def packageName = universal.Keys.packageName
-  def normalizedName = universal.Keys.normalizedName
+  def executableScriptName = universal.Keys.executableScriptName
   def stage = universal.Keys.stage
   def publish = sbt.Keys.publish
   def publishArtifact = sbt.Keys.publishArtifact

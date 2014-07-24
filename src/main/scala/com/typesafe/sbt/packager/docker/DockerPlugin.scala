@@ -8,7 +8,7 @@ import sbt._
 trait DockerPlugin extends Plugin with UniversalPlugin {
   val Docker = config("docker") extend Universal
 
-  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, name: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String]) = {
+  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String]) = {
     val headerCommands = Seq(
       Cmd("FROM", dockerBaseImage),
       Cmd("MAINTAINER", maintainer)
@@ -19,7 +19,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
       Cmd("WORKDIR", "%s" format dockerBaseDirectory),
       ExecCmd("RUN", "chown", "-R", daemonUser, "."),
       Cmd("USER", daemonUser),
-      ExecCmd("ENTRYPOINT", "bin/%s" format name),
+      ExecCmd("ENTRYPOINT", "bin/%s" format execScript),
       ExecCmd("CMD")
     )
 
@@ -49,8 +49,8 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
   }
 
   private[this] final def generateDockerConfig(
-    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, packageName: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File) = {
-    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, packageName, exposedPorts, exposedVolumes)
+    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File) = {
+    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, execScript, exposedPorts, exposedVolumes)
 
     val f = target / "Dockerfile"
     IO.write(f, dockerContent)
@@ -150,6 +150,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     dockerBaseImage := "dockerfile/java",
     name in Docker <<= name,
     packageName in Docker <<= packageName,
+    executableScriptName in Docker <<= executableScriptName,
     dockerRepository := None,
     sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
     target in Docker <<= target apply (_ / "docker"),
@@ -157,7 +158,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     // TODO this must be changed, when there is a setting for the startScripts name
     dockerGenerateConfig <<=
       (dockerBaseImage in Docker, defaultLinuxInstallLocation in Docker, maintainer in Docker, daemonUser in Docker,
-        packageName /* this is not scoped!*/ , dockerExposedPorts in Docker, dockerExposedVolumes in Docker, target in Docker) map
+        executableScriptName /* this is not scoped!*/ , dockerExposedPorts in Docker, dockerExposedVolumes in Docker, target in Docker) map
         generateDockerConfig
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
       daemonUser := "daemon",

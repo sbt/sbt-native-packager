@@ -20,7 +20,7 @@ object Keys extends UniversalKeys {
   def packageDoc = sbt.Keys.packageDoc
   def name = sbt.Keys.name
   def packageName = packager.Keys.packageName
-  def normalizedName = sbt.Keys.normalizedName
+  def executableScriptName = packager.Keys.executableScriptName
   def target = sbt.Keys.target
   def sourceDirectory = sbt.Keys.sourceDirectory
   def streams = sbt.Keys.streams

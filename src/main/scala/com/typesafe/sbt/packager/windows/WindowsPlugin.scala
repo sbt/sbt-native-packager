@@ -4,6 +4,7 @@ package windows
 
 import Keys._
 import sbt._
+import sbt.Keys.{ normalizedName }
 
 trait WindowsPlugin extends Plugin {
   val Windows = config("windows")
@@ -13,6 +14,7 @@ trait WindowsPlugin extends Plugin {
     target in Windows <<= target apply (_ / "windows"),
     // TODO - Should this use normalized name like the linux guys?
     name in Windows <<= name,
+    packageName in Windows <<= normalizedName,
     // Defaults so that our simplified building works
     candleOptions := Seq("-ext", "WixUtilExtension"),
     lightOptions := Seq("-ext", "WixUIExtension",

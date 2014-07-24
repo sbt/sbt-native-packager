@@ -4,7 +4,7 @@ package debian
 
 import Keys._
 import sbt._
-import sbt.Keys.{ target, name, normalizedName, TaskStreams }
+import sbt.Keys.{ target, name, TaskStreams }
 import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
 import linux.Keys.{ linuxScriptReplacements, daemonShell }
 import com.typesafe.sbt.packager.Hashing
@@ -28,6 +28,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
     target in Debian <<= (target, name in Debian, version in Debian) apply ((t, n, v) => t / (n + "-" + v)),
     name in Debian <<= (name in Linux),
     packageName in Debian <<= (packageName in Linux),
+    executableScriptName in Debian <<= (executableScriptName in Linux),
     version in Debian <<= (version in Linux),
     linuxPackageMappings in Debian <<= linuxPackageMappings,
     packageDescription in Debian <<= packageDescription in Linux,

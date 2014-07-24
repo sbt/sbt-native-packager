@@ -28,7 +28,7 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
-prog="${{app_name}}"
+prog="${{exec}}"
 
 # FIXME The pid file should be handled by the executed script
 # The pid can be filled in in this script

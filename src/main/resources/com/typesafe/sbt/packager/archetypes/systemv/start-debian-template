@@ -20,7 +20,7 @@ if [ -z "$DAEMON_USER" ]; then
 fi
 
 
-RUN_CMD="${{chdir}}/bin/${{app_name}}"
+RUN_CMD="${{chdir}}/bin/${{exec}}"
 
 
 start_daemon() {

@@ -25,6 +25,10 @@ debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)
 
 debianPackageRecommends in Debian += "git"
 
+rpmVendor := "typesafe"
+
+rpmLicense := Some("BSD")
+
 //debianMakePrermScript := Some(sourceDirectory.value / "deb" / "control" / "prerm") //change defaults
 
 

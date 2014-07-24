@@ -46,9 +46,9 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     packageDescription in Rpm <<= packageDescription in Linux,
     target in Rpm <<= target(_ / "rpm"),
     name in Rpm <<= name in Linux,
-    packageName in Rpm <<= packageName in Linux
+    packageName in Rpm <<= packageName in Linux,
+    executableScriptName in Rpm <<= executableScriptName in Linux
   ) ++ inConfig(Rpm)(Seq(
-      normalizedName <<= name apply Project.normalizeModuleID,
       packageArchitecture := "noarch",
       rpmMetadata <<=
         (packageName, version, rpmRelease, rpmPrefix, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply RpmMetadata,

@@ -5,7 +5,7 @@ Requires=${{start_facilities}}
 [Service]
 Type=simple
 WorkingDirectory=${{chdir}}
-ExecStart=${{chdir}}/bin/${{app_name}}
+ExecStart=${{chdir}}/bin/${{exec}}
 Restart=always
 RestartSec=${{retryTimeout}}
 

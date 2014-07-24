@@ -25,7 +25,8 @@ trait UniversalPlugin extends Plugin {
       name in Universal <<= name,
       name in UniversalDocs <<= name in Universal,
       name in UniversalSrc <<= name in Universal,
-      packageName in Universal <<= packageName
+      packageName in Universal <<= packageName,
+      executableScriptName in Universal <<= executableScriptName
     ) ++
       makePackageSettingsForConfig(Universal) ++
       makePackageSettingsForConfig(UniversalDocs) ++
@@ -38,7 +39,6 @@ trait UniversalPlugin extends Plugin {
       makePackageSettings(packageZipTarball, config)(makeTgz) ++
       makePackageSettings(packageXzTarball, config)(makeTxz) ++
       inConfig(config)(Seq(
-        normalizedName <<= name apply Project.normalizeModuleID,
         packageName <<= (packageName, version) apply (_ + "-" + _),
         mappings <<= sourceDirectory map findSources,
         dist <<= (packageBin, streams) map printDist,

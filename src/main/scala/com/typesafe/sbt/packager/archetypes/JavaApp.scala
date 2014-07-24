@@ -5,7 +5,7 @@ package archetypes
 import Keys._
 import sbt._
 import sbt.Project.Initialize
-import sbt.Keys.{ mappings, target, name, mainClass, normalizedName, sourceDirectory }
+import sbt.Keys.{ mappings, target, name, mainClass, sourceDirectory }
 import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping }
 import SbtNativePackager._
 
@@ -45,21 +45,21 @@ object JavaAppPackaging {
       hasMain getOrElse Nil
     },
     // TODO - Overridable bash template.
-    makeBashScript <<= (bashScriptDefines, target in Universal, packageName, sourceDirectory) map makeUniversalBinScript,
+    makeBashScript <<= (bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBinScript,
     batScriptExtraDefines := Nil,
-    batScriptReplacements <<= (normalizedName, Keys.mainClass in Compile, scriptClasspath, batScriptExtraDefines) map { (name, mainClass, cp, extras) =>
+    batScriptReplacements <<= (packageName, Keys.mainClass in Compile, scriptClasspath, batScriptExtraDefines) map { (name, mainClass, cp, extras) =>
       mainClass map { mc =>
         JavaAppBatScript.makeReplacements(name = name, mainClass = mc, appClasspath = cp, extras = extras)
       } getOrElse Nil
 
     },
-    makeBatScript <<= (batScriptReplacements, target in Universal, packageName, sourceDirectory) map makeUniversalBatScript,
-    mappings in Universal <++= (makeBashScript, packageName) map { (script, name) =>
+    makeBatScript <<= (batScriptReplacements, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBatScript,
+    mappings in Universal <++= (makeBashScript, executableScriptName) map { (script, name) =>
       for {
         s <- script.toSeq
       } yield s -> ("bin/" + name)
     },
-    mappings in Universal <++= (makeBatScript, packageName) map { (script, name) =>
+    mappings in Universal <++= (makeBatScript, executableScriptName) map { (script, name) =>
       for {
         s <- script.toSeq
       } yield s -> ("bin/" + name + ".bat")
@@ -164,7 +164,7 @@ object JavaAppPackaging {
       !(name.endsWith(".jar") || name.endsWith("-sources.jar") || name.endsWith("-javadoc.jar"))
     }
 
-  def findProjectDependencyArtifacts: Initialize[Task[Seq[Attributed[File]]]] =
+  def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[File]]]] =
     (sbt.Keys.buildDependencies, sbt.Keys.thisProjectRef, sbt.Keys.state) apply { (build, thisProject, stateTask) =>
       val refs = thisProject +: dependencyProjectRefs(build, thisProject)
       // Dynamic lookup of dependencies...
