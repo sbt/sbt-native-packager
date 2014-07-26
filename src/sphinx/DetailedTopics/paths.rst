@@ -22,9 +22,9 @@ output path                                               scopes               a
 ========================================================  ===================  =====================  =======
 lib                                                       all                  JavaApp
 conf                                                      all                  JavaApp
-bin/``<packageName>``                                     Global, Debian, Rpm  JavaApp
-bin/``<packageName>``                                     Docker                                      Entrypoint DockerPlugin
-bin/``<packageName>``.bat                                 Global               JavaApp
+bin/``<executableScriptName>``                            Global               JavaApp
+bin/``<executableScriptName>``.bat                        Global               JavaApp
+bin/``<executableScriptName>``                            Global                                      Entrypoint DockerPlugin
 ``<defaultLinuxInstallationLocation>``/``<packageName>``  Linux, Debian, Rpm   JavaApp
 ``<defaultLinuxLogLocation>``/``<packageName>``           Linux                JavaServerApplication
 logs                                                      Linux                JavaServerApplication  Symlink
@@ -47,11 +47,11 @@ These settings configure the path behaviour
   ``name``
     Use for the normal jar generation process
 
-  ``normalizedName``
-    Use for the normal jar generation process.
-
   ``packageName``
     Defaults to ``normalizedName``. Can be override in different scopes
+    
+  ``executableScriptName``
+    Defaults to ``normalizedName``. Sets the name of the executable starter script
 
   ``defaultLinuxInstallationLocation``
     Defaults to ``/usr/share/``. Used to determine the installation path for for linux packages (rpm, debian)
