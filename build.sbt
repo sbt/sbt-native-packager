@@ -12,7 +12,7 @@ scalacOptions in Compile += "-deprecation"
 
 libraryDependencies ++= Seq(
     "org.apache.commons" % "commons-compress" % "1.4.1",
-    "org.vafer" % "jdeb" % "1.2" artifacts (Artifact("jdeb", "jar", "jar"))
+    "org.vafer" % "jdeb" % "1.3" artifacts (Artifact("jdeb", "jar", "jar"))
 )
 
 site.settings
