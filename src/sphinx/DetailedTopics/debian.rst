@@ -8,7 +8,15 @@ the underlying packaging system works.  http://tldp.org/HOWTO/html_single/Debian
 Getting Started
 ---------------
 By default, the debian packaging settings will take all files under ``src/debian/DEBIAN`` and map them into the debian control directory.
+Make sure you have to following tools installed on your machine in order to build debian packages natively:
 
+* dpkg-deb
+* dpkg-sig
+* dpkg-genchanges
+* lintian
+* fakeroot
+
+If you are on windows you can try to use the jdeb packaging described below.
 
 Settings
 --------
