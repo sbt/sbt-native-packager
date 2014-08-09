@@ -17,15 +17,11 @@ This is a work in process project.  The goal is to be able to bundle up Scala so
 ## Installation ##
 
 Add the following to your `project/plugins.sbt` file:
-    
 
     addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.4")
-    
 
 For the native packager keys add this to your `build.sbt`
 
-
-    import com.typesafe.sbt.SbtNativePackager._
     import NativePackagerKeys._
 
 ## Experimental systemd bootsystem support ##
@@ -33,7 +29,6 @@ For the native packager keys add this to your `build.sbt`
 Native packager now provides experimental `systemd` startup scripts.
 Currently it works on Fedora `Fedora release 20 (Heisenbug)` and doesn't work on Ubuntu because of partial `systemd` support in `Ubuntu 14.04 LTS`. 
 To enable this feature follow [My First Packaged Server Project guide](http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html) and use `Systemd` as server loader:
-  
   
     import com.typesafe.sbt.packager.archetypes.ServerLoader.Systemd
     serverLoading in Rpm := Systemd
@@ -65,7 +60,6 @@ packageBin in Debian <<= debianJDebPackaging in Debian
 ## Documentation ##
 
 There's a complete "getting started" guide and more detailed topics available at [the sbt-native-packager site](http://scala-sbt.org/sbt-native-packager).  
-
 
 Please feel free to [contribute documentation](https://github.com/sbt/sbt-native-packager/tree/master/src/sphinx), or raise issues where you feel it may be lacking.
 
