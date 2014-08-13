@@ -38,7 +38,7 @@ object Release {
   	// TODO - Implement.   Instead of only running tests we can, we should 
   	// probably ping some service to see if all platform tests have
   	// succeeded.
-  	"scripted universal/* debian/* rpm/*"
+  	"scripted universal/* debian/* rpm/* docker/*"
   }
 
   def releaseAction(state: State, tag: String): State = {
