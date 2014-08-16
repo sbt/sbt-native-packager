@@ -4,9 +4,8 @@ package debian
 
 import Keys._
 import sbt._
-import sbt.Keys.{ target, name, normalizedName, TaskStreams }
-import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
-import linux.Keys.{ linuxScriptReplacements, daemonShell }
+import sbt.Keys.{ target, normalizedName }
+import linux.{ LinuxSymlink }
 import com.typesafe.sbt.packager.linux.LinuxPackageMapping
 import scala.collection.JavaConversions._
 
@@ -63,12 +62,11 @@ trait JDebPackaging { this: DebianPlugin with linux.LinuxPlugin =>
    */
   private[debian] def fileAndDirectoryProducers(mappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] = mappings.map {
     case LinuxPackageMapping(paths, perms, zipped) =>
-      // TODO implement mappers here or use the maintainerscripts logic?
-      val (dirs, files) = paths.partition(_._1.isDirectory)
       paths map {
         case (path, name) if path.isDirectory =>
           val permMapper = new PermMapper(-1, -1, perms.user, perms.group, null, perms.permissions, -1, null)
-          new DataProducerDirectory(target / name, null, Array("**"), Array(permMapper))
+          val dirName = if (name.startsWith("/")) name.drop(1) else name
+          new DataProducerDirectory(target, Array(dirName), null, Array(permMapper))
         case (path, name) =>
           val permMapper = new PermMapper(-1, -1, perms.user, perms.group, perms.permissions, null, -1, null)
           new DataProducerFile(target / name, name, null, null, Array(permMapper))
