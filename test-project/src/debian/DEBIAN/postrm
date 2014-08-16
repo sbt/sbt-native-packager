@@ -1,1 +1,1 @@
-echo "removed ${{name}}-${{version}} from ${{author}}"
+echo "removed ${{app_name}} from ${{author}}"

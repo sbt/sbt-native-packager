@@ -42,7 +42,6 @@ trait JDebPackaging { this: DebianPlugin with linux.LinuxPlugin =>
         name, version, target, s) =>
           s.log.info("Building debian package with java based implementation 'jdeb'")
           val console = new JDebConsole(s.log)
-
           val debianFile = target.getParentFile / "%s_%s_all.deb".format(name, version)
           val debMaker = new DebMaker(console,
             fileAndDirectoryProducers(mappings, target) ++ linkProducers(symlinks),
@@ -68,9 +67,11 @@ trait JDebPackaging { this: DebianPlugin with linux.LinuxPlugin =>
       val (dirs, files) = paths.partition(_._1.isDirectory)
       paths map {
         case (path, name) if path.isDirectory =>
-          new DataProducerDirectory(target / name, null, Array("**"), null)
+          val permMapper = new PermMapper(-1, -1, perms.user, perms.group, null, perms.permissions, -1, null)
+          new DataProducerDirectory(target / name, null, Array("**"), Array(permMapper))
         case (path, name) =>
-          new DataProducerFile(target / name, name, null, null, null)
+          val permMapper = new PermMapper(-1, -1, perms.user, perms.group, perms.permissions, null, -1, null)
+          new DataProducerFile(target / name, name, null, null, Array(permMapper))
       }
   }.flatten
 
