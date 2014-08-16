@@ -1,1 +1,1 @@
-echo "installing ${{name}}-${{version}} from ${{author}}"
+echo "installing ${{app_name}} from ${{author}}"
