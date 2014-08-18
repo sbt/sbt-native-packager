@@ -1,0 +1,3 @@
+# Stage the distribution and ensure main class can be run.
+> universal:stage
+$ exists target/universal/stage/bin/
