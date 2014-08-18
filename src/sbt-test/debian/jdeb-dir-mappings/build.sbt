@@ -34,7 +34,7 @@ TaskKey[Unit]("check-dir-mappings") <<= (target, streams) map { (target, out) =>
   assert((extracted / "usr/share/conf/application.conf").exists(), "File application.conf not exists")
   assert((extracted / "usr/share/conf/log4j.properties").exists(), "File log4j.properties not exists")
   assert((extracted / "var/empty").exists(), "Empty dir not exists")
-//  extracted.delete()
+  extracted.delete()
   out.log.success("Successfully tested control script")
   ()
 }
