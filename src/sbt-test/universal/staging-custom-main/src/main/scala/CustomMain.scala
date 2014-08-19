@@ -1,7 +1,3 @@
-object CustomMainOne extends App {
-  override def main( args:Array[String] ):Unit = println("Hello world 1")
-}
-
-object CustomMainTwo extends App {
-  override def main( args:Array[String] ):Unit = println("Hello world 2")
+object CustomMain extends App {
+  println("A custom main method")
 }
