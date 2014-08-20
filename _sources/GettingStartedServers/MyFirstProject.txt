@@ -116,7 +116,7 @@ A basic ``build.sbt`` for Docker requires the ``linux.Keys.maintainer`` setting:
 
 .. code-block:: scala
 
-    maintainer in Linux := "John Smith <john.smith@example.com>"
+    maintainer in Docker := "John Smith <john.smith@example.com>"
 
 
 There are a number of other available settings:

@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Debian &mdash; sbt-native-packager 0.7.3 documentation</title>
+    <title>Debian &mdash; sbt-native-packager 0.7.5-RC1 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.7.3',
+        VERSION:     '0.7.5-RC1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.7.3 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7.5-RC1 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Packaging for Windows" href="windows.html" />
     <link rel="prev" title="RedHat" href="redhat.html" />
@@ -152,7 +152,16 @@
 the underlying packaging system works.  <a class="reference external" href="http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/">http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/</a> is an excellent tutorial.</p>
 <div class="section" id="getting-started">
 <h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
-<p>By default, the debian packaging settings will take all files under <tt class="docutils literal"><span class="pre">src/debian/DEBIAN</span></tt> and map them into the debian control directory.</p>
+<p>By default, the debian packaging settings will take all files under <tt class="docutils literal"><span class="pre">src/debian/DEBIAN</span></tt> and map them into the debian control directory.
+Make sure you have to following tools installed on your machine in order to build debian packages natively:</p>
+<ul class="simple">
+<li>dpkg-deb</li>
+<li>dpkg-sig</li>
+<li>dpkg-genchanges</li>
+<li>lintian</li>
+<li>fakeroot</li>
+</ul>
+<p>If you are on windows you can try to use the jdeb packaging described below.</p>
 </div>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
