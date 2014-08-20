@@ -7,7 +7,7 @@ Project archetypes are default deployment scripts that try to "do the right thin
 Because not all projects are created equal, there is no one single archetype for all native packages, but a set
 of them for usage.
 
-The architecture of the plugin is set up so that you can customize your packages at any level of complexity.  
+The architecture of the plugin is set up so that you can customize your packages at any level of complexity.
 For example, if you'd like to write Windows Installer XML by hand and manually map files, you should be able to do this while
 still leveraging the default configuration for other platforms.
 
@@ -16,7 +16,7 @@ Curently, in the nativepackager these archetypes are available:
 
   * Java Command Line Application
   * Java Server Application (Experimental - Debian Only)
-  
+
 
 Java Command Line Application
 -----------------------------
@@ -30,7 +30,7 @@ this archetype in your build, do the following in your ``build.sbt``:
     packageArchetype.java_application
 
     name := "A-package-friendly-name"
-    
+
     packageSummary in Linux := "The name you want displayed in package summaries"
 
     packageSummary in Windows := "The name you want displayed in Add/Remove Programs"
@@ -38,7 +38,7 @@ this archetype in your build, do the following in your ``build.sbt``:
     packageDescription := " A description of your project"
 
     maintainer in Windows := "Company"
-    
+
     maintainer in Debian := "Your Name <your@email.com>"
 
     wixProductId := "ce07be71-510d-414a-92d4-dff47631848a"
@@ -60,6 +60,8 @@ produces a universal layout that looks like the following:
 
 You can add additional files to the project by placing things in ``src/windows``, ``src/universal`` or ``src/linux`` as needed.
 
+The scripts under ``bin`` will execute the ``main`` method of a class found in your application. But you can specific a custom main class method with the ``-main`` flag.
+
 The default bash script also supports having a configuration file.  This config file can be used to specify default arguments to the BASH script.
 To define a config location for your bash script, you can manually override the template defines:
 
@@ -74,7 +76,7 @@ Java Server
 -----------
 
 This archetype is designed for Java applications that are intended to run as
-servers or services.  This archetype includes wiring an application to start 
+servers or services.  This archetype includes wiring an application to start
 immediately upon startup. To activate this archetype replace ``packageArchetype.java_application`` with
 
 .. code-block:: scala
@@ -150,7 +152,7 @@ You can define addiitonal variable definitions using ``batScriptExtraDefines``.
 ``src/templates/bash-template``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Creating a file here will override the default template used to 
+Creating a file here will override the default template used to
 generate the BASH start script found in ``bin/<application>`` in the
 universal distribution
 
