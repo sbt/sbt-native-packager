@@ -4,8 +4,6 @@ packageArchetype.java_application
 
 name := "stage-custom-main"
 
-executableScriptName := "stage-custom-main"
-
 version := "0.1.0"
 
 mainClass in Compile := Some("Main")
