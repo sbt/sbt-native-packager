@@ -68,7 +68,7 @@ trait WindowsPlugin extends Plugin {
       mappings := Seq.empty,
       mappings in packageBin <<= mappings,
       generateWinswFiles <<= (getWinswExe, createWinswXml) map {
-	(exe, xml) => (exe, xml) //Probably a shorter way to write this map { ... } to avoid variable name repetition
+        (exe, xml) => (exe, xml) //Probably a shorter way to write this map { ... } to avoid variable name repetition
       },
       // TODO - Remove packageMsi after next major release.
       mappings in packageMsi <<= mappings in packageBin,

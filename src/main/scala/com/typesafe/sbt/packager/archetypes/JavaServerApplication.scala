@@ -99,21 +99,21 @@ object JavaServerAppPackaging {
       getWinswExe <<= (target in Windows) map doGetWinswExe,
       //TODO use batScriptExtraDefines ? Definitly it's not generic enough and this must be review
       //Create the xml file that go with winsw exe
-      createWinswXml <<= (normalizedName, Keys.mainClass in Compile, scriptClasspath, target in Windows) map doCreateWinswXml,
+      createWinswXml <<= (packageName, Keys.mainClass in Compile, scriptClasspath, target in Windows) map doCreateWinswXml,
       /*
        * Mappings exe and xml files
        */
       //Exe
-      mappings in Windows <++= (getWinswExe, normalizedName) map { (file, name) =>
-	for {
-	  s <- file.toSeq
-	} yield s -> ("bin/" + name + "_service.exe")
+      mappings in Windows <++= (getWinswExe, packageName) map { (file, name) =>
+        for {
+          s <- file.toSeq
+        } yield s -> ("bin/" + name + "_service.exe")
       },
       //Xml
-      mappings in Windows <++= (createWinswXml, normalizedName) map { (file, name) =>
-	for {
-	  s <- file.toSeq
-	} yield s -> ("bin/" + name + "_service.xml")
+      mappings in Windows <++= (createWinswXml, packageName) map { (file, name) =>
+        for {
+          s <- file.toSeq
+        } yield s -> ("bin/" + name + "_service.xml")
       })
   }
 
@@ -320,20 +320,20 @@ object JavaServerAppPackaging {
     //Here gain this is maybe only specific to Play...
     val relativeAppClasspath =
       appClasspath map {
-	(s) => """..\lib\""" + s;
+        (s) => """..\lib\""" + s;
       } mkString (";")
 
     //Basic arguments support
     //How to provide PID no generation optional? By using a boolean ? By detecting Play project automativally?
     val xml = {
       <service>
-	<id>{ name }</id>
-	<name>{ name }</name>
-	<description>{ name }</description>
-	<executable>java</executable>
-	<arguments>-cp { doubleQuote }{ relativeAppClasspath }{ doubleQuote } { noPid } { mainClass.getOrElse("Main") }</arguments>
-	<logmode>rotate</logmode>
-	<onfailure action="restart"/>
+        <id>{ name }</id>
+        <name>{ name }</name>
+        <description>{ name }</description>
+        <executable>java</executable>
+        <arguments>-cp { doubleQuote }{ relativeAppClasspath }{ doubleQuote } { noPid } { mainClass.getOrElse("Main") }</arguments>
+        <logmode>rotate</logmode>
+        <onfailure action="restart"/>
       </service>
     }
 

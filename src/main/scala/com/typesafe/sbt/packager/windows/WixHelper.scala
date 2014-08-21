@@ -61,7 +61,7 @@ object WixHelper {
     val filenamesPrep =
       for {
         f <- features
-	ComponentFile(name, _, _) <- f.components
+        ComponentFile(name, _, _) <- f.components
       } yield allParentDirs(file(name))
     val filenames = filenamesPrep.flatten.map(_.toString.replaceAll("\\\\", "/")).filter(_ != "")
     // Now for directories...
@@ -124,12 +124,12 @@ object WixHelper {
                   } else Seq.empty
                 }
               </File>
-	      {
-		if (isWindowsService) { //So far simple config but we will give more options to control the service.
-		  <ServiceInstall Name={ cleanFileName(fname) } ErrorControl="normal" Start="auto" Type="ownProcess" Vital="yes">
-		  </ServiceInstall>
-		} else Seq.empty
-	      }
+              {
+                if (isWindowsService) { //So far simple config but we will give more options to control the service.
+                  <ServiceInstall Name={ cleanFileName(fname) } ErrorControl="normal" Start="auto" Type="ownProcess" Vital="yes">
+                  </ServiceInstall>
+                } else Seq.empty
+              }
             </Component>
           </DirectoryRef>
         ComponentInfo(id, xml)
