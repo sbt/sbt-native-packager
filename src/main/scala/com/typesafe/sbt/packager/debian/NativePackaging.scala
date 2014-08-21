@@ -70,7 +70,7 @@ trait NativePackaging { this: DebianPlugin with linux.LinuxPlugin =>
       (pkgdir, _, section, priority, name, version, arch, tdir, s) =>
         s.log.info("Building debian package with native implementation")
         // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
-        val archive = name + "_" + version + "_" + arch + ".deb"
+        val archive = archiveFilename(name, version, arch)
         Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath, "../" + archive), Some(tdir)) ! s.log match {
           case 0 => ()
           case x => sys.error("Failure packaging debian file.  Exit code: " + x)
