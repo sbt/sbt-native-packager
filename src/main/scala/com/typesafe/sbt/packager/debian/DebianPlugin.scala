@@ -250,6 +250,15 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
       case (scr, _) => scr.toSeq.map(_ -> scriptName)
     }
   }
+
+  private[debian] def archiveFilename(appName: String, version: String, arch: String): String = {
+    appName + "_" + version + "_" + arch + ".deb"
+  }
+
+  private[debian] def changesFilename(appName: String, version: String, arch: String): String = {
+    appName + "_" + version + "_" + arch + ".changes"
+  }
+
 }
 
 /**

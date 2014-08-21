@@ -36,12 +36,13 @@ trait JDebPackaging { this: DebianPlugin with linux.LinuxPlugin =>
      */
     debianJDebPackaging <<= (debianExplodedPackage, linuxPackageMappings, linuxPackageSymlinks,
       debianControlFile, debianMaintainerScripts, debianConffilesFile,
-      normalizedName, version, target, streams) map {
+      normalizedName, version, packageArchitecture, target, streams) map {
         (_, mappings, symlinks, controlfile, controlscripts, conffile,
-        name, version, target, s) =>
+        name, version, arch, target, s) =>
           s.log.info("Building debian package with java based implementation 'jdeb'")
           val console = new JDebConsole(s.log)
-          val debianFile = target.getParentFile / "%s_%s_all.deb".format(name, version)
+          val archive = archiveFilename(name, version, arch)
+          val debianFile = target.getParentFile / archive
           val debMaker = new DebMaker(console,
             fileAndDirectoryProducers(mappings, target) ++ linkProducers(symlinks),
             conffileProducers()
