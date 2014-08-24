@@ -39,6 +39,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     rpmPosttrans := None,
     rpmPreun := None,
     rpmPostun := None,
+    rpmChangelogFile := None,
     rpmBrpJavaRepackJars := false,
     rpmScriptsDirectory <<= sourceDirectory apply (_ / "rpm" / Names.Scriptlets),
     // Explicitly defer  default settings to generic Linux Settings.
@@ -53,7 +54,7 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
       rpmMetadata <<=
         (packageName, version, rpmRelease, rpmPrefix, packageArchitecture, rpmVendor, rpmOs, packageSummary, packageDescription, rpmAutoprov, rpmAutoreq) apply RpmMetadata,
       rpmDescription <<=
-        (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon) apply RpmDescription,
+        (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon, rpmChangelogFile) apply RpmDescription,
       rpmDependencies <<=
         (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
       rpmPre <<= (rpmPre, rpmBrpJavaRepackJars) apply {
