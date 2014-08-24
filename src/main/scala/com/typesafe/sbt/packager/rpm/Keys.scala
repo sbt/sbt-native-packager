@@ -14,6 +14,9 @@ trait RpmKeys {
   val rpmPrefix = SettingKey[Option[String]]("rpm-prefix", "File system prefix for relocatable package.")
   val rpmMetadata = SettingKey[RpmMetadata]("rpm-metadata", "Metadata associated with the generated RPM.")
 
+  // Changelog
+  val rpmChangelogFile = SettingKey[Option[String]]("rpm-changelog-file", "RPM changelog file to be imported")
+
   // DESCRIPTION KEYS
   // TODO - Summary and license are required.
   val rpmLicense = SettingKey[Option[String]]("rpm-license", "License of the code within the RPM.")

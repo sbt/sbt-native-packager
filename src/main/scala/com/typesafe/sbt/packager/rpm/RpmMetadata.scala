@@ -5,6 +5,7 @@ package rpm
 import linux.{ LinuxPackageMapping, LinuxFileMetaData }
 import sbt._
 import com.typesafe.sbt.packager.linux.LinuxSymlink
+import java.nio.file.{ Paths, Files }
 
 case class RpmMetadata(
   name: String,
@@ -29,7 +30,8 @@ case class RpmDescription(
   url: Option[String] = None,
   group: Option[String] = None,
   packager: Option[String] = None,
-  icon: Option[String] = None)
+  icon: Option[String] = None,
+  changelogFile: Option[String] = None)
 
 case class RpmDependencies(
   provides: Seq[String] = Seq.empty,
@@ -204,8 +206,13 @@ case class RpmSpec(meta: RpmMetadata,
     // Write file mappings
     sb append fileSection
     // TODO - Write triggers...
-    // TODO - Write changelog...
-
+    desc.changelogFile foreach { changelog =>
+      if (Files.exists(Paths.get(changelog))) {
+        val content = scala.io.Source.fromFile(changelog).mkString
+        sb append "%changelog\n"
+        sb append ("%s\n" format content)
+      }
+    }
     sb.toString
   }
 }
