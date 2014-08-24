@@ -29,6 +29,8 @@ rpmVendor := "typesafe"
 
 rpmLicense := Some("BSD")
 
+rpmChangelogFile := Some("changelog.txt")
+
 //debianMakePrermScript := Some(sourceDirectory.value / "deb" / "control" / "prerm") //change defaults
 
 
