@@ -16,6 +16,7 @@ Rpms require the following specific settings:
     rpmVendor := "typesafe",
     rpmUrl := Some("http://github.com/paulp/sbt-extras"),
     rpmLicense := Some("BSD"),
+    rpmChangelogFile := Some("changelog")
 
 
 Informational Settings
@@ -62,6 +63,9 @@ Meta Settings
 
     ``rpmPrefix``
     The path passed set as the base for the revocable package
+
+    ``rpmChangelogFile``
+    External file to be imported and used to generate the changelog of the RPM.
 
 
 Scriptlet Settings
@@ -118,6 +122,28 @@ Example Settings
     linuxPackageSymlinks := Seq.empty,
     defaultLinuxLogsLocation := defaultLinuxInstallLocation + "/" + name
   
+
+rpmChangelogFile
+----------
+The rpmChangelogFile property allows you to set a source that will be imported and used on the RPM generation. So if you use rpm commands to see the changelog it brings that information. You have to create the content on that file following the RPM conventions that are available here http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs.
+
+Example Settings
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: scala
+
+    changelog := "changelog.txt",
+    rpmChangelogFile := Some(changelog)
+
+
+.. code-block:: txt
+    * Sun Aug 24 2014 Team <contact@example.com> - 1.1.0
+    -Allow to login using social networks
+    * Wed Aug 20 2014 Team <contact@example.com> - 1.0.1
+    -Vulnerability fix.
+    * Tue Aug 19 2014 Team <contact@example.com> - 1.0.0
+    -First version of the system
+
 
 Template Changes
 ~~~~~~~~~~~~~~~~~~
