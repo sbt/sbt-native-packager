@@ -189,7 +189,7 @@ object JavaAppPackaging {
           case (Some(l), Some(r)) =>
             // TODO - extra attributes and stuff for comparison?
             // seems to break stuff if we do...
-            (l.name == r.name)
+            l.name == r.name && l.classifier == r.classifier
           case _ => false
         }
       }
