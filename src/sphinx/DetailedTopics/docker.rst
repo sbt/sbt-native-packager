@@ -62,6 +62,8 @@ Publishing Settings
   ``dockerRepository``
     The repository to which the image is pushed when the ``docker:publish`` task is run. This should be of the form ``[username]`` (assumes use of the ``index.docker.io`` repository) or ``[repository.host]/[username]``.
 
+  ``dockerUpdateLatest``
+    The flag to automatic update the latest tag when the ``docker:publish`` task is run. Default value is ``FALSE``.
 
 Tasks
 -----
