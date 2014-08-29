@@ -14,6 +14,7 @@ trait DockerKeys {
   val dockerExposedPorts = SettingKey[Seq[Int]]("dockerExposedPorts", "Ports exposed by Docker image")
   val dockerExposedVolumes = SettingKey[Seq[String]]("dockerExposedVolumes", "Volumes exposed by Docker image")
   val dockerRepository = SettingKey[Option[String]]("dockerRepository", "Repository for published Docker image")
+  val dockerCmd = SettingKey[Seq[String]]("dockerCmd", "Commands which will be put into the CMD command")
 }
 
 object Keys extends DockerKeys {

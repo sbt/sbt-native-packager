@@ -8,7 +8,9 @@ import sbt._
 trait DockerPlugin extends Plugin with UniversalPlugin {
   val Docker = config("docker") extend Universal
 
-  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String]) = {
+  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String,
+    maintainer: String, daemonUser: String, execScript: String,
+    exposedPorts: Seq[Int], exposedVolumes: Seq[String], cmds: Seq[String]) = {
     val headerCommands = Seq(
       Cmd("FROM", dockerBaseImage),
       Cmd("MAINTAINER", maintainer)
@@ -20,7 +22,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
       ExecCmd("RUN", "chown", "-R", daemonUser, "."),
       Cmd("USER", daemonUser),
       ExecCmd("ENTRYPOINT", "bin/%s" format execScript),
-      ExecCmd("CMD")
+      ExecCmd("CMD", cmds: _*)
     )
 
     val exposeCommand: Option[CmdLike] = {
@@ -49,8 +51,12 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
   }
 
   private[this] final def generateDockerConfig(
-    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File) = {
-    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, execScript, exposedPorts, exposedVolumes)
+    dockerBaseImage: String, dockerBaseDirectory: String,
+    maintainer: String, daemonUser: String, execScript: String,
+    exposedPorts: Seq[Int], exposedVolumes: Seq[String], cmds: Seq[String],
+    target: File) = {
+    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser,
+      execScript, exposedPorts, exposedVolumes, cmds)
 
     val f = target / "Dockerfile"
     IO.write(f, dockerContent)
@@ -158,13 +164,14 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     // TODO this must be changed, when there is a setting for the startScripts name
     dockerGenerateConfig <<=
       (dockerBaseImage in Docker, defaultLinuxInstallLocation in Docker, maintainer in Docker, daemonUser in Docker,
-        executableScriptName /* this is not scoped!*/ , dockerExposedPorts in Docker, dockerExposedVolumes in Docker, target in Docker) map
-        generateDockerConfig
+        executableScriptName /* this is not scoped!*/ , dockerExposedPorts in Docker, dockerExposedVolumes in Docker,
+        dockerCmd in Docker, target in Docker) map generateDockerConfig
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
       daemonUser := "daemon",
       defaultLinuxInstallLocation := "/opt/docker",
       dockerExposedPorts := Seq(),
       dockerExposedVolumes := Seq(),
+      dockerCmd := Seq(),
       dockerPackageMappings <<= (sourceDirectory) map { dir =>
         MappingsHelper contentOf dir
       },

@@ -28,6 +28,7 @@ It may require these settings:
     dockerRepository := Some("dockeruser"),
     dockerExposedPorts in Docker := Seq(9000, 9443),
     dockerExposedVolumes in Docker := Seq("/opt/docker/logs")
+    dockerCmd in Docker := Seq("--debug", "-i", "123")
 
 Informational Settings
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -55,6 +56,9 @@ Environment Settings
 
   ``dockerExposedVolumes in Docker``
     A list of data volumes to make available in the Docker image.
+    
+  ``dockerCmd in Docker``
+    A list of commands to put into the ``CMD`` command.
 
 Publishing Settings
 ~~~~~~~~~~~~~~~~~~~
