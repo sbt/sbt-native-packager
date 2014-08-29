@@ -5,7 +5,7 @@ package rpm
 import linux.{ LinuxPackageMapping, LinuxFileMetaData }
 import sbt._
 import com.typesafe.sbt.packager.linux.LinuxSymlink
-import java.nio.file.{ Paths, Files }
+import java.io.File
 
 case class RpmMetadata(
   name: String,
@@ -207,7 +207,9 @@ case class RpmSpec(meta: RpmMetadata,
     sb append fileSection
     // TODO - Write triggers...
     desc.changelogFile foreach { changelog =>
-      if (Files.exists(Paths.get(changelog))) {
+      val tmpFile = new File(changelog)
+      if (tmpFile.isFile() && tmpFile.exists()) {
+        // if (Files.exists(Paths.get(changelog))) {
         val content = scala.io.Source.fromFile(changelog).mkString
         sb append "%changelog\n"
         sb append ("%s\n" format content)
