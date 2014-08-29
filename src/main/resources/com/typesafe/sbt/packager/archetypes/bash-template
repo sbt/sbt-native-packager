@@ -268,7 +268,7 @@ run() {
     mainclass="$app_mainclass"
   fi
 
-  # Now we check to see if there are any java opts on the environemnt. These get listed first, with the script able to override them.
+  # Now we check to see if there are any java opts on the environment. These get listed first, with the script able to override them.
   if [[ "$JAVA_OPTS" != "" ]]; then
     java_opts="${JAVA_OPTS}"
   fi
