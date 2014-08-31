@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RedHat &mdash; sbt-native-packager 0.7.5-RC1 documentation</title>
+    <title>RedHat &mdash; sbt-native-packager 0.8.0-M1 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.7.5-RC1',
+        VERSION:     '0.8.0-M1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.7.5-RC1 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.8.0-M1 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Debian" href="debian.html" />
     <link rel="prev" title="RedHat" href="" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.8.0-M1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -96,6 +96,10 @@
 <li><a class="reference internal" href="#tasks">Tasks</a></li>
 <li><a class="reference internal" href="#rpm-prefix">Rpm Prefix</a><ul>
 <li><a class="reference internal" href="#example-settings">Example Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rpmchangelogfile">rpmChangelogFile</a><ul>
+<li><a class="reference internal" href="#id1">Example Settings</a></li>
 <li><a class="reference internal" href="#template-changes">Template Changes</a></li>
 <li><a class="reference internal" href="#scriptlet-changes">Scriptlet Changes</a></li>
 </ul>
@@ -162,6 +166,7 @@
 <span class="n">rpmVendor</span> <span class="o">:=</span> <span class="s">&quot;typesafe&quot;</span><span class="o">,</span>
 <span class="n">rpmUrl</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;http://github.com/paulp/sbt-extras&quot;</span><span class="o">),</span>
 <span class="n">rpmLicense</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;BSD&quot;</span><span class="o">),</span>
+<span class="n">rpmChangelogFile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;changelog&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 <div class="section" id="informational-settings">
@@ -204,8 +209,11 @@ The packages this RPM conflicts with and cannot be installed with.</p>
 <div class="section" id="meta-settings">
 <h3>Meta Settings<a class="headerlink" href="#meta-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><tt class="docutils literal"><span class="pre">rpmPrefix</span></tt>
-The path passed set as the base for the revocable package</div></blockquote>
+<div><p><tt class="docutils literal"><span class="pre">rpmPrefix</span></tt>
+The path passed set as the base for the revocable package</p>
+<p><tt class="docutils literal"><span class="pre">rpmChangelogFile</span></tt>
+External file to be imported and used to generate the changelog of the RPM.</p>
+</div></blockquote>
 </div>
 <div class="section" id="scriptlet-settings">
 <h3>Scriptlet Settings<a class="headerlink" href="#scriptlet-settings" title="Permalink to this headline">¶</a></h3>
@@ -250,6 +258,17 @@ appends <tt class="docutils literal"><span class="pre">__os_install_post</span><
 <span class="n">rpmPrefix</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">defaultLinuxInstallLocation</span><span class="o">),</span>
 <span class="n">linuxPackageSymlinks</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">.</span><span class="n">empty</span><span class="o">,</span>
 <span class="n">defaultLinuxLogsLocation</span> <span class="o">:=</span> <span class="n">defaultLinuxInstallLocation</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="n">name</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="rpmchangelogfile">
+<h2>rpmChangelogFile<a class="headerlink" href="#rpmchangelogfile" title="Permalink to this headline">¶</a></h2>
+<p>The rpmChangelogFile property allows you to set a source that will be imported and used on the RPM generation. So if you use rpm commands to see the changelog it brings that information. You have to create the content on that file following the RPM conventions that are available here <a class="reference external" href="http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs">http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs</a>.</p>
+<div class="section" id="id1">
+<h3>Example Settings<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">changelog</span> <span class="o">:=</span> <span class="s">&quot;changelog.txt&quot;</span><span class="o">,</span>
+<span class="n">rpmChangelogFile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">changelog</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>

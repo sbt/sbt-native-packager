@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>My First Packaged Project &mdash; sbt-native-packager 0.7.5-RC1 documentation</title>
+    <title>My First Packaged Project &mdash; sbt-native-packager 0.8.0-M1 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.7.5-RC1',
+        VERSION:     '0.8.0-M1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.7.5-RC1 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.8.0-M1 documentation" href="../index.html" />
     <link rel="up" title="Getting Started with Applications" href="index.html" />
     <link rel="next" title="Adding configuration" href="AddingConfiguration.html" />
     <link rel="prev" title="Getting Started with Applications" href="index.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.8.0-M1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -143,7 +143,7 @@
 <p>sbt builds should always specify which version of sbt they are designed to use.  This helps keeps builds consistent between developers,
 and documents to users which version of sbt you require for the build.</p>
 <p>Next, let&#8217;s add the native packager to our build by created a <tt class="docutils literal"><span class="pre">project/plugins.sbt</span></tt> file with the following contents</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="p">(</span><span class="s">&quot;com.typesafe.sbt&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-native-packager&quot;</span> <span class="o">%</span> <span class="s">&quot;0.7.1&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="p">(</span><span class="s">&quot;com.typesafe.sbt&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-native-packager&quot;</span> <span class="o">%</span> <span class="s">&quot;0.7.5-RC1&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now, the build needs to be configured for packaging.  Let&#8217;s define the <tt class="docutils literal"><span class="pre">build.sbt</span></tt> file as follows</p>
