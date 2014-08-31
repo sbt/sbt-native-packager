@@ -92,7 +92,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     }
   }
 
-  def publishLocalDocker(context: File, tag: String, log: Logger): Unit = {
+  def publishLocalDocker(context: File, tag: String, latest: Boolean, log: Logger): Unit = {
     val cmd = Seq("docker", "build", "--force-rm", "-t", tag, ".")
     val cwd = context.getParentFile
 
@@ -105,6 +105,15 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
       throw new RuntimeException("Nonzero exit value: " + ret)
     else
       log.info("Built image " + tag)
+
+    if (latest) {
+      val name = tag.substring(0, tag.lastIndexOf(":")) + ":latest"
+      val latestCmd = Seq("docker", "tag", tag, name)
+      Process(latestCmd).! match {
+        case 0 => log.info("Update Latest from image" + tag)
+        case n => sys.error("Failed to run docker tag")
+      }
+    }
   }
 
   def publishDocker(tag: String, log: Logger): Unit = {
@@ -152,6 +161,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     packageName in Docker <<= packageName,
     executableScriptName in Docker <<= executableScriptName,
     dockerRepository := None,
+    dockerUpdateLatest := false,
     sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
     target in Docker <<= target apply (_ / "docker"),
 
@@ -180,13 +190,17 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
         (repo, name, version) =>
           repo.map(_ + "/").getOrElse("") + name + ":" + version
       },
-      publishLocal <<= (dockerGenerateConfig, dockerGenerateContext, dockerTarget, streams) map {
-        (config, _, target, s) =>
-          publishLocalDocker(config, target, s.log)
+      publishLocal <<= (dockerGenerateConfig, dockerGenerateContext, dockerTarget, dockerUpdateLatest, streams) map {
+        (config, _, target, updateLatest, s) =>
+          publishLocalDocker(config, target, updateLatest, s.log)
       },
-      publish <<= (publishLocal, dockerTarget, streams) map {
-        (_, target, s) =>
+      publish <<= (publishLocal, dockerTarget, dockerUpdateLatest, streams) map {
+        (_, target, updateLatest, s) =>
           publishDocker(target, s.log)
+          if (updateLatest) {
+            val name = target.substring(0, target.lastIndexOf(":")) + ":latest"
+            publishDocker(name, s.log)
+          }
       }
     ))
 }
