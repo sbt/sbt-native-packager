@@ -18,15 +18,19 @@ This is a work in process project.  The goal is to be able to bundle up Scala so
 
 Add the following to your `project/plugins.sbt` file:
 
-    // for sbt 0.12.x and scala 2.9.x
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.5-RC2")
-    
-    // for sbt 0.13.x and scala 2.10.x
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0-M1")
+```scala
+// for sbt 0.12.x and scala 2.9.x
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.5-RC2")
+
+// for sbt 0.13.x and scala 2.10.x
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0-M1")
+```
 
 For the native packager keys add this to your `build.sbt`
 
-    import NativePackagerKeys._
+```scala
+import NativePackagerKeys._
+```
     
 
 
