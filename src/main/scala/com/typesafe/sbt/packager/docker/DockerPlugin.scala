@@ -156,7 +156,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
   }
 
   def dockerSettings: Seq[Setting[_]] = Seq(
-    dockerBaseImage := "dockerfile/java",
+    dockerBaseImage := "dockerfile/java:latest",
     name in Docker <<= name,
     packageName in Docker <<= packageName,
     executableScriptName in Docker <<= executableScriptName,
