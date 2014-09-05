@@ -139,7 +139,7 @@ object WixHelper {
                   val name = simpleName(target)
                   val desc = "Edit configuration file: " + name
                   val cleanName = name.replaceAll("[\\.-\\\\//]+", "_")
-                  <Shortcut Id={ id + "_SC" } Name={ cleanName } Description={ desc } Target={ "[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\") } WorkingDirectory="INSTALLDIR"/>
+                  <Shortcut Id={ makeGUID + "_SC" } Name={ cleanName } Description={ desc } Target={ "[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\") } WorkingDirectory="INSTALLDIR"/>
                 }
               }
               <RemoveFolder Id="ApplicationProgramsFolderRemove" Directory="ApplicationProgramsFolder" On="uninstall"/>
