@@ -1,2 +1,0 @@
-initctl reload-configuration
-service ${{app_name}} start || echo "${{app_name}} could not be started. Try manually with service ${{app_name}} start"

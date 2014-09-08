@@ -1,3 +1,0 @@
-# Halting ${{app_name}}
-echo "Shutdown ${{app_name}}"
-service ${{app_name}} stop

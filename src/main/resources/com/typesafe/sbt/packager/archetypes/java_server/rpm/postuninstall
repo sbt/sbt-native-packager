@@ -5,15 +5,14 @@
 if [[ $1 == 0 ]]
 then
     echo "Try deleting system user and group [${{daemon_user}}:${{daemon_group}}]"
-    if getent passwd | grep -q "^${{daemon_user}}:"; 
+    if getent passwd | grep -q "^${{daemon_user}}:";
     then
-        echo "Deleting system user: ${{daemon_user}}"
-        userdel ${{daemon_user}}
+	echo "Deleting system user: ${{daemon_user}}"
+	userdel ${{daemon_user}}
     fi
     if getent group | grep -q "^${{daemon_group}}:" ;
     then
-        echo "Deleting system group: ${{daemon_group}}"
-        groupdel ${{daemon_group}}
+	echo "Deleting system group: ${{daemon_group}}"
+	groupdel ${{daemon_group}}
     fi
 fi
-

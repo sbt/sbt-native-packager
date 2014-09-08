@@ -1,0 +1,18 @@
+#
+# Adding service to autostart
+# $1 = service name
+#
+addservice() {
+    app_name=$1
+    initctl reload-configuration
+    service $app_name start
+}
+
+#
+# Removing service from autostart
+# $1 = service name
+#
+stopService() {
+    app_name=$1
+    service $app_name stop
+}

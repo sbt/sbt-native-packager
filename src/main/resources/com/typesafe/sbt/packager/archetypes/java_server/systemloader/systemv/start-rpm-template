@@ -20,7 +20,7 @@
 
 ### -----------------
 # This script was created using following sources
-# 
+#
 # http://stackoverflow.com/questions/8124345/call-to-daemon-in-a-etc-init-d-script-is-blocking-not-running-in-background
 # https://fedoraproject.org/wiki/Packaging:SysVInitScript#Initscript_template
 ### -----------------
@@ -50,19 +50,19 @@ start() {
     [ -x $RUN_CMD ] || exit 5
     echo -n $"Starting $prog: "
     cd ${{chdir}}
-    
+
     # FIXME figure out how to use daemon correctly
     nohup runuser $DAEMON_USER ${RUN_CMD} >> /var/log/${{app_name}}/daemon.log 2>&1 &
 
     # The way to go, but doesn't work properly
 	# If the app creates the pid file this gets messy
 	# daemon --user $DAEMON_USER --pidfile $PIDFILE $RUN_CMD &
-    
-    
+
+
     retval=$?   # last error code
     PID=$!      # pid of last backgrounded process
     [ $retval -eq 0 ] && touch ${lockfile} && success || failure
-    
+
     # Insert pid into pid file for CentOS killproc function
     [ -d "/var/run/${{app_name}}" ] || install -d -o "$DAEMON_USER" -m750 "/var/run/${{app_name}}"
     echo
@@ -103,32 +103,32 @@ rh_status_q() {
 
 case "$1" in
     start)
-        rh_status_q && exit 0
-        $1
-        ;;
+	rh_status_q && exit 0
+	$1
+	;;
     stop)
-        rh_status_q || exit 0
-        $1
-        ;;
+	rh_status_q || exit 0
+	$1
+	;;
     restart)
-        $1
-        ;;
+	$1
+	;;
     reload)
-        rh_status || exit 7
-        $1
-        ;;
+	rh_status || exit 7
+	$1
+	;;
     force-reload)
-        force_reload
-        ;;
+	force_reload
+	;;
     status)
-        rh_status
-        ;;
+	rh_status
+	;;
     condrestart|try-restart)
-        rh_status || exit 0
-        restart
-        ;;
+	rh_status || exit 0
+	restart
+	;;
     *)
-        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
-        exit 2
+	echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
+	exit 2
 esac
 exit $?

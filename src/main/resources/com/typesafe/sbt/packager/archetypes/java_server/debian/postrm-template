@@ -1,10 +1,13 @@
+${{header}}
+${{control-functions}}
+
 # Deleting user: ${{user}} and group: ${{group}}
 case "$1" in
    remove|failed-upgrade|abort-upgrade|abort-install|disappear)
    ;;
    purge)
-        deluser --quiet --system ${{user}} > /dev/null || true
-        delgroup --quiet --system ${{group}} > /dev/null || true
+	deleteUser ${{user}}
+	deleteGroup  ${{group}}
    ;;
    upgrade)
    ;;

@@ -44,26 +44,18 @@ trait LinuxPlugin extends Plugin {
     defaultLinuxLogsLocation := "/var/log",
     defaultLinuxConfigLocation := "/etc",
 
-    linuxJavaAppStartScriptBuilder := JavaAppStartScript.Debian,
-    // This one is begging for sbt 0.13 syntax...
-    linuxScriptReplacements <<= (
-      maintainer in Linux, packageSummary in Linux, daemonUser in Linux, daemonGroup in Linux, daemonShell in Linux,
-      packageName in Linux, executableScriptName in Linux,
-      sbt.Keys.version, defaultLinuxInstallLocation, linuxJavaAppStartScriptBuilder)
-      apply { (author, descr, daemonUser, daemonGroup, daemonShell, name, execScript, version, installLocation, builder) =>
-        val appDir = installLocation + "/" + name
-
-        // TODO Making replacements should be done somewhere else. Maybe TemplateWriter
-        builder.makeReplacements(
-          author = author,
-          description = descr,
-          execScript = execScript,
-          chdir = appDir,
-          appName = name,
-          daemonUser = daemonUser,
-          daemonGroup = daemonGroup,
-          daemonShell = daemonShell)
-      }
+    // Default linux bashscript replacements
+    linuxScriptReplacements := makeReplacements(
+      author = (maintainer in Linux).value,
+      description = (packageSummary in Linux).value,
+      execScript = (executableScriptName in Linux).value,
+      chdir = s"${defaultLinuxInstallLocation.value}/${(packageName in Linux).value}",
+      appName = (packageName in Linux).value,
+      version = sbt.Keys.version.value,
+      daemonUser = (daemonUser in Linux).value,
+      daemonGroup = (daemonGroup in Linux).value,
+      daemonShell = (daemonShell in Linux).value
+    )
 
   )
 
@@ -92,6 +84,41 @@ trait LinuxPlugin extends Plugin {
     (src, dest) <- dirs
     path <- (src ***).get
   } yield path -> path.toString.replaceFirst(src.toString, dest)
+
+  /**
+   *
+   * @param author -
+   * @param description - short description
+   * @param execScript - name of the script in /usr/bin
+   * @param chdir - execution path of the script
+   * @param retries - on fail, how often should a restart be tried
+   * @param retryTimeout - pause between retries
+   * @return Seq of placeholder>replacement pairs
+   */
+  def makeReplacements(
+    author: String,
+    description: String,
+    execScript: String,
+    chdir: String,
+    appName: String,
+    version: String,
+    daemonUser: String,
+    daemonGroup: String,
+    daemonShell: String,
+    retries: Int = 0,
+    retryTimeout: Int = 60): Seq[(String, String)] =
+    Seq(
+      "author" -> author,
+      "descr" -> description,
+      "exec" -> execScript,
+      "chdir" -> chdir,
+      "retries" -> retries.toString,
+      "retryTimeout" -> retryTimeout.toString,
+      "app_name" -> appName,
+      "version" -> version,
+      "daemon_user" -> daemonUser,
+      "daemon_group" -> daemonGroup,
+      "daemon_shell" -> daemonShell)
 
   // TODO - we'd like a set of conventions to take universal mappings and create linux package mappings.
 

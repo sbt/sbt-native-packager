@@ -1,0 +1,18 @@
+#
+# Adding service to autostart
+# $1 = service name
+#
+addservice() {
+    app_name=$1
+    systemctl enable "$app_name.service"
+    systemctl start "$app_name.service"
+}
+
+#
+# Removing service from autostart
+# $1 = service name
+#
+stopService() {
+    app_name=$1
+    systemctl disable "$app_name.service"
+}

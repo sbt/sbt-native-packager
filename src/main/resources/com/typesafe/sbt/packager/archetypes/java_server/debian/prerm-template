@@ -1,0 +1,4 @@
+${{header}}
+${{loader-functions}}
+
+stopService ${{app_name}} || echo "${{app_name}} wasn't even running!"

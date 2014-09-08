@@ -4,7 +4,6 @@ package linux
 
 import sbt._
 import com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader
-import com.typesafe.sbt.packager.archetypes.JavaAppStartScriptBuilder
 
 /** Linux packaging generic build targets. */
 trait Keys {
@@ -27,7 +26,6 @@ trait Keys {
   val linuxMakeStartScript = TaskKey[Option[File]]("makeStartScript", "Creates or discovers the start script used by this project")
   val linuxStartScriptTemplate = TaskKey[URL]("linuxStartScriptTemplate", "The location of the template start script file we use for debian (upstart or init.d")
   val linuxEtcDefaultTemplate = TaskKey[URL]("linuxEtcDefaultTemplate", "The location of the /etc/default/<pkg> template script.")
-  val linuxJavaAppStartScriptBuilder = SettingKey[JavaAppStartScriptBuilder]("linuxJavaAppStartScriptBuilder", "Responsible for loading the start scripts. Only used with archetype.java_server")
   val linuxScriptReplacements = SettingKey[Seq[(String, String)]]("linuxScriptReplacements",
     """|Replacements of template parameters used in linux scripts.
          |  Default supported templates:

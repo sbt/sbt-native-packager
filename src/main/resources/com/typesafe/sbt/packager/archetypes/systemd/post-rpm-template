@@ -1,2 +1,0 @@
-systemctl enable ${{app_name}}.service
-systemctl start ${{app_name}}.service || echo "${{app_name}} could not be started. Try manually with service ${{app_name}} start"

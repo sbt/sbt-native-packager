@@ -4,7 +4,7 @@ then
     echo "Creating system group: ${{daemon_group}}"
     groupadd --system ${{daemon_group}}
 fi
-if ! getent passwd | grep -q "^${{daemon_user}}:"; 
+if ! getent passwd | grep -q "^${{daemon_user}}:";
 then
     echo "Creating system user: ${{daemon_user}}"
     useradd --gid ${{daemon_group}} --no-create-home --system -c '${{descr}}' ${{daemon_user}}

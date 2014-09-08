@@ -1,5 +1,0 @@
-# Adding ${{user}}
-if ! id -u ${{user}} > /dev/null 2>&1; then
-    echo "Creating user ${{user}} in group ${{group}}"
-    useradd --system --no-create-home --gid ${{group}} --shell ${{shell}} ${{user}}
-fi
