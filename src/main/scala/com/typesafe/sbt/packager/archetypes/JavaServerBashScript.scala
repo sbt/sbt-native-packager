@@ -3,9 +3,7 @@ package com.typesafe.sbt.packager.archetypes
 import sbt._
 import com.typesafe.sbt.packager.archetypes.ServerLoader._
 
-object BashScript {
-
-  val LOADER_FUNCTIONS = "loader-functions"
+object JavaServerBashScript {
 
   /**
    *
@@ -19,15 +17,28 @@ object BashScript {
     archetype: String,
     config: Configuration,
     replacements: Seq[(String, String)],
-    template: Option[URL] = None): String = {
+    template: Option[URL] = None): Option[String] = {
     // use template or else search for a default
-    //  TODO make this an Option
-    val url = template getOrElse {
-      getClass getResource s"$archetype/${config.name}/$script"
+    val url = template orElse {
+      Option(getClass getResource s"$archetype/${config.name}/$script-template")
     }
-
     // if an url was found, create the script
-    TemplateWriter generateScript (url, replacements)
+    url map {
+      TemplateWriter generateScript (_, replacements)
+    }
+  }
+
+}
+
+object JavaServerLoaderScript {
+
+  val LOADER_FUNCTIONS = "loader-functions"
+
+  def apply(script: String, archetype: String, loader: ServerLoader, template: Option[File]): URL = {
+    template flatMap {
+      case file if file.exists => Some(file.toURI.toURL)
+      case _                   => Option(getClass getResource templatePath(script, loader, archetype))
+    } getOrElse (sys.error(s"Could not find init [$script] for system [$loader] in archetype [$archetype]"))
   }
 
   /**
@@ -43,12 +54,10 @@ object BashScript {
    */
   def loaderFunctionsReplacement(loader: ServerLoader, archetype: String,
     script: String = LOADER_FUNCTIONS): (String, String) = {
-    val source = getClass.getResource(templatePath(loader, script, archetype))
-    println(source)
+    val source = getClass.getResource(templatePath(script, loader, archetype))
     LOADER_FUNCTIONS -> TemplateWriter.generateScript(source, Nil)
   }
 
-  def templatePath(loader: ServerLoader, script: String, archetype: String): String =
+  def templatePath(script: String, loader: ServerLoader, archetype: String): String =
     archetype + "/systemloader/" + loader.toString + "/" + script
-
 }

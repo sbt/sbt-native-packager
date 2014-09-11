@@ -7,5 +7,5 @@ fi
 if ! getent passwd | grep -q "^${{daemon_user}}:";
 then
     echo "Creating system user: ${{daemon_user}}"
-    useradd --gid ${{daemon_group}} --no-create-home --system -c '${{descr}}' ${{daemon_user}}
+    useradd --gid ${{daemon_group}} --no-create-home --system -c '${{app_name}} daemon-user' ${{daemon_user}}
 fi

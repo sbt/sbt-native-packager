@@ -40,6 +40,7 @@ trait DebianKeys {
   val debianMakePrermScript = TaskKey[Option[File]]("makePrermScript", "Creates or discovers the prerm script used by this project")
   val debianMakePostinstScript = TaskKey[Option[File]]("makePostInstScript", "Creates or discovers the postinst script used by this project")
   val debianMakePostrmScript = TaskKey[Option[File]]("makePostrmScript", "Creates or discovers the postrm script used by this project")
+  val debianMakeChownReplacements = TaskKey[(String, String)]("debianMakeChownReplacements", "Creates the chown commands for correct own files and directories")
 
 }
 

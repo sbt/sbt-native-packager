@@ -19,7 +19,7 @@ addUser() {
     if ! getent passwd | grep -q "^$user:";
     then
 	echo "Creating system user: $user in $group with $descr and shell $shell"
-	useradd --gid $group --no-create-home --system --shell $shell -c '$descr' $user
+	useradd --gid $group --no-create-home --system --shell $shell -c "$descr" $user
     fi
 }
 
@@ -37,14 +37,25 @@ addGroup() {
 # Will return true even if deletion fails
 # $1 = user
 deleteUser() {
-    deluser --quiet --system $1 > /dev/null || true
+    if hash deluser 2>/dev/null; then
+	deluser --quiet --system $1 > /dev/null || true
+    elif hash userdel 2>/dev/null; then
+	userdel $1
+    else
+	echo "WARNING: Could not delete user $1 . No suitable program (deluser, userdel) found"
+    fi
 }
 
 # Will return true even if deletion fails
 # $1 = group
 deleteGroup() {
-    delgroup --quiet --system $1 > /dev/null || true
+    if hash delgroup 2>/dev/null; then
+	delgroup --quiet --system $1 > /dev/null || true
+    elif hash groupdel 2>/dev/null; then
+	groupdel $1
+    else
+	echo "WARNING: Could not delete user $1 . No suitable program (delgroup, groupdel) found"
+    fi
 }
 
-# #######################################
 # #######################################

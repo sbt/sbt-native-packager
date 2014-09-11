@@ -28,7 +28,7 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
   val debian = target / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
   val postrm = IO.read(debian / "postrm")
-  assert(postinst contains "useradd --system --no-create-home --gid daemongroup --shell /bin/bash daemonuser", "postinst misses useradd for daemonuser: " + postinst)
+  assert(postinst contains """addUser daemonuser daemongroup "debian-test user-daemon" "/bin/bash"""", "postinst misses useradd for daemonuser: " + postinst)
   ()
 }
 

@@ -2,7 +2,7 @@
 # Adding service to autostart
 # $1 = service name
 #
-addservice() {
+startService() {
     app_name=$1
     systemctl enable "$app_name.service"
     systemctl start "$app_name.service"

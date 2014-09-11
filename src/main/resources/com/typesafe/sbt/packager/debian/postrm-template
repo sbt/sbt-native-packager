@@ -1,7 +1,7 @@
 ${{header}}
 ${{control-functions}}
 
-# Deleting user: ${{daemon_user}} and group: ${{daemon_group}}
+# Deleting user: ${{user}} and group: ${{group}}
 case "$1" in
    remove|failed-upgrade|abort-upgrade|abort-install|disappear)
    ;;

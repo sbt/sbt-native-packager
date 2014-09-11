@@ -23,13 +23,12 @@ object JavaServerAppPackaging {
   import ServerLoader._
   import LinuxPlugin.Users
 
-  val CONTROL_FUNCTIONS = "control-functions"
+  val ARCHETYPE = "java_server"
 
   /** These settings will be provided by this archetype*/
   def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ linuxSettings ++ debianSettings ++ rpmSettings
 
   protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource("etc-default-template")
-  protected def controlScriptSource: java.net.URL = getClass.getResource(CONTROL_FUNCTIONS)
 
   /**
    * general settings which apply to all linux server archetypes
@@ -57,15 +56,14 @@ object JavaServerAppPackaging {
       map makeEtcDefaultScript,
     linuxPackageMappings <++= (makeEtcDefault, packageName in Linux) map { (conf, name) =>
       conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)),
-        LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()).toSeq
+	LinuxFileMetaData(Users.Root, Users.Root)).withConfig()).toSeq
     },
 
     // === /var/run/app pid folder ===
     linuxPackageMappings <+= (packageName in Linux, daemonUser in Linux, daemonGroup in Linux) map { (name, user, group) =>
       packageTemplateMapping("/var/run/" + name)() withUser user withGroup group withPerms "755"
-    },
+    }
 
-    linuxScriptReplacements += controlScriptFunctionsReplacement( /* Add key for control-functions */ )
   )
 
   def debianSettings: Seq[Setting[_]] = {
@@ -78,27 +76,23 @@ object JavaServerAppPackaging {
       requiredStopFacilities <<= (serverLoading) apply defaultFacilities,
       // === Startscript creation ===
       linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
-        makeStartScriptReplacements,
-      linuxScriptReplacements += ("header" -> "#!/bin/sh\n"),
-      linuxScriptReplacements += BashScript.loaderFunctionsReplacement(serverLoading.value, "java_server"),
+	makeStartScriptReplacements,
+      linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
 
-      linuxStartScriptTemplate := JavaAppStartScript(
-	name = startScriptName(serverLoading.value, Debian),
+      linuxStartScriptTemplate := JavaServerLoaderScript(
+	script = startScriptName(serverLoading.value, Debian),
 	loader = serverLoading.value,
-	archetype = "java_server",
-	template = Some(sourceDirectory.value / "templates" / "start")
+	archetype = ARCHETYPE,
+	template = Option(sourceDirectory.value / "templates" / "start")
       ),
-      //      linuxStartScriptTemplate <<= (serverLoading, sourceDirectory, linuxBashScriptBuilder) map {
-      //        (loader, dir, builder) => builder.startScriptURL(loader, Some(dir / "templates" / "start"), "java_app")
-      //      },
       defaultLinuxStartScriptLocation <<= serverLoading apply getStartScriptLocation,
-      linuxMakeStartScript <<= (target in Universal, serverLoading, linuxScriptReplacements, linuxStartScriptTemplate)
-	map { (tmpDir, loader, replacements, template) =>
-	  makeMaintainerScript("start", Some(template))(tmpDir, loader, replacements)
-        },
+      linuxMakeStartScript in Debian <<= (linuxStartScriptTemplate in Debian,
+	linuxScriptReplacements in Debian,
+	target in Universal,
+	serverLoading in Debian) map makeStartScript,
       linuxPackageMappings <++= (packageName, linuxMakeStartScript, serverLoading, defaultLinuxStartScriptLocation) map startScriptMapping
     )) ++ Seq(
-      // === Maintainer scripts === 
+      // === Maintainer scripts ===
       debianMakePreinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Preinst),
       debianMakePostinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Postinst),
       debianMakePrermScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Prerm),
@@ -115,39 +109,36 @@ object JavaServerAppPackaging {
       requiredStopFacilities in Rpm <<= (serverLoading) apply defaultFacilities,
       linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
 	makeStartScriptReplacements,
-      linuxScriptReplacements += BashScript.loaderFunctionsReplacement(serverLoading.value, "java_server")
+      linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE)
     )) ++ Seq(
       // === Startscript creation ===
-      linuxStartScriptTemplate := JavaAppStartScript(
-	name = startScriptName((serverLoading in Rpm).value, Rpm),
+      linuxStartScriptTemplate := JavaServerLoaderScript(
+	script = startScriptName((serverLoading in Rpm).value, Rpm),
 	loader = (serverLoading in Rpm).value,
-	archetype = "java_server",
-	template = Some(sourceDirectory.value / "templates" / "start")
+	archetype = ARCHETYPE,
+	template = Option(sourceDirectory.value / "templates" / "start")
       ),
-      linuxMakeStartScript in Rpm <<= (target in Universal, serverLoading in Rpm, linuxScriptReplacements in Rpm, linuxStartScriptTemplate in Rpm)
-	map { (tmpDir, loader, replacements, template) =>
-	  makeMaintainerScript("start", Some(template))(tmpDir, loader, replacements)
-        },
+      linuxMakeStartScript in Rpm <<= (linuxStartScriptTemplate in Rpm,
+	linuxScriptReplacements in Rpm,
+	target in Universal,
+	serverLoading in Rpm) map makeStartScript,
+
       defaultLinuxStartScriptLocation in Rpm <<= (serverLoading in Rpm) apply getStartScriptLocation,
       linuxPackageMappings in Rpm <++= (packageName in Rpm, linuxMakeStartScript in Rpm, serverLoading in Rpm, defaultLinuxStartScriptLocation in Rpm) map startScriptMapping,
 
       // == Maintainer scripts ===
       // TODO this is very basic - align debian and rpm plugin
-      rpmPre <<= (rpmScriptsDirectory, rpmPre, linuxScriptReplacements, serverLoading in Rpm) apply {
-	(dir, pre, replacements, loader) =>
-	  Some(pre.map(_ + "\n").getOrElse("") + rpmScriptletContent(dir, Pre, replacements))
+      rpmPre <<= (rpmScriptsDirectory, rpmPre, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
+	(dir, pre, replacements, loader) => rpmScriptletContent(dir, Pre, replacements, pre)
       },
-      rpmPost <<= (rpmScriptsDirectory, rpmPost, linuxScriptReplacements, serverLoading in Rpm) apply {
-	(dir, post, replacements, loader) =>
-	  Some(post.map(_ + "\n").getOrElse("") + rpmScriptletContent(dir, Post, replacements))
+      rpmPost <<= (rpmScriptsDirectory, rpmPost, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
+	(dir, post, replacements, loader) => rpmScriptletContent(dir, Post, replacements, post)
       },
-      rpmPostun <<= (rpmScriptsDirectory, rpmPostun, linuxScriptReplacements, serverLoading in Rpm) apply {
-	(dir, postun, replacements, loader) =>
-	  Some(postun.map(_ + "\n").getOrElse("") + rpmScriptletContent(dir, Postun, replacements))
+      rpmPostun <<= (rpmScriptsDirectory, rpmPostun, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
+	(dir, postun, replacements, loader) => rpmScriptletContent(dir, Postun, replacements, postun)
       },
-      rpmPreun <<= (rpmScriptsDirectory, rpmPreun, linuxScriptReplacements, serverLoading in Rpm) apply {
-	(dir, preun, replacements, loader) =>
-	  Some(preun.map(_ + "\n").getOrElse("") + rpmScriptletContent(dir, Preun, replacements))
+      rpmPreun <<= (rpmScriptsDirectory, rpmPreun, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
+	(dir, preun, replacements, loader) => rpmScriptletContent(dir, Preun, replacements, preun)
       }
     )
   }
@@ -216,17 +207,6 @@ object JavaServerAppPackaging {
     }
   }
 
-  /**
-   * Load the default controlscript functions which contain
-   * addUser/removeUser/addGroup/removeGroup
-   *
-   * @return placeholder->content
-   */
-  protected def controlScriptFunctionsReplacement(template: Option[URL] = None): (String, String) = {
-    val url = template getOrElse controlScriptSource
-    CONTROL_FUNCTIONS -> TemplateWriter.generateScript(source = url, replacements = Nil)
-  }
-
   protected def startScriptMapping(name: String, script: Option[File], loader: ServerLoader, scriptDir: String): Seq[LinuxPackageMapping] = {
     val (path, permissions) = loader match {
       case Upstart => ("/etc/init/" + name + ".conf", "0644")
@@ -238,10 +218,19 @@ object JavaServerAppPackaging {
     } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(Users.Root, Users.Root, permissions, "true"))
   }
 
+  protected def makeStartScript(template: URL, replacements: Seq[(String, String)], tmpDir: File, loader: ServerLoader): Option[File] = {
+    val scriptBits = TemplateWriter generateScript (template, replacements)
+    val script = tmpDir / "tmp" / "bin" / s"$loader-init"
+    IO.write(script, scriptBits)
+    Some(script)
+  }
+
   protected def makeMaintainerScript(scriptName: String,
-    template: Option[URL] = None, archetype: String = "java_server", config: Configuration = Debian)(
+    template: Option[URL] = None, archetype: String = ARCHETYPE, config: Configuration = Debian)(
       tmpDir: File, loader: ServerLoader, replacements: Seq[(String, String)]): Option[File] = {
-    val scriptBits = BashScript(scriptName, archetype, config, replacements, template)
+    val scriptBits = JavaServerBashScript(scriptName, archetype, config, replacements, template) getOrElse {
+      sys.error(s"Couldn't load [$scriptName] for config [${config.name}] in archetype [$archetype]")
+    }
     val script = tmpDir / "tmp" / "bin" / (config.name + scriptName)
     IO.write(script, scriptBits)
     Some(script)
@@ -255,10 +244,15 @@ object JavaServerAppPackaging {
   }
 
   protected def rpmScriptletContent(dir: File, script: String,
-    replacements: Seq[(String, String)], archetype: String = "java_server", config: Configuration = Rpm): String = {
+    replacements: Seq[(String, String)], definedScript: Option[String], archetype: String = ARCHETYPE, config: Configuration = Rpm): Option[String] = {
     val file = (dir / script)
     val template = if (file exists) Some(file.toURI.toURL) else None
-    BashScript(script, archetype, config, replacements, template)
+
+    val content = definedScript.map(_ + "\n").getOrElse("")
+
+    JavaServerBashScript(script, archetype, config, replacements, template) map {
+      case script => TemplateWriter generateScriptFromString (content + script, replacements)
+    }
   }
 
 }

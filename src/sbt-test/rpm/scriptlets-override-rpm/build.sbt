@@ -1,5 +1,6 @@
 import NativePackagerKeys._
 
+// only works with java_server archetype
 packageArchetype.java_server
 
 name := "rpm-test"

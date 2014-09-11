@@ -27,8 +27,8 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
   val postinst = IO.read(debian / "postinst")
   val prerm = IO.read(debian / "prerm")
   assert(postinst contains "initctl reload-configuration", "postinst misses initctl: " + postinst)
-  assert(postinst contains """service debian-test start || echo "debian-test could not be started. Try manually with service debian-test start"""", "postinst misses service start: " + postinst)
-  assert(prerm contains """service debian-test stop || echo "debian-test wasn't even running!"""", "prerm misses stop: " + prerm)
+  assert(postinst contains """startService debian-test""", "postinst misses service start: " + postinst)
+  assert(prerm contains """stopService debian-test""", "prerm misses stop: " + prerm)
   out.log.success("Successfully tested upstart control files")
   ()
 }

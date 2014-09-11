@@ -11,7 +11,7 @@ import packager.Keys.{
   defaultLinuxLogsLocation
 }
 import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
-import com.typesafe.sbt.packager.archetypes.{ ServerLoader, JavaAppStartScript }
+import com.typesafe.sbt.packager.archetypes.{ ServerLoader, TemplateWriter }
 
 /**
  * Plugin trait containing all the generic values used for
@@ -55,7 +55,8 @@ trait LinuxPlugin extends Plugin {
       daemonUser = (daemonUser in Linux).value,
       daemonGroup = (daemonGroup in Linux).value,
       daemonShell = (daemonShell in Linux).value
-    )
+    ),
+    linuxScriptReplacements += controlScriptFunctionsReplacement( /* Add key for control-functions */ )
 
   )
 
@@ -120,6 +121,17 @@ trait LinuxPlugin extends Plugin {
       "daemon_group" -> daemonGroup,
       "daemon_shell" -> daemonShell)
 
+  /**
+   * Load the default controlscript functions which contain
+   * addUser/removeUser/addGroup/removeGroup
+   *
+   * @return placeholder->content
+   */
+  def controlScriptFunctionsReplacement(template: Option[URL] = None): (String, String) = {
+    val url = template getOrElse LinuxPlugin.controlFunctions
+    LinuxPlugin.CONTROL_FUNCTIONS -> TemplateWriter.generateScript(source = url, replacements = Nil)
+  }
+
   // TODO - we'd like a set of conventions to take universal mappings and create linux package mappings.
 
   /** Create a ascii friendly string for a man page. */
@@ -131,4 +143,7 @@ object LinuxPlugin {
   object Users {
     val Root = "root"
   }
+  val CONTROL_FUNCTIONS = "control-functions"
+
+  def controlFunctions(): URL = getClass getResource CONTROL_FUNCTIONS
 }

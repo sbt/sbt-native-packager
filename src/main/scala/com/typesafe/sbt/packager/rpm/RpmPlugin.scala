@@ -88,9 +88,9 @@ object RpmPlugin {
     val Scriptlets = "scriptlets"
 
     //maintainer script names
-    val Post = "post-rpm"
-    val Pre = "pre-rpm"
-    val Postun = "postun-rpm"
-    val Preun = "preun-rpm"
+    val Post = "postinst"
+    val Pre = "preinst"
+    val Postun = "postun"
+    val Preun = "preun"
   }
 }
