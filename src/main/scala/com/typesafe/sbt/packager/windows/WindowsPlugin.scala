@@ -67,9 +67,9 @@ trait WindowsPlugin extends Plugin {
       // Disable windows generation by default.
       mappings := Seq.empty,
       mappings in packageBin <<= mappings,
-      generateWinswFiles <<= (getWinswExe, createWinswXml) map {
-        (exe, xml) => (exe, xml) //Probably a shorter way to write this map { ... } to avoid variable name repetition
-      },
+      getWinswExe := None, // TODO implement how to get winswExe 
+      createWinswXml := None,
+      generateWinswFiles := (getWinswExe.value, createWinswXml.value),
       // TODO - Remove packageMsi after next major release.
       mappings in packageMsi <<= mappings in packageBin,
       packageMsi <<= packageBin,
