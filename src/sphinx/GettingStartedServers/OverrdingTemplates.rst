@@ -9,7 +9,7 @@ For the ``java_server`` package lifecycle scripts are customized to provide the 
 * Register application at your init system
 
 For this purpose *sbt-native-packager* ships with some predefined templates. These can be
-override with different techniques, depending on the packaging system.
+overriden with different techniques, depending on the packaging system.
 
 RPM Scriptlets
 ==============
