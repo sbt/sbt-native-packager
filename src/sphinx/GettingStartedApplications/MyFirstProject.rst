@@ -88,7 +88,7 @@ installation and update mechanism.   So, let's try to make a debian out of our p
     [error]                  packageDescription in Debian := "My package Description"
     [error] Total time: 0 s, completed Apr 1, 2014 10:21:13 AM
 
-Here, the native packager is warning that we haven't fully configured all the information required to genreate a valid debian file.  In particular, the packageDescription needs to be filled out for debian, in addition to a few other settings.   Let's add the debian configuration to ``build.sbt`` ::
+Here, the native packager is warning that we haven't fully configured all the information required to generate a valid debian file.  In particular, the packageDescription needs to be filled out for debian, in addition to a few other settings.   Let's add the debian configuration to ``build.sbt`` ::
 
     name := "example-cli"
 
