@@ -106,7 +106,7 @@ object JavaServerAppPackaging {
       map makeEtcDefaultScript,
     linuxPackageMappings <++= (makeEtcDefault, packageName in Linux) map { (conf, name) =>
       conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)),
-        LinuxFileMetaData(Users.Root, Users.Root)).withConfig()).toSeq
+        LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()).toSeq
     },
 
     // === /var/run/app pid folder ===
