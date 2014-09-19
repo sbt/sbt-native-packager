@@ -14,3 +14,4 @@ Advanced Topics
    windows.rst
    docker.rst
    paths.rst
+   custom.rst
