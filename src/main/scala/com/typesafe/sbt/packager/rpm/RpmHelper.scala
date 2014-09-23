@@ -86,7 +86,7 @@ object RpmHelper {
       log.debug("Executing rpmbuild with: " + args.mkString(" "))
       (Process(args, Some(specsDir)) ! log) match {
         case 0 => ()
-        case 1 => sys.error("Unable to run rpmbuild, check output for details.")
+        case code => sys.error("Unable to run rpmbuild, check output for details. Errorcode " + code)
       }
     }
   }
