@@ -51,7 +51,7 @@ object JavaServerAppPackaging {
   private[this] def defaultFacilities(loader: ServerLoader): String = {
     loader match {
       case SystemV => "$remote_fs $syslog"
-      case Upstart => "[networking]"
+      case Upstart => ""
       case Systemd => "network.target"
     }
   }
