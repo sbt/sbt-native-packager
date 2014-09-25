@@ -21,8 +21,8 @@ It may require these settings:
 
 .. code-block:: scala
 
-    packageName in Docker := packageName.value,
-    version in Docker := version.value,
+    name in Docker := "sbt",
+    version in Docker <<= sbtVersion,
     dockerBaseImage := "dockerfile/java",
     dockerRepository := Some("dockeruser"),
     dockerExposedPorts in Docker := Seq(9000, 9443),
@@ -31,10 +31,8 @@ It may require these settings:
 Informational Settings
 ~~~~~~~~~~~~~~~~~~~~~~
 
-    
-  ``packageName in Docker``
+  ``name in Docker``
     The name of the package for Docker (if different from general name).
-    This will only affect the image name.
 
   ``version in Docker``
     The version of the package for Docker (if different from general version).  Often takes the form ``x.y.z``.
