@@ -67,6 +67,9 @@ this `native packager discussion`_.
 .. _debian policies: https://www.debian.org/doc/debian-policy/ch-files.html
 .. _native packager discussion: https://github.com/sbt/sbt-native-packager/pull/174
 
+If you want to change something in this predefined structure read more about it in
+the :doc:`linux section </DetailedTopics/linux>`.
+
 Debian (.deb)
 =============
 
