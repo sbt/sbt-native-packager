@@ -25,7 +25,6 @@ rpmLicense := Some("BSD")
 
 TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
   val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
-  out.log.success(spec)
   assert(spec contains "%attr(0644,root,root) /usr/share/rpm-test/lib/rpm-test.rpm-test-0.1.0.jar", "Wrong installation path\n" + spec)
   assert(spec contains "%config %attr(0755,root,root) /etc/init.d/rpm-test", "Wrong /etc/init.d/\n" + spec)
   assert(spec contains "%config %attr(644,root,root) /etc/default/rpm-test", "Wrong etc default file\n" + spec)

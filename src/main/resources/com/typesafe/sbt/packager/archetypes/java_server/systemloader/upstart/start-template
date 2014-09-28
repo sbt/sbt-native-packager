@@ -10,11 +10,11 @@ author "${{author}}"
 
 # When to start the service
 start on runlevel ${{start_runlevels}}
-start on started ${{start_facilities}}
+${{start_facilities}}
 
 # When to stop the service
 stop on runlevel ${{stop_runlevels}}
-stop on stopping ${{stop_facilities}}
+${{stop_facilities}}
 
 # Automatically restart process if crashed. Tries ${{retries}} times every ${{retryTimeout}} seconds
 respawn

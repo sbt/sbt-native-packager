@@ -48,6 +48,7 @@ TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) 
   val script = IO.read(target / "debian-test-0.1.0" / "etc" / "init" / "debian-test.conf")
   assert(script.contains("start on runlevel [2345]"), "script doesn't contain start on runlevel header\n" + script)
   assert(script.contains("stop on runlevel [016]"), "script doesn't contain stop on runlevel header\n" + script)
-  out.log.success("Successfully tested systemV start up script")
+  assert(!script.contains("start on started"), "script contains start on started header\n" + script)
+  assert(!script.contains("stop on stopping"), "script contains stop on stopping header\n" + script)
   ()
 }

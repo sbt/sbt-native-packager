@@ -44,6 +44,12 @@ trait LinuxPlugin extends Plugin {
     defaultLinuxLogsLocation := "/var/log",
     defaultLinuxConfigLocation := "/etc",
 
+    // Default settings for service configurations
+    startRunlevels := None,
+    stopRunlevels := None,
+    requiredStartFacilities := None,
+    requiredStopFacilities := None,
+
     // Default linux bashscript replacements
     linuxScriptReplacements := makeReplacements(
       author = (maintainer in Linux).value,

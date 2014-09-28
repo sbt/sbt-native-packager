@@ -56,7 +56,7 @@ object JavaServerAppPackaging {
       map makeEtcDefaultScript,
     linuxPackageMappings <++= (makeEtcDefault, packageName in Linux) map { (conf, name) =>
       conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)),
-	LinuxFileMetaData(Users.Root, Users.Root)).withConfig()).toSeq
+	LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()).toSeq
     },
 
     // === /var/run/app pid folder ===
@@ -154,49 +154,47 @@ object JavaServerAppPackaging {
   }
 
   private[this] def makeStartScriptReplacements(
-    requiredStartFacilities: String,
-    requiredStopFacilities: String,
-    startRunlevels: String,
-    stopRunlevels: String,
+    requiredStartFacilities: Option[String],
+    requiredStopFacilities: Option[String],
+    startRunlevels: Option[String],
+    stopRunlevels: Option[String],
     loader: ServerLoader): Seq[(String, String)] = {
-    loader match {
-      case SystemV =>
-	Seq("start_runlevels" -> startRunlevels,
-	  "stop_runlevels" -> stopRunlevels,
-	  "start_facilities" -> requiredStartFacilities,
-	  "stop_facilities" -> requiredStopFacilities)
-      case Upstart =>
-	Seq("start_runlevels" -> startRunlevels,
-	  "stop_runlevels" -> stopRunlevels,
-	  "start_facilities" -> requiredStartFacilities,
-	  "stop_facilities" -> requiredStopFacilities)
-      case Systemd =>
-	Seq("start_facilities" -> requiredStartFacilities)
+
+    // Upstart cannot handle empty values
+    val (startOn, stopOn) = loader match {
+      case Upstart => (requiredStartFacilities.map("start on started " + _), requiredStopFacilities.map("stop on stopping " + _))
+      case _       => (requiredStartFacilities, requiredStopFacilities)
     }
+    Seq(
+      "start_runlevels" -> startRunlevels.getOrElse(""),
+      "stop_runlevels" -> stopRunlevels.getOrElse(""),
+      "start_facilities" -> startOn.getOrElse(""),
+      "stop_facilities" -> stopOn.getOrElse("")
+    )
   }
 
-  private[this] def defaultFacilities(loader: ServerLoader): String = {
-    loader match {
+  private[this] def defaultFacilities(loader: ServerLoader): Option[String] = {
+    Option(loader match {
       case SystemV => "$remote_fs $syslog"
-      case Upstart => "[networking]"
+      case Upstart => null
       case Systemd => "network.target"
-    }
+    })
   }
 
-  private[this] def defaultStartRunlevels(loader: ServerLoader): String = {
-    loader match {
+  private[this] def defaultStartRunlevels(loader: ServerLoader): Option[String] = {
+    Option(loader match {
       case SystemV => "2 3 4 5"
       case Upstart => "[2345]"
-      case Systemd => ""
-    }
+      case Systemd => null
+    })
   }
 
-  private[this] def defaultStopRunlevels(loader: ServerLoader): String = {
-    loader match {
+  private[this] def defaultStopRunlevels(loader: ServerLoader): Option[String] = {
+    Option(loader match {
       case SystemV => "0 1 6"
       case Upstart => "[016]"
-      case Systemd => ""
-    }
+      case Systemd => null
+    })
   }
 
   private[this] def getStartScriptLocation(loader: ServerLoader): String = {
