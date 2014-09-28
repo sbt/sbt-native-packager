@@ -16,6 +16,9 @@ trait WindowsKeys {
   val wixFile = TaskKey[File]("wix-file", "The WIX XML file to package with.")
   @deprecated("use packageBin instead!", "0.7.0")
   val packageMsi = TaskKey[File]("package-msi", "creates a new windows CAB file containing everything for the installation.")
+  val generateWinswFiles = TaskKey[(Option[File], Option[File])]("generateWinswFiles", "Creates Winsw files for Windows Services (First file is winsw exe and the second is the xml config)") //This is experimental
+  val getWinswExe = TaskKey[Option[File]]("getWinswExe", "Retrieve Winsw Exe and place it into /bin for Windows") //Maybe this task should be in SettingKey and/or somewhere else
+  val createWinswXml = TaskKey[Option[File]]("createWinswXml", "Create XML Service description used by Winsw exe.") //Maybe this task should be in SettingKey and/or somewhere else
   val candleOptions = SettingKey[Seq[String]]("candle-options", "Options to pass to the candle.exe program.")
   val lightOptions = SettingKey[Seq[String]]("light-options", "Options to pass to the light.exe program.")
 }

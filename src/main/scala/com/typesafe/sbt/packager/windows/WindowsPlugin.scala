@@ -5,6 +5,7 @@ package windows
 import Keys._
 import sbt._
 import sbt.Keys.{ normalizedName }
+import com.typesafe.sbt.packager.Keys.{ getWinswExe, createWinswXml }
 
 trait WindowsPlugin extends Plugin {
   val Windows = config("windows")
@@ -66,10 +67,13 @@ trait WindowsPlugin extends Plugin {
       // Disable windows generation by default.
       mappings := Seq.empty,
       mappings in packageBin <<= mappings,
+      getWinswExe := None, // TODO implement how to get winswExe 
+      createWinswXml := None,
+      generateWinswFiles := (getWinswExe.value, createWinswXml.value),
       // TODO - Remove packageMsi after next major release.
       mappings in packageMsi <<= mappings in packageBin,
       packageMsi <<= packageBin,
-      packageBin <<= (mappings in packageMsi, wixFile, name, target, candleOptions, lightOptions, streams) map { (m, f, n, t, co, lo, s) =>
+      packageBin <<= (generateWinswFiles, mappings in packageMsi, wixFile, name, target, candleOptions, lightOptions, streams) map { (wf, m, f, n, t, co, lo, s) =>
         val msi = t / (n + ".msi")
         // First we have to move everything (including the wix file) to our target directory.
         val wix = t / (n + ".wix")
