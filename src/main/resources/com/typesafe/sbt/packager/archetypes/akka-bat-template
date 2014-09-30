@@ -1,0 +1,11 @@
+echo off
+
+set _JAVA_OPTS=%_JAVA_OPTS% %_JAVA_PARAMS%
+
+@@APP_DEFINES@@
+
+set AKKA_HOME=%~dp0..
+set JAVA_OPTS=-Xmx1024M -Xms1024M -Xss1M -XX:MaxPermSize=256M -XX:+UseParallelGC
+set AKKA_CLASSPATH=%AKKA_HOME%\lib\*;%AKKA_HOME%\config;%AKKA_HOME%\lib\akka\*
+
+java %JAVA_OPTS% -cp "%AKKA_CLASSPATH%" -Dakka.home="%AKKA_HOME%" akka.kernel.Main %APP_MAIN_CLASS% %*
