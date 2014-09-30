@@ -47,6 +47,8 @@ object SbtNativePackager extends Plugin
     private[this] def genericMappingSettings: Seq[Setting[_]] = packagerSettings ++ mapGenericFilesToLinux ++ mapGenericFilesToWindows
     def java_application: Seq[Setting[_]] =
       genericMappingSettings ++ archetypes.JavaAppPackaging.settings
+    def akka_application: Seq[Setting[_]] =
+      genericMappingSettings ++ archetypes.AkkaApp.settings
     def java_server: Seq[Setting[_]] =
       genericMappingSettings ++ archetypes.JavaServerAppPackaging.settings
   }
