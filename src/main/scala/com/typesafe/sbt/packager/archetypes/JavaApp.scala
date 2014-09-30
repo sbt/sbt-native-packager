@@ -18,7 +18,14 @@ import SbtNativePackager._
  *
  *  **NOTE:  EXPERIMENTAL**   This currently only supports universal distributions.
  */
-object JavaAppPackaging {
+object JavaAppPackaging extends JavaApp {
+  val bashTemplate = "bash-template"
+  val batTemplate = "bat-template"
+
+}
+trait JavaApp {
+  val bashTemplate: String
+  val batTemplate: String
 
   def settings: Seq[Setting[_]] = Seq(
     // Here we record the classpath as it's added to the mappings separately, so
@@ -85,10 +92,14 @@ object JavaAppPackaging {
   def makeUniversalBinScript(defines: Seq[String], tmpDir: File, name: String, sourceDir: File): Option[File] =
     if (defines.isEmpty) None
     else {
-      val defaultTemplateLocation = sourceDir / "templates" / "bash-template"
-      val scriptBits =
-        if (defaultTemplateLocation.exists) JavaAppBashScript.generateScript(defines, defaultTemplateLocation.toURI.toURL)
-        else JavaAppBashScript.generateScript(defines)
+      val defaultTemplateLocation = sourceDir / "templates" / bashTemplate
+      val defaultTemplateSource = getClass.getResource(bashTemplate)
+
+      val template = if (defaultTemplateLocation.exists)
+        defaultTemplateLocation.toURI.toURL
+      else defaultTemplateSource
+
+      val scriptBits = JavaAppBashScript.generateScript(defines, template)
       val script = tmpDir / "tmp" / "bin" / name
       IO.write(script, scriptBits)
       // TODO - Better control over this!
@@ -99,10 +110,13 @@ object JavaAppPackaging {
   def makeUniversalBatScript(replacements: Seq[(String, String)], tmpDir: File, name: String, sourceDir: File): Option[File] =
     if (replacements.isEmpty) None
     else {
-      val defaultTemplateLocation = sourceDir / "templates" / "bat-template"
-      val scriptBits =
-        if (defaultTemplateLocation.exists) JavaAppBatScript.generateScript(replacements, defaultTemplateLocation.toURI.toURL)
-        else JavaAppBatScript.generateScript(replacements)
+      val defaultTemplateLocation = sourceDir / "templates" / batTemplate
+      val defaultTemplateSource = getClass.getResource(batTemplate)
+      val template = if (defaultTemplateLocation.exists)
+        defaultTemplateLocation.toURI.toURL
+      else defaultTemplateSource
+
+      val scriptBits = JavaAppBatScript.generateScript(replacements, template)
       val script = tmpDir / "tmp" / "bin" / (name + ".bat")
       IO.write(script, scriptBits)
       Some(script)

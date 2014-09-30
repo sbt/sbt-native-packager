@@ -123,6 +123,18 @@ to your packaging for Debian.  *Note:* All specified users are **deleted** on an
 
 *Note:* It is not a good idea to use **root** as the ``appUser`` for services as it represents a security risk.
 
+Akka Microkernel Application
+----------------------------
+
+Akka microkerneal application is simlar to a Java Command Line application. Instead to run the ``mainClass``, akka microkernel application need run java with main class ``akka.kernel.Main``. The bash/bat script that starts up a Akka application is copied from Akka distribution.   To use this archetype in your build, do the following in your ``build.sbt``:
+
+.. code-block:: scala
+
+    packageArchetype.akka_application
+
+    name := "A-package-friendly-name"
+
+    mainClass in Compile := Some("HelloKernel")
 
 
 Overriding Templates

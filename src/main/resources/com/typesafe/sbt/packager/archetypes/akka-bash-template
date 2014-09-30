@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+declare AKKA_HOME="$(cd "$(cd "$(dirname "$0")"; pwd -P)"/..; pwd)"
+declare -r app_home="$0"
+declare -r lib_dir="${AKKA_HOME}/lib"
+
+${{template_declares}}
+
+[ -n "$JAVA_OPTS" ] || JAVA_OPTS="-Xms1024M -Xmx1024M -Xss1M -XX:MaxPermSize=256M -XX:+UseParallelGC"
+
+# we will use akka_classpath instead the app_classpath
+[ -n "$akka_classpath" ] || akka_classpath="$AKKA_HOME/lib/*:$AKKA_HOME/conf"
+
+java $JAVA_OPTS -cp "$akka_classpath" -Dakka.home="$AKKA_HOME" -Dakka.kernel.quiet=false akka.kernel.Main $app_mainclass
