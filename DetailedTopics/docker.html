@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Docker &mdash; sbt-native-packager 0.8.0-M1 documentation</title>
+    <title>Docker &mdash; sbt-native-packager 0.7-712ae9def77fa97f64960d26853a4b95bdd15835 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.8.0-M1',
+        VERSION:     '0.7-712ae9def77fa97f64960d26853a4b95bdd15835',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.8.0-M1 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-712ae9def77fa97f64960d26853a4b95bdd15835 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Path Configurations" href="paths.html" />
     <link rel="prev" title="Packaging for Windows" href="windows.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.8.0-M1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-712ae9def77fa97f64960d26853a4b95bdd15835</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -159,8 +159,8 @@
 </pre></div>
 </div>
 <p>It may require these settings:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">name</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="s">&quot;sbt&quot;</span><span class="o">,</span>
-<span class="n">version</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">&lt;&lt;=</span> <span class="n">sbtVersion</span><span class="o">,</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">packageName</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="n">packageName</span><span class="o">.</span><span class="n">value</span><span class="o">,</span>
+<span class="n">version</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="n">version</span><span class="o">.</span><span class="n">value</span><span class="o">,</span>
 <span class="n">dockerBaseImage</span> <span class="o">:=</span> <span class="s">&quot;dockerfile/java&quot;</span><span class="o">,</span>
 <span class="n">dockerRepository</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;dockeruser&quot;</span><span class="o">),</span>
 <span class="n">dockerExposedPorts</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="mi">9000</span><span class="o">,</span> <span class="mi">9443</span><span class="o">),</span>
@@ -171,8 +171,9 @@
 <h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Docker</span></tt></dt>
-<dd>The name of the package for Docker (if different from general name).</dd>
+<dt><tt class="docutils literal"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Docker</span></tt></dt>
+<dd>The name of the package for Docker (if different from general name).
+This will only affect the image name.</dd>
 <dt><tt class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Docker</span></tt></dt>
 <dd>The version of the package for Docker (if different from general version).  Often takes the form <tt class="docutils literal"><span class="pre">x.y.z</span></tt>.</dd>
 <dt><tt class="docutils literal"><span class="pre">maintainer</span> <span class="pre">in</span> <span class="pre">Docker</span></tt></dt>

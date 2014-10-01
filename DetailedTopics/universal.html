@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Universal &mdash; sbt-native-packager 0.8.0-M1 documentation</title>
+    <title>Universal &mdash; sbt-native-packager 0.7-712ae9def77fa97f64960d26853a4b95bdd15835 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.8.0-M1',
+        VERSION:     '0.7-712ae9def77fa97f64960d26853a4b95bdd15835',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.8.0-M1 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-712ae9def77fa97f64960d26853a4b95bdd15835 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Writing Linux Packages" href="linux.html" />
     <link rel="prev" title="Project Archetypes" href="archetypes.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.8.0-M1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-712ae9def77fa97f64960d26853a4b95bdd15835</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -94,6 +94,7 @@
 <li><a class="reference internal" href="#mapping-examples">Mapping Examples</a><ul>
 <li><a class="reference internal" href="#mapping-a-complete-directory">Mapping a complete directory</a></li>
 <li><a class="reference internal" href="#mapping-the-content-of-a-directory">Mapping the content of a directory</a></li>
+<li><a class="reference internal" href="#filter-remove-mappings">Filter/Remove mappings</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#commands">Commands</a></li>
@@ -321,6 +322,54 @@ function to generate a mapping <tt class="docutils literal"><span class="pre">Fi
 </pre></div>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">dir</span></tt> gets excluded and is used as root for <tt class="docutils literal"><span class="pre">relativeTo(dir)</span></tt>.</p>
+</div>
+<div class="section" id="filter-remove-mappings">
+<h3>Filter/Remove mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this headline">¶</a></h3>
+<p>If you want to remove mappings, you have to filter the current list of mappings.
+This example demonstrates how to build a fat jar with sbt-assembly, but using all
+the convenience of the sbt native packager archetypes.</p>
+<p>tl;dr how to remove stuff</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// removes all jar mappings in universal and appends the fat jar</span>
+<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">{</span>
+    <span class="c1">// universalMappings: Seq[(File,String)]</span>
+    <span class="k">val</span> <span class="n">universalMappings</span> <span class="k">=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
+    <span class="k">val</span> <span class="n">fatJar</span> <span class="k">=</span> <span class="o">(</span><span class="n">assembly</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span>
+    <span class="c1">// removing means filtering</span>
+    <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">universalMappings</span> <span class="n">filter</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="o">!</span> <span class="n">name</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;.jar&quot;</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="c1">// add the fat jar</span>
+    <span class="n">filtered</span> <span class="o">:+</span> <span class="o">(</span><span class="n">fatJar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">fatJar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
+<span class="o">}</span>
+
+<span class="c1">// sbt 0.12 syntax</span>
+<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;&lt;=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">,</span> <span class="n">assembly</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="n">universalMappings</span><span class="o">,</span> <span class="n">fatJar</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="cm">/* same logic */</span><span class="o">}</span>
+</pre></div>
+</div>
+<p>The complete <tt class="docutils literal"><span class="pre">build.sbt</span></tt> should contain these settings if you want a single assembled fat jar.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// the assembly settings</span>
+<span class="n">assemblySettings</span>
+
+<span class="c1">// we specify the name for our fat jar</span>
+<span class="n">jarName</span> <span class="n">in</span> <span class="n">assembly</span> <span class="o">:=</span> <span class="s">&quot;assembly-project.jar&quot;</span>
+
+<span class="c1">// using the java server for this application. java_application would be fine, too</span>
+<span class="n">packageArchetype</span><span class="o">.</span><span class="n">java_server</span>
+
+<span class="c1">// removes all jar mappings in universal and appends the fat jar</span>
+<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">universalMappings</span> <span class="k">=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
+    <span class="k">val</span> <span class="n">fatJar</span> <span class="k">=</span> <span class="o">(</span><span class="n">assembly</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span>
+    <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">universalMappings</span> <span class="n">filter</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="o">!</span> <span class="n">name</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;.jar&quot;</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">filtered</span> <span class="o">:+</span> <span class="o">(</span><span class="n">fatJar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">fatJar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
+<span class="o">}</span>
+
+<span class="c1">// the bash scripts classpath only needs the fat jar</span>
+<span class="n">scriptClasspath</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span> <span class="o">(</span><span class="n">jarName</span> <span class="n">in</span> <span class="n">assembly</span><span class="o">).</span><span class="n">value</span> <span class="o">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="commands">

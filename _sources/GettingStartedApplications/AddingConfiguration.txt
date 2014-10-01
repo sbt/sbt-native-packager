@@ -19,7 +19,7 @@ Now, if we run the ``stage`` task, we'll see this file show up in the distributi
       bin/
       conf/
       lib/
-   $ ls target/unviersal/stage/conf
+   $ ls target/universal/stage/conf
       jvmopts
 
 By default, any file in the ``src/universal`` directory is packaged.  This is a convenient way to include things like licenses, and readmes.

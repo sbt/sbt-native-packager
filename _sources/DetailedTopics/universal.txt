@@ -228,6 +228,61 @@ Mapping the content of a directory
     
 The ``dir`` gets excluded and is used as root for ``relativeTo(dir)``.
 
+Filter/Remove mappings
+^^^^^^^^^^^^^^^^^^^^^^
+
+If you want to remove mappings, you have to filter the current list of mappings.
+This example demonstrates how to build a fat jar with sbt-assembly, but using all
+the convenience of the sbt native packager archetypes.
+
+tl;dr how to remove stuff
+
+.. code-block:: scala
+
+    // removes all jar mappings in universal and appends the fat jar
+    mappings in Universal := {
+        // universalMappings: Seq[(File,String)]
+        val universalMappings = (mappings in Universal).value 
+        val fatJar = (assembly in Compile).value
+        // removing means filtering
+        val filtered = universalMappings filter { 
+            case (file, name) =>  ! name.endsWith(".jar") 
+        }
+        // add the fat jar
+        filtered :+ (fatJar -> ("lib/" + fatJar.getName))
+    }
+    
+    // sbt 0.12 syntax
+    mappings in Universal <<= (mappings in Universal, assembly in Compile) map { (universalMappings, fatJar) => /* same logic */}
+
+
+The complete ``build.sbt`` should contain these settings if you want a single assembled fat jar.
+
+.. code-block:: scala
+
+    // the assembly settings
+    assemblySettings
+
+    // we specify the name for our fat jar
+    jarName in assembly := "assembly-project.jar"
+
+    // using the java server for this application. java_application would be fine, too
+    packageArchetype.java_server
+
+    // removes all jar mappings in universal and appends the fat jar
+    mappings in Universal := {
+        val universalMappings = (mappings in Universal).value 
+        val fatJar = (assembly in Compile).value
+        val filtered = universalMappings filter { 
+            case (file, name) =>  ! name.endsWith(".jar") 
+        }
+        filtered :+ (fatJar -> ("lib/" + fatJar.getName))
+    }
+
+    // the bash scripts classpath only needs the fat jar
+    scriptClasspath := Seq( (jarName in assembly).value )
+    
+
 Commands
 --------
 
