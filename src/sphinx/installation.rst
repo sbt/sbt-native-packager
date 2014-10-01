@@ -7,7 +7,7 @@ The sbt-native-packager is a plugin. To use it, first create a ``project/plugins
 
 .. code-block:: scala
 
-  addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.1")
+  addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0-M2")
 
 
 Also, each operating system requires its own tools for download.

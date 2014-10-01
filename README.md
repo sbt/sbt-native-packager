@@ -20,10 +20,10 @@ Add the following to your `project/plugins.sbt` file:
 
 ```scala
 // for sbt 0.12.x and scala 2.9.x
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.5-RC2")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.5")
 
 // for sbt 0.13.x and scala 2.10.x
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0-M1")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0-M2")
 ```
 
 For the native packager keys add this to your `build.sbt`
