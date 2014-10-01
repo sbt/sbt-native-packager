@@ -126,7 +126,29 @@ to your packaging for Debian.  *Note:* All specified users are **deleted** on an
 Akka Microkernel Application
 ----------------------------
 
-Akka microkerneal application is simlar to a Java Command Line application. Instead to run the ``mainClass``, akka microkernel application need run java with main class ``akka.kernel.Main``. The bash/bat script that starts up a Akka application is copied from Akka distribution.   To use this archetype in your build, do the following in your ``build.sbt``:
+An Akka microkernel application is simlar to a Java Command Line application. Instead of running the classic ``mainClass``, 
+an Akka microkernel application instantiates and runs a subclass of 
+`Bootable <https://github.com/akka/akka/blob/master/akka-kernel/src/main/scala/akka/kernel/Main.scala>`_ . A minimal example
+could look like this
+
+.. code-block:: scala
+
+    class HelloKernel extends Bootable {
+      val system = ActorSystem("hellokernel")
+     
+      def startup = {
+        // HelloActor and Start case object must of course be defined
+        system.actorOf(Props[HelloActor]) ! Start
+      }
+     
+      def shutdown = {
+        system.terminate()
+      }
+    }
+
+The *bash/bat* script that starts up the Akka application is copied from the Akka distribution. 
+
+To use this archetype in your build, add the following to your ``build.sbt``:
 
 .. code-block:: scala
 
@@ -135,6 +157,12 @@ Akka microkerneal application is simlar to a Java Command Line application. Inst
     name := "A-package-friendly-name"
 
     mainClass in Compile := Some("HelloKernel")
+
+For more information take a look at the akka docs
+
+* `Akka microkernel <http://doc.akka.io/docs/akka/snapshot/scala/microkernel.html>`_
+* `akka.kernel.Main source <https://github.com/akka/akka/blob/master/akka-kernel/src/main/scala/akka/kernel/Main.scala>`_
+* `akka.kernel.Bootable docs <http://doc.akka.io/api/akka/snapshot/index.html#akka.kernel.Bootable>`_
 
 
 Overriding Templates
