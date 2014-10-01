@@ -15,6 +15,8 @@ trait DockerKeys {
   val dockerExposedVolumes = SettingKey[Seq[String]]("dockerExposedVolumes", "Volumes exposed by Docker image")
   val dockerRepository = SettingKey[Option[String]]("dockerRepository", "Repository for published Docker image")
   val dockerUpdateLatest = SettingKey[Boolean]("dockerUpdateLatest", "Set to update latest tag")
+
+  val dockerAddCommands = TaskKey[Seq[CmdLike]]("dockerAddCommands", "Generates a list of docker add comands which is inserted into the docker file")
 }
 
 object Keys extends DockerKeys {
