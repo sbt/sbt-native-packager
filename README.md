@@ -8,11 +8,16 @@ This is a work in process project.  The goal is to be able to bundle up Scala so
 ## Issues/Discussions
 
 *  **Discussion/Questions**:
-  If you wish to ask questions about the native packager, we're very active on [Stack Overflow](http://stackoverflow.com/questions/tagged/sbt).  You can either use the `sbt` tag or the `sbt-native-packager` tag.  They also have far better search support for working around issues.
+  If you wish to ask questions about the native packager, we have a [mailinglist](https://groups.google.com/forum/#!forum/sbt-native-packager) and
+  we're very active on [Stack Overflow](http://stackoverflow.com/questions/tagged/sbt). You can either use the `sbt` tag or the
+  `sbt-native-packager` tag.  They also have far better search support for working around issues.
 * **Docs**:
-   Our docs are [available online](http://scala-sbt.org/sbt-native-packager).  If you'd like to help improve the docs, they're part of this repository in the `src/sphinx` directory.
+  Our docs are [available online](http://scala-sbt.org/sbt-native-packager).  If you'd like to help improve the docs, they're part of this
+  repository in the `src/sphinx` directory.
 * **Issues/Feature Requests**:
-  Finally, any bugs or features you find you need, please report to our [issue tracker](https://github.com/sbt/sbt-native-packager/issues/new).  Please check the [compatibility matrix](https://github.com/sbt/sbt-native-packager/wiki/Tested-On) to see if your system is able to produce the packages you want.
+  Finally, any bugs or features you find you need, please report to our [issue tracker](https://github.com/sbt/sbt-native-packager/issues/new).
+  Please check the [compatibility matrix](https://github.com/sbt/sbt-native-packager/wiki/Tested-On) to see if your system is able to
+  produce the packages you want.
 
 ## Installation ##
 
