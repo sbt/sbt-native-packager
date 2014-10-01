@@ -98,7 +98,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
           (mappings, dir) =>
             val md5file = dir / Names.Debian / "md5sums"
             val md5sums = for {
-	      (file, name) <- (dir.*** --- dir pair relativeTo(dir))
+              (file, name) <- (dir.*** --- dir pair relativeTo(dir))
               if file.isFile
               if !(name startsWith Names.Debian)
               if !(name contains "debian-binary")
@@ -110,10 +110,10 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
             chmod(md5file, "0644")
             md5file
         },
-	debianMakeChownReplacements <<= (linuxPackageMappings, streams) map makeChownReplacements,
-	debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianChangelog, daemonShell in Linux,
-	  linuxScriptReplacements, debianMakeChownReplacements, linuxPackageSymlinks, target, streams)
-	  map { (mappings, _, maintScripts, _, changelog, shell, replacements, chown, symlinks, t, streams) =>
+        debianMakeChownReplacements <<= (linuxPackageMappings, streams) map makeChownReplacements,
+        debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianChangelog, daemonShell in Linux,
+          linuxScriptReplacements, debianMakeChownReplacements, linuxPackageSymlinks, target, streams)
+          map { (mappings, _, maintScripts, _, changelog, shell, replacements, chown, symlinks, t, streams) =>
 
             // Create files and directories
             mappings foreach {
@@ -140,14 +140,14 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
             for ((file, name) <- maintScripts) {
               val targetFile = t / Names.Debian / name
               copyAndFixPerms(file, targetFile, LinuxFileMetaData())
-	      filterAndFixPerms(targetFile, chown +: replacements, LinuxFileMetaData())
+              filterAndFixPerms(targetFile, chown +: replacements, LinuxFileMetaData())
             }
             t
           },
         // Setting the packaging strategy
-	packageBin <<= debianNativePackaging,
-	// Replacement for ${{header}} as debian control scripts are bash scripts
-	linuxScriptReplacements += ("header" -> "#!/bin/sh\n")
+        packageBin <<= debianNativePackaging,
+        // Replacement for ${{header}} as debian control scripts are bash scripts
+        linuxScriptReplacements += ("header" -> "#!/bin/sh\n")
 
       // Adding package specific implementation settings
       ) ++ debianNativeSettings ++ debianJDebSettings)
@@ -252,11 +252,11 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
       case LinuxPackageMapping(paths, meta, _) => (meta.user, meta.group) -> paths
     } groupBy (_._1) map {
       case ((user, group), pathList) =>
-	validateUserGroupNames(user, streams)
-	validateUserGroupNames(group, streams)
-	val chown = chownCmd(user, group) _
-	// remove key, flatten it and then use mapping path (_.2) to create chown command
-	pathList.map(_._2).flatten map (m => chown(m._2))
+        validateUserGroupNames(user, streams)
+        validateUserGroupNames(group, streams)
+        val chown = chownCmd(user, group) _
+        // remove key, flatten it and then use mapping path (_.2) to create chown command
+        pathList.map(_._2).flatten map (m => chown(m._2))
     }
     val replacement = header :: chowns.flatten.toList mkString "\n"
     DebianPlugin.CHOWN_REPLACEMENT -> replacement

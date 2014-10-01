@@ -56,7 +56,7 @@ object JavaServerAppPackaging {
       map makeEtcDefaultScript,
     linuxPackageMappings <++= (makeEtcDefault, packageName in Linux) map { (conf, name) =>
       conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)),
-	LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()).toSeq
+        LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()).toSeq
     },
 
     // === /var/run/app pid folder ===
@@ -76,20 +76,20 @@ object JavaServerAppPackaging {
       requiredStopFacilities <<= (serverLoading) apply defaultFacilities,
       // === Startscript creation ===
       linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
-	makeStartScriptReplacements,
+        makeStartScriptReplacements,
       linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
 
       linuxStartScriptTemplate := JavaServerLoaderScript(
-	script = startScriptName(serverLoading.value, Debian),
-	loader = serverLoading.value,
-	archetype = ARCHETYPE,
-	template = Option(sourceDirectory.value / "templates" / "start")
+        script = startScriptName(serverLoading.value, Debian),
+        loader = serverLoading.value,
+        archetype = ARCHETYPE,
+        template = Option(sourceDirectory.value / "templates" / "start")
       ),
       defaultLinuxStartScriptLocation <<= serverLoading apply getStartScriptLocation,
       linuxMakeStartScript in Debian <<= (linuxStartScriptTemplate in Debian,
-	linuxScriptReplacements in Debian,
-	target in Universal,
-	serverLoading in Debian) map makeStartScript,
+        linuxScriptReplacements in Debian,
+        target in Universal,
+        serverLoading in Debian) map makeStartScript,
       linuxPackageMappings <++= (packageName, linuxMakeStartScript, serverLoading, defaultLinuxStartScriptLocation) map startScriptMapping
     )) ++ Seq(
       // === Maintainer scripts ===
@@ -108,20 +108,20 @@ object JavaServerAppPackaging {
       requiredStartFacilities in Rpm <<= (serverLoading) apply defaultFacilities,
       requiredStopFacilities in Rpm <<= (serverLoading) apply defaultFacilities,
       linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
-	makeStartScriptReplacements,
+        makeStartScriptReplacements,
       linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE)
     )) ++ Seq(
       // === Startscript creation ===
       linuxStartScriptTemplate := JavaServerLoaderScript(
-	script = startScriptName((serverLoading in Rpm).value, Rpm),
-	loader = (serverLoading in Rpm).value,
-	archetype = ARCHETYPE,
-	template = Option(sourceDirectory.value / "templates" / "start")
+        script = startScriptName((serverLoading in Rpm).value, Rpm),
+        loader = (serverLoading in Rpm).value,
+        archetype = ARCHETYPE,
+        template = Option(sourceDirectory.value / "templates" / "start")
       ),
       linuxMakeStartScript in Rpm <<= (linuxStartScriptTemplate in Rpm,
-	linuxScriptReplacements in Rpm,
-	target in Universal,
-	serverLoading in Rpm) map makeStartScript,
+        linuxScriptReplacements in Rpm,
+        target in Universal,
+        serverLoading in Rpm) map makeStartScript,
 
       defaultLinuxStartScriptLocation in Rpm <<= (serverLoading in Rpm) apply getStartScriptLocation,
       linuxPackageMappings in Rpm <++= (packageName in Rpm, linuxMakeStartScript in Rpm, serverLoading in Rpm, defaultLinuxStartScriptLocation in Rpm) map startScriptMapping,
@@ -129,16 +129,16 @@ object JavaServerAppPackaging {
       // == Maintainer scripts ===
       // TODO this is very basic - align debian and rpm plugin
       rpmPre <<= (rpmScriptsDirectory, rpmPre, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
-	(dir, pre, replacements, loader) => rpmScriptletContent(dir, Pre, replacements, pre)
+        (dir, pre, replacements, loader) => rpmScriptletContent(dir, Pre, replacements, pre)
       },
       rpmPost <<= (rpmScriptsDirectory, rpmPost, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
-	(dir, post, replacements, loader) => rpmScriptletContent(dir, Post, replacements, post)
+        (dir, post, replacements, loader) => rpmScriptletContent(dir, Post, replacements, post)
       },
       rpmPostun <<= (rpmScriptsDirectory, rpmPostun, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
-	(dir, postun, replacements, loader) => rpmScriptletContent(dir, Postun, replacements, postun)
+        (dir, postun, replacements, loader) => rpmScriptletContent(dir, Postun, replacements, postun)
       },
       rpmPreun <<= (rpmScriptsDirectory, rpmPreun, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
-	(dir, preun, replacements, loader) => rpmScriptletContent(dir, Preun, replacements, preun)
+        (dir, preun, replacements, loader) => rpmScriptletContent(dir, Preun, replacements, preun)
       }
     )
   }
