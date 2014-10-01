@@ -1,0 +1,11 @@
+# Adding system user/group : ${{daemon_user}} and ${{daemon_group}}
+if ! getent group | grep -q "^${{daemon_group}}:" ;
+then
+    echo "Creating system group: ${{daemon_group}}"
+    groupadd --system ${{daemon_group}}
+fi
+if ! getent passwd | grep -q "^${{daemon_user}}:";
+then
+    echo "Creating system user: ${{daemon_user}}"
+    useradd --gid ${{daemon_group}} --no-create-home --system -c '${{app_name}} daemon-user' ${{daemon_user}}
+fi

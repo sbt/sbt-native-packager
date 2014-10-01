@@ -1,0 +1,7 @@
+${{loader-functions}}
+${{control-functions}}
+
+addGroup ${{daemon_group}}
+addUser ${{daemon_user}} ${{daemon_group}} "${{app_name}} user-daemon" "${{daemon_shell}}"
+
+startService ${{app_name}} || echo "${{app_name}} could not be registered or started"

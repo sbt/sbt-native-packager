@@ -1,0 +1,7 @@
+${{header}}
+${{control-functions}}
+
+addGroup ${{daemon_group}}
+addUser ${{daemon_user}} ${{daemon_group}} "${{app_name}} daemon-user" ${{daemon_shell}}
+
+${{chown-paths}}

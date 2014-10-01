@@ -1,1 +1,0 @@
-service ${{app_name}} stop || echo "${{app_name}} wasn't even running!"

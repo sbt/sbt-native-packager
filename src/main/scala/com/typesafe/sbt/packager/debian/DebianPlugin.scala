@@ -9,6 +9,7 @@ import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
 import linux.Keys.{ linuxScriptReplacements, daemonShell }
 import com.typesafe.sbt.packager.Hashing
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
+import com.typesafe.sbt.packager.linux.LinuxPackageMapping
 
 trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging with JDebPackaging {
   val Debian = config("debian") extend Linux
@@ -16,7 +17,9 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
 
   import com.typesafe.sbt.packager.universal.Archives
   import DebianPlugin.Names
+  import DebianPlugin.defaultMaintainerScript
   import linux.LinuxPlugin.Users
+  import SbtNativePackager.Universal
 
   def debianSettings: Seq[Setting[_]] = Seq(
     /* ==== Debian default settings ==== */
@@ -38,10 +41,10 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
     /* ==== Debian configuration settings ==== */
     debianControlScriptsDirectory <<= (sourceDirectory) apply (_ / "debian" / Names.Debian),
     debianMaintainerScripts := Seq.empty,
-    debianMakePreinstScript := None,
-    debianMakePrermScript := None,
-    debianMakePostinstScript := None,
-    debianMakePostrmScript := None,
+    debianMakePreinstScript := defaultMaintainerScript(Names.Preinst, linuxScriptReplacements.value, (target in Universal).value),
+    debianMakePrermScript := defaultMaintainerScript(Names.Prerm, linuxScriptReplacements.value, (target in Universal).value),
+    debianMakePostinstScript := defaultMaintainerScript(Names.Postinst, linuxScriptReplacements.value, (target in Universal).value),
+    debianMakePostrmScript := defaultMaintainerScript(Names.Postrm, linuxScriptReplacements.value, (target in Universal).value),
     debianChangelog := None,
 
     /* ==== Debian maintainer scripts ==== */
@@ -95,7 +98,7 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
           (mappings, dir) =>
             val md5file = dir / Names.Debian / "md5sums"
             val md5sums = for {
-              (file, name) <- (dir.*** --- dir x relativeTo(dir))
+	      (file, name) <- (dir.*** --- dir pair relativeTo(dir))
               if file.isFile
               if !(name startsWith Names.Debian)
               if !(name contains "debian-binary")
@@ -107,8 +110,10 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
             chmod(md5file, "0644")
             md5file
         },
-        debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianChangelog, daemonShell in Linux, linuxScriptReplacements, linuxPackageSymlinks, target, streams)
-          map { (mappings, _, maintScripts, _, changelog, shell, replacements, symlinks, t, streams) =>
+	debianMakeChownReplacements <<= (linuxPackageMappings, streams) map makeChownReplacements,
+	debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianChangelog, daemonShell in Linux,
+	  linuxScriptReplacements, debianMakeChownReplacements, linuxPackageSymlinks, target, streams)
+	  map { (mappings, _, maintScripts, _, changelog, shell, replacements, chown, symlinks, t, streams) =>
 
             // Create files and directories
             mappings foreach {
@@ -135,54 +140,14 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
             for ((file, name) <- maintScripts) {
               val targetFile = t / Names.Debian / name
               copyAndFixPerms(file, targetFile, LinuxFileMetaData())
-              filterAndFixPerms(targetFile, replacements, LinuxFileMetaData())
-            }
-
-            // Check for non root user/group and append to postinst / postrm
-            // filter all root mappings, map to (user,group) key, group by, append everything
-            mappings filter {
-              case LinuxPackageMapping(_, LinuxFileMetaData(Users.Root, Users.Root, _, _, _), _) => false
-              case _ => true
-            } map {
-              case LinuxPackageMapping(paths, LinuxFileMetaData(user, group, _, _, _), _) => (user, group) -> paths
-            } groupBy (_._1) foreach {
-              case ((user, group), pathList) =>
-                streams.log info ("Altering postrm/postinst files to add user " + user + " and group " + group)
-                val postinst = createFileIfRequired(t / Names.Debian / Names.Postinst, LinuxFileMetaData())
-                val postrm = createFileIfRequired(t / Names.Debian / Names.Postrm, LinuxFileMetaData())
-                val prerm = createFileIfRequired(t / Names.Debian / Names.Prerm, LinuxFileMetaData())
-                val headerScript = IO.readLinesURL(Native.headerSource)
-
-                val replacements = Seq("group" -> group, "user" -> user, "shell" -> shell)
-
-                prependAndFixPerms(prerm, headerScript, LinuxFileMetaData())
-
-                // remove key, flatten it and then go through each file
-                pathList.map(_._2).flatten foreach {
-                  case (_, target) =>
-                    val pathReplacements = replacements :+ ("path" -> target.toString)
-                    val chownAdd = Seq(TemplateWriter.generateScript(Native.postinstChownTemplateSource, pathReplacements))
-                    prependAndFixPerms(postinst, chownAdd, LinuxFileMetaData())
-                }
-
-                validateUserGroupNames(user, streams)
-                validateUserGroupNames(group, streams)
-
-                val userGroupAdd = Seq(
-                  TemplateWriter.generateScript(Native.postinstGroupaddTemplateSource, replacements),
-                  TemplateWriter.generateScript(Native.postinstUseraddTemplateSource, replacements))
-
-                prependAndFixPerms(postinst, userGroupAdd, LinuxFileMetaData())
-                prependAndFixPerms(postinst, headerScript, LinuxFileMetaData())
-
-                val purgeAdd = Seq(TemplateWriter.generateScript(Native.postrmPurgeTemplateSource, replacements))
-                appendAndFixPerms(postrm, purgeAdd, LinuxFileMetaData())
-                prependAndFixPerms(postrm, headerScript, LinuxFileMetaData())
+	      filterAndFixPerms(targetFile, chown +: replacements, LinuxFileMetaData())
             }
             t
           },
         // Setting the packaging strategy
-        packageBin <<= debianNativePackaging
+	packageBin <<= debianNativePackaging,
+	// Replacement for ${{header}} as debian control scripts are bash scripts
+	linuxScriptReplacements += ("header" -> "#!/bin/sh\n")
 
       // Adding package specific implementation settings
       ) ++ debianNativeSettings ++ debianJDebSettings)
@@ -261,6 +226,42 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
     appName + "_" + version + "_" + arch + ".changes"
   }
 
+  /**
+   * Debian assumes the application chowns the necessary files and directories in the
+   * control scripts (Pre/Postinst).
+   *
+   * This method generates a replacement which can be inserted in bash script to chown
+   * all files which are not root. While adding the chown commands it checks if the users
+   * and groups have valid names.
+   *
+   * @param mappings - all mapped files
+   * @param streams - logging
+   * @return (CHOWN_REPLACEMENT -> ".. list of chown commands")
+   */
+  private[debian] def makeChownReplacements(mappings: Seq[LinuxPackageMapping], streams: TaskStreams): (String, String) = {
+    // how to create the chownCmd. TODO maybe configurable?
+    def chownCmd(user: String, group: String)(path: String): String = s"chown $user:$group $path"
+
+    val header = "# Chown definitions created by SBT Native Packager\n"
+    // Check for non root user/group and create chown commands
+    // filter all root mappings, map to (user,group) key, group by, append everything
+    val chowns = mappings filter {
+      case LinuxPackageMapping(_, LinuxFileMetaData(Users.Root, Users.Root, _, _, _), _) => false
+      case _ => true
+    } map {
+      case LinuxPackageMapping(paths, meta, _) => (meta.user, meta.group) -> paths
+    } groupBy (_._1) map {
+      case ((user, group), pathList) =>
+	validateUserGroupNames(user, streams)
+	validateUserGroupNames(group, streams)
+	val chown = chownCmd(user, group) _
+	// remove key, flatten it and then use mapping path (_.2) to create chown command
+	pathList.map(_._2).flatten map (m => chown(m._2))
+    }
+    val replacement = header :: chowns.flatten.toList mkString "\n"
+    DebianPlugin.CHOWN_REPLACEMENT -> replacement
+  }
+
 }
 
 /**
@@ -282,5 +283,17 @@ object DebianPlugin {
 
     val Changelog = "changelog"
     val Files = "files"
+  }
+
+  val CHOWN_REPLACEMENT = "chown-paths"
+
+  def defaultMaintainerScript(name: String, replacements: Seq[(String, String)], tmpDir: File): Option[File] = {
+    val url = Option(getClass getResource s"$name-template")
+    url map { source =>
+      val scriptBits = TemplateWriter.generateScript(source, replacements)
+      val script = tmpDir / "tmp" / "etc" / "default" / name
+      IO.write(script, scriptBits)
+      script
+    }
   }
 }

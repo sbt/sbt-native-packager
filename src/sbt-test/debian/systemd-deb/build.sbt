@@ -16,7 +16,7 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-requiredStartFacilities in Debian := "network.target"
+requiredStartFacilities in Debian := Some("network.target")
 
 TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) =>
   val script = IO.read(target / "debian-test-0.1.0" / "usr" / "lib" / "systemd" / "system" / "debian-test.service")

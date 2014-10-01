@@ -1,0 +1,17 @@
+${{header}}
+${{control-functions}}
+
+# Deleting user: ${{daemon_user}} and group: ${{daemon_group}}
+case "$1" in
+   remove|failed-upgrade|abort-upgrade|abort-install|disappear)
+   ;;
+   purge)
+	deleteUser ${{daemon_user}}
+	deleteGroup ${{daemon_group}}
+   ;;
+   upgrade)
+   ;;
+   *)
+      echo "postinst called with unknown argument \`\$1'" >&2
+   ;;
+esac

@@ -1,0 +1,61 @@
+# #######################################
+# ## SBT Native Packager Bash Library  ##
+# #######################################
+
+# Adding system user
+# $1 = user
+# $2 = group
+# $3 = description
+# $4 = shell (defaults to /bin/false)
+addUser() {
+    user="$1"
+    if [ -z "$user" ]; then
+	echo "usage: addUser user [group] [description] [shell]"
+	exit 1
+    fi
+    group=${2:-$user}
+    descr=${3:-No description}
+    shell=${4:-/bin/false}
+    if ! getent passwd | grep -q "^$user:";
+    then
+	echo "Creating system user: $user in $group with $descr and shell $shell"
+	useradd --gid $group --no-create-home --system --shell $shell -c "$descr" $user
+    fi
+}
+
+# Adding system group
+# $1 = group
+addGroup() {
+    group="$1"
+    if ! getent group | grep -q "^$group:" ;
+    then
+	echo "Creating system group: $group"
+	groupadd --system $group
+    fi
+}
+
+# Will return true even if deletion fails
+# $1 = user
+deleteUser() {
+    if hash deluser 2>/dev/null; then
+	deluser --quiet --system $1 > /dev/null || true
+    elif hash userdel 2>/dev/null; then
+	userdel $1
+    else
+	echo "WARNING: Could not delete user $1 . No suitable program (deluser, userdel) found"
+    fi
+}
+
+# Will return true even if deletion fails
+# $1 = group
+deleteGroup() {
+    if hash delgroup 2>/dev/null; then
+	delgroup --quiet --system $1 > /dev/null || true
+    elif hash groupdel 2>/dev/null; then
+	groupdel $1
+    else
+	echo "WARNING: Could not delete user $1 . No suitable program (delgroup, groupdel) found"
+    fi
+}
+
+# #######################################

@@ -39,4 +39,13 @@ object TemplateWriter {
     val lines = sbt.IO.readLinesURL(source, charset)
     replaceValues(lines, replacements, eol, keySurround)
   }
+
+  def generateScriptFromString(
+    source: String,
+    replacements: Seq[(String, String)],
+    eol: String = "\n",
+    keySurround: String => String = bashFriendlyKeySurround,
+    charset: java.nio.charset.Charset = defaultCharset): String = {
+    replaceValues(source split eol, replacements, eol, keySurround)
+  }
 }
