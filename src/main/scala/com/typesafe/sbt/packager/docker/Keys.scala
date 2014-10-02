@@ -17,6 +17,7 @@ trait DockerKeys {
   val dockerUpdateLatest = SettingKey[Boolean]("dockerUpdateLatest", "Set to update latest tag")
 
   val dockerAddCommands = TaskKey[Seq[CmdLike]]("dockerAddCommands", "Generates a list of docker add comands which is inserted into the docker file")
+  val dockerAppLibraryRegex = SettingKey[String]("dockerAppLibRegex", "Regex to split 3rd party and application libraries for the docker add command")
 }
 
 object Keys extends DockerKeys {

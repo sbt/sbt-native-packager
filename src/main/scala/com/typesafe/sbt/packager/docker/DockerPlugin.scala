@@ -4,9 +4,12 @@ package docker
 import Keys._
 import universal._
 import sbt._
+import sbt.Keys.{ organization }
 
 trait DockerPlugin extends Plugin with UniversalPlugin {
   val Docker = config("docker") extend Universal
+
+  import DockerPlugin._
 
   def dockerSettings: Seq[Setting[_]] = Seq(
     dockerBaseImage := "dockerfile/java:latest",
@@ -15,6 +18,7 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     executableScriptName in Docker <<= executableScriptName,
     dockerRepository := None,
     dockerUpdateLatest := false,
+    dockerAppLibraryRegex := s"lib/${(organization in Docker).value}.*\\.jar$$",
     sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
     target in Docker <<= target apply (_ / "docker")
 
@@ -30,14 +34,13 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
       stage <<= (dockerGenerateContext, dockerGenerateConfig, streams) map { (_, dockerfile, s) =>
         s.log.success("created docker file: " + dockerfile.getPath)
       },
-      dockerAddCommands := makeAddCommands(dockerGenerateContext.value),
+      dockerAddCommands := makeAddCommands(dockerGenerateContext.value, defaultLinuxInstallLocation.value),
       dockerGenerateContext <<= (cacheDirectory, mappings, target) map {
         (cacheDirectory, mappings, t) =>
           val contextDir = t / "files"
           stageFiles("docker")(cacheDirectory, contextDir, mappings)
           contextDir
       },
-      // TODO this must be changed, when there is a setting for the startScripts name
       dockerGenerateConfig := {
         val dockerfile = target.value / "Dockerfile"
 
@@ -83,18 +86,27 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
    * After the files have been staged inside the (target in Docker) directory,
    * the add commands can be created by adding all files available inside the
    * "files" directory.
+   *
+   * This dependes on the _mapGenericFilesToDocker_ method, which splits up
+   * the mappings into app and lib folders, so docker can cache these jars.
+   * The add commands will map both app and lib folder again to the single
+   * destination lib folder.
+   *
+   * @param context - the docker build context (should be: target in Docker)
+   * @param installLocation - inside the docker container (should be: defaultLinuxInstallation in Docker)
+   *
    */
-  private[this] final def makeAddCommands(context: File): Seq[Cmd] = {
-    val workingDir = context.getParentFile
-    val mappings = MappingsHelper contentOf context
-    mappings map {
-      case (src, dest) => src.relativeTo(workingDir) -> dest
-    } map {
-      case (Some(src), dest) => Cmd("ADD", "/" + src.getPath + " " + dest)
-      case (None, dest)      => sys.error("Could not create relative file for " + dest)
+  private[this] final def makeAddCommands(context: File, installLocation: String): Seq[Cmd] = {
+    val directories = (context / installLocation).list
+    directories map {
+      case APP_DIR => Cmd("ADD", s"/files$installLocation/$APP_DIR $installLocation/$LIB_DIR")
+      case folder  => Cmd("ADD", s"/files$installLocation/$folder $installLocation/$folder")
     }
   }
 
+  /**
+   * @param ports - a list for ports to expose
+   */
   private[this] final def makeExposeCommands(ports: Seq[Int]): Option[Cmd] = {
     if (ports isEmpty) None
     else Some(Cmd("EXPOSE", ports mkString " "))
@@ -106,6 +118,8 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
    * and we lose the feature that all directories below the install path
    * can be written to by the binary. Therefore the directories are
    * created before the ownership is changed.
+   *
+   * @param volumes - list of volumes to add
    */
   private[this] final def makeVolumeCommands(volumes: Seq[String]): Seq[ExecCmd] = {
     if (volumes isEmpty) Seq()
@@ -116,23 +130,32 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
   }
 
   /**
-   * maps the docker:mappings to defaultLinuxInstallation/mapping-path
+   * Maps the docker:mappings to defaultLinuxInstallation/mapping-path.
+   *
+   * It will split up the library dependencies into an app and lib folder
+   * to allow docker to cache the jars.
+   *
+   * @return new mapping settings in Docker scope
    */
-  def mapGenericFilesToDocker: Seq[Setting[_]] = {
-    def renameDests(from: Seq[(File, String)], dest: String) = {
-      for {
-        (f, path) <- from
-        newPath = "%s/%s" format (dest, path)
-      } yield (f, newPath)
-    }
+  def mapGenericFilesToDocker: Seq[Setting[_]] = inConfig(Docker)(Seq(
+    mappings := {
+      val log = streams.value.log
+      val installLocation = (defaultLinuxInstallLocation in Docker).value
+      val r = (dockerAppLibraryRegex in Docker).value.r
 
-    // create the settings seq
-    inConfig(Docker)(Seq(
-      mappings <<= (mappings in Universal, defaultLinuxInstallLocation) map { (mappings, dest) =>
-        renameDests(mappings, dest)
+      def isApp(path: String): Boolean = r.findFirstIn(path).isDefined
+
+      // this is only for user information
+      val (apps, other) = (mappings in Universal).value partition (m => isApp(m._2))
+      log.info(s"${apps.size} mappings in app/")
+
+      // the actual mapping from app jars to the app folder
+      (mappings in Universal).value map {
+        case (f, path) if isApp(path) => f -> s"$installLocation/${path.replaceFirst(LIB_DIR, APP_DIR)}"
+        case (f, path)                => f -> s"$installLocation/$path"
       }
-    ))
-  }
+    }
+  ))
 
   private[docker] def publishLocalLogger(log: Logger) = {
     new ProcessLogger {
@@ -216,5 +239,11 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     else
       log.info("Published image " + tag)
   }
+
+}
+
+object DockerPlugin {
+  private[docker] val LIB_DIR = "lib"
+  private[docker] val APP_DIR = "app"
 
 }
