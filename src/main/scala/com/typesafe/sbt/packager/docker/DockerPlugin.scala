@@ -35,15 +35,13 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
         s.log.success("created docker file: " + dockerfile.getPath)
       },
       dockerAddCommands := makeAddCommands(dockerGenerateContext.value, defaultLinuxInstallLocation.value),
-      dockerGenerateContext <<= (cacheDirectory, mappings, target) map {
-        (cacheDirectory, mappings, t) =>
+      dockerGenerateContext <<= (streams, mappings, target) map {
+        (s, mappings, t) =>
           val contextDir = t / "files"
-          stageFiles("docker")(cacheDirectory, contextDir, mappings)
+          stageFiles("docker")(s.cacheDirectory, contextDir, mappings)
           contextDir
       },
       dockerGenerateConfig := {
-        val dockerfile = target.value / "Dockerfile"
-
         val headerCommands = Seq(
           Cmd("FROM", dockerBaseImage.value),
           Cmd("MAINTAINER", maintainer.value)
@@ -61,8 +59,19 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
 
         val content = Dockerfile(headerCommands ++ volumeCommands ++ exposeCommand ++ addCommands ++ dockerCommands: _*).makeContent
 
-        IO.write(dockerfile, content)
-        dockerfile
+        val cacheDirectory = streams.value.cacheDirectory / "Dockerfile"
+        val cacheDockerFile = cacheDirectory / "Dockerfile"
+        IO.write(cacheDockerFile, content)
+
+        val cachedDockerfile = FileFunction.cached(cacheDirectory, inStyle = FilesInfo.hash, outStyle = FilesInfo.exists) {
+          (in: Set[File]) =>
+            val dockerfile = target.value / "Dockerfile"
+            val cache = in.headOption getOrElse (sys.error("Couldn't find Dockerfile in cache"))
+            IO.copyFile(cache, dockerfile, true)
+            Set(dockerfile)
+        }
+
+        cachedDockerfile(Set(cacheDockerFile)).headOption getOrElse (sys.error("Couldn't find Dockerfile in cache"))
       },
       dockerTarget <<= (dockerRepository, packageName, version) map {
         (repo, name, version) =>
