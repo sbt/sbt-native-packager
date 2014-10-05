@@ -4,7 +4,7 @@ package docker
 import Keys._
 import universal._
 import sbt._
-import sbt.Keys.{ organization }
+import sbt.Keys.{ organization, update }
 
 trait DockerPlugin extends Plugin with UniversalPlugin {
   val Docker = config("docker") extend Universal
@@ -18,7 +18,6 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     executableScriptName in Docker <<= executableScriptName,
     dockerRepository := None,
     dockerUpdateLatest := false,
-    dockerAppLibraryRegex := s"lib/${(organization in Docker).value}.*\\.jar$$",
     sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
     target in Docker <<= target apply (_ / "docker")
 
@@ -150,18 +149,19 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     mappings := {
       val log = streams.value.log
       val installLocation = (defaultLinuxInstallLocation in Docker).value
-      val r = (dockerAppLibraryRegex in Docker).value.r
 
-      def isApp(path: String): Boolean = r.findFirstIn(path).isDefined
+      // gets an UpdateReport with all files associated with this build
+      val updateFiles = update.value.allFiles
+      def isApp(f: File): Boolean = f.getName.endsWith(".jar") && !updateFiles.contains(f)
 
       // this is only for user information
-      val (apps, other) = (mappings in Universal).value partition (m => isApp(m._2))
+      val (apps, other) = (mappings in Universal).value partition (m => isApp(m._1))
       log.info(s"${apps.size} mappings in app/")
 
       // the actual mapping from app jars to the app folder
       (mappings in Universal).value map {
-        case (f, path) if isApp(path) => f -> s"$installLocation/${path.replaceFirst(LIB_DIR, APP_DIR)}"
-        case (f, path)                => f -> s"$installLocation/$path"
+        case (f, path) if isApp(f) => f -> s"$installLocation/${path.replaceFirst(LIB_DIR, APP_DIR)}"
+        case (f, path)             => f -> s"$installLocation/$path"
       }
     }
   ))
