@@ -193,17 +193,15 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     log.debug("Executing " + cmd.mkString(" "))
     log.debug("Working directory " + cwd.toString)
 
-    val ret = Process(cmd, cwd) ! publishLocalLogger(log)
-
-    if (ret != 0)
-      throw new RuntimeException("Nonzero exit value: " + ret)
-    else
-      log.info("Built image " + tag)
+    Process(cmd, cwd) ! publishLocalLogger(log) match {
+      case 0 => log.info("Built image " + tag)
+      case n => throw new RuntimeException("Nonzero exit value: " + n)
+    }
 
     if (latest) {
       val name = tag.substring(0, tag.lastIndexOf(":")) + ":latest"
       val latestCmd = Seq("docker", "tag", tag, name)
-      Process(latestCmd).! match {
+      Process(latestCmd) ! log match {
         case 0 => log.info("Update Latest from image" + tag)
         case n => sys.error("Failed to run docker tag")
       }
