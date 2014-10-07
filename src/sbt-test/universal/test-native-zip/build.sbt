@@ -1,6 +1,4 @@
-import NativePackagerKeys._
-
-packagerSettings
+enablePlugins(JavaAppPackaging)
 
 name := "simple-test"
 

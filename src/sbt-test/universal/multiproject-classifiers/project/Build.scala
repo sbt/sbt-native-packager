@@ -1,6 +1,7 @@
 import sbt._
 import Keys._
 import com.typesafe.sbt.SbtNativePackager._
+import com.typesafe.sbt.packager.Keys._
 
 object MutliBuild extends Build {
   

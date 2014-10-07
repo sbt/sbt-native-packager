@@ -1,6 +1,4 @@
-import NativePackagerKeys._
-
-packagerSettings
+enablePlugins(SbtNativePackager)
 
 name := "simple-test"
 

@@ -2,25 +2,46 @@ package com.typesafe.sbt
 package packager
 package linux
 
-import Keys._
 import sbt._
-import sbt.Keys.{ normalizedName }
-import packager.Keys.{
-  defaultLinuxInstallLocation,
-  defaultLinuxConfigLocation,
-  defaultLinuxLogsLocation
-}
-import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
-import com.typesafe.sbt.packager.archetypes.{ ServerLoader, TemplateWriter }
+import sbt.Keys.{ name, normalizedName, mappings, sourceDirectory }
+import linux.LinuxPlugin.Users
+import packager.Keys._
+import packager.archetypes.{ ServerLoader, TemplateWriter }
+import SbtNativePackager.Universal
 
 /**
- * Plugin trait containing all the generic values used for
+ * Plugin containing all the generic values used for
  * packaging linux software.
+ *
+ * @example Enable the plugin in the `build.sbt`
+ * {{{
+ *    enablePlugins(LinuxPlugin)
+ * }}}
  */
-trait LinuxPlugin extends Plugin {
-  // TODO - is this needed
-  val Linux = config("linux")
+object LinuxPlugin extends AutoPlugin {
 
+  override def requires = universal.UniversalPlugin
+  override def trigger = allRequirements
+  override lazy val projectSettings = linuxSettings ++ mapGenericFilesToLinux
+
+  object autoImport extends LinuxKeys with LinuxMappingDSL {
+     val Linux = config("linux")
+  }
+
+  import autoImport._
+
+  /** default users available for */
+  object Users {
+    val Root = "root"
+  }
+  /** key for replacement in linuxScriptReplacements */
+  val CONTROL_FUNCTIONS = "control-functions"
+
+  def controlFunctions(): URL = getClass getResource CONTROL_FUNCTIONS
+
+  /**
+   * default linux settings
+   */
   def linuxSettings: Seq[Setting[_]] = Seq(
     linuxPackageMappings := Seq.empty,
     linuxPackageSymlinks := Seq.empty,
@@ -66,31 +87,51 @@ trait LinuxPlugin extends Plugin {
 
   )
 
-  /** DSL for packaging files into .deb */
-  def packageMapping(files: (File, String)*) = LinuxPackageMapping(files)
-
   /**
-   * @param dir - use some directory, e.g. target.value
-   * @param files
+   * maps the `mappings` content into `linuxPackageMappings` and
+   * `linuxPackageSymlinks`.
    */
-  def packageTemplateMapping(files: String*)(dir: File = new File(sys.props("java.io.tmpdir"))) = LinuxPackageMapping(files map ((dir, _)))
+  def mapGenericFilesToLinux: Seq[Setting[_]] = Seq(
 
-  // TODO can the packager.MappingsHelper be used here?
-  /**
-   * @see #mapDirectoryAndContents
-   * @param dirs - directories to map
-   */
-  def packageDirectoryAndContentsMapping(dirs: (File, String)*) = LinuxPackageMapping(mapDirectoryAndContents(dirs: _*))
+    // First we look at the src/linux files
+    linuxPackageMappings <++= (sourceDirectory in Linux) map { dir =>
+      mapGenericMappingsToLinux(MappingsHelper contentOf dir, Users.Root, Users.Root)(identity)
+    },
+    // Now we look at the src/universal files.
+    linuxPackageMappings <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation) map {
+      (pkg, mappings, installLocation) =>
+        // TODO - More windows filters...
+        def isWindowsFile(f: (File, String)): Boolean =
+          f._2 endsWith ".bat"
 
-  /**
-   * This method includes files and directories.
-   *
-   * @param dirs - directories to map
-   */
-  def mapDirectoryAndContents(dirs: (File, String)*): Seq[(File, String)] = for {
-    (src, dest) <- dirs
-    path <- (src ***).get
-  } yield path -> path.toString.replaceFirst(src.toString, dest)
+        mapGenericMappingsToLinux(mappings filterNot isWindowsFile, Users.Root, Users.Root) { name =>
+          installLocation + "/" + pkg + "/" + name
+        }
+    },
+    // Now we generate symlinks.
+    linuxPackageSymlinks <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation) map { (pkg, mappings, installLocation) =>
+      for {
+        (file, name) <- mappings
+        if !file.isDirectory
+        if name startsWith "bin/"
+        if !(name endsWith ".bat") // IGNORE windows-y things.
+      } yield LinuxSymlink("/usr/" + name, installLocation + "/" + pkg + "/" + name)
+    },
+    // Map configuration files
+    linuxPackageSymlinks <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation, defaultLinuxConfigLocation)
+      map { (pkg, mappings, installLocation, configLocation) =>
+        val needsConfLink =
+          mappings exists {
+            case (file, name) =>
+              (name startsWith "conf/") && !file.isDirectory
+          }
+        if (needsConfLink) Seq(LinuxSymlink(
+          link = configLocation + "/" + pkg,
+          destination = installLocation + "/" + pkg + "/conf"))
+        else Seq.empty
+      })
+
+
 
   /**
    *
@@ -143,13 +184,48 @@ trait LinuxPlugin extends Plugin {
   /** Create a ascii friendly string for a man page. */
   final def makeMan(file: File): String =
     Process("groff -man -Tascii " + file.getAbsolutePath).!!
-}
 
-object LinuxPlugin {
-  object Users {
-    val Root = "root"
+  // This method wires a lot of hand-coded generalities about how to map directories
+  // into linux, and the conventions we expect.
+  // It is by no means 100% accurate, but should be ok for the simplest cases.
+  // For advanced users, use the underlying APIs.
+  // Right now, it's also pretty focused on command line scripts packages.
+
+  /**
+   * Maps linux file format from the universal from the conventions:
+   *
+   * `<project>/src/linux` files are mapped directly into linux packages.
+   * `<universal>` files are placed under `/usr/share/<package-name>`
+   * `<universal>/bin` files are given symlinks in `/usr/bin`
+   * `<universal>/conf` directory is given a symlink to `/etc/<package-name>`
+   * Files in `conf/` or `etc/` directories are automatically marked as configuration.
+   * `../man/...1` files are automatically compressed into .gz files.
+   *
+   */
+  def mapGenericMappingsToLinux(mappings: Seq[(File, String)], user: String, group: String)(rename: String => String): Seq[LinuxPackageMapping] = {
+    val (directories, nondirectories) = mappings.partition(_._1.isDirectory)
+    val (binaries, nonbinaries) = nondirectories.partition(_._1.canExecute)
+    val (manPages, nonManPages) = nonbinaries partition {
+      case (file, name) => (name contains "man/") && (name endsWith ".1")
+    }
+    val compressedManPages =
+      for ((file, name) <- manPages)
+        yield file -> (name + ".gz")
+    val (configFiles, remaining) = nonManPages partition {
+      case (file, name) => (name contains "etc/") || (name contains "conf/")
+    }
+    def packageMappingWithRename(mappings: (File, String)*): LinuxPackageMapping = {
+      val renamed =
+        for ((file, name) <- mappings)
+          yield file -> rename(name)
+      packageMapping(renamed: _*)
+    }
+
+    Seq(
+      packageMappingWithRename((binaries ++ directories): _*) withUser user withGroup group withPerms "0755",
+      packageMappingWithRename(compressedManPages: _*).gzipped withUser user withGroup group withPerms "0644",
+      packageMappingWithRename(configFiles: _*) withConfig () withUser user withGroup group withPerms "0644",
+      packageMappingWithRename(remaining: _*) withUser user withGroup group withPerms "0644")
   }
-  val CONTROL_FUNCTIONS = "control-functions"
 
-  def controlFunctions(): URL = getClass getResource CONTROL_FUNCTIONS
 }

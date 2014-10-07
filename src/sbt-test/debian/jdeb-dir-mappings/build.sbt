@@ -1,8 +1,4 @@
-import NativePackagerKeys._
-
-packagerSettings
-
-mapGenericFilesToLinux
+enablePlugins(JavaServerAppPackaging, JDebPackaging)
 
 name := "debian-test"
 
@@ -24,8 +20,6 @@ linuxPackageMappings in Debian += packageDirectoryAndContentsMapping(
 
 linuxPackageMappings in Debian += packageDirectoryAndContentsMapping(
     (baseDirectory.value / "src" / "resources" / "empty") -> "/var/empty")
-
-packageBin in Debian <<= debianJDebPackaging in Debian
 
 TaskKey[Unit]("check-dir-mappings") <<= (target, streams) map { (target, out) =>
 //  val tmpDir = java.nio.file.Files.createTempDirectory("jdeb")

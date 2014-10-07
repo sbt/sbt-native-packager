@@ -24,6 +24,8 @@ com.typesafe.sbt.SbtSite.SiteKeys.siteMappings <+= (baseDirectory) map { dir =>
 
 site.sphinxSupport()
 
+site.includeScaladoc()
+
 ghpages.settings
 
 git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"

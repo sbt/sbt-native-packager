@@ -1,6 +1,4 @@
-import NativePackagerKeys._
-
-packageArchetype.java_application
+enablePlugins(JavaServerAppPackaging)
 
 name := "debian-test"
 

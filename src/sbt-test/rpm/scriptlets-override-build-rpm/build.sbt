@@ -1,6 +1,4 @@
-import NativePackagerKeys._
-
-packageArchetype.java_server
+enablePlugins(JavaServerAppPackaging)
 
 name := "rpm-test"
 

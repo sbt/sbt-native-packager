@@ -1,8 +1,4 @@
-import NativePackagerKeys._
-
-packagerSettings
-
-mapGenericFilesToLinux
+enablePlugins(SbtNativePackager)
 
 name := "debian-test"
 

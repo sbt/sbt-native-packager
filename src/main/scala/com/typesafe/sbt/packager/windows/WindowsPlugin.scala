@@ -2,19 +2,53 @@ package com.typesafe.sbt
 package packager
 package windows
 
-import Keys._
 import sbt._
-import sbt.Keys.{ normalizedName }
+import sbt.Keys.{ normalizedName, name, version, sourceDirectory, target, mappings, packageBin, streams }
+import packager.Keys.{ packageName, maintainer, packageSummary, packageDescription }
+import SbtNativePackager.Universal
 
-trait WindowsPlugin extends Plugin {
-  val Windows = config("windows")
+/**
+ * == Windows Plugin ==
+ *
+ * This plugin generates ''msi'' packages that can be installed on windows systems.
+ *
+ * == Configuration ==
+ *
+ * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.windows.WindowsKeys]]
+ *
+ * == Requirements ==
+ *
+ * <ul>
+ * <li>Windows System</li>
+ * <li>Wix Toolset ([[http://wixtoolset.org/]]) installed
+ * </ul>
+ *
+ * @example Enable the plugin in the `build.sbt`
+ * {{{
+ *    enablePlugins(WindowsPlugin)
+ * }}}
+ */
+object WindowsPlugin extends AutoPlugin {
 
+  object autoImport extends WindowsKeys {
+    val Windows = config("windows")
+  }
+
+  import autoImport._
+
+  override lazy val projectSettings = windowsSettings ++ mapGenericFilesToWindows
+  override def requires = universal.UniversalPlugin
+  override def trigger = allRequirements
+
+  /**
+   * default windows settings
+   */
   def windowsSettings: Seq[Setting[_]] = Seq(
     sourceDirectory in Windows <<= sourceDirectory(_ / "windows"),
     target in Windows <<= target apply (_ / "windows"),
     // TODO - Should this use normalized name like the linux guys?
     name in Windows <<= name,
-    packageName in Windows <<= normalizedName,
+    packageName in Windows <<= packageName,
     // Defaults so that our simplified building works
     candleOptions := Seq("-ext", "WixUtilExtension"),
     lightOptions := Seq("-ext", "WixUIExtension",
@@ -63,13 +97,7 @@ trait WindowsPlugin extends Plugin {
       f
     }
   ) ++ inConfig(Windows)(Seq(
-      // Disable windows generation by default.
-      mappings := Seq.empty,
-      mappings in packageBin <<= mappings,
-      // TODO - Remove packageMsi after next major release.
-      mappings in packageMsi <<= mappings in packageBin,
-      packageMsi <<= packageBin,
-      packageBin <<= (mappings in packageMsi, wixFile, name, target, candleOptions, lightOptions, streams) map { (m, f, n, t, co, lo, s) =>
+      packageBin <<= (mappings, wixFile, name, target, candleOptions, lightOptions, streams) map { (m, f, n, t, co, lo, s) =>
         val msi = t / (n + ".msi")
         // First we have to move everything (including the wix file) to our target directory.
         val wix = t / (n + ".wix")
@@ -94,4 +122,57 @@ trait WindowsPlugin extends Plugin {
         msi
       }
     ))
+
+  /**
+   * set the `mappings in Windows` and the `wixFeatures`
+   */
+  def mapGenericFilesToWindows: Seq[Setting[_]] = Seq(
+    mappings in Windows <<= mappings in Universal,
+    wixFeatures <<= (packageName in Windows, mappings in Windows) map makeWindowsFeatures)
+
+  /**
+   * Generates the wix configuration features
+   * 
+   * @param name - title of the core package
+   * @param mappings - use to generate different features
+   * @return windows features
+   */
+  def makeWindowsFeatures(name: String, mappings: Seq[(File, String)]): Seq[windows.WindowsFeature] = {
+    // TODO select main script!  Filter Config links!
+    import windows._
+
+    val files =
+      for {
+        (file, name) <- mappings
+        if !file.isDirectory
+      } yield ComponentFile(name, editable = (name startsWith "conf"))
+    val corePackage =
+      WindowsFeature(
+        id = WixHelper.cleanStringForId(name + "_core").takeRight(38), // Must be no longer
+        title = name,
+        desc = "All core files.",
+        absent = "disallow",
+        components = files)
+    // TODO - Detect bat files to add paths...
+    val addBinToPath =
+      // TODO - we may have issues here...
+      WindowsFeature(
+        id = "AddBinToPath",
+        title = "Update Enviornment Variables",
+        desc = "Update PATH environment variables (requires restart).",
+        components = Seq(AddDirectoryToPath("bin")))
+    val configLinks = for {
+      (file, name) <- mappings
+      if !file.isDirectory
+      if name startsWith "conf/"
+    } yield name.replaceAll("//", "/").stripSuffix("/").stripSuffix("/")
+    val menuLinks =
+      WindowsFeature(
+        id = "AddConfigLinks",
+        title = "Configuration start menu links",
+        desc = "Adds start menu shortcuts to edit configuration files.",
+        components = Seq(AddShortCuts(configLinks)))
+    // TODO - Add feature for shortcuts to binary scripts.
+    Seq(corePackage, addBinToPath, menuLinks)
+  }
 }

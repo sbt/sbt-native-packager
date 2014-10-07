@@ -2,26 +2,91 @@ package com.typesafe.sbt
 package packager
 package debian
 
-import Keys._
 import sbt._
-import sbt.Keys.{ target, name, TaskStreams }
+import sbt.Keys.{ streams, name, version, sourceDirectory, target, packageBin, TaskStreams }
+import packager.Keys._
+import packager.Hashing
+import linux.LinuxPlugin.autoImport.{
+  packageArchitecture,
+  linuxScriptReplacements,
+  linuxPackageMappings,
+  linuxPackageSymlinks,
+  serverLoading,
+  daemonShell
+}
 import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
-import linux.Keys.{ linuxScriptReplacements, daemonShell }
-import com.typesafe.sbt.packager.Hashing
-import com.typesafe.sbt.packager.archetypes.TemplateWriter
-import com.typesafe.sbt.packager.linux.LinuxPackageMapping
+import linux.LinuxPlugin.Users
+import universal.Archives
+import archetypes.TemplateWriter
+import SbtNativePackager.{ Universal, Linux }
 
-trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging with JDebPackaging {
-  val Debian = config("debian") extend Linux
-  val UserNamePattern = "^[a-z][-a-z0-9_]*$".r
+/**
+ * == Debian Plugin ==
+ *
+ * This plugin provides the ability to build ''.deb'' packages.
+ *
+ * == Configuration ==
+ *
+ * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.debian.DebianKeys]]
+ *
+ * @example Enable the plugin in the `build.sbt`. By default this will use
+ * the native debian packaging implementation [[com.typesafe.sbt.packager.debian.DebianNativePackaging]].
+ * {{{
+ *    enablePlugins(DebianPlugin)
+ * }}}
+ *
+ */
+object DebianPlugin extends AutoPlugin with DebianNativePackaging {
 
-  import com.typesafe.sbt.packager.universal.Archives
-  import DebianPlugin.Names
-  import DebianPlugin.defaultMaintainerScript
-  import linux.LinuxPlugin.Users
-  import SbtNativePackager.Universal
+  override def requires = linux.LinuxPlugin
+  override def trigger = allRequirements
 
-  def debianSettings: Seq[Setting[_]] = Seq(
+  object autoImport extends DebianKeys {
+    val Debian = config("debian") extend Linux
+  }
+
+  import autoImport._
+
+  /** Debian constants */
+  object Names {
+    val DebianSource = "debian"
+    val Debian = "DEBIAN"
+
+    //maintainer script names
+    val Postinst = "postinst"
+    val Postrm = "postrm"
+    val Prerm = "prerm"
+    val Preinst = "preinst"
+
+    val Control = "control"
+    val Conffiles = "conffiles"
+
+    val Changelog = "changelog"
+    val Files = "files"
+  }
+
+  val CHOWN_REPLACEMENT = "chown-paths"
+
+  def defaultMaintainerScript(name: String, replacements: Seq[(String, String)], tmpDir: File): Option[File] = {
+    val url = Option(getClass getResource s"$name-template")
+    url map { source =>
+      val scriptBits = TemplateWriter.generateScript(source, replacements)
+      val script = tmpDir / "tmp" / "etc" / "default" / name
+      IO.write(script, scriptBits)
+      script
+    }
+  }
+
+  // TODO maybe we can put settings/debiansettings together
+  /**
+   * Enables native packaging by default
+   */
+  override lazy val projectSettings = settings ++ inConfig(Debian)(debianSettings) ++ debianNativeSettings
+
+  /**
+   * the default debian settings for the debian namespaced settings
+   */
+  private def settings = Seq(
     /* ==== Debian default settings ==== */
     debianPriority := "optional",
     debianSection := "java",
@@ -51,110 +116,124 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
     debianMaintainerScripts <++= (debianMakePrermScript, debianControlScriptsDirectory) map scriptMapping(Names.Prerm),
     debianMaintainerScripts <++= (debianMakePreinstScript, debianControlScriptsDirectory) map scriptMapping(Names.Preinst),
     debianMaintainerScripts <++= (debianMakePostinstScript, debianControlScriptsDirectory) map scriptMapping(Names.Postinst),
-    debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping(Names.Postrm)) ++
-    /* ==== Debian scoped settings ==== */
-    inConfig(Debian)(
-      Seq(
-        packageArchitecture := "all",
-        debianPackageInfo <<=
-          (packageName, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
-        debianPackageMetadata <<=
-          (debianPackageInfo, debianPriority, packageArchitecture, debianSection,
-            debianPackageDependencies, debianPackageRecommends) apply PackageMetaData,
-        debianPackageInstallSize <<= linuxPackageMappings map { mappings =>
-          (for {
-            LinuxPackageMapping(files, _, zipped) <- mappings
-            (file, _) <- files
-            if !file.isDirectory && file.exists
-            // TODO - If zipped, heuristically figure out a reduction factor.
-          } yield file.length).sum / 1024
-        },
-        debianControlFile <<= (debianPackageMetadata, debianPackageInstallSize, target) map {
-          (data, size, dir) =>
-            if (data.info.description == null || data.info.description.isEmpty) {
-              sys.error(
-                """packageDescription in Debian cannot be empty. Use
+    debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping(Names.Postrm))
+
+  /**
+   * == Debian scoped settings ==
+   * Everything used inside the debian scope
+   * 
+   */
+  private def debianSettings: Seq[Setting[_]] = inConfig(Debian)(
+    Seq(
+      packageArchitecture := "all",
+      debianPackageInfo <<= (packageName, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
+      debianPackageMetadata <<= (debianPackageInfo, debianPriority, packageArchitecture, debianSection,
+        debianPackageDependencies, debianPackageRecommends) apply PackageMetaData,
+      debianPackageInstallSize <<= linuxPackageMappings map { mappings =>
+        (for {
+          LinuxPackageMapping(files, _, zipped) <- mappings
+          (file, _) <- files
+          if !file.isDirectory && file.exists
+          // TODO - If zipped, heuristically figure out a reduction factor.
+        } yield file.length).sum / 1024
+      },
+      debianControlFile <<= (debianPackageMetadata, debianPackageInstallSize, target) map {
+        (data, size, dir) =>
+          if (data.info.description == null || data.info.description.isEmpty) {
+            sys.error(
+              """packageDescription in Debian cannot be empty. Use
                  packageDescription in Debian := "My package Description"""")
-            }
-            val cfile = dir / Names.Debian / Names.Control
-            IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
-            chmod(cfile, "0644")
-            cfile
+          }
+          val cfile = dir / Names.Debian / Names.Control
+          IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
+          chmod(cfile, "0644")
+          cfile
+      },
+      debianConffilesFile <<= (linuxPackageMappings, target) map {
+        (mappings, dir) =>
+          val cfile = dir / Names.Debian / Names.Conffiles
+          val conffiles = for {
+            LinuxPackageMapping(files, meta, _) <- mappings
+            if meta.config != "false"
+            (file, name) <- files
+            if file.isFile
+          } yield name
+          IO.writeLines(cfile, conffiles)
+          chmod(cfile, "0644")
+          cfile
+      },
+      debianMD5sumsFile <<= (debianExplodedPackage, target) map {
+        (mappings, dir) =>
+          val md5file = dir / Names.Debian / "md5sums"
+          val md5sums = for {
+            (file, name) <- (dir.*** --- dir pair relativeTo(dir))
+            if file.isFile
+            if !(name startsWith Names.Debian)
+            if !(name contains "debian-binary")
+            // TODO - detect symlinks with Java7 (when we can) rather than hackery...
+            if file.getCanonicalPath == file.getAbsolutePath
+            fixedName = if (name startsWith "/") name drop 1 else name
+          } yield Hashing.md5Sum(file) + "  " + fixedName
+          IO.writeLines(md5file, md5sums)
+          chmod(md5file, "0644")
+          md5file
+      },
+      debianMakeChownReplacements <<= (linuxPackageMappings, streams) map makeChownReplacements,
+      debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianChangelog, daemonShell in Linux,
+        linuxScriptReplacements, debianMakeChownReplacements, linuxPackageSymlinks, target, streams)
+        map { (mappings, _, maintScripts, _, changelog, shell, replacements, chown, symlinks, t, streams) =>
+
+          // Create files and directories
+          mappings foreach {
+            case LinuxPackageMapping(paths, perms, zipped) =>
+              val (dirs, files) = paths.partition(_._1.isDirectory)
+              dirs map {
+                case (_, name) => t / name
+              } foreach { targetDir =>
+                targetDir mkdirs ()
+                chmod(targetDir, perms.permissions)
+              }
+
+              files map {
+                case (file, name) => (file, t / name)
+              } foreach {
+                case (source, target) => copyAndFixPerms(source, target, perms, zipped)
+              }
+          }
+          // Now generate relative symlinks
+          LinuxSymlink.makeSymLinks(symlinks, t, false)
+
+          // Put the maintainer files in `dir / "DEBIAN"` named as specified.
+          // Valid values for the name are preinst,postinst,prerm,postrm
+          for ((file, name) <- maintScripts) {
+            val targetFile = t / Names.Debian / name
+            copyAndFixPerms(file, targetFile, LinuxFileMetaData())
+            filterAndFixPerms(targetFile, chown +: replacements, LinuxFileMetaData())
+          }
+          t
         },
-        debianConffilesFile <<= (linuxPackageMappings, target) map {
-          (mappings, dir) =>
-            val cfile = dir / Names.Debian / Names.Conffiles
-            val conffiles = for {
-              LinuxPackageMapping(files, meta, _) <- mappings
-              if meta.config != "false"
-              (file, name) <- files
-              if file.isFile
-            } yield name
-            IO.writeLines(cfile, conffiles)
-            chmod(cfile, "0644")
-            cfile
-        },
-        debianMD5sumsFile <<= (debianExplodedPackage, target) map {
-          (mappings, dir) =>
-            val md5file = dir / Names.Debian / "md5sums"
-            val md5sums = for {
-              (file, name) <- (dir.*** --- dir pair relativeTo(dir))
-              if file.isFile
-              if !(name startsWith Names.Debian)
-              if !(name contains "debian-binary")
-              // TODO - detect symlinks with Java7 (when we can) rather than hackery...
-              if file.getCanonicalPath == file.getAbsolutePath
-              fixedName = if (name startsWith "/") name drop 1 else name
-            } yield Hashing.md5Sum(file) + "  " + fixedName
-            IO.writeLines(md5file, md5sums)
-            chmod(md5file, "0644")
-            md5file
-        },
-        debianMakeChownReplacements <<= (linuxPackageMappings, streams) map makeChownReplacements,
-        debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianChangelog, daemonShell in Linux,
-          linuxScriptReplacements, debianMakeChownReplacements, linuxPackageSymlinks, target, streams)
-          map { (mappings, _, maintScripts, _, changelog, shell, replacements, chown, symlinks, t, streams) =>
+      // Replacement for ${{header}} as debian control scripts are bash scripts
+      linuxScriptReplacements += ("header" -> "#!/bin/sh\n")
 
-            // Create files and directories
-            mappings foreach {
-              case LinuxPackageMapping(paths, perms, zipped) =>
-                val (dirs, files) = paths.partition(_._1.isDirectory)
-                dirs map {
-                  case (_, name) => t / name
-                } foreach { targetDir =>
-                  targetDir mkdirs ()
-                  chmod(targetDir, perms.permissions)
-                }
+    // Adding package specific implementation settings
+    ))
 
-                files map {
-                  case (file, name) => (file, t / name)
-                } foreach {
-                  case (source, target) => copyAndFixPerms(source, target, perms, zipped)
-                }
-            }
-            // Now generate relative symlinks
-            LinuxSymlink.makeSymLinks(symlinks, t, false)
+}
 
-            // Put the maintainer files in `dir / "DEBIAN"` named as specified.
-            // Valid values for the name are preinst,postinst,prerm,postrm
-            for ((file, name) <- maintScripts) {
-              val targetFile = t / Names.Debian / name
-              copyAndFixPerms(file, targetFile, LinuxFileMetaData())
-              filterAndFixPerms(targetFile, chown +: replacements, LinuxFileMetaData())
-            }
-            t
-          },
-        // Setting the packaging strategy
-        packageBin <<= debianNativePackaging,
-        // Replacement for ${{header}} as debian control scripts are bash scripts
-        linuxScriptReplacements += ("header" -> "#!/bin/sh\n")
+/**
+ * == Debian Helper Methods ==
+ *
+ * This trait provides a set of helper methods for debian packaging
+ * implementations.
+ *
+ * Most of the methods are for java 6 file permission handling and
+ * debian script adjustements.
+ *
+ */
+trait DebianPluginLike {
 
-      // Adding package specific implementation settings
-      ) ++ debianNativeSettings ++ debianJDebSettings)
-
-  /* ============================================= */
-  /* ========== Debian Helper Methods ============ */
-  /* ============================================= */
+  /** validate group and usernames for debian systems */
+  val UserNamePattern = "^[a-z][-a-z0-9_]*$".r
 
   private[debian] final def copyAndFixPerms(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit = {
     if (zipped) {
@@ -218,14 +297,6 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
     }
   }
 
-  private[debian] def archiveFilename(appName: String, version: String, arch: String): String = {
-    appName + "_" + version + "_" + arch + ".deb"
-  }
-
-  private[debian] def changesFilename(appName: String, version: String, arch: String): String = {
-    appName + "_" + version + "_" + arch + ".changes"
-  }
-
   /**
    * Debian assumes the application chowns the necessary files and directories in the
    * control scripts (Pre/Postinst).
@@ -262,38 +333,11 @@ trait DebianPlugin extends Plugin with linux.LinuxPlugin with NativePackaging wi
     DebianPlugin.CHOWN_REPLACEMENT -> replacement
   }
 
-}
-
-/**
- * Contains debian specific constants
- */
-object DebianPlugin {
-  object Names {
-    val DebianSource = "debian"
-    val Debian = "DEBIAN"
-
-    //maintainer script names
-    val Postinst = "postinst"
-    val Postrm = "postrm"
-    val Prerm = "prerm"
-    val Preinst = "preinst"
-
-    val Control = "control"
-    val Conffiles = "conffiles"
-
-    val Changelog = "changelog"
-    val Files = "files"
+  private[debian] def archiveFilename(appName: String, version: String, arch: String): String = {
+    appName + "_" + version + "_" + arch + ".deb"
   }
 
-  val CHOWN_REPLACEMENT = "chown-paths"
-
-  def defaultMaintainerScript(name: String, replacements: Seq[(String, String)], tmpDir: File): Option[File] = {
-    val url = Option(getClass getResource s"$name-template")
-    url map { source =>
-      val scriptBits = TemplateWriter.generateScript(source, replacements)
-      val script = tmpDir / "tmp" / "etc" / "default" / name
-      IO.write(script, scriptBits)
-      script
-    }
+  private[debian] def changesFilename(appName: String, version: String, arch: String): String = {
+    appName + "_" + version + "_" + arch + ".changes"
   }
 }

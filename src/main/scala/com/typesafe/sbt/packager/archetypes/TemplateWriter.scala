@@ -1,5 +1,27 @@
 package com.typesafe.sbt.packager.archetypes
 
+/**
+ * This object provides methods to generate scripts from templates. This involves
+ *
+ * <ol>
+ * <li>procesing - replacing a placeholders with actual values</li>
+ * <li>TODO: validating - check the script if there are no remaining placeholders</li>
+ * </ol>
+ *
+ * @example a bash script can be generated like this
+ * {{{
+ *  val template = getClass getResource "template-your-bashscript"
+ *  val replacements = Seq("name" -> "your-app", "custom" -> "1")
+ *  TemplateWriter.generateScript(template, replacements)
+ * }}}
+ *
+ * @example a bat script can be generated like this
+ * {{{
+ *  val template = getClass getResource "template-your-batscript"
+ *  val replacements = Seq("name" -> "your-app", "custom" -> "1")
+ *  TemplateWriter.generateScript(template, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
+ * }}}
+ */
 object TemplateWriter {
   def defaultCharset: java.nio.charset.Charset = java.nio.charset.Charset.forName("UTF-8")
 

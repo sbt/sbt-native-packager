@@ -2,39 +2,45 @@ package com.typesafe.sbt
 package packager
 package debian
 
-import Keys._
 import sbt._
-import sbt.Keys.{ target, normalizedName }
-import linux.{ LinuxSymlink }
-import com.typesafe.sbt.packager.linux.LinuxPackageMapping
+import sbt.Keys.{ target, normalizedName, version, streams, mappings, packageBin }
+import linux.{ LinuxSymlink, LinuxPackageMapping }
+import linux.LinuxPlugin.autoImport.{ linuxPackageMappings, linuxPackageSymlinks, packageArchitecture }
 import scala.collection.JavaConversions._
 
 import org.vafer.jdeb.{ DebMaker, DataProducer }
 import org.vafer.jdeb.mapping._
 import org.vafer.jdeb.producers._
-import DebianPlugin.Names
+import DebianPlugin.{ Names }
+import DebianPlugin.autoImport._
 
 /**
+ * == JDeb Plugin ==
  * This provides a java based debian packaging implementation based
  * on the jdeb maven-plugin. To use this, put this into your build.sbt
- *
- * {{
- *    packageBin in Debian <<= debianJDebPackaging in Debian
- * }}
+ * 
+ * @example Enable the plugin in the `build.sbt`
+ * {{{
+ *  enablePlugins(JDebPackaging)
+ * }}}
  *
  * @author Nepomuk Seiler
- * @see https://github.com/tcurdt/jdeb/blob/master/src/main/java/org/vafer/jdeb/maven/DebMojo.java#L503
+ * @see [[https://github.com/tcurdt/jdeb/blob/master/src/main/java/org/vafer/jdeb/maven/DebMojo.java#L503]]
  *
  */
-trait JDebPackaging { this: DebianPlugin with linux.LinuxPlugin =>
+object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
-  private[debian] def debianJDebSettings: Seq[Setting[_]] = Seq(
+  override def requires = DebianPlugin
+
+  override lazy val projectSettings = inConfig(Debian)(jdebSettings)
+
+  def jdebSettings = Seq(
 
     /**
      * Depends on the 'debianExplodedPackage' task as this creates all the files
      * which are defined in the mappings.
      */
-    debianJDebPackaging <<= (debianExplodedPackage, linuxPackageMappings, linuxPackageSymlinks,
+    packageBin <<= (debianExplodedPackage, linuxPackageMappings, linuxPackageSymlinks,
       debianControlFile, debianMaintainerScripts, debianConffilesFile,
       normalizedName, version, packageArchitecture, target, streams) map {
         (_, mappings, symlinks, controlfile, controlscripts, conffile,

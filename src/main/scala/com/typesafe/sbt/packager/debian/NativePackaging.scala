@@ -2,32 +2,47 @@ package com.typesafe.sbt
 package packager
 package debian
 
-import Keys._
 import sbt._
-import sbt.Keys.{ target, name, TaskStreams }
+import sbt.Keys.{ packageBin, target, name, version, streams }
+import packager.Hashing
+import packager.archetypes.TemplateWriter
 import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
-import linux.Keys.{ linuxScriptReplacements, daemonShell }
-import com.typesafe.sbt.packager.Hashing
-import com.typesafe.sbt.packager.archetypes.TemplateWriter
+import linux.LinuxPlugin.autoImport.packageArchitecture
+
+import DebianPlugin.autoImport._
 
 /**
+ * == Native Packaging ==
+ *
  * This provides a dpgk based implementation for debian packaging.
- * Your machine must have dpkg installed to use this.
  *
- * {{
- *    packageBin in Debian <<= debianNativePackaging in Debian
- * }}
+ * == Requirements ==
+ *
+ * You need the debian dpkg toolchain installed. This includes
+ * <ul>
+ * <li>fakeroot</li>
+ * <li>dpkg-deb</li>
+ * <li>dpkg-genchanges</li>
+ * </ul>
  *
  *
+ * @example Enable the plugin in the `build.sbt`
+ * {{{
+ *    enablePlugins(DebianNativePackaging)
+ * }}}
  *
  */
-trait NativePackaging { this: DebianPlugin with linux.LinuxPlugin =>
+trait DebianNativePackaging extends DebianPluginLike {
 
   import com.typesafe.sbt.packager.universal.Archives
   import DebianPlugin.Names
   import linux.LinuxPlugin.Users
 
-  private[debian] def debianNativeSettings: Seq[Setting[_]] = Seq(
+  /**
+   * Using the native installed dpkg-build tools to build the debian
+   * package.
+   */
+  private[debian] def debianNativeSettings: Seq[Setting[_]] = inConfig(Debian)(Seq(
     genChanges <<= (packageBin, target, debianChangelog, name, version, debianPackageMetadata) map {
       (pkg, tdir, changelog, name, version, data) =>
         changelog match {
@@ -66,7 +81,7 @@ trait NativePackaging { this: DebianPlugin with linux.LinuxPlugin =>
     },
 
     /** Implementation of the actual packaging  */
-    debianNativePackaging <<= (debianExplodedPackage, debianMD5sumsFile, debianSection, debianPriority, name, version, packageArchitecture, target, streams) map {
+    packageBin <<= (debianExplodedPackage, debianMD5sumsFile, debianSection, debianPriority, name, version, packageArchitecture, target, streams) map {
       (pkgdir, _, section, priority, name, version, arch, tdir, s) =>
         s.log.info("Building debian package with native implementation")
         // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
@@ -77,18 +92,11 @@ trait NativePackaging { this: DebianPlugin with linux.LinuxPlugin =>
         }
         tdir / ".." / archive
     }
-  )
+  ))
 
 }
 
-/**
- * This provides the task for building a debian packaging with
- * native tools
- *
- */
-object Native {
-
-  /* static assets definitions */
+object DebianNativePackaging {
 
   private[debian] def postinstGroupaddTemplateSource: java.net.URL = getClass.getResource("postinst-groupadd")
   private[debian] def postinstUseraddTemplateSource: java.net.URL = getClass.getResource("postinst-useradd")
@@ -96,3 +104,4 @@ object Native {
   private[debian] def postrmPurgeTemplateSource: java.net.URL = getClass.getResource("postrm-purge")
   private[debian] def headerSource: java.net.URL = getClass.getResource("header")
 }
+

@@ -1,12 +1,111 @@
 package com.typesafe.sbt
 package packager
 package docker
-import Keys._
-import universal._
-import sbt._
 
-trait DockerPlugin extends Plugin with UniversalPlugin {
-  val Docker = config("docker") extend Universal
+import sbt._
+import sbt.Keys.{
+  name,
+  version,
+  target,
+  mappings,
+  publish,
+  publishLocal,
+  publishArtifact,
+  sourceDirectory,
+  streams,
+  cacheDirectory
+}
+import packager.Keys._
+import linux.LinuxPlugin.autoImport.{ daemonUser, defaultLinuxInstallLocation }
+import universal.UniversalPlugin.autoImport.stage
+import SbtNativePackager.Universal
+
+/**
+ * == Docker Plugin ==
+ *
+ * This plugin helps you build docker containers.
+ *
+ * == Configuration ==
+ *
+ * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.docker.DockerKeys]]
+ *
+ * == Requirements ==
+ *
+ * You need docker to have docker installed on your system and be able to execute commands.
+ * Check with a single command:
+ *
+ * {{{
+ * docker version
+ * }}}
+ *
+ * Future versions of the Docker Plugin may use the REST API, so you don't need docker installed
+ * locally.
+ *
+ * @note this plugin is not inteded to build very customizable docker images, but turn your mappings
+ * configuration in a docker image with almost no ''any'' configuration.
+ *
+ * @example Enable the plugin in the `build.sbt`
+ * {{{
+ *    enablePlugins(DockerPlugin)
+ * }}}
+ */
+object DockerPlugin extends AutoPlugin {
+
+  object autoImport extends DockerKeys {
+    val Docker = config("docker") extend Universal
+  }
+
+  import autoImport._
+
+  override def requires = universal.UniversalPlugin
+  
+  override def trigger = allRequirements
+
+  override lazy val projectSettings = Seq(
+    dockerBaseImage := "dockerfile/java:latest",
+    name in Docker <<= name,
+    packageName in Docker <<= packageName,
+    executableScriptName in Docker <<= executableScriptName,
+    dockerRepository := None,
+    dockerUpdateLatest := false,
+    sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
+    target in Docker <<= target apply (_ / "docker")
+
+  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
+      daemonUser := "daemon",
+      defaultLinuxInstallLocation := "/opt/docker",
+      dockerExposedPorts := Seq(),
+      dockerExposedVolumes := Seq(),
+      dockerPackageMappings <<= (sourceDirectory) map { dir =>
+        MappingsHelper contentOf dir
+      },
+      mappings <++= dockerPackageMappings,
+      stage <<= (dockerGenerateConfig, dockerGenerateContext, streams) map {
+        (dockerfile, contextDir, s) =>
+          s.log.success("created docker file: " + dockerfile.getPath)
+          contextDir
+      },
+      dockerGenerateConfig <<= (dockerBaseImage, defaultLinuxInstallLocation,
+        maintainer, daemonUser, executableScriptName,
+        dockerExposedPorts, dockerExposedVolumes, target) map generateDockerConfig,
+      dockerGenerateContext := Stager.stage("docker")(streams.value, target.value / "files", mappings.value),
+      dockerTarget <<= (dockerRepository, packageName, version) map {
+        (repo, name, version) =>
+          repo.map(_ + "/").getOrElse("") + name + ":" + version
+      },
+      publishLocal <<= (dockerGenerateConfig, dockerGenerateContext, dockerTarget, dockerUpdateLatest, streams) map {
+        (config, _, target, updateLatest, s) =>
+          publishLocalDocker(config, target, updateLatest, s.log)
+      },
+      publish <<= (publishLocal, dockerTarget, dockerUpdateLatest, streams) map {
+        (_, target, updateLatest, s) =>
+          publishDocker(target, s.log)
+          if (updateLatest) {
+            val name = target.substring(0, target.lastIndexOf(":")) + ":latest"
+            publishDocker(name, s.log)
+          }
+      }
+    ))
 
   private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String]) = {
     val headerCommands = Seq(
@@ -155,52 +254,4 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
       log.info("Published image " + tag)
   }
 
-  def dockerSettings: Seq[Setting[_]] = Seq(
-    dockerBaseImage := "dockerfile/java:latest",
-    name in Docker <<= name,
-    packageName in Docker <<= packageName,
-    executableScriptName in Docker <<= executableScriptName,
-    dockerRepository := None,
-    dockerUpdateLatest := false,
-    sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
-    target in Docker <<= target apply (_ / "docker"),
-
-    // TODO this must be changed, when there is a setting for the startScripts name
-    dockerGenerateConfig <<=
-      (dockerBaseImage in Docker, defaultLinuxInstallLocation in Docker, maintainer in Docker, daemonUser in Docker,
-        executableScriptName /* this is not scoped!*/ , dockerExposedPorts in Docker, dockerExposedVolumes in Docker, target in Docker) map
-        generateDockerConfig
-  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
-      daemonUser := "daemon",
-      defaultLinuxInstallLocation := "/opt/docker",
-      dockerExposedPorts := Seq(),
-      dockerExposedVolumes := Seq(),
-      dockerPackageMappings <<= (sourceDirectory) map { dir =>
-        MappingsHelper contentOf dir
-      },
-      mappings <++= dockerPackageMappings,
-      stage <<= (dockerGenerateConfig, dockerGenerateContext) map { (configFile, contextDir) => () },
-      dockerGenerateContext <<= (cacheDirectory, mappings, target) map {
-        (cacheDirectory, mappings, t) =>
-          val contextDir = t / "files"
-          stageFiles("docker")(cacheDirectory, contextDir, mappings)
-          contextDir
-      },
-      dockerTarget <<= (dockerRepository, packageName, version) map {
-        (repo, name, version) =>
-          repo.map(_ + "/").getOrElse("") + name + ":" + version
-      },
-      publishLocal <<= (dockerGenerateConfig, dockerGenerateContext, dockerTarget, dockerUpdateLatest, streams) map {
-        (config, _, target, updateLatest, s) =>
-          publishLocalDocker(config, target, updateLatest, s.log)
-      },
-      publish <<= (publishLocal, dockerTarget, dockerUpdateLatest, streams) map {
-        (_, target, updateLatest, s) =>
-          publishDocker(target, s.log)
-          if (updateLatest) {
-            val name = target.substring(0, target.lastIndexOf(":")) + ":latest"
-            publishDocker(name, s.log)
-          }
-      }
-    ))
 }

@@ -59,33 +59,3 @@ trait RpmKeys {
   val rpmLint = TaskKey[Unit]("rpm-lint", "Runs rpmlint program against the genreated RPM, if available.")
 
 }
-
-/** Keys used in RPM Settings. */
-object Keys extends RpmKeys {
-  // METADATA keys.
-  def name = sbt.Keys.name
-  def packageName = packager.Keys.packageName
-  def executableScriptName = linux.Keys.executableScriptName
-  def version = sbt.Keys.version
-  def maintainer = linux.Keys.maintainer
-  def packageArchitecture = linux.Keys.packageArchitecture
-  def packageDescription = linux.Keys.packageDescription
-  def packageSummary = linux.Keys.packageSummary
-
-  // DESCRIPTION KEYS
-
-  // DEPENDENCIES
-
-  // SPEC
-  def linuxPackageMappings = linux.Keys.linuxPackageMappings
-  def linuxPackageSymlinks = linux.Keys.linuxPackageSymlinks
-
-  // Building
-  def target = sbt.Keys.target
-  def packageBin = sbt.Keys.packageBin
-
-  //init script parameters
-  def serverLoading = linux.Keys.serverLoading
-
-  def streams = sbt.Keys.streams
-}
