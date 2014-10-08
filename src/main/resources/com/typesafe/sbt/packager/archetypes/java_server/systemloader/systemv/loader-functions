@@ -24,7 +24,6 @@ startService() {
 #
 stopService() {
     app_name=$1
-    service $app_name stop
     if hash update-rc.d 2>/dev/null; then
 	echo "Removing $app_name from autostart using update-rc.d"
 	update-rc.d -f $app_name remove
