@@ -174,7 +174,7 @@ what you need. After this section there are smaller examples, showing how you ca
             // case class copy method. Specify only what you need.
             // returns a fresh LinuxPackageMapping
             linuxPackage.copy(
-                mappings = filterd,
+                mappings = filtered,
                 fileData = fileData
             )
         } filter { 
