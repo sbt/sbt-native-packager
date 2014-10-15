@@ -11,6 +11,22 @@ For the ``java_server`` package lifecycle scripts are customized to provide the 
 For this purpose *sbt-native-packager* ships with some predefined templates. These can be
 overriden with different techniques, depending on the packaging system.
 
+Partially Replace Template Functionality
+========================================
+
+Most sbt-native-packager scripts are broken up into partial templates in the `resources directory 
+<https://github.com/sbt/sbt-native-packager/tree/master/src/main/resources/com/typesafe/sbt/packager>`_. 
+You can override these default template snippets by adding to the ``linuxScriptReplacements`` map. As
+an example you can change the ``loader-functions`` which starts/stop services based on a certain ```ServerLoader```:
+
+.. code-block:: scala
+
+  linuxScriptReplacements += "loader-functions" -> TemplateWriter.generateScript(getClass.getResource("/custom-loader-functions"), Nil)
+
+The ``custom-loader-functions`` file must declare the ``startService()`` and ``stopService()`` functions used in various
+service management scripts.
+
+
 RPM Scriptlets
 ==============
 
