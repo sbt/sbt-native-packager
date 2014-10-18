@@ -9,7 +9,8 @@ There are generally two types of configurations:
 * Configuring the Application itself.
 
 The server archetype provides you with a special feature to configure your application
-with a single file. As this file is OS dependend, each OS gets section.
+with a single file outside of customizing the ``bash`` or ``bat`` script for applications. 
+As this file is OS dependend, each OS gets section.
 
 Linux
 *****
@@ -64,7 +65,7 @@ The usual ``JAVA_OPTS`` can be used to override settings. This is a nice way to 
 different jvm settings with just restarting the jvm.
 
 Windows
-*****
+*******
 
 Support planned for 0.8.0
 
@@ -74,5 +75,7 @@ Example Configurations
 A list of very small configuration settings can be found at `sbt-native-packager-examples`_
 
     .. _sbt-native-packager-examples: https://github.com/muuki88/sbt-native-packager-examples
-    
-Next, let's :doc:`how to override start templates <OverrdingTemplates>`.
+
+In addition to adding configuration settings it's possible to override parts of the start/stop scripts
+used in the ``java_server`` archetype or replace entire templates. The next section on 
+:doc:`how to override start templates <OverridingTemplates>` explains this feature.

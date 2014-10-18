@@ -1,10 +1,20 @@
-Overriding templates
-####################
+Template Customization and Overrides
+####################################
 
 While the native packager tries to provide robust BASH/BAT scripts for your applications, they may not always be enough.
-The native packager provides a mechanism where the template used to create each script can be directly overridden.
+The native packager provides a mechanism where the template used to create each script can be customized or directly 
+overridden. 
 
-Let's override the default BASH template.  To do so, we'll create a file in ``src/templates/bash-template`` 
+The easiest way to add functionality to the default script is by adding ``bashScriptExtraDefines`` :doc:`as described
+in adding configuration for applications </GettingStartedApplications/AddingConfiguration>`. Customizing the bash
+script will effect all platform-specific builds. The server archetype provides a further level of customization for
+specific System Loaders and Package types. These template file are described in 
+:doc:`configuring servers </GettingStartedServers/AddingConfiguration>`.
+
+Overriding Complete Templates
+-----------------------------
+
+In order to override full templates, like the default bash script, create a file in ``src/templates/bash-template`` 
 
 .. code-block:: bash
 
