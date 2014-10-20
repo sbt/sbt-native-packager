@@ -38,6 +38,10 @@ if [ -z "$DAEMON_USER" ]; then
     DAEMON_USER=${{daemon_user}}
 fi
 
+if [ -z "$DAEMON_GROUP" ]; then
+    DAEMON_GROUP=${{daemon_group}}
+fi
+
 
 # smb could define some additional options in $RUN_OPTS
 RUN_CMD="${{chdir}}/bin/${{app_name}}"
@@ -64,7 +68,7 @@ start() {
     [ $retval -eq 0 ] && touch ${lockfile} && success || failure
 
     # Insert pid into pid file for CentOS killproc function
-    [ -d "/var/run/${{app_name}}" ] || install -d -o "$DAEMON_USER" -m750 "/var/run/${{app_name}}"
+    [ -d "/var/run/${{app_name}}" ] || install -d -o "$DAEMON_USER" -g "$DAEMON_GROUP" -m755 "/var/run/${{app_name}}"
     echo
     echo $PID > ${PIDFILE}
     return $retval
