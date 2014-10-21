@@ -66,6 +66,10 @@ Publishing Settings
 
   ``dockerUpdateLatest``
     The flag to automatic update the latest tag when the ``docker:publish`` task is run. Default value is ``FALSE``.
+    
+  ``dockerAppLibraryRegex``
+    This regex splits the jars in 3rd party and application jars to be able to create two ADD commands. Default value
+    is ``s"lib/${(organization in Docker).value}.*\\.jar$$"``, which means _every jar in the lib folder that start with the groupId of your company_
 
 Tasks
 -----

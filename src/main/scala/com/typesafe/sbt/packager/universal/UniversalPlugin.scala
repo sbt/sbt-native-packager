@@ -66,7 +66,7 @@ trait UniversalPlugin extends Plugin {
     val copies = mappings map {
       case (file, path) => file -> (to / path)
     }
-    Sync(cache)(copies)
+    Sync(cache, FileInfo.hash, FileInfo.exists)(copies)
     // Now set scripts to executable using Java's lack of understanding of permissions.
     // TODO - Config file user-readable permissions....
     for {

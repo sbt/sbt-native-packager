@@ -4,6 +4,8 @@ play.Project.playScalaSettings
 
 name := "dtest"
 
+organization := "com.example"
+
 version := "0.1.0"
 
 val buildLoc = (file(".").getAbsoluteFile.getParentFile)

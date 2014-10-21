@@ -1,0 +1,8 @@
+# Stage the distribution and ensure files show up.
+> show docker:stage
+$ exists target/docker/Dockerfile
+$ exists target/docker/files
+$ exists target/docker/files/opt
+$ exists target/docker/files/opt/docker
+$ exists target/docker/files/opt/docker/app
+$ exists target/docker/files/opt/docker/lib

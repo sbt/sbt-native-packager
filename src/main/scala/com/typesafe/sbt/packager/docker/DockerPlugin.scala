@@ -4,73 +4,167 @@ package docker
 import Keys._
 import universal._
 import sbt._
+import sbt.Keys.{ organization, update }
 
 trait DockerPlugin extends Plugin with UniversalPlugin {
   val Docker = config("docker") extend Universal
 
-  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String]) = {
-    val headerCommands = Seq(
-      Cmd("FROM", dockerBaseImage),
-      Cmd("MAINTAINER", maintainer)
-    )
+  import DockerPlugin._
 
-    val dockerCommands = Seq(
-      Cmd("ADD", "files /"),
-      Cmd("WORKDIR", "%s" format dockerBaseDirectory),
-      ExecCmd("RUN", "chown", "-R", daemonUser, "."),
-      Cmd("USER", daemonUser),
-      ExecCmd("ENTRYPOINT", "bin/%s" format execScript),
-      ExecCmd("CMD")
-    )
+  def dockerSettings: Seq[Setting[_]] = Seq(
+    dockerBaseImage := "dockerfile/java:latest",
+    name in Docker <<= name,
+    packageName in Docker <<= packageName,
+    executableScriptName in Docker <<= executableScriptName,
+    dockerRepository := None,
+    dockerUpdateLatest := false,
+    sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
+    target in Docker <<= target apply (_ / "docker")
 
-    val exposeCommand: Option[CmdLike] = {
-      if (exposedPorts.isEmpty)
-        None
-      else
-        Some(Cmd("EXPOSE", exposedPorts.mkString(" ")))
-    }
-
-    // If the exposed volume does not exist, the volume is made available
-    // with root ownership. This may be too strict for some directories,
-    // and we lose the feature that all directories below the install path
-    // can be written to by the binary. Therefore the directories are
-    // created before the ownership is changed.
-    val volumeCommands: Seq[CmdLike] = {
-      if (exposedVolumes.isEmpty)
-        Seq()
-      else
-        Seq(
-          ExecCmd("RUN", Seq("mkdir", "-p") ++ exposedVolumes: _*),
-          ExecCmd("VOLUME", exposedVolumes: _*)
+  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
+      daemonUser := "daemon",
+      defaultLinuxInstallLocation := "/opt/docker",
+      dockerExposedPorts := Seq(),
+      dockerExposedVolumes := Seq(),
+      dockerPackageMappings <<= (sourceDirectory) map { dir =>
+        MappingsHelper contentOf dir
+      },
+      mappings <++= dockerPackageMappings,
+      stage <<= (dockerGenerateContext, dockerGenerateConfig, streams) map { (_, dockerfile, s) =>
+        s.log.success("created docker file: " + dockerfile.getPath)
+      },
+      dockerAddCommands := makeAddCommands(dockerGenerateContext.value, defaultLinuxInstallLocation.value),
+      dockerGenerateContext <<= (streams, mappings, target) map {
+        (s, mappings, t) =>
+          val contextDir = t / "files"
+          stageFiles("docker")(s.cacheDirectory, contextDir, mappings)
+          contextDir
+      },
+      dockerGenerateConfig := {
+        val headerCommands = Seq(
+          Cmd("FROM", dockerBaseImage.value),
+          Cmd("MAINTAINER", maintainer.value)
         )
-    }
+        val addCommands = dockerAddCommands.value
+        val dockerCommands = Seq(
+          Cmd("WORKDIR", "%s" format defaultLinuxInstallLocation.value),
+          ExecCmd("RUN", "chown", "-R", daemonUser.value, "."),
+          Cmd("USER", daemonUser.value),
+          ExecCmd("ENTRYPOINT", "bin/%s" format executableScriptName.value),
+          ExecCmd("CMD")
+        )
+        val exposeCommand = makeExposeCommands(dockerExposedPorts.value)
+        val volumeCommands = makeVolumeCommands(dockerExposedVolumes.value)
 
-    Dockerfile(headerCommands ++ volumeCommands ++ exposeCommand ++ dockerCommands: _*).makeContent
-  }
+        val content = Dockerfile(headerCommands ++ volumeCommands ++ exposeCommand ++ addCommands ++ dockerCommands: _*).makeContent
 
-  private[this] final def generateDockerConfig(
-    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File) = {
-    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, execScript, exposedPorts, exposedVolumes)
+        val cacheDirectory = streams.value.cacheDirectory / "Dockerfile"
+        val cacheDockerFile = cacheDirectory / "Dockerfile"
+        IO.write(cacheDockerFile, content)
 
-    val f = target / "Dockerfile"
-    IO.write(f, dockerContent)
-    f
-  }
+        val cachedDockerfile = FileFunction.cached(cacheDirectory, inStyle = FilesInfo.hash, outStyle = FilesInfo.exists) {
+          (in: Set[File]) =>
+            val dockerfile = target.value / "Dockerfile"
+            val cache = in.headOption getOrElse (sys.error("Couldn't find Dockerfile in cache"))
+            IO.copyFile(cache, dockerfile, true)
+            Set(dockerfile)
+        }
 
-  def mapGenericFilesToDocker: Seq[Setting[_]] = {
-    def renameDests(from: Seq[(File, String)], dest: String) = {
-      for {
-        (f, path) <- from
-        newPath = "%s/%s" format (dest, path)
-      } yield (f, newPath)
-    }
-
-    inConfig(Docker)(Seq(
-      mappings <<= (mappings in Universal, defaultLinuxInstallLocation) map { (mappings, dest) =>
-        renameDests(mappings, dest)
+        cachedDockerfile(Set(cacheDockerFile)).headOption getOrElse (sys.error("Couldn't find Dockerfile in cache"))
+      },
+      dockerTarget <<= (dockerRepository, packageName, version) map {
+        (repo, name, version) =>
+          repo.map(_ + "/").getOrElse("") + name + ":" + version
+      },
+      publishLocal <<= (dockerGenerateConfig, dockerGenerateContext, dockerTarget, dockerUpdateLatest, streams) map {
+        (config, _, target, updateLatest, s) =>
+          publishLocalDocker(config, target, updateLatest, s.log)
+      },
+      publish <<= (publishLocal, dockerTarget, dockerUpdateLatest, streams) map {
+        (_, target, updateLatest, s) =>
+          publishDocker(target, s.log)
+          if (updateLatest) {
+            val name = target.substring(0, target.lastIndexOf(":")) + ":latest"
+            publishDocker(name, s.log)
+          }
       }
     ))
+
+  /**
+   * After the files have been staged inside the (target in Docker) directory,
+   * the add commands can be created by adding all files available inside the
+   * "files" directory.
+   *
+   * This dependes on the _mapGenericFilesToDocker_ method, which splits up
+   * the mappings into app and lib folders, so docker can cache these jars.
+   * The add commands will map both app and lib folder again to the single
+   * destination lib folder.
+   *
+   * @param context - the docker build context (should be: target in Docker)
+   * @param installLocation - inside the docker container (should be: defaultLinuxInstallation in Docker)
+   *
+   */
+  private[this] final def makeAddCommands(context: File, installLocation: String): Seq[Cmd] = {
+    val directories = (context / installLocation).list
+    directories map {
+      case APP_DIR => Cmd("ADD", s"/files$installLocation/$APP_DIR $installLocation/$LIB_DIR")
+      case folder  => Cmd("ADD", s"/files$installLocation/$folder $installLocation/$folder")
+    }
   }
+
+  /**
+   * @param ports - a list for ports to expose
+   */
+  private[this] final def makeExposeCommands(ports: Seq[Int]): Option[Cmd] = {
+    if (ports isEmpty) None
+    else Some(Cmd("EXPOSE", ports mkString " "))
+  }
+
+  /**
+   * If the exposed volume does not exist, the volume is made available
+   * with root ownership. This may be too strict for some directories,
+   * and we lose the feature that all directories below the install path
+   * can be written to by the binary. Therefore the directories are
+   * created before the ownership is changed.
+   *
+   * @param volumes - list of volumes to add
+   */
+  private[this] final def makeVolumeCommands(volumes: Seq[String]): Seq[ExecCmd] = {
+    if (volumes isEmpty) Seq()
+    else Seq(
+      ExecCmd("RUN", Seq("mkdir", "-p") ++ volumes: _*),
+      ExecCmd("VOLUME", volumes: _*)
+    )
+  }
+
+  /**
+   * Maps the docker:mappings to defaultLinuxInstallation/mapping-path.
+   *
+   * It will split up the library dependencies into an app and lib folder
+   * to allow docker to cache the jars.
+   *
+   * @return new mapping settings in Docker scope
+   */
+  def mapGenericFilesToDocker: Seq[Setting[_]] = inConfig(Docker)(Seq(
+    mappings := {
+      val log = streams.value.log
+      val installLocation = (defaultLinuxInstallLocation in Docker).value
+
+      // gets an UpdateReport with all files associated with this build
+      val updateFiles = update.value.allFiles
+      def isApp(f: File): Boolean = f.getName.endsWith(".jar") && !updateFiles.contains(f)
+
+      // this is only for user information
+      val (apps, other) = (mappings in Universal).value partition (m => isApp(m._1))
+      log.info(s"${apps.size} mappings in app/")
+
+      // the actual mapping from app jars to the app folder
+      (mappings in Universal).value map {
+        case (f, path) if isApp(f) => f -> s"$installLocation/${path.replaceFirst(LIB_DIR, APP_DIR)}"
+        case (f, path)             => f -> s"$installLocation/$path"
+      }
+    }
+  ))
 
   private[docker] def publishLocalLogger(log: Logger) = {
     new ProcessLogger {
@@ -99,17 +193,15 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
     log.debug("Executing " + cmd.mkString(" "))
     log.debug("Working directory " + cwd.toString)
 
-    val ret = Process(cmd, cwd) ! publishLocalLogger(log)
-
-    if (ret != 0)
-      throw new RuntimeException("Nonzero exit value: " + ret)
-    else
-      log.info("Built image " + tag)
+    Process(cmd, cwd) ! publishLocalLogger(log) match {
+      case 0 => log.info("Built image " + tag)
+      case n => throw new RuntimeException("Nonzero exit value: " + n)
+    }
 
     if (latest) {
       val name = tag.substring(0, tag.lastIndexOf(":")) + ":latest"
       val latestCmd = Seq("docker", "tag", tag, name)
-      Process(latestCmd).! match {
+      Process(latestCmd) ! log match {
         case 0 => log.info("Update Latest from image" + tag)
         case n => sys.error("Failed to run docker tag")
       }
@@ -155,52 +247,10 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
       log.info("Published image " + tag)
   }
 
-  def dockerSettings: Seq[Setting[_]] = Seq(
-    dockerBaseImage := "dockerfile/java:latest",
-    name in Docker <<= name,
-    packageName in Docker <<= packageName,
-    executableScriptName in Docker <<= executableScriptName,
-    dockerRepository := None,
-    dockerUpdateLatest := false,
-    sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
-    target in Docker <<= target apply (_ / "docker"),
+}
 
-    // TODO this must be changed, when there is a setting for the startScripts name
-    dockerGenerateConfig <<=
-      (dockerBaseImage in Docker, defaultLinuxInstallLocation in Docker, maintainer in Docker, daemonUser in Docker,
-        executableScriptName /* this is not scoped!*/ , dockerExposedPorts in Docker, dockerExposedVolumes in Docker, target in Docker) map
-        generateDockerConfig
-  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
-      daemonUser := "daemon",
-      defaultLinuxInstallLocation := "/opt/docker",
-      dockerExposedPorts := Seq(),
-      dockerExposedVolumes := Seq(),
-      dockerPackageMappings <<= (sourceDirectory) map { dir =>
-        MappingsHelper contentOf dir
-      },
-      mappings <++= dockerPackageMappings,
-      stage <<= (dockerGenerateConfig, dockerGenerateContext) map { (configFile, contextDir) => () },
-      dockerGenerateContext <<= (cacheDirectory, mappings, target) map {
-        (cacheDirectory, mappings, t) =>
-          val contextDir = t / "files"
-          stageFiles("docker")(cacheDirectory, contextDir, mappings)
-          contextDir
-      },
-      dockerTarget <<= (dockerRepository, packageName, version) map {
-        (repo, name, version) =>
-          repo.map(_ + "/").getOrElse("") + name + ":" + version
-      },
-      publishLocal <<= (dockerGenerateConfig, dockerGenerateContext, dockerTarget, dockerUpdateLatest, streams) map {
-        (config, _, target, updateLatest, s) =>
-          publishLocalDocker(config, target, updateLatest, s.log)
-      },
-      publish <<= (publishLocal, dockerTarget, dockerUpdateLatest, streams) map {
-        (_, target, updateLatest, s) =>
-          publishDocker(target, s.log)
-          if (updateLatest) {
-            val name = target.substring(0, target.lastIndexOf(":")) + ":latest"
-            publishDocker(name, s.log)
-          }
-      }
-    ))
+object DockerPlugin {
+  private[docker] val LIB_DIR = "lib"
+  private[docker] val APP_DIR = "app"
+
 }
