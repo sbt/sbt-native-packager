@@ -39,9 +39,9 @@ There are additional parameters available to configure.
 
 .. code-block:: scala
 
-    daemonUser in Linux := normalizedName.value // user which will execute the application
+    daemonUser in Linux := normalizedName.value         // user which will execute the application
     
-    daemonGroup in Linux := daemonUser.value    // group which will execute the application
+    daemonGroup in Linux := (daemonUser in Linux).value // group which will execute the application
 
 Default Mappings
 ================
