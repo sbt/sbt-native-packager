@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>archetypes - com.typesafe.sbt.packager.archetypes</title>
+          <meta name="description" content="archetypes - com.typesafe.sbt.packager.archetypes" />
+          <meta name="keywords" content="archetypes com.typesafe.sbt.packager.archetypes" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../index.html';
+            var hash = 'com.typesafe.sbt.packager.archetypes.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a></p>
+        <h1>archetypes</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">archetypes</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="com.typesafe.sbt.packager.archetypes.JavaAppKeys" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="JavaAppKeysextendsAnyRef"></a>
+      <a id="JavaAppKeys:JavaAppKeys"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaAppKeys.html"><span class="name">JavaAppKeys</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Available settings/tasks for the <a href="JavaAppPackaging$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging">com.typesafe.sbt.packager.archetypes.JavaAppPackaging</a>
+and all depending archetypes.</p>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="JavaAppStartScriptextendsAnyRef"></a>
+      <a id="JavaAppStartScript:JavaAppStartScript"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaAppStartScript.html"><span class="name">JavaAppStartScript</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Mixin this trait to generate startup scripts provided in the classpath of native packager.</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="com.typesafe.sbt.packager.archetypes.AkkaAppPackaging" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AkkaAppPackaging"></a>
+      <a id="AkkaAppPackaging:AkkaAppPackaging"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="AkkaAppPackaging$.html"><span class="name">AkkaAppPackaging</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Provides a new default script for akka-micro-kernel applications.</p>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppBashScript" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JavaAppBashScript"></a>
+      <a id="JavaAppBashScript:JavaAppBashScript"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaAppBashScript$.html"><span class="name">JavaAppBashScript</span></a>
+      </span>
+      </h4>
+      <p class="comment cmt">Constructs a bash script for running a java application.</p>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppBatScript" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JavaAppBatScript"></a>
+      <a id="JavaAppBatScript:JavaAppBatScript"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaAppBatScript$.html"><span class="name">JavaAppBatScript</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JavaAppPackaging"></a>
+      <a id="JavaAppPackaging:JavaAppPackaging"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaAppPackaging$.html"><span class="name">JavaAppPackaging</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">This class contains the default settings for creating and deploying an archetypical Java application.</p>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JavaServerAppPackaging"></a>
+      <a id="JavaServerAppPackaging:JavaServerAppPackaging"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaServerAppPackaging$.html"><span class="name">JavaServerAppPackaging</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">This class contains the default settings for creating and deploying an archetypical Java application.</p>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerBashScript" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JavaServerBashScript"></a>
+      <a id="JavaServerBashScript:JavaServerBashScript"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaServerBashScript$.html"><span class="name">JavaServerBashScript</span></a>
+      </span>
+      </h4>
+      <p class="comment cmt">Loads scripts from the resource path that are associated with</p>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerLoaderScript" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JavaServerLoaderScript"></a>
+      <a id="JavaServerLoaderScript:JavaServerLoaderScript"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaServerLoaderScript$.html"><span class="name">JavaServerLoaderScript</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.archetypes.ServerLoader" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ServerLoader"></a>
+      <a id="ServerLoader:ServerLoader"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ServerLoader$.html"><span class="name">ServerLoader</span></a><span class="result"> extends <span class="extype" name="scala.Enumeration">Enumeration</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Stores the available types of server loaders.</p>
+    </li><li name="com.typesafe.sbt.packager.archetypes.TemplateWriter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TemplateWriter"></a>
+      <a id="TemplateWriter:TemplateWriter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="TemplateWriter$.html"><span class="name">TemplateWriter</span></a>
+      </span>
+      </h4>
+      <p class="comment cmt">This object provides methods to generate scripts from templates.</p>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../../lib/template.js"></script>
+    </body>
+      </html>

@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Getting Started with Servers &mdash; sbt-native-packager 0.8.0-M2 documentation</title>
+    <title>Getting Started with Servers &mdash; sbt-native-packager 1.0.0-M1 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.8.0-M2',
+        VERSION:     '1.0.0-M1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.8.0-M2 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.0-M1 documentation" href="../index.html" />
     <link rel="next" title="Advanced Topics" href="../DetailedTopics/index.html" />
     <link rel="prev" title="Writing Documentation" href="../GettingStartedApplications/WritingDocumentation.html" />
 <meta charset='utf-8'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.8.0-M2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-M1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -71,6 +71,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../GettingStartedApplications/index.html">Getting Started with Applications</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started with Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../DetailedTopics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Contributing Documentation</a></li>
 </ul>
 </ul>
 </li>
@@ -85,6 +86,9 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Getting Started with Servers</a><ul>
+<li><a class="reference internal" href="#service-managers">Service Managers</a></li>
+<li><a class="reference internal" href="#changing-service-managers">Changing Service Managers</a></li>
+<li><a class="reference internal" href="#systemd-support">SystemD Support</a></li>
 <li><a class="reference internal" href="#what-is-a-server-archetype">What is a Server Archetype</a><ul>
 <li><a class="reference internal" href="#linux">Linux</a></li>
 </ul>
@@ -142,15 +146,22 @@
 <h1>Getting Started with Servers<a class="headerlink" href="#getting-started-with-servers" title="Permalink to this headline">¶</a></h1>
 <p>The sbt-native-packager is an sbt plugin for bundling your server for a variety of platforms.</p>
 <p><strong>Note:</strong> Please follow the <a class="reference internal" href="../installation.html#installation"><em>Installation</em></a> instructions for how to set it up on a project.</p>
-<p>The sbt-native-packager attempts to make building packages for different operating systems easier.  While it provides
+<p>In the <tt class="xref doc docutils literal"><span class="pre">Application</span> <span class="pre">Packaging</span></tt> section we described how to build and
+customize settings related to the application. Sbt-Native-Packager provides a further level for servers
+which define how applications are installed and initialized for various platforms.
+be customized for specific platforms. While it provides
 some basic abstractions around packaging, it also allows you to dig down into the nuts and bolts of each platform as
 neeeded to generate the best package possible.</p>
-<p>Currently the native package supports the following installation targets for servers:</p>
+<div class="section" id="service-managers">
+<h2>Service Managers<a class="headerlink" href="#service-managers" title="Permalink to this headline">¶</a></h2>
+<p>Platforms are tied to both package managers (Rpm, Debian) and Service Managers (System V, Upstart, SystemD). By
+default the native packager will configure a service manager to run the daemon process. The available
+configurations are:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="33%" />
-<col width="43%" />
-<col width="24%" />
+<col width="31%" />
+<col width="41%" />
+<col width="29%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Platform</th>
@@ -160,7 +171,7 @@ neeeded to generate the best package possible.</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Ubuntu</td>
-<td>Upstart</td>
+<td>Upstart (Default)</td>
 <td>X</td>
 </tr>
 <tr class="row-odd"><td>Ubuntu</td>
@@ -168,12 +179,20 @@ neeeded to generate the best package possible.</p>
 <td>X</td>
 </tr>
 <tr class="row-even"><td>CentOS</td>
-<td>System V</td>
+<td>System V (Default)</td>
+<td>X</td>
+</tr>
+<tr class="row-odd"><td>CentOS 6.5</td>
+<td>Upstart</td>
+<td>X</td>
+</tr>
+<tr class="row-even"><td>Fedora</td>
+<td>System V (Default)</td>
 <td>X</td>
 </tr>
 <tr class="row-odd"><td>Fedora</td>
-<td>System V</td>
-<td>X</td>
+<td>systemd</td>
+<td>experimental</td>
 </tr>
 <tr class="row-even"><td>Windows</td>
 <td>Windows Services</td>
@@ -181,6 +200,50 @@ neeeded to generate the best package possible.</p>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="changing-service-managers">
+<h2>Changing Service Managers<a class="headerlink" href="#changing-service-managers" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to change the default Service Manager for a given platform by specifying a <tt class="docutils literal"><span class="pre">ServerLoader</span></tt>. To use
+Upstart for an Rpm package simply:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">serverLoading</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="nc">ServerLoader</span><span class="o">.</span><span class="nc">Upstart</span>
+</pre></div>
+</div>
+<p><em>As a side note Fedora/RHEL/Centos family of linux
+specifies</em> <tt class="docutils literal"><span class="pre">Default</span> <span class="pre">requiretty</span></tt> <em>in its</em> <tt class="docutils literal"><span class="pre">/etc/sudoers</span></tt>
+<em>file. This prevents the default Upstart script from working
+correctly as it uses sudo to run the application
+as the</em> <tt class="docutils literal"><span class="pre">daemonUser</span></tt> <em>. Simply disable requiretty
+to use Upstart or modify the Upstart template.</em></p>
+<p>Sbt Native Packager leverages templating to customize various start/stop scripts and pre/post install tasks.
+The <a class="reference internal" href="OverridingTemplates.html"><em>templating reference</em></a> describes this functionality in-depth.
+As an example, to alter the <tt class="docutils literal"><span class="pre">loader-functions</span></tt> which manage the specific start and stop process commands
+for SystemLoaders you can to the <tt class="docutils literal"><span class="pre">linuxScriptReplacements</span></tt> map:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">linuxScriptReplacements</span> <span class="o">+=</span> <span class="s">&quot;loader-functions&quot;</span> <span class="o">-&gt;</span> <span class="nc">TemplateWriter</span><span class="o">.</span><span class="n">generateScript</span><span class="o">(</span><span class="n">getClass</span><span class="o">.</span><span class="n">getResource</span><span class="o">(</span><span class="s">&quot;/custom-loader-functions&quot;</span><span class="o">),</span> <span class="nc">Nil</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>which will add the following resource file to use start/stop instead of initctl in the post install script:</p>
+<div class="highlight-bash"><div class="highlight"><pre>startService<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">app_name</span><span class="o">=</span><span class="nv">$1</span>
+    start <span class="nv">$app_name</span>
+<span class="o">}</span>
+
+stopService<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">app_name</span><span class="o">=</span><span class="nv">$1</span>
+    stop <span class="nv">$app_name</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The <tt class="xref doc docutils literal"><span class="pre">debian</span></tt> and <a class="reference internal" href="../DetailedTopics/redhat.html"><em>redhat</em></a> pages have further information on overriding distribution scpecific actions.</p>
+</div>
+<div class="section" id="systemd-support">
+<h2>SystemD Support<a class="headerlink" href="#systemd-support" title="Permalink to this headline">¶</a></h2>
+<p>There is also experimental systemd support for Fedora release 20 (Heisenbug). You can use the <tt class="docutils literal"><span class="pre">`Systemd`</span></tt> server loader:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">serverLoading</span> <span class="n">in</span> <span class="nc">Rpm</span><span class="o">:=</span> <span class="nc">ServerLoader</span><span class="o">.</span><span class="nc">Systemd</span>
+</pre></div>
+</div>
+<p>There is only partial systemd support in Ubuntu 14.04 LTS which prevents sbt-native-packager systemd from working correctly on
+Ubuntu.</p>
+</div>
 <div class="section" id="what-is-a-server-archetype">
 <h2>What is a Server Archetype<a class="headerlink" href="#what-is-a-server-archetype" title="Permalink to this headline">¶</a></h2>
 <p>A server project extends the basic <tt class="docutils literal"><span class="pre">java_application</span></tt> with some server specific features,

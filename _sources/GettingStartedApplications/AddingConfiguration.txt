@@ -130,5 +130,18 @@ One means of doing this is hooking the ``batScriptExtraDefines`` key.  This allo
 
 Now, the windows version will also load the configuration from the ``conf/`` directory of the package.
 
+More Complex Scripts
+--------------------
+
+As you read earlier the ``bashScriptExtraDefines`` sequence allows you to add new lines to the default bash script used to start the application.
+This is useful when you need a setting which isn't mean for the command-line parameter list passed to the java process. The lines added to
+``bashScriptExtraDefines`` are placed near the end of the script and have access to a number of utility bash functions (e.g. ``addJava``,
+``addApp``, ``addResidual``, ``addDebugger``). You can add lines to this script as we did for the Typesage config file above. For more complex
+scripts you can also inject a seperate file managed in your source tree or resource directory: ::
+
+    bashScriptExtraDefines ++= IO.readLines(baseDirectory.value / "scripts" / "extra.sh")
+
+This will add the contents of ``/scripts/extra.sh`` in the resource directory to the bash script. Note you should always concatenate lines
+to ``bashScriptExtraDefines`` as other stages in the pipeline may be include linex to the start-script. 
 
 Next, let's :doc:`add some generated files <GeneratingFiles>`.

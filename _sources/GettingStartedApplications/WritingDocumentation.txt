@@ -51,4 +51,4 @@ distribution.  The resulting man page is stored in ``/usr/share/man/man1/example
 TODO - A bit more on other documentation methods.
 
 
-That's the end fo the getting started guide for Java Applications!  Feel free to read the guide on Java Servers, which offers a few differences in how configuration is done, necessary for packaging to underlying systems.
+That's the end fo the getting started guide for Java Applications!  Feel free to read the guide on :doc:`Java Servers <GettingStartedServers>`, which offers a few differences in how configuration is done for packaging to underlying systems.

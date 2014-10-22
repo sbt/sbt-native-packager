@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SBT - Native Packager Plugin &mdash; sbt-native-packager 0.8.0-M2 documentation</title>
+    <title>SBT - Native Packager Plugin &mdash; sbt-native-packager 1.0.0-M1 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.8.0-M2',
+        VERSION:     '1.0.0-M1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.8.0-M2 documentation" href="#" />
+    <link rel="top" title="sbt-native-packager 1.0.0-M1 documentation" href="#" />
     <link rel="next" title="Installation" href="installation.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -49,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="#">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.8.0-M2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-M1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -70,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="GettingStartedApplications/index.html">Getting Started with Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="GettingStartedServers/index.html">Getting Started with Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="DetailedTopics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Contributing Documentation</a></li>
 </ul>
 </ul>
 </li>
@@ -130,20 +131,52 @@
   <div class="section" id="sbt-native-packager-plugin">
 <h1>SBT - Native Packager Plugin<a class="headerlink" href="#sbt-native-packager-plugin" title="Permalink to this headline">¶</a></h1>
 <p>This is the documentation for the sbt-native-packager plugin.  This plugin aims
-to allow native packages to be created for all major operating systems, including:</p>
+to allow easy generation of native packages for all major operating systems, including:</p>
 <ul class="simple">
 <li>Windows MSI files</li>
 <li>Debian DEB packages</li>
 <li>RedHat RPM packages</li>
-<li>Universal (Zipped) packages</li>
 <li>Docker images</li>
+<li>Universal (Zipped) packages for easily-launchable start scripts</li>
 </ul>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="GettingStartedApplications/index.html">Getting Started with Applications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="GettingStartedServers/index.html">Getting Started with Servers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="DetailedTopics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#windows">Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#redhat-rpm-based-linux-distros">RedHat/RPM-based linux distros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#debian-based-linux-distros">Debian-based linux distros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#universal">Universal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#docker">Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="GettingStartedApplications/index.html">Getting Started with Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="GettingStartedApplications/MyFirstProject.html">My First Packaged Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GettingStartedApplications/AddingConfiguration.html">Adding configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GettingStartedApplications/GeneratingFiles.html">Generating files for the package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GettingStartedApplications/OverridingTemplates.html">Template Customization and Overrides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GettingStartedApplications/WritingDocumentation.html">Writing Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="GettingStartedServers/index.html">Getting Started with Servers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="GettingStartedServers/index.html#service-managers">Service Managers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GettingStartedServers/index.html#changing-service-managers">Changing Service Managers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GettingStartedServers/index.html#systemd-support">SystemD Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GettingStartedServers/index.html#what-is-a-server-archetype">What is a Server Archetype</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DetailedTopics/index.html">Advanced Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DetailedTopics/archetypes.html">Project Archetypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DetailedTopics/universal.html">Universal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DetailedTopics/linux.html">Writing Linux Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DetailedTopics/redhat.html">RedHat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DetailedTopics/debian.html">Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DetailedTopics/windows.html">Packaging for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DetailedTopics/docker.html">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DetailedTopics/paths.html">Path Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DetailedTopics/custom.html">Custom Package Formats</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Contributing Documentation</a></li>
 </ul>
 </div>
 </div>

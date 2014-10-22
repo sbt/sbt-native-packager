@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>debian - com.typesafe.sbt.packager.debian</title>
+          <meta name="description" content="debian - com.typesafe.sbt.packager.debian" />
+          <meta name="keywords" content="debian com.typesafe.sbt.packager.debian" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../index.html';
+            var hash = 'com.typesafe.sbt.packager.debian.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a></p>
+        <h1>debian</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">debian</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="com.typesafe.sbt.packager.debian.DebianControlScriptReplacements" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DebianControlScriptReplacementsextendsProductwithSerializable"></a>
+      <a id="DebianControlScriptReplacements:DebianControlScriptReplacements"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="DebianControlScriptReplacements.html"><span class="name">DebianControlScriptReplacements</span></a><span class="params">(<span name="author">author: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="descr">descr: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">This replacements are use for the debian maintainer scripts:
+preinst, postinst, prerm, postrm
+</p>
+    </li><li name="com.typesafe.sbt.packager.debian.DebianKeys" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DebianKeysextendsAnyRef"></a>
+      <a id="DebianKeys:DebianKeys"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DebianKeys.html"><span class="name">DebianKeys</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">DEB packaging specifc build targets.</p>
+    </li><li name="com.typesafe.sbt.packager.debian.DebianNativePackaging" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DebianNativePackagingextendsDebianPluginLike"></a>
+      <a id="DebianNativePackaging:DebianNativePackaging"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DebianNativePackaging.html"><span class="name">DebianNativePackaging</span></a><span class="result"> extends <a href="DebianPluginLike.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianPluginLike">DebianPluginLike</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">This provides a dpgk based implementation for debian packaging.</p>
+    </li><li name="com.typesafe.sbt.packager.debian.DebianPluginLike" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DebianPluginLikeextendsAnyRef"></a>
+      <a id="DebianPluginLike:DebianPluginLike"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DebianPluginLike.html"><span class="name">DebianPluginLike</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">This trait provides a set of helper methods for debian packaging
+implementations.</p>
+    </li><li name="com.typesafe.sbt.packager.debian.JDebConsole" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JDebConsoleextendsConsole"></a>
+      <a id="JDebConsole:JDebConsole"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="JDebConsole.html"><span class="name">JDebConsole</span></a><span class="result"> extends <span class="extype" name="org.vafer.jdeb.Console">Console</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">This provides the task for building a debian packaging with
+the java-based implementation jdeb
+</p>
+    </li><li name="com.typesafe.sbt.packager.debian.PackageInfo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PackageInfoextendsProductwithSerializable"></a>
+      <a id="PackageInfo:PackageInfo"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="PackageInfo.html"><span class="name">PackageInfo</span></a><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="maintainer">maintainer: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="summary">summary: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.debian.PackageMetaData" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PackageMetaDataextendsProductwithSerializable"></a>
+      <a id="PackageMetaData:PackageMetaData"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="PackageMetaData.html"><span class="name">PackageMetaData</span></a><span class="params">(<span name="info">info: <a href="PackageInfo.html" class="extype" name="com.typesafe.sbt.packager.debian.PackageInfo">PackageInfo</a></span>, <span name="priority">priority: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;optional&quot;</span></span>, <span name="architecture">architecture: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;all&quot;</span></span>, <span name="section">section: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;java&quot;</span></span>, <span name="depends">depends: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">collection.this.Seq.empty[Nothing]</span></span>, <span name="recommends">recommends: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">collection.this.Seq.empty[Nothing]</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Represents package meta used by debian when constructing packages.</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="com.typesafe.sbt.packager.debian.DebianNativePackaging" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DebianNativePackaging"></a>
+      <a id="DebianNativePackaging:DebianNativePackaging"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DebianNativePackaging$.html"><span class="name">DebianNativePackaging</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.debian.DebianPlugin" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DebianPlugin"></a>
+      <a id="DebianPlugin:DebianPlugin"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DebianPlugin$.html"><span class="name">DebianPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="DebianNativePackaging.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianNativePackaging">DebianNativePackaging</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">This plugin provides the ability to build <i>.deb</i> packages.</p>
+    </li><li name="com.typesafe.sbt.packager.debian.JDebPackaging" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JDebPackaging"></a>
+      <a id="JDebPackaging:JDebPackaging"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JDebPackaging$.html"><span class="name">JDebPackaging</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="DebianPluginLike.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianPluginLike">DebianPluginLike</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">This provides a java based debian packaging implementation based
+on the jdeb maven-plugin.</p>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../../lib/template.js"></script>
+    </body>
+      </html>

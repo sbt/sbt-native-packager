@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Overriding templates &mdash; sbt-native-packager 0.8.0-M2 documentation</title>
+    <title>Overriding templates &mdash; sbt-native-packager 1.0.0-M1 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.8.0-M2',
+        VERSION:     '1.0.0-M1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.8.0-M2 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.0-M1 documentation" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -48,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.8.0-M2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-M1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -69,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../GettingStartedApplications/index.html">Getting Started with Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started with Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../DetailedTopics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Contributing Documentation</a></li>
 </ul>
 </ul>
 </li>
@@ -83,6 +84,7 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Overriding templates</a><ul>
+<li><a class="reference internal" href="#partially-replace-template-functionality">Partially Replace Template Functionality</a></li>
 <li><a class="reference internal" href="#rpm-scriptlets">RPM Scriptlets</a><ul>
 <li><a class="reference internal" href="#override-postinst-scriplet">Override Postinst scriplet</a></li>
 </ul>
@@ -106,7 +108,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="../_sources/GettingStartedServers/OverrdingTemplates.txt"
+  <a href="../_sources/GettingStartedServers/OverridingTemplates.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -132,7 +134,7 @@
       
   <div class="section" id="overriding-templates">
 <h1>Overriding templates<a class="headerlink" href="#overriding-templates" title="Permalink to this headline">¶</a></h1>
-<p>Some scripts are covered in the standard application type. Read more on <a class="reference internal" href="../GettingStartedApplications/OverridingTemplates.html"><em>Overriding templates</em></a>.
+<p>Some scripts are covered in the standard application type. Read more on <a class="reference internal" href="../GettingStartedApplications/OverridingTemplates.html"><em>Template Customization and Overrides</em></a>.
 For the <tt class="docutils literal"><span class="pre">java_server</span></tt> package lifecycle scripts are customized to provide the following additional features</p>
 <ul class="simple">
 <li>Chowning directories and files correctly</li>
@@ -141,6 +143,17 @@ For the <tt class="docutils literal"><span class="pre">java_server</span></tt> p
 </ul>
 <p>For this purpose <em>sbt-native-packager</em> ships with some predefined templates. These can be
 overriden with different techniques, depending on the packaging system.</p>
+<div class="section" id="partially-replace-template-functionality">
+<h2>Partially Replace Template Functionality<a class="headerlink" href="#partially-replace-template-functionality" title="Permalink to this headline">¶</a></h2>
+<p>Most sbt-native-packager scripts are broken up into partial templates in the <a class="reference external" href="https://github.com/sbt/sbt-native-packager/tree/master/src/main/resources/com/typesafe/sbt/packager">resources directory</a>.
+You can override these default template snippets by adding to the <tt class="docutils literal"><span class="pre">linuxScriptReplacements</span></tt> map. As
+an example you can change the <tt class="docutils literal"><span class="pre">loader-functions</span></tt> which starts/stop services based on a certain <tt class="docutils literal"><span class="pre">`ServerLoader`</span></tt>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">linuxScriptReplacements</span> <span class="o">+=</span> <span class="s">&quot;loader-functions&quot;</span> <span class="o">-&gt;</span> <span class="nc">TemplateWriter</span><span class="o">.</span><span class="n">generateScript</span><span class="o">(</span><span class="n">getClass</span><span class="o">.</span><span class="n">getResource</span><span class="o">(</span><span class="s">&quot;/custom-loader-functions&quot;</span><span class="o">),</span> <span class="nc">Nil</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">custom-loader-functions</span></tt> file must declare the <tt class="docutils literal"><span class="pre">startService()</span></tt> and <tt class="docutils literal"><span class="pre">stopService()</span></tt> functions used in various
+service management scripts.</p>
+</div>
 <div class="section" id="rpm-scriptlets">
 <h2>RPM Scriptlets<a class="headerlink" href="#rpm-scriptlets" title="Permalink to this headline">¶</a></h2>
 <p>RPM puts all scripts into one file. To override or append settings to your

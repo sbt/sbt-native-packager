@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Overriding templates &mdash; sbt-native-packager 0.8.0-M2 documentation</title>
+    <title>Template Customization and Overrides &mdash; sbt-native-packager 1.0.0-M1 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.8.0-M2',
+        VERSION:     '1.0.0-M1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 0.8.0-M2 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.0-M1 documentation" href="../index.html" />
     <link rel="up" title="Getting Started with Applications" href="index.html" />
     <link rel="next" title="Writing Documentation" href="WritingDocumentation.html" />
     <link rel="prev" title="Generating files for the package" href="GeneratingFiles.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.8.0-M2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-M1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -72,6 +72,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Getting Started with Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../GettingStartedServers/index.html">Getting Started with Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../DetailedTopics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Contributing Documentation</a></li>
 </ul>
 </ul>
 </li>
@@ -85,7 +86,10 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Overriding templates</a></li>
+<li><a class="reference internal" href="#">Template Customization and Overrides</a><ul>
+<li><a class="reference internal" href="#overriding-complete-templates">Overriding Complete Templates</a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -133,11 +137,19 @@
   <div class="row">
     <div class="col-md-12">
       
-  <div class="section" id="overriding-templates">
-<h1>Overriding templates<a class="headerlink" href="#overriding-templates" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="template-customization-and-overrides">
+<h1>Template Customization and Overrides<a class="headerlink" href="#template-customization-and-overrides" title="Permalink to this headline">¶</a></h1>
 <p>While the native packager tries to provide robust BASH/BAT scripts for your applications, they may not always be enough.
-The native packager provides a mechanism where the template used to create each script can be directly overridden.</p>
-<p>Let&#8217;s override the default BASH template.  To do so, we&#8217;ll create a file in <tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt></p>
+The native packager provides a mechanism where the template used to create each script can be customized or directly
+overridden.</p>
+<p>The easiest way to add functionality to the default script is by adding <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span></tt> <a class="reference internal" href="AddingConfiguration.html"><em>as described
+in adding configuration for applications</em></a>. Customizing the bash
+script will effect all platform-specific builds. The server archetype provides a further level of customization for
+specific System Loaders and Package types. These template file are described in
+<a class="reference internal" href="../GettingStartedServers/AddingConfiguration.html"><em>configuring servers</em></a>.</p>
+<div class="section" id="overriding-complete-templates">
+<h2>Overriding Complete Templates<a class="headerlink" href="#overriding-complete-templates" title="Permalink to this headline">¶</a></h2>
+<p>In order to override full templates, like the default bash script, create a file in <tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt></p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c">#!/usr/bin/env bash</span>
 
 realpath<span class="o">()</span> <span class="o">{</span>
@@ -194,6 +206,7 @@ java -cp <span class="s2">&quot;%APP_CLASSPATH%&quot;</span> <span class="nv">%A
 </ol>
 <p>In general, the templates are intended to provide enough utility that customization is only necessary for truly custom scripts.</p>
 <p>Next, let&#8217;s look at how to <a class="reference internal" href="WritingDocumentation.html"><em>document the application</em></a>.</p>
+</div>
 </div>
 
 
