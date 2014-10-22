@@ -3,18 +3,47 @@ package packager
 package rpm
 
 import sbt._
-import sbt.Keys.sourceDirectory
-import rpm.Keys._
 import linux._
 import java.nio.charset.Charset
+import SbtNativePackager.Linux
 
-/** Plugin trait containing all generic values used for packaging linux software. */
-trait RpmPlugin extends Plugin with LinuxPlugin {
-  val Rpm = config("rpm") extend Linux
+import sbt.Keys.{ name, version, sourceDirectory, target, packageBin, streams }
+import linux.LinuxPlugin.autoImport.{ linuxPackageMappings, linuxPackageSymlinks, serverLoading, packageArchitecture }
+import packager.Keys._
 
-  import RpmPlugin.Names
+/**
+ * Plugin containing all generic values used for packaging rpms. 
+ * 
+ * @example Enable the plugin in the `build.sbt`
+ * {{{
+ *    enablePlugins(RpmPlugin)
+ * }}}   
+ */
+object RpmPlugin extends AutoPlugin {
 
-  def rpmSettings: Seq[Setting[_]] = Seq(
+  override def requires = LinuxPlugin
+  override def trigger = allRequirements
+
+  object autoImport extends RpmKeys {
+    val Rpm = config("rpm") extend Linux
+  }
+
+  import autoImport._
+
+  def osPostInstallMacro: java.net.URL = getClass getResource "brpJavaRepackJar"
+
+  /** RPM specific names */
+  object Names {
+    val Scriptlets = "scriptlets"
+
+    //maintainer script names
+    val Post = "postinst"
+    val Pre = "preinst"
+    val Postun = "postun"
+    val Preun = "preun"
+  }
+
+  override lazy val projectSettings = Seq(
     rpmOs := "Linux", // TODO - default to something else?
     rpmRelease := "0",
     rpmPrefix := None,
@@ -80,17 +109,3 @@ trait RpmPlugin extends Plugin with LinuxPlugin {
     ))
 }
 
-object RpmPlugin {
-
-  def osPostInstallMacro: java.net.URL = getClass getResource "brpJavaRepackJar"
-
-  object Names {
-    val Scriptlets = "scriptlets"
-
-    //maintainer script names
-    val Post = "postinst"
-    val Pre = "preinst"
-    val Postun = "postun"
-    val Preun = "preun"
-  }
-}

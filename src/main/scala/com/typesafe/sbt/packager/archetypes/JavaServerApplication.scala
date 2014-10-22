@@ -2,13 +2,17 @@ package com.typesafe.sbt
 package packager
 package archetypes
 
-import Keys._
 import sbt._
 import sbt.Keys.{ target, mainClass, sourceDirectory, streams }
-import SbtNativePackager._
-import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
-import com.typesafe.sbt.packager.debian.DebianPlugin
-import com.typesafe.sbt.packager.rpm.RpmPlugin
+import SbtNativePackager.{ Debian, Rpm, Universal }
+import packager.Keys.{ packageName }
+import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
+import linux.LinuxPlugin.autoImport._
+import debian.DebianPlugin
+import debian.DebianPlugin.autoImport.{ debianMakePreinstScript, debianMakePostinstScript, debianMakePrermScript, debianMakePostrmScript }
+import rpm.RpmPlugin
+import rpm.RpmPlugin.autoImport.{ rpmPre, rpmPost, rpmPostun, rpmPreun, rpmScriptsDirectory }
+import JavaAppPackaging.autoImport.{ bashScriptConfigLocation }
 
 /**
  * This class contains the default settings for creating and deploying an archetypical Java application.
@@ -19,14 +23,18 @@ import com.typesafe.sbt.packager.rpm.RpmPlugin
  *
  *  **NOTE:  EXPERIMENTAL**   This currently only supports debian upstart scripts.
  */
-object JavaServerAppPackaging {
+object JavaServerAppPackaging extends AutoPlugin {
   import ServerLoader._
   import LinuxPlugin.Users
+
+  override def requires = JavaAppPackaging
+
+  override def projectSettings = javaServerSettings
 
   val ARCHETYPE = "java_server"
 
   /** These settings will be provided by this archetype*/
-  def settings: Seq[Setting[_]] = JavaAppPackaging.settings ++ linuxSettings ++ debianSettings ++ rpmSettings
+  def javaServerSettings: Seq[Setting[_]] = linuxSettings ++ debianSettings ++ rpmSettings
 
   protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource("etc-default-template")
 

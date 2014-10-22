@@ -1,8 +1,4 @@
-import NativePackagerKeys._
-
-packagerSettings
-
-mapGenericFilesToLinux
+enablePlugins(JDebPackaging)
 
 name := "debian-test"
 
@@ -18,5 +14,3 @@ packageDescription := """A fun package description of our software,
 debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
 
 debianPackageRecommends in Debian += "git"
-
-packageBin in Debian <<= debianJDebPackaging in Debian

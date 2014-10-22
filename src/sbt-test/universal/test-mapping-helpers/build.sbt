@@ -1,9 +1,6 @@
-import NativePackagerKeys._
 import com.typesafe.sbt.packager.MappingsHelper._
 
-packagerSettings
-
-packagerSettings
+enablePlugins(JavaAppPackaging)
 
 name := "simple-test"
 

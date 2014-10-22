@@ -6,11 +6,8 @@ import sbt._
 import com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader
 
 /** Linux packaging generic build targets. */
-trait Keys {
+trait LinuxKeys {
   val packageArchitecture = SettingKey[String]("package-architecture", "The architecture used for this linux package.")
-  val packageSummary = SettingKey[String]("package-summary", "Summary of the contents of a linux package.")
-  val packageDescription = SettingKey[String]("package-description", "The description of the package.  Used when searching.")
-  val maintainer = SettingKey[String]("maintainer", "The name/email address of a maintainer for the native package.")
   val daemonUser = SettingKey[String]("daemon-user", "User to start application daemon")
   val daemonGroup = SettingKey[String]("daemon-group", "Group to start application daemon")
   val daemonShell = SettingKey[String]("daemon-shell", "Shell provided for the daemon user")
@@ -42,11 +39,10 @@ trait Keys {
       """.stripMargin)
 
   val makeEtcDefault = TaskKey[Option[File]]("makeEtcDefault", "Creates or discovers the /etc/default/ script")
-}
 
-object Keys extends Keys {
-  def name = sbt.Keys.name
-  def packageName = packager.Keys.packageName
-  def executableScriptName = packager.Keys.executableScriptName
-  def sourceDirectory = sbt.Keys.sourceDirectory
+  val defaultLinuxInstallLocation = SettingKey[String]("defaultLinuxInstallLocation", "The location where we will install generic linux packages.")
+  val defaultLinuxLogsLocation = SettingKey[String]("defaultLinuxLogsLocation", "The location where application logs will be stored.")
+  val defaultLinuxConfigLocation = SettingKey[String]("defaultLinuxConfigLocation", "The location where application config files will be stored")
+  val defaultLinuxStartScriptLocation = SettingKey[String]("defaultLinuxStartScriptLocation", "The location where start script for server application will be stored")
+
 }

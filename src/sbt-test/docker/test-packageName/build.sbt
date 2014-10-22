@@ -1,7 +1,4 @@
-import com.typesafe.sbt.SbtNativePackager._
-import NativePackagerKeys._
-
-packageArchetype.java_application
+enablePlugins(JavaAppPackaging)
 
 name := "docker-test"
 

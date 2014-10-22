@@ -1,7 +1,6 @@
-import NativePackagerKeys._
 import com.typesafe.sbt.packager.archetypes.ServerLoader
 
-packageArchetype.java_server
+enablePlugins(JavaServerAppPackaging)
 
 mainClass in Compile := Some("empty")
 

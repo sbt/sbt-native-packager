@@ -1,6 +1,4 @@
-import NativePackagerKeys._
-
-play.Project.playScalaSettings  
+enablePlugins(PlayScala)
 
 name := "dtest"
 
@@ -12,7 +10,7 @@ val dtestProj = ProjectRef(buildLoc, "np")
 
 version in dtestProj := "0.2.0"
 
-packageArchetype.java_server
+enablePlugins(JDebPackaging)
 
 maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 
@@ -20,19 +18,16 @@ packageSummary := "Test debian package"
 
 packageDescription := """A fun package description of our software,
   with multiple lines."""
-
-debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
-
-debianPackageRecommends in Debian += "git"
+//
+//debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
+//
+//debianPackageRecommends in Debian += "git"
 
 rpmVendor := "typesafe"
 
 rpmLicense := Some("BSD")
 
 rpmChangelogFile := Some("changelog.txt")
-
-//debianMakePrermScript := Some(sourceDirectory.value / "deb" / "control" / "prerm") //change defaults
-
 
 TaskKey[Unit]("check-script") <<= (NativePackagerKeys.stagingDirectory in Universal, target in Debian, name, version, maintainer in Debian, streams) map {
  (dir, debTarget, name, version, author, streams) =>
@@ -60,4 +55,3 @@ TaskKey[Unit]("check-script") <<= (NativePackagerKeys.stagingDirectory in Univer
   val prermExpected = "removing ${{name}}-${{version}} from ${{author}}"
   assert(prermOutput contains prermExpected, s"Failed to correctly run the prerm script!.  Found [${prermOutput}] wanted [${prermExpected}]")
 }
-

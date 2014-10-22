@@ -1,6 +1,4 @@
-import NativePackagerKeys._
-
-packageArchetype.akka_application
+enablePlugins(AkkaAppPackaging)
 
 name := """test-akka"""
 

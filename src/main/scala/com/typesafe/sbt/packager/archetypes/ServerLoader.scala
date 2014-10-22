@@ -3,6 +3,11 @@ package com.typesafe.sbt.packager.archetypes
 import java.io.File
 import java.net.URL
 
+/**
+ * Stores the available types of server loaders.
+ *
+ * @note not all packaging systems support all server loaders
+ */
 object ServerLoader extends Enumeration {
   type ServerLoader = Value
   val Upstart = Value("upstart")

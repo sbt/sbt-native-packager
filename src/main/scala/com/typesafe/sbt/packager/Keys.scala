@@ -3,37 +3,46 @@ package packager
 
 import sbt._
 
-object Keys extends linux.Keys
-  with debian.DebianKeys
-  with rpm.RpmKeys
-  with windows.WindowsKeys
-  with docker.DockerKeys
-  with universal.UniversalKeys {
+/**
+ * General purpose keys for the native packager
+ */
+trait NativePackagerKeys {
 
-  // These keys are used by the JavaApp/JavaServer archetypes.
   val packageName = SettingKey[String]("packageName", "Name of the created output package. Used for dirs/scripts.")
-  val executableScriptName = SettingKey[String]("executableScriptName", "Name of the executing script.")
-  val makeBashScript = TaskKey[Option[File]]("makeBashScript", "Creates or discovers the bash script used by this project.")
-  val bashScriptDefines = TaskKey[Seq[String]]("bashScriptDefines", "A list of definitions that should be written to the bash file template.")
-  val bashScriptExtraDefines = TaskKey[Seq[String]]("bashScriptExtraDefines", "A list of extra definitions that should be written to the bash file template.")
-  val bashScriptConfigLocation = TaskKey[Option[String]]("bashScriptConfigLocation", "The location where the bash script will load default argument configuration from.")
-  val batScriptExtraDefines = TaskKey[Seq[String]]("batScriptExtraDefines", "A list of extra definitions that should be written to the bat file template.")
-  val scriptClasspathOrdering = TaskKey[Seq[(File, String)]]("scriptClasspathOrdering", "The order of the classpath used at runtime for the bat/bash scripts.")
-  val projectDependencyArtifacts = TaskKey[Seq[Attributed[File]]]("projectDependencyArtifacts", "The set of exported artifacts from our dependent projects.")
-  val scriptClasspath = TaskKey[Seq[String]]("scriptClasspath", "A list of relative filenames (to the lib/ folder in the distribution) of what to include on the classpath.")
-  val makeBatScript = TaskKey[Option[File]]("makeBatScript", "Creates or discovers the bat script used by this project.")
-  val batScriptReplacements = TaskKey[Seq[(String, String)]]("batScriptReplacements",
-    """|Replacements of template parameters used in the windows bat script.
-         |  Default supported templates:
-         |  APP_ENV_NAME - the name of the application for defining <name>_HOME variables
-         |  APP_NAME - the name of the app
-         |  APP_DEFINES - the defines to go into the app
-         |  """.stripMargin)
+  val packageSummary = SettingKey[String]("package-summary", "Summary of the contents of a linux package.")
+  val packageDescription = SettingKey[String]("package-description", "The description of the package.  Used when searching.")
+  val maintainer = SettingKey[String]("maintainer", "The name/email address of a maintainer for the native package.")
 
-  // TODO put these into the linux plugin
-  val defaultLinuxInstallLocation = SettingKey[String]("defaultLinuxInstallLocation", "The location where we will install generic linux packages.")
-  val defaultLinuxLogsLocation = SettingKey[String]("defaultLinuxLogsLocation", "The location where application logs will be stored.")
-  val defaultLinuxConfigLocation = SettingKey[String]("defaultLinuxConfigLocation", "The location where application config files will be stored")
-  val defaultLinuxStartScriptLocation = SettingKey[String]("defaultLinuxStartScriptLocation", "The location where start script for server application will be stored")
+  val executableScriptName = SettingKey[String]("executableScriptName", "Name of the executing script.")
 
 }
+
+/**
+ * This Keys object can be used for
+ * <ul>
+ * <li>non autoplugin builds</li>
+ * <li>import single keys, which are not inside the autoImport</li>
+ * </ul>
+ *
+ * == Non autoplugin builds ==
+ *
+ * {{{
+ *  import com.typesafe.sbt.packager.Keys._
+ *
+ *  packageName := ""
+ * }}}
+ *
+ * == autoplugin builds ==
+ *
+ * {{{
+ *  NativePackagerKeys.packageName := ""
+ * }}}
+ */
+object Keys extends NativePackagerKeys
+  with universal.UniversalKeys
+  with linux.LinuxKeys
+  with windows.WindowsKeys
+  with docker.DockerKeys
+  with debian.DebianKeys
+  with rpm.RpmKeys
+  with archetypes.JavaAppKeys

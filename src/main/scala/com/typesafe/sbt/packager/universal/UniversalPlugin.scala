@@ -3,34 +3,74 @@ package packager
 package universal
 
 import sbt._
-import sbt.Keys.cacheDirectory
-import Keys._
+import sbt.Keys.{
+  cacheDirectory,
+  name,
+  normalizedName,
+  version,
+  mappings,
+  packageBin,
+  packageSrc,
+  packageDoc,
+  target,
+  sourceDirectory,
+  streams
+}
+import packager.Keys._
 import Archives._
 import sbt.Keys.TaskStreams
 
-/** Defines behavior to construct a 'universal' zip for installation. */
-trait UniversalPlugin extends Plugin {
-  val Universal = config("universal")
-  val UniversalDocs = config("universal-docs")
-  val UniversalSrc = config("universal-src")
+/**
+ * == Universal Plugin ==
+ *
+ * Defines behavior to construct a 'universal' zip for installation.
+ *
+ * == Configuration ==
+ *
+ * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.universal.UniversalKeys]]
+ *
+ * @example Enable the plugin in the `build.sbt`
+ * {{{
+ *    enablePlugins(UniversalPlugin)
+ * }}}
+ */
+object UniversalPlugin extends AutoPlugin {
+
+  object autoImport extends UniversalKeys {
+    val Universal = config("universal")
+    val UniversalDocs = config("universal-docs")
+    val UniversalSrc = config("universal-src")
+
+    /**
+     * Use native zipping instead of java based zipping
+     */
+    def useNativeZip: Seq[Setting[_]] =
+      makePackageSettings(packageBin, Universal)(makeNativeZip) ++
+        makePackageSettings(packageBin, UniversalDocs)(makeNativeZip) ++
+        makePackageSettings(packageBin, UniversalSrc)(makeNativeZip)
+  }
+
+  import autoImport._
+
+  override def requires = SbtNativePackager
+  override def trigger = allRequirements
 
   /** The basic settings for the various packaging types. */
-  def universalSettings: Seq[Setting[_]] =
-    Seq[Setting[_]](
-      // For now, we provide delegates from dist/stage to universal...
-      dist <<= dist in Universal,
-      stage <<= stage in Universal,
-      // TODO - New default to naming, is this right?
-      // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
-      name in Universal <<= name,
-      name in UniversalDocs <<= name in Universal,
-      name in UniversalSrc <<= name in Universal,
-      packageName in Universal <<= packageName,
-      executableScriptName in Universal <<= executableScriptName
-    ) ++
-      makePackageSettingsForConfig(Universal) ++
-      makePackageSettingsForConfig(UniversalDocs) ++
-      makePackageSettingsForConfig(UniversalSrc)
+  override lazy val projectSettings = Seq[Setting[_]](
+    // For now, we provide delegates from dist/stage to universal...
+    dist <<= dist in Universal,
+    stage <<= stage in Universal,
+    // TODO - New default to naming, is this right?
+    // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
+    name in Universal <<= name,
+    name in UniversalDocs <<= name in Universal,
+    name in UniversalSrc <<= name in Universal,
+    packageName in Universal <<= packageName,
+    executableScriptName in Universal <<= executableScriptName
+  ) ++
+    makePackageSettingsForConfig(Universal) ++
+    makePackageSettingsForConfig(UniversalDocs) ++
+    makePackageSettingsForConfig(UniversalSrc)
 
   /** Creates all package types for a given configuration */
   private[this] def makePackageSettingsForConfig(config: Configuration): Seq[Setting[_]] =
@@ -43,36 +83,17 @@ trait UniversalPlugin extends Plugin {
         mappings <<= sourceDirectory map findSources,
         dist <<= (packageBin, streams) map printDist,
         stagingDirectory <<= target apply (_ / "stage"),
-        stage <<= (cacheDirectory, stagingDirectory, mappings) map stageFiles(config.name)
+        stage <<= (streams, stagingDirectory, mappings) map Stager.stage(config.name)
       )) ++ Seq(
         sourceDirectory in config <<= sourceDirectory apply (_ / config.name),
         target in config <<= target apply (_ / config.name)
       )
-
-  def useNativeZip: Seq[Setting[_]] =
-    makePackageSettings(packageBin, Universal)(makeNativeZip) ++
-      makePackageSettings(packageBin, UniversalDocs)(makeNativeZip) ++
-      makePackageSettings(packageBin, UniversalSrc)(makeNativeZip)
 
   private[this] def printDist(dist: File, streams: TaskStreams): File = {
     streams.log.info("")
     streams.log.info("Your package is ready in " + dist.getCanonicalPath)
     streams.log.info("")
     dist
-  }
-
-  def stageFiles(config: String)(cacheDirectory: File, to: File, mappings: Seq[(File, String)]): Unit = {
-    val cache = cacheDirectory / ("packager-mappings-" + config)
-    val copies = mappings map {
-      case (file, path) => file -> (to / path)
-    }
-    Sync(cache)(copies)
-    // Now set scripts to executable using Java's lack of understanding of permissions.
-    // TODO - Config file user-readable permissions....
-    for {
-      (from, to) <- copies
-      if from.canExecute
-    } to.setExecutable(true)
   }
 
   private type Packager = (File, String, Seq[(File, String)]) => File
@@ -90,6 +111,6 @@ trait UniversalPlugin extends Plugin {
 
   /** Finds all sources in a source directory. */
   private[this] def findSources(sourceDir: File): Seq[(File, String)] =
-    sourceDir.*** --- sourceDir x relativeTo(sourceDir)
+    sourceDir.*** --- sourceDir pair relativeTo(sourceDir)
 
 }
