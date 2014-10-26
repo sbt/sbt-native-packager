@@ -1,6 +1,6 @@
 import NativePackagerHelper._
 
-enablePlugins(SbtNativePackager)
+enablePlugins(DebianPlugin)
 
 name := "debian-test"
 

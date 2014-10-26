@@ -1,4 +1,4 @@
-enablePlugins(SbtNativePackager)
+enablePlugins(UniversalPlugin)
 
 name := "simple-test"
 

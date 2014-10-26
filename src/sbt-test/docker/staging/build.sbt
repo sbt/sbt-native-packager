@@ -1,4 +1,4 @@
-enablePlugins(SbtNativePackager)
+enablePlugins(DockerPlugin)
 
 name := "simple-test"
 
