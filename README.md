@@ -54,11 +54,8 @@ Any help on testing and improving this feature is appreciated so feel free to re
 
 Native packager now provides experimental `Docker` images.
 To enable this feature follow [My First Packaged Server Project guide](http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html) and use one of the provided Docker tasks for generating images.
-The only essential extra setting for creating a local image for testing is:
 
-    maintainer in Docker := "John Smith <john.smith@example.com>"
-
-To publish the image, ``dockerRepository`` should also be set.
+To publish the image, ``dockerRepository`` should be set.
 
 As with the `systemd` support, help with testing and improvements is appreciated.
 

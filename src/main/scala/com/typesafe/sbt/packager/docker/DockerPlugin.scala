@@ -9,10 +9,14 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
   val Docker = config("docker") extend Universal
 
   private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String]) = {
-    val headerCommands = Seq(
-      Cmd("FROM", dockerBaseImage),
-      Cmd("MAINTAINER", maintainer)
-    )
+    val fromCommand = Cmd("FROM", dockerBaseImage)
+
+    val maintainerCommand: Option[Cmd] = {
+      if (maintainer.isEmpty)
+        None
+      else
+        Some(Cmd("MAINTAINER", maintainer))
+    }
 
     val dockerCommands = Seq(
       Cmd("ADD", "files /"),
@@ -45,7 +49,10 @@ trait DockerPlugin extends Plugin with UniversalPlugin {
         )
     }
 
-    Dockerfile(headerCommands ++ volumeCommands ++ exposeCommand ++ dockerCommands: _*).makeContent
+    val commands =
+      Seq(fromCommand) ++ maintainerCommand ++ volumeCommands ++ exposeCommand ++ dockerCommands
+
+    Dockerfile(commands: _*).makeContent
   }
 
   private[this] final def generateDockerConfig(
