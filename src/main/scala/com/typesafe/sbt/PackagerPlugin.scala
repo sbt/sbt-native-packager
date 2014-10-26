@@ -78,6 +78,7 @@ object SbtNativePackager extends AutoPlugin {
 
     import SettingsHelper._
 
+    @deprecated("Use enablePlugins(xxxDeployPlugin)", "1.x")
     def deploymentSettings = makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
       makeDeploymentSettings(Rpm, packageBin in Rpm, "rpm") ++
       makeDeploymentSettings(Windows, packageBin in Windows, "msi") ++

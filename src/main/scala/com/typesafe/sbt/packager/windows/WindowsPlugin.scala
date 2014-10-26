@@ -175,3 +175,13 @@ object WindowsPlugin extends AutoPlugin {
     Seq(corePackage, addBinToPath, menuLinks)
   }
 }
+
+object WindowsDeployPlugin extends AutoPlugin {
+
+  import WindowsPlugin.autoImport._
+
+  override def requires = WindowsPlugin
+
+  override def projectSettings =
+    SettingsHelper.makeDeploymentSettings(Windows, packageBin in Windows, "msi")
+}

@@ -108,3 +108,12 @@ object RpmPlugin extends AutoPlugin {
     ))
 }
 
+object RpmDeployPlugin extends AutoPlugin {
+
+  import RpmPlugin.autoImport._
+
+  override def requires = RpmPlugin
+
+  override def projectSettings =
+    SettingsHelper.makeDeploymentSettings(Rpm, packageBin in Rpm, "rpm")
+}

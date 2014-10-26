@@ -1,4 +1,4 @@
-enablePlugins(UniversalPlugin)
+enablePlugins(UniversalDeployPlugin)
 
 name := "simple-test"
 

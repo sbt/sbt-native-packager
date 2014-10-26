@@ -340,3 +340,14 @@ trait DebianPluginLike {
     appName + "_" + version + "_" + arch + ".changes"
   }
 }
+
+object DebianDeployPlugin extends AutoPlugin {
+
+  import DebianPlugin.autoImport._
+
+  override def requires = DebianPlugin
+
+  override def projectSettings =
+    SettingsHelper.makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
+      SettingsHelper.makeDeploymentSettings(Debian, genChanges in Debian, "changes")
+}

@@ -113,3 +113,16 @@ object UniversalPlugin extends AutoPlugin {
     sourceDir.*** --- sourceDir pair relativeTo(sourceDir)
 
 }
+
+object UniversalDeployPlugin extends AutoPlugin {
+
+  import UniversalPlugin.autoImport._
+
+  override def requires = UniversalPlugin
+
+  override def projectSettings =
+    SettingsHelper.makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
+      SettingsHelper.addPackage(Universal, packageZipTarball in Universal, "tgz") ++
+      SettingsHelper.makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
+      SettingsHelper.addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz")
+}
