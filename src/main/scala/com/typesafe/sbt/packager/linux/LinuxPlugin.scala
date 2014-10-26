@@ -21,7 +21,6 @@ import SbtNativePackager.Universal
 object LinuxPlugin extends AutoPlugin {
 
   override def requires = universal.UniversalPlugin
-  override def trigger = allRequirements
   override lazy val projectSettings = linuxSettings ++ mapGenericFilesToLinux
 
   object autoImport extends LinuxKeys with LinuxMappingDSL {

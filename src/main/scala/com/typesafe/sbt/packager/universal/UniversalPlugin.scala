@@ -53,7 +53,6 @@ object UniversalPlugin extends AutoPlugin {
   import autoImport._
 
   override def requires = SbtNativePackager
-  override def trigger = allRequirements
 
   /** The basic settings for the various packaging types. */
   override lazy val projectSettings = Seq[Setting[_]](

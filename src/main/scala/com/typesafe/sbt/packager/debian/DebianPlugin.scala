@@ -39,7 +39,6 @@ import SbtNativePackager.{ Universal, Linux }
 object DebianPlugin extends AutoPlugin with DebianNativePackaging {
 
   override def requires = linux.LinuxPlugin
-  override def trigger = allRequirements
 
   object autoImport extends DebianKeys {
     val Debian = config("debian") extend Linux
