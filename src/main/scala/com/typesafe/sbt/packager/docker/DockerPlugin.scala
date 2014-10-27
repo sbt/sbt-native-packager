@@ -63,6 +63,8 @@ object DockerPlugin extends AutoPlugin {
 
   override lazy val projectSettings = Seq(
     dockerBaseImage := "dockerfile/java:latest",
+    dockerExposedPorts := Seq(),
+    dockerExposedVolumes := Seq(),
     name in Docker <<= name,
     packageName in Docker <<= packageName,
     executableScriptName in Docker <<= executableScriptName,
@@ -74,8 +76,6 @@ object DockerPlugin extends AutoPlugin {
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
       daemonUser := "daemon",
       defaultLinuxInstallLocation := "/opt/docker",
-      dockerExposedPorts := Seq(),
-      dockerExposedVolumes := Seq(),
       dockerPackageMappings <<= (sourceDirectory) map { dir =>
         MappingsHelper contentOf dir
       },
