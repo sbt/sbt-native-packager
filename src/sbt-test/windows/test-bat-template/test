@@ -1,0 +1,4 @@
+# Run the windows batch.
+> stage
+$ exists target/universal/stage/bin/windows-test.bat
+> check-script

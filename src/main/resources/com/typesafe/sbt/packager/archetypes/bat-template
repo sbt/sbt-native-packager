@@ -89,11 +89,7 @@ if ["!_PARAM1!"]==[""] goto param_afterloop
 
 rem ignore arguments that do not start with '-'
 if "%_TEST_PARAM:~0,1%"=="-" goto param_java_check
-if ["!_APP_ARGS!"]==[""] (
-  set _APP_ARGS=!_PARAM1!
-) else (
-  set _APP_ARGS=!_APP_ARGS! !_PARAM1!
-)
+set _APP_ARGS=!_APP_ARGS! !_PARAM1!
 shift
 goto param_loop
 
@@ -118,7 +114,7 @@ if "!_TEST_PARAM:~0,2!"=="-D" (
     )
   )
 ) else (
-  set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
+  set _APP_ARGS=!_APP_ARGS! !_PARAM1!
 )
 shift
 goto param_loop
