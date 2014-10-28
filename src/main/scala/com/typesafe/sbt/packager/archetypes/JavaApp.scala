@@ -59,7 +59,17 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     scriptClasspathOrdering <++= (Keys.dependencyClasspath in Runtime, projectDependencyArtifacts) map universalDepMappings,
     scriptClasspathOrdering <<= (scriptClasspathOrdering) map { _.distinct },
     mappings in Universal <++= scriptClasspathOrdering,
-    scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames,
+    scriptClasspath := {
+      val allClasspath = makeRelativeClasspathNames(scriptClasspathOrdering.value)
+      val manifest = new java.util.jar.Manifest()
+      manifest.getMainAttributes().putValue("Class-Path", allClasspath.mkString(" "))
+      val jarFile = (target in Universal).value / "lib" / "manifest.jar"
+      IO.jar(Seq.empty, jarFile, manifest)
+      Seq((Keys.projectID, Keys.artifact in Compile in Keys.packageBin).map(makeManifestJarName).value)
+    },
+    mappings in Universal += {
+      ((target in Universal).value / "lib" / "manifest.jar") -> ("lib/"+(Keys.projectID, Keys.artifact in Compile in Keys.packageBin).map(makeManifestJarName).value)
+    },
     bashScriptExtraDefines := Nil,
     bashScriptConfigLocation <<= bashScriptConfigLocation ?? None,
     bashScriptDefines <<= (Keys.mainClass in Compile, scriptClasspath, bashScriptExtraDefines, bashScriptConfigLocation) map { (mainClass, cp, extras, config) =>
@@ -106,6 +116,9 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
       if (name startsWith "lib/") name drop 4
       else "../" + name
     }
+
+  private def makeManifestJarName(id:ModuleID, art:Artifact): String =
+    makeJarName(id.organization, id.name, id.revision, art.name, art.classifier).replaceFirst("\\.jar$","-manifest.jar")
 
   // Constructs a jar name from components...(ModuleID/Artifact)
   private def makeJarName(org: String, name: String, revision: String, artifactName: String, artifactClassifier: Option[String]): String =
