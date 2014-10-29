@@ -76,7 +76,7 @@ TaskKey[Unit]("check-script") <<= (stagingDirectory in Universal, name, streams)
     }
   }
   def checkOutput(expected:String, args:String*) = checkOutputEnv(Map.empty, expected, args:_*)
-  checkOutput("arg #0 is [OK]\nSUCCxESS!", "OK")
+  checkOutput("arg #0 is [OK]\nSUCCESS!", "OK")
   checkOutput("arg #0 is [OK]\nproperty(test.hoge) is [huga]\nSUCCESS!", "-Dtest.hoge=\"huga\"", "OK")
   checkOutputEnv(Map("show-vmargs"->"true"), "arg #0 is [OK]\nvmarg #0 is [-Xms6m]\nSUCCESS!","-J-Xms6m", "OK")
   checkOutputEnv(Map("show-vmargs"->"true"), "arg #0 is [first]\narg #1 is [-XX]\narg #2 is [last]\nproperty(test.hoge) is [huga]\nvmarg #0 is [-Dtest.hoge=huga]\nvmarg #1 is [-Xms6m]\nSUCCESS!",
