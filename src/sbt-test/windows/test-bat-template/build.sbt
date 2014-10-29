@@ -38,6 +38,13 @@ TaskKey[Unit]("check-script") <<= (stagingDirectory in Universal, name, streams)
   import scala.sys.process._ 
   val fails = new StringBuilder()
   val script = dir / "bin" / (name+".bat")
+  val detailScript:File = {
+    val d = dir / "bin" / "detail.bat"
+    val out = new java.io.PrintWriter( d , "UTF-8")
+    out.print( scala.io.Source.fromFile(script).mkString.replaceAll("@echo off","@echo on & prompt \\$g ") )
+    out.close
+    d
+  }
   def crlf2cr(txt:String) = txt.trim.replaceAll("\\\r\\\n", "\n")
   def checkOutputEnv(env:Map[String,String], expected:String, args:String*) = {
     val pr = new StringBuilder()
@@ -59,13 +66,17 @@ TaskKey[Unit]("check-script") <<= (stagingDirectory in Universal, name, streams)
       fails.append(expected.trim+"\n")
       fails.append("\n--found-------------------------------\n")
       fails.append(crlf2cr(pr.toString)+"\n")
+      fails.append("\n--detail-------------------------------\n")
+      pr.clear
+      Process(Seq("cmd", "/c", detailScript.getAbsolutePath) ++ args, None, env.toSeq:_*) ! logger
+      fails.append(crlf2cr(pr.toString)+"\n")
     }
     if(debugOutFile.exists){
       debugOutFile.delete()
     }
   }
   def checkOutput(expected:String, args:String*) = checkOutputEnv(Map.empty, expected, args:_*)
-  checkOutput("arg #0 is [OK]\nSUCCESS!", "OK")
+  checkOutput("arg #0 is [OK]\nSUCCxESS!", "OK")
   checkOutput("arg #0 is [OK]\nproperty(test.hoge) is [huga]\nSUCCESS!", "-Dtest.hoge=\"huga\"", "OK")
   checkOutputEnv(Map("show-vmargs"->"true"), "arg #0 is [OK]\nvmarg #0 is [-Xms6m]\nSUCCESS!","-J-Xms6m", "OK")
   checkOutputEnv(Map("show-vmargs"->"true"), "arg #0 is [first]\narg #1 is [-XX]\narg #2 is [last]\nproperty(test.hoge) is [huga]\nvmarg #0 is [-Dtest.hoge=huga]\nvmarg #1 is [-Xms6m]\nSUCCESS!",
