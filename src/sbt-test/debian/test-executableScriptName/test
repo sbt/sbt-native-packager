@@ -11,7 +11,6 @@ $ exists target/debian-test-0.1.0/usr/share/debian-test/
 $ exists target/debian-test-0.1.0/usr/share/debian-test/bin/
 $ exists target/debian-test-0.1.0/usr/share/debian-test/bin/debian-exec
 $ exists target/debian-test-0.1.0/var/log/debian-test/
-$ exists target/debian-test-0.1.0/var/run/debian-test/
 $ exists target/debian-test-0.1.0/etc/default/debian-test/
 # --------------------------------------------
 $ exists target/debian-test-0.1.0/etc/init/debian-test.conf

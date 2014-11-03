@@ -213,7 +213,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
           t
         },
       // Replacement for ${{header}} as debian control scripts are bash scripts
-      linuxScriptReplacements += ("header" -> "#!/bin/sh\n")
+      linuxScriptReplacements += ("header" -> "#!/bin/sh\nset -e")
 
     // Adding package specific implementation settings
     ))
