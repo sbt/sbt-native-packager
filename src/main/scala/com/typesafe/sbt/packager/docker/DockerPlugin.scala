@@ -59,8 +59,6 @@ object DockerPlugin extends AutoPlugin {
 
   override def requires = universal.UniversalPlugin
   
-  override def trigger = allRequirements
-
   override lazy val projectSettings = Seq(
     dockerBaseImage := "dockerfile/java:latest",
     dockerExposedPorts := Seq(),

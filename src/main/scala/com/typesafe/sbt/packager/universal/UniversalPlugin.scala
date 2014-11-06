@@ -53,7 +53,6 @@ object UniversalPlugin extends AutoPlugin {
   import autoImport._
 
   override def requires = SbtNativePackager
-  override def trigger = allRequirements
 
   /** The basic settings for the various packaging types. */
   override lazy val projectSettings = Seq[Setting[_]](
@@ -113,4 +112,17 @@ object UniversalPlugin extends AutoPlugin {
   private[this] def findSources(sourceDir: File): Seq[(File, String)] =
     sourceDir.*** --- sourceDir pair relativeTo(sourceDir)
 
+}
+
+object UniversalDeployPlugin extends AutoPlugin {
+
+  import UniversalPlugin.autoImport._
+
+  override def requires = UniversalPlugin
+
+  override def projectSettings =
+    SettingsHelper.makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
+      SettingsHelper.addPackage(Universal, packageZipTarball in Universal, "tgz") ++
+      SettingsHelper.makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
+      SettingsHelper.addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz")
 }

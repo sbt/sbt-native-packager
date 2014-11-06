@@ -1,4 +1,4 @@
-enablePlugins(SbtNativePackager)
+enablePlugins(RpmPlugin)
 
 name := "rpm-test"
 

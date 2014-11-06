@@ -38,7 +38,6 @@ object WindowsPlugin extends AutoPlugin {
 
   override lazy val projectSettings = windowsSettings ++ mapGenericFilesToWindows
   override def requires = universal.UniversalPlugin
-  override def trigger = allRequirements
 
   /**
    * default windows settings
@@ -175,4 +174,14 @@ object WindowsPlugin extends AutoPlugin {
     // TODO - Add feature for shortcuts to binary scripts.
     Seq(corePackage, addBinToPath, menuLinks)
   }
+}
+
+object WindowsDeployPlugin extends AutoPlugin {
+
+  import WindowsPlugin.autoImport._
+
+  override def requires = WindowsPlugin
+
+  override def projectSettings =
+    SettingsHelper.makeDeploymentSettings(Windows, packageBin in Windows, "msi")
 }

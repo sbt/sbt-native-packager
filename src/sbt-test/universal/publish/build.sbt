@@ -1,6 +1,4 @@
-enablePlugins(SbtNativePackager)
-
-deploymentSettings
+enablePlugins(UniversalDeployPlugin)
 
 name := "simple-test"
 
