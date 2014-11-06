@@ -65,11 +65,6 @@ object JavaServerAppPackaging extends AutoPlugin {
     linuxPackageMappings <++= (makeEtcDefault, packageName in Linux) map { (conf, name) =>
       conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)),
         LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()).toSeq
-    },
-
-    // === /var/run/app pid folder ===
-    linuxPackageMappings <+= (packageName in Linux, daemonUser in Linux, daemonGroup in Linux) map { (name, user, group) =>
-      packageTemplateMapping("/var/run/" + name)() withUser user withGroup group withPerms "755"
     }
 
   )
@@ -100,6 +95,9 @@ object JavaServerAppPackaging extends AutoPlugin {
         serverLoading in Debian) map makeStartScript,
       linuxPackageMappings <++= (packageName, linuxMakeStartScript, serverLoading, defaultLinuxStartScriptLocation) map startScriptMapping
     )) ++ Seq(
+      // === Daemon User and Group ===
+      daemonUser in Debian <<= daemonUser in Linux,
+      daemonGroup in Debian <<= daemonGroup in Linux,
       // === Maintainer scripts ===
       debianMakePreinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Preinst),
       debianMakePostinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Postinst),
@@ -117,8 +115,16 @@ object JavaServerAppPackaging extends AutoPlugin {
       requiredStopFacilities in Rpm <<= (serverLoading) apply defaultFacilities,
       linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
         makeStartScriptReplacements,
-      linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE)
+      linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
+
+      // === /var/run/app pid folder ===
+      linuxPackageMappings <+= (packageName, daemonUser, daemonGroup) map { (name, user, group) =>
+        packageTemplateMapping("/var/run/" + name)() withUser user withGroup group withPerms "755"
+      }
     )) ++ Seq(
+      // === Daemon User and Group ===
+      daemonUser in Rpm <<= daemonUser in Linux,
+      daemonGroup in Rpm <<= daemonGroup in Linux,
       // === Startscript creation ===
       linuxStartScriptTemplate := JavaServerLoaderScript(
         script = startScriptName((serverLoading in Rpm).value, Rpm),

@@ -28,7 +28,6 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
   assert(postinst contains "addGroup daemongroup", "postinst misses addgroup for daemongroup: " + postinst)
   assert(postinst contains """addUser daemonuser daemongroup "debian-test user-daemon" "/bin/false"""", "postinst misses useradd for daemonuser: " + postinst)
   assert(postinst contains "chown daemonuser:daemongroup /var/log/debian-test", "postinst misses chown daemonuser /var/log/debian-test: " + postinst)
-  assert(postinst contains "chown daemonuser:daemongroup /var/run/debian-test", "postinst misses chown daemonuser /var/run/debian-test: " + postinst)
   assert(!(postinst contains "addgroup --system daemonuser"), "postinst has addgroup for daemonuser: " + postinst)
   assert(!(postinst contains "useradd --system --no-create-home --gid daemonuser --shell /bin/false daemonuser"), "postinst has useradd for daemongroup: " + postinst)
   assert(postrm contains "deleteUser daemonuser", "postrm misses purging daemonuser user: " + postrm)
