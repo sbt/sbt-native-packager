@@ -107,14 +107,16 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
       else "../" + name
     }
 
-  // Constructs a jar name from components...(ModuleID/Artifact)
-  private def makeJarName(org: String, name: String, revision: String, artifactName: String, artifactClassifier: Option[String]): String =
-    (org + "." +
+  /**
+   * Constructs a jar name from components...(ModuleID/Artifact)
+   */
+  def makeJarName(org: String, name: String, revision: String, artifactName: String, artifactClassifier: Option[String]): String =
+    org + "." +
       name + "-" +
       Option(artifactName.replace(name, "")).filterNot(_.isEmpty).map(_ + "-").getOrElse("") +
       revision +
       artifactClassifier.filterNot(_.isEmpty).map("-" + _).getOrElse("") +
-      ".jar")
+      ".jar"
 
   // Determines a nicer filename for an attributed jar file, using the 
   // ivy metadata if available.
