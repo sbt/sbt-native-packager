@@ -39,7 +39,6 @@ import SbtNativePackager.{ Universal, Linux }
 object DebianPlugin extends AutoPlugin with DebianNativePackaging {
 
   override def requires = linux.LinuxPlugin
-  override def trigger = allRequirements
 
   object autoImport extends DebianKeys {
     val Debian = config("debian") extend Linux
@@ -213,7 +212,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
           t
         },
       // Replacement for ${{header}} as debian control scripts are bash scripts
-      linuxScriptReplacements += ("header" -> "#!/bin/sh\n")
+      linuxScriptReplacements += ("header" -> "#!/bin/sh\nset -e")
 
     // Adding package specific implementation settings
     ))
@@ -340,4 +339,15 @@ trait DebianPluginLike {
   private[debian] def changesFilename(appName: String, version: String, arch: String): String = {
     appName + "_" + version + "_" + arch + ".changes"
   }
+}
+
+object DebianDeployPlugin extends AutoPlugin {
+
+  import DebianPlugin.autoImport._
+
+  override def requires = DebianPlugin
+
+  override def projectSettings =
+    SettingsHelper.makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
+      SettingsHelper.makeDeploymentSettings(Debian, genChanges in Debian, "changes")
 }

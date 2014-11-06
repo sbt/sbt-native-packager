@@ -4,10 +4,9 @@ package debian
 
 import sbt._
 import sbt.Keys.{ target, normalizedName, version, streams, mappings, packageBin }
-import linux.{ LinuxSymlink, LinuxPackageMapping }
+import linux.{ LinuxSymlink, LinuxPackageMapping, LinuxFileMetaData }
 import linux.LinuxPlugin.autoImport.{ linuxPackageMappings, linuxPackageSymlinks, packageArchitecture }
 import scala.collection.JavaConversions._
-
 import org.vafer.jdeb.{ DebMaker, DataProducer }
 import org.vafer.jdeb.mapping._
 import org.vafer.jdeb.producers._
@@ -18,7 +17,7 @@ import DebianPlugin.autoImport._
  * == JDeb Plugin ==
  * This provides a java based debian packaging implementation based
  * on the jdeb maven-plugin. To use this, put this into your build.sbt
- * 
+ *
  * @example Enable the plugin in the `build.sbt`
  * {{{
  *  enablePlugins(JDebPackaging)
@@ -36,63 +35,110 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
   def jdebSettings = Seq(
 
+    // FIXME do nothing. Java7 posix needed
+    debianConffilesFile := {
+      target.value / Names.Debian / Names.Conffiles
+    },
+
+    // FIXME copied from the debian plugin. Java7 posix needed
+    debianControlFile <<= (debianPackageMetadata, debianPackageInstallSize, target) map {
+      (data, size, dir) =>
+        if (data.info.description == null || data.info.description.isEmpty) {
+          sys.error(
+            """packageDescription in Debian cannot be empty. Use
+                 packageDescription in Debian := "My package Description"""")
+        }
+        val cfile = dir / Names.Debian / Names.Control
+        IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
+        cfile
+    },
+
     /**
      * Depends on the 'debianExplodedPackage' task as this creates all the files
      * which are defined in the mappings.
      */
-    packageBin <<= (debianExplodedPackage, linuxPackageMappings, linuxPackageSymlinks,
-      debianControlFile, debianMaintainerScripts, debianConffilesFile,
-      normalizedName, version, packageArchitecture, target, streams) map {
-        (_, mappings, symlinks, controlfile, controlscripts, conffile,
-        name, version, arch, target, s) =>
-          s.log.info("Building debian package with java based implementation 'jdeb'")
-          val console = new JDebConsole(s.log)
-          val archive = archiveFilename(name, version, arch)
-          val debianFile = target.getParentFile / archive
-          val debMaker = new DebMaker(console,
-            fileAndDirectoryProducers(mappings, target) ++ linkProducers(symlinks),
-            conffileProducers()
-          )
-          debMaker setDeb debianFile
-          debMaker setControl (target / Names.Debian)
+    packageBin := {
+      val targetDir = target.value
+      val log = streams.value.log
+      val mappings = linuxPackageMappings.value
+      val symlinks = linuxPackageSymlinks.value
 
-          // TODO set compression, gzip is default
-          // TODO add signing with setKeyring, setKey, setPassphrase, setSignPackage, setSignMethod, setSignRole
-          debMaker validate ()
-          debMaker makeDeb ()
-          debianFile
-      })
+      // unused, but needed as dependency
+      val controlDir = targetDir / Names.Debian
+      val control = debianControlFile.value
+      val conffile = debianConffilesFile.value
+
+      val controlScripts = debianMaintainerScripts.value
+      controlScripts foreach { case (file, script) => IO.copyFile(file, controlDir / script) }
+
+      log.info("Building debian package with java based implementation 'jdeb'")
+      val console = new JDebConsole(log)
+      val archive = archiveFilename(normalizedName.value, version.value, packageArchitecture.value)
+      val debianFile = targetDir.getParentFile / archive
+      val debMaker = new DebMaker(console,
+        fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks),
+        conffileProducers(mappings, targetDir)
+      )
+      debMaker setDeb debianFile
+      debMaker setControl (targetDir / Names.Debian)
+
+      // TODO set compression, gzip is default
+      // TODO add signing with setKeyring, setKey, setPassphrase, setSignPackage, setSignMethod, setSignRole
+      debMaker validate ()
+      debMaker makeDeb ()
+      debianFile
+    })
 
   /**
    * Creating file and directory producers. These "produce" the
-   * files for the debian packaging
+   * files for the debian packaging.
+   *
+   * May create duplicates together with the conffileProducers.
+   * This will be an performance improvement (reducing IO)
    */
   private[debian] def fileAndDirectoryProducers(mappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] = mappings.map {
-    case LinuxPackageMapping(paths, perms, zipped) =>
-      paths map {
-        case (path, name) if path.isDirectory =>
-          val permMapper = new PermMapper(-1, -1, perms.user, perms.group, null, perms.permissions, -1, null)
-          val dirName = if (name.startsWith("/")) name.drop(1) else name
-          new DataProducerDirectory(target, Array(dirName), null, Array(permMapper))
-        case (path, name) =>
-          val permMapper = new PermMapper(-1, -1, perms.user, perms.group, perms.permissions, null, -1, null)
-          new DataProducerFile(target / name, name, null, null, Array(permMapper))
-      }
+    case LinuxPackageMapping(paths, perms, zipped) => paths map {
+      // Directories need to be created so jdeb can pick them up
+      case (path, name) if path.isDirectory =>
+        val permMapper = new PermMapper(-1, -1, perms.user, perms.group, null, perms.permissions, -1, null)
+        (target / cleanPath(name)) mkdirs ()
+        new DataProducerDirectory(target, Array(cleanPath(name)), null, Array(permMapper))
+
+      // Files are just referenced
+      case (path, name) => new DataProducerFile(path, cleanPath(name), null, null, Array(filePermissions(perms)))
+    }
   }.flatten
 
   /**
    * Creating link producers for symlinks.
    */
   private[debian] def linkProducers(symlinks: Seq[LinuxSymlink]): Seq[DataProducer] = symlinks map {
-    case LinuxSymlink(link, destination) =>
-      new DataProducerLink(link, destination, true, null, null, null)
+    case LinuxSymlink(link, destination) => new DataProducerLink(link, destination, true, null, null, null)
   }
 
   /**
    * Creating the files which should be added as conffiles.
-   * This is currently handled by the debian plugin itself.
    */
-  private[debian] def conffileProducers(): Seq[DataProducer] = Seq.empty
+  private[debian] def conffileProducers(linuxMappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] = {
+
+    val producers = linuxMappings map {
+      case mapping @ LinuxPackageMapping(mappings, perms, _) if perms.config == "true" =>
+        mappings collect {
+          case (path, name) if path.isFile =>
+            val permMapper = filePermissions(perms.withPerms("0644"))
+            new DataProducerFile(path, cleanPath(name), null, null, Array(permMapper))
+        }
+      case _ => Seq.empty
+    }
+
+    producers.flatten
+  }
+
+  private[debian] def cleanPath(path: String): String =
+    if (path startsWith "/") path drop 1 else path
+
+  private[this] def filePermissions(perms: LinuxFileMetaData): PermMapper =
+    new PermMapper(-1, -1, perms.user, perms.group, perms.permissions, null, -1, null)
 
 }
 
