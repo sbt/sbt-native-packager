@@ -62,9 +62,10 @@ object JavaServerAppPackaging extends AutoPlugin {
     },
     makeEtcDefault <<= (packageName in Linux, target in Universal, linuxEtcDefaultTemplate, linuxScriptReplacements)
       map makeEtcDefaultScript,
-    linuxPackageMappings <++= (makeEtcDefault, packageName in Linux) map { (conf, name) =>
-      conf.map(c => LinuxPackageMapping(Seq(c -> ("/etc/default/" + name)),
-        LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()).toSeq
+    linuxPackageMappings <++= (makeEtcDefault, bashScriptConfigLocation) map { (conf, configLocation) =>
+      configLocation.flatMap { path =>
+        conf.map(c => LinuxPackageMapping(Seq(c -> path), LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig())
+      }.toSeq
     }
 
   )
