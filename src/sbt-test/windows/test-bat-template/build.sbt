@@ -84,6 +84,10 @@ TaskKey[Unit]("check-script") <<= (stagingDirectory in Universal, name, streams)
   // include space
   checkOutput("arg #0 is [C:\\Program Files\\Java]\nproperty(test.hoge) is [C:\\Program Files\\Java]\nSUCCESS!",
     "-Dtest.hoge=C:\\Program Files\\Java", "C:\\Program Files\\Java")
+  // split "include symbols"
+  checkOutput("property(test.hoge) is [\\[]!< >%]\nSUCCESS!", "\"-Dtest.hoge=\\[]!< >%\"")
+  checkOutput("arg #0 is [\\[]!< >%]\nSUCCESS!", "\\[]!< >%")
+  checkOutput("property(test.huga) is [\\[]!<>%]\nSUCCESS!", "-Dtest.huga=\"\\[]!<>%\"")
   // include symbols
   checkOutput("arg #0 is [\\[]!< >%]\nproperty(test.hoge) is [\\[]!< >%]\nproperty(test.huga) is [\\[]!<>%]\nSUCCESS!",
     "\"-Dtest.hoge=\\[]!< >%\"", "\\[]!< >%", "-Dtest.huga=\"\\[]!<>%\"")
