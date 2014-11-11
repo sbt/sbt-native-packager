@@ -1,0 +1,5 @@
+# Run the staging and check the script.
+> stage
+$ exists target/universal/stage/lib/classpath-jar-test.classpath-jar-test-0.1.0-classpath.jar
+> check-classspath
+> run-check
