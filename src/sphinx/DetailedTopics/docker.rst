@@ -58,6 +58,10 @@ Environment Settings
   ``dockerExposedVolumes in Docker``
     A list of data volumes to make available in the Docker image.
 
+  ``dockerEntrypoint in Docker``
+    Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
+    Defaults to the bash executable script, available at ``bin/<script name>`` in the current ``WORKDIR`` of ``/opt/docker``.
+
 Publishing Settings
 ~~~~~~~~~~~~~~~~~~~
 
