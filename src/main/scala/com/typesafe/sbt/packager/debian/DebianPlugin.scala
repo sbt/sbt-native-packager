@@ -115,12 +115,13 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     debianMaintainerScripts <++= (debianMakePrermScript, debianControlScriptsDirectory) map scriptMapping(Names.Prerm),
     debianMaintainerScripts <++= (debianMakePreinstScript, debianControlScriptsDirectory) map scriptMapping(Names.Preinst),
     debianMaintainerScripts <++= (debianMakePostinstScript, debianControlScriptsDirectory) map scriptMapping(Names.Postinst),
-    debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping(Names.Postrm))
+    debianMaintainerScripts <++= (debianMakePostrmScript, debianControlScriptsDirectory) map scriptMapping(Names.Postrm)
+  )
 
   /**
    * == Debian scoped settings ==
    * Everything used inside the debian scope
-   * 
+   *
    */
   private def debianSettings: Seq[Setting[_]] = inConfig(Debian)(
     Seq(
@@ -141,7 +142,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
           if (data.info.description == null || data.info.description.isEmpty) {
             sys.error(
               """packageDescription in Debian cannot be empty. Use
-                 packageDescription in Debian := "My package Description"""")
+                 packageDescription in Debian := "My package Description""""
+            )
           }
           val cfile = dir / Names.Debian / Names.Control
           IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
@@ -215,7 +217,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       linuxScriptReplacements += ("header" -> "#!/bin/sh\nset -e")
 
     // Adding package specific implementation settings
-    ))
+    )
+  )
 
 }
 

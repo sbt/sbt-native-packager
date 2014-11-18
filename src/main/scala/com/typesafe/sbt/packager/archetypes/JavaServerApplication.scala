@@ -103,7 +103,8 @@ object JavaServerAppPackaging extends AutoPlugin {
       debianMakePreinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Preinst),
       debianMakePostinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Postinst),
       debianMakePrermScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Prerm),
-      debianMakePostrmScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Postrm))
+      debianMakePostrmScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Postrm)
+    )
   }
 
   def rpmSettings: Seq[Setting[_]] = {
@@ -173,7 +174,8 @@ object JavaServerAppPackaging extends AutoPlugin {
     requiredStopFacilities: Option[String],
     startRunlevels: Option[String],
     stopRunlevels: Option[String],
-    loader: ServerLoader): Seq[(String, String)] = {
+    loader: ServerLoader
+  ): Seq[(String, String)] = {
 
     // Upstart cannot handle empty values
     val (startOn, stopOn) = loader match {
@@ -238,9 +240,12 @@ object JavaServerAppPackaging extends AutoPlugin {
     Some(script)
   }
 
-  protected def makeMaintainerScript(scriptName: String,
-    template: Option[URL] = None, archetype: String = ARCHETYPE, config: Configuration = Debian)(
-      tmpDir: File, loader: ServerLoader, replacements: Seq[(String, String)]): Option[File] = {
+  protected def makeMaintainerScript(
+    scriptName: String,
+    template: Option[URL] = None, archetype: String = ARCHETYPE, config: Configuration = Debian
+  )(
+    tmpDir: File, loader: ServerLoader, replacements: Seq[(String, String)]
+  ): Option[File] = {
     val scriptBits = JavaServerBashScript(scriptName, archetype, config, replacements, template) getOrElse {
       sys.error(s"Couldn't load [$scriptName] for config [${config.name}] in archetype [$archetype]")
     }

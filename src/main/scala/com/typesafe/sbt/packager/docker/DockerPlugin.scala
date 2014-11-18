@@ -58,7 +58,7 @@ object DockerPlugin extends AutoPlugin {
   import autoImport._
 
   override def requires = universal.UniversalPlugin
-  
+
   override lazy val projectSettings = Seq(
     dockerBaseImage := "dockerfile/java:latest",
     dockerExposedPorts := Seq(),
@@ -153,7 +153,8 @@ object DockerPlugin extends AutoPlugin {
   }
 
   private[this] final def generateDockerConfig(
-    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File) = {
+    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File
+  ) = {
     val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, execScript, exposedPorts, exposedVolumes)
 
     val f = target / "Dockerfile"

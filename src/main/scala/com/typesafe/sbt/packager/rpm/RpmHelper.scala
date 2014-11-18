@@ -66,7 +66,8 @@ object RpmHelper {
   private[this] def buildPackage(
     workArea: File,
     spec: RpmSpec,
-    log: sbt.Logger): Unit = {
+    log: sbt.Logger
+  ): Unit = {
     val buildRoot = workArea / "buildroot"
     val specsDir = workArea / "SPECS"
     val gpg = false

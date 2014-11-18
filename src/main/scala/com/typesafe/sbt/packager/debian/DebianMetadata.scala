@@ -7,7 +7,8 @@ case class PackageInfo(
   version: String,
   maintainer: String,
   summary: String,
-  description: String)
+  description: String
+)
 
 /** Represents package meta used by debian when constructing packages. */
 case class PackageMetaData(
@@ -16,7 +17,8 @@ case class PackageMetaData(
   architecture: String = "all",
   section: String = "java",
   depends: Seq[String] = Seq.empty,
-  recommends: Seq[String] = Seq.empty) {
+  recommends: Seq[String] = Seq.empty
+) {
   def makeContent(installSizeEstimate: Long = 0L): String = {
     // TODO: Pretty print with line wrap.
     val sb = new StringBuilder
@@ -64,7 +66,8 @@ case class DebianControlScriptReplacements(
   author: String,
   descr: String,
   name: String,
-  version: String) {
+  version: String
+) {
 
   /**
    * Generates the replacement sequence for the debian
@@ -74,5 +77,6 @@ case class DebianControlScriptReplacements(
     "author" -> author,
     "descr" -> descr,
     "name" -> name,
-    "version" -> version)
+    "version" -> version
+  )
 }

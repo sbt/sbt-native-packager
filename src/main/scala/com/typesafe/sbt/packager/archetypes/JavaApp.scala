@@ -6,7 +6,7 @@ import sbt._
 import sbt.Keys.{ mappings, target, name, mainClass, sourceDirectory }
 import packager.Keys.{ packageName, executableScriptName }
 import linux.{ LinuxFileMetaData, LinuxPackageMapping }
-import linux.LinuxPlugin.autoImport.{linuxPackageMappings, defaultLinuxInstallLocation}
+import linux.LinuxPlugin.autoImport.{ linuxPackageMappings, defaultLinuxInstallLocation }
 import SbtNativePackager.{ Universal, Debian }
 
 /**
@@ -39,7 +39,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
    */
   val batTemplate = "bat-template"
 
-  object autoImport extends JavaAppKeys 
+  object autoImport extends JavaAppKeys
 
   import JavaAppPackaging.autoImport._
 
@@ -95,7 +95,8 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
         val d = target / installLocation
         d.mkdirs()
         LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData())
-    })
+    }
+  )
 
   private def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =
     for {

@@ -12,12 +12,12 @@ import linux.LinuxPlugin.autoImport.{ linuxPackageMappings, linuxPackageSymlinks
 import packager.Keys._
 
 /**
- * Plugin containing all generic values used for packaging rpms. 
- * 
+ * Plugin containing all generic values used for packaging rpms.
+ *
  * @example Enable the plugin in the `build.sbt`
  * {{{
  *    enablePlugins(RpmPlugin)
- * }}}   
+ * }}}
  */
 object RpmPlugin extends AutoPlugin {
 

@@ -24,19 +24,24 @@ object SettingsHelper {
       deliverLocalConfiguration <<= (crossTarget, ivyLoggingLevel) map { (outDir, level) => Classpaths.deliverConfig(outDir, logging = level) },
       deliverConfiguration <<= deliverLocalConfiguration,
       publishConfiguration <<= (packagedArtifacts, checksums, publishTo, isSnapshot) map { (as, checks, publishTo, isSnap) =>
-        new PublishConfiguration(ivyFile = None,
+        new PublishConfiguration(
+          ivyFile = None,
           resolverName = Classpaths.getPublishTo(publishTo).name,
           artifacts = as,
           checksums = checks,
           logging = UpdateLogging.DownloadOnly,
-          overwrite = isSnap)
+          overwrite = isSnap
+        )
       },
       publishLocalConfiguration <<= (packagedArtifacts, checksums, isSnapshot) map { (as, checks, isSnap) =>
-        new PublishConfiguration(ivyFile = None,
+        new PublishConfiguration(
+          ivyFile = None,
           resolverName = "local",
           artifacts = as,
           checksums = checks,
           logging = UpdateLogging.DownloadOnly,
-          overwrite = isSnap)
-      })) ++ addPackage(config, packageTask, extension)
+          overwrite = isSnap
+        )
+      }
+    )) ++ addPackage(config, packageTask, extension)
 }
