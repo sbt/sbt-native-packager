@@ -1,5 +1,3 @@
-import NativePackagerKeys._
-
 enablePlugins(JavaAppPackaging)
 
 name := "windows-test"
