@@ -18,8 +18,7 @@ case class RpmMetadata(
   summary: String,
   description: String,
   autoprov: String,
-  autoreq: String
-) {
+  autoreq: String) {
 }
 
 /**
@@ -32,16 +31,14 @@ case class RpmDescription(
   group: Option[String] = None,
   packager: Option[String] = None,
   icon: Option[String] = None,
-  changelogFile: Option[String] = None
-)
+  changelogFile: Option[String] = None)
 
 case class RpmDependencies(
   provides: Seq[String] = Seq.empty,
   requirements: Seq[String] = Seq.empty,
   prereq: Seq[String] = Seq.empty,
   obsoletes: Seq[String] = Seq.empty,
-  conflicts: Seq[String] = Seq.empty
-) {
+  conflicts: Seq[String] = Seq.empty) {
   def contents: String = {
     val sb = new StringBuilder
     def appendSetting(prefix: String, values: Seq[String]) =
@@ -62,8 +59,7 @@ case class RpmScripts(
   verifyscript: Option[String] = None,
   posttrans: Option[String] = None,
   preun: Option[String] = None,
-  postun: Option[String] = None
-) {
+  postun: Option[String] = None) {
   def contents(): String = {
     val labelledScripts = Seq("%pretrans", "%pre", "%post", "%verifyscript", "%posttrans", "%preun", "%postun")
       .zip(Seq(pretrans, pre, post, verifyscript, posttrans, preun, postun))
@@ -78,8 +74,7 @@ case class RpmSpec(
   deps: RpmDependencies = RpmDependencies(),
   scriptlets: RpmScripts = RpmScripts(),
   mappings: Seq[LinuxPackageMapping] = Seq.empty,
-  symlinks: Seq[LinuxSymlink] = Seq.empty
-) {
+  symlinks: Seq[LinuxSymlink] = Seq.empty) {
 
   // TODO - here we want to validate that all the data we have is ok to place
   // in the RPM.  e.g. the Description/vendor etc. must meet specific requirements.

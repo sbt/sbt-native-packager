@@ -10,8 +10,7 @@ case class LinuxFileMetaData(
   group: String = Users.Root,
   permissions: String = "755",
   config: String = "false",
-  docs: Boolean = false
-) {
+  docs: Boolean = false) {
 
   def withUser(u: String) = copy(user = u)
   def withGroup(g: String) = copy(group = g)
@@ -23,8 +22,7 @@ case class LinuxFileMetaData(
 case class LinuxPackageMapping(
   mappings: Traversable[(File, String)],
   fileData: LinuxFileMetaData = LinuxFileMetaData(),
-  zipped: Boolean = false
-) {
+  zipped: Boolean = false) {
 
   def withUser(user: String) = copy(fileData = fileData withUser user)
   def withGroup(group: String) = copy(fileData = fileData withGroup group)

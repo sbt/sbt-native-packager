@@ -28,8 +28,7 @@ object JavaAppBatScript {
     name: String,
     mainClass: String,
     appClasspath: Seq[String] = Seq("*"),
-    extras: Seq[String] = Nil
-  ): Seq[(String, String)] = {
+    extras: Seq[String] = Nil): Seq[(String, String)] = {
     val replacements = Seq(
       "APP_NAME" -> name,
       "APP_ENV_NAME" -> makeEnvFriendlyName(name)
@@ -51,8 +50,7 @@ object JavaAppBatScript {
   }
 
   def generateScript(
-    replacements: Seq[(String, String)], template: java.net.URL = bashTemplateSource
-  ): String =
+    replacements: Seq[(String, String)], template: java.net.URL = bashTemplateSource): String =
     TemplateWriter.generateScript(template, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
 
 }

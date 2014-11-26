@@ -40,8 +40,7 @@ object JavaServerBashScript {
     archetype: String,
     config: Configuration,
     replacements: Seq[(String, String)],
-    template: Option[URL] = None
-  ): Option[String] = {
+    template: Option[URL] = None): Option[String] = {
     // use template or else search for a default
     val url = template orElse {
       Option(getClass getResource s"$archetype/${config.name}/$script-template")
