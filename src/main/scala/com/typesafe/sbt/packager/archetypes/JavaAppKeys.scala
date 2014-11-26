@@ -17,11 +17,13 @@ trait JavaAppKeys {
   val projectDependencyArtifacts = TaskKey[Seq[Attributed[File]]]("projectDependencyArtifacts", "The set of exported artifacts from our dependent projects.")
   val scriptClasspath = TaskKey[Seq[String]]("scriptClasspath", "A list of relative filenames (to the lib/ folder in the distribution) of what to include on the classpath.")
   val makeBatScript = TaskKey[Option[File]]("makeBatScript", "Creates or discovers the bat script used by this project.")
-  val batScriptReplacements = TaskKey[Seq[(String, String)]]("batScriptReplacements",
+  val batScriptReplacements = TaskKey[Seq[(String, String)]](
+    "batScriptReplacements",
     """|Replacements of template parameters used in the windows bat script.
          |  Default supported templates:
          |  APP_ENV_NAME - the name of the application for defining <name>_HOME variables
          |  APP_NAME - the name of the app
          |  APP_DEFINES - the defines to go into the app
-         |  """.stripMargin)
+         |  """.stripMargin
+  )
 }

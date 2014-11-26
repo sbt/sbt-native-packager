@@ -32,8 +32,10 @@ trait DebianKeys {
   val genChanges = TaskKey[File]("gen-changes", "runs the dpkg-genchanges command to generate the .changes file.")
 
   // Debian control scripts
-  val debianControlScriptsDirectory = SettingKey[File]("debian-control-scripts-directory",
-    "Directory where all debian control scripts reside. Default is 'src/debian/DEBIAN'")
+  val debianControlScriptsDirectory = SettingKey[File](
+    "debian-control-scripts-directory",
+    "Directory where all debian control scripts reside. Default is 'src/debian/DEBIAN'"
+  )
   val debianMakePreinstScript = TaskKey[Option[File]]("makePreinstScript", "Creates or discovers the preinst script used by this project")
   val debianMakePrermScript = TaskKey[Option[File]]("makePrermScript", "Creates or discovers the prerm script used by this project")
   val debianMakePostinstScript = TaskKey[Option[File]]("makePostInstScript", "Creates or discovers the postinst script used by this project")

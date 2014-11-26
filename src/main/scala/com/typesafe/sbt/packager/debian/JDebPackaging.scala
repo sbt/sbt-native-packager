@@ -2,7 +2,6 @@ package com.typesafe.sbt
 package packager
 package debian
 
-
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import com.typesafe.sbt.packager.universal.Archives
 import sbt._
@@ -49,7 +48,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         if (data.info.description == null || data.info.description.isEmpty) {
           sys.error(
             """packageDescription in Debian cannot be empty. Use
-                 packageDescription in Debian := "My package Description"""")
+                 packageDescription in Debian := "My package Description""""
+          )
         }
         val cfile = dir / Names.Debian / Names.Control
         IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
@@ -83,7 +83,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       val console = new JDebConsole(log)
       val archive = archiveFilename(normalizedName.value, version.value, packageArchitecture.value)
       val debianFile = targetDir.getParentFile / archive
-      val debMaker = new DebMaker(console,
+      val debMaker = new DebMaker(
+        console,
         fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks),
         conffileProducers(mappings, targetDir)
       )
@@ -95,8 +96,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       debMaker validate ()
       debMaker makeDeb ()
       debianFile
-    })
-
+    }
+  )
 
   /**
    * The same as [[DebianPluginLike.copyAndFixPerms]] except chmod invocation (for windows compatibility).
@@ -113,7 +114,6 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     } else IO.copyFile(from, to, true)
   }
 
-
   /**
    * The same as [[DebianPluginLike.filterAndFixPerms]] except chmod invocation (for windows compatibility).
    * Permissions will be handled by jDeb packager itself.
@@ -124,7 +124,6 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     IO.write(script, filtered)
     script
   }
-
 
   /**
    * Creating file and directory producers. These "produce" the

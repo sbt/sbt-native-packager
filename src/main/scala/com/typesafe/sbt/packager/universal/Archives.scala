@@ -45,7 +45,8 @@ object Archives {
       "-megabytes", "%d" format neededMegabytes,
       "-fs", "HFS+",
       "-volname", name,
-      name), Some(target)).! match {
+      name
+    ), Some(target)).! match {
       case 0 => ()
       case n => sys.error("Error creating dmg: " + dmg + ". Exit code " + n)
     }
@@ -58,7 +59,8 @@ object Archives {
       "hdiutil", "attach", dmg.getAbsolutePath,
       "-readwrite",
       "-mountpoint",
-      mountedPath), Some(target)).! match {
+      mountedPath
+    ), Some(target)).! match {
       case 0 => ()
       case n => sys.error("Unable to mount dmg: " + dmg + ". Exit code " + n)
     }

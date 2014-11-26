@@ -70,7 +70,8 @@ object WindowsPlugin extends AutoPlugin {
       version in Windows,
       maintainer in Windows,
       packageSummary in Windows,
-      packageDescription in Windows) apply { (id, uid, version, mtr, title, desc) =>
+      packageDescription in Windows
+    ) apply { (id, uid, version, mtr, title, desc) =>
         WindowsProductInfo(
           id = id,
           title = title,
@@ -127,11 +128,12 @@ object WindowsPlugin extends AutoPlugin {
    */
   def mapGenericFilesToWindows: Seq[Setting[_]] = Seq(
     mappings in Windows <<= mappings in Universal,
-    wixFeatures <<= (packageName in Windows, mappings in Windows) map makeWindowsFeatures)
+    wixFeatures <<= (packageName in Windows, mappings in Windows) map makeWindowsFeatures
+  )
 
   /**
    * Generates the wix configuration features
-   * 
+   *
    * @param name - title of the core package
    * @param mappings - use to generate different features
    * @return windows features
@@ -151,7 +153,8 @@ object WindowsPlugin extends AutoPlugin {
         title = name,
         desc = "All core files.",
         absent = "disallow",
-        components = files)
+        components = files
+      )
     // TODO - Detect bat files to add paths...
     val addBinToPath =
       // TODO - we may have issues here...
@@ -159,7 +162,8 @@ object WindowsPlugin extends AutoPlugin {
         id = "AddBinToPath",
         title = "Update Enviornment Variables",
         desc = "Update PATH environment variables (requires restart).",
-        components = Seq(AddDirectoryToPath("bin")))
+        components = Seq(AddDirectoryToPath("bin"))
+      )
     val configLinks = for {
       (file, name) <- mappings
       if !file.isDirectory
@@ -170,7 +174,8 @@ object WindowsPlugin extends AutoPlugin {
         id = "AddConfigLinks",
         title = "Configuration start menu links",
         desc = "Adds start menu shortcuts to edit configuration files.",
-        components = Seq(AddShortCuts(configLinks)))
+        components = Seq(AddShortCuts(configLinks))
+      )
     // TODO - Add feature for shortcuts to binary scripts.
     Seq(corePackage, addBinToPath, menuLinks)
   }

@@ -24,7 +24,7 @@ object LinuxPlugin extends AutoPlugin {
   override lazy val projectSettings = linuxSettings ++ mapGenericFilesToLinux
 
   object autoImport extends LinuxKeys with LinuxMappingDSL {
-     val Linux = config("linux")
+    val Linux = config("linux")
   }
 
   import autoImport._
@@ -126,11 +126,11 @@ object LinuxPlugin extends AutoPlugin {
           }
         if (needsConfLink) Seq(LinuxSymlink(
           link = configLocation + "/" + pkg,
-          destination = installLocation + "/" + pkg + "/conf"))
+          destination = installLocation + "/" + pkg + "/conf"
+        ))
         else Seq.empty
-      })
-
-
+      }
+  )
 
   /**
    *
@@ -153,7 +153,8 @@ object LinuxPlugin extends AutoPlugin {
     daemonGroup: String,
     daemonShell: String,
     retries: Int = 0,
-    retryTimeout: Int = 60): Seq[(String, String)] =
+    retryTimeout: Int = 60
+  ): Seq[(String, String)] =
     Seq(
       "author" -> author,
       "descr" -> description,
@@ -165,7 +166,8 @@ object LinuxPlugin extends AutoPlugin {
       "version" -> version,
       "daemon_user" -> daemonUser,
       "daemon_group" -> daemonGroup,
-      "daemon_shell" -> daemonShell)
+      "daemon_shell" -> daemonShell
+    )
 
   /**
    * Load the default controlscript functions which contain
@@ -224,7 +226,8 @@ object LinuxPlugin extends AutoPlugin {
       packageMappingWithRename((binaries ++ directories): _*) withUser user withGroup group withPerms "0755",
       packageMappingWithRename(compressedManPages: _*).gzipped withUser user withGroup group withPerms "0644",
       packageMappingWithRename(configFiles: _*) withConfig () withUser user withGroup group withPerms "0644",
-      packageMappingWithRename(remaining: _*) withUser user withGroup group withPerms "0644")
+      packageMappingWithRename(remaining: _*) withUser user withGroup group withPerms "0644"
+    )
   }
 
 }
