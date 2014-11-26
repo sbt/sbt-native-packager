@@ -8,7 +8,7 @@ name := "sbt-native-packager"
 
 organization := "com.typesafe.sbt"
 
-scalacOptions in Compile ++= Seq("-deprecation", "-target:jvm-1.6")
+scalacOptions in Compile += "-deprecation"
 
 libraryDependencies ++= Seq(
     "org.apache.commons" % "commons-compress" % "1.4.1",
