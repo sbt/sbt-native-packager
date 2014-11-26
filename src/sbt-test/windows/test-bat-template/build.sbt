@@ -1,4 +1,6 @@
-enablePlugins(JavaAppPackaging)
+import NativePackagerKeys._
+
+packageArchetype.java_application
 
 name := "windows-test"
 
