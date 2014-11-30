@@ -15,3 +15,4 @@ Advanced Topics
    docker.rst
    paths.rst
    custom.rst
+   play.rst
