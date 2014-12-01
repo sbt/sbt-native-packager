@@ -127,6 +127,9 @@ set _JAVA_OPTS=!_JAVA_OPTS! !_JAVA_PARAMS!
 
 rem Call the application and pass all arguments unchanged.
 "%_JAVACMD%" !_JAVA_OPTS! !@@APP_ENV_NAME@@_OPTS! -cp "%APP_CLASSPATH%" %APP_MAIN_CLASS% !_APP_ARGS!
+
+@endlocal
+
 if ERRORLEVEL 1 goto error
 goto end
 
@@ -134,7 +137,5 @@ goto end
 set ERROR_CODE=1
 
 :end
-
-@endlocal
 
 exit /B %ERROR_CODE%

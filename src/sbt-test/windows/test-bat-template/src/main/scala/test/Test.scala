@@ -12,5 +12,10 @@ object Test extends App {
 	  }
 	}
     println("SUCCESS!")
+	if(System.getenv("return-code-1") == "true"){
+	  System.exit(1)
+	} else {
+	  System.exit(0)
+	}
   }
 }
