@@ -12,9 +12,8 @@ as an rpm-package, you have to setup your build configuration accordingly.
 Please, refer to :doc:`Debian </DetailedTopics/debian>` and :doc:`Redhat </DetailedTopics/redhat>`
 pages for additional information.
 
-It is important to mention that you may have certain difficulties with **Upstart**
-service manager (i.e. inability to create necessary folders after system restart),
-so it is advised to use **SystemV** service manager instead.
+Note that **Upstart** is not supported by all available operation systems and may not always work as expected.
+You can always fallback to the **SystemV** service manager instead.
 For more information on service managers please refer
 to :doc:`Getting Started With Servers </GettingStartedServers/index>` page.
 
