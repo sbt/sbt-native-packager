@@ -26,6 +26,8 @@ contains the assembled jar. This is what the final ``build.sbt`` should contain:
 
 .. code-block:: scala
 
+    import AssemblyKeys._
+
     // the assembly settings
     assemblySettings
 
