@@ -103,7 +103,7 @@ Here, the native packager is warning that we haven't fully configured all the in
 Now, let's try to run the ``debian:packageBin`` command in the sbt console again ::
 
     $ sbt
-    > debian:PacakgeBin
+    > debian:PackageBin
     [info] Altering postrm/postinst files to add user example-cli and group example-cli
     [info] dpkg-deb: building package `example-cli' in `/home/jsuereth/projects/sbt/sbt-native-packager/tutorial-example/target/example-cli-1.0.deb'
 
