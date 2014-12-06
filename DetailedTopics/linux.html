@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Writing Linux Packages &mdash; sbt-native-packager 1.0.0-M1 documentation</title>
+    <title>Writing Linux Packages &mdash; sbt-native-packager 1.0.0-M3 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0-M1',
+        VERSION:     '1.0.0-M3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0-M1 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.0-M3 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Debian" href="debian.html" />
     <link rel="prev" title="Universal" href="universal.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0-M1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-M3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -256,7 +256,7 @@ destination system. A <tt class="docutils literal"><span class="pre">LinuxSymlin
 <div class="section" id="modifying-mappings-in-general">
 <h3>Modifying Mappings in General<a class="headerlink" href="#modifying-mappings-in-general" title="Permalink to this headline">¶</a></h3>
 <p>Adding, filtering and altering mappings are always simple methods on a sequence: <tt class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></tt>.
-The basic contstruct for adding looks like this</p>
+The basic construct for adding looks like this</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="c1">// simple</span>
 <span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">theFile</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
 

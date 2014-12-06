@@ -136,7 +136,7 @@ Modifying Mappings in General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Adding, filtering and altering mappings are always simple methods on a sequence: ``Seq[LinuxPackageMapping]``.
-The basic contstruct for adding looks like this
+The basic construct for adding looks like this
 
 .. code-block:: scala
 
