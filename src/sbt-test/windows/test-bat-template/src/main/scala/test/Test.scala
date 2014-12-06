@@ -11,9 +11,9 @@ object Test extends App {
         println("vmarg #" + i + " is [" + x + "]")
       }
     }
-    if(System.getenv("return-code-1") == "true"){
+    if(System.getenv("return-code") != null){
       println("FAILURE!")
-      System.exit(1)
+      System.exit(System.getenv("return-code").toInt)
     } else {
       println("SUCCESS!")
       System.exit(0)

@@ -98,6 +98,8 @@ TaskKey[Unit]("check-script") <<= (stagingDirectory in Universal, name, streams)
   // include space and double-quote is failed...
   // can't success include double-quote. arguments pass from Process(Seq("-Da=xx\"yy", "aa\"bb")) is parsed (%1="-Da", %2="xx\"yy aa\"bb") by cmd.exe ...
   //checkOutput(0, "arg #0 is [xx\"yy]\nproperty(test.hoge) is [aa\"bb]\nvmarg #0 is [-Dtest.hoge=aa\"bb]\nSUCCESS!", "-Dtest.hoge=aa\"bb", "xx\"yy")
-  checkOutputEnv(Map("return-code-1"->"true"), 1, "arg #0 is [RC1]\nFAILURE!", "RC1")
+  checkOutputEnv(Map("return-code"->"1"), 1, "arg #0 is [RC1]\nFAILURE!", "RC1")
+  checkOutputEnv(Map("return-code"->"2"), 2, "arg #0 is [RC2]\nFAILURE!", "RC2")
+  checkOutputEnv(Map("return-code"->"-1"), -1, "arg #0 is [RC-1]\nFAILURE!", "RC-1")
   assert(fails.toString == "", fails.toString)
 }
