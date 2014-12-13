@@ -4,7 +4,10 @@ enablePlugins(JavaServerAppPackaging)
 
 serverLoading in Debian := ServerLoader.Upstart
 
-daemonUser in Debian := "root"
+// TODO change this after #437 is fixed
+daemonUser in Linux := "root"
+
+daemonGroup in Linux := "app-group"
 
 mainClass in Compile := Some("empty")
 
@@ -49,5 +52,7 @@ TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) 
   assert(script.contains("stop on runlevel [016]"), "script doesn't contain stop on runlevel header\n" + script)
   assert(!script.contains("start on started"), "script contains start on started header\n" + script)
   assert(!script.contains("stop on stopping"), "script contains stop on stopping header\n" + script)
+  // should contain
+  assert(script contains "[ -d /var/run/debian-test ] || install -m 755 -o root -g app-group -d /var/run/debian-test", "Script is missing /var/run dir install\n" + script)
   ()
 }
