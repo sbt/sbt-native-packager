@@ -8,6 +8,7 @@ WorkingDirectory=${{chdir}}
 ExecStart=${{chdir}}/bin/${{exec}}
 Restart=always
 RestartSec=${{retryTimeout}}
+User=${{daemon_user}}
 
 [Install]
 WantedBy=multi-user.target
