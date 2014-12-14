@@ -113,7 +113,12 @@ if "!_TEST_PARAM:~0,2!"=="-D" (
     )
   )
 ) else (
-  set _APP_ARGS=!_APP_ARGS! !_PARAM1!
+  if "%1"=="-main" (
+    set CUSTOM_MAIN_CLASS=%2
+    shift
+  ) else (
+    set _APP_ARGS=!_APP_ARGS! !_PARAM1!
+  )
 )
 shift
 goto param_loop
@@ -124,8 +129,16 @@ set _JAVA_OPTS=!_JAVA_OPTS! !_JAVA_PARAMS!
  
 @@APP_DEFINES@@
 
+if defined CUSTOM_MAIN_CLASS (
+    set MAIN_CLASS=!CUSTOM_MAIN_CLASS!
+) else (
+    set MAIN_CLASS=!APP_MAIN_CLASS!
+)
+
 rem Call the application and pass all arguments unchanged.
-"%_JAVACMD%" !_JAVA_OPTS! !@@APP_ENV_NAME@@_OPTS! -cp "%APP_CLASSPATH%" %APP_MAIN_CLASS% !_APP_ARGS!
+"%_JAVACMD%" !_JAVA_OPTS! !@@APP_ENV_NAME@@_OPTS! -cp "%APP_CLASSPATH%" %MAIN_CLASS% !_APP_ARGS!
+if ERRORLEVEL 1 goto error
+goto end
 
 @endlocal
 
