@@ -114,8 +114,8 @@ if "!_TEST_PARAM:~0,2!"=="-D" (
     )
   )
 ) else (
-  if "%1"=="-main" (
-    set CUSTOM_MAIN_CLASS=%2
+  if "!_TEST_PARAM!"=="-main" (
+    call set CUSTOM_MAIN_CLASS=%%2
     shift
   ) else (
     set _APP_ARGS=!_APP_ARGS! !_PARAM1!
