@@ -41,7 +41,7 @@ import SbtNativePackager.Universal
  * Future versions of the Docker Plugin may use the REST API, so you don't need docker installed
  * locally.
  *
- * @note this plugin is not inteded to build very customizable docker images, but turn your mappings
+ * @note this plugin is not intended to build very customizable docker images, but turn your mappings
  * configuration in a docker image with almost no ''any'' configuration.
  *
  * @example Enable the plugin in the `build.sbt`
@@ -63,38 +63,19 @@ object DockerPlugin extends AutoPlugin {
     dockerBaseImage := "dockerfile/java:latest",
     dockerExposedPorts := Seq(),
     dockerExposedVolumes := Seq(),
-    name in Docker <<= name,
-    packageName in Docker <<= packageName,
-    executableScriptName in Docker <<= executableScriptName,
     dockerRepository := None,
     dockerUpdateLatest := false,
-    sourceDirectory in Docker <<= sourceDirectory apply (_ / "docker"),
-    target in Docker <<= target apply (_ / "docker"),
     dockerEntrypoint := Seq("bin/%s" format executableScriptName.value)
 
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
-      daemonUser := "daemon",
-      defaultLinuxInstallLocation := "/opt/docker",
-      dockerPackageMappings <<= (sourceDirectory) map { dir =>
-        MappingsHelper contentOf dir
-      },
-      mappings <++= dockerPackageMappings,
-      stage <<= (dockerGenerateConfig, dockerGenerateContext, streams) map {
-        (dockerfile, contextDir, s) =>
-          s.log.success("created docker file: " + dockerfile.getPath)
-          contextDir
-      },
-      dockerGenerateConfig <<= (dockerBaseImage, defaultLinuxInstallLocation,
-        maintainer, daemonUser, executableScriptName,
-        dockerExposedPorts, dockerExposedVolumes, target, dockerEntrypoint) map generateDockerConfig,
-      dockerGenerateContext := Stager.stage("docker")(streams.value, target.value / "files", mappings.value),
-      dockerTarget <<= (dockerRepository, packageName, version) map {
-        (repo, name, version) =>
-          repo.map(_ + "/").getOrElse("") + name + ":" + version
-      },
-      publishLocal <<= (dockerGenerateConfig, dockerGenerateContext, dockerTarget, dockerUpdateLatest, streams) map {
-        (config, _, target, updateLatest, s) =>
-          publishLocalDocker(config, target, updateLatest, s.log)
+      executableScriptName := executableScriptName.value,
+      mappings ++= dockerPackageMappings.value,
+      mappings ++= Seq(dockerGenerateConfig.value) pair relativeTo(target.value),
+      name := name.value,
+      packageName := packageName.value,
+      publishLocal <<= (stage, dockerTarget, dockerUpdateLatest, streams) map {
+        (context, target, updateLatest, s) =>
+          publishLocalDocker(context, target, updateLatest, s.log)
       },
       publish <<= (publishLocal, dockerTarget, dockerUpdateLatest, streams) map {
         (_, target, updateLatest, s) =>
@@ -103,6 +84,24 @@ object DockerPlugin extends AutoPlugin {
             val name = target.substring(0, target.lastIndexOf(":")) + ":latest"
             publishDocker(name, s.log)
           }
+      },
+      sourceDirectory := sourceDirectory.value / "docker",
+      stage <<= (streams, stagingDirectory, mappings) map Stager.stage(Docker.name),
+      stagingDirectory := (target in Docker).value / "stage",
+      target := target.value / "docker",
+
+      daemonUser := "daemon",
+      defaultLinuxInstallLocation := "/opt/docker",
+
+      dockerPackageMappings <<= sourceDirectory map { dir =>
+        MappingsHelper contentOf dir
+      },
+      dockerGenerateConfig <<= (dockerBaseImage, defaultLinuxInstallLocation,
+        maintainer, daemonUser, executableScriptName,
+        dockerExposedPorts, dockerExposedVolumes, target, dockerEntrypoint) map generateDockerConfig,
+      dockerTarget <<= (dockerRepository, packageName, version) map {
+        (repo, name, version) =>
+          repo.map(_ + "/").getOrElse("") + name + ":" + version
       }
     ))
 
@@ -117,9 +116,10 @@ object DockerPlugin extends AutoPlugin {
     }
 
     val dockerCommands = Seq(
-      Cmd("ADD", "files /"),
+      Cmd("ADD", "* /"),
       Cmd("WORKDIR", "%s" format dockerBaseDirectory),
       ExecCmd("RUN", "chown", "-R", daemonUser, "."),
+      ExecCmd("RUN", "rm", "/Dockerfile"),
       Cmd("USER", daemonUser),
       ExecCmd("ENTRYPOINT", entrypoint: _*),
       ExecCmd("CMD")
