@@ -1,0 +1,7 @@
+# Stage the distribution and ensure main class can be run.
+> stage
+$ exists target/universal/stage/bin/
+$ exists target/universal/stage/bin/test-custom-main.bat
+> check-app-main
+> check-custom-main
+
