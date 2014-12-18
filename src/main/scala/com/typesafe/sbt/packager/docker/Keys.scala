@@ -9,7 +9,6 @@ import sbt._
  */
 trait DockerKeys {
   val dockerGenerateConfig = TaskKey[File]("docker-generate-config", "Generates configuration file for Docker.")
-  val dockerGenerateContext = TaskKey[File]("docker-generate-context", "Generates context directory for Docker.")
   val dockerPackageMappings = TaskKey[Seq[(File, String)]]("docker-package-mappings", "Generates location mappings for Docker build.")
   val dockerTarget = TaskKey[String]("docker-target", "Defines target used when building and publishing Docker image")
 
