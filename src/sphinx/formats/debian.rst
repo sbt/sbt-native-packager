@@ -5,7 +5,7 @@ The debian package specification is very robust and powerful.  If you wish to do
 the underlying packaging system works.  http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/ is an excellent tutorial.
 
 SBT Native Packager provides two ways to build debian packages. A native one, where you need ``dpkg-deb`` installed
-or a java, platform independent approach with `jdeb <https://github.com/tcurdt/jdeb>`_. By default the _native_ implementation
+or a java, platform independent approach with `jdeb <https://github.com/tcurdt/jdeb>`_. By default the *native* implementation
 is activated.
 
 .. contents:: 
@@ -23,7 +23,7 @@ is activated.
 Requirements
 ------------
 
-If you use the _native_  debian package implementation you need the following applications installed:
+If you use the *native*  debian package implementation you need the following applications installed:
 
 * dpkg-deb
 * dpkg-sig
@@ -76,7 +76,7 @@ If you want to use the java based implementation, enable the following plugin.
 ~~~~~~~~~~~~
 
 For this versions debian packaging is automatically activated.
-See the `Getting Started </GettingStarted>` page for informations
+See the :doc:`Getting Started </gettingstarted>` page for informations
 on how to enable sbt native packager.
 
 If you want to enable `jdeb` packaging add the following to your `build.sbt`
@@ -85,6 +85,16 @@ If you want to enable `jdeb` packaging add the following to your `build.sbt`
 
     packageBin in Debian <<= debianJDebPackaging in Debian
     
+
+Configurations
+--------------
+
+Settings and Tasks inherited from parent plugins can be scoped with ``Debian``.
+
+.. code-block:: scala
+
+  linuxPackageMappings in Debian := linuxPackageMappings.value
+
 
 Settings
 --------

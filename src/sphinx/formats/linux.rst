@@ -7,6 +7,14 @@ The native packager plugin is designed so that linux packages look similar, but 
 
 .. contents:: 
   :depth: 2
+  
+.. raw:: html
+
+  <div class="alert alert-info" role="alert">
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    The linux plugin dependens on the universal plugin. For universal settings read the 
+    <a href="universal.html">Universal Plugin Documentation</a>
+  </div>
 
 Related Plugins
 ---------------
@@ -21,6 +29,67 @@ Related Plugins
    
 Build
 -----
+
+The linux plugin is just a top level plugin for linux packaging formats.
+The ``Linux`` scope contains settings which can be used by the plugins
+depending on the linux plugin.
+
+
+.. code-block:: bash
+
+  sbt "show linux:linuxPackageMappings"
+
+Required Settings
+~~~~~~~~~~~~~~~~~
+
+A linux package needs some mandatory settings to be valid. Make sure
+you have these settings in your build:
+
+.. code-block:: scala
+
+    name := "Linux Example"
+
+    version := "1.0"
+
+    maintainer := "Max Smith <max.smith@yourcompany.io>"
+
+    packageSummary := "Hello World Debian Package"
+
+    packageDescription := """A fun package description of our software,
+      with multiple lines."""
+
+1.0 or higher
+~~~~~~~~~~~~~
+
+Enable the debian plugin to activate the native package implementation.
+
+.. code-block:: scala
+
+  enablePlugins(LinuxPlugin)
+
+
+0.8 or lower
+~~~~~~~~~~~~
+
+For this versions linux packaging is automatically activated.
+See the :doc:`Getting Started </gettingstarted>` page for informations
+on how to enable sbt native packager.
+
+In order to use the utility functions you need to import them with
+(if you haven't alreay imported this)
+
+.. code-block:: scala
+
+  import com.typesafe.sbt.SbtNativePackager._
+
+Configurations
+--------------
+
+Settings and tasks inherited from parent plugins can be scoped with ``Linux``.
+
+.. code-block:: scala
+
+  name in Linux := name.value
 
 Settings
 --------
@@ -42,8 +111,11 @@ The required fields for any linux distribution are:
     A list of files and their desired installation locations for the package, as well as other metainformation.
 
 
+Customize
+---------
+
 Package Mappings
-----------------
+~~~~~~~~~~~~~~~~
 
 Most of the work in generating a linux package is constructing package mappings.  These 'map' a file to a location on disk where it should
 reside as well as information about that file. Package mappings allow the specification of file ownership, permissions and whether or not

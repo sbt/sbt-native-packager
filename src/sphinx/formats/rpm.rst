@@ -65,8 +65,17 @@ Enables the rpm plugin
 ~~~~~~~~~~~~
 
 For this versions rpm packaging is automatically activated.
-See the `Getting Started </GettingStarted>` page for informations
+See the :doc:`Getting Started </gettingstarted>` page for informations
 on how to enable sbt native packager.
+
+Configuration
+-------------
+
+Settings and Tasks inherited from parent plugins can be scoped with ``Rpm``.
+
+.. code-block:: scala
+
+  linuxPackageMappings in Rpm := linuxPackageMappings.value
 
 Settings
 --------

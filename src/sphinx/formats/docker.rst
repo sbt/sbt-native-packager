@@ -46,12 +46,22 @@ Docker images require the following setting:
 ~~~~~
 
 For this versions docker packaging is automatically activated.
-See the `Getting Started </GettingStarted>` page for informations
+See the :doc:`Getting Started </gettingstarted>` page for informations
 on how to enable sbt native packager.
 
+Configuration
+-------------
+
+Settings and Tasks inherited from parent plugins can be scoped with ``Docker``.
+
+.. code-block:: scala
+
+  mappings in Docker := mappings.value
+  
 
 Settings
 --------
+
 
 Informational Settings
 ~~~~~~~~~~~~~~~~~~~~~~

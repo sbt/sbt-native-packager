@@ -1,15 +1,181 @@
 .. _Universal:
 
-Universal
-=========
+Universal Plugin
+================
 
 Universal packaging just takes a plain ``mappings`` configuration and generates various 
 package files for distribution.  It allows you to provide your users a distribution
 that is not tied to any particular platform, but may require manual labor to set up.
 
 
+.. contents:: 
+  :depth: 2
+  
+.. raw:: html
+
+  <div class="alert alert-info" role="alert">
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    The universal plugin dependens on the sbt-native-packager plugin. For general settings read the 
+    <a href="np-plugin.html">SBT Native Packager Plugin Documentation</a>
+  </div>
+
+Related Plugins
+---------------
+
+.. toctree::
+   :maxdepth: 1
+   
+   linux.rst
+   windows.rst
+   docker.rst
+
+
+Requirements
+------------
+
+Depending on what package format you want to use, you need one of the following applications installed
+
+* zip (if native)
+* gzip
+* xz
+* tar
+* hdiutil (for dmg)
+
+Build
+-----
+
+There is a task for each output format
+
+Zip
+~~~
+
+.. code-block:: bash
+
+  sbt universal:packageBin
+
+Tar
+~~~
+
+.. code-block:: bash
+
+  sbt universal:packageZipTarball
+
+Xz
+~~
+
+.. code-block:: bash
+
+  sbt universal:packageXzTarball
+
+Dmg
+~~~
+
+.. code-block:: bash
+
+  sbt universal:packageOsxDmg
+
+
+Required Settings
+~~~~~~~~~~~~~~~~~
+
+A universal has no mandatory fields.
+
+
+1.0 or higher
+~~~~~~~~~~~~~
+
+Enable the universal plugin
+
+.. code-block:: scala
+
+  enablePlugins(UniversalPlugin)
+
+
+0.8 or lower
+~~~~~~~~~~~~
+
+For this versions universal packaging is automatically activated.
+See the :doc:`Getting Started </gettingstarted>` page for informations
+on how to enable sbt native packager.
+
+
+Configurations
+--------------
+
+Settings and Tasks inherited from parent plugins can be scoped with ``Universal``.
+
+Universal packaging provides three Configurations:
+
+  ``universal``
+    For creating full distributions
+  ``universal-docs``
+    For creating bundles of documentation
+  ``universal-src``
+    For creating bundles of source.
+
+.. code-block:: scala
+
+    name in Universal := name.value
+    
+    name in UniversalDocs <<= name in Universal
+    
+    name in UniversalSrc <<= name in Universal
+    
+    packageName in Universal := packageName.value
+
+Settings
+--------
+As we showed before, the Universal packages are completely configured through the use of the mappings key.  Simply
+specify the desired mappings for a given configuration.  For Example:
+
+.. code-block:: scala
+
+    mappings in Universal <+= packageBin in Compile map { p => p -> "lib/foo.jar" }
+
+However, sometimes it may be advantageous to customize the files for each archive separately.  For example, perhaps 
+the .tar.gz has an additional README plaintext file in additon to a README.html.  To add this just to the .tar.gz file,
+use the task-scope feature of sbt:
+
+.. code-block:: scala
+
+    mappings in Universal in package-zip-tarball += file("README") -> "README"
+    
+Besides ``mappings``, the ``name``, ``sourceDirectory`` and ``target`` configurations are all respected by universal packaging.
+
+**Note: The Universal plugin will make anything in a bin/ directory executable.  This is to work around issues with JVM
+and file system manipulations.**
+
+Tasks
+-----
+
+  ``universal:package-bin``
+    Creates the ``zip`` universal package.
+  
+  ``universal:package-zip-tarball``
+    Creates the ``tgz`` universal package.
+    
+  ``universal:package-xz-tarball``
+    Creates the ``txz`` universal package.  The ``xz`` command can get better compression
+    for some types of archives.
+
+  ``universal:package-osx-dmg``
+    Creates the ``dmg`` universal package.  This only work on OSX or systems with ``hdiutil``.
+    
+  ``universal-docs:package-bin``
+    Creates the ``zip`` universal documentation package.
+  
+  ``universal-docs:package-zip-tarball``
+    Creates the ``tgz`` universal documentation package.
+    
+  ``universal-docs:package-xz-tarball``
+    Creates the ``txz`` universal documentation package.  The ``xz`` command can get better compression
+    for some types of archives.
+    
+Customize
+---------
+
 Getting Started with Universal Packaging
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 By default, all files found in the ``src/universal`` directory are included in the distribution.  So, the first step
 in creating a a distribution is to place files in this directory in the layout you would like in the distributed zip file.
 
@@ -40,7 +206,7 @@ You can use this to add anything you desire to the package.
 
 
 Universal Conventions
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 This plugin has a set of conventions for universal packages that enable the automatic generation of native packages.  The
 universal convention has the following package layout:
 
@@ -117,42 +283,8 @@ Notice how we're *only* modifying the package mappings for Debian linux packages
 :ref:`Windows` and :ref:`Linux` documentation.
 
 
-
-Configurations
---------------
-Universal packaging provides three Configurations:
-
-  ``universal``
-    For creating full distributions
-  ``universal-docs``
-    For creating bundles of documentation
-  ``universal-src``
-    For creating bundles of source.
-
-
-Settings
---------
-As we showed before, the Universal packages are completely configured through the use of the mappings key.  Simply
-specify the desired mappings for a given configuration.  For Example:
-
-.. code-block:: scala
-
-    mappings in Universal <+= packageBin in Compile map { p => p -> "lib/foo.jar" }
-
-However, sometimes it may be advantageous to customize the files for each archive separately.  For example, perhaps 
-the .tar.gz has an additional README plaintext file in additon to a README.html.  To add this just to the .tar.gz file,
-use the task-scope feature of sbt:
-
-.. code-block:: scala
-
-    mappings in Universal in package-zip-tarball += file("README") -> "README"
-    
-Besides ``mappings``, the ``name``, ``sourceDirectory`` and ``target`` configurations are all respected by universal packaging.
-
-**Note: The Universal plugin will make anything in a bin/ directory executable.  This is to work around issues with JVM and file system manipulations.**
-
 MappingsHelper
---------------
+~~~~~~~~~~~~~~
 
 The `MappingsHelper`_ class provides a set of helper functions to make mapping directories easier.
 
@@ -173,7 +305,7 @@ The `MappingsHelper`_ class provides a set of helper functions to make mapping d
 .. _MappingsHelper: https://github.com/sbt/sbt-native-packager/blob/master/src/main/scala/com/typesafe/sbt/packager/MappingsHelper.scala
 
 Mapping Examples
-----------------
+~~~~~~~~~~~~~~~~
 
 SBT provides and IO and `Path`_ API, which
 lets you define custom mappings easily. The files will appear in the generate universal zip, but also in your
@@ -283,28 +415,3 @@ The complete ``build.sbt`` should contain these settings if you want a single as
     scriptClasspath := Seq( (jarName in assembly).value )
     
 
-Commands
---------
-
-  ``universal:package-bin``
-    Creates the ``zip`` universal package.
-  
-  ``universal:package-zip-tarball``
-    Creates the ``tgz`` universal package.
-    
-  ``universal:package-xz-tarball``
-    Creates the ``txz`` universal package.  The ``xz`` command can get better compression
-    for some types of archives.
-
-  ``universal:package-osx-dmg``
-    Creates the ``dmg`` universal package.  This only work on OSX or systems with ``hdiutil``.
-    
-  ``universal-docs:package-bin``
-    Creates the ``zip`` universal documentation package.
-  
-  ``universal-docs:package-zip-tarball``
-    Creates the ``tgz`` universal documentation package.
-    
-  ``universal-docs:package-xz-tarball``
-    Creates the ``txz`` universal documentation package.  The ``xz`` command can get better compression
-    for some types of archives.

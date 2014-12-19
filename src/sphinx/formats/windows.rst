@@ -1,15 +1,160 @@
 .. _Windows:
 
-Packaging for Windows
-=====================
+Windows Plugin
+==============
 
-The windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package, it's important to understand how WIX works.  http://wix.tramontana.co.hu/ is an excellent tutorial to how to create packages using wix.
+The windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package,
+it's important to understand how WIX works.  http://wix.tramontana.co.hu/ is an excellent tutorial
+to how to create packages using wix.
 
-However, the native-packager provides a simple layer on top of wix that *may* be enough for most projects.  If it is not, just override ``wixConfig`` or ``wixFile`` settings.  Let's look at the layer above direct xml configuration.
+However, the native-packager provides a simple layer on top of wix that *may* be enough for most projects.
+If it is not, just override ``wixConfig`` or ``wixFile`` settings.  Let's look at the layer above direct
+xml configuration.
 
+.. contents:: 
+  :depth: 2
+  
+  
+.. raw:: html
+
+  <div class="alert alert-info" role="alert">
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    The windows plugin dependens on the linux plugin. For general linux settings read the 
+    <a href="universal.html">Universal Plugin Documentation</a>
+  </div>
+
+Requirements
+------------
+
+You need the following applications installed
+
+* `WIX Toolset <http://wixtoolset.org/>`_
+
+Build
+-----
+
+.. code-block:: bash
+
+  sbt windows:packageBin
+
+Required Settings
+~~~~~~~~~~~~~~~~~
+
+A rpm package needs some mandatory settings to be valid. Make sure
+you have these settings in your build:
+
+.. code-block:: scala
+
+    rpmRelease := "1"
+    
+    rpmVendor := "typesafe"
+    
+    rpmUrl := Some("http://github.com/paulp/sbt-extras")
+    
+    rpmLicense := Some("BSD")
+    
+
+1.0 or higher
+~~~~~~~~~~~~~
+
+Enables the rpm plugin
+
+.. code-block:: scala
+
+  enablePlugins(RpmPlugin)
+
+
+0.8 or lower
+~~~~~~~~~~~~
+
+For this versions rpm packaging is automatically activated.
+See the :doc:`Getting Started </gettingstarted>` page for informations
+on how to enable sbt native packager.
+
+Configuration
+-------------
+
+Settings and Tasks inherited from parent plugins can be scoped with ``Rpm``.
+
+.. code-block:: scala
+
+  linuxPackageMappings in Rpm := linuxPackageMappings.value
+
+Now, let's look at the full set of windows settings.
+
+Settings
+--------
+
+  ``name in Windows``
+    The name of the generated msi file.
+
+  ``candleOptions``
+    the list of options to pass to the ``candle.exe`` command.
+
+  ``lightOptions``
+    the list of options to pass to the ``light.exe`` command.  Most likely setting is: ``Seq("-ext", "WixUIExtension", "-cultures:en-us")`` for UI.
+
+  ``wixProductId``
+    The GUID to use to identify the windows package/product.
+
+  ``wixProductUpgradeId``
+    The GUID to use to identify the windows package/product *upgrade* identifier (see wix docs).
+
+  ``wixPackageInfo``
+    The information used to autoconstruct the ``<Product><Package/>`` portion of the wix xml.  **Note: unused if ``wixConfig`` is overridden**
+
+  ``wixProductLicense``
+    An (optional) ``rtf`` file to display as the product license during installation.  Default to looking for ``src/windows/License.rtf``
+
+  ``wixFeatures``
+    A set of windows features that users can install with this package.  **Note: unused if ``wixConfig`` is overridden**
+
+  ``wixProductConfig``
+    inline XML to use for wix configuration.  This is everything nested inside the ``<Product>`` element.
+
+  ``wixConfig``
+    inline XML to use for wix configuration.   This is used if the ``wixFile`` setting is not specified.
+
+  ``wixFile``
+    The file containing WIX xml that defines the build.
+
+  ``mappings in packageMsi in Windows``
+    A list of file->location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a ``cab`` or embedded ``cab`` for the ``msi``.
+    The WIX xml should use the relative locations in this mappings when references files for the package.
+
+Tasks
+-----
+
+  ``windows:packageBin``
+    Creates the ``msi`` package.
+  
+  ``wix-file``
+    Generates the Wix xml file from `wixConfig` and `wixProductConfig` setings, unless overriden.
+    
+
+The native-packager plugin provides a few handy utilities for generating Wix XML.  These
+utilities are located in the ``com.typesafe.packager.windows.WixHelper`` object.  Among
+these are the following functions:
+
+  ``cleanStringForId(String): String``
+    Takes in a string and returns a wix-friendly identifier.  Note: truncates to 50 characters.
+  
+  ``cleanFileName(String): String``
+    Takes in a file name and replaces any ``$`` with ``$$`` to make it past the Wix preprocessor.
+
+  ``generateComponentsAndDirectoryXml(File): (Seq[String], scala.xml.Node)``
+    This method will take a file and generate ``<Directory>``, ``<Component>`` and ``<File>``
+    XML elements for all files/directories contained in the given file.  It will return the
+    ``Id`` settings for any generated components.  This is a handy way to package a large
+    directory of files for usage in the Features of an MSI.
+
+
+Customize
+---------
 
 Feature configuration
----------------------
+~~~~~~~~~~~~~~~~~~~~~
+
 The abstraction over wix allows you to configure "features" that users may optionally install.  These feature are higher level things, like a set of files or menu links.
 The currently supported compoennts of features are:
 
@@ -56,75 +201,3 @@ be added to the mappings, and then to a feature.   For example, if we complete t
 
 Right now this layer is *very* limited in what it can accomplish, and hasn't been heavily debugged.  If you're interested in helping contribute, please
 do so!   However, for most command line tools, it should be sufficient for generating a basic ``msi`` that windows users can install.
-
-
-Now, let's look at the full set of windows settings.
-
-Settings
---------
-
-  ``name in Windows``
-    The name of the generated msi file.
-
-  ``candleOptions``
-    the list of options to pass to the ``candle.exe`` command.
-
-  ``lightOptions``
-    the list of options to pass to the ``light.exe`` command.  Most likely setting is: ``Seq("-ext", "WixUIExtension", "-cultures:en-us")`` for UI.
-
-  ``wixProductId``
-    The GUID to use to identify the windows package/product.
-
-  ``wixProductUpgradeId``
-    The GUID to use to identify the windows package/product *upgrade* identifier (see wix docs).
-
-  ``wixPackageInfo``
-    The information used to autoconstruct the ``<Product><Package/>`` portion of the wix xml.  **Note: unused if ``wixConfig`` is overridden**
-
-  ``wixProductLicense``
-    An (optional) ``rtf`` file to display as the product license during installation.  Default to looking for ``src/windows/License.rtf``
-
-  ``wixFeatures``
-    A set of windows features that users can install with this package.  **Note: unused if ``wixConfig`` is overridden**
-
-  ``wixProductConfig``
-    inline XML to use for wix configuration.  This is everything nested inside the ``<Product>`` element.
-
-  ``wixConfig``
-    inline XML to use for wix configuration.   This is used if the ``wixFile`` setting is not specified.
-
-  ``wixFile``
-    The file containing WIX xml that defines the build.
-
-  ``mappings in packageMsi in Windows``
-    A list of file->location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a ``cab`` or embedded ``cab`` for the ``msi``.
-    The WIX xml should use the relative locations in this mappings when references files for the package.
-
-Commands
---------
-
-  ``windows:package-bin``
-    Creates the ``msi`` package.
-  
-  ``wix-file``
-    Generates the Wix xml file from `wixConfig` and `wixProductConfig` setings, unless overriden.
-    
-Utilities
----------
-
-The native-packager plugin provides a few handy utilities for generating Wix XML.  These
-utilities are located in the ``com.typesafe.packager.windows.WixHelper`` object.  Among
-these are the following functions:
-
-  ``cleanStringForId(String): String``
-    Takes in a string and returns a wix-friendly identifier.  Note: truncates to 50 characters.
-  
-  ``cleanFileName(String): String``
-    Takes in a file name and replaces any ``$`` with ``$$`` to make it past the Wix preprocessor.
-
-  ``generateComponentsAndDirectoryXml(File): (Seq[String], scala.xml.Node)``
-    This method will take a file and generate ``<Directory>``, ``<Component>`` and ``<File>``
-    XML elements for all files/directories contained in the given file.  It will return the
-    ``Id`` settings for any generated components.  This is a handy way to package a large
-    directory of files for usage in the Features of an MSI.
-
