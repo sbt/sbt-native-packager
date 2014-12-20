@@ -8,6 +8,7 @@ Docker images describe how to set up a container for running an application, inc
 
   sbt-native-packager focuses on creating a Docker image which can "just run" the application built by SBT.
   
+  
 .. contents:: 
   :depth: 2
 
@@ -15,6 +16,10 @@ Requirements
 ------------
 
 You need the docker console client installed. SBT Native Packager doesn't use the REST API.
+
+It is currently not possible to provide authentication for Docker repositories from within the build.
+The ``docker`` binary used by the build should already have been configured with the appropriate
+authentication details. See https://docs.docker.com/reference/commandline/cli/#login.
 
 
 Build

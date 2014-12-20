@@ -1,7 +1,7 @@
 My First Packaged Server Project
 ################################
 
-Follow the instructions for the basic ``java_application`` setup in :doc:`../GettingStartedApplications/index` to get a working build and
+Follow the instructions for the basic ``java_application`` setup in :doc:`../java_app/index` to get a working build and
 understand the core concepts of sbt-native-packager. Based on this configuration we exchange
 in our ``build.sbt``
 
@@ -68,7 +68,7 @@ this `native packager discussion`_.
 .. _native packager discussion: https://github.com/sbt/sbt-native-packager/pull/174
 
 If you want to change something in this predefined structure read more about it in
-the :doc:`linux section </DetailedTopics/linux>`.
+the :doc:`linux section </formats/linux>`.
 
 Debian (.deb)
 =============

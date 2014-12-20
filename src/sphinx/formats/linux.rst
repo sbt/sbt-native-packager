@@ -337,7 +337,7 @@ on how to filter mappings.
 Alter LinuxPackageMapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-First we alter the permissions for all ``LinuxPackageMapping``s that match a specific criteria.
+First we alter the permissions for all ``LinuxPackageMapping`` s that match a specific criteria.
 
 .. code-block:: scala
 
@@ -362,7 +362,7 @@ First we alter the permissions for all ``LinuxPackageMapping``s that match a spe
 Alter LinuxSymlinks
 ~~~~~~~~~~~~~~~~~~~
 
-First we alter the permissions for all ``LinuxPackageMapping``s that match a specific criteria.
+First we alter the permissions for all ``LinuxPackageMapping`` s that match a specific criteria.
 
 .. code-block:: scala
 

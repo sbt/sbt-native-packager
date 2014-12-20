@@ -207,7 +207,8 @@ Example Settings:
     rpmChangelogFile := Some(changelog)
 
 
-.. code-block:: txt
+.. code-block:: bash
+
     * Sun Aug 24 2014 Team <contact@example.com> - 1.1.0
     -Allow to login using social networks
     * Wed Aug 20 2014 Team <contact@example.com> - 1.0.1

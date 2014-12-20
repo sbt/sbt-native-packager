@@ -1,7 +1,7 @@
 Overriding templates
 ####################
 
-Some scripts are covered in the standard application type. Read more on :doc:`../GettingStartedApplications/OverridingTemplates`.
+Some scripts are covered in the standard application type. Read more on :doc:`../java_app/OverridingTemplates`.
 For the ``java_server`` package lifecycle scripts are customized to provide the following additional features
 
 * Chowning directories and files correctly

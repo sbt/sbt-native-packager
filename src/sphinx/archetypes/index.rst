@@ -1,5 +1,13 @@
 .. _Archetypes:
 
+
+.. toctree::
+   :maxdepth: 2
+   
+   java_app/index.rst
+   java_server/index.rst
+   akka_app/index.rst
+
 Project Archetypes
 ==================
 

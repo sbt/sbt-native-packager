@@ -46,33 +46,29 @@ Build
 
 There is a task for each output format
 
-Zip
-~~~
+  **Zip**
+  
+  .. code-block:: bash
+  
+    sbt universal:packageBin
+  
+  **Tar**
+  
+  .. code-block:: bash
 
-.. code-block:: bash
+    sbt universal:packageZipTarball
 
-  sbt universal:packageBin
+  **Xz**
 
-Tar
-~~~
+  .. code-block:: bash
 
-.. code-block:: bash
+    sbt universal:packageXzTarball
 
-  sbt universal:packageZipTarball
+  **Dmg**
 
-Xz
-~~
-
-.. code-block:: bash
-
-  sbt universal:packageXzTarball
-
-Dmg
-~~~
-
-.. code-block:: bash
-
-  sbt universal:packageOsxDmg
+  .. code-block:: bash
+  
+    sbt universal:packageOsxDmg
 
 
 Required Settings
@@ -288,11 +284,24 @@ MappingsHelper
 
 The `MappingsHelper`_ class provides a set of helper functions to make mapping directories easier.
 
-.. code-block:: scala
-
+  **sbt 0.13.5 and plugin 1.0.x or higher**
+  
+  .. code-block:: scala
+    
+      import NativePackagerHelper._
+    
+  **plugin  version 0.8.x or lower**
+  
+  .. code-block:: scala
+    
     import com.typesafe.sbt.SbtNativePackager._
     import NativePackagerHelper._
-    
+
+
+You get a set of methods which will help you to create mappings very easily.
+
+.. code-block:: scala
+
     mappings in Universal ++= directory("src/main/resources/cache")
     
     mappings in Universal ++= contentOf("src/main/resources/docs")
@@ -302,7 +311,7 @@ The `MappingsHelper`_ class provides a set of helper functions to make mapping d
     mappings in Universal <++= sourceDirectory map (src => contentOf(src / "main" / "resources" / "docs"))
 
 
-.. _MappingsHelper: https://github.com/sbt/sbt-native-packager/blob/master/src/main/scala/com/typesafe/sbt/packager/MappingsHelper.scala
+.. _MappingsHelper: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MappingsHelper$
 
 Mapping Examples
 ~~~~~~~~~~~~~~~~
@@ -335,9 +344,6 @@ function to generate a mapping ``File -> String``, which is *your file* to *rela
 It exists some helper methods to map a complete directory in more human readable way.
 
 .. code-block:: scala
-
-    import com.typesafe.sbt.SbtNativePackager._
-    import NativePackagerHelper._
 
     //For dynamic content, e.g. something in the target directory which depends on a Task
     mappings in Universal <++= (packageBin in Compile, target) map { (_, target) =>

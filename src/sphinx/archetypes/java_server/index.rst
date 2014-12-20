@@ -1,11 +1,18 @@
 Getting Started with Servers
 ############################
 
+.. toctree::
+   :maxdepth: 1
+   
+   MyFirstProject.rst
+   AddingConfiguration.rst
+   OverridingTemplates.rst
+
 The sbt-native-packager is an sbt plugin for bundling your server for a variety of platforms.  
 
 **Note:** Please follow the :ref:`Installation` instructions for how to set it up on a project.
 
-In the :doc:`Application Packaging <GettingStartedApplications>` section we described how to build and
+In the :doc:`Application Packaging </archetypes/java_app/index>` section we described how to build and
 customize settings related to the application. Sbt-Native-Packager provides a further level for servers
 which define how applications are installed and initialized for various platforms. 
 be customized for specific platforms. While it provides
@@ -78,7 +85,8 @@ which will add the following resource file to use start/stop instead of initctl 
       stop $app_name 
   }
 
-The :doc:`debian <DetailedTopics/debian>` and :doc:`redhat </DetailedTopics/redhat>` pages have further information on overriding distribution scpecific actions.
+The :doc:`debian </formats/debian>` and :doc:`redhat </formats/rpm>` pages have further information on overriding 
+distribution scpecific actions.
 
 SystemD Support
 ================

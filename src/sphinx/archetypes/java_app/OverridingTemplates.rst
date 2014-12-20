@@ -6,10 +6,10 @@ The native packager provides a mechanism where the template used to create each 
 overridden. 
 
 The easiest way to add functionality to the default script is by adding ``bashScriptExtraDefines`` :doc:`as described
-in adding configuration for applications </GettingStartedApplications/AddingConfiguration>`. Customizing the bash
+in adding configuration for applications </archetypes/java_server/AddingConfiguration>`. Customizing the bash
 script will effect all platform-specific builds. The server archetype provides a further level of customization for
 specific System Loaders and Package types. These template file are described in 
-:doc:`configuring servers </GettingStartedServers/AddingConfiguration>`.
+:doc:`configuring servers </archetypes/java_server/AddingConfiguration>`.
 
 Overriding Complete Templates
 -----------------------------

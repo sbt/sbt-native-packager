@@ -1,9 +1,11 @@
+.. title:: SBT Native Packager
+
 .. raw:: html
 
   <div class="jumbotron" style="margin-top:-20px">
           <h1>SBT Native Packager Plugin</h1>
           <p>This sbt plugin provides you with everything you need to package your application.
-          No matther if you want to build a simple standalone application or a server application.
+          No matter if you want to build a simple standalone application or a server application.
           The JVM let's you run anywhere. SBT Native Packager let's you deploy everywhere!</p>
           <p><a class="btn btn-primary btn-lg" href="gettingstarted.html" role="button">Getting Started »</a></p>
       </div>
@@ -30,7 +32,7 @@
           The most common archtypes
           are <code>JavaAppPackaging</code> and <code>JavaServerAppPackaging</code>.
           Each archetype adds possible new settings which you can adapt to your need.<br>&nbsp;</p>
-          <p><a class="btn btn-default" href="#" role="button">Learn more »</a></p>
+          <p><a class="btn btn-default" href="archetypes/" role="button">Learn more »</a></p>
        </div>
         <div class="col-md-4">
           <h2>Formats & Customize</h2>
@@ -41,8 +43,8 @@
           <p>An archetype doesn't cover what you need? No problem. SBT Native Packager i
           build on top of some simple principles and you can customize it in many ways.
           Adding a custom packaging format or some special files.</p>
-          <p><a class="btn btn-default" href="#" role="button">Learn more »</a></p>
+          <p><a class="btn btn-default" href="formats/" role="button">Learn more »</a></p>
         </div>
     </div>
-  
+    <br><br>
 
