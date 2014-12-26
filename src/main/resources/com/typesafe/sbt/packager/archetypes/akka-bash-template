@@ -11,4 +11,4 @@ ${{template_declares}}
 # we will use akka_classpath instead the app_classpath
 [ -n "$akka_classpath" ] || akka_classpath="$AKKA_HOME/lib/*:$AKKA_HOME/conf"
 
-java $JAVA_OPTS -cp "$akka_classpath" -Dakka.home="$AKKA_HOME" -Dakka.kernel.quiet=false akka.kernel.Main $app_mainclass
+exec java $JAVA_OPTS -cp "$akka_classpath" -Dakka.home="$AKKA_HOME" -Dakka.kernel.quiet=false akka.kernel.Main $app_mainclass
