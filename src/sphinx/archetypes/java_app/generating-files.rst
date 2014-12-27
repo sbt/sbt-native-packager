@@ -5,7 +5,9 @@ Let's dynamically (in the build) construct some files that should be included in
 
 
 For the example, let's download a license file for our application and add it to the distribution. First,
-let's create a task which will download a license file.  Add the following to build.sbt ::
+let's create a task which will download a license file.  Add the following to build.sbt 
+
+.. code-block: scala
 
     val downloadLicense = taskKey[File]("Downloads the latest license file.")
 
@@ -25,9 +27,11 @@ In sbt, a **mappings** object is a grouping of files and relative locations, e.g
     /home/jsuereth/projects/example/src/universal/conf/app.config -> conf/app.config
     /home/jsuereth/projects/example/src/universal/conf/jvmopts -> conf/jvmopts
 
-shows the mapping of the configuration files we set up :doc:`previously <AddingConfiguration>`.  We can directly
+shows the mapping of the configuration files we set up :doc:`previously <customize>`.  We can directly
 append files to the mappings rather than relying on the native packager to find things.  Let's add
-the license in the root of the package we're creating.  Add the following to the ``build.sbt`` ::
+the license in the root of the package we're creating.  Add the following to the ``build.sbt``
+
+.. code-block: scala
 
     mappings in Universal += downloadLicense.value -> "LICENSE"
 
@@ -42,10 +46,5 @@ can verify this by checking the ``stage`` task ::
 You can see the license file is now included in the distribution.
 
 
-TODO - Describe linuxPackageMappings
-
 With control over mappings, you can rework any aspect of the native packager defaults just by overriding
-which files are used.   However,  sometimes the defaults don't need to be completely replaced, just altered a bit.
-
-Next, let's look at :doc:`how to provide our own BASH template <OverridingTemplates>` that the native packager will use when generating
-the script.
+which files are used. However,  sometimes the defaults don't need to be completely replaced, just altered a bit.

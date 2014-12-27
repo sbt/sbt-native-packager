@@ -4,27 +4,55 @@ My First Packaged Project
 After installing the native packager, let's set up a raw sbt project to experiment with bundling things.  First, let's create a 
 ``project/build.properties`` file to save the sbt version ::
 
-   sbt.version=0.13.1
+   sbt.version=0.13.7
 
 sbt builds should always specify which version of sbt they are designed to use.  This helps keeps builds consistent between developers,
 and documents to users which version of sbt you require for the build.
 
 Next, let's add the native packager to our build by created a ``project/plugins.sbt`` file with the following contents ::
 
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0-M2")
+    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "x.y.z")
 
 Now, the build needs to be configured for packaging.  Let's define the ``build.sbt`` file as follows
+
+
+.. raw:: html
+
+  <div class="row">
+    <div class="col-md-6">
+
+Version 1.0 or higher with sbt 0.13.5 and and higher
+
+.. code-block:: scala
+
+  name := "example-cli"
+  version := "1.0"
+
+  enablePlugins(JavaAppPackaging)
+
+.. raw:: html
+
+    </div><!-- v1.0 -->
+    <div class="col-md-6">
+    
+Version 0.8 or lower
 
 .. code-block:: scala
 
     import com.typesafe.sbt.SbtNativePackager._
     import NativePackagerKeys._
-
+    
     name := "example-cli"
 
     version := "1.0"
 
     packageArchetype.java_application
+
+.. raw:: html
+
+    </div><!-- v0.8 -->
+  </div><!-- row end -->
+
 
 The third line of ``build.sbt`` adds the default packaging settings for java applications. The native packager includes two 
 "batteries included" options for packaging applications:
@@ -32,10 +60,10 @@ The third line of ``build.sbt`` adds the default packaging settings for java app
   * ``java_application`` - Defines packaging of your project with a start script and automatic PATH additions
   * ``java_server``      - Defines packaging of your project with automatic service start scripts (supports System V + init.d).
 
-In addition to these, you can always directly configure all packaging by hand.   For now, we're using one of the built-in options
+In addition to these, you can always directly configure all packaging by hand. For now, we're using one of the built-in options
 as these are pretty robust and configurable.
 
-Now that the build is set up, Let's create an application that we can run on the command line.   Create the following file
+Now that the build is set up, Let's create an application that we can run on the command line. Create the following file
 ``src/main/scala/TestApp.scala`` 
 
 .. code-block:: scala
@@ -88,13 +116,10 @@ installation and update mechanism.   So, let's try to make a debian out of our p
     [error]                  packageDescription in Debian := "My package Description"
     [error] Total time: 0 s, completed Apr 1, 2014 10:21:13 AM
 
-Here, the native packager is warning that we haven't fully configured all the information required to generate a valid debian file.  In particular, the packageDescription needs to be filled out for debian, in addition to a few other settings.   Let's add the debian configuration to ``build.sbt`` ::
+Here, the native packager is warning that we haven't fully configured all the information required to generate a valid debian file.  In particular, the packageDescription needs to be filled out for debian, in addition to a few other settings.   Let's add the debian configuration to ``build.sbt``
 
-    name := "example-cli"
 
-    version := "1.0"
-
-    packageArchetype.java_application
+.. code-block:: scala
 
     packageDescription in Debian := "Example Cli"
 
@@ -135,6 +160,6 @@ While we only covered the necessary configuration for ``debian``, each package t
 configuration relative to that packager.  For example, windows MSIs require UUIDs for all packages which are used to uniquely
 identifiy two packages that may have the same name.
 
-Next, let's look at how to :doc:`Add configuration files <AddingConfiguration>` to use with our script.
+Next, let's look at how to :doc:`customize the executable bash/bat scripts<customize>`.
 
 

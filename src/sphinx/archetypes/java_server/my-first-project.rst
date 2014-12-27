@@ -2,18 +2,38 @@ My First Packaged Server Project
 ################################
 
 Follow the instructions for the basic ``java_application`` setup in :doc:`../java_app/index` to get a working build and
-understand the core concepts of sbt-native-packager. Based on this configuration we exchange
-in our ``build.sbt``
+understand the core concepts of sbt-native-packager. Based on this configuration we exchange enable in our ``build.sbt``
+
+
+.. raw:: html
+
+  <div class="row">
+    <div class="col-md-6">
+
+Version 1.0 or higher with sbt 0.13.5 and and higher
 
 .. code-block:: scala
 
-    packageArchetype.java_application
+  enablePlugins(JavaServerAppPackaging) // instead of JavaAppPackaging
+
+.. raw:: html
+
+    </div><!-- v1.0 -->
+    <div class="col-md-6">
     
-with
+Version 0.8 or lower
 
 .. code-block:: scala
 
-    packageArchetype.java_server
+    import com.typesafe.sbt.SbtNativePackager._
+    import NativePackagerKeys._
+    
+    packageArchetype.java_server // instead of java_application
+
+.. raw:: html
+
+    </div><!-- v0.8 -->
+  </div><!-- row end -->
 
 
 which will activate all server specific settings. As the server settings are dependent
@@ -42,6 +62,18 @@ There are additional parameters available to configure.
     daemonUser in Linux := normalizedName.value         // user which will execute the application
     
     daemonGroup in Linux := (daemonUser in Linux).value // group which will execute the application
+    
+
+The archetype will automatically append/prepend the creation/deletion of the user
+to your packaging for Debian.  *Note:* All specified users are **deleted** on an ``apt-get purge <dpkg>``.
+
+.. raw:: html
+
+  <div class="alert alert-warning" role="alert">
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    It is not a good idea to use <strong>root</strong> as the <code>appUser</code> for services as it represents a security risk.
+  </div>
+
 
 Default Mappings
 ================
@@ -149,6 +181,6 @@ To build an image, publish locally, and then push to a remote Docker repository,
   docker:publish
 
 
-Next, let's look at how to :doc:`Add configuration files <AddingConfiguration>` to use with our script.
+Next, let's look at how to :doc:`customize a java server application <customize>`.
 
 

@@ -47,4 +47,18 @@
         </div>
     </div>
     <br><br>
+    <!-- hide the doc tree -->
+    <div style="display:none;">
 
+
+.. toctree::
+   :maxdepth: 1
+   
+   gettingstarted.rst
+   archetypes/index.rst
+   formats/index.rst
+   topics/index.rst
+   
+.. raw:: html
+   
+   </div>
