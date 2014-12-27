@@ -10,7 +10,6 @@
 @echo off
 
 if "%@@APP_ENV_NAME@@_HOME%"=="" set "@@APP_ENV_NAME@@_HOME=%~dp0\\.."
-set ERROR_CODE=0
 
 set "APP_LIB_DIR=%@@APP_ENV_NAME@@_HOME%\lib\"
 
@@ -141,11 +140,9 @@ rem Call the application and pass all arguments unchanged.
 if ERRORLEVEL 1 goto error
 goto end
 
-:error
-set ERROR_CODE=1
+@endlocal
+
 
 :end
 
-@endlocal
-
-exit /B %ERROR_CODE%
+exit /B %ERRORLEVEL%
