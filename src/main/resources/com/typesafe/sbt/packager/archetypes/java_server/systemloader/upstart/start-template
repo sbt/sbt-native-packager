@@ -21,7 +21,7 @@ respawn
 respawn limit ${{retries}} ${{retryTimeout}}
 
 pre-start script
-	[ -d /var/run/${{app_name}} ] || install -m 755 -o ${{daemon_user}} -g ${{daemon_user}} -d /var/run/${{app_name}}
+	[ -d /var/run/${{app_name}} ] || install -m 755 -o ${{daemon_user}} -g ${{daemon_group}} -d /var/run/${{app_name}}
 end script
 
 # set the working directory of the job processes
