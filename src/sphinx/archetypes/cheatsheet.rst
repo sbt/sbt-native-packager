@@ -1,3 +1,10 @@
+.. _Cheatsheet:
+
+Archetype Cheatsheet
+####################
+
+This is a set FAQ composed on a single page.
+
 Path Configurations
 ===================
 This section describes where and how to configure different kind of paths settings.
@@ -37,8 +44,6 @@ logs                                                      Linux                J
 ========================================================  ===================  =====================  =======
 
 
-
-
 Settings
 --------
 
@@ -59,4 +64,76 @@ These settings configure the path behaviour
   ``defaultLinuxLogLocation``
     Defaults to ``/var/log/``. Used to determine the log path for linux packages (rpm, debian).
     
+
+
+Overriding Templates
+====================
+
+You can override the default template used to generate any of the scripts in
+any archetype.   Listed below are the overridable files and variables that
+you can use when generating scripts.
+
+Bat Script - ``src/templates/bat-template``
+-------------------------------------------
+
+Creating a file here will override the default template used to
+generate the ``.bat`` script for windows distributions.
+
+**Syntax**
+
+``@@APP_ENV_NAME@@`` - will be replaced with the script friendly name of your package.
+
+``@@APP_NAME@@`` - will be replaced with user friendly name of your package.
+
+``@APP_DEFINES@@`` - will be replaced with a set of variable definitions, like
+  ``APP_MAIN_CLASS``, ``APP_MAIN_CLASS``.
+
+You can define addiitonal variable definitions using ``batScriptExtraDefines``.
+
+Bash Script - ``src/templates/bash-template``
+---------------------------------------------
+
+Creating a file here will override the default template used to
+generate the BASH start script found in ``bin/<application>`` in the
+universal distribution
+
+**Syntax**
+
+``${{template_declares}}`` - Will be replaced with a series of ``declare <var>``
+lines based on the ``bashScriptDefines`` key.  You can add more defines to
+the ``bashScriptExtraDefines`` that will be used in addition to the default set:
+
+* ``app_mainclass`` - The main class entry point for the application.
+* ``app_classpath`` - The complete classpath for the application (in order).
+
+
+
+Service Manager - ``src/templates/start``
+-----------------------------------------
+
+Creating a file here will override either the init.d startup script or
+the upstart start script.  It will either be located at
+``/etc/init/<application>`` or ``/etc/init.d/<application>`` depending on which
+serverLoader is being used.
+
+**Syntax**
+
+You can use ``${{variable_name}}`` to reference variables when writing your scirpt.  The default set of variables is:
+
+* ``descr`` - The description of the server.
+* ``author`` - The configured author name.
+* ``exec`` - The script/binary to execute when starting the server
+* ``chdir`` - The working directory for the server.
+* ``retries`` - The number of times to retry starting the server.
+* ``retryTimeout`` - The amount of time to wait before trying to run the server.
+* ``app_name`` - The name of the application (linux friendly)
+* ``app_main_class`` - The main class / entry point of the application.
+* ``app_classpath`` - The (ordered) classpath of the application.
+* ``daemon_user`` - The user that the server should run as.
+
+Server App Config - ``src/templates/etc-default``
+-------------------------------------------------
+
+Creating a file here will override the ``/etc/default/<application>`` template
+used when SystemV is the server loader.
 

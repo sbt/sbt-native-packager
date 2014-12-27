@@ -19,7 +19,9 @@ To create a linux man page for the application, let's create a ``src/linux/usr/s
     .SH SYNOPSIS
     .B example-cli [-h]
 
-Notice the location of the file.  Any file under ``src/linux`` is automatically included, relative to ``/``, in linux packages (deb, rpm).  That means the man file will **not** appear in the universal package (confusing linux users).  
+Notice the location of the file.  Any file under ``src/linux`` is automatically included,
+relative to ``/``, in linux packages (deb, rpm).  That means the man file will **not** appear
+in the universal package (confusing linux users).  
 
 Now that the man page is created, we can use a few tasks provided to view it in sbt.  Let's look in the sbt console ::
 
@@ -51,4 +53,6 @@ distribution.  The resulting man page is stored in ``/usr/share/man/man1/example
 TODO - A bit more on other documentation methods.
 
 
-That's the end fo the getting started guide for Java Applications!  Feel free to read the guide on :doc:`Java Servers <GettingStartedServers>`, which offers a few differences in how configuration is done for packaging to underlying systems.
+That's the end fo the getting started guide for Java Applications!  Feel free to read the guide on 
+:doc:`Java Servers </archetypes/java_server/index>`, which offers a few differences in how configuration
+is done for packaging to underlying systems.

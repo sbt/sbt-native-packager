@@ -9,13 +9,13 @@ Build Configuration
 
 Depending on whether you want to package your application as a deb-package or
 as an rpm-package, you have to setup your build configuration accordingly.
-Please, refer to :doc:`Debian </DetailedTopics/debian>` and :doc:`Redhat </DetailedTopics/redhat>`
+Please, refer to :doc:`Debian </formats/debian>` and :doc:`Redhat </formats/rpm>`
 pages for additional information.
 
 Note that **Upstart** is not supported by all available operation systems and may not always work as expected.
 You can always fallback to the **SystemV** service manager instead.
 For more information on service managers please refer
-to :doc:`Getting Started With Servers </GettingStartedServers/index>` page.
+to :doc:`Getting Started With Servers </archetypes/java_server/index>` page.
 
 Application Configuration
 -------------------------
@@ -41,4 +41,4 @@ One way to provide this information is create ``src/templates/etc-default`` with
 This way you should either store your production configuration under ``${{path_to_app_name}}/conf/production.conf``
 or put it under ``/usr/share/${{app_name}}/conf/production.conf`` by hand or using some configuration management system.
 
-See :doc:`adding configuration </GettingStartedServers/AddingConfiguration>` for more information on `etc-default` template.
+See :doc:`customize java server application </archetypes/java_server/customize>` for more information on `etc-default` template.

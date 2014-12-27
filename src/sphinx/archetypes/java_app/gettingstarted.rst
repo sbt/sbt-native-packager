@@ -1,7 +1,7 @@
 Getting Started
 ===============
 
-The sbt-native-packager is an sbt plugin.  Please follow the :ref:`Installation` instructions for how to set it up on a project.
+The sbt-native-packager is an sbt plugin.  Please follow the :doc:`Installation </gettingstarted>` instructions for how to set it up on a project.
 
 The sbt-native-packager attempts to make building packages for different operating systems easier.  While it provides
 some basic abstractions around packaging, it also allows you to dig down into the nuts and bolts of each platform as
@@ -26,7 +26,7 @@ Defining a new package
 ~~~~~~~~~~~~~~~~~~~~~~
 
 To define a new package, after installing the plugin and ensuring the basic settings are on the project, start configuring your package contents
-either using :ref:`Archetypes` or :ref:`Universal` hooks.  These will describe the appropriate way to begin packaging for your applciation.
+either using :doc:`Archetypes </archetypes/index>` or :ref:`Universal` hooks.  These will describe the appropriate way to begin packaging for your application.
 
 
 

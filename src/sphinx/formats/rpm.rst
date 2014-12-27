@@ -1,22 +1,84 @@
-RedHat
-======
+Rpm Plugin
+==========
 
-RedHat ``rpm`` files support a very advanced number of features.  To take full advantage of this environment, it's best to understand how the ``rpm`` package system works.  http://fedoraproject.org/wiki/How_to_create_an_RPM_package is a good tutorial, but it focuses on building packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated 'binary' packages.
+RedHat ``rpm`` files support a very advanced number of features.  To take full advantage of this environment,
+it's best to understand how the ``rpm`` package system works.
+http://fedoraproject.org/wiki/How_to_create_an_RPM_package is a good tutorial, but it focuses on building
+packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated
+'binary' packages.
 
-Settings
---------
+.. contents:: 
+  :depth: 2
+  
+  
+.. raw:: html
 
-Rpms require the following specific settings:
+  <div class="alert alert-info" role="alert">
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    The rpm plugin dependens on the linux plugin. For general linux settings read the 
+    <a href="linux.html">Linux Plugin Documentation</a>
+  </div>
+  
+  
+Requirements
+------------
+
+You need the following applications installed
+
+* rpm
+
+Build
+-----
+
+.. code-block:: bash
+
+  sbt rpm:packageBin
+
+Required Settings
+~~~~~~~~~~~~~~~~~
+
+A rpm package needs some mandatory settings to be valid. Make sure
+you have these settings in your build:
 
 .. code-block:: scala
 
-    name in Rpm := "sbt",
-    version in Rpm <<= sbtVersion.identity,
-    rpmRelease := "1",
-    rpmVendor := "typesafe",
-    rpmUrl := Some("http://github.com/paulp/sbt-extras"),
-    rpmLicense := Some("BSD"),
-    rpmChangelogFile := Some("changelog")
+    rpmRelease := "1"
+    
+    rpmVendor := "typesafe"
+    
+    rpmUrl := Some("http://github.com/paulp/sbt-extras")
+    
+    rpmLicense := Some("BSD")
+    
+
+1.0 or higher
+~~~~~~~~~~~~~
+
+Enables the rpm plugin
+
+.. code-block:: scala
+
+  enablePlugins(RpmPlugin)
+
+
+0.8 or lower
+~~~~~~~~~~~~
+
+For this versions rpm packaging is automatically activated.
+See the :doc:`Getting Started </gettingstarted>` page for informations
+on how to enable sbt native packager.
+
+Configuration
+-------------
+
+Settings and Tasks inherited from parent plugins can be scoped with ``Rpm``.
+
+.. code-block:: scala
+
+  linuxPackageMappings in Rpm := linuxPackageMappings.value
+
+Settings
+--------
 
 
 Informational Settings
@@ -46,53 +108,53 @@ Dependency Settings
   ``rpmRequirements``
     The RPM packages that are required to be installed for this RPM to work.
     
-    ``rpmProvides``
+  ``rpmProvides``
     The RPM package names that this RPM provides.
     
-    ``rpmPrerequisites``
+  ``rpmPrerequisites``
     The RPM packages this RPM needs before installation
     
-    ``rpmObsoletes``
+  ``rpmObsoletes``
     The packages this RPM allows you to remove
     
-    ``rpmConflcits``
+  ``rpmConflcits``
     The packages this RPM conflicts with and cannot be installed with.
 
 Meta Settings
 ~~~~~~~~~~~~~
 
-    ``rpmPrefix``
+  ``rpmPrefix``
     The path passed set as the base for the revocable package
 
-    ``rpmChangelogFile``
+  ``rpmChangelogFile``
     External file to be imported and used to generate the changelog of the RPM.
 
 
 Scriptlet Settings
 ~~~~~~~~~~~~~~~~~~
     
-    ``rpmPretrans`` 
+  ``rpmPretrans`` 
     The ``%pretrans`` scriptlet to run.
     
-    ``rpmPre``
+  ``rpmPre``
     The ``%pre`` scriptlet to run.
     
-    ``rpmVerifyScript``
+  ``rpmVerifyScript``
     The ``%verifyscript%`` scriptlet to run
     
-    ``rpmPost``
+  ``rpmPost``
     The ``%post`` scriptlet to run
     
-    ``rpmPosttrans``
+  ``rpmPosttrans``
     The ``%posttrans`` scriptlet to run
     
-    ``rpmPreun``
+  ``rpmPreun``
     The ``%preun`` scriptlet to run.
     
-    ``rpmPostun``
+  ``rpmPostun``
     The ``%postun`` scriptlet to run.
     
-    ``rpmBrpJavaRepackJars``
+  ``rpmBrpJavaRepackJars``
     appends ``__os_install_post`` scriplet to ``rpmPre`` avoiding jar repackaging
 
 
@@ -108,12 +170,18 @@ The Rpm support grants the following commands:
     Generates the ``.rpm`` file and runs the ``rpmlint`` command to look for issues in the package.  Useful for debugging.
 
 
-Rpm Prefix
-----------
-The rpm prefix allows you to create a relocatable package as defined by http://www.rpm.org/max-rpm/s1-rpm-reloc-prefix-tag.html.  This optional setting with a handful of overrides to scriptlets and templates will allow you to create a working java_server archetype that can be relocated in the file system.  
+Customize
+---------
 
-Example Settings
-~~~~~~~~~~~~~~~~~~
+Rpm Prefix
+~~~~~~~~~~
+
+The rpm prefix allows you to create a relocatable package as defined by http://www.rpm.org/max-rpm/s1-rpm-reloc-prefix-tag.html.
+This optional setting with a handful of overrides to scriptlets and templates will allow you to create a working java_server
+archetype that can be relocated in the file system.  
+
+
+Example Settings:
 
 .. code-block:: scala
 
@@ -124,19 +192,23 @@ Example Settings
   
 
 rpmChangelogFile
-----------------
-The rpmChangelogFile property allows you to set a source that will be imported and used on the RPM generation. So if you use rpm commands to see the changelog it brings that information. You have to create the content on that file following the RPM conventions that are available here http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs.
+~~~~~~~~~~~~~~~~
 
-Example Settings
-~~~~~~~~~~~~~~~~~~
+The rpmChangelogFile property allows you to set a source that will be imported and used on the RPM generation.
+So if you use rpm commands to see the changelog it brings that information. You have to create the content on
+that file following the RPM conventions that are available here http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs.
+
+Example Settings:
 
 .. code-block:: scala
 
-    changelog := "changelog.txt",
+    changelog := "changelog.txt"
+    
     rpmChangelogFile := Some(changelog)
 
 
-.. code-block:: txt
+.. code-block:: bash
+
     * Sun Aug 24 2014 Team <contact@example.com> - 1.1.0
     -Allow to login using social networks
     * Wed Aug 20 2014 Team <contact@example.com> - 1.0.1
@@ -147,6 +219,7 @@ Example Settings
 
 Template Changes
 ~~~~~~~~~~~~~~~~~~
+
 Apply the following changes to the default init start script.  You can find this in the sbt-native-packager source.
 
 
@@ -165,7 +238,10 @@ Apply the following changes to the default init start script.  You can find this
 
 Scriptlet Changes
 ~~~~~~~~~~~~~~~~~~
-Apply the following changes to the scriptlets that can be found in the sbt-native-packager source.
+
+Changing the scripts can be done in two ways. Override the ``rpmPre``, etc. scripts
+or place your new scripts in the ``src/rpm`scriptlest`` folder. For example:
+
 
 ``src/rpm/scriptlets/post-rpm``
 
@@ -186,7 +262,7 @@ Apply the following changes to the scriptlets that can be found in the sbt-nativ
 
     
 Jar Repackaging
----------------
+~~~~~~~~~~~~~~~
 
 rpm repackages jars by default (described in this `blog post`_) in order to optimize jars.
 This behaviour is turned off by default with this setting.

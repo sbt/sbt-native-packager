@@ -1,5 +1,5 @@
-Docker
-======
+Docker Plugin
+=============
 
 Docker images describe how to set up a container for running an application, including what files are present, and what program to run.
 
@@ -7,27 +7,66 @@ Docker images describe how to set up a container for running an application, inc
   https://docs.docker.com/reference/builder/ describes the Dockerfile; a file which describes how to set up the image.
 
   sbt-native-packager focuses on creating a Docker image which can "just run" the application built by SBT.
+  
+  
+.. contents:: 
+  :depth: 2
 
-Settings
---------
+Requirements
+------------
+
+You need the docker console client installed. SBT Native Packager doesn't use the REST API.
+
+It is currently not possible to provide authentication for Docker repositories from within the build.
+The ``docker`` binary used by the build should already have been configured with the appropriate
+authentication details. See https://docs.docker.com/reference/commandline/cli/#login.
+
+
+Build
+-----
+
+.. code-block:: bash
+
+  sbt docker:publishLocal
+  
+
+Required Settings
+~~~~~~~~~~~~~~~~~
 
 Docker images require the following setting:
 
 .. code-block:: scala
 
-    import NativePackagerKeys._
     maintainer in Docker := "John Smith <john.smith@example.com>"
 
-It may require these settings:
+    
+1.0 or higher
+~~~~~~~~~~~~~
 
 .. code-block:: scala
 
-    packageName in Docker := packageName.value,
-    version in Docker := version.value,
-    dockerBaseImage := "dockerfile/java",
-    dockerRepository := Some("dockeruser"),
-    dockerExposedPorts in Docker := Seq(9000, 9443),
-    dockerExposedVolumes in Docker := Seq("/opt/docker/logs")
+  enablePlugins(DockerPlugin)
+
+0.8.x
+~~~~~
+
+For this versions docker packaging is automatically activated.
+See the :doc:`Getting Started </gettingstarted>` page for informations
+on how to enable sbt native packager.
+
+Configuration
+-------------
+
+Settings and Tasks inherited from parent plugins can be scoped with ``Docker``.
+
+.. code-block:: scala
+
+  mappings in Docker := mappings.value
+  
+
+Settings
+--------
+
 
 Informational Settings
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -85,9 +124,46 @@ The Docker support provides the following commands:
     Builds an image using the local Docker server, and pushes it to the configured remote repository.
 
 
-Install Location
-----------------
-The path to which the application is written can be changed with the setting
+Customize
+---------
 
-  ``defaultLinuxInstallLocation in Docker``
-    The files from ``mappings in Docker`` are extracted underneath this directory.
+Docker Image Name
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: scala
+
+    packageName in Docker := packageName.value
+    
+    version in Docker := version.value
+    
+Docker Base Image
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: scala
+
+    dockerBaseImage := "dockerfile/java"
+    
+Docker Repository
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: scala
+
+    dockerRepository := Some("dockeruser")
+    
+Docker Image Customization
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: scala
+
+    dockerExposedPorts in Docker := Seq(9000, 9443)
+    
+    dockerExposedVolumes in Docker := Seq("/opt/docker/logs")
+
+Install Location
+~~~~~~~~~~~~~~~~
+The path to which the application is written can be changed with the setting.
+The files from ``mappings in Docker`` are extracted underneath this directory.
+
+.. code-block:: scala
+  
+  defaultLinuxInstallLocation in Docker := "/opt/docker"
