@@ -55,7 +55,7 @@ Any help on testing and improving this feature is appreciated so feel free to re
 
 ## Experimental Docker support ##
 
-Native packager now provides experimental `Docker` images.
+Native packager now provides experimental `Docker` images. Docker version `1.3` or higher is required.
 To enable this feature follow [My First Packaged Server Project guide](http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html) and use one of the provided Docker tasks for generating images.
 
 To publish the image, ``dockerRepository`` should be set.
