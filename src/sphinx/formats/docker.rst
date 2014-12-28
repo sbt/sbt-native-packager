@@ -15,7 +15,8 @@ Docker images describe how to set up a container for running an application, inc
 Requirements
 ------------
 
-You need the docker console client installed. SBT Native Packager doesn't use the REST API.
+You need the docker console client installed and version `1.3` or higher is required.
+SBT Native Packager doesn't use the REST API, but instead uses the CLI directly.
 
 It is currently not possible to provide authentication for Docker repositories from within the build.
 The ``docker`` binary used by the build should already have been configured with the appropriate
