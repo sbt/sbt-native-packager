@@ -2,6 +2,6 @@ ${{header}}
 ${{control-functions}}
 
 addGroup ${{daemon_group}} "${{daemon_group_gid}}"
-addUser ${{daemon_user}} "${{debian_user_uid}}" ${{daemon_group}} "${{app_name}} daemon-user" ${{daemon_shell}}
+addUser ${{daemon_user}} "${{daemon_user_uid}}" ${{daemon_group}} "${{app_name}} daemon-user" ${{daemon_shell}}
 
 ${{chown-paths}}
