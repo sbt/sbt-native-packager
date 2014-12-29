@@ -4,33 +4,47 @@
 
 # Adding system user
 # $1 = user
-# $2 = group
-# $3 = description
-# $4 = shell (defaults to /bin/false)
+# $2 = uid
+# $3 = group
+# $4 = description
+# $5 = shell (defaults to /bin/false)
 addUser() {
     user="$1"
     if [ -z "$user" ]; then
 	echo "usage: addUser user [group] [description] [shell]"
 	exit 1
     fi
-    group=${2:-$user}
-    descr=${3:-No description}
-    shell=${4:-/bin/false}
+    uid="$2"
+    if [ -z "$uid" ]; then
+	uid_flags=""
+	  else
+  uid_flags="--uid $uid"
+    fi
+    group=${3:-$user}
+    descr=${4:-No description}
+    shell=${5:-/bin/false}
     if ! getent passwd | grep -q "^$user:";
     then
 	echo "Creating system user: $user in $group with $descr and shell $shell"
-	useradd --gid $group --no-create-home --system --shell $shell -c "$descr" $user
+	useradd $uid_flags --gid $group --no-create-home --system --shell $shell -c "$descr" $user
     fi
 }
 
 # Adding system group
 # $1 = group
+# $2 = gid
 addGroup() {
     group="$1"
+    gid="$2"
+    if [ -z "$gid" ]; then
+	  gid_flags=""
+  else
+    gid_flags="--gid $gid"
+  fi
     if ! getent group | grep -q "^$group:" ;
     then
 	echo "Creating system group: $group"
-	groupadd --system $group
+	groupadd $gid_flags --system $group
     fi
 }
 

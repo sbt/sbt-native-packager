@@ -9,7 +9,9 @@ import com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader
 trait LinuxKeys {
   val packageArchitecture = SettingKey[String]("package-architecture", "The architecture used for this linux package.")
   val daemonUser = SettingKey[String]("daemon-user", "User to start application daemon")
+  val daemonUserUid = SettingKey[Option[String]]("daemon-user-uid", "UID of daemonUser")
   val daemonGroup = SettingKey[String]("daemon-group", "Group to start application daemon")
+  val daemonGroupGid = SettingKey[Option[String]]("daemon-group-gid", "GID of daemonGroup")
   val daemonShell = SettingKey[String]("daemon-shell", "Shell provided for the daemon user")
   val serverLoading = SettingKey[ServerLoader]("server-loader", "Loading system to be used for application start script")
   val startRunlevels = SettingKey[Option[String]]("start-runlevels", "Sequence of runlevels on which application will start up")
@@ -37,6 +39,9 @@ trait LinuxKeys {
          |  appClasspath - application classpath
          |  appMainClass - main class to start
          |  daemonUser - daemon user
+         |  daemonUserUid - daemon user uid
+         |  daemonGroup - daemon group
+         |  daemonGroupGid - daemon group gid
       """.stripMargin
   )
 

@@ -8,6 +8,8 @@ daemonUser in Linux := "daemonuser"
 
 daemonGroup in Linux := "daemongroup"
 
+daemonGroupGid in Linux := Some("25000")
+
 mainClass in Compile := Some("empty")
 
 name := "debian-test"
@@ -25,7 +27,7 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
   val debian = target / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
   val postrm = IO.read(debian / "postrm")
-  assert(postinst contains """addGroup daemongroup """"", "postinst misses addgroup for daemongroup: " + postinst)
+  assert(postinst contains """addGroup daemongroup "25000"""", "postinst misses addgroup for daemongroup: " + postinst)
   assert(postinst contains """addUser daemonuser "" daemongroup "debian-test user-daemon" "/bin/false"""", "postinst misses useradd for daemonuser: " + postinst)
   assert(postinst contains "chown daemonuser:daemongroup /var/log/debian-test", "postinst misses chown daemonuser /var/log/debian-test: " + postinst)
   assert(!(postinst contains "addgroup --system daemonuser"), "postinst has addgroup for daemonuser: " + postinst)

@@ -2,8 +2,8 @@ ${{header}}
 ${{loader-functions}}
 ${{control-functions}}
 
-addGroup ${{daemon_group}}
-addUser ${{daemon_user}} ${{daemon_group}} "${{app_name}} user-daemon" "${{daemon_shell}}"
+addGroup ${{daemon_group}} "${{daemon_group_gid}}"
+addUser ${{daemon_user}} "${{daemon_user_uid}}" ${{daemon_group}} "${{app_name}} user-daemon" "${{daemon_shell}}"
 
 ${{chown-paths}}
 
