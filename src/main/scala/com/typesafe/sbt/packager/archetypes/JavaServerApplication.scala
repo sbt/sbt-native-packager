@@ -98,7 +98,9 @@ object JavaServerAppPackaging extends AutoPlugin {
     )) ++ Seq(
       // === Daemon User and Group ===
       daemonUser in Debian <<= daemonUser in Linux,
+      daemonUserUid in Debian <<= daemonUserUid in Linux,
       daemonGroup in Debian <<= daemonGroup in Linux,
+      daemonGroupGid in Debian <<= daemonGroupGid in Linux,
       // === Maintainer scripts ===
       debianMakePreinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Preinst),
       debianMakePostinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Postinst),
@@ -126,7 +128,9 @@ object JavaServerAppPackaging extends AutoPlugin {
     )) ++ Seq(
       // === Daemon User and Group ===
       daemonUser in Rpm <<= daemonUser in Linux,
+      daemonUserUid in Rpm <<= daemonUserUid in Linux,
       daemonGroup in Rpm <<= daemonGroup in Linux,
+      daemonGroupGid in Rpm <<= daemonGroupGid in Linux,
       // === Startscript creation ===
       linuxStartScriptTemplate := JavaServerLoaderScript(
         script = startScriptName((serverLoading in Rpm).value, Rpm),
