@@ -12,6 +12,13 @@ jdk:
 notifications:
   email:
     - qbranch@typesafe.com
-before_install:
- - sudo apt-get update -qq
- - sudo apt-get install -qq rpm
+#before_install:
+# - sudo apt-get update -qq
+# - sudo apt-get install -qq rpm
+ 
+sudo: false
+cache: 
+ apt: true
+ directories:
+ - $HOME/.sbt
+ - $HOME/.ivy2
