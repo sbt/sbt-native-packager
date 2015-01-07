@@ -115,11 +115,12 @@ object DockerPlugin extends AutoPlugin {
         Some(Cmd("MAINTAINER", maintainer))
     }
 
+    val files = file(dockerBaseDirectory).toPath.subpath(0, 1)
+
     val dockerCommands = Seq(
-      Cmd("ADD", "* /"),
+      Cmd("ADD", s"$files /$files"),
       Cmd("WORKDIR", "%s" format dockerBaseDirectory),
       ExecCmd("RUN", "chown", "-R", daemonUser, "."),
-      ExecCmd("RUN", "rm", "/Dockerfile"),
       Cmd("USER", daemonUser),
       ExecCmd("ENTRYPOINT", entrypoint: _*),
       ExecCmd("CMD")
@@ -200,12 +201,11 @@ object DockerPlugin extends AutoPlugin {
 
   def publishLocalDocker(context: File, tag: String, latest: Boolean, log: Logger): Unit = {
     val cmd = Seq("docker", "build", "--force-rm", "-t", tag, ".")
-    val cwd = context.getParentFile
 
     log.debug("Executing " + cmd.mkString(" "))
-    log.debug("Working directory " + cwd.toString)
+    log.debug("Working directory " + context.toString)
 
-    val ret = Process(cmd, cwd) ! publishLocalLogger(log)
+    val ret = Process(cmd, context) ! publishLocalLogger(log)
 
     if (ret != 0)
       throw new RuntimeException("Nonzero exit value: " + ret)
