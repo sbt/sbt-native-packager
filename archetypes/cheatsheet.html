@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Archetype Cheatsheet &mdash; sbt-native-packager 1.0.0-M4 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0-M4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="sbt-native-packager 1.0.0-M4 documentation" href="../index.html" />
+    <link rel="up" title="Project Archetypes" href="index.html" />
+    <link rel="next" title="Packaging Formats" href="../formats/index.html" />
+    <link rel="prev" title="Akka Microkernel" href="akka_app/index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          sbt-native-packager</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-M4</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#packaging-formats">Packaging Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#archetypes">Archetypes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../gettingstarted.html#sitemap">Sitemap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="java_app/index.html">Java Application Archetype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="java_server/index.html">Java Server Application Archetype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="akka_app/index.html">Akka Microkernel</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Archetype Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Project Archetypes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Packaging Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">Advanced Topics</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Archetype Cheatsheet</a><ul>
+<li><a class="reference internal" href="#path-configurations">Path Configurations</a><ul>
+<li><a class="reference internal" href="#quick-reference-table">Quick Reference Table</a></li>
+<li><a class="reference internal" href="#settings">Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#overriding-templates">Overriding Templates</a><ul>
+<li><a class="reference internal" href="#bat-script-src-templates-bat-template">Bat Script - <tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt></a></li>
+<li><a class="reference internal" href="#bash-script-src-templates-bash-template">Bash Script - <tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt></a></li>
+<li><a class="reference internal" href="#service-manager-src-templates-start">Service Manager - <tt class="docutils literal"><span class="pre">src/templates/start</span></tt></a></li>
+<li><a class="reference internal" href="#server-app-config-src-templates-etc-default">Server App Config - <tt class="docutils literal"><span class="pre">src/templates/etc-default</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="akka_app/index.html" title="Previous Chapter: Akka Microkernel"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Akka Microkernel</span>
+    </a>
+  </li>
+  <li>
+    <a href="../formats/index.html" title="Next Chapter: Packaging Formats"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Packaging Format... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/archetypes/cheatsheet.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="archetype-cheatsheet">
+<span id="cheatsheet"></span><h1>Archetype Cheatsheet<a class="headerlink" href="#archetype-cheatsheet" title="Permalink to this headline">¶</a></h1>
+<p>This is a set FAQ composed on a single page.</p>
+<div class="section" id="path-configurations">
+<h2>Path Configurations<a class="headerlink" href="#path-configurations" title="Permalink to this headline">¶</a></h2>
+<p>This section describes where and how to configure different kind of paths settings.</p>
+<ul class="simple">
+<li>What is the installation location of my package</li>
+<li>Where is the log directory created</li>
+<li>What is the name of my start script</li>
+<li>...</li>
+</ul>
+<div class="section" id="quick-reference-table">
+<h3>Quick Reference Table<a class="headerlink" href="#quick-reference-table" title="Permalink to this headline">¶</a></h3>
+<p>This table gives you a quick overview of the setting and the scope you should use.
+Paths which do not begin with a <tt class="docutils literal"><span class="pre">/</span></tt> are relative to the universal directory.
+The scopes are ordered from general to specific, so a more specific one will override
+the generic one. Only the listed scopes for a setting a relevant. Any changes in other
+scopes will have no effect!</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="14%" />
+<col width="16%" />
+<col width="28%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">output path</th>
+<th class="head">scopes</th>
+<th class="head">archetype</th>
+<th class="head">comment</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>lib</td>
+<td>all</td>
+<td>JavaApp</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>conf</td>
+<td>all</td>
+<td>JavaApp</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>bin/<tt class="docutils literal"><span class="pre">&lt;executableScriptName&gt;</span></tt></td>
+<td>Global</td>
+<td>JavaApp</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>bin/<tt class="docutils literal"><span class="pre">&lt;executableScriptName&gt;</span></tt>.bat</td>
+<td>Global</td>
+<td>JavaApp</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>bin/<tt class="docutils literal"><span class="pre">&lt;executableScriptName&gt;</span></tt></td>
+<td>Global</td>
+<td>&nbsp;</td>
+<td>Entrypoint DockerPlugin</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">&lt;defaultLinuxInstallationLocation&gt;</span></tt>/<tt class="docutils literal"><span class="pre">&lt;packageName&gt;</span></tt></td>
+<td>Linux, Debian, Rpm</td>
+<td>JavaApp</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">&lt;defaultLinuxLogLocation&gt;</span></tt>/<tt class="docutils literal"><span class="pre">&lt;packageName&gt;</span></tt></td>
+<td>Linux</td>
+<td>JavaServerApplication</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>logs</td>
+<td>Linux</td>
+<td>JavaServerApplication</td>
+<td>Symlink</td>
+</tr>
+<tr class="row-even"><td>/etc/default/<tt class="docutils literal"><span class="pre">&lt;packageName&gt;</span></tt></td>
+<td>Linux</td>
+<td>JavaServerApplication</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>/var/run/<tt class="docutils literal"><span class="pre">&lt;packageName&gt;</span></tt></td>
+<td>Linux</td>
+<td>JavaServerApplication</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>/etc/init.d/<tt class="docutils literal"><span class="pre">&lt;packageName&gt;</span></tt></td>
+<td>Linux, Debian, Rpm</td>
+<td>JavaServerApplication</td>
+<td>For SystemV</td>
+</tr>
+<tr class="row-odd"><td>/etc/init/<tt class="docutils literal"><span class="pre">&lt;packageName&gt;</span></tt></td>
+<td>Linux, Debian, Rpm</td>
+<td>JavaServerApplication</td>
+<td>For Upstart</td>
+</tr>
+<tr class="row-even"><td>/usr/lib/systemd/system/<tt class="docutils literal"><span class="pre">&lt;packageName&gt;</span></tt>.service</td>
+<td>Linux, Debian, Rpm</td>
+<td>JavaServerApplication</td>
+<td>For Systemd</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">&lt;defaultLinuxInstallLocation&gt;</span></tt></td>
+<td>Docker</td>
+<td>&nbsp;</td>
+<td>Installation path inside the container</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h3>
+<p>These settings configure the path behaviour</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">name</span></tt></dt>
+<dd>Use for the normal jar generation process</dd>
+<dt><tt class="docutils literal"><span class="pre">packageName</span></tt></dt>
+<dd>Defaults to <tt class="docutils literal"><span class="pre">normalizedName</span></tt>. Can be override in different scopes</dd>
+<dt><tt class="docutils literal"><span class="pre">executableScriptName</span></tt></dt>
+<dd>Defaults to <tt class="docutils literal"><span class="pre">normalizedName</span></tt>. Sets the name of the executable starter script</dd>
+<dt><tt class="docutils literal"><span class="pre">defaultLinuxInstallationLocation</span></tt></dt>
+<dd>Defaults to <tt class="docutils literal"><span class="pre">/usr/share/</span></tt>. Used to determine the installation path for for linux packages (rpm, debian)</dd>
+<dt><tt class="docutils literal"><span class="pre">defaultLinuxLogLocation</span></tt></dt>
+<dd>Defaults to <tt class="docutils literal"><span class="pre">/var/log/</span></tt>. Used to determine the log path for linux packages (rpm, debian).</dd>
+</dl>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="overriding-templates">
+<h2>Overriding Templates<a class="headerlink" href="#overriding-templates" title="Permalink to this headline">¶</a></h2>
+<p>You can override the default template used to generate any of the scripts in
+any archetype.   Listed below are the overridable files and variables that
+you can use when generating scripts.</p>
+<div class="section" id="bat-script-src-templates-bat-template">
+<h3>Bat Script - <tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt><a class="headerlink" href="#bat-script-src-templates-bat-template" title="Permalink to this headline">¶</a></h3>
+<p>Creating a file here will override the default template used to
+generate the <tt class="docutils literal"><span class="pre">.bat</span></tt> script for windows distributions.</p>
+<p><strong>Syntax</strong></p>
+<p><tt class="docutils literal"><span class="pre">&#64;&#64;APP_ENV_NAME&#64;&#64;</span></tt> - will be replaced with the script friendly name of your package.</p>
+<p><tt class="docutils literal"><span class="pre">&#64;&#64;APP_NAME&#64;&#64;</span></tt> - will be replaced with user friendly name of your package.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">&#64;APP_DEFINES&#64;&#64;</span></tt> - will be replaced with a set of variable definitions, like</dt>
+<dd><tt class="docutils literal"><span class="pre">APP_MAIN_CLASS</span></tt>, <tt class="docutils literal"><span class="pre">APP_MAIN_CLASS</span></tt>.</dd>
+</dl>
+<p>You can define addiitonal variable definitions using <tt class="docutils literal"><span class="pre">batScriptExtraDefines</span></tt>.</p>
+</div>
+<div class="section" id="bash-script-src-templates-bash-template">
+<h3>Bash Script - <tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt><a class="headerlink" href="#bash-script-src-templates-bash-template" title="Permalink to this headline">¶</a></h3>
+<p>Creating a file here will override the default template used to
+generate the BASH start script found in <tt class="docutils literal"><span class="pre">bin/&lt;application&gt;</span></tt> in the
+universal distribution</p>
+<p><strong>Syntax</strong></p>
+<p><tt class="docutils literal"><span class="pre">${{template_declares}}</span></tt> - Will be replaced with a series of <tt class="docutils literal"><span class="pre">declare</span> <span class="pre">&lt;var&gt;</span></tt>
+lines based on the <tt class="docutils literal"><span class="pre">bashScriptDefines</span></tt> key.  You can add more defines to
+the <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span></tt> that will be used in addition to the default set:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">app_mainclass</span></tt> - The main class entry point for the application.</li>
+<li><tt class="docutils literal"><span class="pre">app_classpath</span></tt> - The complete classpath for the application (in order).</li>
+</ul>
+</div>
+<div class="section" id="service-manager-src-templates-start">
+<h3>Service Manager - <tt class="docutils literal"><span class="pre">src/templates/start</span></tt><a class="headerlink" href="#service-manager-src-templates-start" title="Permalink to this headline">¶</a></h3>
+<p>Creating a file here will override either the init.d startup script or
+the upstart start script.  It will either be located at
+<tt class="docutils literal"><span class="pre">/etc/init/&lt;application&gt;</span></tt> or <tt class="docutils literal"><span class="pre">/etc/init.d/&lt;application&gt;</span></tt> depending on which
+serverLoader is being used.</p>
+<p><strong>Syntax</strong></p>
+<p>You can use <tt class="docutils literal"><span class="pre">${{variable_name}}</span></tt> to reference variables when writing your scirpt.  The default set of variables is:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">descr</span></tt> - The description of the server.</li>
+<li><tt class="docutils literal"><span class="pre">author</span></tt> - The configured author name.</li>
+<li><tt class="docutils literal"><span class="pre">exec</span></tt> - The script/binary to execute when starting the server</li>
+<li><tt class="docutils literal"><span class="pre">chdir</span></tt> - The working directory for the server.</li>
+<li><tt class="docutils literal"><span class="pre">retries</span></tt> - The number of times to retry starting the server.</li>
+<li><tt class="docutils literal"><span class="pre">retryTimeout</span></tt> - The amount of time to wait before trying to run the server.</li>
+<li><tt class="docutils literal"><span class="pre">app_name</span></tt> - The name of the application (linux friendly)</li>
+<li><tt class="docutils literal"><span class="pre">app_main_class</span></tt> - The main class / entry point of the application.</li>
+<li><tt class="docutils literal"><span class="pre">app_classpath</span></tt> - The (ordered) classpath of the application.</li>
+<li><tt class="docutils literal"><span class="pre">daemon_user</span></tt> - The user that the server should run as.</li>
+</ul>
+</div>
+<div class="section" id="server-app-config-src-templates-etc-default">
+<h3>Server App Config - <tt class="docutils literal"><span class="pre">src/templates/etc-default</span></tt><a class="headerlink" href="#server-app-config-src-templates-etc-default" title="Permalink to this headline">¶</a></h3>
+<p>Creating a file here will override the <tt class="docutils literal"><span class="pre">/etc/default/&lt;application&gt;</span></tt> template
+used when SystemV is the server loader.</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014 sbt-native-packager team.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

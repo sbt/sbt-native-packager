@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; sbt-native-packager 1.0.0-M4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0-M4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="sbt-native-packager 1.0.0-M4 documentation" href="index.html" />
+    <link rel="next" title="Project Archetypes" href="archetypes/index.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          sbt-native-packager</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-M4</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#packaging-formats">Packaging Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#archetypes">Archetypes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#sitemap">Sitemap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archetypes/java_app/index.html">Java Application Archetype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archetypes/java_server/index.html">Java Server Application Archetype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archetypes/akka_app/index.html">Akka Microkernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archetypes/cheatsheet.html">Archetype Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archetypes/index.html">Project Archetypes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats/index.html">Packaging Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/index.html">Advanced Topics</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#version-1-0-and-greater">Version 1.0 and greater</a><ul>
+<li><a class="reference internal" href="#build-scala">Build.scala</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-0-8-x-or-lower">Version 0.8.x or lower</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#packaging-formats">Packaging Formats</a></li>
+<li><a class="reference internal" href="#archetypes">Archetypes</a></li>
+<li><a class="reference internal" href="#sitemap">Sitemap</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="index.html" title="Previous Chapter: <no title>"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; <no title></span>
+    </a>
+  </li>
+  <li>
+    <a href="archetypes/index.html" title="Next Chapter: Project Archetypes"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Project Archetyp... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/gettingstarted.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="contents topic" id="contents">
+<span id="gettingstarted"></span><p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#installation" id="id1">Installation</a><ul>
+<li><a class="reference internal" href="#version-1-0-and-greater" id="id2">Version 1.0 and greater</a></li>
+<li><a class="reference internal" href="#version-0-8-x-or-lower" id="id3">Version 0.8.x or lower</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#packaging-formats" id="id4">Packaging Formats</a></li>
+<li><a class="reference internal" href="#archetypes" id="id5">Archetypes</a></li>
+<li><a class="reference internal" href="#sitemap" id="id6">Sitemap</a></li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h1><a class="toc-backref" href="#id1">Installation</a><a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>The sbt-native-packager is a plugin. To use it, first create a <tt class="docutils literal"><span class="pre">project/plugins.sbt</span></tt> file with the following content.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.typesafe.sbt&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-native-packager&quot;</span> <span class="o">%</span> <span class="s">&quot;x.y.z&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Also, each operating system requires its own tools. These tools are specified
+in the operating system specific sections.</p>
+<div class="section" id="version-1-0-and-greater">
+<h2><a class="toc-backref" href="#id2">Version 1.0 and greater</a><a class="headerlink" href="#version-1-0-and-greater" title="Permalink to this headline">¶</a></h2>
+<p>If you use sbt 0.13.5 or greater you can enable sbt native packager by enabling it in your <tt class="docutils literal"><span class="pre">build.sbt</span></tt>.
+We recommend to <a class="reference external" href="archetypes/">use an archetype</a> for setting up your build</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>but if you only want the bare minimum you can only add the packager plugin</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">SbtNativePackager</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>The autoplugins mechanism will import everything automatically.</p>
+<div class="section" id="build-scala">
+<h3>Build.scala<a class="headerlink" href="#build-scala" title="Permalink to this headline">¶</a></h3>
+<p>If you use a <tt class="docutils literal"><span class="pre">Build.scala</span></tt> you can import the available keys
+with this statement</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.SbtNativePackager.autoImport._</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="version-0-8-x-or-lower">
+<h2><a class="toc-backref" href="#id3">Version 0.8.x or lower</a><a class="headerlink" href="#version-0-8-x-or-lower" title="Permalink to this headline">¶</a></h2>
+<p>If you don&#8217;t use autoplugins you need to import the available
+keys yourself. In your <tt class="docutils literal"><span class="pre">build.sbt</span></tt> or <tt class="docutils literal"><span class="pre">Build.scala</span></tt> add</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.SbtNativePackager._</span>
+<span class="k">import</span> <span class="nn">NativePackagerKeys._</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="packaging-formats">
+<h1><a class="toc-backref" href="#id4">Packaging Formats</a><a class="headerlink" href="#packaging-formats" title="Permalink to this headline">¶</a></h1>
+<hr>
+<div class="row">
+    <div class="col-lg-3">
+      <h2>*.deb</h2>
+      <p>Packaging format for Debian based systems like Ubuntu</p>
+      <pre>debian:packageBin</pre>
+      <a class="btn btn-primary btn-lg" href="formats/debian.html" role="button"><i class="fa fa-linux"></i> Debian Plugin »</a>
+    </div>
+    <div class="col-lg-3">
+      <h2>*.rpm</h2>
+      <p>Packaging format for Redhat based systems like RHEL or CentOS.</p>
+      <pre>rpm:packageBin</pre>
+      <a class="btn btn-primary btn-lg" href="formats/rpm.html" role="button"><i class="fa fa-linux"></i> Rpm Plugin »</a>
+    </div>
+    <div class="col-lg-3">
+      <h2>*.msi</h2>
+      <p>Packaging format for windows systems.</p>
+      <pre>windows:packageBin</pre>
+      <a class="btn btn-primary btn-lg" href="formats/windows.html" role="button"><i class="fa fa-windows"></i> Windows Plugin »</a>
+    </div>
+    <div class="col-lg-3">
+      <h2>*.dmg</h2>
+      <p>Packaging format for osx based systems.</p>
+      <pre>universal:packageOsxDmg</pre>
+      <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fa fa-apple"></i> Universal Plugin »</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <h2>docker</h2>
+      <p>Package your application in a docker container.</p>
+      <pre>docker:publishLocal</pre>
+      <a class="btn btn-primary btn-lg" href="formats/docker.html" role="button"><i class="fa fa-file-archive-o"></i> Docker Plugin »</a>
+    </div>
+    <div class="col-lg-3">
+      <h2>*.zip</h2>
+      <p>Packaging format for all systems supporting zip.</p>
+      <pre>universal:packageBin</pre>
+      <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
+    </div>
+    <div class="col-lg-3">
+      <h2>*.tar</h2>
+      <p>Packaging format for all systems supporting tar.</p>
+      <pre>universal:packageZipTarball</pre>
+      <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
+    </div>
+    <div class="col-lg-3">
+      <h2>*.xz</h2>
+      <p>Packaging format for all systems supporting xz.</p>
+      <pre>universal:packageXzTarball</pre>
+      <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fafa-file-archive-o"></i> Universal Plugin »</a>
+    </div>
+  </div>
+
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"></div>
+<div class="section" id="archetypes">
+<h1><a class="toc-backref" href="#id5">Archetypes</a><a class="headerlink" href="#archetypes" title="Permalink to this headline">¶</a></h1>
+<hr>
+<div class="row">
+    <div class="col-lg-4">
+      <h2>Java Application</h2>
+      <p>Creates a standalone package with an executable bash/bat script.<br>&nbsp; </p>
+      <pre>enablePlugins(JavaAppPackaging)</pre>
+      <a class="btn btn-primary btn-lg" href="archetypes/java_app/" role="button"><i class="fa fa-play-circle-o"></i> Learn more »</a>
+    </div>
+    <div class="col-lg-4">
+      <h2>Java Server</h2>
+      <p>Creates a standalone package with an executabl bash/bat script and additional configuration and autostart.</p>
+      <pre>enablePlugins(JavaServerAppPackaging)</pre>
+      <a class="btn btn-primary btn-lg" href="archetypes/java_server/" role="button"><i class="fa fa-gears"></i> Learn more »</a>
+    </div>
+    <div class="col-lg-4">
+      <h2>Akka Microkernel</h2>
+      <p>Like a the Java Application archetype, but instantiates and runs a subclass of
+      <a href="https://github.com/akka/akka/blob/master/akka-kernel/src/main/scala/akka/kernel/Main.scala">Bootable</a><br>&nbsp;</p>
+      <pre>enablePlugins(AkkaAppPackaging)</pre>
+      <a class="btn btn-primary btn-lg" href="archetypes/akka_app/" role="button"><i class="fa fa-cubes"></i> Learn more »</a>
+    </div>
+  </div></div>
+<div class="section" id="sitemap">
+<h1><a class="toc-backref" href="#id6">Sitemap</a><a class="headerlink" href="#sitemap" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="archetypes/java_app/index.html">Java Application Archetype</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/java_app/index.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/java_app/index.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/java_app/index.html#customize">Customize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/java_app/index.html#sitemap">Sitemap</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="archetypes/java_server/index.html">Java Server Application Archetype</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/java_server/index.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/java_server/index.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/java_server/index.html#customize">Customize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/java_server/index.html#service-managers">Service Managers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/java_server/index.html#sitemap">Sitemap</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="archetypes/akka_app/index.html">Akka Microkernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archetypes/cheatsheet.html">Archetype Cheatsheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/cheatsheet.html#path-configurations">Path Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="archetypes/index.html">Project Archetypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/index.html#java-command-line-application">Java Command Line Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/index.html#java-server">Java Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archetypes/index.html#akka-microkernel-application">Akka Microkernel Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="formats/index.html">Packaging Formats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="formats/universal.html">Universal Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formats/linux.html">Linux Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formats/debian.html">Debian Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formats/rpm.html">Rpm Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formats/docker.html">Docker Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formats/windows.html">Windows Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="topics/index.html">Advanced Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="topics/custom.html">Custom Package Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics/play.html">Play 2 Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics/deployment.html">Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics/documentation.html">Contributing Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014 sbt-native-packager team.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
