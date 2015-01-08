@@ -30,7 +30,7 @@ RUN_CMD="${{chdir}}/bin/${{exec}}"
 start_daemon() {
     log_daemon_msg "Starting" "${{app_name}}"
     [ -d "/var/run/${{app_name}}" ] || install -d -o "$DAEMON_USER" -g "$DAEMON_GROUP" -m755 "/var/run/${{app_name}}"
-    start-stop-daemon --background --chdir ${{chdir}} --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --exec "$RUN_CMD" --start -- $RUN_OPTS
+    start-stop-daemon --background --chdir ${{chdir}} --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --startas "$RUN_CMD" --start -- $RUN_OPTS
     log_end_msg $?
 }
 
