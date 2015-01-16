@@ -39,7 +39,7 @@ stop_daemon() {
 
   log_daemon_msg "Stopping" "${{app_name}}"
 	  if start-stop-daemon --status --pidfile "$PIDFILE"; then
-		  start-stop-daemon --stop --pidfile "$PIDFILE"
+		  start-stop-daemon --stop --pidfile "$PIDFILE" --retry=TERM/${{term_timeout}}/KILL/${{kill_timeout}}
 		  log_end_msg $?
 	  else
 		  log_progress_msg "not running"

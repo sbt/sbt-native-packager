@@ -71,6 +71,8 @@ object LinuxPlugin extends AutoPlugin {
     stopRunlevels := None,
     requiredStartFacilities := None,
     requiredStopFacilities := None,
+    termTimeout := 60,
+    killTimeout := 30,
 
     // Default linux bashscript replacements
     linuxScriptReplacements := makeReplacements(
@@ -84,7 +86,9 @@ object LinuxPlugin extends AutoPlugin {
       daemonUserUid = (daemonUserUid in Linux).value,
       daemonGroup = (daemonGroup in Linux).value,
       daemonGroupGid = (daemonGroupGid in Linux).value,
-      daemonShell = (daemonShell in Linux).value
+      daemonShell = (daemonShell in Linux).value,
+      termTimeout = (termTimeout in Linux).value,
+      killTimeout = (killTimeout in Linux).value
     ),
     linuxScriptReplacements += controlScriptFunctionsReplacement( /* Add key for control-functions */ )
 
@@ -159,7 +163,9 @@ object LinuxPlugin extends AutoPlugin {
     daemonGroupGid: Option[String],
     daemonShell: String,
     retries: Int = 0,
-    retryTimeout: Int = 60
+    retryTimeout: Int = 60,
+    termTimeout: Int = 60,
+    killTimeout: Int = 30
   ): Seq[(String, String)] =
     Seq(
       "author" -> author,
@@ -174,7 +180,9 @@ object LinuxPlugin extends AutoPlugin {
       "daemon_user_uid" -> daemonUserUid.getOrElse(""),
       "daemon_group" -> daemonGroup,
       "daemon_group_gid" -> daemonGroupGid.getOrElse(""),
-      "daemon_shell" -> daemonShell
+      "daemon_shell" -> daemonShell,
+      "term_timeout" -> termTimeout.toString,
+      "kill_timeout" -> killTimeout.toString
     )
 
   /**

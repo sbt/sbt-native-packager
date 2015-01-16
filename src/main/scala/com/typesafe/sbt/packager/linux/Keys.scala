@@ -21,6 +21,8 @@ trait LinuxKeys {
   val linuxPackageMappings = TaskKey[Seq[LinuxPackageMapping]]("linux-package-mappings", "File to install location mappings including owner and privileges.")
   val linuxPackageSymlinks = TaskKey[Seq[LinuxSymlink]]("linux-package-symlinks", "Symlinks we should produce in the underlying package.")
   val generateManPages = TaskKey[Unit]("generate-man-pages", "Shows all the man files in the current project")
+  val termTimeout = SettingKey[Int]("term-timeout", "Timeout before sigterm on stop")
+  val killTimeout = SettingKey[Int]("kill-timeout", "Timeout before sigkill on stop (after term)")
 
   val linuxMakeStartScript = TaskKey[Option[File]]("makeStartScript", "Creates or discovers the start script used by this project")
   val linuxStartScriptTemplate = TaskKey[URL]("linuxStartScriptTemplate", "The location of the template start script file we use for debian (upstart or init.d")
@@ -42,6 +44,8 @@ trait LinuxKeys {
          |  daemonUserUid - daemon user uid
          |  daemonGroup - daemon group
          |  daemonGroupGid - daemon group gid
+         |  termTimeout - timeout before sigterm on stop
+         |  killTimeout - timeout before sigkill on stop (after term)
       """.stripMargin
   )
 
