@@ -33,13 +33,6 @@ Build
 
 Required Settings
 ~~~~~~~~~~~~~~~~~
-
-Docker images require the following setting:
-
-.. code-block:: scala
-
-    maintainer in Docker := "John Smith <john.smith@example.com>"
-
     
 1.0 or higher
 ~~~~~~~~~~~~~
