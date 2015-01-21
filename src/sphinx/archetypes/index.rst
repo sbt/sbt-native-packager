@@ -85,7 +85,7 @@ Java Server
 
 This archetype is designed for Java applications that are intended to run as
 servers or services.  This archetype includes wiring an application to start
-immediately upon startup. To activate this archetype replace ``packageArchetype.java_application`` with
+immediately upon startup. To activate this archetype replace ``packageArchetype.java_application`` with ``packageArchetype.java_server``.
 
 
 The Java Server archetype has a similar installation layout as the java
