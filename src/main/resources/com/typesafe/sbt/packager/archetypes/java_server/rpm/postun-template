@@ -7,12 +7,12 @@ ${{control-functions}}
 if [[ $1 == 0 ]]
 then
     echo "Try deleting system user and group [${{daemon_user}}:${{daemon_group}}]"
-    if getent passwd | grep -q "^${{daemon_user}}:";
+    if getent passwd "${{daemon_user}}" > /dev/null;
     then
 	echo "Deleting system user: ${{daemon_user}}"
 	deleteUser ${{daemon_user}}
     fi
-    if getent group | grep -q "^${{daemon_group}}:" ;
+    if getent group "${{daemon_group}}" > /dev/null ;
     then
 	echo "Deleting system group: ${{daemon_group}}"
 	deleteGroup ${{daemon_group}}
