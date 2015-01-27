@@ -290,11 +290,6 @@ run() {
   exit $exit_code
 }
 
-# Loads a configuration file full of default command line options for this script.
-loadConfigFile() {
-  cat "$1" | sed '/^\#/d'
-}
-
 # Now check to see if it's a good enough version
 # TODO - Check to see if we have a configured default java version, otherwise use 1.6
 java_version_check() { 
@@ -367,7 +362,9 @@ ${{template_declares}}
 # java_cmd is overrode in process_args when -java-home is used
 declare java_cmd=$(get_java_cmd)
 
-# if configuration files exist, prepend their contents to $@ so it can be processed by this runner
-[[ -f "$script_conf_file" ]] && set -- $(loadConfigFile "$script_conf_file") "$@"
+
+# if configuration files exist, source it and use JAVA_OPTS to prepend their contents to $@
+[[ -f "$script_conf_file" ]] && . "$script_conf_file" 
+set -- "$JAVA_OPTS" "$@"
 
 run "$@"
