@@ -2,7 +2,7 @@ language: scala
 os:
   - linux
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION "scripted rpm/* debian/* universal/*"
+  - sbt ++$TRAVIS_SCALA_VERSION "scripted rpm/* debian/* universal/* docker/*"
 scala:
   - 2.10.3
 jdk:
