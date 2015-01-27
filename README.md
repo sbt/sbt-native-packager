@@ -39,24 +39,24 @@ For the native packager keys add this to your `build.sbt`
 ```scala
 import NativePackagerKeys._
 ```
-    
+
 
 
 ## Experimental systemd bootsystem support ##
 
 Native packager now provides experimental `systemd` startup scripts.
-Currently it works on Fedora `Fedora release 20 (Heisenbug)` and doesn't work on Ubuntu because of partial `systemd` support in `Ubuntu 14.04 LTS`. 
+Currently it works on Fedora `Fedora release 20 (Heisenbug)` and doesn't work on Ubuntu because of partial `systemd` support in `Ubuntu 14.04 LTS`.
 To enable this feature follow [My First Packaged Server Project guide](http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html) and use `Systemd` as server loader:
-  
+
     import com.typesafe.sbt.packager.archetypes.ServerLoader.Systemd
     serverLoading in Rpm := Systemd
-  
+
 Any help on testing and improving this feature is appreciated so feel free to report bugs or making PR.
 
 ## Experimental Docker support ##
 
 Native packager now provides experimental `Docker` images. Docker version `1.3` or higher is required.
-To enable this feature follow [My First Packaged Server Project guide](http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html) and use one of the provided Docker tasks for generating images.
+To enable this feature follow [Docker Plugin guide](http://www.scala-sbt.org/sbt-native-packager/formats/docker.html) and use one of the provided Docker tasks for generating images.
 
 To publish the image, ``dockerRepository`` should be set.
 
@@ -74,7 +74,7 @@ packageBin in Debian <<= debianJDebPackaging in Debian
 
 ## Documentation ##
 
-There's a complete "getting started" guide and more detailed topics available at [the sbt-native-packager site](http://scala-sbt.org/sbt-native-packager).  
+There's a complete "getting started" guide and more detailed topics available at [the sbt-native-packager site](http://scala-sbt.org/sbt-native-packager).
 
 Please feel free to [contribute documentation](https://github.com/sbt/sbt-native-packager/tree/master/src/sphinx), or raise issues where you feel it may be lacking.
 
