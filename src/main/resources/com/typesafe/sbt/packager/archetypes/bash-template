@@ -363,8 +363,7 @@ ${{template_declares}}
 declare java_cmd=$(get_java_cmd)
 
 
-# if configuration files exist, source it and use JAVA_OPTS to prepend their contents to $@
-[[ -f "$script_conf_file" ]] && . "$script_conf_file" 
+# use JAVA_OPTS to prepend its contents to $@
 set -- "$JAVA_OPTS" "$@"
 
 run "$@"
