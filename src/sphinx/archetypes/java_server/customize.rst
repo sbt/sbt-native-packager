@@ -34,6 +34,7 @@ Create ``src/templates/etc-default`` with the following template
     # ${{daemon_user}}      daemon user
     # -------------------------------------------------
 
+    # Using $JAVA_OPTS envars
     # Setting -Xmx and -Xms in Megabyte
     # -mem 1024
 
@@ -58,8 +59,15 @@ Create ``src/templates/etc-default`` with the following template
     # using a reserved parameter. See #184
     # -d -- -d
 
+    # Example:
+    # JAVA_OPTS=" -Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS"
+    # JAVA_OPTS=" -mem 1024 -Dkey=val -jvm-debug $JAVA_OPTS"
+
 The file will be installed to ``/etc/default/<normalizedName>`` and read from there
 by the startscript.
+
+*Warning: the format changed, from java option list only, to a shell script setting environment variables.
+A project using previous version should adapts its configuration file.*
 
 Environment variables
 ~~~~~~~~~~~~~~~~~~~~~

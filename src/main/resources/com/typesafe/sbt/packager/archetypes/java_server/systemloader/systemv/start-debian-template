@@ -12,6 +12,10 @@
 source /lib/init/vars.sh
 source /lib/lsb/init-functions
 
+# if configuration files exist, source it and use JAVA_OPTS to prepend their contents to $@
+[[ -f /etc/default/${{app_name}} ]] && . /etc/default/${{app_name}}
+# $JAVA_OPTS used in $RUN_CMD wrapper
+export JAVA_OPTS
 
 PIDFILE=/var/run/${{app_name}}/running.pid
 
