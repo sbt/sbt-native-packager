@@ -65,7 +65,28 @@ object DockerPlugin extends AutoPlugin {
     dockerExposedVolumes := Seq(),
     dockerRepository := None,
     dockerUpdateLatest := false,
-    dockerEntrypoint := Seq("bin/%s" format executableScriptName.value)
+    dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
+    dockerCmd := Seq(),
+    dockerCommands := {
+      val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
+      val user = (daemonUser in Docker).value
+      val group = (daemonGroup in Docker).value
+
+      val generalCommands = makeFrom(dockerBaseImage.value) +: makeMaintainer((maintainer in Docker).value).toSeq
+
+      generalCommands ++
+        Seq(
+          makeAdd(dockerBaseDirectory),
+          makeWorkdir(dockerBaseDirectory),
+          makeChown(user, group, "."),
+          makeUser(user),
+          makeEntrypoint(dockerEntrypoint.value),
+          makeCmd(dockerCmd.value)
+        ) ++
+          makeExposePorts(dockerExposedPorts.value) ++
+          makeVolumes(dockerExposedVolumes.value, user, group)
+
+    }
 
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
       executableScriptName := executableScriptName.value,
@@ -91,79 +112,126 @@ object DockerPlugin extends AutoPlugin {
       target := target.value / "docker",
 
       daemonUser := "daemon",
+      daemonGroup := daemonUser.value,
       defaultLinuxInstallLocation := "/opt/docker",
 
       dockerPackageMappings <<= sourceDirectory map { dir =>
         MappingsHelper contentOf dir
       },
-      dockerGenerateConfig <<= (dockerBaseImage, defaultLinuxInstallLocation,
-        maintainer, daemonUser, executableScriptName,
-        dockerExposedPorts, dockerExposedVolumes, target, dockerEntrypoint) map generateDockerConfig,
+      dockerGenerateConfig <<= (dockerCommands, target) map generateDockerConfig,
       dockerTarget <<= (dockerRepository, packageName, version) map {
-        (repo, name, version) =>
-          repo.map(_ + "/").getOrElse("") + name + ":" + version
+        (repo, name, version) => repo.map(_ + "/").getOrElse("") + name + ":" + version
       }
     ))
 
-  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], entrypoint: Seq[String]) = {
-    val fromCommand = Cmd("FROM", dockerBaseImage)
+  /**
+   * @param maintainer (optional)
+   * @return MAINTAINER if defined
+   */
+  private final def makeMaintainer(maintainer: String): Option[CmdLike] =
+    if (maintainer == null || maintainer.isEmpty) None else Some(Cmd("MAINTAINER", maintainer))
 
-    val maintainerCommand: Option[Cmd] = {
-      if (maintainer.isEmpty)
-        None
-      else
-        Some(Cmd("MAINTAINER", maintainer))
-    }
+  /**
+   * @param dockerBaseImage
+   * @return FROM command
+   */
+  private final def makeFrom(dockerBaseImage: String): CmdLike = Cmd("FROM", dockerBaseImage)
 
+  /**
+   * @param dockerBaseDirectory, the installation directory
+   * @param WORKDIR command, setting dockerBaseDirectory as cwd
+   */
+  private final def makeWorkdir(dockerBaseDirectory: String): CmdLike = Cmd("WORKDIR", dockerBaseDirectory)
+
+  /**
+   * @param dockerBaseDirectory, the installation directory
+   * @return ADD command adding all files inside the installation directory
+   */
+  private final def makeAdd(dockerBaseDirectory: String): CmdLike = {
     val files = dockerBaseDirectory.split(java.io.File.separator)(1)
-
-    val dockerCommands = Seq(
-      Cmd("ADD", s"$files /$files"),
-      Cmd("WORKDIR", "%s" format dockerBaseDirectory),
-      ExecCmd("RUN", "chown", "-R", daemonUser, "."),
-      Cmd("USER", daemonUser),
-      ExecCmd("ENTRYPOINT", entrypoint: _*),
-      ExecCmd("CMD")
-    )
-
-    val exposeCommand: Option[CmdLike] = {
-      if (exposedPorts.isEmpty)
-        None
-      else
-        Some(Cmd("EXPOSE", exposedPorts.mkString(" ")))
-    }
-
-    // If the exposed volume does not exist, the volume is made available
-    // with root ownership. This may be too strict for some directories,
-    // and we lose the feature that all directories below the install path
-    // can be written to by the binary. Therefore the directories are
-    // created before the ownership is changed.
-    val volumeCommands: Seq[CmdLike] = {
-      if (exposedVolumes.isEmpty)
-        Seq()
-      else
-        Seq(
-          ExecCmd("RUN", Seq("mkdir", "-p") ++ exposedVolumes: _*),
-          ExecCmd("VOLUME", exposedVolumes: _*)
-        )
-    }
-
-    val commands =
-      Seq(fromCommand) ++ maintainerCommand ++ volumeCommands ++ exposeCommand ++ dockerCommands
-
-    Dockerfile(commands: _*).makeContent
+    Cmd("ADD", s"$files /$files")
   }
 
-  private[this] final def generateDockerConfig(
-    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File, entrypoint: Seq[String]
-  ) = {
-    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, execScript, exposedPorts, exposedVolumes, entrypoint)
+  /**
+   * @param daemonUser
+   * @param daemonGroup
+   * @param directory to chown recursively
+   * @return chown command, owning the installation directory with the daemonuser
+   */
+  private final def makeChown(daemonUser: String, daemonGroup: String, directory: String): CmdLike =
+    ExecCmd("RUN", "chown", "-R", s"$daemonUser:$daemonGroup", directory)
+
+  /**
+   * @param daemonUser
+   * @return USER docker command
+   */
+  private final def makeUser(daemonUser: String): CmdLike = Cmd("USER", daemonUser)
+
+  /**
+   * @param entrypoint
+   * @return ENTRYPOINT command
+   */
+  private final def makeEntrypoint(entrypoint: Seq[String]): CmdLike = ExecCmd("ENTRYPOINT", entrypoint: _*)
+
+  /**
+   * Default CMD implementation as default parameters to ENTRYPOINT.
+   * @param args
+   * @return CMD with args in exec form
+   */
+  private final def makeCmd(args: Seq[String]): CmdLike = ExecCmd("CMD", args: _*)
+
+  /**
+   * @param exposedPorts
+   * @return if ports are exposed the EXPOSE command
+   */
+  private final def makeExposePorts(exposedPorts: Seq[Int]): Option[CmdLike] = {
+    if (exposedPorts.isEmpty) None else Some(Cmd("EXPOSE", exposedPorts mkString " "))
+  }
+
+  /**
+   * If the exposed volume does not exist, the volume is made available
+   * with root ownership. This may be too strict for some directories,
+   * and we lose the feature that all directories below the install path
+   * can be written to by the binary. Therefore the directories are
+   * created before the ownership is changed.
+   *
+   * All directories created afterwards are chowned.
+   *
+   * @param exposedVolumes
+   * @return commands to create, chown and declare volumes
+   */
+  private final def makeVolumes(exposedVolumes: Seq[String], daemonUser: String, daemonGroup: String): Seq[CmdLike] = {
+    if (exposedVolumes.isEmpty) Seq()
+    else Seq(
+      ExecCmd("RUN", Seq("mkdir", "-p") ++ exposedVolumes: _*),
+      makeChown(daemonUser, daemonGroup, exposedVolumes mkString " "),
+      ExecCmd("VOLUME", exposedVolumes: _*)
+    )
+  }
+
+  /**
+   * @param commands representing the Dockerfile
+   * @return String representation of the Dockerfile described by commands
+   */
+  private final def makeDockerContent(commands: Seq[CmdLike]): String = Dockerfile(commands: _*).makeContent
+
+  /**
+   * @param commands, docker content
+   * @param target directory for Dockerfile
+   * @return Dockerfile
+   */
+  private[this] final def generateDockerConfig(commands: Seq[CmdLike], target: File): File = {
+    val dockerContent = makeDockerContent(commands)
 
     val f = target / "Dockerfile"
     IO.write(f, dockerContent)
     f
   }
 
+  /**
+   * uses the `mappings in Unversial` to generate the
+   * `mappings in Docker`.
+   */
   def mapGenericFilesToDocker: Seq[Setting[_]] = {
     def renameDests(from: Seq[(File, String)], dest: String) = {
       for {
