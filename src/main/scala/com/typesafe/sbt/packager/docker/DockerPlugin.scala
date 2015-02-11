@@ -18,7 +18,7 @@ import sbt.Keys.{
 import packager.Keys._
 import linux.LinuxPlugin.autoImport.{ daemonUser, defaultLinuxInstallLocation }
 import universal.UniversalPlugin.autoImport.stage
-import SbtNativePackager.Universal
+import SbtNativePackager.{ Universal, Linux }
 
 /**
  * == Docker Plugin ==
@@ -74,17 +74,18 @@ object DockerPlugin extends AutoPlugin {
 
       val generalCommands = makeFrom(dockerBaseImage.value) +: makeMaintainer((maintainer in Docker).value).toSeq
 
-      generalCommands ++
+      generalCommands ++ Seq(
+        makeWorkdir(dockerBaseDirectory),
+        makeAdd(dockerBaseDirectory),
+        makeChown(user, group, "." :: Nil)
+      ) ++
+        makeExposePorts(dockerExposedPorts.value) ++
+        makeVolumes(dockerExposedVolumes.value, user, group) ++
         Seq(
-          makeAdd(dockerBaseDirectory),
-          makeWorkdir(dockerBaseDirectory),
-          makeChown(user, group, "."),
           makeUser(user),
           makeEntrypoint(dockerEntrypoint.value),
           makeCmd(dockerCmd.value)
-        ) ++
-          makeExposePorts(dockerExposedPorts.value) ++
-          makeVolumes(dockerExposedVolumes.value, user, group)
+        )
 
     }
 
@@ -129,7 +130,7 @@ object DockerPlugin extends AutoPlugin {
    * @return MAINTAINER if defined
    */
   private final def makeMaintainer(maintainer: String): Option[CmdLike] =
-    if (maintainer == null || maintainer.isEmpty) None else Some(Cmd("MAINTAINER", maintainer))
+    if (maintainer.isEmpty) None else Some(Cmd("MAINTAINER", maintainer))
 
   /**
    * @param dockerBaseImage
@@ -158,8 +159,8 @@ object DockerPlugin extends AutoPlugin {
    * @param directory to chown recursively
    * @return chown command, owning the installation directory with the daemonuser
    */
-  private final def makeChown(daemonUser: String, daemonGroup: String, directory: String): CmdLike =
-    ExecCmd("RUN", "chown", "-R", s"$daemonUser:$daemonGroup", directory)
+  private final def makeChown(daemonUser: String, daemonGroup: String, directories: Seq[String]): CmdLike =
+    ExecCmd("RUN", Seq("chown", "-R", s"$daemonUser:$daemonGroup") ++ directories: _*)
 
   /**
    * @param daemonUser
@@ -199,12 +200,14 @@ object DockerPlugin extends AutoPlugin {
    *
    * @param exposedVolumes
    * @return commands to create, chown and declare volumes
+   * @see http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
+   * @see https://docs.docker.com/userguide/dockervolumes/
    */
   private final def makeVolumes(exposedVolumes: Seq[String], daemonUser: String, daemonGroup: String): Seq[CmdLike] = {
-    if (exposedVolumes.isEmpty) Seq()
+    if (exposedVolumes.isEmpty) Seq.empty
     else Seq(
       ExecCmd("RUN", Seq("mkdir", "-p") ++ exposedVolumes: _*),
-      makeChown(daemonUser, daemonGroup, exposedVolumes mkString " "),
+      makeChown(daemonUser, daemonGroup, exposedVolumes),
       ExecCmd("VOLUME", exposedVolumes: _*)
     )
   }
