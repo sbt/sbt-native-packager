@@ -1,5 +1,5 @@
 
-name := "test-project-jdkpackager"
+name := "JDKPackagerPlugin Example"
 
 version := "0.1.0"
 
@@ -15,7 +15,7 @@ enablePlugins(JDKPackagerPlugin)
 
 maintainer := "Simeon H.K Fitch <fitch@datamininglab.com>"
 
-packageSummary := "JDKPackagerPlugin Example"
+packageSummary := "JDKPackagerPlugin example package thingy"
 
 packageDescription := "A test package using Oracle's JDK bundled javapackager tool."
 

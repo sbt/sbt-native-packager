@@ -9,7 +9,9 @@ import sbt.Keys._
 import sbt._
 import SbtNativePackager.Universal
 /**
- * Package format via Oracle's packaging tool bundled with JDK 7 & 8.
+ * Package format via Oracle's packaging tool bundled with JDK 8.
+ * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
+ * @since 2/11/15
  */
 object JDKPackagerPlugin extends AutoPlugin {
 
@@ -42,10 +44,10 @@ object JDKPackagerPlugin extends AutoPlugin {
         name,
         version,
         packageDescription,
+        maintainer,
         jdkPackageType,
         ClasspathJarPlugin.autoImport.classspathJarName,
         mainClass,
-        // scriptClasspath,
         jdkPackagerBasename,
         jdkAppIcon,
         target,

@@ -44,7 +44,7 @@ object JDKPackagerHelper {
     log.debug(s"Package command: $argString")
 
     // To help debug arguments
-    val script = file(argMap("-outdir")) / "jdkpackage.sh"
+    val script = file(argMap("-outdir")) / "jdkpackager.sh"
     IO.write(script, s"#!/bin/bash\n$argString\n")
     chmod.safe(script, "766")
 
@@ -55,10 +55,10 @@ object JDKPackagerHelper {
     name: String,
     version: String,
     description: String,
+    maintainer: String,
     packageType: String,
     mainJar: String,
     mainClass: Option[String],
-    //    classpath: Seq[String],
     basename: String,
     iconPath: Option[File],
     outputDir: File,
@@ -87,12 +87,12 @@ object JDKPackagerHelper {
       "-outdir" -> outputDir.getAbsolutePath,
       "-outfile" -> basename,
       "-description" -> description,
-      //"-classpath" -> cpStr,
+      "-vendor" -> maintainer,
       s"-BappVersion=$version" -> "",
-      //      s"-BclassPath=$cpStr" -> "",
       s"-BmainJar=lib/$mainJar" -> ""
     ) ++ mainClassArg ++ iconArg
 
-    // TODO: copyright, vendor
+    // TODO: copyright/license
+    // JVM options
   }
 }

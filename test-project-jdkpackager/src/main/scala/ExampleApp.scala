@@ -1,17 +1,19 @@
 import javafx.application.Application
-import javafx.scene.control.Label
+import javafx.scene.Scene
 import javafx.scene.effect.InnerShadow
 import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
-import javafx.scene.text.{Text, Font, FontWeight}
-import javafx.scene.{Group, Scene}
+import javafx.scene.text.{Font, FontWeight, Text}
 import javafx.stage.Stage
 
+
+/** Silly GUI app launcher. */
 object ExampleApp {
   def main(args: Array[String]): Unit = {
     Application.launch(classOf[ExampleApp], args: _*)
   }
 }
+
 /** Silly GUI app. */
 class ExampleApp extends Application {
   def start(primaryStage: Stage): Unit = {
