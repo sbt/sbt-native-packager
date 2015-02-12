@@ -122,8 +122,8 @@ object DockerPlugin extends AutoPlugin {
     val dockerCommands = Seq(
       Cmd("ADD", s"$files /$files"),
       Cmd("WORKDIR", "%s" format dockerBaseDirectory),
-      ExecCmd("RUN", "chown", "-R", daemonUser, "."),
       Raw(dockerRawWithOriginalUser),
+      ExecCmd("RUN", "chown", "-R", daemonUser, "."),
       Cmd("USER", daemonUser),
       Raw(dockerRawWithDaemonUser),
       ExecCmd("ENTRYPOINT", entrypoint: _*),
