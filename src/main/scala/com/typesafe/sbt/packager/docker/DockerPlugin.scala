@@ -65,6 +65,8 @@ object DockerPlugin extends AutoPlugin {
     dockerExposedVolumes := Seq(),
     dockerRepository := None,
     dockerUpdateLatest := false,
+    dockerRawWithOriginalUser := "",
+    dockerRawWithDaemonUser := "",
     dockerEntrypoint := Seq("bin/%s" format executableScriptName.value)
 
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
@@ -97,7 +99,7 @@ object DockerPlugin extends AutoPlugin {
         MappingsHelper contentOf dir
       },
       dockerGenerateConfig <<= (dockerBaseImage, defaultLinuxInstallLocation,
-        maintainer, daemonUser, executableScriptName,
+        maintainer, dockerRawWithOriginalUser, daemonUser, dockerRawWithDaemonUser, executableScriptName,
         dockerExposedPorts, dockerExposedVolumes, target, dockerEntrypoint) map generateDockerConfig,
       dockerTarget <<= (dockerRepository, packageName, version) map {
         (repo, name, version) =>
@@ -105,7 +107,7 @@ object DockerPlugin extends AutoPlugin {
       }
     ))
 
-  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], entrypoint: Seq[String]) = {
+  private[this] final def makeDockerContent(dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, dockerRawWithOriginalUser:String, daemonUser: String, dockerRawWithDaemonUser:String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], entrypoint: Seq[String]) = {
     val fromCommand = Cmd("FROM", dockerBaseImage)
 
     val maintainerCommand: Option[Cmd] = {
@@ -120,8 +122,10 @@ object DockerPlugin extends AutoPlugin {
     val dockerCommands = Seq(
       Cmd("ADD", s"$files /$files"),
       Cmd("WORKDIR", "%s" format dockerBaseDirectory),
+      Raw(dockerRawWithOriginalUser),
       ExecCmd("RUN", "chown", "-R", daemonUser, "."),
       Cmd("USER", daemonUser),
+      Raw(dockerRawWithDaemonUser),
       ExecCmd("ENTRYPOINT", entrypoint: _*),
       ExecCmd("CMD")
     )
@@ -155,9 +159,9 @@ object DockerPlugin extends AutoPlugin {
   }
 
   private[this] final def generateDockerConfig(
-    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, daemonUser: String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File, entrypoint: Seq[String]
+    dockerBaseImage: String, dockerBaseDirectory: String, maintainer: String, dockerRawWithOriginalUser:String, daemonUser: String, dockerRawWithDaemonUser:String, execScript: String, exposedPorts: Seq[Int], exposedVolumes: Seq[String], target: File, entrypoint: Seq[String]
   ) = {
-    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, daemonUser, execScript, exposedPorts, exposedVolumes, entrypoint)
+    val dockerContent = makeDockerContent(dockerBaseImage, dockerBaseDirectory, maintainer, dockerRawWithOriginalUser, daemonUser, dockerRawWithDaemonUser, execScript, exposedPorts, exposedVolumes, entrypoint)
 
     val f = target / "Dockerfile"
     IO.write(f, dockerContent)

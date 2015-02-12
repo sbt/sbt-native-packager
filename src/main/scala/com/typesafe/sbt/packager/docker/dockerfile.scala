@@ -51,6 +51,22 @@ case class Cmd(cmd: String, arg: String) extends CmdLike {
   def makeContent = "%s %s\n" format (cmd, arg)
 }
 
+/**
+ * An raw command
+ *
+ * @example
+ * {{{
+ *   val raw = Cmd("""
+ *                 | RUN [ "grep newguy /etc/passwd && echo user exist || useradd newguy" ]
+ *                 | # a comment
+ *                 | ADD /a/b  /c/d
+ *                 """.stripMargin)
+ * }}}
+ */
+case class Raw(script: String) extends CmdLike {
+  def makeContent = script + "\n"
+}
+
 /** Represents dockerfile used by docker when constructing packages. */
 case class Dockerfile(commands: CmdLike*) {
   def makeContent: String = {
