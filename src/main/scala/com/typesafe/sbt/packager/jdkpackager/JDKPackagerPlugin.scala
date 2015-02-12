@@ -17,7 +17,7 @@ object JDKPackagerPlugin extends AutoPlugin {
     val JDKPackager = config("jdkPackager") extend Universal
   }
   import autoImport._
-  override def requires = JavaAppPackaging // && ClasspathJarPlugin
+  override def requires = JavaAppPackaging && ClasspathJarPlugin
   override lazy val projectSettings = javaPackagerSettings
 
   private val dirname = JDKPackager.name.toLowerCase
@@ -43,8 +43,9 @@ object JDKPackagerPlugin extends AutoPlugin {
         version,
         packageDescription,
         jdkPackageType,
+        ClasspathJarPlugin.autoImport.classspathJarName,
         mainClass,
-        scriptClasspath,
+        // scriptClasspath,
         jdkPackagerBasename,
         jdkAppIcon,
         target,

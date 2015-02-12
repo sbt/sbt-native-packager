@@ -1,5 +1,6 @@
 package com.typesafe.sbt.packager.jdkpackager
 
+import com.typesafe.sbt.packager.chmod
 import sbt._
 
 /**
@@ -43,7 +44,9 @@ object JDKPackagerHelper {
     log.debug(s"Package command: $argString")
 
     // To help debug arguments
-    IO.write(file(argMap("-outdir")) / "make-package.sh", s"#!/bin/bash\n$argString\n")
+    val script = file(argMap("-outdir")) / "jdkpackage.sh"
+    IO.write(script, s"#!/bin/bash\n$argString\n")
+    chmod.safe(script, "766")
 
     Process(args)
   }
@@ -53,8 +56,9 @@ object JDKPackagerHelper {
     version: String,
     description: String,
     packageType: String,
+    mainJar: String,
     mainClass: Option[String],
-    classpath: Seq[String],
+    //    classpath: Seq[String],
     basename: String,
     iconPath: Option[File],
     outputDir: File,
@@ -69,9 +73,9 @@ object JDKPackagerHelper {
       .map(c ⇒ Map("-appclass" -> c))
       .getOrElse(Map.empty)
 
-    val cpSep = sys.props("path.separator")
-    val cp = classpath.map(p ⇒ "lib/" + p)
-    val cpStr = cp.mkString(cpSep)
+    //    val cpSep = sys.props("path.separator")
+    //    val cp = classpath.map(p ⇒ "lib/" + p)
+    //    val cpStr = cp.mkString(cpSep)
 
     // See http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html and
     // http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html for
@@ -85,8 +89,8 @@ object JDKPackagerHelper {
       "-description" -> description,
       //"-classpath" -> cpStr,
       s"-BappVersion=$version" -> "",
-      s"-BclassPath=$cpStr" -> "",
-      s"-BmainJar=${cp.head}" -> ""
+      //      s"-BclassPath=$cpStr" -> "",
+      s"-BmainJar=lib/$mainJar" -> ""
     ) ++ mainClassArg ++ iconArg
 
     // TODO: copyright, vendor

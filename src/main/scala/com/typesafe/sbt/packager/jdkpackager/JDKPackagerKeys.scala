@@ -34,7 +34,6 @@ trait JDKPackagerKeys {
 
   val jdkAppIcon = SettingKey[Option[File]]("jdkAppIcon",
     """Path to platform-specific application icon:
-      |
       |    * `icns`: MacOS
       |    * `ico`: Windows
       |    * `png`: Linux
