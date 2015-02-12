@@ -3,7 +3,8 @@ package com.typesafe.sbt.packager.jdkpackager
 import com.typesafe.sbt.SbtNativePackager
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.SettingsHelper
-import com.typesafe.sbt.packager.universal.UniversalPlugin
+import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
+import com.typesafe.sbt.packager.archetypes.jar.ClasspathJarPlugin
 import sbt.Keys._
 import sbt._
 import SbtNativePackager.Universal
@@ -16,56 +17,64 @@ object JDKPackagerPlugin extends AutoPlugin {
     val JDKPackager = config("jdkPackager") extend Universal
   }
   import autoImport._
-  override def requires = UniversalPlugin
+  override def requires = JavaAppPackaging // && ClasspathJarPlugin
   override lazy val projectSettings = javaPackagerSettings
 
-  private val dirname = "jdkpackager"
+  private val dirname = JDKPackager.name.toLowerCase
 
   def javaPackagerSettings: Seq[Setting[_]] = Seq(
     jdkPackagerTool := JDKPackagerHelper.locateJDKPackagerTool(),
-    name in JDKPackager <<= name,
-    packageName in JDKPackager <<= packageName,
-    maintainer in JDKPackager <<= maintainer,
-    packageSummary in JDKPackager <<= packageSummary,
-    packageDescription in JDKPackager <<= packageDescription,
-    mappings in JDKPackager <<= mappings in Universal
+    jdkAppIcon := None,
+    jdkPackageType := "image",
+    jdkPackagerBasename <<= packageName apply (_ + "-pkg"),
+    mappings in JDKPackager <<= (mappings in Universal) map (_.filter(!_._2.startsWith("bin/")))
   ) ++ inConfig(JDKPackager)(
     Seq(
-      jdkPackagerOutputBasename <<= packageName apply (_ + "-pkg"),
       sourceDirectory <<= sourceDirectory apply (_ / dirname),
       target <<= target apply (_ / dirname),
-      mainClass <<= mainClass in Runtime
-    ) ++ makeArgumentMap ++ makePackageBuilder
+      mainClass <<= mainClass in Runtime,
+      name <<= name,
+      packageName <<= packageName,
+      maintainer <<= maintainer,
+      packageSummary <<= packageSummary,
+      packageDescription <<= packageDescription,
+      packagerArgMap <<= (
+        name,
+        version,
+        packageDescription,
+        jdkPackageType,
+        mainClass,
+        scriptClasspath,
+        jdkPackagerBasename,
+        jdkAppIcon,
+        target,
+        stage in Universal) map JDKPackagerHelper.mkArgMap
+    )  ++ makePackageBuilder
   )
 
   private def checkTool(maybePath: Option[File]) = maybePath.getOrElse(
     sys.error("Please set key `jdkPackagerTool` to `javapackager` path")
   )
 
-  private def makeArgumentMap = Seq(
-    packagerArgMap <<= (name, packageDescription, jdkPackagerOutputBasename, target, classDirectory in Compile, mainClass, stage in Universal) map { (name, desc, basename, outDir, srcDir, mainClass, stage) ⇒
-      Map(
-        "-name" -> name,
-        "-appclass" -> (mainClass getOrElse sys.error("Main application class required.")),
-        "-srcdir" -> stage.getAbsolutePath,
-        "-native" -> "all",
-        "-outdir" -> outDir.getAbsolutePath,
-        "-outfile" -> basename
-      )
-    }
-  )
-
   private def makePackageBuilder = Seq(
-    packageBin <<= (jdkPackagerTool, packagerArgMap, streams) map { (pkgTool, args, s) ⇒
+    packageBin <<= (jdkPackagerTool, jdkPackageType, packagerArgMap, target, streams) map { (pkgTool, pkg, args, target, s) ⇒
+
       val tool = checkTool(pkgTool)
       val proc = JDKPackagerHelper.mkProcess(tool, "-deploy", args, s.log)
+
       (proc ! s.log) match {
         case 0 ⇒ ()
         case x ⇒ sys.error(s"Error running '$tool', exit status: $x")
       }
-      val output = file(args("-outdir")) / (args("-outfile") + ".jar")
-      s.log.info("Wrote " + output)
-      output
+
+      // Oooof. Need to do better than this to determine what was generated.
+      val root = file(args("-outdir"))
+      val globs = Seq("*.dmg", "*.pkg", "*.app", "*.msi", "*.exe", "*.deb", "*.rpm")
+      val finder = globs.foldLeft(PathFinder.empty)(_ +++ root ** _)
+      val result = finder.getPaths.headOption
+      result.foreach(f ⇒ s.log.info("Wrote " + f))
+      // Not sure what to do when we can't find the result
+      result.map(file).getOrElse(root)
     }
   )
 }

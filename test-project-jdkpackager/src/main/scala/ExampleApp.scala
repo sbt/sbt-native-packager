@@ -1,18 +1,19 @@
-import java.util.concurrent._
+import javafx.application.Application
+import javafx.scene.Scene
+import javafx.scene.control.Button
+import javafx.stage.Stage
 
-object ExampleApp extends App {
-
-  val executorService = Executors newFixedThreadPool 2
-
-  while (true) {
-    for(i <- 0 to 5) executorService execute HelloWorld(i)
-    Thread sleep 5000
-  }
-
-}
-
-case class HelloWorld(i: Int) extends Runnable {
-  def run() {
-    println(s"[$i] Hello, world!")
+object ExampleApp {
+  def main(args: Array[String]): Unit = {
+    Application.launch(classOf[ExampleApp], args: _*)
   }
 }
+/** Silly GUI app. */
+class ExampleApp extends Application {
+  def start(primaryStage: Stage): Unit = {
+    val root = new Scene(new Button("Boo!"))
+    primaryStage.setScene(root)
+    primaryStage.show()
+  }
+}
+

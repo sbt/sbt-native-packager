@@ -1,7 +1,9 @@
-import com.typesafe.sbt.packager.jdkpackager.JDKPackagerPlugin
+
 name := "test-project-jdkpackager"
 
 version := "0.1.0"
+
+organization := "com.foo.bar"
 
 libraryDependencies ++= Seq(
     "com.typesafe" % "config" % "1.2.1"
@@ -13,11 +15,15 @@ enablePlugins(JDKPackagerPlugin)
 
 maintainer := "Simeon H.K Fitch <fitch@datamininglab.com>"
 
-packageSummary := "JDK JavaPackager Package"
+packageSummary := "JDKPackagerPlugin Example"
 
-packageDescription :=
-    """A test project
-      |generating a package using
-      |Oracle's `javapackager` tool bundled with the
-      |JDK""".stripMargin
+packageDescription := "A test package using Oracle's JDK bundled javapackager tool."
+
+lazy val iconGlob = sys.props("os.name").toLowerCase match {
+  case os if os.contains("mac") ⇒ "*.icns"
+  case os if os.contains("win") ⇒ "*.ico"
+  case _ ⇒ "*.png"
+}
+
+jdkAppIcon :=  (sourceDirectory.value ** iconGlob).getPaths.headOption.map(file)
 
