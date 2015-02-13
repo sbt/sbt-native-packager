@@ -121,6 +121,11 @@ The Docker support provides the following commands:
 Customize
 ---------
 
+There are some predefined settings, which you can easily customize. These
+settings are explained in some detail in the next sections. If you want to
+describe your Dockerfile completely yourself, you can provide your own 
+`docker commands` as described in `Custom Dockerfile`_.
+
 Docker Image Name
 ~~~~~~~~~~~~~~~~~
 
@@ -149,9 +154,13 @@ Docker Image Customization
 
 .. code-block:: scala
 
-    dockerExposedPorts in Docker := Seq(9000, 9443)
+    dockerExposedPorts := Seq(9000, 9443)
     
-    dockerExposedVolumes in Docker := Seq("/opt/docker/logs")
+    dockerExposedVolumes := Seq("/opt/docker/logs")
+    
+    
+In order to work properly with `USER daemon` the exposed volumes first
+created (if not existend) and chowned. 
 
 Install Location
 ~~~~~~~~~~~~~~~~
@@ -161,3 +170,87 @@ The files from ``mappings in Docker`` are extracted underneath this directory.
 .. code-block:: scala
   
   defaultLinuxInstallLocation in Docker := "/opt/docker"
+
+Custom Dockerfile
+~~~~~~~~~~~~~~~~~
+
+All settings before are used to create a single sequence of docker commands.
+You have the option to write all of them on your own, filter or change existing
+commands or simply add some.
+
+First of all you should take a look what you docker commands look like.
+In your sbt console type
+
+.. code-block:: bash
+
+    > show dockerCommands
+    [info] List(Cmd(FROM,dockerfile/java:latest), Cmd(MAINTAINER,Your Name <y.n@yourcompany.com>), ...)
+    
+
+
+Remove Commands
+===============
+
+SBT Native Packager added some commands you may not need. For example
+the chowning of a exposed volume.
+
+.. code-block:: scala
+
+  import com.typesafe.sbt.packager.docker._
+
+  // we want to filter the chown command for '/data'
+  dockerExposedVolumes += "/data"
+
+  dockerCommands := dockerCommands.value.filterNot {
+  
+    // ExecCmd is a case class, and args is a varargs variable, so you need to bind it with @
+    case ExecCmd("RUN", args @ _*) => args.contains("chown") && args.contains("/data")
+    
+    // dont filter the rest
+    case cmd                       => false
+  }
+
+
+Add Commands
+============
+
+Adding commands is as straigtforward as adding anything in a list.
+
+.. code-block:: scala
+
+  import com.typesafe.sbt.packager.docker._
+  
+  dockerCommands += Cmd("USER", daemonUser.value)
+  
+  dockerCommands ++= Seq(
+    // setting the run script executable
+    ExecCmd("RUN",
+      "chmod", "u+x",
+       s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
+    // setting a daemon user
+    Cmd("USER", "daemon")
+  )
+
+
+Write from Scratch
+==================
+
+You can simply wipe out all docker commands with
+
+.. code-block:: scala
+
+  dockerCommands := Seq()
+  
+  
+Now let's start adding some Docker commands.
+
+.. code-block:: scala
+
+  import com.typesafe.sbt.packager.docker._
+
+  dockerCommands := Seq(
+    Cmd("FROM", "dockerfile/java:latest"),
+    Cmd("MAINTAINER", maintainer.value),
+    ExecCmd("CMD", "echo", "Hello, World from Docker")
+  )
+
