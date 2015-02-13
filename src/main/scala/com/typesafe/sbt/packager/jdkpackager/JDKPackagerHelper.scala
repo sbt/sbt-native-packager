@@ -92,7 +92,10 @@ object JDKPackagerHelper {
       s"-BmainJar=lib/$mainJar" -> ""
     ) ++ mainClassArg ++ iconArg
 
-    // TODO: copyright/license
-    // JVM options
+    // TODO:
+    // * copyright/license
+    // * JVM options
+    // * application arguments
+    // * environment variables?
   }
 }

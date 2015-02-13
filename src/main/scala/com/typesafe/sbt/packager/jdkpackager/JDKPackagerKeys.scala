@@ -9,7 +9,8 @@ trait JDKPackagerKeys {
   val jdkPackagerTool = SettingKey[Option[File]]("jdkPackagerTool",
     "Path to `javapackager` or `javafxpackager` tool in JDK")
   val packagerArgMap = TaskKey[Map[String, String]]("packagerArgMap",
-    "Command line argument key/value pairs used to generate call to `javapackager -createjar`")
+    "An intermediate task for computing the command line argument key/value pairs passed to " +
+      "`javapackager -deploy`")
   val jdkPackagerBasename = SettingKey[String]("jdkPackagerOutputBasename",
     "Filename sans extension for generated installer package.")
   val jdkPackageType = SettingKey[String]("jdkPackageType",
