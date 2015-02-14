@@ -25,7 +25,7 @@ import scala.collection.JavaConverters._
  * @see http://docs.oracle.com/javase/7/docs/technotes/guides/io/fsp/zipfilesystemprovider.html
  */
 object ZipHelper {
-  case class FileMapping(file: File, name: String)
+  case class FileMapping(file: File, name: String, unixMode: Option[Int] = None)
 
   /**
    * Creates a zip file attempting to give files the appropriate unix permissions using Java 6 APIs.
@@ -54,7 +54,7 @@ object ZipHelper {
     }
 
   /**
-   * Creates a zip file attempting to give files the appropriate unix permissions using Java 7 APIs.
+   * Creates a zip file with the apache commons compressor library.
    *
    * Note: This is known to have some odd issues on MacOSX whereby executable permissions
    * are not actually discovered, even though the Info-Zip headers exist and work on
@@ -64,10 +64,73 @@ object ZipHelper {
    * @param outputZip The location of the output file.
    */
   def zip(sources: Traversable[(File, String)], outputZip: File): Unit = {
+    val mappings =
+      for {
+        (file, name) <- sources.toSeq
+        // TODO - Figure out if this is good enough....
+        perm = if (file.isDirectory || file.canExecute) 0755 else 0644
+      } yield FileMapping(file, name, Some(perm))
+    archive(mappings, outputZip)
+  }
+
+  /**
+   * Creates a zip file attempting to give files the appropriate unix permissions using Java 7 APIs.
+   *
+   * @param sources   The files to include in the zip file.
+   * @param outputZip The location of the output file.
+   */
+  def zipNIO(sources: Traversable[(File, String)], outputZip: File): Unit = {
+    require(!outputZip.isDirectory, "Specified output file " + outputZip + " is a directory.")
     val mappings = sources.toSeq.map {
       case (file, name) => FileMapping(file, name)
     }
-    archive(mappings, outputZip)
+
+    // make sure everything is available
+    val outputDir = outputZip.getParentFile
+    IO createDirectory outputDir
+
+    // zipping the sources into the output zip
+    withZipFilesystem(outputZip) { system =>
+      mappings foreach {
+        case FileMapping(dir, name, _) if dir.isDirectory => Files createDirectories (system getPath name)
+        case FileMapping(file, name, _) =>
+          val dest = system getPath name
+          // create parent directories if available
+          Option(dest.getParent) foreach (Files createDirectories _)
+          Files copy (file.toPath, dest, StandardCopyOption.COPY_ATTRIBUTES)
+      }
+    }
+  }
+
+  private def archive(sources: Seq[FileMapping], outputFile: File): Unit = {
+    if (outputFile.isDirectory) sys.error("Specified output file " + outputFile + " is a directory.")
+    else {
+      val outputDir = outputFile.getParentFile
+      IO createDirectory outputDir
+      withZipOutput(outputFile) { output =>
+        for (FileMapping(file, name, mode) <- sources; if !file.isDirectory) {
+          val entry = new ZipArchiveEntry(file, normalizePath(name))
+          // Now check to see if we have permissions for this sucker.
+          mode foreach (entry.setUnixMode)
+          output putArchiveEntry entry
+          // TODO - Write file into output?
+          IOUtils.copy(new java.io.FileInputStream(file), output)
+          output.closeArchiveEntry()
+        }
+      }
+    }
+  }
+
+  /**
+   * using apache commons compress
+   */
+  private def withZipOutput(file: File)(f: ZipArchiveOutputStream => Unit): Unit = {
+    val zipOut = new ZipArchiveOutputStream(file)
+    zipOut setLevel Deflater.BEST_COMPRESSION
+    try { f(zipOut) }
+    finally {
+      zipOut.close()
+    }
   }
 
   /**
@@ -84,32 +147,15 @@ object ZipHelper {
   }
 
   /**
+   * Opens a zip filesystem and creates the file if necessary.
    *
-   */
-  private def archive(sources: Seq[FileMapping], outputFile: File): Unit = {
-    require(!outputFile.isDirectory, "Specified output file " + outputFile + " is a directory.")
-
-    // make sure everything is available
-    val outputDir = outputFile.getParentFile
-    IO createDirectory outputDir
-
-    // zipping the sources into the output zip
-    withZipFilesystem(outputFile) { system =>
-      sources foreach {
-        case FileMapping(dir, name) if dir.isDirectory => Files createDirectories (system getPath name)
-        case FileMapping(file, name)                   => Files copy (file.toPath, system getPath name, StandardCopyOption.COPY_ATTRIBUTES)
-      }
-    }
-
-  }
-
-  /**
-   * Opens a zip filesystem and creates the file if neccessary
+   * Note: This will override an existing zipFile if existent!
    *
    * @param zipFile
    * @param f: FileSystem => Unit, logic working in the filesystem
    */
   def withZipFilesystem(zipFile: File)(f: FileSystem => Unit) {
+    Files deleteIfExists zipFile.toPath
     val env = Map("create" -> "true").asJava
     val uri = URI.create("jar:file:" + zipFile.getAbsolutePath)
 
@@ -120,4 +166,5 @@ object ZipHelper {
       system.close()
     }
   }
+
 }

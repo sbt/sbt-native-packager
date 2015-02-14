@@ -65,6 +65,7 @@ object UniversalPlugin extends AutoPlugin {
     name in UniversalDocs <<= name in Universal,
     name in UniversalSrc <<= name in Universal,
     packageName in Universal <<= packageName,
+    topLevelDirectory := Some((packageName in Universal).value),
     executableScriptName in Universal <<= executableScriptName
   ) ++
     makePackageSettingsForConfig(Universal) ++
@@ -95,12 +96,12 @@ object UniversalPlugin extends AutoPlugin {
     dist
   }
 
-  private type Packager = (File, String, Seq[(File, String)]) => File
+  private type Packager = (File, String, Seq[(File, String)], Option[String]) => File
   /** Creates packaging settings for a given package key, configuration + archive type. */
   private[this] def makePackageSettings(packageKey: TaskKey[File], config: Configuration)(packager: Packager): Seq[Setting[_]] =
     inConfig(config)(Seq(
       mappings in packageKey <<= mappings map checkMappings,
-      packageKey <<= (target, packageName, mappings in packageKey) map packager
+      packageKey <<= (target, packageName, mappings in packageKey, topLevelDirectory) map packager
     ))
 
   /** check that all mapped files actually exist */

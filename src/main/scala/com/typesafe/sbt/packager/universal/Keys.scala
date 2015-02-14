@@ -11,4 +11,5 @@ trait UniversalKeys {
   val stage = TaskKey[File]("stage", "Create a local directory with all the files laid out as they would be in the final distribution.")
   val dist = TaskKey[File]("dist", "Creates the distribution packages.")
   val stagingDirectory = SettingKey[File]("stagingDirectory", "Directory where we stage distributions/releases.")
+  val topLevelDirectory = SettingKey[Option[String]]("topLevelDirectory", "Top level dir in compressed output file.")
 }

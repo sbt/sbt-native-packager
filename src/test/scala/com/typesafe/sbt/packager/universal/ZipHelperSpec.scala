@@ -74,6 +74,26 @@ class ZipHelperSpec extends FlatSpec with Matchers with BeforeAndAfterAll {
     }
   }
 
+  it should "create directories if necessary" in {
+    // setup
+    val out = tmp resolve "dir-creation.zip"
+    val file = tmp resolve "dir-file.txt"
+    Files createFile file
+
+    ZipHelper.zip(List(file.toFile -> "dir/file.txt"), out.toFile)
+
+    ZipHelper.withZipFilesystem(out.toFile) { system =>
+      val zDir = system getPath "dir"
+      Files exists zDir should be(true)
+      Files isDirectory zDir should be(true)
+
+      val zFile = zDir resolve "file.txt"
+      Files exists zFile should be(true)
+      Files isDirectory zFile should be(false)
+    }
+
+  }
+
   /*
    * This is currently not possible.
    */

@@ -7,20 +7,44 @@ import sbt._
 /** Helper methods to package up files into compressed archives. */
 object Archives {
 
-  /** Makes a zip file in the given target directory using the given name. */
-  def makeZip(target: File, name: String, mappings: Seq[(File, String)]): File = {
+  /**
+   * Makes a zip file in the given target directory using the given name.
+   *
+   * @param target folder to build package in
+   * @param name of output (without extension)
+   * @param mappings included in the output
+   * @param top level directory
+   * @return zip file
+   */
+  def makeZip(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File = {
     val zip = target / (name + ".zip")
-    // TODO - If mappings already start with the given name, don't add it?
-    val m2 = mappings map { case (f, p) => f -> (name + "/" + p) }
+
+    // add top level directory if defined
+    val m2 = top map { dir =>
+      mappings map { case (f, p) => f -> (dir + "/" + p) }
+    } getOrElse (mappings)
+
     ZipHelper.zip(m2, zip)
     zip
   }
 
-  /** Makes a zip file in the given target directory using the given name. */
-  def makeNativeZip(target: File, name: String, mappings: Seq[(File, String)]): File = {
+  /**
+   * Makes a zip file in the given target directory using the given name.
+   *
+   * @param target folder to build package in
+   * @param name of output (without extension)
+   * @param mappings included in the output
+   * @param top level directory
+   * @return zip file
+   */
+  def makeNativeZip(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File = {
     val zip = target / (name + ".zip")
-    // TODO - If mappings already start with the given name, don't add it?
-    val m2 = mappings map { case (f, p) => f -> (name + "/" + p) }
+
+    // add top level directory if defined
+    val m2 = top map { dir =>
+      mappings map { case (f, p) => f -> (dir + "/" + p) }
+    } getOrElse (mappings)
+
     ZipHelper.zipNative(m2, zip)
     zip
   }
@@ -29,8 +53,14 @@ object Archives {
    * Makes a dmg file in the given target directory using the given name.
    *
    *  Note:  Only works on OSX
+   *
+   *  @param target folder to build package in
+   *  @param name of output (without extension)
+   *  @param mappings included in the output
+   *  @param top level directory : NOT USED
+   *  @return dmg file
    */
-  def makeDmg(target: File, name: String, mappings: Seq[(File, String)]): File = {
+  def makeDmg(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File = {
     val t = target / "dmg"
     val dmg = target / (name + ".dmg")
     if (!t.isDirectory) IO.createDirectory(t)
@@ -113,25 +143,43 @@ object Archives {
   val makeTgz = makeTarball(gzip, ".tgz") _
   val makeTar = makeTarball(identity, ".tar") _
 
-  /** Helper method used to construct tar-related compression functions. */
-  def makeTarball(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)]): File = {
+  /**
+   * Helper method used to construct tar-related compression functions.
+   * @param target folder to build package in
+   * @param name of output (without extension)
+   * @param mappings included in the output
+   * @param top level directory
+   * @return tar file
+   *
+   */
+  def makeTarball(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File = {
     val relname = name
     val tarball = target / (name + ext)
     IO.withTemporaryDirectory { f =>
       val rdir = f / relname
-      val m2 = mappings map { case (f, p) => f -> (rdir / name / p) }
+      val m2 = top map { dir =>
+        mappings map { case (f, p) => f -> (rdir / dir / p) }
+      } getOrElse {
+        mappings map { case (f, p) => f -> (rdir / p) }
+      }
+
       IO.copy(m2)
       // TODO - Is this enough?
       for (f <- (m2 map { case (_, f) => f }); if f.getAbsolutePath contains "/bin/") {
         println("Making " + f.getAbsolutePath + " executable")
         f.setExecutable(true, false)
       }
+
       IO.createDirectory(tarball.getParentFile)
-      val distdir = IO.listFiles(rdir).headOption.getOrElse {
-        sys.error("Unable to find tarball in directory: " + rdir.getAbsolutePath + ".\n  This could be an issue with the temporary filesystem used to create tarballs.")
+
+      // all directories that should be zipped
+      val distdirs = top map (_ :: Nil) getOrElse {
+        IO.listFiles(rdir).map(_.getName).toList // no top level dir, use all available
       }
+
       val tmptar = f / (relname + ".tar")
-      Process(Seq("tar", "-pcvf", tmptar.getAbsolutePath, distdir.getName), Some(rdir)).! match {
+
+      Process(Seq("tar", "-pcvf", tmptar.getAbsolutePath) ++ distdirs, Some(rdir)).! match {
         case 0 => ()
         case n => sys.error("Error tarballing " + tarball + ". Exit code: " + n)
       }
