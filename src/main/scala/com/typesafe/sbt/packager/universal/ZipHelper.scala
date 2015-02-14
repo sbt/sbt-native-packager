@@ -154,8 +154,8 @@ object ZipHelper {
    * @param zipFile
    * @param f: FileSystem => Unit, logic working in the filesystem
    */
-  def withZipFilesystem(zipFile: File)(f: FileSystem => Unit) {
-    Files deleteIfExists zipFile.toPath
+  def withZipFilesystem(zipFile: File, overwrite: Boolean = true)(f: FileSystem => Unit) {
+    if (overwrite) Files deleteIfExists zipFile.toPath
     val env = Map("create" -> "true").asJava
     val uri = URI.create("jar:file:" + zipFile.getAbsolutePath)
 
