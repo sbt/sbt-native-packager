@@ -27,9 +27,10 @@ object JDKPackagerPlugin extends AutoPlugin {
   def javaPackagerSettings: Seq[Setting[_]] = Seq(
     jdkPackagerTool := JDKPackagerHelper.locateJDKPackagerTool(),
     jdkAppIcon := None,
-    jdkPackageType := "image",
-    jdkPackagerBasename <<= packageName apply (_ + "-pkg"),
-    mappings in JDKPackager <<= (mappings in Universal) map (_.filter(!_._2.startsWith("bin/")))
+    jdkPackagerType := "image",
+    jdkPackagerBasename <<= packageName apply (_ + "-pkg")
+    // jvmOptionFile <<= sourceDirectory apply (src ⇒ Some(src / "conf" / "jvmopts")))
+    // mappings in JDKPackager <<= (mappings in Universal) map (_.filter(!_._2.startsWith("bin/")))
   ) ++ inConfig(JDKPackager)(
     Seq(
       sourceDirectory <<= sourceDirectory apply (_ / dirname),
@@ -45,13 +46,13 @@ object JDKPackagerPlugin extends AutoPlugin {
         version,
         packageDescription,
         maintainer,
-        jdkPackageType,
+        jdkPackagerType,
         ClasspathJarPlugin.autoImport.classspathJarName,
         mainClass,
         jdkPackagerBasename,
         jdkAppIcon,
         target,
-        stage in Universal) map JDKPackagerHelper.mkArgMap
+        stage in Universal) map JDKPackagerHelper.makeArgMap
     )  ++ makePackageBuilder
   )
 
@@ -60,10 +61,10 @@ object JDKPackagerPlugin extends AutoPlugin {
   )
 
   private def makePackageBuilder = Seq(
-    packageBin <<= (jdkPackagerTool, jdkPackageType, packagerArgMap, target, streams) map { (pkgTool, pkg, args, target, s) ⇒
+    packageBin <<= (jdkPackagerTool, jdkPackagerType, packagerArgMap, target, streams) map { (pkgTool, pkg, args, target, s) ⇒
 
       val tool = checkTool(pkgTool)
-      val proc = JDKPackagerHelper.mkProcess(tool, "-deploy", args, s.log)
+      val proc = JDKPackagerHelper.makeProcess(tool, "-deploy", args, s.log)
 
       (proc ! s.log) match {
         case 0 ⇒ ()
