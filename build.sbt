@@ -12,7 +12,8 @@ scalacOptions in Compile ++= Seq("-deprecation", "-target:jvm-1.6")
 
 libraryDependencies ++= Seq(
     "org.apache.commons" % "commons-compress" % "1.4.1",
-    "org.vafer" % "jdeb" % "1.3" artifacts (Artifact("jdeb", "jar", "jar"))
+    "org.vafer" % "jdeb" % "1.3" artifacts (Artifact("jdeb", "jar", "jar")),
+    "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 )
 
 site.settings

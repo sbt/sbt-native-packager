@@ -33,7 +33,7 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.7-RC1")
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0")
 
 // for autoplugins
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.0.0-M4")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.0.0-M5")
 ```
 
 For the native packager keys add this to your `build.sbt`

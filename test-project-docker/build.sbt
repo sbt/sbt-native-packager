@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.docker._
+
 enablePlugins(JavaAppPackaging)
 
 name := "docker-test"

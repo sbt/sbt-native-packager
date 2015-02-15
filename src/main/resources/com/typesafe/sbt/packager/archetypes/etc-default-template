@@ -14,7 +14,6 @@
 # ${{daemon_user}}		daemon user
 # -------------------------------------------------
 
-# Using $JAVA_OPTS envars
 # Setting -Xmx and -Xms in Megabyte
 # -mem 1024
 
@@ -33,7 +32,3 @@
 
 # Don't run the java version check
 # -no-version-check
-
-# Example
-# JAVA_OPTS=" -Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS"
-# JAVA_OPTS=" -mem 1024 -Dkey=val -jvm-debug $JAVA_OPTS"

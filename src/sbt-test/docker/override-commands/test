@@ -1,0 +1,3 @@
+# Generate the Docker image locally
+> docker:publishLocal
+$ exec bash -c 'docker run docker-test:latest | grep -q "Hello world"'

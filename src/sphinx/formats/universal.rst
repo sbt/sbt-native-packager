@@ -278,6 +278,32 @@ changelog in addition to the generic packaging by first defining a changelog in 
 Notice how we're *only* modifying the package mappings for Debian linux packages.  For more information on the underlying packaging settings, see
 :ref:`Windows` and :ref:`Linux` documentation.
 
+Change/Remove Top Level Directory in Output
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Your output package (zip, tar, gz) by default contains a single folder
+with your application. If you want to change this folder or remove this
+top level directory completely use the `topLevelDirectory` setting.
+
+Removing the top level directory
+
+.. code-block:: scala
+
+  topLevelDirectory := None
+  
+    
+Changing it to another value, e.g. the packageName without the version
+
+.. code-block:: scala
+
+  topLevelDirectory := Some(packageName.value)
+  
+Or just a plain hardcoded string
+
+
+.. code-block:: scala
+
+  topLevelDirectory := Some("awesome-app")
 
 MappingsHelper
 ~~~~~~~~~~~~~~

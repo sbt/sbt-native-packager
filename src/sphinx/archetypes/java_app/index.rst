@@ -44,7 +44,7 @@ Version 0.8 or lower
   import com.typesafe.sbt.SbtNativePackager._
   import NativePackagerKeys._
   
-  packageArchetype.java_app
+  packageArchetype.java_application
 
 .. raw:: html
 
