@@ -2,11 +2,11 @@ language: scala
 os:
   - linux
 script:
+  - sbt ++$TRAVIS_SCALA_VERSION "test"
   - sbt ++$TRAVIS_SCALA_VERSION "scripted rpm/* debian/* universal/*"
 scala:
   - 2.10.3
 jdk:
-  - openjdk6
   - openjdk7
   - oraclejdk8
 notifications:
