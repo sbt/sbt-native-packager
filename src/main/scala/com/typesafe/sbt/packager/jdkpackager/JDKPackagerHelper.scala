@@ -46,7 +46,7 @@ object JDKPackagerHelper {
     // To help debug arguments
     val script = file(argMap("-outdir")) / "jdkpackager.sh"
     IO.write(script, s"#!/bin/bash\n$argString\n")
-    chmod.safe(script, "766")
+    chmod(script, "766")
 
     Process(args)
   }
