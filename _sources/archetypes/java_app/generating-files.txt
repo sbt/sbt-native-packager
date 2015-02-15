@@ -7,7 +7,7 @@ Let's dynamically (in the build) construct some files that should be included in
 For the example, let's download a license file for our application and add it to the distribution. First,
 let's create a task which will download a license file.  Add the following to build.sbt 
 
-.. code-block: scala
+.. code-block:: scala
 
     val downloadLicense = taskKey[File]("Downloads the latest license file.")
 
@@ -31,7 +31,7 @@ shows the mapping of the configuration files we set up :doc:`previously <customi
 append files to the mappings rather than relying on the native packager to find things.  Let's add
 the license in the root of the package we're creating.  Add the following to the ``build.sbt``
 
-.. code-block: scala
+.. code-block:: scala
 
     mappings in Universal += downloadLicense.value -> "LICENSE"
 

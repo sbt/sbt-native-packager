@@ -39,7 +39,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://docs.oracle.com/javase/7/docs/technotes/guides/io/fsp/zipfilesystemprovider.html
+</p></span><span class="cmt"><p>http://stackoverflow.com/questions/1050560/maintain-file-permissions-when-extracting-from-a-zip-file-using-jdk-5-api</p></span><span class="cmt"><p>http://stackoverflow.com/questions/3450250/is-it-possible-to-create-a-script-to-save-and-restore-permissions</p></span><span class="cmt"><p>http://stackoverflow.com/questions/17888365/file-permissions-are-not-being-preserved-while-after-zip</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -404,6 +405,20 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.universal.ZipHelper#withZipFilesystem" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="withZipFilesystem(zipFile:sbt.File,overwrite:Boolean)(f:java.nio.file.FileSystem=&gt;Unit):Unit"></a>
+      <a id="withZipFilesystem(File,Boolean)((FileSystem)⇒Unit):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">withZipFilesystem</span><span class="params">(<span name="zipFile">zipFile: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="overwrite">overwrite: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="params">(<span name="f">f: (<span class="extype" name="java.nio.file.FileSystem">FileSystem</span>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Opens a zip filesystem and creates the file if necessary.</p><div class="fullcomment"><div class="comment cmt"><p>Opens a zip filesystem and creates the file if necessary.</p><p>Note: This will override an existing zipFile if existent!
+</p></div><dl class="paramcmts block"><dt class="param">zipFile</dt><dd class="cmt"></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.universal.ZipHelper#zip" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="zip(sources:Traversable[(sbt.File,String)],outputZip:sbt.File):Unit"></a>
       <a id="zip(Traversable[(File,String)],File):Unit"></a>
@@ -416,10 +431,25 @@
         <span class="name">zip</span><span class="params">(<span name="sources">sources: <span class="extype" name="scala.Traversable">Traversable</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="outputZip">outputZip: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Creates a zip file attempting to give files the appropriate unix permissions using Java 6 APIs.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a zip file attempting to give files the appropriate unix permissions using Java 6 APIs.
-Note: This is known to have some odd issues on MacOSX whereby executable permissions
+      <p class="shortcomment cmt">Creates a zip file with the apache commons compressor library.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a zip file with the apache commons compressor library.</p><p>Note: This is known to have some odd issues on MacOSX whereby executable permissions
 are not actually discovered, even though the Info-Zip headers exist and work on
-many variants of linux.  Yay Apple.</p></div><dl class="paramcmts block"><dt class="param">sources</dt><dd class="cmt"><p>The files to include in the zip file.</p></dd><dt class="param">outputZip</dt><dd class="cmt"><p>The location of the output file.
+many variants of linux.  Yay Apple.
+</p></div><dl class="paramcmts block"><dt class="param">sources</dt><dd class="cmt"><p>The files to include in the zip file.</p></dd><dt class="param">outputZip</dt><dd class="cmt"><p>The location of the output file.
+</p></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.universal.ZipHelper#zipNIO" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="zipNIO(sources:Traversable[(sbt.File,String)],outputZip:sbt.File):Unit"></a>
+      <a id="zipNIO(Traversable[(File,String)],File):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">zipNIO</span><span class="params">(<span name="sources">sources: <span class="extype" name="scala.Traversable">Traversable</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="outputZip">outputZip: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Creates a zip file attempting to give files the appropriate unix permissions using Java 7 APIs.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a zip file attempting to give files the appropriate unix permissions using Java 7 APIs.
+</p></div><dl class="paramcmts block"><dt class="param">sources</dt><dd class="cmt"><p>The files to include in the zip file.</p></dd><dt class="param">outputZip</dt><dd class="cmt"><p>The location of the output file.
 </p></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.universal.ZipHelper#zipNative" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="zipNative(sources:Traversable[(sbt.File,String)],outputZip:sbt.File):Unit"></a>
@@ -434,20 +464,6 @@ many variants of linux.  Yay Apple.</p></div><dl class="paramcmts block"><dt cla
       </span>
       </h4>
       <p class="shortcomment cmt">Creates a zip file attempting to give files the appropriate unix permissions using Java 6 APIs.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a zip file attempting to give files the appropriate unix permissions using Java 6 APIs.</p></div><dl class="paramcmts block"><dt class="param">sources</dt><dd class="cmt"><p>The files to include in the zip file.</p></dd><dt class="param">outputZip</dt><dd class="cmt"><p>The location of the output file.
-</p></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.ZipHelper#zipWithPerms" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="zipWithPerms(sources:Traversable[(sbt.File,String,Int)],outputZip:sbt.File):Unit"></a>
-      <a id="zipWithPerms(Traversable[(File,String,Int)],File):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">zipWithPerms</span><span class="params">(<span name="sources">sources: <span class="extype" name="scala.Traversable">Traversable</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>)]</span>, <span name="outputZip">outputZip: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Creates a zip file using the given set of filters</p><div class="fullcomment"><div class="comment cmt"><p>Creates a zip file using the given set of filters</p></div><dl class="paramcmts block"><dt class="param">sources</dt><dd class="cmt"><p>The files to include in the zip file.  A File, Location, Permission pairing.</p></dd><dt class="param">outputZip</dt><dd class="cmt"><p>The location of the output file.
 </p></dd></dl></div>
     </li></ol>
             </div>

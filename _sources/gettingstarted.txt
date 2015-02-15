@@ -137,7 +137,7 @@ Archetypes
       </div>
       <div class="col-lg-4">
         <h2>Java Server</h2>
-        <p>Creates a standalone package with an executabl bash/bat script and additional configuration and autostart.</p>
+        <p>Creates a standalone package with an executable bash/bat script and additional configuration and autostart.</p>
         <pre>enablePlugins(JavaServerAppPackaging)</pre>
         <a class="btn btn-primary btn-lg" href="archetypes/java_server/" role="button"><i class="fa fa-gears"></i> Learn more »</a>
       </div>

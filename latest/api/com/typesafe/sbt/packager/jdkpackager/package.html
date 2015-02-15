@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>universal - com.typesafe.sbt.packager.universal</title>
-          <meta name="description" content="universal - com.typesafe.sbt.packager.universal" />
-          <meta name="keywords" content="universal com.typesafe.sbt.packager.universal" />
+          <title>jdkpackager - com.typesafe.sbt.packager.jdkpackager</title>
+          <meta name="description" content="jdkpackager - com.typesafe.sbt.packager.jdkpackager" />
+          <meta name="keywords" content="jdkpackager com.typesafe.sbt.packager.jdkpackager" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -12,7 +12,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../../index.html';
-            var hash = 'com.typesafe.sbt.packager.universal.package';
+            var hash = 'com.typesafe.sbt.packager.jdkpackager.package';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -26,7 +26,7 @@
       <div id="definition">
         <img src="../../../../../lib/package_big.png" />
         <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a></p>
-        <h1>universal</h1>
+        <h1>jdkpackager</h1>
       </div>
 
       <h4 id="signature" class="signature">
@@ -35,7 +35,7 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <span class="name">universal</span>
+        <span class="name">jdkpackager</span>
       </span>
       </h4>
       
@@ -58,19 +58,19 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.typesafe.sbt.packager.universal.UniversalKeys" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="UniversalKeysextendsAnyRef"></a>
-      <a id="UniversalKeys:UniversalKeys"></a>
+              <ol><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerKeys" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="JDKPackagerKeysextendsAnyRef"></a>
+      <a id="JDKPackagerKeys:JDKPackagerKeys"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="UniversalKeys.html"><span class="name">UniversalKeys</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a href="JDKPackagerKeys.html"><span class="name">JDKPackagerKeys</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      
+      <p class="comment cmt">Keys specific to deployment via the <code>javapackger</code> too.</p>
     </li></ol>
             </div>
 
@@ -78,58 +78,45 @@
 
         <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li name="com.typesafe.sbt.packager.universal.Archives" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="Archives"></a>
-      <a id="Archives:Archives"></a>
+              <ol><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerDeployPlugin" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JDKPackagerDeployPlugin"></a>
+      <a id="JDKPackagerDeployPlugin:JDKPackagerDeployPlugin"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Archives$.html"><span class="name">Archives</span></a>
-      </span>
-      </h4>
-      <p class="comment cmt">Helper methods to package up files into compressed archives.</p>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalDeployPlugin" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="UniversalDeployPlugin"></a>
-      <a id="UniversalDeployPlugin:UniversalDeployPlugin"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="UniversalDeployPlugin$.html"><span class="name">UniversalDeployPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
+        <a href="JDKPackagerDeployPlugin$.html"><span class="name">JDKPackagerDeployPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
       </span>
       </h4>
       
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalPlugin" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="UniversalPlugin"></a>
-      <a id="UniversalPlugin:UniversalPlugin"></a>
+    </li><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerHelper" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JDKPackagerHelper"></a>
+      <a id="JDKPackagerHelper:JDKPackagerHelper"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="UniversalPlugin$.html"><span class="name">UniversalPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
+        <a href="JDKPackagerHelper$.html"><span class="name">JDKPackagerHelper</span></a>
       </span>
       </h4>
-      <p class="comment cmt">Defines behavior to construct a 'universal' zip for installation.</p>
-    </li><li name="com.typesafe.sbt.packager.universal.ZipHelper" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="ZipHelper"></a>
-      <a id="ZipHelper:ZipHelper"></a>
+      <p class="comment cmt">Support/helper functions for interacting with the <code>javapackager</code> tool.</p>
+    </li><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerPlugin" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JDKPackagerPlugin"></a>
+      <a id="JDKPackagerPlugin:JDKPackagerPlugin"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="ZipHelper$.html"><span class="name">ZipHelper</span></a>
+        <a href="JDKPackagerPlugin$.html"><span class="name">JDKPackagerPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
       </span>
       </h4>
-      <p class="comment cmt"></p>
+      <p class="comment cmt">Package format via Oracle's packaging tool bundled with JDK 8.</p>
     </li></ol>
             </div>
 

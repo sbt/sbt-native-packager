@@ -39,7 +39,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Setting the file permissions
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -150,7 +151,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.chmod#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.typesafe.sbt.packager.chmod#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="apply(file:java.io.File,perms:String):Unit"></a>
       <a id="apply(File,String):Unit"></a>
       <h4 class="signature">
@@ -162,7 +163,9 @@
         <span class="name">apply</span><span class="params">(<span name="file">file: <span class="extype" name="java.io.File">File</span></span>, <span name="perms">perms: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Using java 7 nio API to set the permissions.</p><div class="fullcomment"><div class="comment cmt"><p>Using java 7 nio API to set the permissions.
+</p></div><dl class="paramcmts block"><dt class="param">file</dt><dd class="cmt"></dd><dt class="param">perms</dt><dd class="cmt"><p>in octal format
+</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -318,19 +321,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.chmod#safe" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="safe(file:java.io.File,perms:String):Unit"></a>
-      <a id="safe(File,String):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">safe</span><span class="params">(<span name="file">file: <span class="extype" name="java.io.File">File</span></span>, <span name="perms">perms: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4>
-      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
