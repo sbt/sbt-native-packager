@@ -13,7 +13,7 @@ mainClass in Compile := Some("ExampleApp")
 
 enablePlugins(JDKPackagerPlugin)
 
-maintainer := "Simeon H.K Fitch <fitch@datamininglab.com>"
+maintainer := "Simeon H.K Fitch"
 
 packageSummary := "JDKPackagerPlugin example package thingy"
 

@@ -25,12 +25,10 @@ object JDKPackagerPlugin extends AutoPlugin {
   private val dirname = JDKPackager.name.toLowerCase
 
   def javaPackagerSettings: Seq[Setting[_]] = Seq(
-    jdkPackagerTool := JDKPackagerHelper.locateJDKPackagerTool(),
+    jdkPackagerTool <<= javaHome apply JDKPackagerHelper.locateJDKPackagerTool,
     jdkAppIcon := None,
     jdkPackagerType := "image",
     jdkPackagerBasename <<= packageName apply (_ + "-pkg")
-    // jvmOptionFile <<= sourceDirectory apply (src ⇒ Some(src / "conf" / "jvmopts")))
-    // mappings in JDKPackager <<= (mappings in Universal) map (_.filter(!_._2.startsWith("bin/")))
   ) ++ inConfig(JDKPackager)(
     Seq(
       sourceDirectory <<= sourceDirectory apply (_ / dirname),
@@ -57,7 +55,7 @@ object JDKPackagerPlugin extends AutoPlugin {
   )
 
   private def checkTool(maybePath: Option[File]) = maybePath.getOrElse(
-    sys.error("Please set key `jdkPackagerTool` to `javapackager` path")
+    sys.error("Please set key `jdkPackagerTool` to `javapackager` path, which should be find in the `bin` directory of JDK 8 installation.")
   )
 
   private def makePackageBuilder = Seq(
@@ -68,7 +66,7 @@ object JDKPackagerPlugin extends AutoPlugin {
 
       (proc ! s.log) match {
         case 0 ⇒ ()
-        case x ⇒ sys.error(s"Error running '$tool', exit status: $x")
+        case x ⇒ s.log.warn(s"'$tool' had exit status: $x")
       }
 
       // Oooof. Need to do better than this to determine what was generated.

@@ -23,9 +23,10 @@ The `javapackager` tool comes with JDK 8, and found in the `bin` directory along
 
 This plugin must be run on the platform of the target installer. The `javapackager` tool does not provide a means of creating, say, Windows installers on MacOS, etc.
 
-To use create Windows launchers & installers, the WIX Toolset is required:
+To use create Windows launchers & installers, the either the WIX Toolset (``msi``) or Inno Setup (``exe``) is required:
 
 * `WIX Toolset <http://wixtoolset.org/>`_
+* `Inno Setup <http://www.jrsoftware.org/isinfo.php>`_
 
 For further details on the capabilities of `javapackager`, see the `windows <http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html>`_ and `Unix <http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html>`_ references. (Note: only a few of the possible settings are exposed through this plugin. Please submit a `Github <https://github.com/sbt/sbt-native-packager/issues>`_ issue or pull request if something specific is desired.)
 
