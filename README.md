@@ -79,38 +79,16 @@ packageBin in Debian <<= debianJDebPackaging in Debian
 
 JDK 8 from Oracle includes the tool `javapackager` (née `javafxpackager`) to generate application
 launchers and native installers for MacOS X, Windows, and Linux. This plugin complements the existing
-`sbt-native-packager` formats by taking the staged output from `JavaAppPackaging` and `Universal`
-settings and passing them through `javapackager`.
+`sbt-native-packager` formats by taking the settings and staged output from `JavaAppPackaging`
+and passing them through `javapackager`.
 
-This plugin's most significant complement to the core capabilities is the generation of
-MacOS X App bundles and derived `.dmg` and `.pkg` packages. It can also generate Linux `.deb` and `.rpm`
-packages, and Windows `.exe` and `.msi` installers, provided the requisite tools are available on the
-build platform.
+This plugin's most significant complement to the core `sbt-native-packager` capabilities is the
+generation of MacOS X App bundles, and associated `.dmg` and `.pkg` package formats.
+It can also generate Windows `.exe` and `.msi` installers provided the requisite tools are
+available on the Windows build platform.
 
-For details on the capabilities of `javapackager`, see the [windows](http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html) and [Unix](http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html) references. (Note: only a few of the possible
-settings are exposed through this plugin. Please submit a github issue or pull request if something
-specific is desired.)
+For usage details see the [JDKPackager Plugin guide](http://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html).
 
-Using this plugin requires running SBT under JDK 8, or setting `jdkPackagerTool` to the location
-of the tool.
-
-To use, first get your application working per `JavaAppPackaging` instructions (including `mainClass`),
-then add
-
-```scala
-enablePlugins(JDKPackagerPlugin)
-```
-
-to your build file. Then run `sbt jdkPackager:packageBin`.
-
-By default, the plugin makes the installer type that is native to the current build platform in
-the directory `target/jdkpackager`. The key `jdkPackageType` can be used to modify this behavior.
-Run `help jdkPackageType` in sbt for details. The most popular setting is likely to be `jdkAppIcon`. See
-[the example build file](test-project-jdkpackager/build.sbt) on how to use it.
-
-To take it for a test spin, run `sbt jdkPackager:packageBin` in the `test-project-jdkpackager` directory
-and then look in the `target/jdkpackager/bundles` directory for the result. See [Oracle documentation](http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/self-contained-packaging.html) for Windows and
-Linux build prerequisites.
 
 ## Documentation ##
 

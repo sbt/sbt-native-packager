@@ -3,22 +3,28 @@ package com.typesafe.sbt.packager.jdkpackager
 import sbt._
 
 /**
- * Keys specific to deployment via the `javapackger` too.
+ * Keys specific to deployment via the `javapackger` tool.
+ *
+ * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
+ * @since 2/11/15
  */
 trait JDKPackagerKeys {
   val jdkPackagerTool = SettingKey[Option[File]]("jdkPackagerTool",
-    "Path to `javapackager` or `javafxpackager` tool in JDK")
+    "Path to `javapackager` or `javafxpackager` tool in JDK.")
+
   val packagerArgMap = TaskKey[Map[String, String]]("packagerArgMap",
     "An intermediate task for computing the command line argument key/value pairs passed to " +
       "`javapackager -deploy`")
+
   val jdkPackagerBasename = SettingKey[String]("jdkPackagerOutputBasename",
     "Filename sans extension for generated installer package.")
-  val jdkPackageType = SettingKey[String]("jdkPackageType",
+
+  val jdkPackagerType = SettingKey[String]("jdkPackagerType",
     """Value passed as the `-native` argument to `javapackager -deploy`.
       | Per `javapackager` documentation, this may be one of the following:
       |
       |    * `all`: Runs all of the installers for the platform on which it is running,
-      |      and creates a disk image for the application. This value is used if type is not specified.
+      |      and creates a disk image for the application.
       |    * `installer`: Runs all of the installers for the platform on which it is running.
       |    * `image`: Creates a disk image for the application. On OS X, the image is
       |      the .app file. On Linux, the image is the directory that gets installed.
@@ -30,7 +36,7 @@ trait JDKPackagerKeys {
       |    * `exe`: Generates a Windows .exe package.
       |    * `msi`: Generates a Windows Installer package.
       |
-      | (NB: Your mileage may vary.)
+      | Defaults to `image`.
     """.stripMargin)
 
   val jdkAppIcon = SettingKey[Option[File]]("jdkAppIcon",
@@ -38,5 +44,12 @@ trait JDKPackagerKeys {
       |    * `icns`: MacOS
       |    * `ico`: Windows
       |    * `png`: Linux
+      |
+      | Defaults to generic Java icon.
     """.stripMargin)
+
+  // To consider:
+  //  val jvmOptionFile = SettingKey[Option[File]]("jvmOptionFile",
+  //    "File with line delimited options to pass to the application JVM. " +
+  //      "Defaults to `stage/conf/jvmopts")
 }

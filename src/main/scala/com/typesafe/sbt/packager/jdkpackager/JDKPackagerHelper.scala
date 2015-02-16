@@ -10,7 +10,7 @@ import sbt._
  */
 object JDKPackagerHelper {
 
-  // Try to compute determine a default path for the java packager tool.
+  /** Attempts to compute the path to the `javapackager` tool. */
   def locateJDKPackagerTool(): Option[File] = {
     val jdkHome = sys.props.get("java.home").map(p ⇒ file(p))
 
@@ -26,7 +26,73 @@ object JDKPackagerHelper {
       .filter(_.exists())
   }
 
-  def mkProcess(
+  /**
+   * Generates key-value pairs to be converted into command line arguments fed to `javapackager`.
+   * If an argument is mono/standalone (not key/value) then the key stores the complete argument
+   * and the value is the empty string.
+   */
+  private[jdkpackager] def makeArgMap(
+    name: String,
+    version: String,
+    description: String,
+    maintainer: String,
+    packageType: String,
+    mainJar: String,
+    mainClass: Option[String],
+    basename: String,
+    iconPath: Option[File],
+    outputDir: File,
+    sourceDir: File): Map[String, String] = {
+
+    val iconArg = iconPath.toSeq
+      .map(_.getAbsolutePath)
+      .map(p ⇒ s"-Bicon=$p")
+
+    val mainClassArg = mainClass
+      .map(c ⇒ Map("-appclass" -> c))
+      .getOrElse(Map.empty)
+
+    // Make a setting?
+    val jvmOptsFile = (sourceDir ** "jvmopts").getPaths.headOption.map(file)
+
+    val jvmOptsArgs = jvmOptsFile.toSeq.flatMap { jvmopts ⇒
+      IO.readLines(jvmopts).map {
+        case a if a startsWith "-X" ⇒ s"-BjvmOptions=$a"
+        case b if b startsWith "-D" ⇒ s"-BjvmProperties=${b.drop(2)}"
+        case c                      ⇒ "" // Ignoring others.... is this OK?
+      }.filter(_.nonEmpty)
+    }
+
+    // See http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html and
+    // http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html for
+    // command line options. NB: Built-in `-help` is incomplete.
+
+    // TODO:
+    // * copyright/license ( -BlicenseFile=LICENSE )
+    // * environment variables?
+    // * category ?
+
+    val pairs = Map(
+      "-name" -> name,
+      "-srcdir" -> sourceDir.getAbsolutePath,
+      "-native" -> packageType,
+      "-outdir" -> outputDir.getAbsolutePath,
+      "-outfile" -> basename,
+      "-description" -> description,
+      "-vendor" -> maintainer
+    ) ++ mainClassArg
+
+    val singles = Seq(
+      s"-BappVersion=$version",
+      s"-BmainJar=lib/$mainJar"
+    ) ++ iconArg ++ jvmOptsArgs
+
+    // Merge singles into argument pair map. (Need a cleaner abstraction)
+    pairs ++ singles.map((_, "")).toMap
+  }
+
+  /** Generates a configure Process instance, ready to run. */
+  private[jdkpackager] def makeProcess(
     tool: File,
     mode: String,
     argMap: Map[String, String],
@@ -43,7 +109,7 @@ object JDKPackagerHelper {
     }.mkString(" ")
     log.debug(s"Package command: $argString")
 
-    // To help debug arguments
+    // To help debug arguments, create a bash script doing the same.
     val script = file(argMap("-outdir")) / "jdkpackager.sh"
     IO.write(script, s"#!/bin/bash\n$argString\n")
     chmod(script, "766")
@@ -51,51 +117,4 @@ object JDKPackagerHelper {
     Process(args)
   }
 
-  def mkArgMap(
-    name: String,
-    version: String,
-    description: String,
-    maintainer: String,
-    packageType: String,
-    mainJar: String,
-    mainClass: Option[String],
-    basename: String,
-    iconPath: Option[File],
-    outputDir: File,
-    sourceDir: File) = {
-
-    def iconArg = iconPath
-      .map(_.getAbsolutePath)
-      .map(p ⇒ Map(s"-Bicon=$p" -> ""))
-      .getOrElse(Map.empty)
-
-    def mainClassArg = mainClass
-      .map(c ⇒ Map("-appclass" -> c))
-      .getOrElse(Map.empty)
-
-    //    val cpSep = sys.props("path.separator")
-    //    val cp = classpath.map(p ⇒ "lib/" + p)
-    //    val cpStr = cp.mkString(cpSep)
-
-    // See http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html and
-    // http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html for
-    // command line options. NB: Built-in `-help` is incomplete.
-    Map(
-      "-name" -> name,
-      "-srcdir" -> sourceDir.getAbsolutePath,
-      "-native" -> packageType,
-      "-outdir" -> outputDir.getAbsolutePath,
-      "-outfile" -> basename,
-      "-description" -> description,
-      "-vendor" -> maintainer,
-      s"-BappVersion=$version" -> "",
-      s"-BmainJar=lib/$mainJar" -> ""
-    ) ++ mainClassArg ++ iconArg
-
-    // TODO:
-    // * copyright/license
-    // * JVM options
-    // * application arguments
-    // * environment variables?
-  }
 }

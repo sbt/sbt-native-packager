@@ -12,3 +12,4 @@ Packaging Formats
    rpm.rst
    docker.rst
    windows.rst
+   jdkpackager.rst

@@ -27,6 +27,6 @@ lazy val iconGlob = sys.props("os.name").toLowerCase match {
 
 jdkAppIcon :=  (sourceDirectory.value ** iconGlob).getPaths.headOption.map(file)
 
-jdkPackageType := "installer"
+jdkPackagerType := "installer"
 
 fork := true
