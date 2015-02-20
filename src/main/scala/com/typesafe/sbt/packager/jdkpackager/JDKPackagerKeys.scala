@@ -48,8 +48,4 @@ trait JDKPackagerKeys {
       | Defaults to generic Java icon.
     """.stripMargin)
 
-  // To consider:
-  //  val jvmOptionFile = SettingKey[Option[File]]("jvmOptionFile",
-  //    "File with line delimited options to pass to the application JVM. " +
-  //      "Defaults to `stage/conf/jvmopts")
 }

@@ -1,8 +1,12 @@
 package com.typesafe.sbt.packager.jdkpackager
 
+import java.io.FileNotFoundException
+
 import com.typesafe.sbt.packager.chmod
 import sbt._
 
+import scala.tools.util.PathResolver
+import scala.util.Try
 /**
  * Support/helper functions for interacting with the `javapackager` tool.
  * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
@@ -11,19 +15,45 @@ import sbt._
 object JDKPackagerHelper {
 
   /** Attempts to compute the path to the `javapackager` tool. */
-  def locateJDKPackagerTool(): Option[File] = {
-    val jdkHome = sys.props.get("java.home").map(p ⇒ file(p))
-
-    // TODO: How to get version of javaHome target?
-    val javaVersion = VersionNumber(sys.props("java.specification.version"))
-    val toolname = javaVersion.numbers.take(2) match {
-      case Seq(1, m) if m >= 8 ⇒ "javapackager"
-      case _                   ⇒ sys.error("Need at least JDK version 1.8 to run JDKPackager plugin")
+  def locateJDKPackagerTool(javaHome: Option[File]): Option[File] = {
+    val toolname = sys.props("os.name").toLowerCase match {
+      case os if os.contains("win") ⇒ "javapackager.exe"
+      case _                        ⇒ "javapackager"
     }
-    jdkHome
-      .map(f ⇒ if (f.getName == "jre") f / ".." else f)
-      .map(f ⇒ f / "bin" / toolname)
-      .filter(_.exists())
+
+    // This approach to getting JDK bits is borrowed from: http://stackoverflow.com/a/25163628/296509
+    // Starting with an ordered list of possible java directory sources, create derivative and
+    // then test for the tool. It's nasty looking because there's no canonical way of finding the
+    // JDK from the JRE, and JDK_HOME isn't always defined.
+    Seq(
+      // Build-defined
+      javaHome,
+      // Environment override
+      sys.env.get("JDK_HOME").map(file),
+      sys.env.get("JAVA_HOME").map(file),
+      // MacOS X
+      Try("/usr/libexec/java_home".!!.trim).toOption.map(file),
+      // From system properties
+      sys.props.get("java.home").map(file)
+    )
+      // Unlift Option-s
+      .flatten
+      // For each base directory, add the parent variant to cover nested JREs on Unix.
+      .flatMap {
+        f ⇒ Seq(f, f.getAbsoluteFile)
+      }
+      // On Windows we're often running in the JRE and not the JDK. If JDK is installed,
+      // it's likely to be in a parallel directory, with the "jre" prefix changed to "jdk"
+      .flatMap { f ⇒
+        if (f.getName.startsWith("jre")) {
+          Seq(f, f.getParentFile / ("jdk" + f.getName.drop(3)))
+        } else Seq(f)
+      }
+      // Now search for the tool
+      .map { n =>
+        n / "bin" / toolname
+      }
+      .find(_.exists)
   }
 
   /**
@@ -112,7 +142,7 @@ object JDKPackagerHelper {
     // To help debug arguments, create a bash script doing the same.
     val script = file(argMap("-outdir")) / "jdkpackager.sh"
     IO.write(script, s"#!/bin/bash\n$argString\n")
-    chmod(script, "766")
+    Try(chmod(script, "766"))
 
     Process(args)
   }

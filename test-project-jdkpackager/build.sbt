@@ -13,7 +13,8 @@ mainClass in Compile := Some("ExampleApp")
 
 enablePlugins(JDKPackagerPlugin)
 
-maintainer := "Simeon H.K Fitch <fitch@datamininglab.com>"
+// This becomes the Start Menu subdirectory for the windows installers.
+maintainer := "Previously Owned Cats, Inc."
 
 packageSummary := "JDKPackagerPlugin example package thingy"
 
