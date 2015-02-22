@@ -1,6 +1,7 @@
 package com.typesafe.sbt
 package packager
 
+import scala.util.Try
 import java.io.{ File, IOException }
 import java.nio.file.{ Paths, Files }
 import java.nio.file.attribute.{ PosixFilePermission, PosixFilePermissions }
@@ -16,13 +17,24 @@ object chmod {
    * @param file
    * @param perms in octal format
    */
-  def apply(file: File, perms: String): Unit =
-    try {
-      Files.setPosixFilePermissions(file.toPath, permissions(perms))
-    } catch {
-      case e: IOException => sys.error("Error setting permissions " + perms + " on " + file.getAbsolutePath + ": " + e.getMessage)
+  def apply(file: File, perms: String): Unit = {
+    val posix = permissions(perms)
+    val result = Try {
+      Files.setPosixFilePermissions(file.toPath, posix)
+    } recoverWith {
+      // in case of windows      
+      case e: UnsupportedOperationException => Try {
+        file.setExecutable(perms contains PosixFilePermission.OWNER_EXECUTE)
+        file.setWritable(perms contains PosixFilePermission.OWNER_WRITE)
+      }
     }
 
+    // propagate error
+    if (result.isFailure) {
+      val e = result.failed.get
+      sys.error("Error setting permissions " + perms + " on " + file.getAbsolutePath + ": " + e.getMessage)
+    }
+  }
 }
 
 /**

@@ -1,6 +1,6 @@
 package com.typesafe.sbt.packager.universal
 
-import com.typesafe.sbt.packager.DeleteDirectoryVisitor
+import com.typesafe.sbt.packager._
 import com.typesafe.sbt.packager.permissions
 import org.scalatest._
 import java.io.File
@@ -8,80 +8,94 @@ import java.nio.file.{ Path, Paths, Files }
 import java.nio.file.attribute.PosixFilePermission._
 import scala.collection.JavaConversions._
 
-class ZipHelperSpec extends FlatSpec with Matchers with BeforeAndAfterEach {
+class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with BeforeAndAfterAll {
 
   var tmp: Path = _
+  val toDelete = scala.collection.mutable.ListBuffer[Path]()
 
   override def beforeEach {
     tmp = Files createTempDirectory "_sbt-native-packager"
+    toDelete += tmp
   }
 
-  override def afterEach {
-    Files.walkFileTree(tmp, new DeleteDirectoryVisitor)
+  override def afterAll {
+    toDelete foreach { dir =>
+      scala.util.Try {
+        Files.walkFileTree(dir, new DeleteDirectoryVisitor)
+      }
+    }
   }
 
-  "The ZipHelper.zip" should "create a zip with a single file" in {
-    zipSingleFile(ZipHelper.zip)
+  "The ZipHelper.zip" should {
+
+    "create a zip with a single file" taggedAs (LinuxTag, WindowsTag) in {
+      zipSingleFile(ZipHelper.zip)
+    }
+
+    // ignores empty directories
+    "create a zip with nested directories" taggedAs (LinuxTag, WindowsTag) ignore {
+      zipNestedFile(ZipHelper.zip)
+    }
+
+    "create a zip with nested directories containing file" taggedAs (LinuxTag, WindowsTag) in {
+      zipNestedDirsWithFiles(ZipHelper.zip)
+    }
+
+    "create directories if necessary" taggedAs (LinuxTag, WindowsTag) in {
+      createNecessaryDirectories(ZipHelper.zip)
+    }
+
+    // works only on some systems
+    "preserve the executable bit" taggedAs (LinuxTag, WindowsTag) ignore {
+      preserveExecutableBit(ZipHelper.zip)
+    }
   }
 
-  // ignores empty directories
-  it should "create a zip with nested directories" ignore {
-    zipNestedFile(ZipHelper.zip)
+  "The ZipHelper.zipNIO" should {
+
+    "create a zip with a single file" taggedAs (LinuxTag, WindowsTag) in {
+      zipSingleFile(ZipHelper.zipNIO)
+    }
+
+    "create a zip with nested directories" taggedAs (LinuxTag, WindowsTag) in {
+      zipNestedFile(ZipHelper.zipNIO)
+    }
+
+    "create a zip with nested directories containing file" taggedAs (LinuxTag, WindowsTag) in {
+      zipNestedDirsWithFiles(ZipHelper.zipNIO)
+    }
+
+    "create directories if necessary" taggedAs (LinuxTag, WindowsTag) in {
+      createNecessaryDirectories(ZipHelper.zipNIO)
+    }
+
+    // never works
+    "preserve the executable bit" taggedAs (LinuxTag, WindowsTag) ignore {
+      preserveExecutableBit(ZipHelper.zipNIO)
+    }
   }
 
-  it should "create a zip with nested directories containing file" in {
-    zipNestedDirsWithFiles(ZipHelper.zip)
-  }
+  "The ZipHelper.zipNative" should {
+    "create a zip with a single file" taggedAs (LinuxTag) in {
+      zipSingleFile(ZipHelper.zipNative)
+    }
 
-  it should "create directories if necessary" in {
-    createNecessaryDirectories(ZipHelper.zip)
-  }
+    "create a zip with nested directories" taggedAs (LinuxTag) in {
+      zipNestedFile(ZipHelper.zipNative)
+    }
 
-  // works only on some systems
-  it should "preserve the executable bit" ignore {
-    preserveExecutableBit(ZipHelper.zip)
-  }
+    "create a zip with nested directories containing file" taggedAs (LinuxTag) in {
+      zipNestedDirsWithFiles(ZipHelper.zipNative)
+    }
 
-  "The ZipHelper.zipNIO" should "create a zip with a single file" in {
-    zipSingleFile(ZipHelper.zipNIO)
-  }
+    "create directories if necessary" taggedAs (LinuxTag) in {
+      createNecessaryDirectories(ZipHelper.zipNative)
+    }
 
-  it should "create a zip with nested directories" in {
-    zipNestedFile(ZipHelper.zipNIO)
-  }
-
-  it should "create a zip with nested directories containing file" in {
-    zipNestedDirsWithFiles(ZipHelper.zipNIO)
-  }
-
-  it should "create directories if necessary" in {
-    createNecessaryDirectories(ZipHelper.zipNIO)
-  }
-
-  // never works
-  it should "preserve the executable bit" ignore {
-    preserveExecutableBit(ZipHelper.zipNIO)
-  }
-
-  "The ZipHelper.zipNative" should "create a zip with a single file" in {
-    zipSingleFile(ZipHelper.zipNative)
-  }
-
-  it should "create a zip with nested directories" in {
-    zipNestedFile(ZipHelper.zipNative)
-  }
-
-  it should "create a zip with nested directories containing file" in {
-    zipNestedDirsWithFiles(ZipHelper.zipNative)
-  }
-
-  it should "create directories if necessary" in {
-    createNecessaryDirectories(ZipHelper.zipNative)
-  }
-
-  // never works
-  it should "preserve the executable bit" ignore {
-    preserveExecutableBit(ZipHelper.zipNative)
+    // never works
+    "preserve the executable bit" taggedAs (LinuxTag) ignore {
+      preserveExecutableBit(ZipHelper.zipNative)
+    }
   }
 
   /* ========================================================== */
@@ -92,8 +106,7 @@ class ZipHelperSpec extends FlatSpec with Matchers with BeforeAndAfterEach {
 
   private def zipSingleFile(zipper: Zipper) {
     val out = tmp resolve "single.zip"
-    val file = tmp resolve "single.txt"
-    Files createFile file
+    val file = Files createFile (tmp resolve "single.txt")
 
     zipper(List(file.toFile -> "single.txt"), out.toFile)
 
@@ -101,6 +114,7 @@ class ZipHelperSpec extends FlatSpec with Matchers with BeforeAndAfterEach {
       val zippedFile = system getPath "single.txt"
       Files exists zippedFile should be(true)
     }
+
   }
 
   private def zipNestedFile(zipper: Zipper) {
