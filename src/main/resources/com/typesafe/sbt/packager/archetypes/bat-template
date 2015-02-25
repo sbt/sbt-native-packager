@@ -137,8 +137,6 @@ if defined CUSTOM_MAIN_CLASS (
 
 rem Call the application and pass all arguments unchanged.
 "%_JAVACMD%" !_JAVA_OPTS! !@@APP_ENV_NAME@@_OPTS! -cp "%APP_CLASSPATH%" %MAIN_CLASS% !_APP_ARGS!
-if ERRORLEVEL 1 goto error
-goto end
 
 @endlocal
 
