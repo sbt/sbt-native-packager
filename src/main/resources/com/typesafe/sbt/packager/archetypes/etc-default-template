@@ -1,6 +1,10 @@
-# #################################
-# ##### Default configuration #####
-# #################################
+# #####################################
+# ##### Environment Configuration #####
+# #####################################
+
+# This file gets sourced before the actual bashscript
+# gets executed. You can use this file to provide
+# environment variables
 
 # Available replacements 
 # ------------------------------------------------
@@ -14,21 +18,11 @@
 # ${{daemon_user}}		daemon user
 # -------------------------------------------------
 
-# Setting -Xmx and -Xms in Megabyte
-# -mem 1024
+# Setting JAVA_OPTS
+# -----------------
+# JAVA_OPTS="-Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS"
 
-# Setting -X directly (-J is stripped)
-# -J-X
-# -J-Xmx1024
-
-# Add additional jvm parameters
-# -Dkey=val
-
-# For play applications you may set
-# -Dpidfile.path=/var/run/${{app_name}}/play.pid
-
-# Turn on JVM debugging, open at the given port
-# -jvm-debug <port>  
-
-# Don't run the java version check
-# -no-version-check
+# export env vars for 3rd party libs
+# ----------------------------------
+# COMPANY_API_KEY=123abc
+# export COMPANY_API_KEY

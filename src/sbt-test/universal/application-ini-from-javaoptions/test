@@ -1,0 +1,4 @@
+# Run the zip packaging.
+> stage
+# $ exists target/universal/tmp/conf/application.ini
+> check

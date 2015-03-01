@@ -3,7 +3,7 @@ package packager
 package archetypes
 
 import sbt._
-import sbt.Keys.{ mappings, target, name, mainClass, sourceDirectory }
+import sbt.Keys.{ mappings, target, name, mainClass, sourceDirectory, javaOptions, streams }
 import packager.Keys.{ packageName, executableScriptName }
 import linux.{ LinuxFileMetaData, LinuxPackageMapping }
 import linux.LinuxPlugin.autoImport.{ linuxPackageMappings, defaultLinuxInstallLocation }
@@ -39,6 +39,11 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
    */
   val batTemplate = "bat-template"
 
+  /**
+   * Location for the application.ini file used by the bash script to load initialization parameters for jvm and app
+   */
+  val appIniLocation = "${app_home}/../conf/application.ini"
+
   object autoImport extends JavaAppKeys
 
   import JavaAppPackaging.autoImport._
@@ -46,6 +51,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
   override def requires = debian.DebianPlugin && rpm.RpmPlugin && docker.DockerPlugin && windows.WindowsPlugin
 
   override def projectSettings = Seq(
+    javaOptions in Universal := Nil,
     // Here we record the classpath as it's added to the mappings separately, so
     // we can use its order to generate the bash/bat scripts.
     scriptClasspathOrdering := Nil,
@@ -61,11 +67,34 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     mappings in Universal <++= scriptClasspathOrdering,
     scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames,
     bashScriptExtraDefines := Nil,
-    bashScriptConfigLocation <<= bashScriptConfigLocation ?? None,
+    // Create a bashConfigLocation if options are set in build.sbt
+    bashScriptConfigLocation <<= bashScriptConfigLocation ?? Some(appIniLocation),
     bashScriptEnvConfigLocation <<= bashScriptEnvConfigLocation ?? None,
-    bashScriptExtraDefines <++= (bashScriptEnvConfigLocation in Universal) map { _.map { config =>
-            "[[ -f '" + config +"' ]] && source " + config 
-    }.toSeq },
+    mappings in Universal := {
+      val log = streams.value.log
+      val universalMappings = (mappings in Universal).value
+      val dir = (target in Universal).value
+      val options = (javaOptions in Universal).value
+
+      bashScriptConfigLocation.value.collect {
+        case location if options.nonEmpty =>
+          val configFile = dir / "tmp" / "conf" / "application.ini"
+          IO.writeLines(configFile, "# options from build" +: options)
+          val filteredMappings = universalMappings.filter {
+            case (file, path) => path != appIniLocation
+          }
+          // Warn the user if he tries to specify options
+          if (filteredMappings.size < universalMappings.size) {
+            log.warn("--------!!! JVM Options are defined twice !!!-----------")
+            log.warn("application.ini is already present in output package. Will be overriden by 'javaOptions in Universal'")
+          }
+          (configFile -> cleanApplicationIniPath(location)) +: filteredMappings
+
+      }.getOrElse(universalMappings)
+
+    },
+
+    // ---
     bashScriptDefines <<= (Keys.mainClass in (Compile, bashScriptDefines), scriptClasspath in bashScriptDefines, bashScriptExtraDefines, bashScriptConfigLocation) map { (mainClass, cp, extras, config) =>
       val hasMain =
         for {
@@ -123,7 +152,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
       artifactClassifier.filterNot(_.isEmpty).map("-" + _).getOrElse("") +
       ".jar"
 
-  // Determines a nicer filename for an attributed jar file, using the 
+  // Determines a nicer filename for an attributed jar file, using the
   // ivy metadata if available.
   private def getJarFullFilename(dep: Attributed[File]): String = {
     val filename: Option[String] = for {
@@ -208,6 +237,20 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
       dep <- deps
       realDep <- findRealDep(dep, projectArts)
     } yield realDep.data -> ("lib/" + getJarFullFilename(realDep))
+
+  /**
+   * Currently unused.
+   * TODO figure out a proper way to ship default `application.ini` if necessary
+   */
+  protected def applicationIniTemplateSource: java.net.URL = getClass.getResource("application.ini-template")
+
+  /**
+   * @param path that could be relative to app_home
+   * @return path relative to app_home
+   */
+  private def cleanApplicationIniPath(path: String): String = {
+    path.replaceFirst("\\$\\{app_home\\}/../", "")
+  }
 }
 
 /**
@@ -272,4 +315,3 @@ trait JavaAppStartScript {
     }
 
 }
-

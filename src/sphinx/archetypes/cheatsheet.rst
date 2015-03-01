@@ -65,6 +65,90 @@ These settings configure the path behaviour
     Defaults to ``/var/log/``. Used to determine the log path for linux packages (rpm, debian).
     
 
+JVM Options
+===========
+
+Jvm options can be added via different mechanisms. It depends on your use case which is most suitable.
+The available options are
+
+- Adding via ``bashScriptExtraDefines`` and ``batScriptExtraDefines``
+- Providing a ``application.ini`` (JavaApp) or ``etc-default`` (JavaServer) file
+- Set ``javaOptions in Universal`` (JavaApp) or ``javaOptions in Linux`` (JavaServer, linux only)
+
+.. raw:: html
+
+  <div class="alert alert-warning" role="alert">
+    If you want to change the location of your config keep in mind that
+    the path in <strong>bashScriptConfigLocation</strong> should either 
+    <ul>
+    <li>be <strong>absolute</strong> (e.g. <em>/etc/etc-default/my-config</em>) or</li> 
+    <li>starting with <em>${app_home}/../</em> (e.g. <em>${app_home}/../conf/application.ini</em>)</li>
+    </ul>
+  </div>
+
+Extra Defines
+-------------
+
+With this approach you are altering the bash/bat script that gets executed.
+Your configuration is literally woven into it, so it applies to any archetype
+using this bashscript (app, akka app, server, ...).
+
+For a bash script this could look like this.
+
+.. code-block:: scala
+
+     bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/app.config""""
+     
+     // or more. -X options don't need to be prefixed with -J
+     bashScriptExtraDefines ++= Seq(
+        """addJava "-Xms1024m"""",
+        """addJava "-Xmx2048m""""
+     )
+     
+For information take a look at the :doc:` customize section for java apps </archetypes/java_app/customize>`
+
+File - application.ini or etc-default
+-----------------------------------
+
+Another approach would be to provide a file that is read by the bash script during execution.
+
+Java App
+~~~~~~~~
+
+Create a file ``src/universal/conf/application.ini`` (gets automatically added to the package mappings)
+and add this to your ``build.sbt`` inject the config location into the bashscript.
+
+.. code-block:: scala
+    
+    bashScriptConfigLocation := Some("${app_home}/../conf/application.ini")
+    
+
+Java Server
+~~~~~~~~~~~
+
+See :ref:`server-app-config`
+
+Setting - javaOptions
+---------------------
+  
+The last option to set your java options is using ``javaOptions in Universal`` (JavaApp and Server).
+This will generate files according to your archetype. The following table gives you an overview what
+you can use and how things will be behave if you mix different options. Options lower in the table
+are more specific and will thus override the any previous settings (if allowed).
+
+========  =========  ========================  ==========  ========  =======
+javaOpts  Scope      bashScriptConfigLocation  Archetype   mappings  comment
+========  =========  ========================  ==========  ========  =======
+Nil       Universal  None                      JavaApp               No jvm options
+Nil       Universal  Some(appIniLocation)      JavaApp               User provides the application.ini file in ``src/universal/conf/application.ini``
+opts      Universal  Some(_)                   JavaApp     added     creates ``application.ini`` but leaves ``bashScriptConfigLocation`` unchanged
+opts      Universal  None                      JavaApp     added     creates ``application.ini`` and sets ``bashScriptConfigLocation``. If ``src/universal/conf/application.ini`` is present it will be overridden
+Nil       Linux      None                      JavaServer  added     creates ``etc-default`` and sets ``bashScriptConfigLocation``
+opts      Linux      None                      JavaServer  added     creates ``etc-default``, appends ``javaOptions in Linux`` and sets ``bashScriptConfigLocation``
+opts      Linux      Some(_)                   JavaServer  added     creates ``etc-default``, appends ``javaOptions in Linux`` and overrides ``bashScriptConfigLocation``
+========  =========  ========================  ==========  ========  =======
+
+
 
 Overriding Templates
 ====================
@@ -130,6 +214,8 @@ You can use ``${{variable_name}}`` to reference variables when writing your scri
 * ``app_main_class`` - The main class / entry point of the application.
 * ``app_classpath`` - The (ordered) classpath of the application.
 * ``daemon_user`` - The user that the server should run as.
+
+.. _server-app-config:
 
 Server App Config - ``src/templates/etc-default``
 -------------------------------------------------

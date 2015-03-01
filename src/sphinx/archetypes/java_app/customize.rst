@@ -32,7 +32,7 @@ There are generally two types of configurations:
 * Configuring the Application itself.
 
 The native packager provides a direct hook into the generated scripts for JVM configuration. Let's make use of this.
-First, add the following to the ``src/universal/conf/jvmopts`` file in the project ::
+First, add the following to the ``src/universal/conf/application.ini`` file in the project ::
 
    -DsomeProperty=true
 
@@ -44,16 +44,18 @@ Now, if we run the ``stage`` task, we'll see this file show up in the distributi
       conf/
       lib/
    $ ls target/universal/stage/conf
-      jvmopts
+      application.ini
 
 By default, any file in the ``src/universal`` directory is packaged.  This is a convenient way to include things like licenses, and readmes.
 
-Now, we need to modify the script templates to load this configuration.  To do so, add the following
+Now, we need to modify the script templates to load this configuration. The following is enabled by default, but you can change
+it if you don't like ``application.ini`` as a name. To do so, add the following
 to ``build.sbt`` ::
 
-    bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts")
+    bashScriptConfigLocation := Some("${app_home}/../conf/application.ini")
 
-Here, we define the configuration location for the BASH script too look for the ``conf/jvmopts`` file.  Now, let's run ``sbt stage`` and then execute the script in debug mode to see what command line it executes ::
+Here, we define the configuration location for the BASH script too look for the ``conf/application.ini`` file. 
+Now, let's run ``sbt stage`` and then execute the script in debug mode to see what command line it executes ::
 
     ./target/universal/stage/bin/example-cli -d
         # Executing command line:
@@ -116,7 +118,7 @@ The resulting structure is the following ::
       share/example-cli/
         conf/
           app.config
-          jvmopts
+          application.ini
         bin/
           example-cli
         lib/

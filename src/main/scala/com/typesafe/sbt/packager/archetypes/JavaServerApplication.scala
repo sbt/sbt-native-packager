@@ -3,7 +3,7 @@ package packager
 package archetypes
 
 import sbt._
-import sbt.Keys.{ target, mainClass, sourceDirectory, streams }
+import sbt.Keys.{ target, mainClass, sourceDirectory, streams, javaOptions, run }
 import SbtNativePackager.{ Debian, Rpm, Universal }
 import packager.Keys.{ packageName }
 import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
@@ -32,11 +32,13 @@ object JavaServerAppPackaging extends AutoPlugin {
   override def projectSettings = javaServerSettings
 
   val ARCHETYPE = "java_server"
+  val ENV_CONFIG_REPLACEMENT = "env_config"
+  val ETC_DEFAULT = "etc-default"
 
   /** These settings will be provided by this archetype*/
   def javaServerSettings: Seq[Setting[_]] = linuxSettings ++ debianSettings ++ rpmSettings
 
-  protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource("etc-default-template")
+  protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource(ETC_DEFAULT + "-template")
 
   /**
    * general settings which apply to all linux server archetypes
@@ -46,6 +48,7 @@ object JavaServerAppPackaging extends AutoPlugin {
    * - config directory
    */
   def linuxSettings: Seq[Setting[_]] = Seq(
+    javaOptions in Linux <<= javaOptions in Universal,
     // === logging directory mapping ===
     linuxPackageMappings <+= (packageName in Linux, defaultLinuxLogsLocation, daemonUser in Linux, daemonGroup in Linux) map {
       (name, logsDir, user, group) => packageTemplateMapping(logsDir + "/" + name)() withUser user withGroup group withPerms "755"
@@ -54,25 +57,21 @@ object JavaServerAppPackaging extends AutoPlugin {
       (name, install, logsDir) => LinuxSymlink(install + "/" + name + "/logs", logsDir + "/" + name)
     },
     // === etc config mapping ===
-    bashScriptConfigLocation <<= (packageName in Linux) map (name => Some("/etc/default/" + name)),
-    bashScriptEnvConfigLocation <<= (bashScriptConfigLocation, bashScriptEnvConfigLocation)  map { (configLocation, envConfigLocation) => 
-      envConfigLocation orElse (configLocation map (_ + "_env"))
-    },
+    bashScriptEnvConfigLocation := Some("/etc/default/" + (packageName in Linux).value),
     linuxEtcDefaultTemplate <<= sourceDirectory map { dir =>
-      val overrideScript = dir / "templates" / "etc-default"
+      val overrideScript = dir / "templates" / ETC_DEFAULT
       if (overrideScript.exists) overrideScript.toURI.toURL
       else etcDefaultTemplateSource
     },
     makeEtcDefault <<= (packageName in Linux, target in Universal, linuxEtcDefaultTemplate, linuxScriptReplacements)
       map makeEtcDefaultScript,
-    linuxPackageMappings <++= (makeEtcDefault, bashScriptConfigLocation) map { (conf, configLocation) =>
-      configLocation.flatMap { path =>
-        // TODO this is ugly. Create a better solution
-        // check that path doesn't contain relative elements
-        val relativePaths = "\\$\\{app_home\\}|/[\\.]{1,2}".r.findFirstIn(path)
-        if (relativePaths.isDefined) None // cannot create the file, mapping provided by user
-        else conf.map(c => LinuxPackageMapping(Seq(c -> path), LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig())
-      }.toSeq
+    linuxPackageMappings <++= (makeEtcDefault, bashScriptEnvConfigLocation) map { (conf, envLocation) =>
+      val mapping = for (
+        path <- envLocation;
+        c <- conf
+      ) yield LinuxPackageMapping(Seq(c -> path), LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()
+
+      mapping.toSeq
     }
 
   )
@@ -89,6 +88,7 @@ object JavaServerAppPackaging extends AutoPlugin {
       linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
         makeStartScriptReplacements,
       linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
+      linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
 
       linuxStartScriptTemplate := JavaServerLoaderScript(
         script = startScriptName(serverLoading.value, Debian),
@@ -127,6 +127,7 @@ object JavaServerAppPackaging extends AutoPlugin {
       linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
         makeStartScriptReplacements,
       linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
+      linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
 
       // === /var/run/app pid folder ===
       linuxPackageMappings <+= (packageName, daemonUser, daemonGroup) map { (name, user, group) =>
@@ -262,7 +263,19 @@ object JavaServerAppPackaging extends AutoPlugin {
     Some(script)
   }
 
-  protected def makeEtcDefaultScript(name: String, tmpDir: File, source: java.net.URL, replacements: Seq[(String, String)]): Option[File] = {
+  /**
+   * Creates the etc-default file, which will contain the basic configuration
+   * for an app.
+   *
+   * @param name of the etc-default config file
+   * @param tmpDir to store the resulting file in (e.g. target in Universal)
+   * @param source of etc-default script
+   * @param replacements for placeholders in etc-default script
+   *
+   * @return Some(file: File)
+   */
+  protected def makeEtcDefaultScript(
+    name: String, tmpDir: File, source: java.net.URL, replacements: Seq[(String, String)]): Option[File] = {
     val scriptBits = TemplateWriter.generateScript(source, replacements)
     val script = tmpDir / "tmp" / "etc" / "default" / name
     IO.write(script, scriptBits)

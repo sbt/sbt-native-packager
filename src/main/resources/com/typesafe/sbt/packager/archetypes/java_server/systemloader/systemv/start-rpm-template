@@ -28,6 +28,12 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
+# adding bashScriptEnvConfigLocation
+[[ -f ${{env_config}} ]] && . ${{env_config}}
+
+# $JAVA_OPTS used in $RUN_CMD wrapper
+export JAVA_OPTS
+
 prog="${{exec}}"
 
 # FIXME The pid file should be handled by the executed script

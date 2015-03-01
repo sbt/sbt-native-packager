@@ -12,6 +12,11 @@
 source /lib/init/vars.sh
 source /lib/lsb/init-functions
 
+# adding bashScriptEnvConfigLocation
+[[ -f ${{env_config}} ]] && . ${{env_config}}
+
+# $JAVA_OPTS used in $RUN_CMD wrapper
+export JAVA_OPTS
 
 PIDFILE=/var/run/${{app_name}}/running.pid
 

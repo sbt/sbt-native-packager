@@ -2,8 +2,8 @@ package com.typesafe.sbt.packager.jdkpackager
 
 import com.typesafe.sbt.packager.chmod
 import sbt._
-
 import scala.util.Try
+import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 /**
  * Support/helper functions for interacting with the `javapackager` tool.
  * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
@@ -80,7 +80,7 @@ object JDKPackagerHelper {
       .getOrElse(Map.empty)
 
     // Make a setting?
-    val jvmOptsFile = (sourceDir ** "jvmopts").getPaths.headOption.map(file)
+    val jvmOptsFile = (sourceDir ** JavaAppPackaging.appIniLocation).getPaths.headOption.map(file)
 
     val jvmOptsArgs = jvmOptsFile.toSeq.flatMap { jvmopts ⇒
       IO.readLines(jvmopts).map {
