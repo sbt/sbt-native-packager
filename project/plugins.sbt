@@ -2,6 +2,8 @@ resolvers += Resolver.url("sbt-plugin-releases", new URL("http://scalasbt.artifa
 
 resolvers += "jgit-repo" at "http://download.eclipse.org/jgit/maven"
 
+resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
+
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.5.2")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.6.2")
@@ -20,3 +22,9 @@ libraryDependencies += "net.databinder" %% "dispatch-http" % "0.8.10"
 
 // For code formatting
 addSbtPlugin("com.typesafe.sbt" % "sbt-scalariform" % "1.3.0")
+
+// Code Coverage
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.0.4")
+
+addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "1.0.2")
+
