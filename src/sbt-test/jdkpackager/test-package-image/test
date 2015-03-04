@@ -1,0 +1,4 @@
+# Run the jdkpackager packaging
+> jdkPackager:packageBin
+> checkImage
+
