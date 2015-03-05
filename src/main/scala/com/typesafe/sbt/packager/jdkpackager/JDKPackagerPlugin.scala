@@ -45,7 +45,7 @@ object JDKPackagerPlugin extends AutoPlugin {
         packageDescription,
         maintainer,
         jdkPackagerType,
-        ClasspathJarPlugin.autoImport.classspathJarName,
+        artifactPath in ClasspathJarPlugin.autoImport.packageJavaClasspathJar,
         mainClass,
         jdkPackagerBasename,
         jdkAppIcon,

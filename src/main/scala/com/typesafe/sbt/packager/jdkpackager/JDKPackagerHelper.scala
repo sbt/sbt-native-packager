@@ -1,11 +1,8 @@
 package com.typesafe.sbt.packager.jdkpackager
 
-import java.io.FileNotFoundException
-
 import com.typesafe.sbt.packager.chmod
 import sbt._
 
-import scala.tools.util.PathResolver
 import scala.util.Try
 /**
  * Support/helper functions for interacting with the `javapackager` tool.
@@ -67,7 +64,7 @@ object JDKPackagerHelper {
     description: String,
     maintainer: String,
     packageType: String,
-    mainJar: String,
+    mainJar: File,
     mainClass: Option[String],
     basename: String,
     iconPath: Option[File],
@@ -114,7 +111,7 @@ object JDKPackagerHelper {
 
     val singles = Seq(
       s"-BappVersion=$version",
-      s"-BmainJar=lib/$mainJar"
+      s"-BmainJar=lib/${mainJar.getName}"
     ) ++ iconArg ++ jvmOptsArgs
 
     // Merge singles into argument pair map. (Need a cleaner abstraction)
