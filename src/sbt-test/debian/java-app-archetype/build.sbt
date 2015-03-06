@@ -19,10 +19,10 @@ debianPackageRecommends in Debian += "git"
 TaskKey[Unit]("check-script") <<= (stagingDirectory in Universal, name, streams) map { (dir, name, streams) =>
   val script = dir / "bin" / name
   System.out.synchronized {
-    System.err.println("---SCIRPT---")
+    System.err.println("---SCRIPT---")
     val scriptContents = IO.read(script)
     System.err.println(scriptContents)
-    System.err.println("---END SCIRPT---")
+    System.err.println("---END SCRIPT---")
     for(file <- (dir.***).get)
       System.err.println("\t"+file)
   }
