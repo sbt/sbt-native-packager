@@ -132,7 +132,7 @@ Create a file ``src/templates/start`` and it will be used instead.
 
 **Syntax**
 
-You can use ``${{variable_name}}`` to reference variables when writing your scirpt.  The default set of variables is:
+You can use ``${{variable_name}}`` to reference variables when writing your script.  The default set of variables is:
 
 * ``descr`` - The description of the server.
 * ``author`` - The configured author name.
