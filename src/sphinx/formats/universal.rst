@@ -15,7 +15,7 @@ that is not tied to any particular platform, but may require manual labor to set
 
   <div class="alert alert-info" role="alert">
     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The universal plugin dependens on the sbt-native-packager plugin. For general settings read the 
+    The universal plugin depends on the sbt-native-packager plugin. For general settings read the 
     <a href="np-plugin.html">SBT Native Packager Plugin Documentation</a>
   </div>
 
@@ -91,7 +91,7 @@ Enable the universal plugin
 ~~~~~~~~~~~~
 
 For this versions universal packaging is automatically activated.
-See the :doc:`Getting Started </gettingstarted>` page for informations
+See the :doc:`Getting Started </gettingstarted>` page for information
 on how to enable sbt native packager.
 
 
@@ -129,7 +129,7 @@ specify the desired mappings for a given configuration.  For Example:
     mappings in Universal <+= packageBin in Compile map { p => p -> "lib/foo.jar" }
 
 However, sometimes it may be advantageous to customize the files for each archive separately.  For example, perhaps 
-the .tar.gz has an additional README plaintext file in additon to a README.html.  To add this just to the .tar.gz file,
+the .tar.gz has an additional README plaintext file in addition to a README.html.  To add this just to the .tar.gz file,
 use the task-scope feature of sbt:
 
 .. code-block:: scala

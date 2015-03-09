@@ -29,7 +29,7 @@ To enable the launcher jar, enable the ``LauncherJarPlugin``:
 Generate a classpath jar
 ------------------------
 
-The classpath jar is very similar to the launcher jar, in that it also has the classpath on its manifiest, but it does
+The classpath jar is very similar to the launcher jar, in that it also has the classpath on its manifest, but it does
 not include the main class in its manifest, and so executed by the start script by invoking:
 
 .. code-block:: bash

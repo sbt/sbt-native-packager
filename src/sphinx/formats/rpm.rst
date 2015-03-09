@@ -15,7 +15,7 @@ packages from source.   The sbt-native-packager takes the approach that SBT has 
 
   <div class="alert alert-info" role="alert">
     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The rpm plugin dependens on the linux plugin. For general linux settings read the 
+    The rpm plugin depends on the linux plugin. For general linux settings read the 
     <a href="linux.html">Linux Plugin Documentation</a>
   </div>
   
@@ -65,7 +65,7 @@ Enables the rpm plugin
 ~~~~~~~~~~~~
 
 For this versions rpm packaging is automatically activated.
-See the :doc:`Getting Started </gettingstarted>` page for informations
+See the :doc:`Getting Started </gettingstarted>` page for information
 on how to enable sbt native packager.
 
 Configuration
@@ -155,7 +155,7 @@ Scriptlet Settings
     The ``%postun`` scriptlet to run.
     
   ``rpmBrpJavaRepackJars``
-    appends ``__os_install_post`` scriplet to ``rpmPre`` avoiding jar repackaging
+    appends ``__os_install_post`` scriptlet to ``rpmPre`` avoiding jar repackaging
 
 
 Tasks

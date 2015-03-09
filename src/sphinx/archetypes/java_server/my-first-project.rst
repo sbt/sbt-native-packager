@@ -105,7 +105,7 @@ the :doc:`linux section </formats/linux>`.
 Debian (.deb)
 =============
 
-A basic ``build.sbt`` for debian requires only the Linuxs settings. You can build your
+A basic ``build.sbt`` for debian requires only the Linux settings. You can build your
 server application with
 
 ::
@@ -125,7 +125,7 @@ both you can add this to your ``build.sbt``
 RPM (.rpm)
 ==========
 
-A basic ``build.sbt`` for rpm requires the Linuxs settings and
+A basic ``build.sbt`` for rpm requires the Linux settings and
 
 .. code-block:: scala
     

@@ -88,7 +88,7 @@ generate the ``.bat`` script for windows distributions.
 ``@APP_DEFINES@@`` - will be replaced with a set of variable definitions, like
   ``APP_MAIN_CLASS``, ``APP_MAIN_CLASS``.
 
-You can define addiitonal variable definitions using ``batScriptExtraDefines``.
+You can define additional variable definitions using ``batScriptExtraDefines``.
 
 Bash Script - ``src/templates/bash-template``
 ---------------------------------------------

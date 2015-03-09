@@ -19,7 +19,7 @@ xml configuration.
 
   <div class="alert alert-info" role="alert">
     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The windows plugin dependens on the linux plugin. For general linux settings read the 
+    The windows plugin depends on the linux plugin. For general linux settings read the 
     <a href="universal.html">Universal Plugin Documentation</a>
   </div>
 
@@ -68,7 +68,7 @@ Enables the rpm plugin
 ~~~~~~~~~~~~
 
 For this versions rpm packaging is automatically activated.
-See the :doc:`Getting Started </gettingstarted>` page for informations
+See the :doc:`Getting Started </gettingstarted>` page for information
 on how to enable sbt native packager.
 
 Configuration
@@ -156,7 +156,7 @@ Feature configuration
 ~~~~~~~~~~~~~~~~~~~~~
 
 The abstraction over wix allows you to configure "features" that users may optionally install.  These feature are higher level things, like a set of files or menu links.
-The currently supported compoennts of features are:
+The currently supported components of features are:
 
 1. Files (``ComponentFile``)
 2. Path Configuration (``AddDirectoryToPath``)
