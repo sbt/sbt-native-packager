@@ -43,7 +43,7 @@ Now that the man page is created, we can use a few tasks provided to view it in 
     [info] Linux                            NOVEMBER 2011                  EXAMPLE_CLI(1)
 
 
-We can use this task to work on the man pages and ensure they'll look ok.  You can also directly use ``groff`` to view changes in 
+We can use this task to work on the man pages and ensure they'll look OK.  You can also directly use ``groff`` to view changes in 
 your man pages.
 
 In addition to providing the means to view the man page, the native packager will also automatically ``gzip`` man pages for the
@@ -53,6 +53,6 @@ distribution.  The resulting man page is stored in ``/usr/share/man/man1/example
 TODO - A bit more on other documentation methods.
 
 
-That's the end fo the getting started guide for Java Applications!  Feel free to read the guide on 
+That's the end for the getting started guide for Java Applications!  Feel free to read the guide on 
 :doc:`Java Servers </archetypes/java_server/index>`, which offers a few differences in how configuration
 is done for packaging to underlying systems.

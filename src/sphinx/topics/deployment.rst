@@ -7,7 +7,7 @@ Setup publish Task
 ------------------
 
 You need a working ``publish`` task in order to use the following configurations.
-A good starting point ist the `sbt publish documentation`_. You should have something
+A good starting point is the `sbt publish documentation`_. You should have something
 like this in your ``build.sbt``
 
 .. code-block:: scala

@@ -12,7 +12,7 @@ The native packager plugin is designed so that linux packages look similar, but 
 
   <div class="alert alert-info" role="alert">
     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The linux plugin dependens on the universal plugin. For universal settings read the 
+    The linux plugin depends on the universal plugin. For universal settings read the 
     <a href="universal.html">Universal Plugin Documentation</a>
   </div>
 
@@ -72,11 +72,11 @@ Enable the debian plugin to activate the native package implementation.
 ~~~~~~~~~~~~
 
 For this versions linux packaging is automatically activated.
-See the :doc:`Getting Started </gettingstarted>` page for informations
+See the :doc:`Getting Started </gettingstarted>` page for information
 on how to enable sbt native packager.
 
 In order to use the utility functions you need to import them with
-(if you haven't alreay imported this)
+(if you haven't already imported this)
 
 .. code-block:: scala
 
@@ -236,7 +236,7 @@ The basic construct for adding looks like this
     linuxPackageMappings += packageMapping( (theFile, "/absolute/path/somefile.txt") ) withPerms("644") asDocs()
     
 If you want to filter or alter things. The example has a lot of things you can _possibly_ do. Just pick
-what you need. After this section there are smaller examples, showing how you can implemenet certain functions.
+what you need. After this section there are smaller examples, showing how you can implement certain functions.
 
 .. code-block:: scala
 
@@ -291,7 +291,7 @@ To add an arbitrary file in your build path
       packageMapping( (file, "/absolute/path/somefile.txt") )
     }
 
-``linuxPackageMappings`` can be scoped to ``Rpm` or ``Debian`` if you want to add mappings only for a single packacking type.
+``linuxPackageMappings`` can be scoped to ``Rpm` or ``Debian`` if you want to add mappings only for a single packaging type.
 
 .. code-block:: scala
 
