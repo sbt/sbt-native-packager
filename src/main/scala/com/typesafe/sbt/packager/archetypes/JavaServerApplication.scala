@@ -12,7 +12,7 @@ import debian.DebianPlugin
 import debian.DebianPlugin.autoImport.{ debianMakePreinstScript, debianMakePostinstScript, debianMakePrermScript, debianMakePostrmScript }
 import rpm.RpmPlugin
 import rpm.RpmPlugin.autoImport.{ rpmPre, rpmPost, rpmPostun, rpmPreun, rpmScriptsDirectory }
-import JavaAppPackaging.autoImport.{ bashScriptConfigLocation }
+import JavaAppPackaging.autoImport.{ bashScriptConfigLocation, bashScriptEnvConfigLocation }
 
 /**
  * This class contains the default settings for creating and deploying an archetypical Java application.
@@ -55,6 +55,9 @@ object JavaServerAppPackaging extends AutoPlugin {
     },
     // === etc config mapping ===
     bashScriptConfigLocation <<= (packageName in Linux) map (name => Some("/etc/default/" + name)),
+    bashScriptEnvConfigLocation <<= (bashScriptConfigLocation, bashScriptEnvConfigLocation)  map { (configLocation, envConfigLocation) => 
+      envConfigLocation orElse (configLocation map (_ + "_env"))
+    },
     linuxEtcDefaultTemplate <<= sourceDirectory map { dir =>
       val overrideScript = dir / "templates" / "etc-default"
       if (overrideScript.exists) overrideScript.toURI.toURL
