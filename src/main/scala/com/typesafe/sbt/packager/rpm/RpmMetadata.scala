@@ -18,7 +18,8 @@ case class RpmMetadata(
   summary: String,
   description: String,
   autoprov: String,
-  autoreq: String)
+  autoreq: String) {
+}
 
 /**
  * The Description used to generate an RPM
