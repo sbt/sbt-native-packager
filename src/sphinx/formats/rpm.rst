@@ -240,7 +240,7 @@ Scriptlet Changes
 ~~~~~~~~~~~~~~~~~~
 
 Changing the scripts can be done in two ways. Override the ``rpmPre``, etc. scripts
-or place your new scripts in the ``src/rpm`scriptlest`` folder. For example:
+or place your new scripts in the ``src/rpm/scriptlets`` folder. For example:
 
 
 ``src/rpm/scriptlets/post-rpm``
