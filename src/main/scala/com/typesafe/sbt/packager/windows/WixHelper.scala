@@ -54,7 +54,7 @@ object WixHelper {
     // TODO - First we find directories...
     // Adds all subdirectories... there was a bug when there were directories with only subdirs and no files in the tree,
     // so there was a gap and dirXml failed to create some directories
-    def allParentDirs(f: File): Seq[File] = Option(f).toSeq ++ allParentDirs(f.getParentFile)
+    def allParentDirs(f: File): Seq[File] = Option(f).toSeq.flatMap(f => f +: allParentDirs(f.getParentFile))
     val filenamesPrep =
       for {
         f <- features
