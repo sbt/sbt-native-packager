@@ -62,6 +62,10 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames,
     bashScriptExtraDefines := Nil,
     bashScriptConfigLocation <<= bashScriptConfigLocation ?? None,
+    bashScriptEnvConfigLocation <<= bashScriptEnvConfigLocation ?? None,
+    bashScriptExtraDefines <++= (bashScriptEnvConfigLocation in Universal) map { _.map { config =>
+            "[[ -f '" + config +"' ]] && source " + config 
+    }.toSeq },
     bashScriptDefines <<= (Keys.mainClass in (Compile, bashScriptDefines), scriptClasspath in bashScriptDefines, bashScriptExtraDefines, bashScriptConfigLocation) map { (mainClass, cp, extras, config) =>
       val hasMain =
         for {
