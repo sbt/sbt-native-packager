@@ -107,6 +107,7 @@ Please feel free to [contribute documentation](https://github.com/sbt/sbt-native
 
 ## Related SBT Plugins
 
+- [sbt-assembly](https://github.com/sbt/sbt-assembly)
 - [sbt-packager](https://github.com/en-japan/sbt-packer)
 - [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
 - [sbt-typesafe-conductr](https://github.com/sbt/sbt-typesafe-conductr)
