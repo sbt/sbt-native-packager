@@ -105,4 +105,8 @@ There's a complete "getting started" guide and more detailed topics available at
 
 Please feel free to [contribute documentation](https://github.com/sbt/sbt-native-packager/tree/master/src/sphinx), or raise issues where you feel it may be lacking.
 
+## Related SBT Plugins
 
+- [sbt-packager](https://github.com/en-japan/sbt-packer)
+- [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
+- [sbt-typesafe-conductr](https://github.com/sbt/sbt-typesafe-conductr)
