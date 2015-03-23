@@ -268,44 +268,18 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerHelper#locateJDKPackagerTool" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="locateJDKPackagerTool():Option[sbt.File]"></a>
-      <a id="locateJDKPackagerTool():Option[File]"></a>
+      <a id="locateJDKPackagerTool(javaHome:Option[sbt.File]):Option[sbt.File]"></a>
+      <a id="locateJDKPackagerTool(Option[File]):Option[File]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">locateJDKPackagerTool</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+        <span class="name">locateJDKPackagerTool</span><span class="params">(<span name="javaHome">javaHome: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
       </span>
       </h4>
-      
-    </li><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerHelper#mkArgMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="mkArgMap(name:String,version:String,description:String,maintainer:String,packageType:String,mainJar:String,mainClass:Option[String],basename:String,iconPath:Option[sbt.File],outputDir:sbt.File,sourceDir:sbt.File):scala.collection.immutable.Map[String,String]"></a>
-      <a id="mkArgMap(String,String,String,String,String,String,Option[String],String,Option[File],File,File):Map[String,String]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">mkArgMap</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="maintainer">maintainer: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="packageType">packageType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mainJar">mainJar: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mainClass">mainClass: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="basename">basename: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="iconPath">iconPath: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>, <span name="outputDir">outputDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="java.lang.String">String</span>]</span>
-      </span>
-      </h4>
-      
-    </li><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerHelper#mkProcess" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="mkProcess(tool:sbt.File,mode:String,argMap:Map[String,String],log:sbt.Logger):sbt.ProcessBuilder"></a>
-      <a id="mkProcess(File,String,Map[String,String],Logger):ProcessBuilder"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">mkProcess</span><span class="params">(<span name="tool">tool: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="mode">mode: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="argMap">argMap: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="log">log: <span class="extype" name="sbt.Logger">Logger</span></span>)</span><span class="result">: <span class="extype" name="sbt.ProcessBuilder">ProcessBuilder</span></span>
-      </span>
-      </h4>
-      
+      <p class="shortcomment cmt">Attempts to compute the path to the <code>javapackager</code> tool.</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
