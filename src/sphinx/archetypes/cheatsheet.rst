@@ -88,7 +88,7 @@ generate the ``.bat`` script for windows distributions.
 ``@APP_DEFINES@@`` - will be replaced with a set of variable definitions, like
   ``APP_MAIN_CLASS``, ``APP_MAIN_CLASS``.
 
-You can define addiitonal variable definitions using ``batScriptExtraDefines``.
+You can define additional variable definitions using ``batScriptExtraDefines``.
 
 Bash Script - ``src/templates/bash-template``
 ---------------------------------------------
@@ -118,7 +118,7 @@ serverLoader is being used.
 
 **Syntax**
 
-You can use ``${{variable_name}}`` to reference variables when writing your scirpt.  The default set of variables is:
+You can use ``${{variable_name}}`` to reference variables when writing your script.  The default set of variables is:
 
 * ``descr`` - The description of the server.
 * ``author`` - The configured author name.

@@ -2,7 +2,7 @@ Java Application Archetype
 ##########################
 
 Application packaging focuses on how your application is launched (via a ``bash`` or ``bat`` script), how dependencies
-are managed and how configuration and other auxillary files are included in the final distributable. The `JavaAppPackaging` archetype
+are managed and how configuration and other auxiliary files are included in the final distributable. The `JavaAppPackaging` archetype
 provides a default application structure and executable scripts to launch your application. 
 
 Additionally there is :doc:`Server Packaging </archetypes/java_server/index>` which provides platform-specific

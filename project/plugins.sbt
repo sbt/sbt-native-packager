@@ -6,7 +6,7 @@ resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releas
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.5.2")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.6.2")
+addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.8.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "0.7.2")
 

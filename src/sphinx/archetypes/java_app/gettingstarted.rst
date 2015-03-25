@@ -5,7 +5,7 @@ The sbt-native-packager is an sbt plugin.  Please follow the :doc:`Installation 
 
 The sbt-native-packager attempts to make building packages for different operating systems easier.  While it provides
 some basic abstractions around packaging, it also allows you to dig down into the nuts and bolts of each platform as
-neeeded to generate the best package possible.   
+needed to generate the best package possible.   
 
 
 Here's the basic architecture of the plugin:

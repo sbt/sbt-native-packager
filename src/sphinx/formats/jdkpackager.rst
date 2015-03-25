@@ -12,14 +12,14 @@ This plugin's most relevant addition to the core `sbt-native-packager` capabilit
 
   <div class="alert alert-info" role="alert">
     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The JDKPackagerPlugin depends on the Universal and JavaAppPackaging plugins. For inherited settings read the <a href="../archetypes/java_app/index.html">Java Applicaiton Plugin Documentation</a>
+    The JDKPackagerPlugin depends on the Universal and JavaAppPackaging plugins. For inherited settings read the <a href="../archetypes/java_app/index.html">Java Application Plugin Documentation</a>
   </div>
 
 
 Requirements
 ------------
 
-The `javapackager` tool comes with JDK 8, and found in the `bin` directory along with `javac` and friends. (An earlier form of the tool was introduced in later forms of JDK 7 as `javafxpackager`.)  If `sbt` is running under the JVM in JDK 8, then the plugin should be able to find the path to `javapcakger`. If `sbt` is running under a different JVM, then the path to the tool will have to be specified via the ``jdkPackagerTool`` setting.
+The `javapackager` tool comes with JDK 8, and found in the `bin` directory along with `javac` and friends. (An earlier form of the tool was introduced in later forms of JDK 7 as `javafxpackager`.)  If `sbt` is running under the JVM in JDK 8, then the plugin should be able to find the path to `javapackager`. If `sbt` is running under a different JVM, then the path to the tool will have to be specified via the ``jdkPackagerTool`` setting.
 
 This plugin must be run on the platform of the target installer. The `javapackager` tool does not provide a means of creating, say, Windows installers on MacOS, etc.
 
@@ -100,7 +100,7 @@ Relevant JVM settings specified in the ``src/universal/conf/jvmopts`` file are p
 Example
 -------
 
-To take it for a test spin, run ``sbt jdkPackager:packageBin`` in the ``test-project-jdkpackager`` directory of the `sbt-native-packager` soruce. Then look in the ``target/jdkpackager/bundles`` directory for the result (specific name depends on platform built).
+To take it for a test spin, run ``sbt jdkPackager:packageBin`` in the ``test-project-jdkpackager`` directory of the `sbt-native-packager` source. Then look in the ``target/jdkpackager/bundles`` directory for the result (specific name depends on platform built).
 
 Here's what the build file looks like:
 

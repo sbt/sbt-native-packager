@@ -62,7 +62,11 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames,
     bashScriptExtraDefines := Nil,
     bashScriptConfigLocation <<= bashScriptConfigLocation ?? None,
-    bashScriptDefines <<= (Keys.mainClass in Compile, scriptClasspath, bashScriptExtraDefines, bashScriptConfigLocation) map { (mainClass, cp, extras, config) =>
+    bashScriptEnvConfigLocation <<= bashScriptEnvConfigLocation ?? None,
+    bashScriptExtraDefines <++= (bashScriptEnvConfigLocation in Universal) map { _.map { config =>
+            "[[ -f '" + config +"' ]] && source " + config 
+    }.toSeq },
+    bashScriptDefines <<= (Keys.mainClass in (Compile, bashScriptDefines), scriptClasspath in bashScriptDefines, bashScriptExtraDefines, bashScriptConfigLocation) map { (mainClass, cp, extras, config) =>
       val hasMain =
         for {
           cn <- mainClass
@@ -72,7 +76,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     // TODO - Overridable bash template.
     makeBashScript <<= (bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBinScript(bashTemplate),
     batScriptExtraDefines := Nil,
-    batScriptReplacements <<= (packageName, Keys.mainClass in Compile, scriptClasspath, batScriptExtraDefines) map { (name, mainClass, cp, extras) =>
+    batScriptReplacements <<= (packageName, Keys.mainClass in (Compile, batScriptReplacements), scriptClasspath in batScriptReplacements, batScriptExtraDefines) map { (name, mainClass, cp, extras) =>
       mainClass map { mc =>
         JavaAppBatScript.makeReplacements(name = name, mainClass = mc, appClasspath = cp, extras = extras)
       } getOrElse Nil

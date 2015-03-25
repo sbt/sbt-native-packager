@@ -1,42 +1,35 @@
-enablePlugins(PlayScala)
+enablePlugins(PlayScala, JDebPackaging)
 
 name := "dtest"
-
 version := "0.1.0"
 
-val buildLoc = (file(".").getAbsoluteFile.getParentFile)
-
-val dtestProj = ProjectRef(buildLoc, "np")
-
-version in dtestProj := "0.2.0"
-
-enablePlugins(JDebPackaging)
-
 maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
-
 packageSummary := "Test debian package"
-
 packageDescription := """A fun package description of our software,
   with multiple lines."""
-//
-//debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
-//
-//debianPackageRecommends in Debian += "git"
 
 rpmVendor := "typesafe"
-
 rpmLicense := Some("BSD")
-
 rpmChangelogFile := Some("changelog.txt")
 
+debianMaintainerScripts := {       
+  Seq(
+    file("src/debian/DEBIAN/postrm") -> "postrm",
+  file("src/debian/DEBIAN/postinst") -> "postinst")
+}
+debianMakePostinstScript := {        
+  Some(sourceDirectory.value / "src/debian/DEBIAN" / "override")
+}    
+
+// Test stuff
 TaskKey[Unit]("check-script") <<= (NativePackagerKeys.stagingDirectory in Universal, target in Debian, name, version, maintainer in Debian, streams) map {
  (dir, debTarget, name, version, author, streams) =>
   val script = dir / "bin" / name
   System.out.synchronized {
-    System.err.println("---SCIRPT---")
+    System.err.println("---SCRIPT---")
     val scriptContents = IO.read(script)
     System.err.println(scriptContents)
-    System.err.println("---END SCIRPT---")
+    System.err.println("---END SCRIPT---")
     for(file <- (dir.***).get)
       System.err.println("\t"+file)
   }

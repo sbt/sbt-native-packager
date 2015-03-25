@@ -144,7 +144,7 @@ This generates a debian file that will install the following owners and files ::
     root:root                  bin/
     root:root                    example-cli -> ../share/example-cli/bin/example-cli
 
-So, the default packaing takes the "universal" distribution and places it inside a ``/usr/share`` directory, owned by a user for the application.   In addition, there is a a symlink in ``/usr/bin`` to the distributed bin script.  This allows users on the platform to run the ``example-cli`` as a native install.
+So, the default packaging takes the "universal" distribution and places it inside a ``/usr/share`` directory, owned by a user for the application.   In addition, there is a a symlink in ``/usr/bin`` to the distributed bin script.  This allows users on the platform to run the ``example-cli`` as a native install.
 
 We can generate other packages via the following tasks.  Here's a complete list of current options.
 
@@ -156,9 +156,9 @@ We can generate other packages via the following tasks.  Here's a complete list 
 * ``universal::packageOsxDmg`` - Generates a DMG file with the same contents as the universal zip/tgz.
 * ``windows:packageBin`` - Generates an MSI
 
-While we only covered the necessary configuration for ``debian``, each package type beyond ``universal`` requires some additonal
+While we only covered the necessary configuration for ``debian``, each package type beyond ``universal`` requires some additional
 configuration relative to that packager.  For example, windows MSIs require UUIDs for all packages which are used to uniquely
-identifiy two packages that may have the same name.
+identify two packages that may have the same name.
 
 Next, let's look at how to :doc:`customize the executable bash/bat scripts<customize>`.
 

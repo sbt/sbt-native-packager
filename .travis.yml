@@ -6,7 +6,7 @@ env:
     secure: "GeFIScPetv5e2AD4aQUPIyPmTupXvgLKze+l8RFRK9tb3RpEYpnqb1sbNkSLNbSzJ/MaBD0on0hr6FmhxdyF6Rqs+kvdudbZZqrb44waKmP2OhGe7KQfybD8se8zlNvbtNbnFciAK3PzCwkZpPQc8IU9YfQwk72HL2dhhhlq4yU="
 script:
   - sbt ++$TRAVIS_SCALA_VERSION "clean coverage test coverageReport coverageAggregate codacyCoverage"
-  - sbt ++$TRAVIS_SCALA_VERSION "scripted rpm/* debian/* universal/*"
+  - sbt ++$TRAVIS_SCALA_VERSION "scripted rpm/* debian/* universal/* jar/*"
 scala:
   - 2.10.3
 jdk:

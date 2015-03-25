@@ -13,7 +13,7 @@ There are generally two types of configurations:
 
 The server archetype provides you with a special feature to configure your application
 with a single file outside of customizing the ``bash`` or ``bat`` script for applications. 
-As this file is OS dependend, each OS gets section.
+As this file is OS dependent, each OS gets section.
 
 Linux Configuration
 -------------------
@@ -54,7 +54,7 @@ Create ``src/templates/etc-default`` with the following template
     # -no-version-check
     
     # enabling debug and sending -d as app argument
-    # the '--' prevents app-parameter swalloing when
+    # the '--' prevents app-parameter swallowing when
     # using a reserved parameter. See #184
     # -d -- -d
 
@@ -122,7 +122,7 @@ which will add the following resource file to use start/stop instead of initctl 
   }
 
 The :doc:`debian </formats/debian>` and :doc:`redhat </formats/rpm>` pages have further information on overriding 
-distribution scpecific actions.
+distribution specific actions.
 
 Override Start Script - ``src/templates/start``
 -----------------------------------------------
@@ -132,7 +132,7 @@ Create a file ``src/templates/start`` and it will be used instead.
 
 **Syntax**
 
-You can use ``${{variable_name}}`` to reference variables when writing your scirpt.  The default set of variables is:
+You can use ``${{variable_name}}`` to reference variables when writing your script.  The default set of variables is:
 
 * ``descr`` - The description of the server.
 * ``author`` - The configured author name.
@@ -149,7 +149,7 @@ You can use ``${{variable_name}}`` to reference variables when writing your scir
 SystemD Support
 ---------------
 
-There is also experimental systemd support for Fedora release 20 (Heisenbug). You can use the ```Systemd``` server loader:
+There is also experimental SystemD support for Fedora release 20 (Heisenbug). You can use the ```Systemd``` server loader:
 
 .. code-block:: scala
 
@@ -164,12 +164,12 @@ Package Lifecycle Configuration
 Some scripts are covered in the standard application type. Read more on :doc:`Java Application Customization</archetypes/java_app/customize>`.
 For the ``java_server`` package lifecycle scripts are customized to provide the following additional features
 
-* Chowning directories and files correctly (if neccessary)
+* Chowning directories and files correctly (if necessary)
 * Create/Delete users and groups according to your mapping
 * Register application at your init system
 
 For this purpose *sbt-native-packager* ships with some predefined templates. These can be
-overriden with different techniques, depending on the packaging system.
+overridden with different techniques, depending on the packaging system.
 
 Partially Replace Template Functionality
 ----------------------------------------
@@ -225,8 +225,8 @@ Available templates are
     ``postun-rpm``
     ``preun-rpm``
     
-Override Postinst scriplet
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Override Postinst scriptlet
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default the ``post-rpm`` template only starts the service, but doesn't register it.
 

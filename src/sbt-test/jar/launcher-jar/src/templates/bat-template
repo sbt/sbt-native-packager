@@ -1,0 +1,21 @@
+@echo off
+rem this template is minimal for test independent
+
+@setlocal enabledelayedexpansion
+@echo off
+
+set "@@APP_ENV_NAME@@_HOME=%~dp0\\.."
+
+set "APP_LIB_DIR=%@@APP_ENV_NAME@@_HOME%\lib\"
+
+set _JAVACMD=%JAVACMD%
+
+if "%_JAVACMD%"=="" (
+  if not "%JAVA_HOME%"=="" (
+    if exist "%JAVA_HOME%\bin\java.exe" set "_JAVACMD=%JAVA_HOME%\bin\java.exe"
+  )
+)
+
+@@APP_DEFINES@@
+
+"%_JAVACMD%" -cp "%APP_CLASSPATH%" %APP_MAIN_CLASS% %*

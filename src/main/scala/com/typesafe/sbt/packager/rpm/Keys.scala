@@ -54,7 +54,7 @@ trait RpmKeys {
   val rpmPosttrans = SettingKey[Option[String]]("rpm-posttrans", "%posttrans scriptlet")
   val rpmPreun = SettingKey[Option[String]]("rpm-preun", "%preun scriptlet")
   val rpmPostun = SettingKey[Option[String]]("rpm-postun", "%postun scriptlet")
-  val rpmBrpJavaRepackJars = SettingKey[Boolean]("brp-java-repack-jars", """Overrides the __os_post_install scriplet
+  val rpmBrpJavaRepackJars = SettingKey[Boolean]("brp-java-repack-jars", """Overrides the __os_post_install scriptlet
       http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build/ for details""")
 
   // Building

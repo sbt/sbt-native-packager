@@ -70,7 +70,7 @@ Here, we define the configuration location for the BASH script too look for the 
 
 The configuration file for bash scripts takes arguments for the BASH file on each line, and allows comments which start with the ``#`` character.  Essentially, this provides a set of default arguments when calling the script.
 
-Now that we have ability to configure the JVM, let's add in a more robust method of customizing the applciation.  We'll be using the `Typesafe Config <https://github.com/typesafehub/config>`_ library for this purpose.
+Now that we have ability to configure the JVM, let's add in a more robust method of customizing the application.  We'll be using the `Typesafe Config <https://github.com/typesafehub/config>`_ library for this purpose.
 
 First, let's add it as a dependency in ``build.sbt`` ::
 
@@ -164,13 +164,13 @@ More Complex Scripts
 As you read earlier the ``bashScriptExtraDefines`` sequence allows you to add new lines to the default bash script used to start the application.
 This is useful when you need a setting which isn't mean for the command-line parameter list passed to the java process. The lines added to
 ``bashScriptExtraDefines`` are placed near the end of the script and have access to a number of utility bash functions (e.g. ``addJava``,
-``addApp``, ``addResidual``, ``addDebugger``). You can add lines to this script as we did for the Typesage config file above. For more complex
-scripts you can also inject a seperate file managed in your source tree or resource directory: ::
+``addApp``, ``addResidual``, ``addDebugger``). You can add lines to this script as we did for the Typesafe config file above. For more complex
+scripts you can also inject a separate file managed in your source tree or resource directory: ::
 
     bashScriptExtraDefines ++= IO.readLines(baseDirectory.value / "scripts" / "extra.sh")
 
 This will add the contents of ``/scripts/extra.sh`` in the resource directory to the bash script. Note you should always concatenate lines
-to ``bashScriptExtraDefines`` as other stages in the pipeline may be include linex to the start-script. 
+to ``bashScriptExtraDefines`` as other stages in the pipeline may be include lines to the start-script.
 
 
 
@@ -208,7 +208,7 @@ In order to override full templates, like the default bash script, create a file
     ${{template_declares}}
 
     # Here we make use of two of the injected settings for the bash file:
-    # * app_classpath - represents the full list of JARs for this applciation.
+    # * app_classpath - represents the full list of JARs for this application.
     # * app_mainclass - represents the class with a main method we should call.
     exec java -cp $app_classpath $app_mainclass $@
 
@@ -256,7 +256,7 @@ generate the ``.bat`` script for windows distributions.
 ``@APP_DEFINES@@`` - will be replaced with a set of variable definitions, like
   ``APP_MAIN_CLASS``, ``APP_MAIN_CLASS``.
 
-You can define addiitonal variable definitions using ``batScriptExtraDefines``.
+You can define additional variable definitions using ``batScriptExtraDefines``.
 
 ``src/templates/bash-template``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
