@@ -184,10 +184,8 @@ case class RpmSpec(
 
     sb append deps.contents
 
-    // TODO - autoprov + autoreq
-
-    sb append ("autoprov: %s\n" format meta.autoprov)
-    sb append ("autoreq: %s\n" format meta.autoreq)
+    sb append ("AutoProv: %s\n" format meta.autoprov)
+    sb append ("AutoReq: %s\n" format meta.autoreq)
 
     sb append ("BuildRoot: %s\n" format rpmRoot.getAbsolutePath)
     sb append ("BuildArch: %s\n\n" format meta.arch)
