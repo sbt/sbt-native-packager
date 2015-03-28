@@ -18,7 +18,18 @@ As this file is OS dependent, each OS gets section.
 Linux Configuration
 -------------------
 
-Create ``src/templates/etc-default`` with the following template
+You have three options. First, you can specify your options via the ``build.sbt``.
+
+.. code-block :: scala
+
+    javaOptions in Universal ++= Seq(
+        "-J-Xmx64m", "-J-Xms64m", "-Dproperty=true",  
+    )
+
+For the ``-X`` settings you need to add a suffix ``-J`` so the start script will
+recognize these as vm config parameters. 
+
+The second option is to create ``src/templates/application.ini`` with the following template
 
 .. code-block :: bash
 
@@ -34,18 +45,15 @@ Create ``src/templates/etc-default`` with the following template
     # ${{daemon_user}}      daemon user
     # -------------------------------------------------
 
-    # Setting -Xmx and -Xms in Megabyte
-    # -mem 1024
-
     # Setting -X directly (-J is stripped)
     # -J-X
-    # -J-Xmx1024
+    -J-Xmx1024
 
     # Add additional jvm parameters
-    # -Dkey=val
+    -Dkey=val
 
     # For play applications you may set
-    # -Dpidfile.path=/var/run/${{app_name}}/play.pid
+    -Dpidfile.path=/var/run/${{app_name}}/play.pid
 
     # Turn on JVM debugging, open at the given port
     # -jvm-debug <port>  
@@ -58,8 +66,26 @@ Create ``src/templates/etc-default`` with the following template
     # using a reserved parameter. See #184
     # -d -- -d
 
-The file will be installed to ``/etc/default/<normalizedName>`` and read from there
-by the startscript.
+The file will be installed to ``${app_home}/conf/application.ini`` and read from there
+by the startscript. You can use ``#`` for comments and new lines as you like. The
+available are listed in the template or you can display them via ``show linuxScriptReplacements``.
+
+
+The last option is to provide a ``etc-default`` file placed in ``src/templates``, which currently
+only works for **SystemV**. The file gets sourced before the actual startscript is executed.
+The file will be installed to ``/etc/default/<normalizedName>``
+
+.. code-block :: bash
+
+    # Setting JAVA_OPTS
+    # -----------------
+    JAVA_OPTS="-Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS"
+    
+    # export env vars for 3rd party libs
+    # ----------------------------------
+    COMPANY_API_KEY=123abc
+    export COMPANY_API_KEY
+
 
 Environment variables
 ~~~~~~~~~~~~~~~~~~~~~
