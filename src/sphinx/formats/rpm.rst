@@ -42,14 +42,8 @@ you have these settings in your build:
 
 .. code-block:: scala
 
-    rpmRelease := "1"
-    
     rpmVendor := "typesafe"
-    
-    rpmUrl := Some("http://github.com/paulp/sbt-extras")
-    
-    rpmLicense := Some("BSD")
-    
+
 
 1.0 or higher
 ~~~~~~~~~~~~~
@@ -84,14 +78,48 @@ Settings
 Informational Settings
 ~~~~~~~~~~~~~~~~~~~~~~
 
-  ``name in Rpm``
-    The name of the package for rpm (if different from general linux name).
+  ``packageName in Rpm``
+    The name of the package for the rpm.
+    Its value defines the first component of the rpm file name
+    (``packageName-version-rpmRelease.packageArchitecture.rpm``), as well as the ``Name:``
+    tag in the spec file.
+    Its default value is drawn from ``packageName in Linux``.
 
   ``version in Rpm``
-    The version of the package for rpm (if different from general version).  Takes the form ``x.y.z``.
+    The version of the package for rpm.
+    Takes the form ``x.y.z``, and note that there can be no dashes in this version string.
+    It defines the second component of the rpm file name
+    (``packageName-version-rpmRelease.packageArchitecture.rpm``), as well as the ``Version:``
+    tag in the spec file.
+    Its default value is drawn from the project defined ``version``.
 
   ``rpmRelease``
-    A release number the denotes the `rpm` version relative to the underlying software.
+    The release number is the package's version. When the sofware is first packaged at a
+    particular version, the release should be ``"1"``. If the software is repackaged at
+    the same version, the release number should be incremented, and dropped back to ``"1"``
+    when the software version is new.
+    Its value defines the third component of the rpm file name
+    (``packageName-version-rpmRelease.packageArchitecture.rpm``), as well as the ``Release:``
+    tag in the spec file.
+    Its default value is ``"1"``.
+
+  ``packageArchitecture in Rpm``
+    The build architecture for the binary rpm.
+    Its value defines the fourth component of the rpm file name
+    (``packageName-version-rpmRelease.packageArchitecture.rpm``), as well as the ``BuildArch:``
+    tag in the spec file.
+    Its default value is ``"noarch"``.
+
+  ``packageSummary in Rpm``
+    A brief, one-line summary of the package.
+    Note, the summary **must not** contain line separators or end in a period.
+    Its value defines the ``Summary:`` tag in the spec file, and its default
+    value is drawn from ``packageSummary in Linux``.
+
+  ``packageDescription in Rpm``
+    A longer, multi-line description of the package.
+    Its value defines the ``%description`` block in the spec file, and its
+    default value is drawn from ``packageDescription in Linux``.
 
   ``rpmVendor``
     The name of the company/user generating the RPM.

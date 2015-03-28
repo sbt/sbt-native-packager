@@ -44,7 +44,7 @@ object RpmPlugin extends AutoPlugin {
 
   override lazy val projectSettings = Seq(
     rpmOs := "Linux", // TODO - default to something else?
-    rpmRelease := "0",
+    rpmRelease := "1",
     rpmPrefix := None,
     rpmVendor := "", // TODO - Maybe pull in organization?
     rpmLicense := None,
