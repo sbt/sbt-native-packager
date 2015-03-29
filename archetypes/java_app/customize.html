@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Customize Java Applications &mdash; sbt-native-packager 1.0.0-RC1 documentation</title>
+    <title>Customize Java Applications &mdash; sbt-native-packager 1.0.0-RC2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0.0-RC1',
+        VERSION:     '1.0.0-RC2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0-RC1 documentation" href="../../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.0-RC2 documentation" href="../../index.html" />
     <link rel="up" title="Java Application Archetype" href="index.html" />
     <link rel="next" title="Generating files for the package" href="generating-files.html" />
     <link rel="prev" title="My First Packaged Project" href="my-first-project.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -177,7 +177,7 @@ the application once it&#8217;s deployed.   Let&#8217;s add some configuration t
 <li>Configuring the Application itself.</li>
 </ul>
 <p>The native packager provides a direct hook into the generated scripts for JVM configuration. Let&#8217;s make use of this.
-First, add the following to the <tt class="docutils literal"><span class="pre">src/universal/conf/jvmopts</span></tt> file in the project</p>
+First, add the following to the <tt class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></tt> file in the project</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="o">-</span><span class="n">DsomeProperty</span><span class="o">=</span><span class="n">true</span>
 </pre></div>
 </div>
@@ -188,16 +188,18 @@ $ ls target/universal/stage
    conf/
    lib/
 $ ls target/universal/stage/conf
-   jvmopts
+   application.ini
 </pre></div>
 </div>
 <p>By default, any file in the <tt class="docutils literal"><span class="pre">src/universal</span></tt> directory is packaged.  This is a convenient way to include things like licenses, and readmes.</p>
-<p>Now, we need to modify the script templates to load this configuration.  To do so, add the following
+<p>Now, we need to modify the script templates to load this configuration. The following is enabled by default, but you can change
+it if you don&#8217;t like <tt class="docutils literal"><span class="pre">application.ini</span></tt> as a name. To do so, add the following
 to <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
-<div class="highlight-python"><div class="highlight"><pre>bashScriptConfigLocation := Some(&quot;${app_home}/../conf/jvmopts&quot;)
+<div class="highlight-python"><div class="highlight"><pre>bashScriptConfigLocation := Some(&quot;${app_home}/../conf/application.ini&quot;)
 </pre></div>
 </div>
-<p>Here, we define the configuration location for the BASH script too look for the <tt class="docutils literal"><span class="pre">conf/jvmopts</span></tt> file.  Now, let&#8217;s run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">stage</span></tt> and then execute the script in debug mode to see what command line it executes</p>
+<p>Here, we define the configuration location for the BASH script too look for the <tt class="docutils literal"><span class="pre">conf/application.ini</span></tt> file.
+Now, let&#8217;s run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">stage</span></tt> and then execute the script in debug mode to see what command line it executes</p>
 <div class="highlight-python"><div class="highlight"><pre>./target/universal/stage/bin/example-cli -d
     # Executing command line:
     java
@@ -212,7 +214,7 @@ to <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
 </pre></div>
 </div>
 <p>The configuration file for bash scripts takes arguments for the BASH file on each line, and allows comments which start with the <tt class="docutils literal"><span class="pre">#</span></tt> character.  Essentially, this provides a set of default arguments when calling the script.</p>
-<p>Now that we have ability to configure the JVM, let&#8217;s add in a more robust method of customizing the applciation.  We&#8217;ll be using the <a class="reference external" href="https://github.com/typesafehub/config">Typesafe Config</a> library for this purpose.</p>
+<p>Now that we have ability to configure the JVM, let&#8217;s add in a more robust method of customizing the application.  We&#8217;ll be using the <a class="reference external" href="https://github.com/typesafehub/config">Typesafe Config</a> library for this purpose.</p>
 <p>First, let&#8217;s add it as a dependency in <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;com.typesafe&quot;</span> <span class="o">%</span> <span class="s">&quot;config&quot;</span> <span class="o">%</span> <span class="s">&quot;1.2.0&quot;</span>
 </pre></div>
@@ -253,7 +255,7 @@ Hello, World!
   share/example-cli/
     conf/
       app.config
-      jvmopts
+      application.ini
     bin/
       example-cli
     lib/
@@ -293,13 +295,13 @@ windows we can only configure JVM options.  The path is hardcoded, as well to:</
 <p>As you read earlier the <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span></tt> sequence allows you to add new lines to the default bash script used to start the application.
 This is useful when you need a setting which isn&#8217;t mean for the command-line parameter list passed to the java process. The lines added to
 <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span></tt> are placed near the end of the script and have access to a number of utility bash functions (e.g. <tt class="docutils literal"><span class="pre">addJava</span></tt>,
-<tt class="docutils literal"><span class="pre">addApp</span></tt>, <tt class="docutils literal"><span class="pre">addResidual</span></tt>, <tt class="docutils literal"><span class="pre">addDebugger</span></tt>). You can add lines to this script as we did for the Typesage config file above. For more complex
-scripts you can also inject a seperate file managed in your source tree or resource directory:</p>
+<tt class="docutils literal"><span class="pre">addApp</span></tt>, <tt class="docutils literal"><span class="pre">addResidual</span></tt>, <tt class="docutils literal"><span class="pre">addDebugger</span></tt>). You can add lines to this script as we did for the Typesafe config file above. For more complex
+scripts you can also inject a separate file managed in your source tree or resource directory:</p>
 <div class="highlight-python"><div class="highlight"><pre>bashScriptExtraDefines ++= IO.readLines(baseDirectory.value / &quot;scripts&quot; / &quot;extra.sh&quot;)
 </pre></div>
 </div>
 <p>This will add the contents of <tt class="docutils literal"><span class="pre">/scripts/extra.sh</span></tt> in the resource directory to the bash script. Note you should always concatenate lines
-to <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span></tt> as other stages in the pipeline may be include linex to the start-script.</p>
+to <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span></tt> as other stages in the pipeline may be include lines to the start-script.</p>
 </div>
 </div>
 <div class="section" id="overriding-templates-bash-bat">
@@ -332,7 +334,7 @@ addJava<span class="o">()</span> <span class="o">{</span>
 <span class="k">${</span><span class="p">{template_declares</span><span class="k">}</span><span class="o">}</span>
 
 <span class="c"># Here we make use of two of the injected settings for the bash file:</span>
-<span class="c"># * app_classpath - represents the full list of JARs for this applciation.</span>
+<span class="c"># * app_classpath - represents the full list of JARs for this application.</span>
 <span class="c"># * app_mainclass - represents the class with a main method we should call.</span>
 <span class="nb">exec </span>java -cp <span class="nv">$app_classpath</span> <span class="nv">$app_mainclass</span> <span class="nv">$@</span>
 </pre></div>
@@ -371,7 +373,7 @@ generate the <tt class="docutils literal"><span class="pre">.bat</span></tt> scr
 <dt><tt class="docutils literal"><span class="pre">&#64;APP_DEFINES&#64;&#64;</span></tt> - will be replaced with a set of variable definitions, like</dt>
 <dd><tt class="docutils literal"><span class="pre">APP_MAIN_CLASS</span></tt>, <tt class="docutils literal"><span class="pre">APP_MAIN_CLASS</span></tt>.</dd>
 </dl>
-<p>You can define addiitonal variable definitions using <tt class="docutils literal"><span class="pre">batScriptExtraDefines</span></tt>.</p>
+<p>You can define additional variable definitions using <tt class="docutils literal"><span class="pre">batScriptExtraDefines</span></tt>.</p>
 </div>
 <div class="section" id="src-templates-bash-template">
 <h3><tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt><a class="headerlink" href="#src-templates-bash-template" title="Permalink to this headline">¶</a></h3>

@@ -45,7 +45,7 @@ Required Settings
 ~~~~~
 
 For this versions docker packaging is automatically activated.
-See the :doc:`Getting Started </gettingstarted>` page for informations
+See the :doc:`Getting Started </gettingstarted>` page for information
 on how to enable sbt native packager.
 
 Configuration
@@ -159,8 +159,8 @@ Docker Image Customization
     dockerExposedVolumes := Seq("/opt/docker/logs")
     
     
-In order to work properly with `USER daemon` the exposed volumes first
-created (if not existend) and chowned. 
+In order to work properly with `USER daemon` the exposed volumes are first
+created (if they do not existend) and chowned. 
 
 Install Location
 ~~~~~~~~~~~~~~~~
@@ -214,7 +214,7 @@ the chowning of a exposed volume.
 Add Commands
 ============
 
-Adding commands is as straigtforward as adding anything in a list.
+Adding commands is as straightforward as adding anything in a list.
 
 .. code-block:: scala
 

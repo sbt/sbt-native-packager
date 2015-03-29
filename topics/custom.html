@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Custom Package Formats &mdash; sbt-native-packager 1.0.0-RC1 documentation</title>
+    <title>Custom Package Formats &mdash; sbt-native-packager 1.0.0-RC2 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0-RC1',
+        VERSION:     '1.0.0-RC2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,9 +28,9 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0-RC1 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.0-RC2 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
-    <link rel="next" title="Play 2 Packaging" href="play.html" />
+    <link rel="next" title="Dealing with long classpaths" href="longclasspath.html" />
     <link rel="prev" title="Advanced Topics" href="index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -111,7 +111,7 @@
     </a>
   </li>
   <li>
-    <a href="play.html" title="Next Chapter: Play 2 Packaging"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Play 2 Packaging &raquo;</span>
+    <a href="longclasspath.html" title="Next Chapter: Dealing with long classpaths"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Dealing with lon... &raquo;</span>
     </a>
   </li>
               
@@ -147,13 +147,13 @@
       
   <div class="section" id="custom-package-formats">
 <span id="custom"></span><h1>Custom Package Formats<a class="headerlink" href="#custom-package-formats" title="Permalink to this headline">¶</a></h1>
-<p>This section provides an overview of different pacakging flavors.</p>
+<p>This section provides an overview of different packaging flavors.</p>
 <div class="section" id="sbt-assembly">
 <h2>SBT Assembly<a class="headerlink" href="#sbt-assembly" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><p><strong>Main Goal</strong></p>
 <div class="line-block">
-<div class="line">Create a fat-jar with sbt-assembly in order to deliever a single,</div>
+<div class="line">Create a fat-jar with sbt-assembly in order to deliver a single,</div>
 <div class="line">self-containing jar as a package instead of the default lib/ structure</div>
 </div>
 </div></blockquote>
@@ -204,7 +204,7 @@ contains the assembled jar. This is what the final <tt class="docutils literal">
 </div>
 </div></blockquote>
 <p>If you want to aggregate different projects in a multi module build to a single package,
-you can specify everthing in a single <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
+you can specify everything in a single <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">NativePackagerKeys._</span>
 
 <span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;mukis-fullstack&quot;</span>

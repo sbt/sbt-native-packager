@@ -3,14 +3,14 @@
 Custom Package Formats
 ======================
 
-This section provides an overview of different pacakging flavors.
+This section provides an overview of different packaging flavors.
 
 SBT Assembly
 ------------
 
     **Main Goal**
     
-    | Create a fat-jar with sbt-assembly in order to deliever a single,
+    | Create a fat-jar with sbt-assembly in order to deliver a single,
     | self-containing jar as a package instead of the default lib/ structure
 
 First add the sbt-assembly plugin to your `plugins.sbt` file.
@@ -62,7 +62,7 @@ Multi Module Builds
     | Aggregate multiple projects into one native package
 
 If you want to aggregate different projects in a multi module build to a single package,
-you can specify everthing in a single ``build.sbt``
+you can specify everything in a single ``build.sbt``
 
 .. code-block:: scala
 

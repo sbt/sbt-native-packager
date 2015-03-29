@@ -18,7 +18,7 @@ let's create a task which will download a license file.  Add the following to bu
       location
     }
 
-Now, we have a taks that will download the BSD license when run.  Note:  We assume that the license file is
+Now, we have a task that will download the BSD license when run.  Note:  We assume that the license file is
 something you host on your own website and keep up to date separately form the package.
 
 Next, let's wire this license into the package.   The native package, by default, works with **mappings**.

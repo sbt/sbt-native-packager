@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>JDKPackager Plugin &mdash; sbt-native-packager 1.0.0-RC1 documentation</title>
+    <title>JDKPackager Plugin &mdash; sbt-native-packager 1.0.0-RC2 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0-RC1',
+        VERSION:     '1.0.0-RC2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0-RC1 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.0-RC2 documentation" href="../index.html" />
     <link rel="up" title="Packaging Formats" href="index.html" />
     <link rel="next" title="Advanced Topics" href="../topics/index.html" />
     <link rel="prev" title="Windows Plugin" href="windows.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -168,10 +168,10 @@
 </div>
 <div class="alert alert-info" role="alert">
   <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-  The JDKPackagerPlugin depends on the Universal and JavaAppPackaging plugins. For inherited settings read the <a href="../archetypes/java_app/index.html">Java Applicaiton Plugin Documentation</a>
+  The JDKPackagerPlugin depends on the Universal and JavaAppPackaging plugins. For inherited settings read the <a href="../archetypes/java_app/index.html">Java Application Plugin Documentation</a>
 </div><div class="section" id="requirements">
 <h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<p>The <cite>javapackager</cite> tool comes with JDK 8, and found in the <cite>bin</cite> directory along with <cite>javac</cite> and friends. (An earlier form of the tool was introduced in later forms of JDK 7 as <cite>javafxpackager</cite>.)  If <cite>sbt</cite> is running under the JVM in JDK 8, then the plugin should be able to find the path to <cite>javapcakger</cite>. If <cite>sbt</cite> is running under a different JVM, then the path to the tool will have to be specified via the <tt class="docutils literal"><span class="pre">jdkPackagerTool</span></tt> setting.</p>
+<p>The <cite>javapackager</cite> tool comes with JDK 8, and found in the <cite>bin</cite> directory along with <cite>javac</cite> and friends. (An earlier form of the tool was introduced in later forms of JDK 7 as <cite>javafxpackager</cite>.)  If <cite>sbt</cite> is running under the JVM in JDK 8, then the plugin should be able to find the path to <cite>javapackager</cite>. If <cite>sbt</cite> is running under a different JVM, then the path to the tool will have to be specified via the <tt class="docutils literal"><span class="pre">jdkPackagerTool</span></tt> setting.</p>
 <p>This plugin must be run on the platform of the target installer. The <cite>javapackager</cite> tool does not provide a means of creating, say, Windows installers on MacOS, etc.</p>
 <p>To use create Windows launchers &amp; installers, the either the WIX Toolset (<tt class="docutils literal"><span class="pre">msi</span></tt>) or Inno Setup (<tt class="docutils literal"><span class="pre">exe</span></tt>) is required:</p>
 <ul class="simple">
@@ -240,7 +240,7 @@ Per <cite>javapackager</cite> documentation, this may be one of the following:</
 </div>
 <div class="section" id="example">
 <h2><a class="toc-backref" href="#id7">Example</a><a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>To take it for a test spin, run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">jdkPackager:packageBin</span></tt> in the <tt class="docutils literal"><span class="pre">test-project-jdkpackager</span></tt> directory of the <cite>sbt-native-packager</cite> soruce. Then look in the <tt class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></tt> directory for the result (specific name depends on platform built).</p>
+<p>To take it for a test spin, run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">jdkPackager:packageBin</span></tt> in the <tt class="docutils literal"><span class="pre">test-project-jdkpackager</span></tt> directory of the <cite>sbt-native-packager</cite> source. Then look in the <tt class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></tt> directory for the result (specific name depends on platform built).</p>
 <p>Here&#8217;s what the build file looks like:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;JDKPackagerPlugin Example&quot;</span>
 

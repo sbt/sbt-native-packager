@@ -179,6 +179,32 @@
       </span>
       </h4>
       
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#ENV_CONFIG_REPLACEMENT" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ENV_CONFIG_REPLACEMENT:String"></a>
+      <a id="ENV_CONFIG_REPLACEMENT:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ENV_CONFIG_REPLACEMENT</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#ETC_DEFAULT" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ETC_DEFAULT:String"></a>
+      <a id="ETC_DEFAULT:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ETC_DEFAULT</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      
     </li><li name="sbt.PluginsFunctions#allRequirements" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="allRequirements:sbt.PluginTrigger"></a>
       <a id="allRequirements:PluginTrigger"></a>
@@ -427,7 +453,12 @@
         <span class="name">makeEtcDefaultScript</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="source">source: <span class="extype" name="java.net.URL">URL</span></span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+      <p class="shortcomment cmt">Creates the etc-default file, which will contain the basic configuration
+for an app.</p><div class="fullcomment"><div class="comment cmt"><p>Creates the etc-default file, which will contain the basic configuration
+for an app.
+</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>of the etc-default config file</p></dd><dt class="param">tmpDir</dt><dd class="cmt"><p>to store the resulting file in (e.g. target in Universal)</p></dd><dt class="param">source</dt><dd class="cmt"><p>of etc-default script</p></dd><dt class="param">replacements</dt><dd class="cmt"><p>for placeholders in etc-default script
+</p></dd><dt>returns</dt><dd class="cmt"><p>Some(file: File)
+</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#makeMaintainerScript" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="makeMaintainerScript(scriptName:String,template:Option[sbt.URL],archetype:String,config:sbt.Configuration)(tmpDir:sbt.File,loader:com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader,replacements:Seq[(String,String)]):Option[sbt.File]"></a>
       <a id="makeMaintainerScript(String,Option[URL],String,Configuration)(File,ServerLoader,Seq[(String,String)]):Option[File]"></a>

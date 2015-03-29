@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Linux Plugin &mdash; sbt-native-packager 1.0.0-RC1 documentation</title>
+    <title>Linux Plugin &mdash; sbt-native-packager 1.0.0-RC2 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0-RC1',
+        VERSION:     '1.0.0-RC2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0-RC1 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.0-RC2 documentation" href="../index.html" />
     <link rel="up" title="Packaging Formats" href="index.html" />
     <link rel="next" title="Debian Plugin" href="debian.html" />
     <link rel="prev" title="Docker Plugin" href="docker.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -179,7 +179,7 @@
 </div>
 <div class="alert alert-info" role="alert">
   <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-  The linux plugin dependens on the universal plugin. For universal settings read the
+  The linux plugin depends on the universal plugin. For universal settings read the
   <a href="universal.html">Universal Plugin Documentation</a>
 </div><div class="section" id="related-plugins">
 <h2><a class="toc-backref" href="#id2">Related Plugins</a><a class="headerlink" href="#related-plugins" title="Permalink to this headline">¶</a></h2>
@@ -229,10 +229,10 @@ you have these settings in your build:</p>
 <div class="section" id="or-lower">
 <h3>0.8 or lower<a class="headerlink" href="#or-lower" title="Permalink to this headline">¶</a></h3>
 <p>For this versions linux packaging is automatically activated.
-See the <a class="reference internal" href="../gettingstarted.html"><em>Getting Started</em></a> page for informations
+See the <a class="reference internal" href="../gettingstarted.html"><em>Getting Started</em></a> page for information
 on how to enable sbt native packager.</p>
 <p>In order to use the utility functions you need to import them with
-(if you haven&#8217;t alreay imported this)</p>
+(if you haven&#8217;t already imported this)</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.SbtNativePackager._</span>
 </pre></div>
 </div>
@@ -364,7 +364,7 @@ The basic construct for adding looks like this</p>
 </pre></div>
 </div>
 <p>If you want to filter or alter things. The example has a lot of things you can _possibly_ do. Just pick
-what you need. After this section there are smaller examples, showing how you can implemenet certain functions.</p>
+what you need. After this section there are smaller examples, showing how you can implement certain functions.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="c1">// sbt 0.13.0 syntax</span>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="c1">// mappings: Seq[LinuxPackageMapping]</span>
@@ -414,7 +414,7 @@ what you need. After this section there are smaller examples, showing how you ca
 <span class="o">}</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">linuxPackageMappings</span></tt> can be scoped to <tt class="docutils literal"><span class="pre">Rpm`</span> <span class="pre">or</span> <span class="pre">``Debian</span></tt> if you want to add mappings only for a single packacking type.</p>
+<p><tt class="docutils literal"><span class="pre">linuxPackageMappings</span></tt> can be scoped to <tt class="docutils literal"><span class="pre">Rpm`</span> <span class="pre">or</span> <span class="pre">``Debian</span></tt> if you want to add mappings only for a single packaging type.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;debian-somefile.txt&quot;</span>
   <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>

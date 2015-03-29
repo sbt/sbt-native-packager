@@ -10,7 +10,7 @@ predefined install and uninstall scripts for various platforms and service manag
 Features
 --------
 
-The `JavaServerAppPackaging` archetype contains all `JavaAppPackaing` feature and the following
+The `JavaServerAppPackaging` archetype contains all `JavaAppPackaging` feature and the following
 
 * install/uninstall services
 * default mappings for server applications

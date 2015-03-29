@@ -182,6 +182,35 @@ The keys are defined in <a href="JavaAppKeys.html" class="extype" name="com.type
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PluginsFunctions</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging#appIniLocation" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="appIniLocation:String"></a>
+      <a id="appIniLocation:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">appIniLocation</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Location for the application.</p><div class="fullcomment"><div class="comment cmt"><p>Location for the application.ini file used by the bash script to load initialization parameters for jvm and app
+</p></div></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging#applicationIniTemplateSource" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="applicationIniTemplateSource:java.net.URL"></a>
+      <a id="applicationIniTemplateSource:URL"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">applicationIniTemplateSource</span><span class="result">: <span class="extype" name="java.net.URL">URL</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Currently unused.</p><div class="fullcomment"><div class="comment cmt"><p>Currently unused.
+TODO figure out a proper way to ship default <code>application.ini</code> if necessary
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -497,15 +526,15 @@ The keys are defined in <a href="JavaAppKeys.html" class="extype" name="com.type
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging#projectSettings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:sbt.Task[Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]]withsbt.Task[Seq[(String,String)]]withsbt.Task[Option[java.io.File]]withsbt.Task[Option[String]]withsbt.Task[Seq[String]]withsbt.Task[Seq[(java.io.File,String)]]withsbt.Task[Seq[sbt.Attributed[java.io.File]]]&lt;:sbt.Task[_&gt;:Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]withSeq[(String,String)]withOption[java.io.File]withOption[String]withSeq[String]withSeq[(java.io.File,String)]withSeq[sbt.Attributed[java.io.File]]&lt;:Equals]]]"></a>
-      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:Task[Seq[LinuxPackageMapping]]withTask[Seq[(String,String)]]withTask[Option[File]]withTask[Option[String]]withTask[Seq[String]]withTask[Seq[(File,String)]]withTask[Seq[Attributed[File]]]&lt;:Task[_&gt;:Seq[LinuxPackageMapping]withSeq[(String,String)]withOption[File]withOption[String]withSeq[String]withSeq[(File,String)]withSeq[Attributed[File]]&lt;:Equals]]]"></a>
+      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:sbt.Task[Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]]withsbt.Task[Seq[(String,String)]]withsbt.Task[Option[java.io.File]]withOption[String]withsbt.Task[Option[String]]withsbt.Task[Seq[(java.io.File,String)]]withsbt.Task[Seq[sbt.Attributed[java.io.File]]]withsbt.Task[Seq[String]]&lt;:ProductwithSerializable]]"></a>
+      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:Task[Seq[LinuxPackageMapping]]withTask[Seq[(String,String)]]withTask[Option[File]]withOption[String]withTask[Option[String]]withTask[Seq[(File,String)]]withTask[Seq[Attributed[File]]]withTask[Seq[String]]&lt;:ProductwithSerializable]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Init.Setting">sbt.Def.Setting</span>[_ &gt;: <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<a href="../linux/LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[(<span class="extype" name="java.lang.String">String</span>, <span class="extype" name="java.lang.String">String</span>)]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.lang.String">String</span>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="java.lang.String">String</span>)]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Attributed">Attributed</span>[<span class="extype" name="java.io.File">File</span>]]] &lt;: <span class="extype" name="sbt.Task">Task</span>[_ &gt;: <span class="extype" name="scala.collection.Seq">Seq</span>[<a href="../linux/LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>] with <span class="extype" name="scala.collection.Seq">Seq</span>[(<span class="extype" name="java.lang.String">String</span>, <span class="extype" name="java.lang.String">String</span>)] with <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] with <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.lang.String">String</span>] with <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>] with <span class="extype" name="scala.collection.Seq">Seq</span>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="java.lang.String">String</span>)] with <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Attributed">Attributed</span>[<span class="extype" name="java.io.File">File</span>]] &lt;: <span class="extype" name="scala.Equals">Equals</span>]]]</span>
+        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Init.Setting">sbt.Def.Setting</span>[_ &gt;: <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<a href="../linux/LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[(<span class="extype" name="java.lang.String">String</span>, <span class="extype" name="java.lang.String">String</span>)]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>]] with <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.lang.String">String</span>] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.lang.String">String</span>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="java.lang.String">String</span>)]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Attributed">Attributed</span>[<span class="extype" name="java.io.File">File</span>]]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>]] &lt;: <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span>]]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging">JavaAppPackaging</a> → AutoPlugin</dd></dl></div>

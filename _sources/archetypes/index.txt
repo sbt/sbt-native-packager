@@ -20,7 +20,7 @@ For example, if you'd like to write Windows Installer XML by hand and manually m
 still leveraging the default configuration for other platforms.
 
 
-Curently, in the nativepackager these archetypes are available:
+Currently, in the nativepackager these archetypes are available:
 
   * Java Command Line Application
   * Java Server Application (Experimental - Debian Only)
@@ -102,7 +102,7 @@ application archetype. The primary differences are:
 Akka Microkernel Application
 ----------------------------
 
-An Akka microkernel application is simlar to a Java Command Line application. Instead of running the classic ``mainClass``, 
+An Akka microkernel application is similar to a Java Command Line application. Instead of running the classic ``mainClass``, 
 an Akka microkernel application instantiates and runs a subclass of 
 `Bootable <https://github.com/akka/akka/blob/master/akka-kernel/src/main/scala/akka/kernel/Main.scala>`_ . A minimal example
 could look like this

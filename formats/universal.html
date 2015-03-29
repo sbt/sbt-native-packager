@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Universal Plugin &mdash; sbt-native-packager 1.0.0-RC1 documentation</title>
+    <title>Universal Plugin &mdash; sbt-native-packager 1.0.0-RC2 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0-RC1',
+        VERSION:     '1.0.0-RC2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0-RC1 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.0-RC2 documentation" href="../index.html" />
     <link rel="up" title="Packaging Formats" href="index.html" />
     <link rel="next" title="Linux Plugin" href="linux.html" />
     <link rel="prev" title="Packaging Formats" href="index.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -188,7 +188,7 @@ that is not tied to any particular platform, but may require manual labor to set
 </div>
 <div class="alert alert-info" role="alert">
   <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-  The universal plugin dependens on the sbt-native-packager plugin. For general settings read the
+  The universal plugin depends on the sbt-native-packager plugin. For general settings read the
   <a href="np-plugin.html">SBT Native Packager Plugin Documentation</a>
 </div><div class="section" id="related-plugins">
 <h2><a class="toc-backref" href="#id3">Related Plugins</a><a class="headerlink" href="#related-plugins" title="Permalink to this headline">¶</a></h2>
@@ -249,7 +249,7 @@ that is not tied to any particular platform, but may require manual labor to set
 <div class="section" id="or-lower">
 <h3>0.8 or lower<a class="headerlink" href="#or-lower" title="Permalink to this headline">¶</a></h3>
 <p>For this versions universal packaging is automatically activated.
-See the <a class="reference internal" href="../gettingstarted.html"><em>Getting Started</em></a> page for informations
+See the <a class="reference internal" href="../gettingstarted.html"><em>Getting Started</em></a> page for information
 on how to enable sbt native packager.</p>
 </div>
 </div>
@@ -285,7 +285,7 @@ specify the desired mappings for a given configuration.  For Example:</p>
 </pre></div>
 </div>
 <p>However, sometimes it may be advantageous to customize the files for each archive separately.  For example, perhaps
-the .tar.gz has an additional README plaintext file in additon to a README.html.  To add this just to the .tar.gz file,
+the .tar.gz has an additional README plaintext file in addition to a README.html.  To add this just to the .tar.gz file,
 use the task-scope feature of sbt:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="n">in</span> <span class="n">package</span><span class="o">-</span><span class="n">zip</span><span class="o">-</span><span class="n">tarball</span> <span class="o">+=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;README&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;README&quot;</span>
 </pre></div>

@@ -41,7 +41,7 @@
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="sbt.ScopeFilter.Make">Make</span>, <span class="extype" name="sbt.TaskMacroExtra">TaskMacroExtra</span>, <span class="extype" name="sbt.BuildExtra">BuildExtra</span>, <span class="extype" name="sbt.BuildCommon">BuildCommon</span>, <span class="extype" name="sbt.DependencyFilterExtra">DependencyFilterExtra</span>, <span class="extype" name="sbt.ProjectExtra">ProjectExtra</span>, <span class="extype" name="sbt.PathExtra">PathExtra</span>, <span class="extype" name="sbt.PathLow">PathLow</span>, <span class="extype" name="sbt.Mapper">Mapper</span>, <span class="extype" name="sbt.Alternatives">Alternatives</span>, <span class="extype" name="sbt.impl.DependencyBuilders">DependencyBuilders</span>, <span class="extype" name="sbt.ProcessExtra">ProcessExtra</span>, <span class="extype" name="sbt.Types">Types</span>, <span class="extype" name="sbt.TypeFunctions">TypeFunctions</span>, <span class="extype" name="sbt.std.TaskExtra">TaskExtra</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="sbt.ScopeFilter.Make">Make</span>, <span class="extype" name="sbt.TaskMacroExtra">TaskMacroExtra</span>, <span class="extype" name="sbt.BuildExtra">BuildExtra</span>, <span class="extype" name="sbt.DefExtra">DefExtra</span>, <span class="extype" name="sbt.BuildCommon">BuildCommon</span>, <span class="extype" name="sbt.DependencyFilterExtra">DependencyFilterExtra</span>, <span class="extype" name="sbt.ProjectExtra">ProjectExtra</span>, <span class="extype" name="sbt.PathExtra">PathExtra</span>, <span class="extype" name="sbt.PathLow">PathLow</span>, <span class="extype" name="sbt.Mapper">Mapper</span>, <span class="extype" name="sbt.Alternatives">Alternatives</span>, <span class="extype" name="sbt.impl.DependencyBuilders">DependencyBuilders</span>, <span class="extype" name="sbt.ProcessExtra">ProcessExtra</span>, <span class="extype" name="sbt.Types">Types</span>, <span class="extype" name="sbt.TypeFunctions">TypeFunctions</span>, <span class="extype" name="sbt.std.TaskExtra">TaskExtra</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -59,7 +59,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="sbt"><span>sbt</span></li><li class="in" name="sbt.ScopeFilter.Make"><span>Make</span></li><li class="in" name="sbt.TaskMacroExtra"><span>TaskMacroExtra</span></li><li class="in" name="sbt.BuildExtra"><span>BuildExtra</span></li><li class="in" name="sbt.BuildCommon"><span>BuildCommon</span></li><li class="in" name="sbt.DependencyFilterExtra"><span>DependencyFilterExtra</span></li><li class="in" name="sbt.ProjectExtra"><span>ProjectExtra</span></li><li class="in" name="sbt.PathExtra"><span>PathExtra</span></li><li class="in" name="sbt.PathLow"><span>PathLow</span></li><li class="in" name="sbt.Mapper"><span>Mapper</span></li><li class="in" name="sbt.Alternatives"><span>Alternatives</span></li><li class="in" name="sbt.impl.DependencyBuilders"><span>DependencyBuilders</span></li><li class="in" name="sbt.ProcessExtra"><span>ProcessExtra</span></li><li class="in" name="sbt.Types"><span>Types</span></li><li class="in" name="sbt.TypeFunctions"><span>TypeFunctions</span></li><li class="in" name="sbt.std.TaskExtra"><span>TaskExtra</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="sbt"><span>sbt</span></li><li class="in" name="sbt.ScopeFilter.Make"><span>Make</span></li><li class="in" name="sbt.TaskMacroExtra"><span>TaskMacroExtra</span></li><li class="in" name="sbt.BuildExtra"><span>BuildExtra</span></li><li class="in" name="sbt.DefExtra"><span>DefExtra</span></li><li class="in" name="sbt.BuildCommon"><span>BuildCommon</span></li><li class="in" name="sbt.DependencyFilterExtra"><span>DependencyFilterExtra</span></li><li class="in" name="sbt.ProjectExtra"><span>ProjectExtra</span></li><li class="in" name="sbt.PathExtra"><span>PathExtra</span></li><li class="in" name="sbt.PathLow"><span>PathLow</span></li><li class="in" name="sbt.Mapper"><span>Mapper</span></li><li class="in" name="sbt.Alternatives"><span>Alternatives</span></li><li class="in" name="sbt.impl.DependencyBuilders"><span>DependencyBuilders</span></li><li class="in" name="sbt.ProcessExtra"><span>ProcessExtra</span></li><li class="in" name="sbt.Types"><span>Types</span></li><li class="in" name="sbt.TypeFunctions"><span>TypeFunctions</span></li><li class="in" name="sbt.std.TaskExtra"><span>TaskExtra</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -605,6 +605,19 @@
       </span>
       <span class="symbol">
         <span class="name">addCompilerPlugin</span><span class="params">(<span name="dependency">dependency: <span class="extype" name="sbt.ModuleID">ModuleID</span></span>)</span><span class="result">: <span class="extype" name="sbt.Init.Setting">sbt.Def.Setting</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="sbt.ModuleID">ModuleID</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>BuildExtra</dd></dl></div>
+    </li><li name="sbt.BuildExtra#addMavenResolverPlugin" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addMavenResolverPlugin:sbt.Def.Setting[Seq[sbt.ModuleID]]"></a>
+      <a id="addMavenResolverPlugin:sbt.Def.Setting[Seq[ModuleID]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addMavenResolverPlugin</span><span class="result">: <span class="extype" name="sbt.Init.Setting">sbt.Def.Setting</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="sbt.ModuleID">ModuleID</span>]]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>BuildExtra</dd></dl></div>
@@ -1933,6 +1946,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
+    </li><li name="sbt.serialization" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="serialization"></a>
+      <a id="serialization:serialization"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="serialization/package.html"><span class="name">serialization</span></a>
+      </span>
+      </h4>
+      
     </li><li name="sbt.package#settingKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="settingKey[T&lt;:&lt;?&gt;](description:&lt;?&gt;):sbt.SettingKey[T]"></a>
       <a id="settingKey[T](String):SettingKey[T]"></a>
@@ -2179,6 +2205,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>TaskExtra</dd></dl></div>
+    </li><li name="sbt.DefExtra#toTaskSequential" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toTaskSequential(d:sbt.Def.type):sbt.TaskSequential"></a>
+      <a id="toTaskSequential(Def.type):TaskSequential"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toTaskSequential</span><span class="params">(<span name="d">d: <span class="extype" name="sbt.Def">Def</span>.type</span>)</span><span class="result">: <span class="extype" name="sbt.TaskSequential">TaskSequential</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DefExtra</dd></dl></div>
     </li><li name="sbt.std.TaskExtra#toTasks" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toTasks[S](in:Seq[()=&gt;S]):Seq[sbt.Task[S]]"></a>
       <a id="toTasks[S](Seq[()⇒S]):Seq[Task[S]]"></a>
@@ -2336,6 +2375,8 @@
               <h3>Inherited from <span class="extype" name="sbt.TaskMacroExtra">TaskMacroExtra</span></h3>
             </div><div class="parent" name="sbt.BuildExtra">
               <h3>Inherited from <span class="extype" name="sbt.BuildExtra">BuildExtra</span></h3>
+            </div><div class="parent" name="sbt.DefExtra">
+              <h3>Inherited from <span class="extype" name="sbt.DefExtra">DefExtra</span></h3>
             </div><div class="parent" name="sbt.BuildCommon">
               <h3>Inherited from <span class="extype" name="sbt.BuildCommon">BuildCommon</span></h3>
             </div><div class="parent" name="sbt.DependencyFilterExtra">

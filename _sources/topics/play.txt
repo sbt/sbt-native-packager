@@ -25,7 +25,7 @@ In order to run your application in production you need to provide it with at le
 * Location where it can store its pidfile
 * Production configuration
 
-One way to provide this information is create ``src/templates/etc-default`` with the following contents:
+One way to provide this information is create ``src/universal/application.ini`` with the following contents:
 
 .. code-block:: bash
 
@@ -41,4 +41,5 @@ One way to provide this information is create ``src/templates/etc-default`` with
 This way you should either store your production configuration under ``${{path_to_app_name}}/conf/production.conf``
 or put it under ``/usr/share/${{app_name}}/conf/production.conf`` by hand or using some configuration management system.
 
-See :doc:`customize java server application </archetypes/java_server/customize>` for more information on `etc-default` template.
+See :doc:`customize java server application </archetypes/java_server/customize>` for more information on `application.ini`
+and `etc-default` template.
