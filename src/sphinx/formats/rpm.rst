@@ -133,9 +133,19 @@ Informational Settings
 Dependency Settings
 ~~~~~~~~~~~~~~~~~~~
 
+  ``rpmAutoreq``
+    Enable or disable the automatic processing of required packages.
+    Takes the form ``"yes"`` or ``"no"``, defaults to ``"yes"``.
+    Defines the ``AutoReq:`` tag in the spec file.
+
   ``rpmRequirements``
     The RPM packages that are required to be installed for this RPM to work.
-    
+
+  ``rpmAutoprov``
+    Enable or disable the automatic processing of provided packages.
+    Takes the form ``"yes"`` or ``"no"``, defaults to ``"yes"``.
+    Defines the ``AutoProv:`` tag in the spec file.
+
   ``rpmProvides``
     The RPM package names that this RPM provides.
     
