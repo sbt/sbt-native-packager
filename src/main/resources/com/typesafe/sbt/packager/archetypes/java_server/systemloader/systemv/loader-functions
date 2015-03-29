@@ -8,13 +8,13 @@ startService() {
 	echo "Adding $app_name to autostart using update-rc.d"
 	update-rc.d $app_name defaults
 	service $app_name start
-    elif hash chkconfig 2>/dev/null; then
+    elif hash chkconfig >/dev/null 2>&1; then
 	echo "Adding $app_name to autostart using chkconfig"
 	chkconfig --add ${{app_name}}
 	chkconfig $app_name on
 	service $app_name start
     else
-	echo "WARNING: Could not put $app_name in autostart: update-rc and chkconfig or found!"
+	echo "WARNING: Could not add $app_name to autostart: neither update-rc nor chkconfig found!"
     fi
 }
 
@@ -28,13 +28,13 @@ stopService() {
 	echo "Removing $app_name from autostart using update-rc.d"
 	update-rc.d -f $app_name remove
 	service $app_name stop
-    elif chkconfig 2>/dev/null; then
+    elif hash chkconfig >/dev/null 2>&1; then
 	echo "Removing $app_name from autostart using chkconfig"
 	chkconfig $app_name off
 	chkconfig --del $app_name
 	service $app_name stop
     else
-	echo "WARNING: Could not put $app_name in autostart: update-rc or chkconfig not found!"
+	echo "WARNING: Could not remove $app_name from autostart: neither update-rc nor chkconfig found!"
     fi
 
 }
