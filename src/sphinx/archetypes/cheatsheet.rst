@@ -204,16 +204,25 @@ serverLoader is being used.
 
 You can use ``${{variable_name}}`` to reference variables when writing your script.  The default set of variables is:
 
-* ``descr`` - The description of the server.
-* ``author`` - The configured author name.
-* ``exec`` - The script/binary to execute when starting the server
-* ``chdir`` - The working directory for the server.
-* ``retries`` - The number of times to retry starting the server.
-* ``retryTimeout`` - The amount of time to wait before trying to run the server.
-* ``app_name`` - The name of the application (linux friendly)
-* ``app_main_class`` - The main class / entry point of the application.
-* ``app_classpath`` - The (ordered) classpath of the application.
-* ``daemon_user`` - The user that the server should run as.
+* ``author`` - The name of the author; defined by ``maintainer in Linux``.
+* ``descr`` - The short description of the service; defined by ``packageSummary in Linux``.
+* ``exec`` - The script/binary to execute when starting the service; defined by ``executableScriptName in Linux``.
+* ``chdir`` - The working directory for the service; defined by ``defaultLinuxInstallLocation/(packageName in Linux)``.
+* ``retries`` - The number of times to retry starting the server; defined to be the constant ``0``.
+* ``retryTimeout`` - The amount of time to wait before trying to run the server; defined to be the constant ``60``.
+* ``app_name`` - The name of the application (linux friendly); defined by ``packageName in Linux``.
+* ``version`` - The software version; defined by ``version``.
+* ``daemon_user`` - The user that the service should run as; defined by ``daemonUser in Linux``.
+* ``daemon_user_uid`` - The user ID of the user that the service should run as; defined by ``daemonUserUid in Linux``.
+* ``daemon_group`` - The group of the user that the service should run as; defined by ``daemonGroup in Linux``.
+* ``daemon_group_gid`` - The group ID of the group of the user that the service should run as; defined by ``daemonGroupGid in Linux``.
+* ``daemon_shell`` - The shell of the user that the service should run as; defined by ``daemonShell in Linux``.
+* ``term_timeout`` - The timeout for the service to respond to a TERM signal; defined by ``termTimeout in Linux``, defaults to ``60``.
+* ``kill_timeout`` - The timeout for the service to respond to a KILL signal; defined by ``killTimeout in Linux``, defaults to ``30``.
+* ``start_facilities`` - Intended for the ``Required-Start:`` line in the ``INIT INFO`` block. Its value is automatically generated with respect to the chosen system loader.
+* ``stop_facilities`` - Intended for the ``Required-Stop:`` line in the ``INIT INFO`` block. Its value is automatically generated with respect to the chosen system loader.
+* ``start_runlevels`` - Intended for the ``Default-Start:`` line in the ``INIT INFO`` block. Its value is automatically generated with respect to the chosen system loader.
+* ``stop_runlevels`` - Intended for the ``Default-Stop:`` line in the ``INIT INFO`` block. Its value is automatically generated with respect to the chosen system loader.
 
 .. _server-app-config:
 
