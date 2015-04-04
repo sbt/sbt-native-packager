@@ -34,7 +34,7 @@
 
 # Source from sysconfig
 # This order means system config appends/overrides package config
-[ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+[ -e /etc/sysconfig/${{app_name}} ] && . /etc/sysconfig/${{app_name}}
 
 exec="${{chdir}}/bin/${{exec}}"
 prog="${{app_name}}"
