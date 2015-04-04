@@ -1,0 +1,4 @@
+---
+oracle_jdk_rpm: "jdk-8u40-linux-x64.rpm"
+oracle_jdk_url: "http://download.oracle.com/otn-pub/java/jdk/8u40-b25/{{ oracle_jdk_rpm }}"
+oracle_license_accept_cookie: "gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie"

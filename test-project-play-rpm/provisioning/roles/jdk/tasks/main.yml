@@ -1,0 +1,21 @@
+---
+- name: fetch oracle jdk rpm
+  uri:
+    url: "{{ oracle_jdk_url }}"
+    dest: "/tmp/{{ oracle_jdk_rpm }}"
+    creates: "/tmp/{{ oracle_jdk_rpm }}"
+    HEADER_Cookie: "{{ oracle_license_accept_cookie }}"
+  register: fetch_jdk_rpm
+
+- name: install jdk rpm from local file
+  yum:
+    name: "/tmp/{{ oracle_jdk_rpm }}"
+    state: present
+  when: fetch_jdk_rpm | changed
+
+- name: add java home env var
+  lineinfile:
+    dest: /etc/profile.d/java_home.sh
+    create: yes
+    line: "export JAVA_HOME=/usr/java/jdk1.8.0_40/"
+    state: present
