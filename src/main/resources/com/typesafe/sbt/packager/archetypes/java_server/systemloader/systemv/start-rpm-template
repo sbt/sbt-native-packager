@@ -34,8 +34,6 @@
 # $JAVA_OPTS used in $RUN_CMD wrapper
 export JAVA_OPTS
 
-prog="${{exec}}"
-
 # FIXME The pid file should be handled by the executed script
 # The pid can be filled in in this script
 PIDFILE=/var/run/${{app_name}}/running.pid
@@ -50,15 +48,15 @@ fi
 
 
 # smb could define some additional options in $RUN_OPTS
-RUN_CMD="${{chdir}}/bin/${{app_name}}"
+RUN_CMD="${{chdir}}/bin/${{exec}}"
 
-[ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+[ -e /etc/sysconfig/${{app_name}} ] && . /etc/sysconfig/${{app_name}}
 
-lockfile=/var/lock/subsys/$prog
+lockfile=/var/lock/subsys/${{app_name}}
 
 start() {
     [ -x $RUN_CMD ] || exit 5
-    echo -n $"Starting $prog: "
+    echo -n $"Starting ${{app_name}}: "
     cd ${{chdir}}
 
     # FIXME figure out how to use daemon correctly
@@ -81,8 +79,8 @@ start() {
 }
 
 stop() {
-    echo -n $"Stopping $prog: "
-    killproc -p $PIDFILE $prog
+    echo -n $"Stopping ${{app_name}}: "
+    killproc -p $PIDFILE ${{app_name}}
     retval=$?
     [ $retval -eq 0 ] && rm -f $lockfile
     return $retval
@@ -103,7 +101,7 @@ force_reload() {
 
 rh_status() {
     # run checks to determine if the service is running or use generic status
-    status -p $PIDFILE -l $lockfile $prog
+    status -p $PIDFILE -l $lockfile ${{app_name}}
 }
 
 rh_status_q() {
