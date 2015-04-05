@@ -38,7 +38,7 @@
 
 exec="${{chdir}}/bin/${{exec}}"
 prog="${{app_name}}"
-lockfile=/var/lock/subsys/$prog
+lockfile="/var/lock/subsys/${{app_name}}"
 
 RUN_CMD="$exec >> /var/log/${{app_name}}/daemon.log 2>&1 &"
 
