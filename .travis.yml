@@ -2,8 +2,7 @@ language: scala
 os:
   - linux
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION "test"
-  - sbt ++$TRAVIS_SCALA_VERSION "scripted rpm/* debian/* universal/* jar/*"
+  - sbt ++$TRAVIS_SCALA_VERSION --warn update compile test:compile && sbt ++$TRAVIS_SCALA_VERSION test "scripted rpm/* debian/* universal/* jar/*"
 scala:
   - 2.10.3
 jdk:
