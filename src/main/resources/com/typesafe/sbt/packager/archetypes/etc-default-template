@@ -22,6 +22,10 @@
 # -----------------
 # JAVA_OPTS="-Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS"
 
+# Setting PIDFILE
+# ---------------
+# PIDFILE="/var/run/${{app_name}}/play.pid"
+
 # export env vars for 3rd party libs
 # ----------------------------------
 # COMPANY_API_KEY=123abc

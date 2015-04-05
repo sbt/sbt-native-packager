@@ -28,62 +28,48 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
-# adding bashScriptEnvConfigLocation
-[[ -f ${{env_config}} ]] && . ${{env_config}}
+# Source from package defined config. Defaults to,
+# bashScriptEnvConfigLocation := Some("/etc/default/" + (packageName in Linux).value)
+[ -e ${{env_config}} ] && . ${{env_config}}
 
-# $JAVA_OPTS used in $RUN_CMD wrapper
-export JAVA_OPTS
-
-# FIXME The pid file should be handled by the executed script
-# The pid can be filled in in this script
-PIDFILE=/var/run/${{app_name}}/running.pid
-
-if [ -z "$DAEMON_USER" ]; then
-    DAEMON_USER=${{daemon_user}}
-fi
-
-if [ -z "$DAEMON_GROUP" ]; then
-    DAEMON_GROUP=${{daemon_group}}
-fi
-
-
-# smb could define some additional options in $RUN_OPTS
-RUN_CMD="${{chdir}}/bin/${{exec}}"
-
+# Source from sysconfig
+# This order means system config appends/overrides package config
 [ -e /etc/sysconfig/${{app_name}} ] && . /etc/sysconfig/${{app_name}}
 
-lockfile=/var/lock/subsys/${{app_name}}
+exec="${{chdir}}/bin/${{exec}}"
+prog="${{app_name}}"
+lockfile=/var/lock/subsys/$prog
+
+RUN_CMD="$exec >> /var/log/${{app_name}}/daemon.log 2>&1 &"
+
+# $JAVA_OPTS used in $exec wrapper
+export JAVA_OPTS
+
+[ -z "${DAEMON_USER:-}" ] && DAEMON_USER=${{daemon_user}}
+
+# If program manages its own PID file then it
+# should declare its location in PIDFILE
+if [ -z "${PIDFILE:-}" ]; then
+    PIDFILE=/var/run/${{app_name}}/running.pid
+    # echo $! must run in the shell started by `runuser` in `daemon`
+    RUN_CMD="$RUN_CMD echo \$! > $PIDFILE"
+fi
 
 start() {
-    [ -x $RUN_CMD ] || exit 5
-    echo -n $"Starting ${{app_name}}: "
-    cd ${{chdir}}
-
-    # FIXME figure out how to use daemon correctly
-    nohup runuser $DAEMON_USER ${RUN_CMD} >> /var/log/${{app_name}}/daemon.log 2>&1 &
-
-    # The way to go, but doesn't work properly
-	# If the app creates the pid file this gets messy
-	# daemon --user $DAEMON_USER --pidfile $PIDFILE $RUN_CMD &
-
-
-    retval=$?   # last error code
-    PID=$!      # pid of last backgrounded process
-    [ $retval -eq 0 ] && touch ${lockfile} && success || failure
-
-    # Insert pid into pid file for CentOS killproc function
-    [ -d "/var/run/${{app_name}}" ] || install -d -o "$DAEMON_USER" -g "$DAEMON_GROUP" -m755 "/var/run/${{app_name}}"
+    [ -x $exec ] || exit 5
+    echo -n $"Starting $prog: "
+    daemon --check $prog --user $DAEMON_USER --pidfile $PIDFILE "$RUN_CMD"
+    retval=$?
     echo
-    echo $PID > ${PIDFILE}
-    return $retval
+    [ $retval -eq 0 ] && touch $lockfile
 }
 
 stop() {
-    echo -n $"Stopping ${{app_name}}: "
-    killproc -p $PIDFILE ${{app_name}}
+    echo -n $"Stopping $prog: "
+    killproc -p $PIDFILE $prog
     retval=$?
+    echo
     [ $retval -eq 0 ] && rm -f $lockfile
-    return $retval
 }
 
 restart() {
@@ -101,7 +87,7 @@ force_reload() {
 
 rh_status() {
     # run checks to determine if the service is running or use generic status
-    status -p $PIDFILE -l $lockfile ${{app_name}}
+    status -p $PIDFILE -l $lockfile $prog
 }
 
 rh_status_q() {
