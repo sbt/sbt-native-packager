@@ -1,6 +1,11 @@
 resolvers += Resolver.typesafeRepo("releases")
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.8")
+libraryDependencies <+= Def.setting[ModuleID] {
+  Defaults.sbtPluginExtra(
+    "com.typesafe.play" % "sbt-plugin" % "2.3.8",
+    (sbtBinaryVersion in update).value,
+    (scalaBinaryVersion in update).value).exclude("com.typesafe.sbt", "sbt-native-packager")
+}
 
 lazy val root = Project("plugins", file(".")) dependsOn(packager)
 
