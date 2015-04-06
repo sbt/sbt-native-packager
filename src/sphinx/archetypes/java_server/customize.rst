@@ -29,7 +29,7 @@ You have three options. First, you can specify your options via the ``build.sbt`
 For the ``-X`` settings you need to add a suffix ``-J`` so the start script will
 recognize these as vm config parameters. 
 
-The second option is to create ``src/templates/application.ini`` with the following template
+The second option is to create ``src/universal/conf/application.ini`` with the following template
 
 .. code-block :: bash
 
@@ -80,6 +80,9 @@ The file will be installed to ``/etc/default/<normalizedName>``
     # Setting JAVA_OPTS
     # -----------------
     JAVA_OPTS="-Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS"
+    
+    # For rpm/systemv you need to set the PIDFILE env variable as well
+    PIDFILE="/var/run/${{app_name}}/play.pid"
     
     # export env vars for 3rd party libs
     # ----------------------------------
