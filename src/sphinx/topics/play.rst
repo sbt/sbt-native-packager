@@ -25,7 +25,7 @@ In order to run your application in production you need to provide it with at le
 * Location where it can store its pidfile
 * Production configuration
 
-One way to provide this information is create ``src/universal/application.ini`` with the following contents:
+One way to provide this information is create ``src/universal/conf/application.ini`` with the following contents:
 
 .. code-block:: bash
 
@@ -40,6 +40,25 @@ One way to provide this information is create ``src/universal/application.ini`` 
 
 This way you should either store your production configuration under ``${{path_to_app_name}}/conf/production.conf``
 or put it under ``/usr/share/${{app_name}}/conf/production.conf`` by hand or using some configuration management system.
+
+RPM and SystemV
+~~~~~~~~~~~~~~~
+
+If you use a system with rpm as a packaging managing system (Fedora, CentOS, RedHat,...) make sure to provide
+a `etc-default` in `src/templates` and set the `PIDFILE` environment variable.
+
+
+.. code-block :: bash
+
+    # Setting JAVA_OPTS
+    # -----------------
+    # you can use this instead of the application.ini as well
+    # JAVA_OPTS="-Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS"
+    
+    # For rpm/systemv you need to set the PIDFILE env variable as well
+    PIDFILE="/var/run/${{app_name}}/play.pid"
+    
+
 
 See :doc:`customize java server application </archetypes/java_server/customize>` for more information on `application.ini`
 and `etc-default` template.
