@@ -234,14 +234,14 @@ object JavaServerAppPackaging extends AutoPlugin {
   }
 
   protected def startScriptMapping(name: String, script: Option[File], loader: ServerLoader, scriptDir: String): Seq[LinuxPackageMapping] = {
-    val (path, permissions) = loader match {
-      case Upstart => ("/etc/init/" + name + ".conf", "0644")
-      case SystemV => ("/etc/init.d/" + name, "0755")
-      case Systemd => ("/usr/lib/systemd/system/" + name + ".service", "0644")
+    val (path, permissions, isConf) = loader match {
+      case Upstart => ("/etc/init/" + name + ".conf", "0644", "true")
+      case SystemV => ("/etc/init.d/" + name, "0755", "false")
+      case Systemd => ("/usr/lib/systemd/system/" + name + ".service", "0644", "true")
     }
     for {
       s <- script.toSeq
-    } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(Users.Root, Users.Root, permissions, "true"))
+    } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(Users.Root, Users.Root, permissions, isConf))
   }
 
   protected def makeStartScript(template: URL, replacements: Seq[(String, String)], tmpDir: File, loader: ServerLoader): Option[File] = {
