@@ -1,0 +1,19 @@
+---
+- hosts: all
+  sudo: true
+  pre_tasks:
+    - yum:
+        name: "{{ item }}"
+      with_items:
+        - python
+        - libselinux-python
+        - python-setuptools
+        - python-setuptools-devel
+    - easy_install:
+        name: pip
+    - pip:
+        name: httplib2
+  roles:
+    - jdk
+    - rpm
+    - sbt

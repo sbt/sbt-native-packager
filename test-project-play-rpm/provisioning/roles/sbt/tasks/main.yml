@@ -1,0 +1,6 @@
+---
+- name: install sbt-extras
+  get_url:
+    url: https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt
+    dest: /usr/bin/sbt
+    mode: 0755

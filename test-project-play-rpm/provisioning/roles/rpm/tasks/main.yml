@@ -1,0 +1,8 @@
+---
+- name: rpm dev tools
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - rpm-build
+    - rpmlint

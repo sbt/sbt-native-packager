@@ -1,0 +1,42 @@
+---
+- hosts: all
+  sudo: true
+  vars:
+    project_dir: /vagrant/test-project-play-rpm
+    prog: play-demo
+    prog_v: "1.0"
+    rpm_dir: "{{ project_dir }}/target/rpm/RPMS/noarch/"
+    rpm_file: "{{ rpm_dir }}/{{ prog }}-{{ prog_v }}-1.noarch.rpm"
+    test_url: "http://localhost:9000"
+  tasks:
+    - name: sbt build
+      shell: ./run-sbt-build.sh
+      args:
+        chdir: "{{ project_dir }}"
+    - name: check for output rpm
+      stat:
+        path: "{{ rpm_file }}"
+      register: rpm_stat
+    - assert:
+        that:
+          - rpm_stat.stat.isreg
+    - name: install rpm
+      yum:
+        name: "{{ rpm_file }}"
+        state: present
+    - pause: seconds=5
+    - name: run http health check
+      uri:
+        url: "{{ test_url }}"
+    - name: restart service
+      service:
+        name: play-demo
+        state: restarted
+    - pause: seconds=5
+    - name: run http health check again
+      uri:
+        url: "{{ test_url }}"
+    - name: uninstall rpm
+      yum:
+        name: play-demo
+        state: absent
