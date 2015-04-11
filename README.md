@@ -33,13 +33,14 @@ join the discussion in [#498](https://github.com/sbt/sbt-native-packager/issues/
 ## Features
 
 * Build native packages for different systems
-** Universal `zip`,`tar.gz`, `xz` archives
-** `deb` and `rpm` packages for Debian/RHEL based systems
-** `dmg` for OSX
-** `msi` for Windows
-** `docker` images
+  * Universal `zip`,`tar.gz`, `xz` archives
+  * `deb` and `rpm` packages for Debian/RHEL based systems
+  * `dmg` for OSX
+  * `msi` for Windows
+  * `docker` images
 * Provide archetypes for common use cases
-** Java application
+ * Java application with startscripts for linux/osx/windows
+ * Java server additional autostart configurations
 
 ## Installation
 
