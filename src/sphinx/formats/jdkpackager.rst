@@ -94,7 +94,7 @@ Settings
 JVM Options
 -----------
 
-Relevant JVM settings specified in the ``src/universal/conf/jvmopts`` file are processed and added to the `javapackager` call. See :doc:`Customize Java Applications</customizejavaapplications>` for details.
+Relevant JVM settings specified in the ``src/universal/conf/application.ini`` file are processed and added to the `javapackager` call. See :doc:`Customize Java Applications</customizejavaapplications>` for details.
 
 
 Example

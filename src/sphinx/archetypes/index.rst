@@ -102,6 +102,14 @@ application archetype. The primary differences are:
 Akka Microkernel Application
 ----------------------------
 
+.. raw:: html
+
+  <div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    The <em>Akka Microkernel Archetype</em> will be deprecated in favor of the more
+    general and better maintained <em>Java App Archetype</em>
+  </div>
+
 An Akka microkernel application is similar to a Java Command Line application. Instead of running the classic ``mainClass``, 
 an Akka microkernel application instantiates and runs a subclass of 
 `Bootable <https://github.com/akka/akka/blob/master/akka-kernel/src/main/scala/akka/kernel/Main.scala>`_ . A minimal example

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "!!!! Akka Microkernel will be deprecated. Use JavaAppPackaging instead !!!!"
+
 declare AKKA_HOME="$(cd "$(cd "$(dirname "$0")"; pwd -P)"/..; pwd)"
 declare -r app_home="$0"
 declare -r lib_dir="${AKKA_HOME}/lib"

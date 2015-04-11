@@ -23,34 +23,54 @@ join the discussion in [#498](https://github.com/sbt/sbt-native-packager/issues/
   we're very active on [Stack Overflow](http://stackoverflow.com/questions/tagged/sbt). You can either use the `sbt` tag or the
   `sbt-native-packager` tag.  They also have far better search support for working around issues.
 * **Docs**:
-  Our docs are [available online](http://scala-sbt.org/sbt-native-packager).  If you'd like to help improve the docs, they're part of this
+  [Our docs are available online](http://scala-sbt.org/sbt-native-packager).  If you'd like to help improve the docs, they're part of this
   repository in the `src/sphinx` directory. [ScalaDocs](http://www.scala-sbt.org/sbt-native-packager/latest/api/#package) are also available.
 * **Issues/Feature Requests**:
   Finally, any bugs or features you find you need, please report to our [issue tracker](https://github.com/sbt/sbt-native-packager/issues/new).
   Please check the [compatibility matrix](https://github.com/sbt/sbt-native-packager/wiki/Tested-On) to see if your system is able to
   produce the packages you want.
+  
+## Features
 
-## Installation ##
+* Build native packages for different systems
+** Universal `zip`,`tar.gz`, `xz` archives
+** `deb` and `rpm` packages for Debian/RHEL based systems
+** `dmg` for OSX
+** `msi` for Windows
+** `docker` images
+* Provide archetypes for common use cases
+** Java application
+
+## Installation
 
 Add the following to your `project/plugins.sbt` file:
 
 ```scala
-// for sbt 0.12.x and scala 2.9.x
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.7-RC1")
-
-// for sbt 0.13.x and scala 2.10.x
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0")
-
 // for autoplugins
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.0.0-RC1")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.0.0")
 ```
 
-For the native packager keys add this to your `build.sbt`
+In your `build.sbt` enable the plugin you want. For example the
+`JavaAppPackaging`.
+
+```scala
+enablePlugins(JavaAppPackaging)
+```
+
+
+For non-autoplugins use the `0.8.0` version.
+
+```scala
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0")
+```
+
+
+For the native packager keys add this to your `build.sbt` if you use the a version
+before `1.0.0`
 
 ```scala
 import NativePackagerKeys._
 ```
-
 
 
 ## Experimental systemd bootsystem support ##
@@ -63,25 +83,6 @@ To enable this feature follow [My First Packaged Server Project guide](http://ww
     serverLoading in Rpm := Systemd
 
 Any help on testing and improving this feature is appreciated so feel free to report bugs or making PR.
-
-## Experimental Docker support ##
-
-Native packager now provides experimental `Docker` images. Docker version `1.3` or higher is required.
-To enable this feature follow [Docker Plugin guide](http://www.scala-sbt.org/sbt-native-packager/formats/docker.html) and use one of the provided Docker tasks for generating images.
-
-To publish the image, ``dockerRepository`` should be set.
-
-As with the `systemd` support, help with testing and improvements is appreciated.
-
-## Experimental JDeb support ##
-
-If don't run a linux or mac system with ``dpkg`` installed, you can configure the
-debian packaging be done by [jdeb](https://github.com/tcurdt/jdeb). To enable this just set another packaging
-implementation in your `build.sbt`
-
-```scala
-packageBin in Debian <<= debianJDebPackaging in Debian
-```
 
 
 ## Experimental Native Packages via `javapackager`
@@ -110,5 +111,6 @@ Please feel free to [contribute documentation](https://github.com/sbt/sbt-native
 - [sbt-assembly](https://github.com/sbt/sbt-assembly)
 - [sbt-packager](https://github.com/en-japan/sbt-packer)
 - [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
+- [sbt-bundle](https://github.com/sbt/sbt-bundle)
 - [sbt-typesafe-conductr](https://github.com/sbt/sbt-typesafe-conductr)
 - [sbt-newrelic](https://github.com/gilt/sbt-newrelic)
