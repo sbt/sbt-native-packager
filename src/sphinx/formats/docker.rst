@@ -189,7 +189,7 @@ In your sbt console type
 
 
 Remove Commands
-===============
+~~~~~~~~~~~~~~~
 
 SBT Native Packager added some commands you may not need. For example
 the chowning of a exposed volume.
@@ -212,7 +212,7 @@ the chowning of a exposed volume.
 
 
 Add Commands
-============
+~~~~~~~~~~~~
 
 Adding commands is as straightforward as adding anything in a list.
 
@@ -233,7 +233,7 @@ Adding commands is as straightforward as adding anything in a list.
 
 
 Write from Scratch
-==================
+~~~~~~~~~~~~~~~~~~
 
 You can simply wipe out all docker commands with
 
