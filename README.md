@@ -7,6 +7,8 @@ Appveyor | [![Build status](https://ci.appveyor.com/api/projects/status/pbxd0unt
 Codacy |  [![Codacy Badge](https://www.codacy.com/project/badge/0e9a7ec769c84e578f4550bf7da6bf05)](https://www.codacy.com/public/nepomukseiler/sbt-native-packager) | Code Quality
 Bintray | [ ![Download](https://api.bintray.com/packages/sbt/sbt-plugin-releases/sbt-native-packager/images/download.svg) ](https://bintray.com/sbt/sbt-plugin-releases/sbt-native-packager/_latestVersion) | Latest Version on Bintray
 Gitter | [![Join the chat at https://gitter.im/sbt/sbt-native-packager](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sbt/sbt-native-packager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) | Chatroom
+Issuestats | [![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/pr?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager) | 
+Issuestats | [![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/issue?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager) |
 
 
 This is a work in progress project.  The goal is to be able to bundle up Scala software built with SBT for native packaging systems, like deb, rpm, homebrew, msi.
