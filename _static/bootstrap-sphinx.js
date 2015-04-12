@@ -54,7 +54,7 @@
   $(window).load(function () {
     /*
      * Scroll the window to avoid the topnav bar
-     * https://github.com/twitter/bootstrap/issues/1768
+     * https://github.com/twbs/bootstrap/issues/1768
      */
     if ($("#navbar.navbar-fixed-top").length > 0) {
       var navHeight = $("#navbar").height(),

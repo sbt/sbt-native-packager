@@ -5,17 +5,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Play 2 Packaging &mdash; sbt-native-packager 1.0.0-RC2 documentation</title>
+    <title>Play 2 Packaging &mdash; sbt-native-packager 0.7-9a9621e01378892b0c739f581a24051783d9d1d1 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/yeti/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0-RC2',
+        VERSION:     '0.7-9a9621e01378892b0c739f581a24051783d9d1d1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0-RC2 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-9a9621e01378892b0c739f581a24051783d9d1d1 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Deployment" href="deployment.html" />
     <link rel="prev" title="Dealing with long classpaths" href="longclasspath.html" />
@@ -51,12 +51,11 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-9a9621e01378892b0c739f581a24051783d9d1d1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -94,7 +93,10 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Play 2 Packaging</a><ul>
 <li><a class="reference internal" href="#build-configuration">Build Configuration</a></li>
-<li><a class="reference internal" href="#application-configuration">Application Configuration</a></li>
+<li><a class="reference internal" href="#application-configuration">Application Configuration</a><ul>
+<li><a class="reference internal" href="#rpm-and-systemv">RPM and SystemV</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -106,11 +108,11 @@
               
                 
   <li>
-    <a href="longclasspath.html" title="Previous Chapter: Dealing with long classpaths"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Dealing with lon...</span>
+    <a href="longclasspath.html" title="Previous Chapter: Dealing with long classpaths"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Dealing with lon...</span>
     </a>
   </li>
   <li>
-    <a href="deployment.html" title="Next Chapter: Deployment"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Deployment &raquo;</span>
+    <a href="deployment.html" title="Next Chapter: Deployment"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Deployment &raquo;</span>
     </a>
   </li>
               
@@ -166,7 +168,7 @@ to <a class="reference internal" href="../archetypes/java_server/index.html"><em
 <li>Location where it can store its pidfile</li>
 <li>Production configuration</li>
 </ul>
-<p>One way to provide this information is create <tt class="docutils literal"><span class="pre">src/universal/application.ini</span></tt> with the following contents:</p>
+<p>One way to provide this information is create <tt class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></tt> with the following contents:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># Since play uses separate pidfile we have to provide it with a proper path</span>
 -Dpidfile.path<span class="o">=</span>/var/run/<span class="k">${</span><span class="p">{app_name</span><span class="k">}</span><span class="o">}</span>/play.pid
 
@@ -179,8 +181,22 @@ to <a class="reference internal" href="../archetypes/java_server/index.html"><em
 </div>
 <p>This way you should either store your production configuration under <tt class="docutils literal"><span class="pre">${{path_to_app_name}}/conf/production.conf</span></tt>
 or put it under <tt class="docutils literal"><span class="pre">/usr/share/${{app_name}}/conf/production.conf</span></tt> by hand or using some configuration management system.</p>
+<div class="section" id="rpm-and-systemv">
+<h3>RPM and SystemV<a class="headerlink" href="#rpm-and-systemv" title="Permalink to this headline">¶</a></h3>
+<p>If you use a system with rpm as a packaging managing system (Fedora, CentOS, RedHat,...) make sure to provide
+a <cite>etc-default</cite> in <cite>src/templates</cite> and set the <cite>PIDFILE</cite> environment variable.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Setting JAVA_OPTS</span>
+<span class="c"># -----------------</span>
+<span class="c"># you can use this instead of the application.ini as well</span>
+<span class="c"># JAVA_OPTS=&quot;-Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS&quot;</span>
+
+<span class="c"># For rpm/systemv you need to set the PIDFILE env variable as well</span>
+<span class="nv">PIDFILE</span><span class="o">=</span><span class="s2">&quot;/var/run/${{app_name}}/play.pid&quot;</span>
+</pre></div>
+</div>
 <p>See <a class="reference internal" href="../archetypes/java_server/customize.html"><em>customize java server application</em></a> for more information on <cite>application.ini</cite>
 and <cite>etc-default</cite> template.</p>
+</div>
 </div>
 </div>
 

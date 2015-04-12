@@ -35,14 +35,17 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">AkkaAppPackaging</span><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></span>
+        <span class="name deprecated" title="Deprecated: (Since version 1.0.0) Use JavaAppPackaging instead">AkkaAppPackaging</span><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Provides a new default script for akka-micro-kernel applications.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4> Deprecated </h4><p>Use <code>JavaAppPackaging</code> instead. Akka Microkernel will be removed soon.</p><p>Provides a new default script for akka-micro-kernel applications.
 This plugin requires the <a href="JavaAppPackaging$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging">com.typesafe.sbt.packager.archetypes.JavaAppPackaging</a>,
 which will be automatically enabled.
-</p></div><dl class="attributes block"> <div class="block">Example:
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 1.0.0)</i> Use JavaAppPackaging instead</p></dd><div class="block">Example:
                <ol><li class="cmt"><p>Enable this plugin in your <code>build.sbt</code> with</p><pre>enablePlugins(AkkaAppPackaging)</pre></li></ol>
             </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://github.com/sbt/sbt-native-packager/pull/363" target="_blank">https://github.com/sbt/sbt-native-packager/pull/363</a>
 </p></span><span class="cmt"><p><a href="http://doc.akka.io/docs/akka/snapshot/scala/microkernel.html" target="_blank">http://doc.akka.io/docs/akka/snapshot/scala/microkernel.html</a></p></span></dd></dl><div class="toggleContainer block">

@@ -5,17 +5,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Installation &mdash; sbt-native-packager 1.0.0-RC2 documentation</title>
+    <title>Installation &mdash; sbt-native-packager 0.7-9a9621e01378892b0c739f581a24051783d9d1d1 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.2.0/yeti/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.0-RC2',
+        VERSION:     '0.7-9a9621e01378892b0c739f581a24051783d9d1d1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0-RC2 documentation" href="index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-9a9621e01378892b0c739f581a24051783d9d1d1 documentation" href="index.html" />
     <link rel="next" title="Project Archetypes" href="archetypes/index.html" />
     <link rel="prev" title="&lt;no title&gt;" href="index.html" />
 <meta charset='utf-8'>
@@ -50,12 +50,11 @@
         </button>
         <a class="navbar-brand" href="index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-9a9621e01378892b0c739f581a24051783d9d1d1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -111,11 +110,11 @@
               
                 
   <li>
-    <a href="index.html" title="Previous Chapter: <no title>"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; <no title></span>
+    <a href="index.html" title="Previous Chapter: <no title>"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; <no title></span>
     </a>
   </li>
   <li>
-    <a href="archetypes/index.html" title="Next Chapter: Project Archetypes"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Project Archetyp... &raquo;</span>
+    <a href="archetypes/index.html" title="Next Chapter: Project Archetypes"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Project Archetyp... &raquo;</span>
     </a>
   </li>
               
@@ -209,51 +208,64 @@ keys yourself. In your <tt class="docutils literal"><span class="pre">build.sbt<
       <h2>*.deb</h2>
       <p>Packaging format for Debian based systems like Ubuntu</p>
       <pre>debian:packageBin</pre>
-      <a class="btn btn-primary btn-lg" href="formats/debian.html" role="button"><i class="fa fa-linux"></i> Debian Plugin »</a>
+      <a class="btn btn-success" href="formats/debian.html" role="button"><i class="fa fa-linux"></i> Debian Plugin »</a>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-3 col-lg-offset-1">
       <h2>*.rpm</h2>
       <p>Packaging format for Redhat based systems like RHEL or CentOS.</p>
       <pre>rpm:packageBin</pre>
-      <a class="btn btn-primary btn-lg" href="formats/rpm.html" role="button"><i class="fa fa-linux"></i> Rpm Plugin »</a>
+      <a class="btn btn-success" href="formats/rpm.html" role="button"><i class="fa fa-linux"></i> Rpm Plugin »</a>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-3 col-lg-offset-1">
       <h2>*.msi</h2>
       <p>Packaging format for windows systems.</p>
       <pre>windows:packageBin</pre>
-      <a class="btn btn-primary btn-lg" href="formats/windows.html" role="button"><i class="fa fa-windows"></i> Windows Plugin »</a>
+      <a class="btn btn-success" href="formats/windows.html" role="button"><i class="fa fa-windows"></i> Windows Plugin »</a>
     </div>
+    <br>
+  </div>
+
+  <div class="row" style="margin-top:20px;">
     <div class="col-lg-3">
       <h2>*.dmg</h2>
       <p>Packaging format for osx based systems.</p>
       <pre>universal:packageOsxDmg</pre>
-      <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fa fa-apple"></i> Universal Plugin »</a>
+      <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-apple"></i> Universal Plugin »</a>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-3 col-lg-offset-1">
       <h2>docker</h2>
       <p>Package your application in a docker container.</p>
       <pre>docker:publishLocal</pre>
-      <a class="btn btn-primary btn-lg" href="formats/docker.html" role="button"><i class="fa fa-file-archive-o"></i> Docker Plugin »</a>
+      <a class="btn btn-success" href="formats/docker.html" role="button"><i class="fa fa-file-archive-o"></i> Docker Plugin »</a>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-3 col-lg-offset-1">
       <h2>*.zip</h2>
       <p>Packaging format for all systems supporting zip.</p>
       <pre>universal:packageBin</pre>
-      <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
+      <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
     </div>
+    <br>
+  </div>
+
+
+  <div class="row" style="margin-top:20px;">
     <div class="col-lg-3">
       <h2>*.tar</h2>
       <p>Packaging format for all systems supporting tar.</p>
       <pre>universal:packageZipTarball</pre>
-      <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
+      <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-3 col-lg-offset-1">
       <h2>*.xz</h2>
       <p>Packaging format for all systems supporting xz.</p>
       <pre>universal:packageXzTarball</pre>
-      <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fafa-file-archive-o"></i> Universal Plugin »</a>
+      <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
+    </div>
+    <div class="col-lg-3 col-lg-offset-1">
+      <h2>jdkpackager</h2>
+      <p>Oracle javapackager create packages for your running platform.</p>
+      <pre>jdkPackager:packageBinl</pre>
+      <a class="btn btn-success" href="formats/jdkpackager.html" role="button"><i class="fa fa-coffee"></i> JDK Packager Plugin »</a>
     </div>
   </div>
 
@@ -262,29 +274,22 @@ keys yourself. In your <tt class="docutils literal"><span class="pre">build.sbt<
 <h1><a class="toc-backref" href="#id5">Archetypes</a><a class="headerlink" href="#archetypes" title="Permalink to this headline">¶</a></h1>
 <hr>
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-6">
       <h2>Java Application</h2>
       <p>Creates a standalone package with an executable bash/bat script.<br>&nbsp; </p>
       <pre>enablePlugins(JavaAppPackaging)</pre>
-      <a class="btn btn-primary btn-lg" href="archetypes/java_app/" role="button"><i class="fa fa-play-circle-o"></i> Learn more »</a>
+      <a class="btn btn-success" href="archetypes/java_app/" role="button"><i class="fa fa-play-circle-o"></i> Learn more »</a>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-6">
       <h2>Java Server</h2>
       <p>Creates a standalone package with an executable bash/bat script and additional configuration and autostart.</p>
       <pre>enablePlugins(JavaServerAppPackaging)</pre>
-      <a class="btn btn-primary btn-lg" href="archetypes/java_server/" role="button"><i class="fa fa-gears"></i> Learn more »</a>
-    </div>
-    <div class="col-lg-4">
-      <h2>Akka Microkernel</h2>
-      <p>Like a the Java Application archetype, but instantiates and runs a subclass of
-      <a href="https://github.com/akka/akka/blob/master/akka-kernel/src/main/scala/akka/kernel/Main.scala">Bootable</a><br>&nbsp;</p>
-      <pre>enablePlugins(AkkaAppPackaging)</pre>
-      <a class="btn btn-primary btn-lg" href="archetypes/akka_app/" role="button"><i class="fa fa-cubes"></i> Learn more »</a>
+      <a class="btn btn-success" href="archetypes/java_server/" role="button"><i class="fa fa-gears"></i> Learn more »</a>
     </div>
   </div></div>
 <div class="section" id="sitemap">
 <h1><a class="toc-backref" href="#id6">Sitemap</a><a class="headerlink" href="#sitemap" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+<hr><div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="archetypes/java_app/index.html">Java Application Archetype</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="archetypes/java_app/index.html#features">Features</a></li>
@@ -320,9 +325,6 @@ keys yourself. In your <tt class="docutils literal"><span class="pre">build.sbt<
 <li class="toctree-l2"><a class="reference internal" href="formats/debian.html">Debian Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="formats/rpm.html">Rpm Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="formats/docker.html">Docker Plugin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="formats/docker.html#remove-commands">Remove Commands</a></li>
-<li class="toctree-l2"><a class="reference internal" href="formats/docker.html#add-commands">Add Commands</a></li>
-<li class="toctree-l2"><a class="reference internal" href="formats/docker.html#write-from-scratch">Write from Scratch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="formats/windows.html">Windows Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="formats/jdkpackager.html">JDKPackager Plugin</a></li>
 </ul>

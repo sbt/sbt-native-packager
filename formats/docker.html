@@ -5,17 +5,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Docker Plugin &mdash; sbt-native-packager 1.0.0-RC2 documentation</title>
+    <title>Docker Plugin &mdash; sbt-native-packager 0.7-9a9621e01378892b0c739f581a24051783d9d1d1 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/yeti/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0-RC2',
+        VERSION:     '0.7-9a9621e01378892b0c739f581a24051783d9d1d1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0-RC2 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-9a9621e01378892b0c739f581a24051783d9d1d1 documentation" href="../index.html" />
     <link rel="up" title="Packaging Formats" href="index.html" />
     <link rel="next" title="Windows Plugin" href="windows.html" />
     <link rel="prev" title="Rpm Plugin" href="rpm.html" />
@@ -51,12 +51,11 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-9a9621e01378892b0c739f581a24051783d9d1d1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -115,13 +114,13 @@
 <li><a class="reference internal" href="#docker-image-customization">Docker Image Customization</a></li>
 <li><a class="reference internal" href="#install-location">Install Location</a></li>
 <li><a class="reference internal" href="#custom-dockerfile">Custom Dockerfile</a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li><a class="reference internal" href="#remove-commands">Remove Commands</a></li>
 <li><a class="reference internal" href="#add-commands">Add Commands</a></li>
 <li><a class="reference internal" href="#write-from-scratch">Write from Scratch</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -131,11 +130,11 @@
               
                 
   <li>
-    <a href="rpm.html" title="Previous Chapter: Rpm Plugin"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Rpm Plugin</span>
+    <a href="rpm.html" title="Previous Chapter: Rpm Plugin"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Rpm Plugin</span>
     </a>
   </li>
   <li>
-    <a href="windows.html" title="Next Chapter: Windows Plugin"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Windows Plugin &raquo;</span>
+    <a href="windows.html" title="Next Chapter: Windows Plugin"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Windows Plugin &raquo;</span>
     </a>
   </li>
               
@@ -189,9 +188,6 @@
 <li><a class="reference internal" href="#customize" id="id7">Customize</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#remove-commands" id="id8">Remove Commands</a></li>
-<li><a class="reference internal" href="#add-commands" id="id9">Add Commands</a></li>
-<li><a class="reference internal" href="#write-from-scratch" id="id10">Write from Scratch</a></li>
 </ul>
 </div>
 <div class="section" id="requirements">
@@ -346,10 +342,8 @@ In your sbt console type</p>
 </pre></div>
 </div>
 </div>
-</div>
-</div>
 <div class="section" id="remove-commands">
-<h1><a class="toc-backref" href="#id8">Remove Commands</a><a class="headerlink" href="#remove-commands" title="Permalink to this headline">¶</a></h1>
+<h3>Remove Commands<a class="headerlink" href="#remove-commands" title="Permalink to this headline">¶</a></h3>
 <p>SBT Native Packager added some commands you may not need. For example
 the chowning of a exposed volume.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.docker._</span>
@@ -369,7 +363,7 @@ the chowning of a exposed volume.</p>
 </div>
 </div>
 <div class="section" id="add-commands">
-<h1><a class="toc-backref" href="#id9">Add Commands</a><a class="headerlink" href="#add-commands" title="Permalink to this headline">¶</a></h1>
+<h3>Add Commands<a class="headerlink" href="#add-commands" title="Permalink to this headline">¶</a></h3>
 <p>Adding commands is as straightforward as adding anything in a list.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.docker._</span>
 
@@ -387,7 +381,7 @@ the chowning of a exposed volume.</p>
 </div>
 </div>
 <div class="section" id="write-from-scratch">
-<h1><a class="toc-backref" href="#id10">Write from Scratch</a><a class="headerlink" href="#write-from-scratch" title="Permalink to this headline">¶</a></h1>
+<h3>Write from Scratch<a class="headerlink" href="#write-from-scratch" title="Permalink to this headline">¶</a></h3>
 <p>You can simply wipe out all docker commands with</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">dockerCommands</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">()</span>
 </pre></div>
@@ -401,6 +395,8 @@ the chowning of a exposed volume.</p>
   <span class="nc">ExecCmd</span><span class="o">(</span><span class="s">&quot;CMD&quot;</span><span class="o">,</span> <span class="s">&quot;echo&quot;</span><span class="o">,</span> <span class="s">&quot;Hello, World from Docker&quot;</span><span class="o">)</span>
 <span class="o">)</span>
 </pre></div>
+</div>
+</div>
 </div>
 </div>
 

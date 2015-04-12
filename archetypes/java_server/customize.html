@@ -5,17 +5,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Customize Java Server Applications &mdash; sbt-native-packager 1.0.0-RC2 documentation</title>
+    <title>Customize Java Server Applications &mdash; sbt-native-packager 0.7-9a9621e01378892b0c739f581a24051783d9d1d1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/yeti/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.2.0/yeti/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0.0-RC2',
+        VERSION:     '0.7-9a9621e01378892b0c739f581a24051783d9d1d1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0-RC2 documentation" href="../../index.html" />
+    <link rel="top" title="sbt-native-packager 0.7-9a9621e01378892b0c739f581a24051783d9d1d1 documentation" href="../../index.html" />
     <link rel="up" title="Java Server Application Archetype" href="index.html" />
     <link rel="next" title="Akka Microkernel" href="../akka_app/index.html" />
     <link rel="prev" title="My First Packaged Server Project" href="my-first-project.html" />
@@ -51,12 +51,11 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0-RC2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.7-9a9621e01378892b0c739f581a24051783d9d1d1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -129,11 +128,11 @@
               
                 
   <li>
-    <a href="my-first-project.html" title="Previous Chapter: My First Packaged Server Project"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; My First Package...</span>
+    <a href="my-first-project.html" title="Previous Chapter: My First Packaged Server Project"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; My First Package...</span>
     </a>
   </li>
   <li>
-    <a href="../akka_app/index.html" title="Next Chapter: Akka Microkernel"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Akka Microkernel &raquo;</span>
+    <a href="../akka_app/index.html" title="Next Chapter: Akka Microkernel"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Akka Microkernel &raquo;</span>
     </a>
   </li>
               
@@ -190,7 +189,7 @@ As this file is OS dependent, each OS gets section.</p>
 </div>
 <p>For the <tt class="docutils literal"><span class="pre">-X</span></tt> settings you need to add a suffix <tt class="docutils literal"><span class="pre">-J</span></tt> so the start script will
 recognize these as vm config parameters.</p>
-<p>The second option is to create <tt class="docutils literal"><span class="pre">src/templates/application.ini</span></tt> with the following template</p>
+<p>The second option is to create <tt class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></tt> with the following template</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># Available replacements</span>
 <span class="c"># ------------------------------------------------</span>
 <span class="c"># ${{author}}           debian author</span>
@@ -234,6 +233,9 @@ The file will be installed to <tt class="docutils literal"><span class="pre">/et
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># Setting JAVA_OPTS</span>
 <span class="c"># -----------------</span>
 <span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS&quot;</span>
+
+<span class="c"># For rpm/systemv you need to set the PIDFILE env variable as well</span>
+<span class="nv">PIDFILE</span><span class="o">=</span><span class="s2">&quot;/var/run/${{app_name}}/play.pid&quot;</span>
 
 <span class="c"># export env vars for 3rd party libs</span>
 <span class="c"># ----------------------------------</span>

@@ -71,51 +71,64 @@ Packaging Formats
         <h2>*.deb</h2>
         <p>Packaging format for Debian based systems like Ubuntu</p>
         <pre>debian:packageBin</pre>
-        <a class="btn btn-primary btn-lg" href="formats/debian.html" role="button"><i class="fa fa-linux"></i> Debian Plugin »</a>
+        <a class="btn btn-success" href="formats/debian.html" role="button"><i class="fa fa-linux"></i> Debian Plugin »</a>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-3 col-lg-offset-1">
         <h2>*.rpm</h2>
         <p>Packaging format for Redhat based systems like RHEL or CentOS.</p>
         <pre>rpm:packageBin</pre>
-        <a class="btn btn-primary btn-lg" href="formats/rpm.html" role="button"><i class="fa fa-linux"></i> Rpm Plugin »</a>
+        <a class="btn btn-success" href="formats/rpm.html" role="button"><i class="fa fa-linux"></i> Rpm Plugin »</a>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-3 col-lg-offset-1">
         <h2>*.msi</h2>
         <p>Packaging format for windows systems.</p>
         <pre>windows:packageBin</pre>
-        <a class="btn btn-primary btn-lg" href="formats/windows.html" role="button"><i class="fa fa-windows"></i> Windows Plugin »</a>
+        <a class="btn btn-success" href="formats/windows.html" role="button"><i class="fa fa-windows"></i> Windows Plugin »</a>
       </div>
+      <br>
+    </div>
+    
+    <div class="row" style="margin-top:20px;">
       <div class="col-lg-3">
         <h2>*.dmg</h2>
         <p>Packaging format for osx based systems.</p>
         <pre>universal:packageOsxDmg</pre>
-        <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fa fa-apple"></i> Universal Plugin »</a>
+        <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-apple"></i> Universal Plugin »</a>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-3">
+      <div class="col-lg-3 col-lg-offset-1">
         <h2>docker</h2>
         <p>Package your application in a docker container.</p>
         <pre>docker:publishLocal</pre>
-        <a class="btn btn-primary btn-lg" href="formats/docker.html" role="button"><i class="fa fa-file-archive-o"></i> Docker Plugin »</a>
+        <a class="btn btn-success" href="formats/docker.html" role="button"><i class="fa fa-file-archive-o"></i> Docker Plugin »</a>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-3 col-lg-offset-1">
         <h2>*.zip</h2>
         <p>Packaging format for all systems supporting zip.</p>
         <pre>universal:packageBin</pre>
-        <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
+        <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
       </div>
+      <br>
+    </div> 
+    
+    
+    <div class="row" style="margin-top:20px;">
       <div class="col-lg-3">
         <h2>*.tar</h2>
         <p>Packaging format for all systems supporting tar.</p>
         <pre>universal:packageZipTarball</pre>
-        <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
+        <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-3 col-lg-offset-1">
         <h2>*.xz</h2>
         <p>Packaging format for all systems supporting xz.</p>
         <pre>universal:packageXzTarball</pre>
-        <a class="btn btn-primary btn-lg" href="formats/universal.html" role="button"><i class="fafa-file-archive-o"></i> Universal Plugin »</a>
+        <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
+      </div>
+      <div class="col-lg-3 col-lg-offset-1">
+        <h2>jdkpackager</h2>
+        <p>Oracle javapackager create packages for your running platform.</p>
+        <pre>jdkPackager:packageBinl</pre>
+        <a class="btn btn-success" href="formats/jdkpackager.html" role="button"><i class="fa fa-coffee"></i> JDK Packager Plugin »</a>
       </div>
     </div>
     
@@ -129,24 +142,17 @@ Archetypes
 
   <hr>
   <div class="row">
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <h2>Java Application</h2>
         <p>Creates a standalone package with an executable bash/bat script.<br>&nbsp; </p>
         <pre>enablePlugins(JavaAppPackaging)</pre>
-        <a class="btn btn-primary btn-lg" href="archetypes/java_app/" role="button"><i class="fa fa-play-circle-o"></i> Learn more »</a>
+        <a class="btn btn-success" href="archetypes/java_app/" role="button"><i class="fa fa-play-circle-o"></i> Learn more »</a>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <h2>Java Server</h2>
         <p>Creates a standalone package with an executable bash/bat script and additional configuration and autostart.</p>
         <pre>enablePlugins(JavaServerAppPackaging)</pre>
-        <a class="btn btn-primary btn-lg" href="archetypes/java_server/" role="button"><i class="fa fa-gears"></i> Learn more »</a>
-      </div>
-      <div class="col-lg-4">
-        <h2>Akka Microkernel</h2>
-        <p>Like a the Java Application archetype, but instantiates and runs a subclass of 
-        <a href="https://github.com/akka/akka/blob/master/akka-kernel/src/main/scala/akka/kernel/Main.scala">Bootable</a><br>&nbsp;</p>
-        <pre>enablePlugins(AkkaAppPackaging)</pre>
-        <a class="btn btn-primary btn-lg" href="archetypes/akka_app/" role="button"><i class="fa fa-cubes"></i> Learn more »</a>
+        <a class="btn btn-success" href="archetypes/java_server/" role="button"><i class="fa fa-gears"></i> Learn more »</a>
       </div>
     </div>
     
@@ -154,6 +160,10 @@ Archetypes
     
 Sitemap
 =======
+
+.. raw:: html
+
+  <hr>
 
 .. toctree::
    :maxdepth: 2
