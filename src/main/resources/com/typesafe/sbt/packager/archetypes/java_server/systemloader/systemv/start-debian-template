@@ -63,22 +63,7 @@ case "$1" in
     exit $?
     ;;
   status)
-    start-stop-daemon --status --pidfile "$PIDFILE"
-    case "$?" in
-    0)
-      echo "${{app_name}} is running"
-      ;;
-    1)
-      echo "${{app_name}} is not running and the pid file exists"
-      ;;
-    3)
-      echo "${{app_name}} is not running"
-      ;;
-    *)
-      echo "Unable to determine ${{app_name}} status"
-      ;;
-  esac
-  exit $?
+    status_of_proc -p "$PIDFILE" "$RUN_CMD" ${{app_name}} && exit 0 || exit $?
     ;;
   *)
     log_daemon_msg "Usage: /etc/init.d/${{app_name}} {start|stop|restart|status}"
