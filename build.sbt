@@ -2,7 +2,7 @@ import scalariform.formatter.preferences._
 
 sbtPlugin := true
 
-scalaVersion in Global := "2.10.2"
+scalaVersion in Global := "2.10.5"
 
 name := "sbt-native-packager"
 
