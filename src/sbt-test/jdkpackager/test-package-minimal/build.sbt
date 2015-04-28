@@ -1,20 +1,8 @@
+// Tests plugin behavior when none of the metadata keys are set.
+
 enablePlugins(JDKPackagerPlugin)
 
-name := "JDKPackagerPluginTest"
-
-version := "0.1.0"
-
-organization := "com.foo.bar"
-
 mainClass in Compile := Some("ExampleApp")
-
-maintainer := "Simeon H.K Fitch <fitch@datamininglab.com>"
-
-packageSummary := "test-jdkpackager"
-
-packageDescription := "Test JDKPackagerPlugin"
-
-jdkPackagerType := "image"
 
 TaskKey[Unit]("checkImage") <<= (target in JDKPackager, name, streams) map { (base, name, streams) ⇒
     val extension = sys.props("os.name").toLowerCase match {
