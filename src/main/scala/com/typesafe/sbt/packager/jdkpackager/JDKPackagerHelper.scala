@@ -79,6 +79,12 @@ object JDKPackagerHelper {
       .map(c ⇒ Map("-appclass" -> c))
       .getOrElse(Map.empty)
 
+    val vendorArg = if (maintainer.nonEmpty)
+      Map("-vendor" -> maintainer) else Map.empty
+
+    val descriptionArg = if (description.nonEmpty)
+      Map("-description" -> description) else Map.empty
+
     // Make a setting?
     val jvmOptsFile = (sourceDir ** JavaAppPackaging.appIniLocation).getPaths.headOption.map(file)
 
@@ -104,10 +110,8 @@ object JDKPackagerHelper {
       "-srcdir" -> sourceDir.getAbsolutePath,
       "-native" -> packageType,
       "-outdir" -> outputDir.getAbsolutePath,
-      "-outfile" -> basename,
-      "-description" -> description,
-      "-vendor" -> maintainer
-    ) ++ mainClassArg
+      "-outfile" -> basename
+    ) ++ mainClassArg ++ vendorArg ++ descriptionArg
 
     val singles = Seq(
       s"-BappVersion=$version",
