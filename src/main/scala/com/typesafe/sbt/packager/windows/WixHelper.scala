@@ -135,13 +135,11 @@ object WixHelper {
           <DirectoryRef Id="ApplicationProgramsFolder">
             <Component Id={ id } Guid={ makeGUID }>
               {
-                var i = 0
-                for (target <- targets) yield {
-                  i = i + 1
+                for ((target, i) <- targets.zipWithIndex) yield {
                   val name = simpleName(target)
                   val desc = "Edit configuration file: " + name
                   val cleanName = name.replaceAll("[\\.-\\\\//]+", "_")
-                  <Shortcut Id={ id + "_SC" + ("%0" + targets.size.toString().size + "d").format(i) } Name={ cleanName } Description={ desc } Target={ "[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\") } WorkingDirectory="INSTALLDIR"/>
+                  <Shortcut Id={ id + "_SC" + (s"%0${targets.size.toString.size}d").format(i+1) } Name={ cleanName } Description={ desc } Target={ "[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\") } WorkingDirectory="INSTALLDIR"/>
                 }
               }
               <RemoveFolder Id="ApplicationProgramsFolderRemove" Directory="ApplicationProgramsFolder" On="uninstall"/>
