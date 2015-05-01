@@ -130,16 +130,18 @@ object WixHelper {
       // Also, we need some mechanism to ensure the start menu folder is removed in the event
       // that we remove all menu items.
       case AddShortCuts(targets, workingDir) =>
-        val id = cleanStringForId("shortcut_" + makeGUID).takeRight(67) // Room for "_SC"
+        val id = cleanStringForId("shortcut_" + makeGUID).takeRight(70 - targets.size.toString().size - 3) // Room for "_SC"+incremental number
         val xml =
           <DirectoryRef Id="ApplicationProgramsFolder">
             <Component Id={ id } Guid={ makeGUID }>
               {
+                var i = 0
                 for (target <- targets) yield {
+                  i = i + 1
                   val name = simpleName(target)
                   val desc = "Edit configuration file: " + name
                   val cleanName = name.replaceAll("[\\.-\\\\//]+", "_")
-                  <Shortcut Id={ id + "_SC" } Name={ cleanName } Description={ desc } Target={ "[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\") } WorkingDirectory="INSTALLDIR"/>
+                  <Shortcut Id={ id + "_SC" + ("%0" + targets.size.toString().size + "d").format(i) } Name={ cleanName } Description={ desc } Target={ "[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\") } WorkingDirectory="INSTALLDIR"/>
                 }
               }
               <RemoveFolder Id="ApplicationProgramsFolderRemove" Directory="ApplicationProgramsFolder" On="uninstall"/>
