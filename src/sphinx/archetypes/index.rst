@@ -61,7 +61,7 @@ In case you have multiple main classes you can point to a specific class with th
 
     mainClass in Compile := Some("foo.bar.Main")
 
-The universal layout produces looks like the following:
+The universal layout produced looks like the following:
 
 .. code-block:: none
 
