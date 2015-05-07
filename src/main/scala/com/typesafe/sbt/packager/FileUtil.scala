@@ -1,10 +1,11 @@
 package com.typesafe.sbt
 package packager
 
-import scala.util.Try
-import java.io.{ File, IOException }
-import java.nio.file.{ Paths, Files }
+import java.io.File
+import java.nio.file.Files
 import java.nio.file.attribute.{ PosixFilePermission, PosixFilePermissions }
+
+import scala.util.Try
 
 /**
  * Setting the file permissions

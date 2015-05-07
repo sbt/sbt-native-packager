@@ -4,6 +4,8 @@ enablePlugins(JDKPackagerPlugin)
 
 mainClass in Compile := Some("ExampleApp")
 
+jdkPackagerType := "image"
+
 TaskKey[Unit]("checkImage") <<= (target in JDKPackager, name, streams) map { (base, name, streams) ⇒
     val extension = sys.props("os.name").toLowerCase match {
         case os if os.contains("mac") ⇒ ".app"

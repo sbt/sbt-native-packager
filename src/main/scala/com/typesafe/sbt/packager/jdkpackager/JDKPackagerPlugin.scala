@@ -4,83 +4,95 @@ import com.typesafe.sbt.SbtNativePackager
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.SettingsHelper
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
-import com.typesafe.sbt.packager.archetypes.jar.ClasspathJarPlugin
+import com.typesafe.sbt.packager.archetypes.jar.LauncherJarPlugin
 import sbt.Keys._
 import sbt._
 import SbtNativePackager.Universal
+import JDKPackagerAntHelper._
+
 /**
  * Package format via Oracle's packaging tool bundled with JDK 8.
+ *
  * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
  * @since 2/11/15
  */
 object JDKPackagerPlugin extends AutoPlugin {
 
   object autoImport extends JDKPackagerKeys {
-    val JDKPackager = config("jdkPackager") extend Universal
-  }
-  import autoImport._
-  override def requires = JavaAppPackaging && ClasspathJarPlugin
-  override lazy val projectSettings = javaPackagerSettings
+    sealed trait JDKPackagerToolkit { def arg: String }
+    case object SwingToolkit extends JDKPackagerToolkit { val arg = "swing" }
+    case object JavaFXToolkit extends JDKPackagerToolkit { val arg = "fx" }
 
+    case class FileAssociation(extension: String, mimetype: String,
+      description: String, icon: Option[File] = None)
+  }
+
+  import autoImport._
+  override def requires = JavaAppPackaging && LauncherJarPlugin
   private val dirname = JDKPackager.name.toLowerCase
 
-  def javaPackagerSettings: Seq[Setting[_]] = Seq(
-    jdkPackagerTool <<= javaHome apply JDKPackagerHelper.locateJDKPackagerTool,
+  override lazy val projectSettings = Seq(
     jdkAppIcon := None,
-    jdkPackagerType := "image",
-    jdkPackagerBasename <<= packageName apply (_ + "-pkg")
+    jdkPackagerType := "installer",
+    jdkPackagerBasename := packageName.value + "-pkg",
+    jdkPackagerToolkit := JavaFXToolkit,
+    jdkPackagerJVMArgs := Seq("-Xmx768m"),
+    jdkPackagerAppArgs := Seq.empty,
+    jdkPackagerProperties := Map.empty,
+    jdkPackagerAssociations := Seq.empty
   ) ++ inConfig(JDKPackager)(
     Seq(
-      sourceDirectory <<= sourceDirectory apply (_ / dirname),
-      target <<= target apply (_ / dirname),
-      mainClass <<= mainClass in Runtime,
-      name <<= name,
-      packageName <<= packageName,
-      maintainer <<= maintainer,
-      packageSummary <<= packageSummary,
-      packageDescription <<= packageDescription,
-      packagerArgMap <<= (
-        name,
-        version,
-        packageDescription,
-        maintainer,
-        jdkPackagerType,
-        artifactPath in ClasspathJarPlugin.autoImport.packageJavaClasspathJar,
-        mainClass,
-        jdkPackagerBasename,
-        jdkAppIcon,
-        target,
-        stage in Universal) map JDKPackagerHelper.makeArgMap
-    )  ++ makePackageBuilder
-  )
+      sourceDirectory := sourceDirectory.value / dirname,
+      target := target.value / dirname,
+      mainClass := (mainClass in Runtime).value,
+      name := name.value,
+      packageName := packageName.value,
+      maintainer := maintainer.value,
+      packageSummary := packageSummary.value,
+      packageDescription := packageDescription.value,
+      mappings := (mappings in Universal).value,
+      antPackagerTasks := locateAntTasks(javaHome.value, sLog.value),
+      antBuildDefn := makeAntBuild(
+        antPackagerTasks.value,
+        name.value,
+        (stage in Universal).value,
+        mappings.value,
+        platformDOM(
+          jdkPackagerJVMArgs.value,
+          jdkPackagerProperties.value),
+        applicationDOM(
+          name.value,
+          version.value,
+          mainClass.value,
+          jdkPackagerToolkit.value,
+          jdkPackagerAppArgs.value),
+        deployDOM(
+          jdkPackagerBasename.value,
+          jdkPackagerType.value,
+          (artifactPath in LauncherJarPlugin.autoImport.packageJavaLauncherJar).value,
+          target.value,
+          infoDOM(
+            name.value,
+            packageDescription.value,
+            maintainer.value,
+            jdkAppIcon.value,
+            jdkPackagerAssociations.value)
+        )
+      ),
+      writeAntBuild := writeAntFile(
+        target.value,
+        antBuildDefn.value,
+        streams.value
+      ),
+      packageBin := buildPackageWithAnt(
+        writeAntBuild.value,
+        target.value,
+        streams.value)
+    ))
 
-  private def checkTool(maybePath: Option[File]) = maybePath.getOrElse(
-    sys.error("Please set key `jdkPackagerTool` to `javapackager` path, which should be find in the `bin` directory of JDK 8 installation.")
-  )
-
-  private def makePackageBuilder = Seq(
-    packageBin <<= (jdkPackagerTool, jdkPackagerType, packagerArgMap, target, streams) map { (pkgTool, pkg, args, target, s) ⇒
-
-      val tool = checkTool(pkgTool)
-      val proc = JDKPackagerHelper.makeProcess(tool, "-deploy", args, s.log)
-
-      (proc ! s.log) match {
-        case 0 ⇒ ()
-        case x ⇒ s.log.warn(s"'$tool' had exit status: $x")
-      }
-
-      // Oooof. Need to do better than this to determine what was generated.
-      val root = file(args("-outdir"))
-      val globs = Seq("*.dmg", "*.pkg", "*.app", "*.msi", "*.exe", "*.deb", "*.rpm")
-      val finder = globs.foldLeft(PathFinder.empty)(_ +++ root ** _)
-      val result = finder.getPaths.headOption
-      result.foreach(f ⇒ s.log.info("Wrote " + f))
-      // Not sure what to do when we can't find the result
-      result.map(file).getOrElse(root)
-    }
-  )
 }
 
+/** Generates Ivy configuration to enable packaging artifact deployment. */
 object JDKPackagerDeployPlugin extends AutoPlugin {
   import JDKPackagerPlugin.autoImport._
   override def requires = JDKPackagerPlugin
