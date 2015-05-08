@@ -64,11 +64,12 @@ object ZipHelper {
    * @param outputZip The location of the output file.
    */
   def zip(sources: Traversable[(File, String)], outputZip: File): Unit = {
+    import permissions.OctalString
     val mappings =
       for {
         (file, name) <- sources.toSeq
         // TODO - Figure out if this is good enough....
-        perm = if (file.isDirectory || file.canExecute) 0755 else 0644
+        perm = if (file.isDirectory || file.canExecute) oct"0755" else oct"0644"
       } yield FileMapping(file, name, Some(perm))
     archive(mappings, outputZip)
   }

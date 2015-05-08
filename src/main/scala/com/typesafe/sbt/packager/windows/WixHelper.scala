@@ -140,7 +140,7 @@ object WixHelper {
                   val name = simpleName(target)
                   val desc = "Edit configuration file: " + name
                   val cleanName = name.replaceAll("[\\.-\\\\//]+", "_")
-                  <Shortcut Id={ id + "_SC" + (s"%0${targetSize}d").format(i+1) } Name={ cleanName } Description={ desc } Target={ "[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\") } WorkingDirectory="INSTALLDIR"/>
+                  <Shortcut Id={ id + "_SC" + (s"%0${targetSize}d").format(i + 1) } Name={ cleanName } Description={ desc } Target={ "[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\") } WorkingDirectory="INSTALLDIR"/>
                 }
               }
               <RemoveFolder Id="ApplicationProgramsFolderRemove" Directory="ApplicationProgramsFolder" On="uninstall"/>
@@ -238,7 +238,7 @@ object WixHelper {
    * @return A tuple where the first item is all the Component Ids created,
    *         and the second is the Directory/File/Component XML.
    */
-  @deprecated
+  @deprecated("Use higher level abstraction", "6/28/13")
   def generateComponentsAndDirectoryXml(dir: File, id_prefix: String = ""): (Seq[String], scala.xml.Node) = {
     def makeId(f: File) = cleanStringForId(IO.relativize(dir, f) map (id_prefix+) getOrElse (id_prefix + f.getName))
     def handleFile(f: File): (Seq[String], scala.xml.Node) = {
