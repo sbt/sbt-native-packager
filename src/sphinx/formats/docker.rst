@@ -85,7 +85,7 @@ Environment Settings
   ``daemonUser in Docker``
     The user to use when executing the application. Files below the install path also have their ownership set to this user.
 
-  ``dockerExposedPorts in Docker``
+  ``dockerExposedPorts``
     A list of ports to expose from the Docker image.
 
   ``dockerExposedVolumes in Docker``
