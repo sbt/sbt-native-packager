@@ -235,9 +235,9 @@ run() {
   fi
   
   if [ -n "$custom_mainclass" ]; then
-    mainclass="$custom_mainclass"
+    mainclass=("$custom_mainclass")
   else
-    mainclass="$app_mainclass"
+    mainclass=("${app_mainclass[@]}")
   fi
 
   # Now we check to see if there are any java opts on the environment. These get listed first, with the script able to override them.
@@ -250,7 +250,7 @@ run() {
     ${java_opts[@]} \
     "${java_args[@]}" \
     -cp "$(fix_classpath "$app_classpath")" \
-    $mainclass \
+    "${mainclass[@]}" \
     "${app_commands[@]}" \
     "${residual_args[@]}"
     
