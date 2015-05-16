@@ -256,7 +256,7 @@ Example Settings:
 
 
 Template Changes
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 Apply the following changes to the default init start script.  You can find this in the sbt-native-packager source.
 
@@ -275,13 +275,40 @@ Apply the following changes to the default init start script.  You can find this
 
 
 Scriptlet Changes
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
-Changing the scripts can be done in two ways. Override the ``rpmPre``, etc. scripts
+Changing the scripts can be done in two ways. Override the ``rpmPre``, ``rpmPostun`` etc. scripts.
+For example:
+
+.. code-block:: scala
+
+   // overriding
+   rpmPre := Some("""## override all other enhancements
+      echo "I take care of everything myself"
+   """)
+   
+   // appending different stuff depending if previous content is there
+   rpmPostun := rpmPost.value.map { content =>
+     s"""|$content
+        |echo "I append this to the current content
+        |""".stripMargin
+     }.orElse {
+      Option("""echo "There wasn't any previous content"
+      """.stripMargin)
+     }
+
+   // just appending
+   rpmPostun := {
+     val prev = rpmPostun.value.getOrElse("")
+     Some(s"""|$prev
+              | echo "Hello you"
+              |""".stripMargin)
+   }
+
 or place your new scripts in the ``src/rpm/scriptlets`` folder. For example:
 
 
-``src/rpm/scriptlets/post-rpm``
+``src/rpm/scriptlets/preinst``
 
 .. code-block:: bash
 
@@ -289,7 +316,7 @@ or place your new scripts in the ``src/rpm/scriptlets`` folder. For example:
     echo "PACKAGE_PREFIX=${RPM_INSTALL_PREFIX}" > /etc/sysconfig/${{app_name}}
     ...
 
-``src/rpm/scriptlets/preun-rpm``
+``src/rpm/scriptlets/preun``
 
 .. code-block:: bash
 
@@ -297,6 +324,8 @@ or place your new scripts in the ``src/rpm/scriptlets`` folder. For example:
     rm /etc/sysconfig/${{app_name}}
     ...
 
+Using files will override all previous contents. The names used can be found in
+the `Scaladocs`_.
 
     
 Jar Repackaging
@@ -320,4 +349,5 @@ For more information on this topic follow these links:
   .. _issue #195: https://github.com/sbt/sbt-native-packager/issues/195
   .. _pullrequest #199: https://github.com/sbt/sbt-native-packager/pull/199
   .. _OpenSuse issue: https://github.com/sbt/sbt-native-packager/issues/215
+  .. _Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.rpm.RpmPlugin$$Names$
   

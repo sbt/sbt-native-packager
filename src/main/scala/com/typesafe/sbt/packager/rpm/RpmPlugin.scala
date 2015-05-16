@@ -36,9 +36,13 @@ object RpmPlugin extends AutoPlugin {
     val Scriptlets = "scriptlets"
 
     //maintainer script names
+    /** `postinst` */
     val Post = "postinst"
+    /** `preinst` */
     val Pre = "preinst"
+    /** `postun` */
     val Postun = "postun"
+    /** `preun` */
     val Preun = "preun"
   }
 
