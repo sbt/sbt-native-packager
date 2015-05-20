@@ -26,13 +26,13 @@ class FileUtilSpec extends FlatSpec with Matchers {
 
   "oct" should "parse octal string and convert to an integer" taggedAs (LinuxTag, WindowsTag) in {
     import permissions._
-    oct"0000" should equal (0)
-    oct"0" should equal (0)
-    oct"777" should equal (511)
-    oct"0777" should equal (511)
-    oct"070" should equal (56)
-    oct"123" should equal (83)
+    oct"0000" should equal(0)
+    oct"0" should equal(0)
+    oct"777" should equal(511)
+    oct"0777" should equal(511)
+    oct"070" should equal(56)
+    oct"123" should equal(83)
 
-    a [NumberFormatException] should be thrownBy oct"foobar"
+    a[NumberFormatException] should be thrownBy oct"foobar"
   }
 }

@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
 import javafx.scene.text.{Font, FontWeight, Text}
 import javafx.stage.{Modality, Stage, StageStyle}
-
+import scala.collection.JavaConversions._
 
 /** Silly GUI app launcher. */
 object ExampleApp {
@@ -25,9 +25,14 @@ class ExampleApp extends Application {
       val win = new Stage(StageStyle.UTILITY)
       win.initModality(Modality.APPLICATION_MODAL)
       win.initOwner(stage)
-      val content = new TextArea(
-        sys.props.toSeq.sortBy(_._1).map(p⇒s"${p._1}=${p._2}").mkString("\n")
-      )
+
+      val args = getParameters.getRaw.mkString("\n")
+      val props = sys.props.toSeq.sortBy(_._1).map(p⇒s"${p._1}=${p._2}").mkString("\n")
+
+      val content = new TextArea(Seq(
+      "## Application Arguments", args,
+      "## System Properties", props
+      ).mkString("\n"))
       content.setPrefHeight(400)
       win.setScene(new Scene(content))
       win.sizeToScene()

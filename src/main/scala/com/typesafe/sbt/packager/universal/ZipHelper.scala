@@ -2,22 +2,18 @@ package com.typesafe.sbt
 package packager
 package universal
 
-import sbt._
-import org.apache.commons.compress.archivers.zip._
-import org.apache.commons.compress.compressors.{
-  CompressorStreamFactory,
-  CompressorOutputStream
-}
-import java.util.zip.Deflater
-import org.apache.commons.compress.utils.IOUtils
-import java.nio.file.{ Paths, Files, FileSystems, FileSystem, StandardCopyOption }
-import java.nio.file.attribute.{ PosixFilePermission, PosixFilePermissions }
 import java.net.URI
+import java.nio.file.{ FileSystem, FileSystems, Files, StandardCopyOption }
+import java.util.zip.Deflater
+
+import org.apache.commons.compress.archivers.zip._
+import org.apache.commons.compress.utils.IOUtils
+import sbt._
+
 import scala.collection.JavaConverters._
 
 /**
- *
- *
+ * Module with functions associated with processing zip files.
  *
  * @see http://stackoverflow.com/questions/17888365/file-permissions-are-not-being-preserved-while-after-zip
  * @see http://stackoverflow.com/questions/3450250/is-it-possible-to-create-a-script-to-save-and-restore-permissions
