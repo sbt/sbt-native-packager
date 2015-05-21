@@ -1,9 +1,11 @@
 JDKPackager Plugin
 ==================
 
-JDK 8 from Oracle includes the tool `javapackager` (née `javafxpackager`), which generates native application launchers and installers for MacOS X, Windows, and Linux. This plugin complements the existing `sbt-native-packager` formats by taking the settings and staged output from `JavaAppPackaging` and passing them through `javapackager` to create native formats per Oracle's defined mechanisms.
+JDK 8 from Oracle includes the tool ``javapackager`` (née ``javafxpackager``), which generates native application launchers and installers for MacOS X, Windows, and Linux. This plugin complements the existing `sbt-native-packager` formats by taking the settings and staged output from ``JavaAppPackaging`` and passing them through ``javapackager`` to create native formats per Oracle's provided features.
 
-This plugin's most relevant addition to the core `sbt-native-packager` capabilities is the generation of MacOS X App bundles, and associated `.dmg` and `.pkg` package formats. With this plugin complete drag-and-drop installable application bundles are possible, including the embedding of the JRE. It can also generate Windows `.exe` and `.msi` installers provided the requisite tools are available on the Windows build platform.
+The actual mechanism used by this plugin is the support provided by the ``lib/ant-javafx.jar`` Ant task library, which provides more capabilities than the ``javapackager`` command line version, but the idea is the same.
+
+This plugin's most relevant addition to the core `sbt-native-packager` capabilities is the generation of MacOS X App bundles, and associated ``.dmg` and ``.pkg`` package formats. With this plugin complete drag-and-drop installable application bundles are possible, including the embedding of the JRE. It can also generate Windows ``.exe`` and ``.msi`` installers provided the requisite tools are available on the Windows build platform (see below). While Linux package formats are also possible via this plugin, it is likely the native `sbt-native-packager` support for ``.deb`` and ``.rpm`` formats will provide more configurability.
 
 .. contents::
   :depth: 2
@@ -12,16 +14,16 @@ This plugin's most relevant addition to the core `sbt-native-packager` capabilit
 
   <div class="alert alert-info" role="alert">
     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The JDKPackagerPlugin depends on the Universal and JavaAppPackaging plugins. For inherited settings read the <a href="../archetypes/java_app/index.html">Java Application Plugin Documentation</a>
+    The <tt>JDKPackagerPlugin</tt> depends on the <tt>Universal</tt>, <tt>JavaAppPackaging</tt> and <tt>LauncherJarPlugin</tt> plugins. For inherited settings read the <a href="../archetypes/java_app/index.html">Java Application Plugin Documentation</a>
   </div>
 
 
 Requirements
 ------------
 
-The `javapackager` tool comes with JDK 8, and found in the `bin` directory along with `javac` and friends. (An earlier form of the tool was introduced in later forms of JDK 7 as `javafxpackager`.)  If `sbt` is running under the JVM in JDK 8, then the plugin should be able to find the path to `javapackager`. If `sbt` is running under a different JVM, then the path to the tool will have to be specified via the ``jdkPackagerTool`` setting.
+The ``ant-javafx.jar`` library comes with *Oracle* JDK 8, found in the ``lib`` directory along with ``tools.jar`` and friends. If `sbt` is running under the JVM in Oracle JDK 8, then the plugin should be able to find the path to ``ant-javafx.jar``. If `sbt` is running under a different JVM, then the path to the tool will have to be specified via the ``jdkPackager:antPackagerTasks`` setting.
 
-This plugin must be run on the platform of the target installer. The `javapackager` tool does not provide a means of creating, say, Windows installers on MacOS, etc.
+This plugin must be run on the platform of the target installer. The Oracle tooling does *not* provide a means of creating, say, Windows installers on MacOS, or MacOS on Linux, etc.
 
 To use create Windows launchers & installers, the either the WIX Toolset (``msi``) or Inno Setup (``exe``) is required:
 
@@ -43,25 +45,24 @@ The plugin is enabled via the ``AutoPlugins`` facility:
 Build
 -----
 
-To use, first get your application working per `JavaAppPackaging` instructions (including the ``mainClass`` setting). Once that is working, run
+To use, first get your application working per ``JavaAppPackaging`` instructions (including the ``mainClass`` setting). Once that is working, run
 
 .. code-block:: scala
 
   sbt jdkPackager:packageBin
 
-By default, the plugin makes the installer type that is native to the current build platform in the directory `target/jdkpackager`. The key `jdkPackageType` can be used to modify this behavior. Run `help jdkPackageType` in sbt for details. The most popular setting is likely to be `jdkAppIcon`.
+By default, the plugin makes the installer type that is native to the current build platform in the directory ``target/jdkpackager/bundles``. The key ``jdkPackageType`` can be used to modify this behavior. Run ``help jdkPackageType`` in `sbt` for details. The most popular setting is likely to be ``jdkAppIcon``.
 
 Settings
 --------
 
-``jdkPackagerTool``
-  Path to `javapackager` or `javafxpackager` tool in JDK.
+*For the latest documentation reference the key descriptions in sbt.*
 
 ``jdkPackagerBasename``
-  Filename sans extension for generated installer package. Defaults to ``packageName``.
+  Filename sans extension for generated installer package.
 
 ``jdkPackagerType``
-  Value passed as the `-native` argument to `javapackager -deploy` command.
+  Value passed as the `native` attribute to `fx:deploy` task.
   Per `javapackager` documentation, this may be one of the following:
 
   * ``all``: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.
@@ -91,11 +92,30 @@ Settings
 
   Defaults a generically bland Java icon.
 
-JVM Options
------------
+``jdkPackagerToolkit``
+  GUI toolkit used in app. Either ``JavaFXToolkit`` (default) or ``SwingToolkit``
 
-Relevant JVM settings specified in the ``src/universal/conf/application.ini`` file are processed and added to the `javapackager` call. See :doc:`Customize Java Applications</customizejavaapplications>` for details.
+``jdkPackagerJVMArgs``
+  Sequence of arguments to pass to the JVM.
+  Default: ``Seq("-Xmx768m")``.
+  `Oracle JVM argument docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHJIJG>`_
 
+``jdkPackagerAppArgs``
+  List of command line arguments to pass to the application on launch.
+  Default: ``Seq.empty``
+  `Oracle arguments docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACIJFHB>`_
+
+``jdkPackagerProperties``
+  Map of `System` properties to define in application.
+  Default: ``Map.empty``
+  `Oracle properties docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHCIFJ>`_
+
+``jdkPackagerAssociations``
+  Set of application file associations to register for the application.
+  Example: `jdkPackagerAssociations := Seq(FileAssociation("foo", "application/x-foo", Foo Data File", iconPath))
+  Default: `Seq.empty`
+  Note: Requires JDK >= 8 build 40.
+  `Oracle associations docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAIDHBJ>`_
 
 Example
 -------
@@ -120,7 +140,7 @@ Here's what the build file looks like:
 
     enablePlugins(JDKPackagerPlugin)
 
-    maintainer := "Simeon H.K Fitch <fitch@datamininglab.com>"
+    maintainer := "Previously Owned Cats, Inc."
 
     packageSummary := "JDKPackagerPlugin example package thingy"
 
@@ -136,7 +156,26 @@ Here's what the build file looks like:
 
     jdkPackagerType := "installer"
 
+    jdkPackagerJVMArgs := Seq("-Xmx1g")
+
+    jdkPackagerProperties := Map("app.name" -> name.value, "app.version" -> version.value)
+
+    jdkPackagerAppArgs := Seq(maintainer.value, packageSummary.value, packageDescription.value)
+
+    jdkPackagerAssociations := Seq(
+        FileAssociation("foobar", "application/foobar", "Foobar file type"),
+        FileAssociation("barbaz", "application/barbaz", "Barbaz file type", jdkAppIcon.value)
+    )
+
+    // Example of specifying a fallback location of `ant-javafx.jar` if plugin can't find it.
+    (antPackagerTasks in JDKPackager) := (antPackagerTasks in JDKPackager).value orElse {
+      for {
+        f <- Some(file("/usr/lib/jvm/java-8-oracle/lib/ant-javafx.jar")) if f.exists()
+      } yield f
+    }
 
 
+Debugging
+---------
 
-
+If you are having trouble figuring out how certain features affect the generated package, you can find the Ant-based build definition file in ``target/jdkpackager/build.xml``. You should be able to run Ant directly in that file assuming ``jdkPackager:packageBin`` has been run at least once.

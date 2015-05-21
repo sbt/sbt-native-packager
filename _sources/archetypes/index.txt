@@ -54,8 +54,14 @@ this archetype in your build, do the following in your ``build.sbt``:
     wixProductUpgradeId := "4552fb0e-e257-4dbd-9ecb-dba9dbacf424"
 
 
-This archetype will use the ``mainClass`` setting of sbt (automatically discovers your main class) to generate ``bat`` and ``bin`` scripts for your project.  It
-produces a universal layout that looks like the following:
+This archetype will use the ``mainClass`` setting of sbt (automatically discovers your main class) to generate ``bat`` and ``bin`` scripts for your project.
+In case you have multiple main classes you can point to a specific class with the following setting:
+
+.. code-block:: scala
+
+    mainClass in Compile := Some("foo.bar.Main")
+
+The universal layout produced looks like the following:
 
 .. code-block:: none
 

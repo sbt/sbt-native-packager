@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Project Archetypes &mdash; sbt-native-packager 1.0.0 documentation</title>
+    <title>Project Archetypes &mdash; sbt-native-packager 1.0.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0',
+        VERSION:     '1.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.2 documentation" href="../index.html" />
     <link rel="next" title="Java Application Archetype" href="java_app/index.html" />
     <link rel="prev" title="Contributing Documentation" href="../topics/documentation.html" />
 <meta charset='utf-8'>
@@ -208,8 +208,12 @@ this archetype in your build, do the following in your <tt class="docutils liter
 <span class="n">wixProductUpgradeId</span> <span class="o">:=</span> <span class="s">&quot;4552fb0e-e257-4dbd-9ecb-dba9dbacf424&quot;</span>
 </pre></div>
 </div>
-<p>This archetype will use the <tt class="docutils literal"><span class="pre">mainClass</span></tt> setting of sbt (automatically discovers your main class) to generate <tt class="docutils literal"><span class="pre">bat</span></tt> and <tt class="docutils literal"><span class="pre">bin</span></tt> scripts for your project.  It
-produces a universal layout that looks like the following:</p>
+<p>This archetype will use the <tt class="docutils literal"><span class="pre">mainClass</span></tt> setting of sbt (automatically discovers your main class) to generate <tt class="docutils literal"><span class="pre">bat</span></tt> and <tt class="docutils literal"><span class="pre">bin</span></tt> scripts for your project.
+In case you have multiple main classes you can point to a specific class with the following setting:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;foo.bar.Main&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>The universal layout produced looks like the following:</p>
 <div class="highlight-none"><div class="highlight"><pre>bin/
   &lt;app_name&gt;       &lt;- BASH script
   &lt;app_name&gt;.bat   &lt;- cmd.exe script
@@ -297,7 +301,7 @@ could look like this</p>
     </p>
     <p>
         &copy; Copyright 2014 sbt-native-packager team.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>

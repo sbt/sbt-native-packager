@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Customize Java Applications &mdash; sbt-native-packager 1.0.0 documentation</title>
+    <title>Customize Java Applications &mdash; sbt-native-packager 1.0.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0.0',
+        VERSION:     '1.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0 documentation" href="../../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.2 documentation" href="../../index.html" />
     <link rel="up" title="Java Application Archetype" href="index.html" />
     <link rel="next" title="Generating files for the package" href="generating-files.html" />
     <link rel="prev" title="My First Packaged Project" href="my-first-project.html" />
@@ -319,18 +319,18 @@ addJava<span class="o">()</span> <span class="o">{</span>
   <span class="c"># since this was how we were adding configuration before.</span>
 <span class="o">}</span>
 
-<span class="nb">declare</span> -r <span class="nv">real_script_path</span><span class="o">=</span><span class="s2">&quot;$(realpath &quot;</span><span class="nv">$0</span><span class="s2">&quot;)&quot;</span>
+<span class="nb">declare</span> -r <span class="nv">real_script_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>realpath <span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
 
 <span class="c"># We have to provide an app_home for the default bash declarations to work.</span>
-    <span class="nb">declare</span> -r <span class="nv">app_home</span><span class="o">=</span><span class="s2">&quot;$(realpath &quot;</span><span class="k">$(</span>dirname <span class="s2">&quot;$real_script_path&quot;</span><span class="k">)</span><span class="s2">&quot;)&quot;</span>
+    <span class="nb">declare</span> -r <span class="nv">app_home</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>realpath <span class="s2">&quot;</span><span class="k">$(</span>dirname <span class="s2">&quot;</span><span class="nv">$real_script_path</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
 
     <span class="c"># The auto-generated classpath relies on this variable existing</span>
     <span class="c"># and pointing at the lib directory.</span>
-<span class="nb">declare</span> -r <span class="nv">lib_dir</span><span class="o">=</span><span class="s2">&quot;$(realpath &quot;</span><span class="k">${</span><span class="nv">app_home</span><span class="k">}</span>/../lib<span class="s2">&quot;)&quot;</span>
+<span class="nb">declare</span> -r <span class="nv">lib_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>realpath <span class="s2">&quot;</span><span class="si">${</span><span class="nv">app_home</span><span class="si">}</span><span class="s2">/../lib&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
 
 <span class="c"># This line tells the native packager template engine to inject</span>
 <span class="c"># all of its settings into this spot in the bash file.</span>
-<span class="k">${</span><span class="p">{template_declares</span><span class="k">}</span><span class="o">}</span>
+<span class="si">${</span><span class="p">{template_declares</span><span class="si">}</span><span class="o">}</span>
 
 <span class="c"># Here we make use of two of the injected settings for the bash file:</span>
 <span class="c"># * app_classpath - represents the full list of JARs for this application.</span>
@@ -405,7 +405,7 @@ the <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span>
     </p>
     <p>
         &copy; Copyright 2014 sbt-native-packager team.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>

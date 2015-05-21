@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Docker Plugin &mdash; sbt-native-packager 1.0.0 documentation</title>
+    <title>Docker Plugin &mdash; sbt-native-packager 1.0.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0',
+        VERSION:     '1.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.2 documentation" href="../index.html" />
     <link rel="up" title="Packaging Formats" href="index.html" />
     <link rel="next" title="Windows Plugin" href="windows.html" />
     <link rel="prev" title="Rpm Plugin" href="rpm.html" />
@@ -250,7 +250,7 @@ This will only affect the image name.</dd>
 <dd>The image to use as a base for running the application. It should include binaries on the path for <tt class="docutils literal"><span class="pre">chown</span></tt>, <tt class="docutils literal"><span class="pre">mkdir</span></tt>, have a discoverable <tt class="docutils literal"><span class="pre">java</span></tt> binary, and include the user configured by <tt class="docutils literal"><span class="pre">daemonUser</span></tt> (<tt class="docutils literal"><span class="pre">daemon</span></tt>, by default).</dd>
 <dt><tt class="docutils literal"><span class="pre">daemonUser</span> <span class="pre">in</span> <span class="pre">Docker</span></tt></dt>
 <dd>The user to use when executing the application. Files below the install path also have their ownership set to this user.</dd>
-<dt><tt class="docutils literal"><span class="pre">dockerExposedPorts</span> <span class="pre">in</span> <span class="pre">Docker</span></tt></dt>
+<dt><tt class="docutils literal"><span class="pre">dockerExposedPorts</span></tt></dt>
 <dd>A list of ports to expose from the Docker image.</dd>
 <dt><tt class="docutils literal"><span class="pre">dockerExposedVolumes</span> <span class="pre">in</span> <span class="pre">Docker</span></tt></dt>
 <dd>A list of data volumes to make available in the Docker image.</dd>
@@ -373,7 +373,7 @@ the chowning of a exposed volume.</p>
   <span class="c1">// setting the run script executable</span>
   <span class="nc">ExecCmd</span><span class="o">(</span><span class="s">&quot;RUN&quot;</span><span class="o">,</span>
     <span class="s">&quot;chmod&quot;</span><span class="o">,</span> <span class="s">&quot;u+x&quot;</span><span class="o">,</span>
-     <span class="n">s</span><span class="s">&quot;${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}&quot;</span><span class="o">),</span>
+     <span class="s">s&quot;</span><span class="si">${</span><span class="o">(</span><span class="n">defaultLinuxInstallLocation</span> <span class="n">in</span> <span class="nc">Docker</span><span class="o">).</span><span class="n">value</span><span class="si">}</span><span class="s">/bin/</span><span class="si">${</span><span class="n">executableScriptName</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">&quot;</span><span class="o">),</span>
   <span class="c1">// setting a daemon user</span>
   <span class="nc">Cmd</span><span class="o">(</span><span class="s">&quot;USER&quot;</span><span class="o">,</span> <span class="s">&quot;daemon&quot;</span><span class="o">)</span>
 <span class="o">)</span>
@@ -413,7 +413,7 @@ the chowning of a exposed volume.</p>
     </p>
     <p>
         &copy; Copyright 2014 sbt-native-packager team.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>

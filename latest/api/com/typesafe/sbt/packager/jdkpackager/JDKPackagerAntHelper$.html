@@ -2,17 +2,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>permissions - com.typesafe.sbt.packager.permissions</title>
-          <meta name="description" content="permissions - com.typesafe.sbt.packager.permissions" />
-          <meta name="keywords" content="permissions com.typesafe.sbt.packager.permissions" />
+          <title>JDKPackagerAntHelper - com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper</title>
+          <meta name="description" content="JDKPackagerAntHelper - com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper" />
+          <meta name="keywords" content="JDKPackagerAntHelper com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
-      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
       <script type="text/javascript">
          if(top === self) {
-            var url = '../../../../index.html';
-            var hash = 'com.typesafe.sbt.packager.permissions$';
+            var url = '../../../../../index.html';
+            var hash = 'com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper$';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -24,9 +24,9 @@
         </head>
         <body class="value">
       <div id="definition">
-        <img src="../../../../lib/object_big.png" />
-        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="package.html" class="extype" name="com.typesafe.sbt.packager">packager</a></p>
-        <h1>permissions</h1>
+        <img src="../../../../../lib/object_big.png" />
+        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="package.html" class="extype" name="com.typesafe.sbt.packager.jdkpackager">jdkpackager</a></p>
+        <h1>JDKPackagerAntHelper</h1>
       </div>
 
       <h4 id="signature" class="signature">
@@ -35,13 +35,13 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">permissions</span>
+        <span class="name">JDKPackagerAntHelper</span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Converts a octal unix permission representation into
-a java <code>PosiFilePermissions</code> compatible string.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Helpers for working with Ant build definitions
+</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>5/7/15
+</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -61,7 +61,7 @@ a java <code>PosiFilePermissions</code> compatible string.
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.typesafe.sbt.packager.permissions"><span>permissions</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper"><span>JDKPackagerAntHelper</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -83,19 +83,71 @@ a java <code>PosiFilePermissions</code> compatible string.
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.typesafe.sbt.packager.permissions.OctalString" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="OctalStringextendsAnyVal"></a>
-      <a id="OctalString:OctalString"></a>
+              <ol><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper.ApplicationDOM" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ApplicationDOM=scala.xml.Elem"></a>
+      <a id="ApplicationDOM:ApplicationDOM"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">implicit final </span>
-        <span class="kind">class</span>
+        <span class="modifier"></span>
+        <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <a href="permissions$$OctalString.html"><span class="name">OctalString</span></a><span class="result"> extends <span class="extype" name="scala.AnyVal">AnyVal</span></span>
+        <span class="name">ApplicationDOM</span><span class="result"> = <span class="extype" name="scala.xml.Elem">Elem</span></span>
       </span>
       </h4>
-      <p class="comment cmt">Enriches string with <code>oct</code> interpolator, parsing string as base 8 integer.</p>
+      
+    </li><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper.BuildDOM" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BuildDOM=scala.xml.Elem"></a>
+      <a id="BuildDOM:BuildDOM"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BuildDOM</span><span class="result"> = <span class="extype" name="scala.xml.Elem">Elem</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper.DeployDOM" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DeployDOM=scala.xml.Elem"></a>
+      <a id="DeployDOM:DeployDOM"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DeployDOM</span><span class="result"> = <span class="extype" name="scala.xml.Elem">Elem</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper.InfoDOM" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="InfoDOM=scala.xml.Elem"></a>
+      <a id="InfoDOM:InfoDOM"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">InfoDOM</span><span class="result"> = <span class="extype" name="scala.xml.Elem">Elem</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper.PlatformDOM" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PlatformDOM=scala.xml.Elem"></a>
+      <a id="PlatformDOM:PlatformDOM"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">PlatformDOM</span><span class="result"> = <span class="extype" name="scala.xml.Elem">Elem</span></span>
+      </span>
+      </h4>
+      
     </li></ol>
             </div>
 
@@ -168,20 +220,6 @@ a java <code>PosiFilePermissions</code> compatible string.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.permissions#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(perms:String):java.util.Set[java.nio.file.attribute.PosixFilePermission]"></a>
-      <a id="apply(String):Set[PosixFilePermission]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="perms">perms: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="java.util.Set">Set</span>[<span class="extype" name="java.nio.file.attribute.PosixFilePermission">PosixFilePermission</span>]</span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">perms</dt><dd class="cmt"><p>in octal format</p></dd><dt>returns</dt><dd class="cmt"><p>java 7 posix file permissions
-</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -207,26 +245,13 @@ a java <code>PosiFilePermissions</code> compatible string.
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.permissions#convert" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="convert(perms:String):String"></a>
-      <a id="convert(String):String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">convert</span><span class="params">(<span name="perms">perms: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4>
-      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -265,7 +290,7 @@ a java <code>PosiFilePermissions</code> compatible string.
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="symbol">classOf[java.lang.Throwable]</span>
@@ -462,6 +487,6 @@ a java <code>PosiFilePermissions</code> compatible string.
       <div id="tooltip"></div>
 
       <div id="footer">  </div>
-      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../lib/template.js"></script>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../../lib/template.js"></script>
     </body>
       </html>

@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>JDKPackager Plugin &mdash; sbt-native-packager 1.0.0 documentation</title>
+    <title>JDKPackager Plugin &mdash; sbt-native-packager 1.0.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0',
+        VERSION:     '1.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.0 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.2 documentation" href="../index.html" />
     <link rel="up" title="Packaging Formats" href="index.html" />
     <link rel="next" title="Advanced Topics" href="../topics/index.html" />
     <link rel="prev" title="Windows Plugin" href="windows.html" />
@@ -96,8 +96,8 @@
 <li><a class="reference internal" href="#enabling">Enabling</a></li>
 <li><a class="reference internal" href="#build">Build</a></li>
 <li><a class="reference internal" href="#settings">Settings</a></li>
-<li><a class="reference internal" href="#jvm-options">JVM Options</a></li>
 <li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#debugging">Debugging</a></li>
 </ul>
 </li>
 </ul>
@@ -149,8 +149,9 @@
       
   <div class="section" id="jdkpackager-plugin">
 <h1><a class="toc-backref" href="#id1">JDKPackager Plugin</a><a class="headerlink" href="#jdkpackager-plugin" title="Permalink to this headline">¶</a></h1>
-<p>JDK 8 from Oracle includes the tool <cite>javapackager</cite> (née <cite>javafxpackager</cite>), which generates native application launchers and installers for MacOS X, Windows, and Linux. This plugin complements the existing <cite>sbt-native-packager</cite> formats by taking the settings and staged output from <cite>JavaAppPackaging</cite> and passing them through <cite>javapackager</cite> to create native formats per Oracle&#8217;s defined mechanisms.</p>
-<p>This plugin&#8217;s most relevant addition to the core <cite>sbt-native-packager</cite> capabilities is the generation of MacOS X App bundles, and associated <cite>.dmg</cite> and <cite>.pkg</cite> package formats. With this plugin complete drag-and-drop installable application bundles are possible, including the embedding of the JRE. It can also generate Windows <cite>.exe</cite> and <cite>.msi</cite> installers provided the requisite tools are available on the Windows build platform.</p>
+<p>JDK 8 from Oracle includes the tool <tt class="docutils literal"><span class="pre">javapackager</span></tt> (née <tt class="docutils literal"><span class="pre">javafxpackager</span></tt>), which generates native application launchers and installers for MacOS X, Windows, and Linux. This plugin complements the existing <cite>sbt-native-packager</cite> formats by taking the settings and staged output from <tt class="docutils literal"><span class="pre">JavaAppPackaging</span></tt> and passing them through <tt class="docutils literal"><span class="pre">javapackager</span></tt> to create native formats per Oracle&#8217;s provided features.</p>
+<p>The actual mechanism used by this plugin is the support provided by the <tt class="docutils literal"><span class="pre">lib/ant-javafx.jar</span></tt> Ant task library, which provides more capabilities than the <tt class="docutils literal"><span class="pre">javapackager</span></tt> command line version, but the idea is the same.</p>
+<p>This plugin&#8217;s most relevant addition to the core <cite>sbt-native-packager</cite> capabilities is the generation of MacOS X App bundles, and associated <tt class="docutils literal"><span class="pre">.dmg`</span> <span class="pre">and</span> <span class="pre">``.pkg</span></tt> package formats. With this plugin complete drag-and-drop installable application bundles are possible, including the embedding of the JRE. It can also generate Windows <tt class="docutils literal"><span class="pre">.exe</span></tt> and <tt class="docutils literal"><span class="pre">.msi</span></tt> installers provided the requisite tools are available on the Windows build platform (see below). While Linux package formats are also possible via this plugin, it is likely the native <cite>sbt-native-packager</cite> support for <tt class="docutils literal"><span class="pre">.deb</span></tt> and <tt class="docutils literal"><span class="pre">.rpm</span></tt> formats will provide more configurability.</p>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
@@ -159,19 +160,19 @@
 <li><a class="reference internal" href="#enabling" id="id3">Enabling</a></li>
 <li><a class="reference internal" href="#build" id="id4">Build</a></li>
 <li><a class="reference internal" href="#settings" id="id5">Settings</a></li>
-<li><a class="reference internal" href="#jvm-options" id="id6">JVM Options</a></li>
-<li><a class="reference internal" href="#example" id="id7">Example</a></li>
+<li><a class="reference internal" href="#example" id="id6">Example</a></li>
+<li><a class="reference internal" href="#debugging" id="id7">Debugging</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="alert alert-info" role="alert">
   <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-  The JDKPackagerPlugin depends on the Universal and JavaAppPackaging plugins. For inherited settings read the <a href="../archetypes/java_app/index.html">Java Application Plugin Documentation</a>
+  The <tt>JDKPackagerPlugin</tt> depends on the <tt>Universal</tt>, <tt>JavaAppPackaging</tt> and <tt>LauncherJarPlugin</tt> plugins. For inherited settings read the <a href="../archetypes/java_app/index.html">Java Application Plugin Documentation</a>
 </div><div class="section" id="requirements">
 <h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<p>The <cite>javapackager</cite> tool comes with JDK 8, and found in the <cite>bin</cite> directory along with <cite>javac</cite> and friends. (An earlier form of the tool was introduced in later forms of JDK 7 as <cite>javafxpackager</cite>.)  If <cite>sbt</cite> is running under the JVM in JDK 8, then the plugin should be able to find the path to <cite>javapackager</cite>. If <cite>sbt</cite> is running under a different JVM, then the path to the tool will have to be specified via the <tt class="docutils literal"><span class="pre">jdkPackagerTool</span></tt> setting.</p>
-<p>This plugin must be run on the platform of the target installer. The <cite>javapackager</cite> tool does not provide a means of creating, say, Windows installers on MacOS, etc.</p>
+<p>The <tt class="docutils literal"><span class="pre">ant-javafx.jar</span></tt> library comes with <em>Oracle</em> JDK 8, found in the <tt class="docutils literal"><span class="pre">lib</span></tt> directory along with <tt class="docutils literal"><span class="pre">tools.jar</span></tt> and friends. If <cite>sbt</cite> is running under the JVM in Oracle JDK 8, then the plugin should be able to find the path to <tt class="docutils literal"><span class="pre">ant-javafx.jar</span></tt>. If <cite>sbt</cite> is running under a different JVM, then the path to the tool will have to be specified via the <tt class="docutils literal"><span class="pre">jdkPackager:antPackagerTasks</span></tt> setting.</p>
+<p>This plugin must be run on the platform of the target installer. The Oracle tooling does <em>not</em> provide a means of creating, say, Windows installers on MacOS, or MacOS on Linux, etc.</p>
 <p>To use create Windows launchers &amp; installers, the either the WIX Toolset (<tt class="docutils literal"><span class="pre">msi</span></tt>) or Inno Setup (<tt class="docutils literal"><span class="pre">exe</span></tt>) is required:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://wixtoolset.org/">WIX Toolset</a></li>
@@ -188,21 +189,20 @@
 </div>
 <div class="section" id="build">
 <h2><a class="toc-backref" href="#id4">Build</a><a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<p>To use, first get your application working per <cite>JavaAppPackaging</cite> instructions (including the <tt class="docutils literal"><span class="pre">mainClass</span></tt> setting). Once that is working, run</p>
+<p>To use, first get your application working per <tt class="docutils literal"><span class="pre">JavaAppPackaging</span></tt> instructions (including the <tt class="docutils literal"><span class="pre">mainClass</span></tt> setting). Once that is working, run</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">sbt</span> <span class="n">jdkPackager</span><span class="k">:</span><span class="kt">packageBin</span>
 </pre></div>
 </div>
-<p>By default, the plugin makes the installer type that is native to the current build platform in the directory <cite>target/jdkpackager</cite>. The key <cite>jdkPackageType</cite> can be used to modify this behavior. Run <cite>help jdkPackageType</cite> in sbt for details. The most popular setting is likely to be <cite>jdkAppIcon</cite>.</p>
+<p>By default, the plugin makes the installer type that is native to the current build platform in the directory <tt class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></tt>. The key <tt class="docutils literal"><span class="pre">jdkPackageType</span></tt> can be used to modify this behavior. Run <tt class="docutils literal"><span class="pre">help</span> <span class="pre">jdkPackageType</span></tt> in <cite>sbt</cite> for details. The most popular setting is likely to be <tt class="docutils literal"><span class="pre">jdkAppIcon</span></tt>.</p>
 </div>
 <div class="section" id="settings">
 <h2><a class="toc-backref" href="#id5">Settings</a><a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<p><em>For the latest documentation reference the key descriptions in sbt.</em></p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">jdkPackagerTool</span></tt></dt>
-<dd>Path to <cite>javapackager</cite> or <cite>javafxpackager</cite> tool in JDK.</dd>
 <dt><tt class="docutils literal"><span class="pre">jdkPackagerBasename</span></tt></dt>
-<dd>Filename sans extension for generated installer package. Defaults to <tt class="docutils literal"><span class="pre">packageName</span></tt>.</dd>
+<dd>Filename sans extension for generated installer package.</dd>
 <dt><tt class="docutils literal"><span class="pre">jdkPackagerType</span></tt></dt>
-<dd><p class="first">Value passed as the <cite>-native</cite> argument to <cite>javapackager -deploy</cite> command.
+<dd><p class="first">Value passed as the <cite>native</cite> attribute to <cite>fx:deploy</cite> task.
 Per <cite>javapackager</cite> documentation, this may be one of the following:</p>
 <ul class="last simple">
 <li><tt class="docutils literal"><span class="pre">all</span></tt>: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.</li>
@@ -231,14 +231,30 @@ Per <cite>javapackager</cite> documentation, this may be one of the following:</
 </ul>
 <p class="last">Defaults a generically bland Java icon.</p>
 </dd>
+<dt><tt class="docutils literal"><span class="pre">jdkPackagerToolkit</span></tt></dt>
+<dd>GUI toolkit used in app. Either <tt class="docutils literal"><span class="pre">JavaFXToolkit</span></tt> (default) or <tt class="docutils literal"><span class="pre">SwingToolkit</span></tt></dd>
+<dt><tt class="docutils literal"><span class="pre">jdkPackagerJVMArgs</span></tt></dt>
+<dd>Sequence of arguments to pass to the JVM.
+Default: <tt class="docutils literal"><span class="pre">Seq(&quot;-Xmx768m&quot;)</span></tt>.
+<a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHJIJG">Oracle JVM argument docs</a></dd>
+<dt><tt class="docutils literal"><span class="pre">jdkPackagerAppArgs</span></tt></dt>
+<dd>List of command line arguments to pass to the application on launch.
+Default: <tt class="docutils literal"><span class="pre">Seq.empty</span></tt>
+<a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACIJFHB">Oracle arguments docs</a></dd>
+<dt><tt class="docutils literal"><span class="pre">jdkPackagerProperties</span></tt></dt>
+<dd>Map of <cite>System</cite> properties to define in application.
+Default: <tt class="docutils literal"><span class="pre">Map.empty</span></tt>
+<a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHCIFJ">Oracle properties docs</a></dd>
+<dt><tt class="docutils literal"><span class="pre">jdkPackagerAssociations</span></tt></dt>
+<dd>Set of application file associations to register for the application.
+Example: <cite>jdkPackagerAssociations := Seq(FileAssociation(&#8220;foo&#8221;, &#8220;application/x-foo&#8221;, Foo Data File&#8221;, iconPath))
+Default: `Seq.empty</cite>
+Note: Requires JDK &gt;= 8 build 40.
+<a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAIDHBJ">Oracle associations docs</a></dd>
 </dl>
 </div>
-<div class="section" id="jvm-options">
-<h2><a class="toc-backref" href="#id6">JVM Options</a><a class="headerlink" href="#jvm-options" title="Permalink to this headline">¶</a></h2>
-<p>Relevant JVM settings specified in the <tt class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></tt> file are processed and added to the <cite>javapackager</cite> call. See <tt class="xref doc docutils literal"><span class="pre">Customize</span> <span class="pre">Java</span> <span class="pre">Applications</span></tt> for details.</p>
-</div>
 <div class="section" id="example">
-<h2><a class="toc-backref" href="#id7">Example</a><a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">Example</a><a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
 <p>To take it for a test spin, run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">jdkPackager:packageBin</span></tt> in the <tt class="docutils literal"><span class="pre">test-project-jdkpackager</span></tt> directory of the <cite>sbt-native-packager</cite> source. Then look in the <tt class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></tt> directory for the result (specific name depends on platform built).</p>
 <p>Here&#8217;s what the build file looks like:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;JDKPackagerPlugin Example&quot;</span>
@@ -255,7 +271,7 @@ Per <cite>javapackager</cite> documentation, this may be one of the following:</
 
 <span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JDKPackagerPlugin</span><span class="o">)</span>
 
-<span class="n">maintainer</span> <span class="o">:=</span> <span class="s">&quot;Simeon H.K Fitch &lt;fitch@datamininglab.com&gt;&quot;</span>
+<span class="n">maintainer</span> <span class="o">:=</span> <span class="s">&quot;Previously Owned Cats, Inc.&quot;</span>
 
 <span class="n">packageSummary</span> <span class="o">:=</span> <span class="s">&quot;JDKPackagerPlugin example package thingy&quot;</span>
 
@@ -270,8 +286,30 @@ Per <cite>javapackager</cite> documentation, this may be one of the following:</
 <span class="n">jdkAppIcon</span> <span class="o">:=</span>  <span class="o">(</span><span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">**</span> <span class="n">iconGlob</span><span class="o">).</span><span class="n">getPaths</span><span class="o">.</span><span class="n">headOption</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">file</span><span class="o">)</span>
 
 <span class="n">jdkPackagerType</span> <span class="o">:=</span> <span class="s">&quot;installer&quot;</span>
+
+<span class="n">jdkPackagerJVMArgs</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;-Xmx1g&quot;</span><span class="o">)</span>
+
+<span class="n">jdkPackagerProperties</span> <span class="o">:=</span> <span class="nc">Map</span><span class="o">(</span><span class="s">&quot;app.name&quot;</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="o">,</span> <span class="s">&quot;app.version&quot;</span> <span class="o">-&gt;</span> <span class="n">version</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
+
+<span class="n">jdkPackagerAppArgs</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">maintainer</span><span class="o">.</span><span class="n">value</span><span class="o">,</span> <span class="n">packageSummary</span><span class="o">.</span><span class="n">value</span><span class="o">,</span> <span class="n">packageDescription</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
+
+<span class="n">jdkPackagerAssociations</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span>
+    <span class="nc">FileAssociation</span><span class="o">(</span><span class="s">&quot;foobar&quot;</span><span class="o">,</span> <span class="s">&quot;application/foobar&quot;</span><span class="o">,</span> <span class="s">&quot;Foobar file type&quot;</span><span class="o">),</span>
+    <span class="nc">FileAssociation</span><span class="o">(</span><span class="s">&quot;barbaz&quot;</span><span class="o">,</span> <span class="s">&quot;application/barbaz&quot;</span><span class="o">,</span> <span class="s">&quot;Barbaz file type&quot;</span><span class="o">,</span> <span class="n">jdkAppIcon</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="c1">// Example of specifying a fallback location of `ant-javafx.jar` if plugin can&#39;t find it.</span>
+<span class="o">(</span><span class="n">antPackagerTasks</span> <span class="n">in</span> <span class="nc">JDKPackager</span><span class="o">)</span> <span class="o">:=</span> <span class="o">(</span><span class="n">antPackagerTasks</span> <span class="n">in</span> <span class="nc">JDKPackager</span><span class="o">).</span><span class="n">value</span> <span class="n">orElse</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">{</span>
+    <span class="n">f</span> <span class="k">&lt;-</span> <span class="nc">Some</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;/usr/lib/jvm/java-8-oracle/lib/ant-javafx.jar&quot;</span><span class="o">))</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">exists</span><span class="o">()</span>
+  <span class="o">}</span> <span class="k">yield</span> <span class="n">f</span>
+<span class="o">}</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="debugging">
+<h2><a class="toc-backref" href="#id7">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>If you are having trouble figuring out how certain features affect the generated package, you can find the Ant-based build definition file in <tt class="docutils literal"><span class="pre">target/jdkpackager/build.xml</span></tt>. You should be able to run Ant directly in that file assuming <tt class="docutils literal"><span class="pre">jdkPackager:packageBin</span></tt> has been run at least once.</p>
 </div>
 </div>
 
@@ -288,7 +326,7 @@ Per <cite>javapackager</cite> documentation, this may be one of the following:</
     </p>
     <p>
         &copy; Copyright 2014 sbt-native-packager team.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>
