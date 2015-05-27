@@ -57,6 +57,12 @@ object DockerPlugin extends AutoPlugin {
 
   import autoImport._
 
+  /**
+   * The separator for makeAdd force UNIX separator.
+   * The separator doesn't depend to OS where i build Dockerfile.
+   */
+  val UnixSeparatorChar = '/'
+
   override def requires = universal.UniversalPlugin
 
   override lazy val projectSettings = Seq(
@@ -149,7 +155,7 @@ object DockerPlugin extends AutoPlugin {
    * @return ADD command adding all files inside the installation directory
    */
   private final def makeAdd(dockerBaseDirectory: String): CmdLike = {
-    val files = dockerBaseDirectory.split(java.io.File.separator)(1)
+    val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
     Cmd("ADD", s"$files /$files")
   }
 
