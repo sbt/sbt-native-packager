@@ -45,7 +45,14 @@ object JavaAppBashScript {
   def configFileDefine(configFile: String) =
     "declare -r script_conf_file=\"%s\"" format (configFile)
 
-  def mainClassDefine(mainClass: String) =
-    "declare -r app_mainclass=\"%s\"\n" format (mainClass)
+  def mainClassDefine(mainClass: String) = {
+    val jarPrefixed = """^\-jar (.*)""".r
+    val args = mainClass match {
+      case jarPrefixed(jarName) => Seq("-jar", jarName)
+      case className           => Seq(className)
+    }
+    val quotedArgsSpaceSeparated = args.map(s => "\"" + s + "\"").mkString(" ")
+    "declare -a app_mainclass=(%s)\n" format (quotedArgsSpaceSeparated)
+  }
 
 }
