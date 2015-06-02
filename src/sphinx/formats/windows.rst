@@ -40,45 +40,46 @@ Build
 Required Settings
 ~~~~~~~~~~~~~~~~~
 
-A rpm package needs some mandatory settings to be valid. Make sure
+A windows package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:
 
 .. code-block:: scala
 
-    rpmRelease := "1"
-    
-    rpmVendor := "typesafe"
-    
-    rpmUrl := Some("http://github.com/paulp/sbt-extras")
-    
-    rpmLicense := Some("BSD")
+  // general package information (can be scoped to Windows)
+  maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
+  packageSummary := "test-windows"
+  packageDescription := """Test Windows MSI."""
+
+  // wix build information
+  wixProductId := "ce07be71-510d-414a-92d4-dff47631848a"
+  wixProductUpgradeId := "4552fb0e-e257-4dbd-9ecb-dba9dbacf424"
     
 
 1.0 or higher
 ~~~~~~~~~~~~~
 
-Enables the rpm plugin
+Enables the windows plugin
 
 .. code-block:: scala
 
-  enablePlugins(RpmPlugin)
+  enablePlugins(WindowsPlugin)
 
 
 0.8 or lower
 ~~~~~~~~~~~~
 
-For this versions rpm packaging is automatically activated.
+For this versions windows packaging is automatically activated.
 See the :doc:`Getting Started </gettingstarted>` page for information
 on how to enable sbt native packager.
 
 Configuration
 -------------
 
-Settings and Tasks inherited from parent plugins can be scoped with ``Rpm``.
+Settings and Tasks inherited from parent plugins can be scoped with ``Universal``.
 
 .. code-block:: scala
 
-  linuxPackageMappings in Rpm := linuxPackageMappings.value
+  mappings in Windows := (mappings in Universal).value
 
 Now, let's look at the full set of windows settings.
 
@@ -155,8 +156,8 @@ Customize
 Feature configuration
 ~~~~~~~~~~~~~~~~~~~~~
 
-The abstraction over wix allows you to configure "features" that users may optionally install.  These feature are higher level things, like a set of files or menu links.
-The currently supported components of features are:
+The abstraction over wix allows you to configure "features" that users may optionally install. These feature are higher level things,
+like a set of files or menu links. The currently supported components of features are:
 
 1. Files (``ComponentFile``)
 2. Path Configuration (``AddDirectoryToPath``)
