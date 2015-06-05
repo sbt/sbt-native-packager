@@ -6,7 +6,7 @@
           <h1>SBT Native Packager Plugin</h1>
           <p>This sbt plugin provides you with everything you need to package your application.
           No matter if you want to build a simple standalone application or a server application.
-          The JVM let's you run anywhere. SBT Native Packager let's you deploy everywhere!</p>
+          The JVM lets you run anywhere. SBT Native Packager lets you deploy everywhere!</p>
           <p><a class="btn btn-primary btn-lg" href="gettingstarted.html" role="button">Getting Started »</a></p>
       </div>
 
