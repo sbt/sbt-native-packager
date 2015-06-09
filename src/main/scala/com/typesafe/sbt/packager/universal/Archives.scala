@@ -179,7 +179,7 @@ object Archives {
 
       val tmptar = f / (relname + ".tar")
 
-      Process(Seq("tar", "-pcvf", tmptar.getAbsolutePath) ++ distdirs, Some(rdir)).! match {
+      Process(Seq("tar", "-pcvf", "--force-local", tmptar.getAbsolutePath) ++ distdirs, Some(rdir)).! match {
         case 0 => ()
         case n => sys.error("Error tarballing " + tarball + ". Exit code: " + n)
       }
