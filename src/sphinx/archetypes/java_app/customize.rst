@@ -11,8 +11,8 @@ script will effect all platform-specific builds. The server archetype provides a
 specific System Loaders and Package types. These template file are described in 
 :doc:`configuring servers </archetypes/java_server/customize>`.
 
-Customizing Templates (Bash/Bat)
---------------------------------
+Customizing the Application
+---------------------------
 
 .. raw:: html
 
@@ -24,17 +24,88 @@ Customizing Templates (Bash/Bat)
   </div>
 
 After :doc:`creating a package <my-first-project>`, the very next thing needed, usually, is the ability for users/ops to customize
-the application once it's deployed.   Let's add some configuration to the newly deployed application.
+the application once it's deployed. Let's add some configuration to the newly deployed application.
 
 There are generally two types of configurations:
 
 * Configuring the JVM and the process
 * Configuring the Application itself.
 
-The native packager provides a direct hook into the generated scripts for JVM configuration. Let's make use of this.
-First, add the following to the ``src/universal/conf/application.ini`` file in the project ::
+You have three options.
 
-   -DsomeProperty=true
+Via build.sbt
+~~~~~~~~~~~~~
+
+First, you can specify your options via the ``build.sbt``.
+
+.. code-block :: scala
+
+    javaOptions in Universal ++= Seq(
+        // -J params will be added as jvm parameters
+        "-J-Xmx64m",
+        "-J-Xms64m", 
+        
+        // others will be added as app parameters
+        "-Dproperty=true",
+        "-port=8080",
+        
+        // you can access any build setting/task here
+       s"-version=${version.value}"
+    )
+
+For the ``-X`` settings you need to add a suffix ``-J`` so the start script will
+recognize these as vm config parameters. 
+
+Via Application.ini
+~~~~~~~~~~~~~~~~~~~
+
+The second option is to create ``src/universal/conf/application.ini`` with the following template
+
+.. code-block :: bash
+
+    # Setting -X directly (-J is stripped)
+    # -J-X
+    -J-Xmx1024
+
+    # Add additional jvm parameters
+    -Dkey=val
+
+    # Turn on JVM debugging, open at the given port
+    # -jvm-debug <port>  
+
+    # Don't run the java version check
+    # -no-version-check
+    
+    # enabling debug and sending -d as app argument
+    # the '--' prevents app-parameter swallowing when
+    # using a reserved parameter. See #184
+    # -d -- -d
+
+The file will be installed to ``${app_home}/conf/application.ini`` and read from there
+by the startscript. You can use ``#`` for comments and new lines as you like. This file
+currently doesn't has any variable substitution. We recommend using the ``build.sbt`` if
+you need any information from your build.
+
+The configuration file for bash scripts takes arguments for the BASH file on each line, 
+and allows comments which start with the ``#`` character.  Essentially, this provides 
+a set of default arguments when calling the script.
+
+By default, any file in the ``src/universal`` directory is packaged. This is a convenient 
+way to include things like licenses, and readmes.
+
+BashScript defines
+~~~~~~~~~~~~~~~~~~
+
+The last option is to use the ``bashScriptExtraDefines``. Generally you can add arbitrary
+bash commands here, but for configurations you have two methods to add jvm and app parameters. ::
+
+   bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/app.config""""
+   bashScriptExtraDefines += """addApp "--port=8080"""
+   
+
+
+Testing the configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Now, if we run the ``stage`` task, we'll see this file show up in the distribution ::
 
@@ -45,17 +116,9 @@ Now, if we run the ``stage`` task, we'll see this file show up in the distributi
       lib/
    $ ls target/universal/stage/conf
       application.ini
-
-By default, any file in the ``src/universal`` directory is packaged.  This is a convenient way to include things like licenses, and readmes.
-
-Now, we need to modify the script templates to load this configuration. The following is enabled by default, but you can change
-it if you don't like ``application.ini`` as a name. To do so, add the following
-to ``build.sbt`` ::
-
-    bashScriptConfigLocation := Some("${app_home}/../conf/application.ini")
-
-Here, we define the configuration location for the BASH script too look for the ``conf/application.ini`` file. 
-Now, let's run ``sbt stage`` and then execute the script in debug mode to see what command line it executes ::
+      
+      
+Execute the script in debug mode to see what command line it executes ::
 
     ./target/universal/stage/bin/example-cli -d
         # Executing command line:
@@ -68,9 +131,28 @@ Now, let's run ``sbt stage`` and then execute the script in debug mode to see wh
         -cp
         /home/jsuereth/projects/sbt/sbt-native-packager/tutorial-example/target/universal/stage/lib/example-cli.example-cli-1.0.jar:/home/jsuereth/projects/sbt/sbt-native-packager/tutorial-example/target/universal/stage/lib/org.scala-lang.scala-library-2.10.3.jar:/home/jsuereth/projects/sbt/sbt-native-packager/tutorial-example/target/universal/stage/lib/com.typesafe.config-1.2.0.jar
         TestApp
+        
+As you can see ``-d`` is a reserved parameter. If you need to use this for your application you can
+use the following syntax ::
+
+   ./target/universal/stage/bin/example-cli -- -d
+   
+This will prevent the bashscript from interpreting the ``-d`` as the debug parameter
+      
+Customize application.ini name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you don't like ``application.ini`` as a name, you can change this in the ``build.sbt``. 
+The default configuration looks like this ::
+
+    bashScriptConfigLocation := Some("${app_home}/../conf/application.ini")
+
+These additions are useful if you need to reference existing variables from the
+bashscript.
 
 
-The configuration file for bash scripts takes arguments for the BASH file on each line, and allows comments which start with the ``#`` character.  Essentially, this provides a set of default arguments when calling the script.
+Example: Typesafe Config Library
+--------------------------------
 
 Now that we have ability to configure the JVM, let's add in a more robust method of customizing the application.  We'll be using the `Typesafe Config <https://github.com/typesafehub/config>`_ library for this purpose.
 

@@ -18,25 +18,20 @@ As this file is OS dependent, each OS gets section.
 Linux Configuration
 -------------------
 
-You have three options. First, you can specify your options via the ``build.sbt``.
+There are different ways described in :doc:`Customizing the Application </archetypes/java_app/customize>`
+and can be used the same way.
 
-.. code-block :: scala
 
-    javaOptions in Universal ++= Seq(
-        "-J-Xmx64m", "-J-Xms64m", "-Dproperty=true",  
-    )
-
-For the ``-X`` settings you need to add a suffix ``-J`` so the start script will
-recognize these as vm config parameters. 
-
-The second option is to create ``src/universal/conf/application.ini`` with the following template
+The server archetype adds an additional way with an ``etc-default`` file placed in ``src/templates``, which currently
+only works for **SystemV**. The file gets sourced before the actual startscript is executed.
+The file will be installed to ``/etc/default/<normalizedName>``
 
 .. code-block :: bash
 
     # Available replacements 
     # ------------------------------------------------
-    # ${{author}}           debian author
-    # ${{descr}}            debian package description
+    # ${{author}}           package author
+    # ${{descr}}            package description
     # ${{exec}}             startup script name
     # ${{chdir}}            app directory
     # ${{retries}}          retries for startup
@@ -44,38 +39,6 @@ The second option is to create ``src/universal/conf/application.ini`` with the f
     # ${{app_name}}         normalized app name
     # ${{daemon_user}}      daemon user
     # -------------------------------------------------
-
-    # Setting -X directly (-J is stripped)
-    # -J-X
-    -J-Xmx1024
-
-    # Add additional jvm parameters
-    -Dkey=val
-
-    # For play applications you may set
-    -Dpidfile.path=/var/run/${{app_name}}/play.pid
-
-    # Turn on JVM debugging, open at the given port
-    # -jvm-debug <port>  
-
-    # Don't run the java version check
-    # -no-version-check
-    
-    # enabling debug and sending -d as app argument
-    # the '--' prevents app-parameter swallowing when
-    # using a reserved parameter. See #184
-    # -d -- -d
-
-The file will be installed to ``${app_home}/conf/application.ini`` and read from there
-by the startscript. You can use ``#`` for comments and new lines as you like. The
-available are listed in the template or you can display them via ``show linuxScriptReplacements``.
-
-
-The last option is to provide a ``etc-default`` file placed in ``src/templates``, which currently
-only works for **SystemV**. The file gets sourced before the actual startscript is executed.
-The file will be installed to ``/etc/default/<normalizedName>``
-
-.. code-block :: bash
 
     # Setting JAVA_OPTS
     # -----------------
@@ -182,10 +145,18 @@ There is also experimental SystemD support for Fedora release 20 (Heisenbug). Yo
 
 .. code-block:: scala
 
-   serverLoading in Rpm:= ServerLoader.Systemd
+   import com.typesafe.sbt.packager.archetypes.ServerLoader
+
+   serverLoading in Rpm := ServerLoader.Systemd
 
 There is only partial systemd support in Ubuntu 14.04 LTS which prevents sbt-native-packager systemd from working correctly on
-Ubuntu.
+Ubuntu. Ubuntu 15.04 is the first version that switched to Systemd and the default Upstart won't work. Switch to Systemd with
+
+.. code-block:: scala
+
+   import com.typesafe.sbt.packager.archetypes.ServerLoader
+
+   serverLoading in Debian := ServerLoader.Systemd
 
 Package Lifecycle Configuration
 ===============================
