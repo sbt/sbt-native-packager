@@ -20,7 +20,8 @@ rpmChangelogFile := Some("changelog.txt")
 
 // these settings are conflicting
 javaOptions in Universal ++= Seq(
-  "-J-Xmx64m", "-J-Xms64m"
+  "-J-Xmx64m", "-J-Xms64m",
+  "-jvm-debug 12345"
 )
 
 //bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts")
