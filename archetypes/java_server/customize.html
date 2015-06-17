@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Customize Java Server Applications &mdash; sbt-native-packager 1.0.2 documentation</title>
+    <title>Customize Java Server Applications &mdash; sbt-native-packager 1.0.3 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0.2',
+        VERSION:     '1.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.2 documentation" href="../../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.3 documentation" href="../../index.html" />
     <link rel="up" title="Java Server Application Archetype" href="index.html" />
     <link rel="next" title="Akka Microkernel" href="../akka_app/index.html" />
     <link rel="prev" title="My First Packaged Server Project" href="my-first-project.html" />
@@ -181,19 +181,15 @@ with a single file outside of customizing the <tt class="docutils literal"><span
 As this file is OS dependent, each OS gets section.</p>
 <div class="section" id="linux-configuration">
 <h3>Linux Configuration<a class="headerlink" href="#linux-configuration" title="Permalink to this headline">¶</a></h3>
-<p>You have three options. First, you can specify your options via the <tt class="docutils literal"><span class="pre">build.sbt</span></tt>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">javaOptions</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
-    <span class="s">&quot;-J-Xmx64m&quot;</span><span class="o">,</span> <span class="s">&quot;-J-Xms64m&quot;</span><span class="o">,</span> <span class="s">&quot;-Dproperty=true&quot;</span><span class="o">,</span>
-<span class="o">)</span>
-</pre></div>
-</div>
-<p>For the <tt class="docutils literal"><span class="pre">-X</span></tt> settings you need to add a suffix <tt class="docutils literal"><span class="pre">-J</span></tt> so the start script will
-recognize these as vm config parameters.</p>
-<p>The second option is to create <tt class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></tt> with the following template</p>
+<p>There are different ways described in <a class="reference internal" href="../java_app/customize.html"><em>Customizing the Application</em></a>
+and can be used the same way.</p>
+<p>The server archetype adds an additional way with an <tt class="docutils literal"><span class="pre">etc-default</span></tt> file placed in <tt class="docutils literal"><span class="pre">src/templates</span></tt>, which currently
+only works for <strong>SystemV</strong>. The file gets sourced before the actual startscript is executed.
+The file will be installed to <tt class="docutils literal"><span class="pre">/etc/default/&lt;normalizedName&gt;</span></tt></p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># Available replacements</span>
 <span class="c"># ------------------------------------------------</span>
-<span class="c"># ${{author}}           debian author</span>
-<span class="c"># ${{descr}}            debian package description</span>
+<span class="c"># ${{author}}           package author</span>
+<span class="c"># ${{descr}}            package description</span>
 <span class="c"># ${{exec}}             startup script name</span>
 <span class="c"># ${{chdir}}            app directory</span>
 <span class="c"># ${{retries}}          retries for startup</span>
@@ -202,35 +198,7 @@ recognize these as vm config parameters.</p>
 <span class="c"># ${{daemon_user}}      daemon user</span>
 <span class="c"># -------------------------------------------------</span>
 
-<span class="c"># Setting -X directly (-J is stripped)</span>
-<span class="c"># -J-X</span>
--J-Xmx1024
-
-<span class="c"># Add additional jvm parameters</span>
--Dkey<span class="o">=</span>val
-
-<span class="c"># For play applications you may set</span>
--Dpidfile.path<span class="o">=</span>/var/run/<span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span>/play.pid
-
-<span class="c"># Turn on JVM debugging, open at the given port</span>
-<span class="c"># -jvm-debug &lt;port&gt;</span>
-
-<span class="c"># Don&#39;t run the java version check</span>
-<span class="c"># -no-version-check</span>
-
-<span class="c"># enabling debug and sending -d as app argument</span>
-<span class="c"># the &#39;--&#39; prevents app-parameter swallowing when</span>
-<span class="c"># using a reserved parameter. See #184</span>
-<span class="c"># -d -- -d</span>
-</pre></div>
-</div>
-<p>The file will be installed to <tt class="docutils literal"><span class="pre">${app_home}/conf/application.ini</span></tt> and read from there
-by the startscript. You can use <tt class="docutils literal"><span class="pre">#</span></tt> for comments and new lines as you like. The
-available are listed in the template or you can display them via <tt class="docutils literal"><span class="pre">show</span> <span class="pre">linuxScriptReplacements</span></tt>.</p>
-<p>The last option is to provide a <tt class="docutils literal"><span class="pre">etc-default</span></tt> file placed in <tt class="docutils literal"><span class="pre">src/templates</span></tt>, which currently
-only works for <strong>SystemV</strong>. The file gets sourced before the actual startscript is executed.
-The file will be installed to <tt class="docutils literal"><span class="pre">/etc/default/&lt;normalizedName&gt;</span></tt></p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Setting JAVA_OPTS</span>
+<span class="c"># Setting JAVA_OPTS</span>
 <span class="c"># -----------------</span>
 <span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dpidfile.path=/var/run/</span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">}/play.pid </span><span class="nv">$JAVA_OPTS</span><span class="s2">&quot;</span>
 
@@ -317,11 +285,18 @@ Create a file <tt class="docutils literal"><span class="pre">src/templates/start
 <div class="section" id="systemd-support">
 <h3>SystemD Support<a class="headerlink" href="#systemd-support" title="Permalink to this headline">¶</a></h3>
 <p>There is also experimental SystemD support for Fedora release 20 (Heisenbug). You can use the <tt class="docutils literal"><span class="pre">`Systemd`</span></tt> server loader:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">serverLoading</span> <span class="n">in</span> <span class="nc">Rpm</span><span class="o">:=</span> <span class="nc">ServerLoader</span><span class="o">.</span><span class="nc">Systemd</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.archetypes.ServerLoader</span>
+
+<span class="n">serverLoading</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="nc">ServerLoader</span><span class="o">.</span><span class="nc">Systemd</span>
 </pre></div>
 </div>
 <p>There is only partial systemd support in Ubuntu 14.04 LTS which prevents sbt-native-packager systemd from working correctly on
-Ubuntu.</p>
+Ubuntu. Ubuntu 15.04 is the first version that switched to Systemd and the default Upstart won&#8217;t work. Switch to Systemd with</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.archetypes.ServerLoader</span>
+
+<span class="n">serverLoading</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">ServerLoader</span><span class="o">.</span><span class="nc">Systemd</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="package-lifecycle-configuration">

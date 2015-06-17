@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Customize Java Applications &mdash; sbt-native-packager 1.0.2 documentation</title>
+    <title>Customize Java Applications &mdash; sbt-native-packager 1.0.3 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0.2',
+        VERSION:     '1.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.2 documentation" href="../../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.3 documentation" href="../../index.html" />
     <link rel="up" title="Java Application Archetype" href="index.html" />
     <link rel="next" title="Generating files for the package" href="generating-files.html" />
     <link rel="prev" title="My First Packaged Project" href="my-first-project.html" />
@@ -92,7 +92,15 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Customize Java Applications</a><ul>
-<li><a class="reference internal" href="#customizing-templates-bash-bat">Customizing Templates (Bash/Bat)</a><ul>
+<li><a class="reference internal" href="#customizing-the-application">Customizing the Application</a><ul>
+<li><a class="reference internal" href="#via-build-sbt">Via build.sbt</a></li>
+<li><a class="reference internal" href="#via-application-ini">Via Application.ini</a></li>
+<li><a class="reference internal" href="#bashscript-defines">BashScript defines</a></li>
+<li><a class="reference internal" href="#testing-the-configuration">Testing the configuration</a></li>
+<li><a class="reference internal" href="#customize-application-ini-name">Customize application.ini name</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#example-typesafe-config-library">Example: Typesafe Config Library</a><ul>
 <li><a class="reference internal" href="#configuring-for-windows">Configuring for Windows</a></li>
 <li><a class="reference internal" href="#more-complex-scripts">More Complex Scripts</a></li>
 </ul>
@@ -161,25 +169,84 @@ in adding configuration for applications &lt;/archetypes/java_app/customize&gt;`
 script will effect all platform-specific builds. The server archetype provides a further level of customization for
 specific System Loaders and Package types. These template file are described in
 <a class="reference internal" href="../java_server/customize.html"><em>configuring servers</em></a>.</p>
-<div class="section" id="customizing-templates-bash-bat">
-<h2>Customizing Templates (Bash/Bat)<a class="headerlink" href="#customizing-templates-bash-bat" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="customizing-the-application">
+<h2>Customizing the Application<a class="headerlink" href="#customizing-the-application" title="Permalink to this headline">¶</a></h2>
 <div class="alert alert-info" role="alert">
   <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
   If you plan to use the Java Server Archetype you have <a href="../java_server/customize.html">other options to configure
   your application</a>.<br> This section is for non-server, standalone applications. However everything will work for server
   applications as well.
 </div><p>After <a class="reference internal" href="my-first-project.html"><em>creating a package</em></a>, the very next thing needed, usually, is the ability for users/ops to customize
-the application once it&#8217;s deployed.   Let&#8217;s add some configuration to the newly deployed application.</p>
+the application once it&#8217;s deployed. Let&#8217;s add some configuration to the newly deployed application.</p>
 <p>There are generally two types of configurations:</p>
 <ul class="simple">
 <li>Configuring the JVM and the process</li>
 <li>Configuring the Application itself.</li>
 </ul>
-<p>The native packager provides a direct hook into the generated scripts for JVM configuration. Let&#8217;s make use of this.
-First, add the following to the <tt class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></tt> file in the project</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="o">-</span><span class="n">DsomeProperty</span><span class="o">=</span><span class="n">true</span>
+<p>You have three options.</p>
+<div class="section" id="via-build-sbt">
+<h3>Via build.sbt<a class="headerlink" href="#via-build-sbt" title="Permalink to this headline">¶</a></h3>
+<p>First, you can specify your options via the <tt class="docutils literal"><span class="pre">build.sbt</span></tt>.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">javaOptions</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+    <span class="c1">// -J params will be added as jvm parameters</span>
+    <span class="s">&quot;-J-Xmx64m&quot;</span><span class="o">,</span>
+    <span class="s">&quot;-J-Xms64m&quot;</span><span class="o">,</span>
+
+    <span class="c1">// others will be added as app parameters</span>
+    <span class="s">&quot;-Dproperty=true&quot;</span><span class="o">,</span>
+    <span class="s">&quot;-port=8080&quot;</span><span class="o">,</span>
+
+    <span class="c1">// you can access any build setting/task here</span>
+   <span class="s">s&quot;-version=</span><span class="si">${</span><span class="n">version</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">&quot;</span>
+<span class="o">)</span>
 </pre></div>
 </div>
+<p>For the <tt class="docutils literal"><span class="pre">-X</span></tt> settings you need to add a suffix <tt class="docutils literal"><span class="pre">-J</span></tt> so the start script will
+recognize these as vm config parameters.</p>
+</div>
+<div class="section" id="via-application-ini">
+<h3>Via Application.ini<a class="headerlink" href="#via-application-ini" title="Permalink to this headline">¶</a></h3>
+<p>The second option is to create <tt class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></tt> with the following template</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Setting -X directly (-J is stripped)</span>
+<span class="c"># -J-X</span>
+-J-Xmx1024
+
+<span class="c"># Add additional jvm parameters</span>
+-Dkey<span class="o">=</span>val
+
+<span class="c"># Turn on JVM debugging, open at the given port</span>
+<span class="c"># -jvm-debug &lt;port&gt;</span>
+
+<span class="c"># Don&#39;t run the java version check</span>
+<span class="c"># -no-version-check</span>
+
+<span class="c"># enabling debug and sending -d as app argument</span>
+<span class="c"># the &#39;--&#39; prevents app-parameter swallowing when</span>
+<span class="c"># using a reserved parameter. See #184</span>
+<span class="c"># -d -- -d</span>
+</pre></div>
+</div>
+<p>The file will be installed to <tt class="docutils literal"><span class="pre">${app_home}/conf/application.ini</span></tt> and read from there
+by the startscript. You can use <tt class="docutils literal"><span class="pre">#</span></tt> for comments and new lines as you like. This file
+currently doesn&#8217;t has any variable substitution. We recommend using the <tt class="docutils literal"><span class="pre">build.sbt</span></tt> if
+you need any information from your build.</p>
+<p>The configuration file for bash scripts takes arguments for the BASH file on each line,
+and allows comments which start with the <tt class="docutils literal"><span class="pre">#</span></tt> character.  Essentially, this provides
+a set of default arguments when calling the script.</p>
+<p>By default, any file in the <tt class="docutils literal"><span class="pre">src/universal</span></tt> directory is packaged. This is a convenient
+way to include things like licenses, and readmes.</p>
+</div>
+<div class="section" id="bashscript-defines">
+<h3>BashScript defines<a class="headerlink" href="#bashscript-defines" title="Permalink to this headline">¶</a></h3>
+<p>The last option is to use the <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span></tt>. Generally you can add arbitrary
+bash commands here, but for configurations you have two methods to add jvm and app parameters.</p>
+<div class="highlight-python"><div class="highlight"><pre>bashScriptExtraDefines += &quot;&quot;&quot;addJava &quot;-Dconfig.file=${app_home}/../conf/app.config&quot;&quot;&quot;&quot;
+bashScriptExtraDefines += &quot;&quot;&quot;addApp &quot;--port=8080&quot;&quot;&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="testing-the-configuration">
+<h3>Testing the configuration<a class="headerlink" href="#testing-the-configuration" title="Permalink to this headline">¶</a></h3>
 <p>Now, if we run the <tt class="docutils literal"><span class="pre">stage</span></tt> task, we&#8217;ll see this file show up in the distribution</p>
 <div class="highlight-python"><div class="highlight"><pre>$ sbt stage
 $ ls target/universal/stage
@@ -190,15 +257,7 @@ $ ls target/universal/stage/conf
    application.ini
 </pre></div>
 </div>
-<p>By default, any file in the <tt class="docutils literal"><span class="pre">src/universal</span></tt> directory is packaged.  This is a convenient way to include things like licenses, and readmes.</p>
-<p>Now, we need to modify the script templates to load this configuration. The following is enabled by default, but you can change
-it if you don&#8217;t like <tt class="docutils literal"><span class="pre">application.ini</span></tt> as a name. To do so, add the following
-to <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
-<div class="highlight-python"><div class="highlight"><pre>bashScriptConfigLocation := Some(&quot;${app_home}/../conf/application.ini&quot;)
-</pre></div>
-</div>
-<p>Here, we define the configuration location for the BASH script too look for the <tt class="docutils literal"><span class="pre">conf/application.ini</span></tt> file.
-Now, let&#8217;s run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">stage</span></tt> and then execute the script in debug mode to see what command line it executes</p>
+<p>Execute the script in debug mode to see what command line it executes</p>
 <div class="highlight-python"><div class="highlight"><pre>./target/universal/stage/bin/example-cli -d
     # Executing command line:
     java
@@ -212,7 +271,26 @@ Now, let&#8217;s run <tt class="docutils literal"><span class="pre">sbt</span> <
     TestApp
 </pre></div>
 </div>
-<p>The configuration file for bash scripts takes arguments for the BASH file on each line, and allows comments which start with the <tt class="docutils literal"><span class="pre">#</span></tt> character.  Essentially, this provides a set of default arguments when calling the script.</p>
+<p>As you can see <tt class="docutils literal"><span class="pre">-d</span></tt> is a reserved parameter. If you need to use this for your application you can
+use the following syntax</p>
+<div class="highlight-python"><div class="highlight"><pre>./target/universal/stage/bin/example-cli -- -d
+</pre></div>
+</div>
+<p>This will prevent the bashscript from interpreting the <tt class="docutils literal"><span class="pre">-d</span></tt> as the debug parameter</p>
+</div>
+<div class="section" id="customize-application-ini-name">
+<h3>Customize application.ini name<a class="headerlink" href="#customize-application-ini-name" title="Permalink to this headline">¶</a></h3>
+<p>If you don&#8217;t like <tt class="docutils literal"><span class="pre">application.ini</span></tt> as a name, you can change this in the <tt class="docutils literal"><span class="pre">build.sbt</span></tt>.
+The default configuration looks like this</p>
+<div class="highlight-python"><div class="highlight"><pre>bashScriptConfigLocation := Some(&quot;${app_home}/../conf/application.ini&quot;)
+</pre></div>
+</div>
+<p>These additions are useful if you need to reference existing variables from the
+bashscript.</p>
+</div>
+</div>
+<div class="section" id="example-typesafe-config-library">
+<h2>Example: Typesafe Config Library<a class="headerlink" href="#example-typesafe-config-library" title="Permalink to this headline">¶</a></h2>
 <p>Now that we have ability to configure the JVM, let&#8217;s add in a more robust method of customizing the application.  We&#8217;ll be using the <a class="reference external" href="https://github.com/typesafehub/config">Typesafe Config</a> library for this purpose.</p>
 <p>First, let&#8217;s add it as a dependency in <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;com.typesafe&quot;</span> <span class="o">%</span> <span class="s">&quot;config&quot;</span> <span class="o">%</span> <span class="s">&quot;1.2.0&quot;</span>

@@ -373,3 +373,12 @@ First we alter the permissions for all ``LinuxPackageMapping`` s that match a sp
         links filter { /* remove stuff */ } map { /* change stuff */}
     }
 
+Add Empty Directories
+~~~~~~~~~~~~~~~~~~~~~
+
+There is a special helper function that allows you to add empty directories to the package mappings. This might be useful if the service needs some location to store files.
+
+.. code-block:: scala
+
+    // Add an empty folder to mappings
+    linuxPackageMappings += packageTemplateMapping(s"/usr/share/${name.value}/lib/native")() withUser(name.value) withGroup(name.value)

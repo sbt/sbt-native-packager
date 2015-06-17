@@ -182,7 +182,7 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.MappingsHelper#contentOf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.typesafe.sbt.packager.MappingsHelper#contentOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="contentOf(sourceDir:String):Seq[(sbt.File,String)]"></a>
       <a id="contentOf(String):Seq[(File,String)]"></a>
       <h4 class="signature">
@@ -194,8 +194,12 @@
         <span class="name">contentOf</span><span class="params">(<span name="sourceDir">sourceDir: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">It lightens the build file if one wants to give a string instead of file.</p>
-    </li><li name="com.typesafe.sbt.packager.MappingsHelper#contentOf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">It lightens the build file if one wants to give a string instead of file.</p><div class="fullcomment"><div class="comment cmt"><p>It lightens the build file if one wants to give a string instead of file.
+</p></div><dl class="paramcmts block"><dt class="param">sourceDir</dt><dd class="cmt"><p>as string representation</p></dd><dt>returns</dt><dd class="cmt"><p>mappings
+</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>mappings in Universal ++= sourceDir(<span class="lit">"extra"</span>)</pre></li></ol>
+            </div></dl></div>
+    </li><li name="com.typesafe.sbt.packager.MappingsHelper#contentOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="contentOf(sourceDir:sbt.File):Seq[(sbt.File,String)]"></a>
       <a id="contentOf(File):Seq[(File,String)]"></a>
       <h4 class="signature">
@@ -208,9 +212,13 @@
       </span>
       </h4>
       <p class="shortcomment cmt">return a Seq of mappings which effect is to add the content of directory in the generated package,
- excluding the directory itself
-</p>
-    </li><li name="com.typesafe.sbt.packager.MappingsHelper#directory" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+excluding the directory itself.</p><div class="fullcomment"><div class="comment cmt"><p>return a Seq of mappings which effect is to add the content of directory in the generated package,
+excluding the directory itself.
+</p></div><dl class="paramcmts block"><dt class="param">sourceDir</dt><dd class="cmt"></dd><dt>returns</dt><dd class="cmt"><p>mappings
+</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>mappings in Universal ++= sourceDir(baseDirectory.value / <span class="lit">"extra"</span>)</pre></li></ol>
+            </div></dl></div>
+    </li><li name="com.typesafe.sbt.packager.MappingsHelper#directory" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="directory(sourceDir:String):Seq[(sbt.File,String)]"></a>
       <a id="directory(String):Seq[(File,String)]"></a>
       <h4 class="signature">
@@ -222,8 +230,12 @@
         <span class="name">directory</span><span class="params">(<span name="sourceDir">sourceDir: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">It lightens the build file if one wants to give a string instead of file.</p>
-    </li><li name="com.typesafe.sbt.packager.MappingsHelper#directory" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">It lightens the build file if one wants to give a string instead of file.</p><div class="fullcomment"><div class="comment cmt"><p>It lightens the build file if one wants to give a string instead of file.
+</p></div><dl class="paramcmts block"><dt class="param">sourceDir</dt><dd class="cmt"></dd><dt>returns</dt><dd class="cmt"><p>mappings
+</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>mappings in Universal ++= directory(<span class="lit">"extra"</span>)</pre></li></ol>
+            </div></dl></div>
+    </li><li name="com.typesafe.sbt.packager.MappingsHelper#directory" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="directory(sourceDir:sbt.File):Seq[(sbt.File,String)]"></a>
       <a id="directory(File):Seq[(File,String)]"></a>
       <h4 class="signature">
@@ -235,7 +247,12 @@
         <span class="name">directory</span><span class="params">(<span name="sourceDir">sourceDir: <a href="../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">return a Seq of mappings which effect is to add a whole directory in the generated package</p>
+      <p class="shortcomment cmt">return a Seq of mappings which effect is to add a whole directory in the generated package
+</p><div class="fullcomment"><div class="comment cmt"><p>return a Seq of mappings which effect is to add a whole directory in the generated package
+</p></div><dl class="paramcmts block"><dt class="param">sourceDir</dt><dd class="cmt"></dd><dt>returns</dt><dd class="cmt"><p>mappings
+</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>mappings in Universal ++= directory(baseDirectory.value / <span class="lit">"extra"</span>)</pre></li></ol>
+            </div></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -281,6 +298,46 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.MappingsHelper#fromClasspath" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromClasspath(entries:Seq[sbt.Attributed[sbt.File]],target:String,includeArtifact:sbt.Artifact=&gt;Boolean,includeOnNoArtifact:Boolean):Seq[(sbt.File,String)]"></a>
+      <a id="fromClasspath(Seq[Attributed[File]],String,(Artifact)⇒Boolean,Boolean):Seq[(File,String)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromClasspath</span><span class="params">(<span name="entries">entries: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="sbt.Attributed">Attributed</span>[<a href="../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]]</span>, <span name="target">target: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="includeArtifact">includeArtifact: (<span class="extype" name="sbt.Artifact">Artifact</span>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="includeOnNoArtifact">includeOnNoArtifact: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Create mappings from your classpath.</p><div class="fullcomment"><div class="comment cmt"><p>Create mappings from your classpath. For example if you want to add additional
+dependencies, like test or model. You can also filter the artifacts that should
+be mapped to mappings.
+</p></div><dl class="paramcmts block"><dt class="param">entries</dt><dd class="cmt"><p>from where mappings should be created from</p></dd><dt class="param">target</dt><dd class="cmt"><p>folder, e.g. <code>model</code>. Must not end with a slash</p></dd><dt class="param">includeArtifact</dt><dd class="cmt"><p>function to determine if an artifact should result in a mapping</p></dd><dt class="param">includeOnNoArtifact</dt><dd class="cmt"><p>default is false. When there's no Artifact meta data remove it
+</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p>Filter all osgi bundles</p><pre>mappings in Universal ++= fromClasspath(
+(managedClasspath in Runtime).value,
+<span class="lit">"osgi"</span>,
+artifact <span class="kw">=&gt;</span> artifact.`<span class="kw">type</span>` == <span class="lit">"bundle"</span>
+)</pre></li></ol>
+            </div></dl></div>
+    </li><li name="com.typesafe.sbt.packager.MappingsHelper#fromClasspath" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromClasspath(entries:Seq[sbt.Attributed[sbt.File]],target:String):Seq[(sbt.File,String)]"></a>
+      <a id="fromClasspath(Seq[Attributed[File]],String):Seq[(File,String)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromClasspath</span><span class="params">(<span name="entries">entries: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="sbt.Attributed">Attributed</span>[<a href="../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]]</span>, <span name="target">target: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Create mappings from your classpath.</p><div class="fullcomment"><div class="comment cmt"><p>Create mappings from your classpath. For example if you want to add additional
+dependencies, like test or model.</p></div><dl class="paramcmts block"><dt class="param">entries</dt><dd class="cmt"></dd><dt class="param">target</dt><dd class="cmt"></dd><dt>returns</dt><dd class="cmt"><p>a list of mappings
+</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p>Add all test artifacts to a separated test folder</p><pre>mappings in Universal ++= fromClasspath((managedClasspath in Test).value, target = <span class="lit">"test"</span>)</pre></li></ol>
+            </div></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>

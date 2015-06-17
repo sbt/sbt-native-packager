@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Linux Plugin &mdash; sbt-native-packager 1.0.2 documentation</title>
+    <title>Linux Plugin &mdash; sbt-native-packager 1.0.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.2',
+        VERSION:     '1.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.2 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.3 documentation" href="../index.html" />
     <link rel="up" title="Packaging Formats" href="index.html" />
     <link rel="next" title="Debian Plugin" href="debian.html" />
     <link rel="prev" title="Docker Plugin" href="docker.html" />
@@ -109,6 +109,7 @@
 <li><a class="reference internal" href="#filter-remove-mappings">Filter/Remove Mappings</a></li>
 <li><a class="reference internal" href="#alter-linuxpackagemapping">Alter LinuxPackageMapping</a></li>
 <li><a class="reference internal" href="#alter-linuxsymlinks">Alter LinuxSymlinks</a></li>
+<li><a class="reference internal" href="#add-empty-directories">Add Empty Directories</a></li>
 </ul>
 </li>
 </ul>
@@ -481,6 +482,14 @@ on how to filter mappings.</p>
 
     <span class="n">links</span> <span class="n">filter</span> <span class="o">{</span> <span class="cm">/* remove stuff */</span> <span class="o">}</span> <span class="n">map</span> <span class="o">{</span> <span class="cm">/* change stuff */</span><span class="o">}</span>
 <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-empty-directories">
+<h3>Add Empty Directories<a class="headerlink" href="#add-empty-directories" title="Permalink to this headline">¶</a></h3>
+<p>There is a special helper function that allows you to add empty directories to the package mappings. This might be useful if the service needs some location to store files.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// Add an empty folder to mappings</span>
+<span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageTemplateMapping</span><span class="o">(</span><span class="s">s&quot;/usr/share/</span><span class="si">${</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">/lib/native&quot;</span><span class="o">)()</span> <span class="n">withUser</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="o">)</span> <span class="n">withGroup</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
