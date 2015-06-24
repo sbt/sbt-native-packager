@@ -21,6 +21,25 @@ debianMakePostinstScript := {
   Some(sourceDirectory.value / "src/debian/DEBIAN" / "override")
 }    
 
+// Setting some options
+javaOptions in Universal ++= Seq(
+  // JVM memory tuning
+  "-J-Xmx1024m",
+  "-J-Xms512m",
+
+  // Since play uses separate pidfile we have to provide it with a proper path
+  s"-Dpidfile.path=/var/run/${packageName.value}/play.pid",
+
+  // Use separate configuration file for production environment
+  s"-Dconfig.file=/usr/share/${packageName.value}/conf/production.conf",
+
+  // Use separate logger configuration file for production environment
+  s"-Dlogger.file=/usr/share/${packageName.value}/conf/production-logger.xml",
+
+  // You may also want to include this setting if you use play evolutions
+  "-DapplyEvolutions.default=true"
+)
+
 // Test stuff
 TaskKey[Unit]("check-script") <<= (NativePackagerKeys.stagingDirectory in Universal, target in Debian, name, version, maintainer in Debian, streams) map {
  (dir, debTarget, name, version, author, streams) =>

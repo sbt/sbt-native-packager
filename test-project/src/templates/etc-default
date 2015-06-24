@@ -1,2 +1,1 @@
--Dpidfile.path=/var/run/${{app_name}}/play.pid
--mem 128
+# Sourced by SystemV
