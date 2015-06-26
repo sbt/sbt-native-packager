@@ -50,15 +50,8 @@ You are now able to publish your application by scope.
   ``windows:publish``
     Publish jars along with the ``msi`` package
 
-  ``universal:packageBin``
-    Publish jars along with the ``zip`` package
-    
-  ``universal:packageZipTarball``
-    Publish jars along with the ``tgz`` package
-    
-  ``universal:packageXzTarball``
-    Publish jars along with the ``txz`` package
-
+  ``universal:publish``
+    Publish jars along with the ``zip`` (or ``tgz``/``txz`` depending on the configuration) package
     
 
 
