@@ -27,15 +27,13 @@ For an automatised build process are other plugins like the `sbt release plugin`
 
 Default Configuration
 ---------------------
-The easiest way is to add ``deploymentSettings`` to your ``build.sbt``
+The easiest way is to add ``UniversalDeployPlugin`` to your ``build.sbt``
 
 .. code-block:: scala
 
     import NativePackagerKeys._
 
-    packageArchetype.java_server
-
-    deploymentSettings
+    enablePlugins(JavaServerAppPackaging, UniversalDeployPlugin)
     
 
 You are now able to publish your application by scope.
