@@ -117,3 +117,4 @@ Please feel free to [contribute documentation](https://github.com/sbt/sbt-native
 - [sbt-bundle](https://github.com/sbt/sbt-bundle)
 - [sbt-typesafe-conductr](https://github.com/sbt/sbt-typesafe-conductr)
 - [sbt-newrelic](https://github.com/gilt/sbt-newrelic)
+- [sbt-aether](https://github.com/arktekk/sbt-aether-deploy)
