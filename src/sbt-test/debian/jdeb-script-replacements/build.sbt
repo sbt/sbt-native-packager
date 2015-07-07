@@ -26,8 +26,8 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
   val postrm = extracted / "DEBIAN/postrm"
   Seq(preinst, postinst, prerm, postrm) foreach { script =>
     val content = IO.read(script)
-    assert(content.startsWith(header), "script doesn't start with #!/bin/sh header:\n" + script)
-    assert(header.r.findAllIn(content).length == 1, "script contains more than one header line:\n" + script)
+    assert(content.startsWith(header), "script doesn't start with #!/bin/sh header:\n" + script + "\n" + content)
+    assert(header.r.findAllIn(content).length == 1, "script contains more than one header line:\n" + script + "\n" + content)
   }
   out.log.success("Successfully tested systemV control files")
   ()

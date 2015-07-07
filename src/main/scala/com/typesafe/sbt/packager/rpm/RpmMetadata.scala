@@ -2,8 +2,9 @@ package com.typesafe.sbt
 package packager
 package rpm
 
-import com.typesafe.sbt.packager.linux.{ LinuxPlugin, LinuxPackageMapping, LinuxFileMetaData, LinuxSymlink }
 import sbt._
+import com.typesafe.sbt.packager.linux.{ LinuxPlugin, LinuxPackageMapping, LinuxFileMetaData, LinuxSymlink }
+import com.typesafe.sbt.packager.rpm.RpmPlugin.Names._
 import java.io.File
 
 case class RpmMetadata(
@@ -50,6 +51,9 @@ case class RpmDependencies(
   }
 }
 
+/**
+ * Parameters stay because of binary compatibility.
+ */
 case class RpmScripts(
   pretrans: Option[String] = None,
   pre: Option[String] = None,
@@ -93,11 +97,26 @@ case class RpmScripts(
   @deprecated(
     "Call individual scriptlet content method instead, e.g. pretransContent(). This is to allow managing symlink during %post and %postun so it can be relocated",
     since = "1.0.5-M4")
+  @deprecated("Use contents(maintainerScripts) until next major release", "1.1.x")
   def contents(): String = {
     val labelledScripts = Seq("%pretrans", "%pre", "%post", "%verifyscript", "%posttrans", "%preun", "%postun")
       .zip(Seq(pretrans, pre, post, verifyscript, posttrans, preun, postun))
     labelledScripts.collect { case (a, Some(b)) => a + "\n" + b }.mkString("\n\n")
   }
+
+}
+
+object RpmScripts {
+
+  def fromMaintainerScripts(maintainerScripts: Map[String, Seq[String]] = Map()): RpmScripts = RpmScripts(
+    pretrans = maintainerScripts.get(Pretrans).map(_.mkString("\n")),
+    pre = maintainerScripts.get(Pre).map(_.mkString("\n")),
+    post = maintainerScripts.get(Post).map(_.mkString("\n")),
+    verifyscript = maintainerScripts.get(Verifyscript).map(_.mkString("\n")),
+    posttrans = maintainerScripts.get(Posttrans).map(_.mkString("\n")),
+    preun = maintainerScripts.get(Preun).map(_.mkString("\n")),
+    postun = maintainerScripts.get(Postun).map(_.mkString("\n"))
+  )
 
 }
 
@@ -134,8 +153,7 @@ case class RpmSpec(
         ensureOr(meta.vendor, "`rpmVendor in Rpm` is empty.  Please provide a valid vendor for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.os, "`rpmOs in Rpm` is empty.  Please provide a valid os vaue for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.summary, "`packageSummary in Rpm` is empty.  Please provide a valid summary for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.description, "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty)
-      )
+        ensureOr(meta.description, "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty))
     // TODO - Continue validating after this point?
     if (!emptyValidators.forall(identity)) sys.error("There are issues with the rpm spec data.")
   }

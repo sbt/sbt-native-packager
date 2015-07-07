@@ -29,4 +29,5 @@ trait JavaAppKeys {
          |  APP_DEFINES - the defines to go into the app
          |  """.stripMargin
   )
+
 }

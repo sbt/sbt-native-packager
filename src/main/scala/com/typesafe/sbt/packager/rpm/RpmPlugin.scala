@@ -25,28 +25,36 @@ object RpmPlugin extends AutoPlugin {
 
   object autoImport extends RpmKeys {
     val Rpm = config("rpm") extend Linux
+    val RpmConstants = Names
   }
 
   import autoImport._
 
-  def osPostInstallMacro: java.net.URL = getClass getResource "brpJavaRepackJar"
+  private final def osPostInstallMacro: java.net.URL = getClass getResource "brpJavaRepackJar"
 
   /** RPM specific names */
   object Names {
     val Scriptlets = "scriptlets"
 
     //maintainer script names
+    /** `pretrans` */
+    val Pretrans = "pretrans"
     /** `postinst` */
-    val Post = "postinst"
+    val Post = "post"
     /** `preinst` */
-    val Pre = "preinst"
+    val Pre = "pre"
     /** `postun` */
     val Postun = "postun"
     /** `preun` */
     val Preun = "preun"
+    /** `verifyscript` */
+    val Verifyscript = "verifyscript"
+    /** `posttrans` */
+    val Posttrans = "posttrans"
 
     // replacements
     val RpmDaemonLogFileReplacement = "rpm_daemon_log_file"
+
   }
 
   override lazy val projectSettings = Seq(
@@ -67,6 +75,9 @@ object RpmPlugin extends AutoPlugin {
     rpmPrerequisites := Seq.empty,
     rpmObsoletes := Seq.empty,
     rpmConflicts := Seq.empty,
+    rpmChangelogFile := None,
+    rpmBrpJavaRepackJars := false,
+
     rpmPretrans := None,
     rpmPre := None,
     rpmPost := None,
@@ -74,10 +85,10 @@ object RpmPlugin extends AutoPlugin {
     rpmPosttrans := None,
     rpmPreun := None,
     rpmPostun := None,
-    rpmChangelogFile := None,
-    rpmBrpJavaRepackJars := false,
+
     rpmScriptsDirectory <<= sourceDirectory apply (_ / "rpm" / Names.Scriptlets),
     // Explicitly defer  default settings to generic Linux Settings.
+    maintainerScripts in Rpm <<= maintainerScripts in Linux,
     packageSummary in Rpm <<= packageSummary in Linux,
     packageDescription in Rpm <<= packageDescription in Linux,
     target in Rpm <<= target(_ / "rpm"),
@@ -93,14 +104,17 @@ object RpmPlugin extends AutoPlugin {
         (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon, rpmChangelogFile) apply RpmDescription,
       rpmDependencies <<=
         (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
-      rpmPre <<= (rpmPre, rpmBrpJavaRepackJars) apply {
-        case (pre, true) => pre
-        case (pre, false) =>
+      maintainerScripts := {
+	val scripts = maintainerScripts.value
+	if (rpmBrpJavaRepackJars.value) {
+	  val pre = scripts.getOrElse(Names.Pre, Nil)
           val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
-          Some(pre.map(_ + "\n").getOrElse("") + scriptBits)
+	  scripts + (Names.Pre -> (pre :+ scriptBits))
+	} else {
+	  scripts
+	}
       },
-      rpmScripts <<=
-        (rpmPretrans, rpmPre, rpmPost, rpmVerifyscript, rpmPosttrans, rpmPreun, rpmPostun) apply RpmScripts,
+      rpmScripts := RpmScripts.fromMaintainerScripts(maintainerScripts.value),
       rpmSpecConfig <<=
         (rpmMetadata, rpmDescription, rpmDependencies, rpmScripts, linuxPackageMappings, linuxPackageSymlinks, defaultLinuxInstallLocation) map RpmSpec,
       packageBin <<= (rpmSpecConfig, target, streams) map { (spec, dir, s) =>

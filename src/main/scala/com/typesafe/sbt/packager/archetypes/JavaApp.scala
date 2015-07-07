@@ -44,7 +44,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
    */
   val appIniLocation = "${app_home}/../conf/application.ini"
 
-  object autoImport extends JavaAppKeys
+  object autoImport extends JavaAppKeys with MaintainerScriptHelper
 
   import JavaAppPackaging.autoImport._
 
@@ -131,6 +131,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
         d.mkdirs()
         LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData())
     }
+
   )
 
   private def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =
