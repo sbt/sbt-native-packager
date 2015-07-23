@@ -51,6 +51,17 @@ case class Cmd(cmd: String, arg: String) extends CmdLike {
   def makeContent = "%s %s\n" format (cmd, arg)
 }
 
+/**
+ * Environment command
+ *
+ * @example {{{
+ * EnvCmd("FOO_BAR_SECRET_KEY", "HGkhjGKjhgJhgjkhgHKJ")
+ * }}}
+ */
+case class EnvCmd(key: String, value: String) extends CmdLike {
+  def makeContent = "ENV %s %s\n" format (key, value)
+}
+
 /** Represents dockerfile used by docker when constructing packages. */
 case class Dockerfile(commands: CmdLike*) {
   def makeContent: String = {
