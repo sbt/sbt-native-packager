@@ -44,22 +44,38 @@ case class ExecCmd(cmd: String, args: String*) extends CmdLike {
  *
  * @example
  * {{{
- *   val add = Cmd("ADD", "src/resource/LICENSE.txt /opt/docker/LICENSE.txt")
+ *   val add = Cmd("ADD", "src/resource/LICENSE.txt", "/opt/docker/LICENSE.txt")
+ * }}}
+ * 
+ * @example
+ * {{{
+ *   val copy = Cmd("COPY", "src/resource/LICENSE.txt", "/opt/docker/LICENSE.txt")
+ * }}}
+ *
+ * @example
+ * {{{
+ *   val env = Cmd("ENV", "APP_SECRET", "7sdfy7s9hfisdufuusud")
  * }}}
  */
-case class Cmd(cmd: String, arg: String) extends CmdLike {
-  def makeContent = "%s %s\n" format (cmd, arg)
+case class Cmd(cmd: String, args: String*) extends CmdLike {
+  def makeContent = "%s %s\n" format (cmd, args.mkString(" "))
 }
 
 /**
- * Environment command
+ * A command that consists of a CMD string and an CmdLike object
  *
- * @example {{{
- * EnvCmd("FOO_BAR_SECRET_KEY", "HGkhjGKjhgJhgjkhgHKJ")
+ * @example
+ * {{{
+ *   val onBuildAdd = CombinedCmd("ONBUILD", Cmd("ADD", "src/resource/LICENSE.txt", "/opt/docker/LICENSE.txt"))
+ * }}}
+ * 
+ * @example
+ * {{{
+ *   val onBuildEnv = CombinedCmd("ONBUILD", Cmd("ENV", "APP_SECRET", "7sdfy7s9hfisdufuusud"))
  * }}}
  */
-case class EnvCmd(key: String, value: String) extends CmdLike {
-  def makeContent = "ENV %s %s\n" format (key, value)
+case class CombinedCmd(cmd: String, arg: CmdLike) extends CmdLike {
+  def makeContent = "%s %s\n" format (cmd, arg.makeContent)
 }
 
 /** Represents dockerfile used by docker when constructing packages. */
