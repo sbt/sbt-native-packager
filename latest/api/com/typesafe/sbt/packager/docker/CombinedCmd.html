@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>CmdLike - com.typesafe.sbt.packager.docker.CmdLike</title>
-          <meta name="description" content="CmdLike - com.typesafe.sbt.packager.docker.CmdLike" />
-          <meta name="keywords" content="CmdLike com.typesafe.sbt.packager.docker.CmdLike" />
+          <title>CombinedCmd - com.typesafe.sbt.packager.docker.CombinedCmd</title>
+          <meta name="description" content="CombinedCmd - com.typesafe.sbt.packager.docker.CombinedCmd" />
+          <meta name="keywords" content="CombinedCmd com.typesafe.sbt.packager.docker.CombinedCmd" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -12,7 +12,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../../index.html';
-            var hash = 'com.typesafe.sbt.packager.docker.CmdLike';
+            var hash = 'com.typesafe.sbt.packager.docker.CombinedCmd';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -24,27 +24,27 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img src="../../../../../lib/trait_big.png" />
+        <img src="../../../../../lib/class_big.png" />
         <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="package.html" class="extype" name="com.typesafe.sbt.packager.docker">docker</a></p>
-        <h1>CmdLike</h1>
+        <h1>CombinedCmd</h1>
       </div>
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">CmdLike</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">CombinedCmd</span><span class="params">(<span name="cmd">cmd: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="arg">arg: <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a></span>)</span><span class="result"> extends <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a single line in a dockerfile. See subclasses for more detail</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A command that consists of a CMD string and an CmdLike object
+</p></div><dl class="attributes block"> <div class="block">Examples:
+               <ol><li class="cmt"><p></p><pre><span class="kw">val</span> onBuildEnv = CombinedCmd(<span class="lit">"ONBUILD"</span>, Cmd(<span class="lit">"ENV"</span>, <span class="lit">"APP_SECRET"</span>, <span class="lit">"7sdfy7s9hfisdufuusud"</span>))</pre></li>, <li class="cmt"><p></p><pre><span class="kw">val</span> onBuildAdd = CombinedCmd(<span class="lit">"ONBUILD"</span>, Cmd(<span class="lit">"ADD"</span>, <span class="lit">"src/resource/LICENSE.txt"</span>, <span class="lit">"/opt/docker/LICENSE.txt"</span>))</pre></li></ol>
+            </div></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div><div class="toggleContainer block">
-          <span class="toggle">Known Subclasses</span>
-          <div class="subClasses hiddenContent"><a href="Cmd.html" class="extype" name="com.typesafe.sbt.packager.docker.Cmd">Cmd</a>, <a href="CombinedCmd.html" class="extype" name="com.typesafe.sbt.packager.docker.CombinedCmd">CombinedCmd</a>, <a href="ExecCmd.html" class="extype" name="com.typesafe.sbt.packager.docker.ExecCmd">ExecCmd</a></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -62,7 +62,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.typesafe.sbt.packager.docker.CmdLike"><span>CmdLike</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.typesafe.sbt.packager.docker.CombinedCmd"><span>CombinedCmd</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="com.typesafe.sbt.packager.docker.CmdLike"><span>CmdLike</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -80,32 +80,30 @@
 
       <div id="template">
         <div id="allMembers">
-        
-
-        
-
-        <div id="values" class="values members">
-              <h3>Abstract Value Members</h3>
-              <ol><li name="com.typesafe.sbt.packager.docker.CmdLike#makeContent" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="makeContent:String"></a>
-      <a id="makeContent:String"></a>
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="com.typesafe.sbt.packager.docker.CombinedCmd#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(cmd:String,arg:com.typesafe.sbt.packager.docker.CmdLike):com.typesafe.sbt.packager.docker.CombinedCmd"></a>
+      <a id="&lt;init&gt;:CombinedCmd"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">makeContent</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">CombinedCmd</span><span class="params">(<span name="cmd">cmd: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="arg">arg: <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a></span>)</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Creates the command which can be placed inside a Dockerfile.</p><div class="fullcomment"><div class="comment cmt"><p>Creates the command which can be placed inside a Dockerfile.
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the docker command
-</p></dd></dl></div>
+      
     </li></ol>
             </div>
 
+        
+
+        
+
         <div id="values" class="values members">
-              <h3>Concrete Value Members</h3>
+              <h3>Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:AnyRef):Boolean"></a>
       <a id="!=(AnyRef):Boolean"></a>
@@ -171,6 +169,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.CombinedCmd#arg" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="arg:com.typesafe.sbt.packager.docker.CmdLike"></a>
+      <a id="arg:CmdLike"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">arg</span><span class="result">: <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a></span>
+      </span>
+      </h4>
+      
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -203,6 +214,19 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.CombinedCmd#cmd" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="cmd:String"></a>
+      <a id="cmd:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">cmd</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -216,19 +240,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a>
-      <a id="equals(Any):Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -261,19 +272,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <a id="hashCode():Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -287,6 +285,21 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.CombinedCmd#makeContent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="makeContent:String"></a>
+      <a id="makeContent:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">makeContent</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Creates the command which can be placed inside a Dockerfile.</p><div class="fullcomment"><div class="comment cmt"><p>Creates the command which can be placed inside a Dockerfile.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the docker command
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.docker.CombinedCmd">CombinedCmd</a> → <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -339,19 +352,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toString():String"></a>
-      <a id="toString():String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -418,7 +418,17 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="com.typesafe.sbt.packager.docker.CmdLike">
+              <h3>Inherited from <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

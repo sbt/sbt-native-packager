@@ -67,7 +67,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="Cmd.html"><span class="name">Cmd</span></a><span class="params">(<span name="cmd">cmd: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="arg">arg: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Cmd.html"><span class="name">Cmd</span></a><span class="params">(<span name="cmd">cmd: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="args">args: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result"> extends <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       <p class="comment cmt">An arbitrary command
@@ -85,6 +85,20 @@
       </span>
       </h4>
       <p class="comment cmt">a single line in a dockerfile.</p>
+    </li><li name="com.typesafe.sbt.packager.docker.CombinedCmd" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CombinedCmdextendsCmdLikewithProductwithSerializable"></a>
+      <a id="CombinedCmd:CombinedCmd"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="CombinedCmd.html"><span class="name">CombinedCmd</span></a><span class="params">(<span name="cmd">cmd: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="arg">arg: <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a></span>)</span><span class="result"> extends <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">A command that consists of a CMD string and an CmdLike object
+</p>
     </li><li name="com.typesafe.sbt.packager.docker.DockerKeys" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="DockerKeysextendsAnyRef"></a>
       <a id="DockerKeys:DockerKeys"></a>

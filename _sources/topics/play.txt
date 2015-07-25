@@ -25,18 +25,27 @@ In order to run your application in production you need to provide it with at le
 * Location where it can store its pidfile
 * Production configuration
 
-One way to provide this information is create ``src/universal/conf/application.ini`` with the following contents:
+One way to provide this information is to append the following content in your build definition:
 
-.. code-block:: bash
+.. code-block:: scala
 
-  # Since play uses separate pidfile we have to provide it with a proper path
-  -Dpidfile.path=/var/run/${{app_name}}/play.pid
+  javaOptions in Universal ++= Seq(
+    // JVM memory tuning
+    "-J-Xmx1024m",
+    "-J-Xms512m",
 
-  # Use separate configuration file for production environment
-  -Dconfig.file=/usr/share/${{app_name}}/conf/production.conf
+    // Since play uses separate pidfile we have to provide it with a proper path
+    s"-Dpidfile.path=/var/run/${packageName.value}/play.pid",
 
-  # You may also want to include this setting if you use play evolutions
-  -DapplyEvolutions.default=true
+    // Use separate configuration file for production environment
+    s"-Dconfig.file=/usr/share/${packageName.value}/conf/production.conf",
+
+    // Use separate logger configuration file for production environment
+    s"-Dlogger.file=/usr/share/${packageName.value}/conf/production-logger.xml",
+
+    // You may also want to include this setting if you use play evolutions
+    "-DapplyEvolutions.default=true"
+  )
 
 This way you should either store your production configuration under ``${{path_to_app_name}}/conf/production.conf``
 or put it under ``/usr/share/${{app_name}}/conf/production.conf`` by hand or using some configuration management system.

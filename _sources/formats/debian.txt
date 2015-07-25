@@ -72,6 +72,10 @@ If you want to use the java based implementation, enable the following plugin.
 
   enablePlugins(JDebPackaging)
 
+Note that JDeb will add `default-jre` and `java6-runtime` as dependencies if 
+they are not explicitly specified using ``debianPackageDependencies`` ( 
+`jdeb#208 <https://github.com/tcurdt/jdeb/issues/208>`_).
+
 0.8 or lower
 ~~~~~~~~~~~~
 
