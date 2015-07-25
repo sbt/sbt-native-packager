@@ -7,14 +7,14 @@ import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 /** A set of helper methods to simplify the writing of mappings */
 object MappingsHelper {
 
-  /** 
-   * return a Seq of mappings which effect is to add a whole directory in the generated package 
-   * 
-   * @example 
+  /**
+   * return a Seq of mappings which effect is to add a whole directory in the generated package
+   *
+   * @example
    * {{{
    * mappings in Universal ++= directory(baseDirectory.value / "extra")
    * }}}
-   * 
+   *
    * @param sourceDir
    * @return mappings
    */
@@ -28,12 +28,12 @@ object MappingsHelper {
 
   /**
    * It lightens the build file if one wants to give a string instead of file.
-   * 
-   * @example 
+   *
+   * @example
    * {{{
    * mappings in Universal ++= directory("extra")
    * }}}
-   * 
+   *
    * @param sourceDir
    * @return mappings
    */
@@ -44,12 +44,12 @@ object MappingsHelper {
   /**
    * return a Seq of mappings which effect is to add the content of directory in the generated package,
    * excluding the directory itself.
-   * 
-   * @example 
+   *
+   * @example
    * {{{
    * mappings in Universal ++= sourceDir(baseDirectory.value / "extra")
    * }}}
-   * 
+   *
    * @param sourceDir
    * @return mappings
    */
@@ -57,14 +57,14 @@ object MappingsHelper {
     (sourceDir.*** --- sourceDir) pair relativeTo(sourceDir)
   }
 
-  /** 
-   * It lightens the build file if one wants to give a string instead of file. 
-   *  
+  /**
+   * It lightens the build file if one wants to give a string instead of file.
+   *
    * @example
    * {{{
    * mappings in Universal ++= sourceDir("extra")
    * }}}
-   *  
+   *
    * @param sourceDir as string representation
    * @return mappings
    */
@@ -94,12 +94,12 @@ object MappingsHelper {
    * Create mappings from your classpath. For example if you want to add additional
    * dependencies, like test or model. You can also filter the artifacts that should
    * be mapped to mappings.
-   * 
-   * @example Filter all osgi bundles 
+   *
+   * @example Filter all osgi bundles
    * {{{
    * mappings in Universal ++= fromClasspath(
    *    (managedClasspath in Runtime).value,
-   *    "osgi", 
+   *    "osgi",
    *    artifact => artifact.`type` == "bundle"
    * )
    * }}}

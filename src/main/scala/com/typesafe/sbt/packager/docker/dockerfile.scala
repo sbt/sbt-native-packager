@@ -46,7 +46,7 @@ case class ExecCmd(cmd: String, args: String*) extends CmdLike {
  * {{{
  *   val add = Cmd("ADD", "src/resource/LICENSE.txt", "/opt/docker/LICENSE.txt")
  * }}}
- * 
+ *
  * @example
  * {{{
  *   val copy = Cmd("COPY", "src/resource/LICENSE.txt", "/opt/docker/LICENSE.txt")
@@ -68,7 +68,7 @@ case class Cmd(cmd: String, args: String*) extends CmdLike {
  * {{{
  *   val onBuildAdd = CombinedCmd("ONBUILD", Cmd("ADD", "src/resource/LICENSE.txt", "/opt/docker/LICENSE.txt"))
  * }}}
- * 
+ *
  * @example
  * {{{
  *   val onBuildEnv = CombinedCmd("ONBUILD", Cmd("ENV", "APP_SECRET", "7sdfy7s9hfisdufuusud"))
