@@ -6,6 +6,7 @@ Requires=${{start_facilities}}
 Type=simple
 WorkingDirectory=${{chdir}}
 ExecStart=${{chdir}}/bin/${{exec}}
+ExecReload=/bin/kill -HUP $MAINPID
 Restart=always
 RestartSec=${{retryTimeout}}
 User=${{daemon_user}}
