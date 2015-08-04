@@ -6,7 +6,7 @@ author "${{author}}"
 # Stanzas
 #
 # Stanzas control when and how a process is started and stopped
-# See a list of stanzas here: http://upstart.ubuntu.com/wiki/Stanzas#respawn
+# See a list of stanzas here: http://upstart.ubuntu.com/wiki/Stanzas
 
 # When to start the service
 start on runlevel ${{start_runlevels}}
@@ -27,7 +27,11 @@ end script
 # set the working directory of the job processes
 chdir ${{chdir}}
 
+setuid ${{daemon_user}}
+setgid ${{daemon_group}}
+
 # Start the process
 script
-  exec sudo -u ${{daemon_user}} bin/${{exec}}
+  . /etc/default/${{app_name}}
+  bin/${{exec}}
 end script
