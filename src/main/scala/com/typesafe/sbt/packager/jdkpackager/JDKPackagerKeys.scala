@@ -97,4 +97,7 @@ trait JDKPackagerKeys {
 
   val writeAntBuild = taskKey[File](
     "Write the Ant `build.xml` file to the jdkpackager target directory")
+
+  val antExtraClasspath = settingKey[Seq[File]](
+    "Additional classpath entries for the JavaFX Ant task beyond `antPackagerTasks`")
 }

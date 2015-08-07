@@ -156,6 +156,7 @@ object JDKPackagerAntHelper {
    */
   private[jdkpackager] def makeAntBuild(
     antTaskLib: Option[File],
+    antExtraClasspath: Seq[File],
     name: String,
     sourceDir: File,
     mappings: Seq[(File, String)],
@@ -170,7 +171,7 @@ object JDKPackagerAntHelper {
           """(antPackagerTasks in JDKPackager) := Some("C:\\Program Files\\Java\\jdk1.8.0_45\\lib\\ant-javafx.jar")""")
     }
 
-    val taskClassPath = Seq(sourceDir.getAbsolutePath, antTaskLib.get, ".")
+    val taskClassPath = antTaskLib.get +: antExtraClasspath
 
     val (jarFiles, supportFiles) = mappings.partition(_._2.endsWith(".jar"))
 

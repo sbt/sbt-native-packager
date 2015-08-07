@@ -42,7 +42,7 @@ object JDKPackagerPlugin extends AutoPlugin {
     jdkPackagerAssociations := Seq.empty
   ) ++ inConfig(JDKPackager)(
     Seq(
-      sourceDirectory := sourceDirectory.value / dirname,
+      sourceDirectory := sourceDirectory.value / "deploy",
       target := target.value / dirname,
       mainClass := (mainClass in Runtime).value,
       name := name.value,
@@ -52,8 +52,10 @@ object JDKPackagerPlugin extends AutoPlugin {
       packageDescription := packageDescription.value,
       mappings := (mappings in Universal).value,
       antPackagerTasks := locateAntTasks(javaHome.value, sLog.value),
+      antExtraClasspath := Seq(sourceDirectory.value, target.value),
       antBuildDefn := makeAntBuild(
         antPackagerTasks.value,
+        antExtraClasspath.value,
         name.value,
         (stage in Universal).value,
         mappings.value,
