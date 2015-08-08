@@ -261,7 +261,8 @@ to ``bashScriptExtraDefines`` as other stages in the pipeline may be include lin
 Overriding Templates (Bash/Bat)
 -------------------------------
 
-In order to override full templates, like the default bash script, create a file in ``src/templates/bash-template`` 
+In order to override full templates, like the default bash script, you can create a file in ``src/templates/bash-template``.
+Alternatively, you can use a different file location by setting ``bashScriptTemplateLocation``.
 
 .. code-block:: bash
 
@@ -297,7 +298,8 @@ In order to override full templates, like the default bash script, create a file
     exec java -cp $app_classpath $app_mainclass $@
 
 
-Similarly the windows BAT template can be overridden by placing a new template in ``src/templates/bat-template``
+Similarly the windows BAT template can be overridden by placing a new template in ``src/templates/bat-template``.
+You can also use a different file location by setting ``batScriptTemplateLocation``.
 
 .. code-block:: bat
 
@@ -325,11 +327,10 @@ While we just replaced the default templates with simpler templates, this should
 In general, the templates are intended to provide enough utility that customization is only necessary for truly custom scripts.
 
 
-``src/templates/bat-template``
+Overriding bat templates (``src/templates/bat-template`` or a custom path using ``batScriptTemplateLocation``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Creating a file here will override the default template used to
-generate the ``.bat`` script for windows distributions.
+This will override the default template used to generate the ``.bat`` script for windows distributions.
 
 **Syntax**
 
@@ -342,11 +343,10 @@ generate the ``.bat`` script for windows distributions.
 
 You can define additional variable definitions using ``batScriptExtraDefines``.
 
-``src/templates/bash-template``
+Overriding bash templates (``src/templates/bash-template`` or a custom path using ``bashScriptTemplateLocation``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Creating a file here will override the default template used to
-generate the BASH start script found in ``bin/<application>`` in the
+This will override the default template used to generate the BASH start script found in ``bin/<application>`` in the
 universal distribution
 
 **Syntax**
