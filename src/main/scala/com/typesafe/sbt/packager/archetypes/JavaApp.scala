@@ -102,8 +102,8 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
         } yield JavaAppBashScript.makeDefines(cn, appClasspath = cp, extras = extras, configFile = config)
       hasMain getOrElse Nil
     },
-    // TODO - Overridable bash template.
-    makeBashScript <<= (bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBinScript(bashTemplate),
+    bashScriptTemplateLocation := (sourceDirectory.value / "templates" / bashTemplate),
+    makeBashScript <<= (bashScriptTemplateLocation, bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBinScript,
     batScriptExtraDefines := Nil,
     batScriptReplacements <<= (packageName, Keys.mainClass in (Compile, batScriptReplacements), scriptClasspath in batScriptReplacements, batScriptExtraDefines) map { (name, mainClass, cp, extras) =>
       mainClass map { mc =>
@@ -111,7 +111,8 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
       } getOrElse Nil
 
     },
-    makeBatScript <<= (batScriptReplacements, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBatScript(batTemplate),
+    batScriptTemplateLocation := (sourceDirectory.value / "templates" / batTemplate),
+    makeBatScript <<= (batScriptTemplateLocation, batScriptReplacements, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBatScript,
     mappings in Universal <++= (makeBashScript, executableScriptName) map { (script, name) =>
       for {
         s <- script.toSeq
@@ -281,16 +282,10 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
  */
 trait JavaAppStartScript {
 
-  def makeUniversalBinScript(bashTemplate: String)(defines: Seq[String], tmpDir: File, name: String, sourceDir: File): Option[File] =
+  def makeUniversalBinScript(defaultTemplateLocation: File, defines: Seq[String], tmpDir: File, name: String, sourceDir: File): Option[File] =
     if (defines.isEmpty) None
     else {
-      val defaultTemplateLocation = sourceDir / "templates" / bashTemplate
-      val defaultTemplateSource = getClass getResource bashTemplate
-
-      val template = if (defaultTemplateLocation.exists)
-        defaultTemplateLocation.toURI.toURL
-      else defaultTemplateSource
-
+      val template = resolveTemplate(defaultTemplateLocation)
       val scriptBits = JavaAppBashScript.generateScript(defines, template)
       val script = tmpDir / "tmp" / "bin" / name
       IO.write(script, scriptBits)
@@ -299,19 +294,29 @@ trait JavaAppStartScript {
       Some(script)
     }
 
-  def makeUniversalBatScript(batTemplate: String)(replacements: Seq[(String, String)], tmpDir: File, name: String, sourceDir: File): Option[File] =
+  def makeUniversalBinScript(bashTemplate: String)(defines: Seq[String], tmpDir: File, name: String, sourceDir: File): Option[File] = {
+    makeUniversalBinScript(sourceDir / "templates" / bashTemplate, defines, tmpDir, name, sourceDir)
+  }
+
+  def makeUniversalBatScript(batTemplate: String)(replacements: Seq[(String, String)], tmpDir: File, name: String, sourceDir: File): Option[File] = {
+    makeUniversalBatScript(sourceDir / "templates" / batTemplate, replacements, tmpDir, name, sourceDir)
+  }
+
+  def makeUniversalBatScript(defaultTemplateLocation: File, replacements: Seq[(String, String)], tmpDir: File, name: String, sourceDir: File): Option[File] =
     if (replacements.isEmpty) None
     else {
-      val defaultTemplateLocation = sourceDir / "templates" / batTemplate
-      val defaultTemplateSource = getClass.getResource(batTemplate)
-      val template = if (defaultTemplateLocation.exists)
-        defaultTemplateLocation.toURI.toURL
-      else defaultTemplateSource
-
+      val template = resolveTemplate(defaultTemplateLocation)
       val scriptBits = JavaAppBatScript.generateScript(replacements, template)
       val script = tmpDir / "tmp" / "bin" / (name + ".bat")
       IO.write(script, scriptBits)
       Some(script)
     }
+
+  private def resolveTemplate(defaultTemplateLocation: File): URL = {
+    if (defaultTemplateLocation.exists)
+      defaultTemplateLocation.toURI.toURL
+    else
+      getClass.getResource(defaultTemplateLocation.getName)
+  }
 
 }
