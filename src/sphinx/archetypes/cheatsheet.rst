@@ -7,12 +7,11 @@ This is a set FAQ composed on a single page.
 
 Path Configurations
 ===================
-This section describes where and how to configure different kind of paths settings.
+This section describes where and how to configure different kind of paths settings like
 
-- What is the installation location of my package
-- Where is the log directory created
-- What is the name of my start script
-- ...
+- what is the installation location of my package
+- where is the log directory created
+- what is the name of my start script
 
 
 
@@ -58,17 +57,17 @@ These settings configure the path behaviour
   ``executableScriptName``
     Defaults to ``normalizedName``. Sets the name of the executable starter script
 
-  ``defaultLinuxInstallationLocation``
+  ``defaultLinuxInstallLocation``
     Defaults to ``/usr/share/``. Used to determine the installation path for for linux packages (rpm, debian)
     
-  ``defaultLinuxLogLocation``
+  ``defaultLinuxLogsLocation``
     Defaults to ``/var/log/``. Used to determine the log path for linux packages (rpm, debian).
     
 
 JVM Options
 ===========
 
-Jvm options can be added via different mechanisms. It depends on your use case which is most suitable.
+JVM options can be added via different mechanisms. It depends on your use case which is most suitable.
 The available options are
 
 - Adding via ``bashScriptExtraDefines`` and ``batScriptExtraDefines``
