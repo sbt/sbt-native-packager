@@ -1,9 +1,11 @@
 ${{control-functions}}
+${{loader-functions}}
 
 # Removing system user/group : ${{daemon_user}} and ${{daemon_group}}
 
 # Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
 # $1 == 1 is upgrade and $1 == 0 is uninstall
+
 if [ $1 -eq 0 ] ;
 then
     echo "Try deleting system user and group [${{daemon_user}}:${{daemon_group}}]"
@@ -17,4 +19,8 @@ then
 	echo "Deleting system group: ${{daemon_group}}"
 	deleteGroup ${{daemon_group}}
     fi
+else
+     restartService ${{app_name}} || echo "Failed to try-restart ${{app_name}}"
 fi
+
+
