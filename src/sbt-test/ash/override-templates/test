@@ -1,0 +1,3 @@
+# Run the staging and check the script.
+> stage
+> run-check-ash

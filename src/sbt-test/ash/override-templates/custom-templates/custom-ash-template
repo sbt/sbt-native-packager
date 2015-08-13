@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# this is the custom bash template
+
+${{template_declares}}
