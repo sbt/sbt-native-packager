@@ -73,15 +73,14 @@ import SbtNativePackager.{ Universal, Debian }
  */
 object AshScriptPlugin extends AutoPlugin {
 
-  val bashTemplate = "bash-template"
-
   override def requires = JavaAppPackaging
-
-  //object autoImport extends JavaAppKeys
 
   import JavaAppPackaging.autoImport._
 
+  val ashTemplate = "ash-template"
+
   override def projectSettings = Seq(
+    bashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashTemplate),
     makeBashScript <<= (bashScriptTemplateLocation, bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalAshScript,
     bashScriptDefines <<= (Keys.mainClass in (Compile, bashScriptDefines), scriptClasspath in bashScriptDefines, bashScriptExtraDefines, bashScriptConfigLocation) map { (mainClass, cp, extras, config) =>
       val hasMain =
