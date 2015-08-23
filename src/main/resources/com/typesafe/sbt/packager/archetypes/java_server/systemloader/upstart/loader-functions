@@ -16,3 +16,13 @@ stopService() {
     app_name=$1
     service $app_name stop
 }
+
+#
+# Restarting the service after package upgrade
+# $1 = service name
+#
+restartService() {
+    app_name=$1
+    initctl reload-configuration
+    service $app_name start
+}

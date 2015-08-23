@@ -1,3 +1,8 @@
 ${{loader-functions}}
 
-stopService ${{app_name}} || echo "Could not stop ${{app_name}}"
+# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
+# $1 == 1 is upgrade and $1 == 0 is uninstall
+if [ $1 -eq 0 ] ;
+then
+    stopService ${{app_name}} || echo "Could not stop ${{app_name}}"
+fi

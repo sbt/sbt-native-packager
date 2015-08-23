@@ -1,6 +1,11 @@
 ${{control-functions}}
 
-# Adding system user/group : ${{daemon_user}} and ${{daemon_group}}
+# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
+# $1 == 1 is first installation and $1 == 2 is upgrade
+if [ $1 -eq 1 ] ;
+then
+    # Adding system user/group : ${{daemon_user}} and ${{daemon_group}}
 
-addGroup ${{daemon_group}} "${{daemon_group_gid}}"
-addUser ${{daemon_user}} "${{daemon_user_uid}}" ${{daemon_group}} "${{app_name}} user-daemon" "${{daemon_shell}}"
+    addGroup ${{daemon_group}} "${{daemon_group_gid}}"
+    addUser ${{daemon_user}} "${{daemon_user_uid}}" ${{daemon_group}} "${{app_name}} user-daemon" "${{daemon_shell}}"
+fi
