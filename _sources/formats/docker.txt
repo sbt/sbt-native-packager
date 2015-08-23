@@ -254,3 +254,24 @@ Now let's start adding some Docker commands.
     ExecCmd("CMD", "echo", "Hello, World from Docker")
   )
 
+Busybox/Ash Support
+~~~~~~~~~~~~~~~~~~~
+
+The default shell support for the Java archetype (JavaAppPackaging) is bash, with a Windows
+bat file also generated.  Busybox is a popular minimal Docker base image that uses ash, a much
+more limited shell than bash.  The result is that if you build a Docker image for Busybox the
+generated bash launch script will likely not work.
+
+Optionally you can use an ash-compatible archetype that derives from JavaAppPacking called
+AshScriptPlugin.  Enable this by including:
+
+.. code-block:: scala
+
+  enablePlugins(AshScriptPlugin)
+  
+With this plugin enabled an ash-compatible launch script will be generated in your Docker image.
+
+Just like for JavaAppPackaging you have the option of overriding the default script by supplying
+your own src/templates/ash-template file.  When overriding the file don't forget to include 
+${{template_declares}} somewhere to populate $app_classpath $app_mainclass from your sbt project.
+You'll likely need these to launch your program.

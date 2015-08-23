@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Customize Java Applications &mdash; sbt-native-packager 1.0.4-RC1 documentation</title>
+    <title>Customize Java Applications &mdash; sbt-native-packager 1.0.4 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0.4-RC1',
+        VERSION:     '1.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.4-RC1 documentation" href="../../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.4 documentation" href="../../index.html" />
     <link rel="up" title="Java Application Archetype" href="index.html" />
     <link rel="next" title="Generating files for the package" href="generating-files.html" />
     <link rel="prev" title="My First Packaged Project" href="my-first-project.html" />
@@ -106,8 +106,8 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#overriding-templates-bash-bat">Overriding Templates (Bash/Bat)</a><ul>
-<li><a class="reference internal" href="#src-templates-bat-template"><tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt></a></li>
-<li><a class="reference internal" href="#src-templates-bash-template"><tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt></a></li>
+<li><a class="reference internal" href="#overriding-bat-templates-src-templates-bat-template-or-a-custom-path-using-batscripttemplatelocation">Overriding bat templates (<tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt> or a custom path using <tt class="docutils literal"><span class="pre">batScriptTemplateLocation</span></tt>)</a></li>
+<li><a class="reference internal" href="#overriding-bash-templates-src-templates-bash-template-or-a-custom-path-using-bashscripttemplatelocation">Overriding bash templates (<tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt> or a custom path using <tt class="docutils literal"><span class="pre">bashScriptTemplateLocation</span></tt>)</a></li>
 </ul>
 </li>
 </ul>
@@ -383,7 +383,8 @@ to <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span><
 </div>
 <div class="section" id="overriding-templates-bash-bat">
 <h2>Overriding Templates (Bash/Bat)<a class="headerlink" href="#overriding-templates-bash-bat" title="Permalink to this headline">¶</a></h2>
-<p>In order to override full templates, like the default bash script, create a file in <tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt></p>
+<p>In order to override full templates, like the default bash script, you can create a file in <tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt>.
+Alternatively, you can use a different file location by setting <tt class="docutils literal"><span class="pre">bashScriptTemplateLocation</span></tt>.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c">#!/usr/bin/env bash</span>
 
 realpath<span class="o">()</span> <span class="o">{</span>
@@ -416,7 +417,8 @@ addJava<span class="o">()</span> <span class="o">{</span>
 <span class="nb">exec </span>java -cp <span class="nv">$app_classpath</span> <span class="nv">$app_mainclass</span> <span class="nv">$@</span>
 </pre></div>
 </div>
-<p>Similarly the windows BAT template can be overridden by placing a new template in <tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt></p>
+<p>Similarly the windows BAT template can be overridden by placing a new template in <tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt>.
+You can also use a different file location by setting <tt class="docutils literal"><span class="pre">batScriptTemplateLocation</span></tt>.</p>
 <div class="highlight-bat"><div class="highlight"><pre><span class="p">@</span>REM A bat starter script
 <span class="p">@</span><span class="k">echo</span> <span class="k">off</span>
 
@@ -439,10 +441,9 @@ java -cp <span class="s2">&quot;%APP_CLASSPATH%&quot;</span> <span class="nv">%A
 <li>There is a deficiency in the features of one of the templates you need to fix.</li>
 </ol>
 <p>In general, the templates are intended to provide enough utility that customization is only necessary for truly custom scripts.</p>
-<div class="section" id="src-templates-bat-template">
-<h3><tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt><a class="headerlink" href="#src-templates-bat-template" title="Permalink to this headline">¶</a></h3>
-<p>Creating a file here will override the default template used to
-generate the <tt class="docutils literal"><span class="pre">.bat</span></tt> script for windows distributions.</p>
+<div class="section" id="overriding-bat-templates-src-templates-bat-template-or-a-custom-path-using-batscripttemplatelocation">
+<h3>Overriding bat templates (<tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt> or a custom path using <tt class="docutils literal"><span class="pre">batScriptTemplateLocation</span></tt>)<a class="headerlink" href="#overriding-bat-templates-src-templates-bat-template-or-a-custom-path-using-batscripttemplatelocation" title="Permalink to this headline">¶</a></h3>
+<p>This will override the default template used to generate the <tt class="docutils literal"><span class="pre">.bat</span></tt> script for windows distributions.</p>
 <p><strong>Syntax</strong></p>
 <p><tt class="docutils literal"><span class="pre">&#64;&#64;APP_ENV_NAME&#64;&#64;</span></tt> - will be replaced with the script friendly name of your package.</p>
 <p><tt class="docutils literal"><span class="pre">&#64;&#64;APP_NAME&#64;&#64;</span></tt> - will be replaced with user friendly name of your package.</p>
@@ -452,10 +453,9 @@ generate the <tt class="docutils literal"><span class="pre">.bat</span></tt> scr
 </dl>
 <p>You can define additional variable definitions using <tt class="docutils literal"><span class="pre">batScriptExtraDefines</span></tt>.</p>
 </div>
-<div class="section" id="src-templates-bash-template">
-<h3><tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt><a class="headerlink" href="#src-templates-bash-template" title="Permalink to this headline">¶</a></h3>
-<p>Creating a file here will override the default template used to
-generate the BASH start script found in <tt class="docutils literal"><span class="pre">bin/&lt;application&gt;</span></tt> in the
+<div class="section" id="overriding-bash-templates-src-templates-bash-template-or-a-custom-path-using-bashscripttemplatelocation">
+<h3>Overriding bash templates (<tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt> or a custom path using <tt class="docutils literal"><span class="pre">bashScriptTemplateLocation</span></tt>)<a class="headerlink" href="#overriding-bash-templates-src-templates-bash-template-or-a-custom-path-using-bashscripttemplatelocation" title="Permalink to this headline">¶</a></h3>
+<p>This will override the default template used to generate the BASH start script found in <tt class="docutils literal"><span class="pre">bin/&lt;application&gt;</span></tt> in the
 universal distribution</p>
 <p><strong>Syntax</strong></p>
 <p><tt class="docutils literal"><span class="pre">${{template_declares}}</span></tt> - Will be replaced with a series of <tt class="docutils literal"><span class="pre">declare</span> <span class="pre">&lt;var&gt;</span></tt>
