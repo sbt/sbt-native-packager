@@ -23,7 +23,8 @@ still leveraging the default configuration for other platforms.
 Currently, in the nativepackager these archetypes are available:
 
   * Java Command Line Application
-  * Java Server Application (Experimental - Debian Only)
+  * Java Server Application
+  * Additional Configuration Archetypes (e.g. ClasspathJarPlugin, AshScriptPlugin,..)
 
 
 Java Command Line Application
@@ -35,22 +36,18 @@ this archetype in your build, do the following in your ``build.sbt``:
 
 .. code-block:: scala
 
-    packageArchetype.java_application
+    enablePlugins(JavaAppPackaging)
 
     name := "A-package-friendly-name"
 
     packageSummary in Linux := "The name you want displayed in package summaries"
-
     packageSummary in Windows := "The name you want displayed in Add/Remove Programs"
-
     packageDescription := " A description of your project"
 
     maintainer in Windows := "Company"
-
     maintainer in Debian := "Your Name <your@email.com>"
 
     wixProductId := "ce07be71-510d-414a-92d4-dff47631848a"
-
     wixProductUpgradeId := "4552fb0e-e257-4dbd-9ecb-dba9dbacf424"
 
 
@@ -91,7 +88,7 @@ Java Server
 
 This archetype is designed for Java applications that are intended to run as
 servers or services.  This archetype includes wiring an application to start
-immediately upon startup. To activate this archetype replace ``packageArchetype.java_application`` with ``packageArchetype.java_server``.
+immediately upon startup. To activate this archetype replace ``enablePlugins(JavaAppPackaging)`` with ``enablePlugis(JavaServerAppPackaging)``.
 
 
 The Java Server archetype has a similar installation layout as the java
