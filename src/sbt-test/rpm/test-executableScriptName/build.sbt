@@ -41,6 +41,7 @@ TaskKey[Unit]("unzip") <<= (packageBin in Rpm, streams) map { (rpmFile, streams)
 TaskKey[Unit]("checkStartupScript") <<= (target, streams) map { (target, out) =>
   val script = IO.read(file("etc/init.d/rpm-test"))
   assert(script contains "rpm-exec", "SystemV script didn't contain correct executable filename 'rpm-exec' \n" + script)
+  assert(script contains """RUN_CMD="$exec >> /var/log/rpm-test/rpm-test.log 2>&1 &"""", "SystemV script didn't contain default daemon log filename 'rpm-test.log' \n" + script)
   out.log.success("Successfully tested startup script start up script")
   ()
 }

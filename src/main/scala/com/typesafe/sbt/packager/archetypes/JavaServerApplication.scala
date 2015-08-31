@@ -11,7 +11,8 @@ import linux.LinuxPlugin.autoImport._
 import debian.DebianPlugin
 import debian.DebianPlugin.autoImport.{ debianMakePreinstScript, debianMakePostinstScript, debianMakePrermScript, debianMakePostrmScript }
 import rpm.RpmPlugin
-import rpm.RpmPlugin.autoImport.{ rpmPre, rpmPost, rpmPostun, rpmPreun, rpmScriptsDirectory }
+import rpm.RpmPlugin.autoImport.{ rpmPre, rpmPost, rpmPostun, rpmPreun, rpmScriptsDirectory, rpmDaemonLogFile }
+import rpm.RpmPlugin.Names.RpmDaemonLogFileReplacement
 import JavaAppPackaging.autoImport.{ bashScriptConfigLocation, bashScriptEnvConfigLocation }
 
 /**
@@ -128,6 +129,7 @@ object JavaServerAppPackaging extends AutoPlugin {
         makeStartScriptReplacements,
       linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
       linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
+      linuxScriptReplacements ++= Seq((RpmDaemonLogFileReplacement, rpmDaemonLogFile.value)),
 
       // === /var/run/app pid folder ===
       linuxPackageMappings <+= (packageName, daemonUser, daemonGroup) map { (name, user, group) =>

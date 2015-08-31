@@ -44,6 +44,9 @@ object RpmPlugin extends AutoPlugin {
     val Postun = "postun"
     /** `preun` */
     val Preun = "preun"
+
+    // replacements
+    val RpmDaemonLogFileReplacement = "rpm_daemon_log_file"
   }
 
   override lazy val projectSettings = Seq(
@@ -80,7 +83,8 @@ object RpmPlugin extends AutoPlugin {
     target in Rpm <<= target(_ / "rpm"),
     name in Rpm <<= name in Linux,
     packageName in Rpm <<= packageName in Linux,
-    executableScriptName in Rpm <<= executableScriptName in Linux
+    executableScriptName in Rpm <<= executableScriptName in Linux,
+    rpmDaemonLogFile := s"${(packageName in Linux).value}.log"
   ) ++ inConfig(Rpm)(Seq(
       packageArchitecture := "noarch",
       rpmMetadata <<=
