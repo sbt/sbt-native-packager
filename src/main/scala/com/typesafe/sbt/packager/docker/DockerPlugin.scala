@@ -279,7 +279,7 @@ object DockerPlugin extends AutoPlugin {
   def publishLocalDocker(context: File, tag: String, latest: Boolean, log: Logger): Unit = {
     val cmd = Seq("docker", "build", "--force-rm", "-t", tag, ".")
 
-    log.debug("Executing " + cmd.mkString(" "))
+    log.debug("Executing Native " + cmd.mkString(" "))
     log.debug("Working directory " + context.toString)
 
     val ret = Process(cmd, context) ! publishLocalLogger(log)
