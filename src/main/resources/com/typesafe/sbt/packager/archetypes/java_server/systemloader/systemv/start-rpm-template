@@ -36,9 +36,10 @@
 # This order means system config appends/overrides package config
 [ -e /etc/sysconfig/${{app_name}} ] && . /etc/sysconfig/${{app_name}}
 
-cd ${{chdir}}
+INSTALL_DIR="${{chdir}}"
+[ -n "${PACKAGE_PREFIX}" ] && INSTALL_DIR="${PACKAGE_PREFIX}/${{app_name}}"
 
-exec="${{chdir}}/bin/${{exec}}"
+exec="$INSTALL_DIR/bin/${{exec}}"
 prog="${{app_name}}"
 lockfile="/var/lock/subsys/${{app_name}}"
 
