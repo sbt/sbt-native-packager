@@ -166,6 +166,11 @@ Tasks
   ``universal-docs:package-xz-tarball``
     Creates the ``txz`` universal documentation package.  The ``xz`` command can get better compression
     for some types of archives.
+
+**Note: Some versions of ``tar`` interpret archive file-names that contain a colon as being the name of a remote tape drive.
+Since the name of the archive file is derived from the name of your ``sbt`` project, if the ``tar`` on your system supports the
+``--force-local`` option and you wish to create a tar-format output package then you should refrain from including colons in the
+name of your project.**
     
 Customize
 ---------
