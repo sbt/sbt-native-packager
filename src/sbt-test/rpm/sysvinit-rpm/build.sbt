@@ -44,5 +44,10 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
     assert(spec contains "addUser rpm-test", "Incorrect useradd command in \n" + spec)
     assert(spec contains "deleteGroup rpm-test", "deleteGroup not present in \n" + spec)
     assert(spec contains "deleteUser rpm-test", "deleteUser rpm not present in \n" + spec)
+    assert(spec contains
+      """
+        |[ -e /etc/sysconfig/rpm-test ] && sed -i 's/PACKAGE_PREFIX\=.*//g' /etc/sysconfig/rpm-test
+        |[ -n "$RPM_INSTALL_PREFIX" ] && echo "PACKAGE_PREFIX=${RPM_INSTALL_PREFIX}" >> /etc/sysconfig/rpm-test
+        |""".stripMargin, "Persisting $RPM_INSTALL_PREFIX not present in \n" + spec)
     ()
 }
