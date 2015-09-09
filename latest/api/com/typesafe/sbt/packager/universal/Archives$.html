@@ -282,101 +282,88 @@ NOTE: This will 'consume' the input file.
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.universal.Archives#makeDmg" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="makeDmg(target:sbt.File,name:String,mappings:Seq[(sbt.File,String)],top:Option[String]):sbt.File"></a>
-      <a id="makeDmg(File,String,Seq[(File,String)],Option[String]):File"></a>
+      <a id="makeDmg(target:sbt.File,name:String,mappings:Seq[(sbt.File,String)],top:Option[String],options:Seq[String]):sbt.File"></a>
+      <a id="makeDmg(File,String,Seq[(File,String)],Option[String],Seq[String]):File"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">makeDmg</span><span class="params">(<span name="target">target: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mappings">mappings: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="top">top: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
+        <span class="name">makeDmg</span><span class="params">(<span name="target">target: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mappings">mappings: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="top">top: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="options">options: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
       </span>
       </h4>
       <p class="shortcomment cmt">Makes a dmg file in the given target directory using the given name.</p><div class="fullcomment"><div class="comment cmt"><p>Makes a dmg file in the given target directory using the given name.</p><p> Note:  Only works on OSX
-</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>folder to build package in</p></dd><dt class="param">name</dt><dd class="cmt"><p>of output (without extension)</p></dd><dt class="param">mappings</dt><dd class="cmt"><p>included in the output</p></dd><dt class="param">top</dt><dd class="cmt"><p>level directory : NOT USED</p></dd><dt>returns</dt><dd class="cmt"><p>dmg file
+</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>folder to build package in</p></dd><dt class="param">name</dt><dd class="cmt"><p>of output (without extension)</p></dd><dt class="param">mappings</dt><dd class="cmt"><p>included in the output</p></dd><dt class="param">top</dt><dd class="cmt"><p>level directory : NOT USED</p></dd><dt class="param">options</dt><dd class="cmt"><p>NOT USED</p></dd><dt>returns</dt><dd class="cmt"><p>dmg file
 </p></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.universal.Archives#makeNativeZip" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="makeNativeZip(target:sbt.File,name:String,mappings:Seq[(sbt.File,String)],top:Option[String]):sbt.File"></a>
-      <a id="makeNativeZip(File,String,Seq[(File,String)],Option[String]):File"></a>
+      <a id="makeNativeZip(target:sbt.File,name:String,mappings:Seq[(sbt.File,String)],top:Option[String],options:Seq[String]):sbt.File"></a>
+      <a id="makeNativeZip(File,String,Seq[(File,String)],Option[String],Seq[String]):File"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">makeNativeZip</span><span class="params">(<span name="target">target: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mappings">mappings: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="top">top: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
+        <span class="name">makeNativeZip</span><span class="params">(<span name="target">target: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mappings">mappings: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="top">top: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="options">options: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
       </span>
       </h4>
       <p class="shortcomment cmt">Makes a zip file in the given target directory using the given name.</p><div class="fullcomment"><div class="comment cmt"><p>Makes a zip file in the given target directory using the given name.
-</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>folder to build package in</p></dd><dt class="param">name</dt><dd class="cmt"><p>of output (without extension)</p></dd><dt class="param">mappings</dt><dd class="cmt"><p>included in the output</p></dd><dt class="param">top</dt><dd class="cmt"><p>level directory</p></dd><dt>returns</dt><dd class="cmt"><p>zip file
+</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>folder to build package in</p></dd><dt class="param">name</dt><dd class="cmt"><p>of output (without extension)</p></dd><dt class="param">mappings</dt><dd class="cmt"><p>included in the output</p></dd><dt class="param">top</dt><dd class="cmt"><p>level directory</p></dd><dt class="param">options</dt><dd class="cmt"><p>NOT USED</p></dd><dt>returns</dt><dd class="cmt"><p>zip file
 </p></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.Archives#makeTar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="makeTar:(sbt.File,String,Seq[(sbt.File,String)],Option[String])=&gt;sbt.File"></a>
-      <a id="makeTar:(File,String,Seq[(File,String)],Option[String])⇒File"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">makeTar</span><span class="result">: (<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)], <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]) ⇒ <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
-      </span>
-      </h4>
-      
     </li><li name="com.typesafe.sbt.packager.universal.Archives#makeTarball" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="makeTarball(compressor:sbt.File=&gt;sbt.File,ext:String)(target:sbt.File,name:String,mappings:Seq[(sbt.File,String)],top:Option[String]):sbt.File"></a>
-      <a id="makeTarball((File)⇒File,String)(File,String,Seq[(File,String)],Option[String]):File"></a>
+      <a id="makeTarball(compressor:sbt.File=&gt;sbt.File,ext:String)(target:sbt.File,name:String,mappings:Seq[(sbt.File,String)],top:Option[String],options:Seq[String]):sbt.File"></a>
+      <a id="makeTarball((File)⇒File,String)(File,String,Seq[(File,String)],Option[String],Seq[String]):File"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">makeTarball</span><span class="params">(<span name="compressor">compressor: (<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>) ⇒ <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="ext">ext: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="target">target: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mappings">mappings: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="top">top: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
+        <span class="name">makeTarball</span><span class="params">(<span name="compressor">compressor: (<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>) ⇒ <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="ext">ext: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="target">target: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mappings">mappings: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="top">top: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="options">options: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Helper method used to construct tar-related compression functions.</p><div class="fullcomment"><div class="comment cmt"><p>Helper method used to construct tar-related compression functions.</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>folder to build package in</p></dd><dt class="param">name</dt><dd class="cmt"><p>of output (without extension)</p></dd><dt class="param">mappings</dt><dd class="cmt"><p>included in the output</p></dd><dt class="param">top</dt><dd class="cmt"><p>level directory</p></dd><dt>returns</dt><dd class="cmt"><p>tar file</p></dd></dl></div>
+      <p class="shortcomment cmt">Helper method used to construct tar-related compression functions.</p><div class="fullcomment"><div class="comment cmt"><p>Helper method used to construct tar-related compression functions.</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>folder to build package in</p></dd><dt class="param">name</dt><dd class="cmt"><p>of output (without extension)</p></dd><dt class="param">mappings</dt><dd class="cmt"><p>included in the output</p></dd><dt class="param">top</dt><dd class="cmt"><p>level directory</p></dd><dt class="param">options</dt><dd class="cmt"><p>for tar command</p></dd><dt>returns</dt><dd class="cmt"><p>tar file</p></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.universal.Archives#makeTgz" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="makeTgz:(sbt.File,String,Seq[(sbt.File,String)],Option[String])=&gt;sbt.File"></a>
-      <a id="makeTgz:(File,String,Seq[(File,String)],Option[String])⇒File"></a>
+      <a id="makeTgz:(sbt.File,String,Seq[(sbt.File,String)],Option[String],Seq[String])=&gt;sbt.File"></a>
+      <a id="makeTgz:(File,String,Seq[(File,String)],Option[String],Seq[String])⇒File"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">makeTgz</span><span class="result">: (<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)], <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]) ⇒ <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
+        <span class="name">makeTgz</span><span class="result">: (<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)], <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]) ⇒ <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
       </span>
       </h4>
       
     </li><li name="com.typesafe.sbt.packager.universal.Archives#makeTxz" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="makeTxz:(sbt.File,String,Seq[(sbt.File,String)],Option[String])=&gt;sbt.File"></a>
-      <a id="makeTxz:(File,String,Seq[(File,String)],Option[String])⇒File"></a>
+      <a id="makeTxz:(sbt.File,String,Seq[(sbt.File,String)],Option[String],Seq[String])=&gt;sbt.File"></a>
+      <a id="makeTxz:(File,String,Seq[(File,String)],Option[String],Seq[String])⇒File"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">makeTxz</span><span class="result">: (<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)], <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]) ⇒ <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
+        <span class="name">makeTxz</span><span class="result">: (<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)], <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]) ⇒ <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
       </span>
       </h4>
       
     </li><li name="com.typesafe.sbt.packager.universal.Archives#makeZip" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="makeZip(target:sbt.File,name:String,mappings:Seq[(sbt.File,String)],top:Option[String]):sbt.File"></a>
-      <a id="makeZip(File,String,Seq[(File,String)],Option[String]):File"></a>
+      <a id="makeZip(target:sbt.File,name:String,mappings:Seq[(sbt.File,String)],top:Option[String],options:Seq[String]):sbt.File"></a>
+      <a id="makeZip(File,String,Seq[(File,String)],Option[String],Seq[String]):File"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">makeZip</span><span class="params">(<span name="target">target: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mappings">mappings: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="top">top: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
+        <span class="name">makeZip</span><span class="params">(<span name="target">target: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mappings">mappings: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="top">top: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="options">options: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
       </span>
       </h4>
       <p class="shortcomment cmt">Makes a zip file in the given target directory using the given name.</p><div class="fullcomment"><div class="comment cmt"><p>Makes a zip file in the given target directory using the given name.
-</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>folder to build package in</p></dd><dt class="param">name</dt><dd class="cmt"><p>of output (without extension)</p></dd><dt class="param">mappings</dt><dd class="cmt"><p>included in the output</p></dd><dt class="param">top</dt><dd class="cmt"><p>level directory</p></dd><dt>returns</dt><dd class="cmt"><p>zip file
+</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>folder to build package in</p></dd><dt class="param">name</dt><dd class="cmt"><p>of output (without extension)</p></dd><dt class="param">mappings</dt><dd class="cmt"><p>included in the output</p></dd><dt class="param">top</dt><dd class="cmt"><p>level directory</p></dd><dt class="param">options</dt><dd class="cmt"><p>NOT USED</p></dd><dt>returns</dt><dd class="cmt"><p>zip file
 </p></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>

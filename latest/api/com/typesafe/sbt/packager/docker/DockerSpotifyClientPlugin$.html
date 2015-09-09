@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>autoImport - com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport</title>
-          <meta name="description" content="autoImport - com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport" />
-          <meta name="keywords" content="autoImport com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport" />
+          <title>DockerSpotifyClientPlugin - com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin</title>
+          <meta name="description" content="DockerSpotifyClientPlugin - com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin" />
+          <meta name="keywords" content="DockerSpotifyClientPlugin com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -12,7 +12,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../../index.html';
-            var hash = 'com.typesafe.sbt.packager.universal.UniversalPlugin$$autoImport$';
+            var hash = 'com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin$';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -25,8 +25,8 @@
         <body class="value">
       <div id="definition">
         <img src="../../../../../lib/object_big.png" />
-        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="package.html" class="extype" name="com.typesafe.sbt.packager.universal">universal</a>.<a href="UniversalPlugin$.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalPlugin">UniversalPlugin</a></p>
-        <h1>autoImport</h1>
+        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="package.html" class="extype" name="com.typesafe.sbt.packager.docker">docker</a></p>
+        <h1>DockerSpotifyClientPlugin</h1>
       </div>
 
       <h4 id="signature" class="signature">
@@ -35,13 +35,18 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">autoImport</span><span class="result"> extends <a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a></span>
+        <span class="name">DockerSpotifyClientPlugin</span><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4> DockerSpotifyClientPlugin Plugin </h4><p>This plugin helps you build docker containers using Spotify Docker Client.</p><h4> Configuration </h4><p>In order to configure this plugin take a look at the available <a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">com.typesafe.sbt.packager.docker.DockerKeys</a></p><h4> Requirements </h4><p>You need docker to have docker installed on your system.
+Check with a single command:</p><pre>docker version</pre></div><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DockerSpotifyClientPlugin)</pre></li></ol>
+            </div><dt>Note</dt><dd><span class="cmt"><p>this plugin is not intended to build very customizable docker images, but turn your mappings
+      configuration in a docker image with almost no <i>any</i> configuration.
+</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="sbt.AutoPlugin">AutoPlugin</span>, <span class="extype" name="sbt.PluginsFunctions">PluginsFunctions</span>, <span class="extype" name="sbt.Plugins.Basic">Basic</span>, <span class="extype" name="sbt.Plugins">Plugins</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -59,7 +64,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport"><span>autoImport</span></li><li class="in" name="com.typesafe.sbt.packager.universal.UniversalKeys"><span>UniversalKeys</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin"><span>DockerSpotifyClientPlugin</span></li><li class="in" name="sbt.AutoPlugin"><span>AutoPlugin</span></li><li class="in" name="sbt.PluginsFunctions"><span>PluginsFunctions</span></li><li class="in" name="sbt.Plugins.Basic"><span>Basic</span></li><li class="in" name="sbt.Plugins"><span>Plugins</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -124,6 +129,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="sbt.Plugins.Basic#&amp;&amp;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&amp;&amp;(o:sbt.Plugins.Basic):sbt.Plugins"></a>
+      <a id="&amp;&amp;(Basic):Plugins"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $amp$amp" class="name">&amp;&amp;</span><span class="params">(<span name="o">o: <span class="extype" name="sbt.Plugins.Basic">Basic</span></span>)</span><span class="result">: <span class="extype" name="sbt.Plugins">Plugins</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Basic → Plugins</dd></dl></div>
     </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:AnyRef):Boolean"></a>
       <a id="==(AnyRef):Boolean"></a>
@@ -150,45 +168,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport#Universal" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="Universal:sbt.Configuration"></a>
-      <a id="Universal:Configuration"></a>
+    </li><li name="sbt.PluginsFunctions#allRequirements" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="allRequirements:sbt.PluginTrigger"></a>
+      <a id="allRequirements:PluginTrigger"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">Universal</span><span class="result">: <span class="extype" name="sbt.Configuration">Configuration</span></span>
+        <span class="name">allRequirements</span><span class="result">: <span class="extype" name="sbt.PluginTrigger">PluginTrigger</span></span>
       </span>
       </h4>
-      
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport#UniversalDocs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="UniversalDocs:sbt.Configuration"></a>
-      <a id="UniversalDocs:Configuration"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">UniversalDocs</span><span class="result">: <span class="extype" name="sbt.Configuration">Configuration</span></span>
-      </span>
-      </h4>
-      
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport#UniversalSrc" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="UniversalSrc:sbt.Configuration"></a>
-      <a id="UniversalSrc:Configuration"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">UniversalSrc</span><span class="result">: <span class="extype" name="sbt.Configuration">Configuration</span></span>
-      </span>
-      </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PluginsFunctions</dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -202,6 +194,32 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="sbt.AutoPlugin#buildSettings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="buildSettings:Seq[sbt.Def.Setting[_]]"></a>
+      <a id="buildSettings:Seq[sbt.Def.Setting[_]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">buildSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="sbt.Init.Setting">sbt.Def.Setting</span>[_]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin#clientSettings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="clientSettings:Seq[sbt.Def.Setting[sbt.Task[Unit]]]"></a>
+      <a id="clientSettings:Seq[sbt.Def.Setting[Task[Unit]]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clientSettings</span><span class="result">: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Init.Setting">sbt.Def.Setting</span>[<span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.Unit">Unit</span>]]]</span>
+      </span>
+      </h4>
+      
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -221,19 +239,19 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalKeys#dist" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="dist:sbt.TaskKey[sbt.File]"></a>
-      <a id="dist:TaskKey[File]"></a>
+    </li><li name="sbt.PluginsFunctions#empty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="empty:sbt.Plugins"></a>
+      <a id="empty:Plugins"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">dist</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+        <span class="name">empty</span><span class="result">: <span class="extype" name="sbt.Plugins">Plugins</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PluginsFunctions</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -292,6 +310,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="sbt.AutoPlugin#globalSettings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="globalSettings:Seq[sbt.Def.Setting[_]]"></a>
+      <a id="globalSettings:Seq[sbt.Def.Setting[_]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">globalSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="sbt.Init.Setting">sbt.Def.Setting</span>[_]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -318,6 +349,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="sbt.AutoPlugin#label" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="label:String"></a>
+      <a id="label:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">label</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -331,6 +375,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="sbt.PluginsFunctions#noTrigger" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="noTrigger:sbt.PluginTrigger"></a>
+      <a id="noTrigger:PluginTrigger"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">noTrigger</span><span class="result">: <span class="extype" name="sbt.PluginTrigger">PluginTrigger</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PluginsFunctions</dd></dl></div>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -357,71 +414,58 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalKeys#packageOsxDmg" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="packageOsxDmg:sbt.TaskKey[sbt.File]"></a>
-      <a id="packageOsxDmg:TaskKey[File]"></a>
+    </li><li name="sbt.AutoPlugin#projectConfigurations" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="projectConfigurations:Seq[sbt.Configuration]"></a>
+      <a id="projectConfigurations:Seq[Configuration]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">packageOsxDmg</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+        <span class="name">projectConfigurations</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="sbt.Configuration">Configuration</span>]</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalKeys#packageXzTarball" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="packageXzTarball:sbt.TaskKey[sbt.File]"></a>
-      <a id="packageXzTarball:TaskKey[File]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin#projectSettings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="projectSettings:Seq[sbt.Def.Setting[_]]"></a>
+      <a id="projectSettings:Seq[sbt.Def.Setting[_]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">lazy val</span>
       </span>
       <span class="symbol">
-        <span class="name">packageXzTarball</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="sbt.Init.Setting">sbt.Def.Setting</span>[_]]</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalKeys#packageZipTarball" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="packageZipTarball:sbt.TaskKey[sbt.File]"></a>
-      <a id="packageZipTarball:TaskKey[File]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin">DockerSpotifyClientPlugin</a> → AutoPlugin</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin#publishLocalDocker" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="publishLocalDocker:sbt.Def.Initialize[sbt.Task[Unit]]"></a>
+      <a id="publishLocalDocker:sbt.Def.Initialize[Task[Unit]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">packageZipTarball</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+        <span class="name">publishLocalDocker</span><span class="result">: <span class="extype" name="sbt.Init.Initialize">sbt.Def.Initialize</span>[<span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.Unit">Unit</span>]]</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalKeys#stage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="stage:sbt.TaskKey[sbt.File]"></a>
-      <a id="stage:TaskKey[File]"></a>
+      
+    </li><li name="com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin#requires" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="requires:com.typesafe.sbt.packager.docker.DockerPlugin.type"></a>
+      <a id="requires:DockerPlugin.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">stage</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+        <span class="name">requires</span><span class="result">: <a href="DockerPlugin$.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerPlugin">DockerPlugin</a>.type</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalKeys#stagingDirectory" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="stagingDirectory:sbt.SettingKey[sbt.File]"></a>
-      <a id="stagingDirectory:SettingKey[File]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">stagingDirectory</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin">DockerSpotifyClientPlugin</a> → AutoPlugin</dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -435,7 +479,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="sbt.AutoPlugin#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
       <h4 class="signature">
@@ -444,50 +488,23 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalKeys#topLevelDirectory" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="topLevelDirectory:sbt.SettingKey[Option[String]]"></a>
-      <a id="topLevelDirectory:SettingKey[Option[String]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">topLevelDirectory</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalKeys#universalArchiveOptions" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="universalArchiveOptions:sbt.SettingKey[Seq[String]]"></a>
-      <a id="universalArchiveOptions:SettingKey[Seq[String]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">universalArchiveOptions</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport#useNativeZip" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="useNativeZip:Seq[sbt.Setting[_]]"></a>
-      <a id="useNativeZip:Seq[Setting[_]]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin → AnyRef → Any</dd></dl></div>
+    </li><li name="sbt.AutoPlugin#trigger" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="trigger:sbt.PluginTrigger"></a>
+      <a id="trigger:PluginTrigger"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">useNativeZip</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../../sbt/package.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">Setting</a>[_]]</span>
+        <span class="name">trigger</span><span class="result">: <span class="extype" name="sbt.PluginTrigger">PluginTrigger</span></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Use native zipping instead of java based zipping
-</p>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -554,8 +571,14 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="com.typesafe.sbt.packager.universal.UniversalKeys">
-              <h3>Inherited from <a href="UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a></h3>
+        <div class="parent" name="sbt.AutoPlugin">
+              <h3>Inherited from <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></h3>
+            </div><div class="parent" name="sbt.PluginsFunctions">
+              <h3>Inherited from <span class="extype" name="sbt.PluginsFunctions">PluginsFunctions</span></h3>
+            </div><div class="parent" name="sbt.Plugins.Basic">
+              <h3>Inherited from <span class="extype" name="sbt.Plugins.Basic">Basic</span></h3>
+            </div><div class="parent" name="sbt.Plugins">
+              <h3>Inherited from <span class="extype" name="sbt.Plugins">Plugins</span></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
