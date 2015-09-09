@@ -70,7 +70,8 @@ object UniversalPlugin extends AutoPlugin {
   ) ++
     makePackageSettingsForConfig(Universal) ++
     makePackageSettingsForConfig(UniversalDocs) ++
-    makePackageSettingsForConfig(UniversalSrc)
+    makePackageSettingsForConfig(UniversalSrc) ++
+    defaultUniversalArchiveOptions
 
   /** Creates all package types for a given configuration */
   private[this] def makePackageSettingsForConfig(config: Configuration): Seq[Setting[_]] =
@@ -89,6 +90,11 @@ object UniversalPlugin extends AutoPlugin {
         target in config <<= target apply (_ / config.name)
       )
 
+  private[this] def defaultUniversalArchiveOptions: Seq[Setting[_]] = Seq(
+    universalArchiveOptions in (Universal, packageZipTarball) := Seq("-pcvf"),
+    universalArchiveOptions in (Universal, packageXzTarball) := Seq("-pcvf")
+  )
+
   private[this] def printDist(dist: File, streams: TaskStreams): File = {
     streams.log.info("")
     streams.log.info("Your package is ready in " + dist.getCanonicalPath)
@@ -96,12 +102,13 @@ object UniversalPlugin extends AutoPlugin {
     dist
   }
 
-  private type Packager = (File, String, Seq[(File, String)], Option[String]) => File
+  private type Packager = (File, String, Seq[(File, String)], Option[String], Seq[String]) => File
   /** Creates packaging settings for a given package key, configuration + archive type. */
   private[this] def makePackageSettings(packageKey: TaskKey[File], config: Configuration)(packager: Packager): Seq[Setting[_]] =
     inConfig(config)(Seq(
+      universalArchiveOptions in packageKey := Nil,
       mappings in packageKey <<= mappings map checkMappings,
-      packageKey <<= (target, packageName, mappings in packageKey, topLevelDirectory) map packager
+      packageKey <<= (target, packageName, mappings in packageKey, topLevelDirectory, universalArchiveOptions in packageKey) map packager
     ))
 
   /** check that all mapped files actually exist */

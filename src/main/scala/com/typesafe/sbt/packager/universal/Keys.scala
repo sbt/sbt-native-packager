@@ -12,4 +12,5 @@ trait UniversalKeys {
   val dist = TaskKey[File]("dist", "Creates the distribution packages.")
   val stagingDirectory = SettingKey[File]("stagingDirectory", "Directory where we stage distributions/releases.")
   val topLevelDirectory = SettingKey[Option[String]]("topLevelDirectory", "Top level dir in compressed output file.")
+  val universalArchiveOptions = SettingKey[Seq[String]]("universal-archive-options", "Options passed to the tar/zip command. Scope by task")
 }

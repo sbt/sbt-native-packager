@@ -170,6 +170,25 @@ Tasks
 Customize
 ---------
 
+Universal Archive Options
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can customize the commandline options (if used) for the different zip formats.
+If you want to force local for the `tgz` output add this line:
+
+.. code-block:: scala
+
+  universalArchiveOptions in (Universal, packageZipTarball) := Seq("--force-local", "-pcvf")
+  
+This will set the cli options for the `packageZipTarball` task in the `Universal` plugin to the following sequence.
+Currently these task can be customized
+
+  ``universal:package-zip-tarball``
+    `universalArchiveOptions in (Universal, packageZipTarball)` 
+    
+  ``universal:package-xz-tarball``
+    `universalArchiveOptions in (Universal, packageXzTarball)`
+
 Getting Started with Universal Packaging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 By default, all files found in the ``src/universal`` directory are included in the distribution.  So, the first step

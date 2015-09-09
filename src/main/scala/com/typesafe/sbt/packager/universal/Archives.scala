@@ -14,9 +14,10 @@ object Archives {
    * @param name of output (without extension)
    * @param mappings included in the output
    * @param top level directory
+   * @param options  NOT USED
    * @return zip file
    */
-  def makeZip(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File = {
+  def makeZip(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File = {
     val zip = target / (name + ".zip")
 
     // add top level directory if defined
@@ -35,9 +36,10 @@ object Archives {
    * @param name of output (without extension)
    * @param mappings included in the output
    * @param top level directory
+   * @param options  NOT USED
    * @return zip file
    */
-  def makeNativeZip(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File = {
+  def makeNativeZip(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File = {
     val zip = target / (name + ".zip")
 
     // add top level directory if defined
@@ -58,9 +60,10 @@ object Archives {
    *  @param name of output (without extension)
    *  @param mappings included in the output
    *  @param top level directory : NOT USED
+   *  @param options  NOT USED
    *  @return dmg file
    */
-  def makeDmg(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File = {
+  def makeDmg(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File = {
     val t = target / "dmg"
     val dmg = target / (name + ".dmg")
     if (!t.isDirectory) IO.createDirectory(t)
@@ -139,9 +142,9 @@ object Archives {
     }
     file(f.getAbsolutePath + ".xz")
   }
+
   val makeTxz = makeTarball(xz, ".txz") _
   val makeTgz = makeTarball(gzip, ".tgz") _
-  val makeTar = makeTarball(identity, ".tar") _
 
   /**
    * Helper method used to construct tar-related compression functions.
@@ -149,10 +152,11 @@ object Archives {
    * @param name of output (without extension)
    * @param mappings included in the output
    * @param top level directory
+   * @param options for tar command
    * @return tar file
    *
    */
-  def makeTarball(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File = {
+  def makeTarball(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File = {
     val relname = name
     val tarball = target / (name + ext)
     IO.withTemporaryDirectory { f =>
@@ -179,7 +183,9 @@ object Archives {
 
       val tmptar = f / (relname + ".tar")
 
-      Process(Seq("tar", "--force-local", "-pcvf", tmptar.getAbsolutePath) ++ distdirs, Some(rdir)).! match {
+      val cmd = Seq("tar") ++ options ++ Seq(tmptar.getAbsolutePath) ++ distdirs
+      println("Running with " + cmd.mkString(" "))
+      Process(cmd, Some(rdir)).! match {
         case 0 => ()
         case n => sys.error("Error tarballing " + tarball + ". Exit code: " + n)
       }
