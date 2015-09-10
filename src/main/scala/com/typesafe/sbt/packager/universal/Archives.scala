@@ -9,6 +9,21 @@ object Archives {
 
   /**
    * Makes a zip file in the given target directory using the given name.
+   * @param target folder to build package in
+   * @param name of output (without extension)
+   * @param mappings included in the output
+   * @param top level directory
+   * @return zip file
+   */
+  @deprecated(
+    "Use [[com.typesafe.sbt.packager.universal.Archives.makeZip(File, String, Seq[(File, String)], Option[String], Seq[String]): File]]",
+    since = "1.0.5"
+  )
+  def makeZip(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File =
+    makeZip(target, name, mappings, top, options = Seq.empty)
+
+  /**
+   * Makes a zip file in the given target directory using the given name.
    *
    * @param target folder to build package in
    * @param name of output (without extension)
@@ -36,6 +51,22 @@ object Archives {
    * @param name of output (without extension)
    * @param mappings included in the output
    * @param top level directory
+   * @return zip file
+   */
+  @deprecated(
+    "Use [[com.typesafe.sbt.packager.universal.Archives.makeNativeZip(File, String, Seq[(File, String)], Option[String], Seq[String]): File]]",
+    since = "1.0.5"
+  )
+  def makeNativeZip(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File =
+    makeNativeZip(target, name, mappings, top, options = Seq.empty)
+
+  /**
+   * Makes a zip file in the given target directory using the given name.
+   *
+   * @param target folder to build package in
+   * @param name of output (without extension)
+   * @param mappings included in the output
+   * @param top level directory
    * @param options  NOT USED
    * @return zip file
    */
@@ -50,6 +81,24 @@ object Archives {
     ZipHelper.zipNative(m2, zip)
     zip
   }
+
+  /**
+   * Makes a dmg file in the given target directory using the given name.
+   *
+   *  Note:  Only works on OSX
+   *
+   *  @param target folder to build package in
+   *  @param name of output (without extension)
+   *  @param mappings included in the output
+   *  @param top level directory : NOT USED
+   *  @return dmg file
+   */
+  @deprecated(
+    "Use [[com.typesafe.sbt.packager.universal.Archives.makeDmg(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File]]",
+    since = "1.0.5"
+  )
+  def makeDmg(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File =
+    makeDmg(target, name, mappings, top, options = Seq.empty)
 
   /**
    * Makes a dmg file in the given target directory using the given name.
@@ -143,10 +192,24 @@ object Archives {
     file(f.getAbsolutePath + ".xz")
   }
 
-  val makeTxz = makeTarball(xz, ".txz") _
-  val makeTgz = makeTarball(gzip, ".tgz") _
+  val makeTxz = makeTarballWithOptions(xz, ".txz") _
+  val makeTgz = makeTarballWithOptions(gzip, ".tgz") _
 
   /**
+   * Helper method used to construct tar-related compression functions with `--force-local` and `-pvcf` option specified
+   * as default.
+   * @param target folder to build package in
+   * @param name of output (without extension)
+   * @param mappings included in the output
+   * @param top level directory
+   * @return tar file
+   *
+   */
+  def makeTarball(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File =
+    makeTarballWithOptions(compressor, ext)(target, name, mappings, top, options = Seq("--force-local", "-pcvf"))
+
+
+    /**
    * Helper method used to construct tar-related compression functions.
    * @param target folder to build package in
    * @param name of output (without extension)
@@ -156,7 +219,7 @@ object Archives {
    * @return tar file
    *
    */
-  def makeTarball(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File = {
+  def makeTarballWithOptions(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File = {
     val relname = name
     val tarball = target / (name + ext)
     IO.withTemporaryDirectory { f =>
