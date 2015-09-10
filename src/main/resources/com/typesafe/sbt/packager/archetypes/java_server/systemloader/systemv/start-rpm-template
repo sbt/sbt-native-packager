@@ -38,6 +38,7 @@
 
 INSTALL_DIR="${{chdir}}"
 [ -n "${PACKAGE_PREFIX}" ] && INSTALL_DIR="${PACKAGE_PREFIX}/${{app_name}}"
+cd $INSTALL_DIR
 
 exec="$INSTALL_DIR/bin/${{exec}}"
 prog="${{app_name}}"

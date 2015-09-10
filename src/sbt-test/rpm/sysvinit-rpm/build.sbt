@@ -32,6 +32,12 @@ TaskKey[Unit]("unzipAndCheck") <<= (baseDirectory, packageBin in Rpm, streams) m
     assert(scriptlets contains "deleteUser rpm-test", "deleteUser rpm not present in \n" + scriptlets)
 
     val startupScript = IO.read(baseDir / "etc" / "init.d" / "rpm-test")
+    assert(startupScript contains
+      """
+        |INSTALL_DIR="/usr/share/rpm-test"
+        |[ -n "${PACKAGE_PREFIX}" ] && INSTALL_DIR="${PACKAGE_PREFIX}/rpm-test"
+        |cd $INSTALL_DIR
+        |""".stripMargin, "Ensuring application is running on the install directory is not present in \n" + startupScript)
     assert(startupScript contains """RUN_CMD="$exec >> /var/log/rpm-test/test.log 2>&1 &"""", "Setting key rpmDaemonLogFile not present in \n" + startupScript)
 
     // TODO check symlinks
