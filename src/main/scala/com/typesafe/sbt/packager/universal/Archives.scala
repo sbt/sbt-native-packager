@@ -192,10 +192,24 @@ object Archives {
     file(f.getAbsolutePath + ".xz")
   }
 
-  val makeTxz = makeTarball(xz, ".txz") _
-  val makeTgz = makeTarball(gzip, ".tgz") _
+  val makeTxz = makeTarballWithOptions(xz, ".txz") _
+  val makeTgz = makeTarballWithOptions(gzip, ".tgz") _
 
   /**
+   * Helper method used to construct tar-related compression functions with `--force-local` and `-pvcf` option specified
+   * as default.
+   * @param target folder to build package in
+   * @param name of output (without extension)
+   * @param mappings included in the output
+   * @param top level directory
+   * @return tar file
+   *
+   */
+  def makeTarball(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File =
+    makeTarballWithOptions(compressor, ext)(target, name, mappings, top, options = Seq("--force-local", "-pcvf"))
+
+
+    /**
    * Helper method used to construct tar-related compression functions.
    * @param target folder to build package in
    * @param name of output (without extension)
@@ -205,7 +219,7 @@ object Archives {
    * @return tar file
    *
    */
-  def makeTarball(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File = {
+  def makeTarballWithOptions(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File = {
     val relname = name
     val tarball = target / (name + ext)
     IO.withTemporaryDirectory { f =>
