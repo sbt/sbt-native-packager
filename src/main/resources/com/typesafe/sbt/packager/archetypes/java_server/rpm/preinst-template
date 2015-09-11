@@ -10,5 +10,12 @@ then
     addUser ${{daemon_user}} "${{daemon_user_uid}}" ${{daemon_group}} "${{app_name}} user-daemon" "${{daemon_shell}}"
 fi
 
-[ -e /etc/sysconfig/${{app_name}} ] && sed -i 's/PACKAGE_PREFIX\=.*//g' /etc/sysconfig/${{app_name}}
-[ -n "$RPM_INSTALL_PREFIX" ] && echo "PACKAGE_PREFIX=${RPM_INSTALL_PREFIX}" >> /etc/sysconfig/${{app_name}}
+if [ -e /etc/sysconfig/${{app_name}} ] ;
+then
+  sed -i 's/PACKAGE_PREFIX\=.*//g' /etc/sysconfig/${{app_name}}
+fi
+
+if [ -n "$RPM_INSTALL_PREFIX" ] ;
+then
+  echo "PACKAGE_PREFIX=${RPM_INSTALL_PREFIX}" >> /etc/sysconfig/${{app_name}}
+fi
