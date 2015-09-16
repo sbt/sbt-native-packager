@@ -79,7 +79,8 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
       bashScriptConfigLocation.value.collect {
         case location if options.nonEmpty =>
           val configFile = dir / "tmp" / "conf" / "application.ini"
-          IO.writeLines(configFile, "# options from build" +: options)
+          //Do not use writeLines here because of issue #637
+          IO.write(configFile, ("# options from build" +: options).mkString("\n"))
           val filteredMappings = universalMappings.filter {
             case (file, path) => path != appIniLocation
           }
