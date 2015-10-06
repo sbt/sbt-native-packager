@@ -26,6 +26,7 @@ Requirements
 You need the following applications installed
 
 * rpm
+* rpm-build
 
 Build
 -----
