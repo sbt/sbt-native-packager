@@ -79,7 +79,7 @@ object LinuxPlugin extends AutoPlugin {
       author = (maintainer in Linux).value,
       description = (packageSummary in Linux).value,
       execScript = (executableScriptName in Linux).value,
-      chdir = s"${defaultLinuxInstallLocation.value}/${(packageName in Linux).value}",
+      chdir = chdir(defaultLinuxInstallLocation.value, (packageName in Linux).value),
       logdir = defaultLinuxLogsLocation.value,
       appName = (packageName in Linux).value,
       version = sbt.Keys.version.value,
@@ -248,5 +248,8 @@ object LinuxPlugin extends AutoPlugin {
       packageMappingWithRename(remaining: _*) withUser user withGroup group withPerms "0644"
     )
   }
+
+  final def chdir(installLocation: String, packageName: String): String =
+    s"$installLocation/$packageName"
 
 }

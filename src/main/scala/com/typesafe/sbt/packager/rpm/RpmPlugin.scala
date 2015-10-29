@@ -102,7 +102,7 @@ object RpmPlugin extends AutoPlugin {
       rpmScripts <<=
         (rpmPretrans, rpmPre, rpmPost, rpmVerifyscript, rpmPosttrans, rpmPreun, rpmPostun) apply RpmScripts,
       rpmSpecConfig <<=
-        (rpmMetadata, rpmDescription, rpmDependencies, rpmScripts, linuxPackageMappings, linuxPackageSymlinks) map RpmSpec,
+        (rpmMetadata, rpmDescription, rpmDependencies, rpmScripts, linuxPackageMappings, linuxPackageSymlinks, defaultLinuxInstallLocation) map RpmSpec,
       packageBin <<= (rpmSpecConfig, target, streams) map { (spec, dir, s) =>
         spec.validate(s.log)
         RpmHelper.buildRpm(spec, dir, s.log)

@@ -295,5 +295,4 @@ object JavaServerAppPackaging extends AutoPlugin {
       case script => TemplateWriter generateScriptFromString (content + script, replacements)
     }
   }
-
 }
