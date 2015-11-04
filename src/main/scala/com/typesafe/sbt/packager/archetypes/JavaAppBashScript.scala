@@ -49,7 +49,7 @@ object JavaAppBashScript {
     val jarPrefixed = """^\-jar (.*)""".r
     val args = mainClass match {
       case jarPrefixed(jarName) => Seq("-jar", jarName)
-      case className           => Seq(className)
+      case className            => Seq(className)
     }
     val quotedArgsSpaceSeparated = args.map(s => "\"" + s + "\"").mkString(" ")
     "declare -a app_mainclass=(%s)\n" format (quotedArgsSpaceSeparated)

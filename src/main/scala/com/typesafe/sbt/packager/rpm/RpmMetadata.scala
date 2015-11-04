@@ -196,10 +196,12 @@ case class RpmSpec(
 
     // write build as moving everything into RPM directory.
     sb append installSection(tmpRoot)
+    sb append "\n\n"
     // TODO - Allow symlinks
 
     // write scriptlets
     sb append scriptlets.contents()
+    sb append "\n\n"
 
     // Write file mappings
     sb append fileSection
