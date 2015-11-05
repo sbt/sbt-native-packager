@@ -64,6 +64,7 @@ object JavaServerAppPackaging extends AutoPlugin {
       if (overrideScript.exists) overrideScript.toURI.toURL
       else etcDefaultTemplateSource
     },
+    linuxStartScriptName := None,
     makeEtcDefault <<= (packageName in Linux, target in Universal, linuxEtcDefaultTemplate, linuxScriptReplacements)
       map makeEtcDefaultScript,
     linuxPackageMappings <++= (makeEtcDefault, bashScriptEnvConfigLocation) map { (conf, envLocation) =>
@@ -154,6 +155,7 @@ object JavaServerAppPackaging extends AutoPlugin {
         serverLoading in Rpm) map makeStartScript,
 
       defaultLinuxStartScriptLocation in Rpm <<= (serverLoading in Rpm) apply getStartScriptLocation,
+      linuxStartScriptName in Rpm <<= linuxStartScriptName in Linux,
       linuxPackageMappings in Rpm <++= (packageName in Rpm, linuxMakeStartScript in Rpm, serverLoading in Rpm, defaultLinuxStartScriptLocation in Rpm, linuxStartScriptName in Rpm) map startScriptMapping,
 
       // == Maintainer scripts ===
