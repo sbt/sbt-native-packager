@@ -102,7 +102,7 @@ object JavaServerAppPackaging extends AutoPlugin {
         linuxScriptReplacements in Debian,
         target in Universal,
         serverLoading in Debian) map makeStartScript,
-      linuxPackageMappings <++= (packageName, linuxMakeStartScript, serverLoading, defaultLinuxStartScriptLocation) map startScriptMapping
+      linuxPackageMappings <++= (packageName, linuxMakeStartScript, serverLoading, defaultLinuxStartScriptLocation, linuxStartScriptName) map startScriptMapping
     )) ++ Seq(
       // === Daemon User and Group ===
       daemonUser in Debian <<= daemonUser in Linux,
@@ -154,7 +154,7 @@ object JavaServerAppPackaging extends AutoPlugin {
         serverLoading in Rpm) map makeStartScript,
 
       defaultLinuxStartScriptLocation in Rpm <<= (serverLoading in Rpm) apply getStartScriptLocation,
-      linuxPackageMappings in Rpm <++= (packageName in Rpm, linuxMakeStartScript in Rpm, serverLoading in Rpm, defaultLinuxStartScriptLocation in Rpm) map startScriptMapping,
+      linuxPackageMappings in Rpm <++= (packageName in Rpm, linuxMakeStartScript in Rpm, serverLoading in Rpm, defaultLinuxStartScriptLocation in Rpm, linuxStartScriptName in Rpm) map startScriptMapping,
 
       // == Maintainer scripts ===
       // TODO this is very basic - align debian and rpm plugin
@@ -235,11 +235,11 @@ object JavaServerAppPackaging extends AutoPlugin {
     }
   }
 
-  protected def startScriptMapping(name: String, script: Option[File], loader: ServerLoader, scriptDir: String): Seq[LinuxPackageMapping] = {
+  protected def startScriptMapping(name: String, script: Option[File], loader: ServerLoader, scriptDir: String, scriptName: Option[String]): Seq[LinuxPackageMapping] = {
     val (path, permissions, isConf) = loader match {
-      case Upstart => ("/etc/init/" + name + ".conf", "0644", "true")
-      case SystemV => ("/etc/init.d/" + name, "0755", "false")
-      case Systemd => ("/usr/lib/systemd/system/" + name + ".service", "0644", "true")
+      case Upstart => ("/etc/init/" + scriptName.getOrElse(name + ".conf"), "0644", "true")
+      case SystemV => ("/etc/init.d/" + scriptName.getOrElse(name), "0755", "false")
+      case Systemd => ("/usr/lib/systemd/system/" + scriptName.getOrElse(name + ".service"), "0644", "true")
     }
     for {
       s <- script.toSeq
