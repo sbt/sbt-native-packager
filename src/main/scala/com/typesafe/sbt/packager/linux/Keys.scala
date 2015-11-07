@@ -26,6 +26,7 @@ trait LinuxKeys {
 
   val linuxMakeStartScript = TaskKey[Option[File]]("makeStartScript", "Creates or discovers the start script used by this project")
   val linuxStartScriptTemplate = TaskKey[URL]("linuxStartScriptTemplate", "The location of the template start script file we use for debian (upstart or init.d")
+  val linuxStartScriptName = SettingKey[Option[String]]("linuxStartScriptName", "The name of the start script for debian (primary useful for systemd)")
   val linuxEtcDefaultTemplate = TaskKey[URL]("linuxEtcDefaultTemplate", "The location of the /etc/default/<pkg> template script.")
   val linuxScriptReplacements = SettingKey[Seq[(String, String)]](
     "linuxScriptReplacements",
