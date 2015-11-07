@@ -208,8 +208,7 @@ object Archives {
   def makeTarball(compressor: File => File, ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File =
     makeTarballWithOptions(compressor, ext)(target, name, mappings, top, options = Seq("--force-local", "-pcvf"))
 
-
-    /**
+  /**
    * Helper method used to construct tar-related compression functions.
    * @param target folder to build package in
    * @param name of output (without extension)
