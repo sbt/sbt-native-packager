@@ -45,5 +45,5 @@ stopService() {
 #
 restartService() {
 	app_name=$1
-	service $app_name start
+	service $app_name restart
 }
