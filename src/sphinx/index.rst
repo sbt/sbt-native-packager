@@ -40,8 +40,8 @@
           <em>zip</em>, <em>tar.gz</em>, <em>debian</em>, <em>rpm</em>, <em>msi</em> and <em>docker</em>.
           It's as easy as: </p>
           <pre>sbt debian:packageBin</pre>
-          <p>An archetype doesn't cover what you need? No problem. SBT Native Packager i
-          build on top of some simple principles and you can customize it in many ways.
+          <p>An archetype doesn't cover what you need? No problem. SBT Native Packager is
+          build on top of a few simple principles so you can customize it in many ways.
           Adding a custom packaging format or some special files.</p>
           <p><a class="btn btn-default" href="formats/" role="button">Learn more »</a></p>
         </div>
