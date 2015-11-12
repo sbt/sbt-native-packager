@@ -18,7 +18,9 @@ source /lib/lsb/init-functions
 # $JAVA_OPTS used in $RUN_CMD wrapper
 export JAVA_OPTS
 
-PIDFILE=/var/run/${{app_name}}/running.pid
+if [ -z "$PIDFILE" ]; then
+    PIDFILE=/var/run/${{app_name}}/running.pid
+fi
 
 if [ -z "$DAEMON_USER" ]; then
     DAEMON_USER=${{daemon_user}}
