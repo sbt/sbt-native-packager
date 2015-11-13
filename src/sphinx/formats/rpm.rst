@@ -232,7 +232,7 @@ Example Settings:
 .. code-block:: scala
 
     defaultLinuxInstallLocation := "/opt/package_root",
-    rpmPrefix := Some(defaultLinuxInstallLocation),
+    rpmPrefix ++= Seq(defaultLinuxInstallLocation),
     linuxPackageSymlinks := Seq.empty,
     defaultLinuxLogsLocation := defaultLinuxInstallLocation + "/" + name
   
