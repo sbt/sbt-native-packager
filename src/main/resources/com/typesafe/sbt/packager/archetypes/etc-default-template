@@ -2,7 +2,7 @@
 # ##### Environment Configuration #####
 # #####################################
 
-# This file gets sourced before the actual bashscript
+# This file gets sourced before the actual startscript
 # gets executed. You can use this file to provide
 # environment variables
 

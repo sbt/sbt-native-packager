@@ -12,7 +12,8 @@
 source /lib/init/vars.sh
 source /lib/lsb/init-functions
 
-# adding bashScriptEnvConfigLocation
+# Source from package defined config. Defaults to,
+# bashScriptEnvConfigLocation := Some("/etc/default/" + (packageName in Linux).value)
 [[ -f ${{env_config}} ]] && . ${{env_config}}
 
 # $JAVA_OPTS used in $RUN_CMD wrapper
@@ -53,7 +54,9 @@ stop_daemon() {
     log_daemon_msg "Stopping" "${{app_name}}"
     start-stop-daemon --stop --quiet --oknodo --pidfile "$PIDFILE" --retry=TERM/${{term_timeout}}/KILL/${{kill_timeout}}
     log_end_msg $?
-    rm -f "$PIDFILE"
+    if [ "$create_pidfile" = true ]; then
+        rm -f "$PIDFILE"
+    fi
 }
 
 case "$1" in
