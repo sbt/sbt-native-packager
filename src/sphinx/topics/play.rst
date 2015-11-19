@@ -50,10 +50,10 @@ One way to provide this information is to append the following content in your b
 This way you should either store your production configuration under ``${{path_to_app_name}}/conf/production.conf``
 or put it under ``/usr/share/${{app_name}}/conf/production.conf`` by hand or using some configuration management system.
 
-RPM and SystemV
-~~~~~~~~~~~~~~~
+SystemV
+~~~~~~~
 
-If you use a system with rpm as a packaging managing system (Fedora, CentOS, RedHat,...) make sure to provide
+If you use a system using SystemV start script make sure to provide
 a `etc-default` in `src/templates` and set the `PIDFILE` environment variable.
 
 
