@@ -88,6 +88,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks),
         conffileProducers(mappings, targetDir)
       )
+      debMaker setDepends ""
       debMaker setDeb debianFile
       debMaker setControl (targetDir / Names.Debian)
 
