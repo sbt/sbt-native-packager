@@ -191,13 +191,16 @@ the ``bashScriptExtraDefines`` that will be used in addition to the default set:
 
 
 
-Service Manager - ``src/templates/start``
+Service Manager
 -----------------------------------------
 
-Creating a file here will override either the init.d startup script or
-the upstart start script.  It will either be located at
-``/etc/init/<application>`` or ``/etc/init.d/<application>`` depending on which
-serverLoader is being used.
+It's also possible to override the entire script/configuration for your service manager.
+Create a file ``src/templates/$format/$loader`` and it will be used instead.
+
+Possible values:
+
+* ``$format`` - ``debian`` or ``rpm``
+* ``$loader`` - ``upstart``, ``systemv`` or ``systemd``
 
 **Syntax**
 

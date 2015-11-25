@@ -116,11 +116,16 @@ which will add the following resource file to use start/stop instead of initctl 
 The :doc:`debian </formats/debian>` and :doc:`redhat </formats/rpm>` pages have further information on overriding 
 distribution specific actions.
 
-Override Start Script - ``src/templates/start``
+Override Start Script
 -----------------------------------------------
 
 It's also possible to override the entire script/configuration for your service manager.
-Create a file ``src/templates/start`` and it will be used instead.
+Create a file ``src/templates/$format/$loader`` and it will be used instead.
+
+Possible values:
+
+* ``$format`` - ``debian`` or ``rpm``
+* ``$loader`` - ``upstart``, ``systemv`` or ``systemd``
 
 **Syntax**
 

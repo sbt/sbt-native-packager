@@ -92,12 +92,14 @@ object JavaServerAppPackaging extends AutoPlugin {
       linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
       linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
 
-      linuxStartScriptTemplate := JavaServerLoaderScript(
-        script = startScriptName(serverLoading.value, Debian),
-        loader = serverLoading.value,
-        archetype = ARCHETYPE,
-        template = Option(sourceDirectory.value / "templates" / "start")
-      ),
+      linuxStartScriptTemplate <<= (serverLoading in Debian, sourceDirectory) map { (loader, srcDir) =>
+        JavaServerLoaderScript(
+          script = defaultTemplateName(loader, Debian),
+          loader = loader,
+          archetype = ARCHETYPE,
+          template = overrideTemplate(srcDir, loader, Debian)
+        )
+      },
       defaultLinuxStartScriptLocation <<= serverLoading apply getStartScriptLocation,
       linuxMakeStartScript in Debian <<= (linuxStartScriptTemplate in Debian,
         linuxScriptReplacements in Debian,
@@ -143,12 +145,14 @@ object JavaServerAppPackaging extends AutoPlugin {
       daemonGroup in Rpm <<= daemonGroup in Linux,
       daemonGroupGid in Rpm <<= daemonGroupGid in Linux,
       // === Startscript creation ===
-      linuxStartScriptTemplate := JavaServerLoaderScript(
-        script = startScriptName((serverLoading in Rpm).value, Rpm),
-        loader = (serverLoading in Rpm).value,
-        archetype = ARCHETYPE,
-        template = Option(sourceDirectory.value / "templates" / "start")
-      ),
+      linuxStartScriptTemplate <<= (serverLoading in Rpm, sourceDirectory) map { (loader, srcDir) =>
+        JavaServerLoaderScript(
+          script = defaultTemplateName(loader, Rpm),
+          loader = loader,
+          archetype = ARCHETYPE,
+          template = overrideTemplate(srcDir, loader, Rpm)
+        )
+      },
       linuxMakeStartScript in Rpm <<= (linuxStartScriptTemplate in Rpm,
         linuxScriptReplacements in Rpm,
         target in Universal,
@@ -179,10 +183,15 @@ object JavaServerAppPackaging extends AutoPlugin {
   /* ============ Helper Methods ==============  */
   /* ==========================================  */
 
-  private[this] def startScriptName(loader: ServerLoader, config: Configuration): String = (loader, config.name) match {
+  private[this] def defaultTemplateName(loader: ServerLoader, config: Configuration): String = (loader, config.name) match {
     // SystemV has two different start scripts
     case (SystemV, name) => s"start-$name-template"
     case _               => "start-template"
+  }
+
+
+  private[this] def overrideTemplate(sourceDirectory: File, loader: ServerLoader, config: Configuration): Option[File] = {
+    Option(sourceDirectory / "templates" / config.name / loader.toString.toLowerCase)
   }
 
   private[this] def makeStartScriptReplacements(
