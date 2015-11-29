@@ -27,10 +27,21 @@ realpath () {
 )
 }
 
+# Loads a configuration file full of default command line options for this script.
+loadConfigFile() {
+  cat "$1" | sed '/^\#/d'
+}
+
+
 real_script_path="$(realpath "$0")"
 app_home="$(realpath "$(dirname "$real_script_path")")"
 lib_dir="$(realpath "${app_home}/../lib")"
 
 ${{template_declares}}
 
-java -classpath $app_classpath $app_mainclass $@
+# if configuration files exist, prepend their contents to $@ so it can be processed by this runner
+[ -f "$script_conf_file" ] && set -- $(loadConfigFile "$script_conf_file") "$@"
+
+java -classpath $app_classpath "$@" $app_mainclass
+
+
