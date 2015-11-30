@@ -25,7 +25,7 @@ join the discussion in [#498](https://github.com/sbt/sbt-native-packager/issues/
   we're very active on [Stack Overflow](http://stackoverflow.com/questions/tagged/sbt). You can either use the `sbt` tag or the
   `sbt-native-packager` tag.  They also have far better search support for working around issues.
 * **Docs**:
-  [Our docs are available online](http://scala-sbt.org/sbt-native-packager).  If you'd like to help improve the docs, they're part of this
+  [Our docs are available online](http://www.scala-sbt.org/sbt-native-packager/).  If you'd like to help improve the docs, they're part of this
   repository in the `src/sphinx` directory. [ScalaDocs](http://www.scala-sbt.org/sbt-native-packager/latest/api/#package) are also available.
 * **Issues/Feature Requests**:
   Finally, any bugs or features you find you need, please report to our [issue tracker](https://github.com/sbt/sbt-native-packager/issues/new).
@@ -105,7 +105,7 @@ For usage details see the [JDKPackager Plugin guide](http://www.scala-sbt.org/sb
 
 ## Documentation ##
 
-There's a complete "getting started" guide and more detailed topics available at [the sbt-native-packager site](http://scala-sbt.org/sbt-native-packager).
+There's a complete "getting started" guide and more detailed topics available at [the sbt-native-packager site](http://www.scala-sbt.org/sbt-native-packager/).
 
 Please feel free to [contribute documentation](https://github.com/sbt/sbt-native-packager/tree/master/src/sphinx), or raise issues where you feel it may be lacking.
 
@@ -116,6 +116,6 @@ Please feel free to [contribute documentation](https://github.com/sbt/sbt-native
 - [sbt-packager](https://github.com/en-japan/sbt-packer)
 - [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
 - [sbt-bundle](https://github.com/sbt/sbt-bundle)
-- [sbt-typesafe-conductr](https://github.com/sbt/sbt-typesafe-conductr)
+- [sbt-typesafe-conductr](https://github.com/sbt/sbt-conductr)
 - [sbt-newrelic](https://github.com/gilt/sbt-newrelic)
 - [sbt-aether](https://github.com/arktekk/sbt-aether-deploy)
