@@ -42,7 +42,7 @@ You are now able to publish your packaged application in both ``tgz`` and ``zip`
 
 Custom Deployments
 ------------------
-When using other package formats we need to explicitely configure the
+When using other package formats we need to explicitly configure the
 deployment setup to a more specific one.
 
 RPM
