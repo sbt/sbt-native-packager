@@ -163,7 +163,7 @@ Meta Settings
 ~~~~~~~~~~~~~
 
   ``rpmPrefix``
-    The path passed set as the base for the revocable package
+    The path or paths allowed to be relocatable in the file system.
 
   ``rpmChangelogFile``
     External file to be imported and used to generate the changelog of the RPM.
@@ -222,20 +222,39 @@ Customize
 Rpm Prefix
 ~~~~~~~~~~
 
-The rpm prefix allows you to create a relocatable package as defined by http://www.rpm.org/max-rpm/s1-rpm-reloc-prefix-tag.html.
-This optional setting with a handful of overrides to scriptlets and templates will allow you to create a working java_server
-archetype that can be relocated in the file system.  
+The rpm prefix allows you to create a relocatable package as defined by http://www.rpm.org/max-rpm/s1-rpm-reloc-prefix-tag.html
+and http://rpm5.org/docs/api/relocatable.html.  This optional setting with a handful of overrides to scriptlets and templates
+will allow you to create a working java_server archetype that can be relocated in the file system.  By default, the sbt RPM
+packager will create paths in the RPM spec as such:
 
+.. code-block:: bash
 
-Example Settings:
+    /usr/share/ + (packageName in Linux).value # The main application path
+    /var/log/ + (packageName in Linux).value # The application log path
+    /etc/default/ + (packageName in Linux).value # config file of the application
+    /var/run/ + (packageName in Linux).value # The runtime path (for PID file, etc)
+    /etc/init.d/ + (packageName in Linux).value # Upstart daemon file, this may also be /etc/init for a SysVinit daemon file
+
+The above paths, if specified in the ``rpmPrefix`` ``Seq`` list, will then allow those paths to be relocatable at the time
+the RPM is being installed:
 
 .. code-block:: scala
 
-    defaultLinuxInstallLocation := "/opt/package_root",
-    rpmPrefix ++= Seq(defaultLinuxInstallLocation),
-    linuxPackageSymlinks := Seq.empty,
-    defaultLinuxLogsLocation := defaultLinuxInstallLocation + "/" + name
-  
+    rpmPrefix ++= Seq("/usr/share", "/var/log")
+
+.. code-block:: bash
+
+    rpm -ivh output.rpm --relocate /usr/share=/opt/app/packageName/share --relocate /var/log=/opt/app/packageName/log
+
+One main warning to note: At the time of writing this documentation, the daemon file (``/etc/init.d/packageName`` or
+``/etc/init/packageName``) will not be automatically updated to use the relocated paths because relocation occurs after
+the daemon file has been written and implanted in the RPM file.  This can be handled by in a number of ways:
+
+* Create a ``src/templates/start`` file as defined in the :ref:`Cheatsheet`.
+* Use a tool like `ansible`_ (or other scripting tools like bash, sed, awk, python, ...), to alter the file post-install of the RPM.
+* Instead of relocating, use a post-install tool to create symbolic links from the paths desired to the actual install paths.
+
+.. _ansible: http://www.ansible.com/
 
 rpmChangelogFile
 ~~~~~~~~~~~~~~~~
