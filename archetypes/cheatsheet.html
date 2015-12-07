@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Archetype Cheatsheet &mdash; sbt-native-packager 1.0.5 documentation</title>
+    <title>Archetype Cheatsheet &mdash; sbt-native-packager 1.0.6 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.5',
+        VERSION:     '1.0.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.5 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.6 documentation" href="../index.html" />
     <link rel="up" title="Project Archetypes" href="index.html" />
     <link rel="next" title="Packaging Formats" href="../formats/index.html" />
     <link rel="prev" title="Akka Microkernel" href="akka_app/index.html" />
@@ -110,7 +110,7 @@
 <li><a class="reference internal" href="#overriding-templates">Overriding Templates</a><ul>
 <li><a class="reference internal" href="#bat-script-src-templates-bat-template">Bat Script - <tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt></a></li>
 <li><a class="reference internal" href="#bash-script-src-templates-bash-template">Bash Script - <tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt></a></li>
-<li><a class="reference internal" href="#service-manager-src-templates-start">Service Manager - <tt class="docutils literal"><span class="pre">src/templates/start</span></tt></a></li>
+<li><a class="reference internal" href="#service-manager">Service Manager</a></li>
 <li><a class="reference internal" href="#server-app-config-src-templates-etc-default">Server App Config - <tt class="docutils literal"><span class="pre">src/templates/etc-default</span></tt></a></li>
 </ul>
 </li>
@@ -129,7 +129,7 @@
     </a>
   </li>
   <li>
-    <a href="../formats/index.html" title="Next Chapter: Packaging Formats"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Packaging Format... &raquo;</span>
+    <a href="../formats/index.html" title="Next Chapter: Packaging Formats"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Packaging For... &raquo;</span>
     </a>
   </li>
               
@@ -447,12 +447,15 @@ the <tt class="docutils literal"><span class="pre">bashScriptExtraDefines</span>
 <li><tt class="docutils literal"><span class="pre">app_classpath</span></tt> - The complete classpath for the application (in order).</li>
 </ul>
 </div>
-<div class="section" id="service-manager-src-templates-start">
-<h3>Service Manager - <tt class="docutils literal"><span class="pre">src/templates/start</span></tt><a class="headerlink" href="#service-manager-src-templates-start" title="Permalink to this headline">¶</a></h3>
-<p>Creating a file here will override either the init.d startup script or
-the upstart start script.  It will either be located at
-<tt class="docutils literal"><span class="pre">/etc/init/&lt;application&gt;</span></tt> or <tt class="docutils literal"><span class="pre">/etc/init.d/&lt;application&gt;</span></tt> depending on which
-serverLoader is being used.</p>
+<div class="section" id="service-manager">
+<h3>Service Manager<a class="headerlink" href="#service-manager" title="Permalink to this headline">¶</a></h3>
+<p>It&#8217;s also possible to override the entire script/configuration for your service manager.
+Create a file <tt class="docutils literal"><span class="pre">src/templates/$format/$loader</span></tt> and it will be used instead.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">$format</span></tt> - <tt class="docutils literal"><span class="pre">debian</span></tt> or <tt class="docutils literal"><span class="pre">rpm</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">$loader</span></tt> - <tt class="docutils literal"><span class="pre">upstart</span></tt>, <tt class="docutils literal"><span class="pre">systemv</span></tt> or <tt class="docutils literal"><span class="pre">systemd</span></tt></li>
+</ul>
 <p><strong>Syntax</strong></p>
 <p>You can use <tt class="docutils literal"><span class="pre">${{variable_name}}</span></tt> to reference variables when writing your script.  The default set of variables is:</p>
 <ul class="simple">

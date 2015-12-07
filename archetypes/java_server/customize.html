@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Customize Java Server Applications &mdash; sbt-native-packager 1.0.5 documentation</title>
+    <title>Customize Java Server Applications &mdash; sbt-native-packager 1.0.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0.5',
+        VERSION:     '1.0.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.5 documentation" href="../../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.6 documentation" href="../../index.html" />
     <link rel="up" title="Java Server Application Archetype" href="index.html" />
     <link rel="next" title="Akka Microkernel" href="../akka_app/index.html" />
     <link rel="prev" title="My First Packaged Server Project" href="my-first-project.html" />
@@ -102,7 +102,7 @@
 </li>
 <li><a class="reference internal" href="#service-manager-configuration">Service Manager Configuration</a><ul>
 <li><a class="reference internal" href="#customize-start-script">Customize Start Script</a></li>
-<li><a class="reference internal" href="#override-start-script-src-templates-start">Override Start Script - <tt class="docutils literal"><span class="pre">src/templates/start</span></tt></a></li>
+<li><a class="reference internal" href="#override-start-script">Override Start Script</a></li>
 <li><a class="reference internal" href="#systemd-support">SystemD Support</a></li>
 </ul>
 </li>
@@ -128,7 +128,7 @@
               
                 
   <li>
-    <a href="my-first-project.html" title="Previous Chapter: My First Packaged Server Project"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; My First Package...</span>
+    <a href="my-first-project.html" title="Previous Chapter: My First Packaged Server Project"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; My First Pack...</span>
     </a>
   </li>
   <li>
@@ -263,10 +263,15 @@ stopService<span class="o">()</span> <span class="o">{</span>
 <p>The <a class="reference internal" href="../../formats/debian.html"><em>debian</em></a> and <a class="reference internal" href="../../formats/rpm.html"><em>redhat</em></a> pages have further information on overriding
 distribution specific actions.</p>
 </div>
-<div class="section" id="override-start-script-src-templates-start">
-<h3>Override Start Script - <tt class="docutils literal"><span class="pre">src/templates/start</span></tt><a class="headerlink" href="#override-start-script-src-templates-start" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="override-start-script">
+<h3>Override Start Script<a class="headerlink" href="#override-start-script" title="Permalink to this headline">¶</a></h3>
 <p>It&#8217;s also possible to override the entire script/configuration for your service manager.
-Create a file <tt class="docutils literal"><span class="pre">src/templates/start</span></tt> and it will be used instead.</p>
+Create a file <tt class="docutils literal"><span class="pre">src/templates/$format/$loader</span></tt> and it will be used instead.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">$format</span></tt> - <tt class="docutils literal"><span class="pre">debian</span></tt> or <tt class="docutils literal"><span class="pre">rpm</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">$loader</span></tt> - <tt class="docutils literal"><span class="pre">upstart</span></tt>, <tt class="docutils literal"><span class="pre">systemv</span></tt> or <tt class="docutils literal"><span class="pre">systemd</span></tt></li>
+</ul>
 <p><strong>Syntax</strong></p>
 <p>You can use <tt class="docutils literal"><span class="pre">${{variable_name}}</span></tt> to reference variables when writing your script.  The default set of variables is:</p>
 <ul class="simple">

@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Play 2 Packaging &mdash; sbt-native-packager 1.0.5 documentation</title>
+    <title>Play 2 Packaging &mdash; sbt-native-packager 1.0.6 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.5',
+        VERSION:     '1.0.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.5 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.6 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Deployment" href="deployment.html" />
     <link rel="prev" title="Dealing with long classpaths" href="longclasspath.html" />
@@ -94,7 +94,7 @@
 <li><a class="reference internal" href="#">Play 2 Packaging</a><ul>
 <li><a class="reference internal" href="#build-configuration">Build Configuration</a></li>
 <li><a class="reference internal" href="#application-configuration">Application Configuration</a><ul>
-<li><a class="reference internal" href="#rpm-and-systemv">RPM and SystemV</a></li>
+<li><a class="reference internal" href="#systemv">SystemV</a></li>
 </ul>
 </li>
 </ul>
@@ -108,7 +108,7 @@
               
                 
   <li>
-    <a href="longclasspath.html" title="Previous Chapter: Dealing with long classpaths"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Dealing with lon...</span>
+    <a href="longclasspath.html" title="Previous Chapter: Dealing with long classpaths"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Dealing with ...</span>
     </a>
   </li>
   <li>
@@ -190,9 +190,9 @@ to <a class="reference internal" href="../archetypes/java_server/index.html"><em
 </div>
 <p>This way you should either store your production configuration under <tt class="docutils literal"><span class="pre">${{path_to_app_name}}/conf/production.conf</span></tt>
 or put it under <tt class="docutils literal"><span class="pre">/usr/share/${{app_name}}/conf/production.conf</span></tt> by hand or using some configuration management system.</p>
-<div class="section" id="rpm-and-systemv">
-<h3>RPM and SystemV<a class="headerlink" href="#rpm-and-systemv" title="Permalink to this headline">¶</a></h3>
-<p>If you use a system with rpm as a packaging managing system (Fedora, CentOS, RedHat,...) make sure to provide
+<div class="section" id="systemv">
+<h3>SystemV<a class="headerlink" href="#systemv" title="Permalink to this headline">¶</a></h3>
+<p>If you use a system using SystemV start script make sure to provide
 a <cite>etc-default</cite> in <cite>src/templates</cite> and set the <cite>PIDFILE</cite> environment variable.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># Setting JAVA_OPTS</span>
 <span class="c"># -----------------</span>

@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Deployment &mdash; sbt-native-packager 1.0.5 documentation</title>
+    <title>Deployment &mdash; sbt-native-packager 1.0.6 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.5',
+        VERSION:     '1.0.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.0.5 documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.0.6 documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Contributing Documentation" href="documentation.html" />
     <link rel="prev" title="Play 2 Packaging" href="play.html" />
@@ -93,11 +93,17 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Deployment</a><ul>
 <li><a class="reference internal" href="#setup-publish-task">Setup publish Task</a></li>
-<li><a class="reference internal" href="#default-configuration">Default Configuration</a></li>
-<li><a class="reference internal" href="#custom-configuration">Custom Configuration</a><ul>
-<li><a class="reference internal" href="#debian">Debian</a></li>
+<li><a class="reference internal" href="#default-deployment">Default Deployment</a></li>
+<li><a class="reference internal" href="#custom-deployments">Custom Deployments</a><ul>
 <li><a class="reference internal" href="#rpm">RPM</a></li>
+<li><a class="reference internal" href="#debian">Debian</a></li>
 <li><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#custom-configurations">Custom Configurations</a><ul>
+<li><a class="reference internal" href="#id1">Debian</a></li>
+<li><a class="reference internal" href="#id2">RPM</a></li>
+<li><a class="reference internal" href="#id3">Windows</a></li>
 <li><a class="reference internal" href="#universal">Universal</a></li>
 </ul>
 </li>
@@ -116,7 +122,7 @@
     </a>
   </li>
   <li>
-    <a href="documentation.html" title="Next Chapter: Contributing Documentation"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Contributing Doc... &raquo;</span>
+    <a href="documentation.html" title="Next Chapter: Contributing Documentation"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Contributing ... &raquo;</span>
     </a>
   </li>
               
@@ -170,33 +176,53 @@ like this in your <tt class="docutils literal"><span class="pre">build.sbt</span
 </div>
 <p>For an automatised build process are other plugins like the <a class="reference external" href="https://github.com/sbt/sbt-release">sbt release plugin</a>.</p>
 </div>
-<div class="section" id="default-configuration">
-<h2>Default Configuration<a class="headerlink" href="#default-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="default-deployment">
+<h2>Default Deployment<a class="headerlink" href="#default-deployment" title="Permalink to this headline">¶</a></h2>
 <p>The easiest way is to add <tt class="docutils literal"><span class="pre">UniversalDeployPlugin</span></tt> to your <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">NativePackagerKeys._</span>
 
 <span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaServerAppPackaging</span><span class="o">,</span> <span class="nc">UniversalDeployPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>You are now able to publish your application by scope.</p>
+<p>You are now able to publish your packaged application in both <tt class="docutils literal"><span class="pre">tgz</span></tt> and <tt class="docutils literal"><span class="pre">zip</span></tt> formats with:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">debian:publish</span></tt></dt>
-<dd>Publish jars along with the <tt class="docutils literal"><span class="pre">deb</span></tt> package</dd>
-<dt><tt class="docutils literal"><span class="pre">rpm:publish</span></tt></dt>
-<dd>Publish jars along with the <tt class="docutils literal"><span class="pre">rpm</span></tt> package</dd>
-<dt><tt class="docutils literal"><span class="pre">windows:publish</span></tt></dt>
-<dd>Publish jars along with the <tt class="docutils literal"><span class="pre">msi</span></tt> package</dd>
 <dt><tt class="docutils literal"><span class="pre">universal:publish</span></tt></dt>
-<dd>Publish jars along with the <tt class="docutils literal"><span class="pre">zip</span></tt> (or <tt class="docutils literal"><span class="pre">tgz</span></tt>/<tt class="docutils literal"><span class="pre">txz</span></tt> depending on the configuration) package</dd>
+<dd>Publish the <tt class="docutils literal"><span class="pre">zip</span></tt> (or <tt class="docutils literal"><span class="pre">tgz</span></tt>/<tt class="docutils literal"><span class="pre">txz</span></tt> depending on the configuration. Default is to publish <tt class="docutils literal"><span class="pre">zip</span></tt> along with <tt class="docutils literal"><span class="pre">tgz</span></tt>) package</dd>
 </dl>
 </div></blockquote>
 </div>
-<div class="section" id="custom-configuration">
-<h2>Custom Configuration<a class="headerlink" href="#custom-configuration" title="Permalink to this headline">¶</a></h2>
-<p>You configure only what you need as well.</p>
+<div class="section" id="custom-deployments">
+<h2>Custom Deployments<a class="headerlink" href="#custom-deployments" title="Permalink to this headline">¶</a></h2>
+<p>When using other package formats we need to explicitly configure the
+deployment setup to a more specific one.</p>
+<div class="section" id="rpm">
+<h3>RPM<a class="headerlink" href="#rpm" title="Permalink to this headline">¶</a></h3>
+<p>Your <tt class="docutils literal"><span class="pre">build.sbt</span></tt> should contain:</p>
+<p>This will make possible to push the <tt class="docutils literal"><span class="pre">RPM</span></tt> with:</p>
+<blockquote>
+<div><tt class="docutils literal"><span class="pre">`sbt</span> <span class="pre">rpm:publish</span></tt></div></blockquote>
+</div>
 <div class="section" id="debian">
 <h3>Debian<a class="headerlink" href="#debian" title="Permalink to this headline">¶</a></h3>
+<p>Enabled with:</p>
+<p>that will make possible to publish a <tt class="docutils literal"><span class="pre">deb</span></tt> package with:</p>
+<blockquote>
+<div><tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">deb:publish</span></tt></div></blockquote>
+</div>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<p>If using an <tt class="docutils literal"><span class="pre">msi</span></tt> packaging you need to enable:</p>
+<p>Then, pushing the package is</p>
+<blockquote>
+<div><tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">windows:publish</span></tt></div></blockquote>
+</div>
+</div>
+<div class="section" id="custom-configurations">
+<h2>Custom Configurations<a class="headerlink" href="#custom-configurations" title="Permalink to this headline">¶</a></h2>
+<p>You could configure only what you need as well.</p>
+<div class="section" id="id1">
+<h3>Debian<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">makeDeploymentSettings</span><span class="o">(</span><span class="nc">Debian</span><span class="o">,</span> <span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">,</span> <span class="s">&quot;deb&quot;</span><span class="o">)</span>
 
 <span class="c1">//if you want a changes file as well</span>
@@ -204,14 +230,14 @@ like this in your <tt class="docutils literal"><span class="pre">build.sbt</span
 </pre></div>
 </div>
 </div>
-<div class="section" id="rpm">
-<h3>RPM<a class="headerlink" href="#rpm" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>RPM<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">makeDeploymentSettings</span><span class="o">(</span><span class="nc">Rpm</span><span class="o">,</span> <span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Rpm</span><span class="o">,</span> <span class="s">&quot;rpm&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="windows">
-<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Windows<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">makeDeploymentSettings</span><span class="o">(</span><span class="nc">Windows</span><span class="o">,</span> <span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Windows</span><span class="o">,</span> <span class="s">&quot;msi&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
