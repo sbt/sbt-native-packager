@@ -51,6 +51,7 @@ RPM
 Your ``build.sbt`` should contain:
 
 .. code-block:: scala
+
     enablePlugins(RpmPlugin, RpmDeployPlugin)
 
 This will make possible to push the ``RPM`` with:
@@ -63,6 +64,7 @@ Debian
 Enabled with:
 
 .. code-block:: scala
+
     enable(DebianPlugin, DebianDeployPlugin)
 
 that will make possible to publish a ``deb`` package with:
@@ -75,6 +77,7 @@ Windows
 If using an ``msi`` packaging you need to enable:
 
 .. code-block:: scala
+
     enable(WindowsPlugin, WindowsDeployPlugin)
 
 Then, pushing the package is
