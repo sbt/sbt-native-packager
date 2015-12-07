@@ -199,6 +199,9 @@ deployment setup to a more specific one.</p>
 <div class="section" id="rpm">
 <h3>RPM<a class="headerlink" href="#rpm" title="Permalink to this headline">¶</a></h3>
 <p>Your <tt class="docutils literal"><span class="pre">build.sbt</span></tt> should contain:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">RpmPlugin</span><span class="o">,</span> <span class="nc">RpmDeployPlugin</span><span class="o">)</span>
+</pre></div>
+</div>
 <p>This will make possible to push the <tt class="docutils literal"><span class="pre">RPM</span></tt> with:</p>
 <blockquote>
 <div><tt class="docutils literal"><span class="pre">`sbt</span> <span class="pre">rpm:publish</span></tt></div></blockquote>
@@ -206,6 +209,9 @@ deployment setup to a more specific one.</p>
 <div class="section" id="debian">
 <h3>Debian<a class="headerlink" href="#debian" title="Permalink to this headline">¶</a></h3>
 <p>Enabled with:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">enable</span><span class="o">(</span><span class="nc">DebianPlugin</span><span class="o">,</span> <span class="nc">DebianDeployPlugin</span><span class="o">)</span>
+</pre></div>
+</div>
 <p>that will make possible to publish a <tt class="docutils literal"><span class="pre">deb</span></tt> package with:</p>
 <blockquote>
 <div><tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">deb:publish</span></tt></div></blockquote>
@@ -213,6 +219,9 @@ deployment setup to a more specific one.</p>
 <div class="section" id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
 <p>If using an <tt class="docutils literal"><span class="pre">msi</span></tt> packaging you need to enable:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">enable</span><span class="o">(</span><span class="nc">WindowsPlugin</span><span class="o">,</span> <span class="nc">WindowsDeployPlugin</span><span class="o">)</span>
+</pre></div>
+</div>
 <p>Then, pushing the package is</p>
 <blockquote>
 <div><tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">windows:publish</span></tt></div></blockquote>
