@@ -285,6 +285,20 @@ TemplateWriter.generateScript(template, replacements)</pre></li></ol>
       </span>
       </h4>
       
+    </li><li name="com.typesafe.sbt.packager.archetypes.TemplateWriter#generateScriptFromLines" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="generateScriptFromLines(lines:Seq[String],replacements:Seq[(String,String)],keySurround:String=&gt;String,charset:java.nio.charset.Charset):Seq[String]"></a>
+      <a id="generateScriptFromLines(Seq[String],Seq[(String,String)],(String)⇒String,Charset):Seq[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateScriptFromLines</span><span class="params">(<span name="lines">lines: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="keySurround">keySurround: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="#bashFriendlyKeySurround(key:String):String">bashFriendlyKeySurround</a></span></span></span>, <span name="charset">charset: <span class="extype" name="java.nio.charset.Charset">Charset</span> = <span class="symbol"><span class="name"><a href="#defaultCharset:java.nio.charset.Charset">defaultCharset</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">lines</dt><dd class="cmt"></dd><dt class="param">replacements</dt><dd class="cmt"></dd><dt class="param">keySurround</dt><dd class="cmt"><p>defaults to bashFriendlyKeySurround</p></dd><dt class="param">charset</dt><dd class="cmt"><p>defaults to UTF-8
+</p></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.TemplateWriter#generateScriptFromString" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="generateScriptFromString(source:String,replacements:Seq[(String,String)],eol:String,keySurround:String=&gt;String,charset:java.nio.charset.Charset):String"></a>
       <a id="generateScriptFromString(String,Seq[(String,String)],String,(String)⇒String,Charset):String"></a>

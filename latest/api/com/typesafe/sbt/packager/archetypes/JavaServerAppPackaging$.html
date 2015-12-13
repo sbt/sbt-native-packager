@@ -459,19 +459,6 @@ for an app.
 </p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>of the etc-default config file</p></dd><dt class="param">tmpDir</dt><dd class="cmt"><p>to store the resulting file in (e.g. target in Universal)</p></dd><dt class="param">source</dt><dd class="cmt"><p>of etc-default script</p></dd><dt class="param">replacements</dt><dd class="cmt"><p>for placeholders in etc-default script
 </p></dd><dt>returns</dt><dd class="cmt"><p>Some(file: File)
 </p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#makeMaintainerScript" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="makeMaintainerScript(scriptName:String,template:Option[sbt.URL],archetype:String,config:sbt.Configuration)(tmpDir:sbt.File,loader:com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader,replacements:Seq[(String,String)]):Option[sbt.File]"></a>
-      <a id="makeMaintainerScript(String,Option[URL],String,Configuration)(File,ServerLoader,Seq[(String,String)]):Option[File]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">makeMaintainerScript</span><span class="params">(<span name="scriptName">scriptName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="template">template: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#URL=java.net.URL" class="extmbr" name="sbt.URL">URL</a>] = <span class="symbol">None</span></span>, <span name="archetype">archetype: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="#ARCHETYPE:String">ARCHETYPE</a></span></span></span>, <span name="config">config: <span class="extype" name="sbt.Configuration">Configuration</span> = <span class="symbol"><span class="name"><a href="../../SbtNativePackager$.html">Debian</a></span></span></span>)</span><span class="params">(<span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="loader">loader: <a href="ServerLoader$.html#ServerLoader=com.typesafe.sbt.packager.archetypes.ServerLoader.Value" class="extmbr" name="com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader">ServerLoader</a></span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#makeStartScript" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="makeStartScript(template:sbt.URL,replacements:Seq[(String,String)],tmpDir:sbt.File,loader:com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader):Option[sbt.File]"></a>
       <a id="makeStartScript(URL,Seq[(String,String)],File,ServerLoader):Option[File]"></a>
@@ -576,19 +563,20 @@ for an app.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging">JavaServerAppPackaging</a> → AutoPlugin</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#rpmScriptletContent" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="rpmScriptletContent(dir:sbt.File,script:String,replacements:Seq[(String,String)],definedScript:Option[String],archetype:String,config:sbt.Configuration):Option[String]"></a>
-      <a id="rpmScriptletContent(File,String,Seq[(String,String)],Option[String],String,Configuration):Option[String]"></a>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#rpmScriptletContents" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="rpmScriptletContents(scriptDirectory:sbt.File,scripts:Map[String,Seq[String]],replacements:Seq[(String,String)]):Map[String,Seq[String]]"></a>
+      <a id="rpmScriptletContents(File,Map[String,Seq[String]],Seq[(String,String)]):Map[String,Seq[String]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">rpmScriptletContent</span><span class="params">(<span name="dir">dir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="script">script: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="definedScript">definedScript: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="archetype">archetype: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="#ARCHETYPE:String">ARCHETYPE</a></span></span></span>, <span name="config">config: <span class="extype" name="sbt.Configuration">Configuration</span> = <span class="symbol"><span class="name"><a href="../../SbtNativePackager$.html">Rpm</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+        <span class="name">rpmScriptletContents</span><span class="params">(<span name="scriptDirectory">scriptDirectory: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="scripts">scripts: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">scriptDirectory</dt><dd class="cmt"></dd><dt class="param">scripts</dt><dd class="cmt"></dd><dt class="param">replacements</dt><dd class="cmt"><p>
+</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#rpmSettings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="rpmSettings:Seq[sbt.Setting[_]]"></a>
       <a id="rpmSettings:Seq[Setting[_]]"></a>

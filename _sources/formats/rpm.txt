@@ -7,19 +7,19 @@ http://fedoraproject.org/wiki/How_to_create_an_RPM_package is a good tutorial, b
 packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated
 'binary' packages.
 
-.. contents:: 
+.. contents::
   :depth: 2
-  
-  
+
+
 .. raw:: html
 
   <div class="alert alert-info" role="alert">
     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The rpm plugin depends on the linux plugin. For general linux settings read the 
+    The rpm plugin depends on the linux plugin. For general linux settings read the
     <a href="linux.html">Linux Plugin Documentation</a>
   </div>
-  
-  
+
+
 Requirements
 ------------
 
@@ -149,13 +149,13 @@ Dependency Settings
 
   ``rpmProvides``
     The RPM package names that this RPM provides.
-    
+
   ``rpmPrerequisites``
     The RPM packages this RPM needs before installation
-    
+
   ``rpmObsoletes``
     The packages this RPM allows you to remove
-    
+
   ``rpmConflcits``
     The packages this RPM conflicts with and cannot be installed with.
 
@@ -171,28 +171,12 @@ Meta Settings
 
 Scriptlet Settings
 ~~~~~~~~~~~~~~~~~~
-    
-  ``rpmPretrans`` 
-    The ``%pretrans`` scriptlet to run.
-    
-  ``rpmPre``
-    The ``%pre`` scriptlet to run.
-    
-  ``rpmVerifyScript``
-    The ``%verifyscript%`` scriptlet to run
-    
-  ``rpmPost``
-    The ``%post`` scriptlet to run
-    
-  ``rpmPosttrans``
-    The ``%posttrans`` scriptlet to run
-    
-  ``rpmPreun``
-    The ``%preun`` scriptlet to run.
-    
-  ``rpmPostun``
-    The ``%postun`` scriptlet to run.
-    
+
+  ``maintainerScripts in Rpm``
+    Contains the scriptles being injected into the specs file. Currently supports all
+    previous scriptlets: ``%pretrans``, ``%pre``, ``%verifyscript%``, ``%post``, ``%posttrans``,
+    ``%preun`` and  ``%postun``
+
   ``rpmBrpJavaRepackJars``
     appends ``__os_install_post`` scriptlet to ``rpmPre`` avoiding jar repackaging
 
@@ -224,7 +208,7 @@ Rpm Prefix
 
 The rpm prefix allows you to create a relocatable package as defined by http://www.rpm.org/max-rpm/s1-rpm-reloc-prefix-tag.html.
 This optional setting with a handful of overrides to scriptlets and templates will allow you to create a working java_server
-archetype that can be relocated in the file system.  
+archetype that can be relocated in the file system.
 
 
 Example Settings:
@@ -235,7 +219,7 @@ Example Settings:
     rpmPrefix := Some(defaultLinuxInstallLocation),
     linuxPackageSymlinks := Seq.empty,
     defaultLinuxLogsLocation := defaultLinuxInstallLocation + "/" + name
-  
+
 
 rpmChangelogFile
 ~~~~~~~~~~~~~~~~
@@ -249,7 +233,7 @@ Example Settings:
 .. code-block:: scala
 
     changelog := "changelog.txt"
-    
+
     rpmChangelogFile := Some(changelog)
 
 
@@ -272,10 +256,10 @@ Apply the following changes to the default init start script.  You can find this
 ``src/templates/start``
 
 .. code-block:: bash
-    
+
     ...
     [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
- 
+
     # smb could define some additional options in $RUN_OPTS
     RUN_CMD="${PACKAGE_PREFIX}/${{app_name}}/bin/${{app_name}}"
     ...
@@ -285,35 +269,39 @@ Apply the following changes to the default init start script.  You can find this
 Scriptlet Changes
 ~~~~~~~~~~~~~~~~~
 
-Changing the scripts can be done in two ways. Override the ``rpmPre``, ``rpmPostun`` etc. scripts.
+Changing the scripts can be done in two ways. Override the ``maintainerScripts in Rpm``.
 For example:
 
 .. code-block:: scala
 
    // overriding
-   rpmPre := Some("""## override all other enhancements
-      echo "I take care of everything myself"
-   """)
-   
-   // appending different stuff depending if previous content is there
-   rpmPostun := rpmPost.value.map { content =>
-     s"""|$content
-        |echo "I append this to the current content
-        |""".stripMargin
-     }.orElse {
-      Option("""echo "There wasn't any previous content"
-      """.stripMargin)
-     }
+   import RpmConstants._
+   maintainerScripts in Rpm := Map(
+     Pre -> Seq("""echo "pre-install""""),
+     Post -> Seq("""echo "post-install""""),
+     Pretrans -> Seq("""echo "pretrans""""),
+     Posttrans -> Seq("""echo "posttrans""""),
+     Preun -> Seq("""echo "pre-uninstall""""),
+     Postun -> Seq("""echo "post-uninstall"""")
+   )
 
-   // just appending
-   rpmPostun := {
-     val prev = rpmPostun.value.getOrElse("")
-     Some(s"""|$prev
-              | echo "Hello you"
-              |""".stripMargin)
-   }
+   // appending with strings and replacements
+   import RpmConstants._
+   maintainerScripts in Rpm := maintainerScriptsAppend((maintainerScripts in Rpm).value)(
+      Pretrans -> "echo 'hello, world'",
+      Post -> s"echo 'installing ${(packageName in Rpm).value}'"
+   )
 
-or place your new scripts in the ``src/rpm/scriptlets`` folder. For example:
+   // appending from a different file
+   import RpmConstants._
+   maintainerScripts in Rpm := maintainerScriptsAppendFromFile((maintainerScripts in Rpm).value)(
+      Pretrans -> (sourceDirectory.value / "rpm" / "pretrans"),
+      Post -> (sourceDirectory.value / "rpm" / "posttrans")
+   )
+
+The helper methods can be found in `MaintainerScriptHelper Scaladocs`_.
+
+You also can place new scripts in the ``src/rpm/scriptlets`` folder. For example:
 
 
 ``src/rpm/scriptlets/preinst``
@@ -333,9 +321,37 @@ or place your new scripts in the ``src/rpm/scriptlets`` folder. For example:
     ...
 
 Using files will override all previous contents. The names used can be found in
-the `Scaladocs`_.
+the `RPM Scaladocs`_.
 
-    
+Scriptlet Migration from 1.0.x
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before
+
+.. code-block:: scala
+
+    rpmPostun := rpmPost.value.map { content =>
+      s"""|$content
+         |echo "I append this to the current content
+         |""".stripMargin
+      }.orElse {
+       Option("""echo "There wasn't any previous content"
+       """.stripMargin)
+      }
+
+After
+
+.. code-block:: scala
+
+    // this gives you easy access to the correct keys
+    import RpmConstants._
+    // in order to append you have to pass the initial maintainerScripts map
+    maintainerScripts in Rpm := maintainerScriptsAppend((maintainerScripts in Rpm).value)(
+       Pretrans -> "echo 'hello, world'",
+       Post -> s"echo 'installing ${(packageName in Rpm).value}'"
+    )
+
+
 Jar Repackaging
 ~~~~~~~~~~~~~~~
 
@@ -345,8 +361,8 @@ This behaviour is turned off by default with this setting.
 .. code-block:: scala
 
     rpmBrpJavaRepackJars := false
-    
-Note that this appends content to your ``rpmPre`` definition, so make sure not to override it.
+
+Note that this appends content to your ``Pre`` definition, so make sure not to override it.
 For more information on this topic follow these links:
 
 * `issue #195`_
@@ -357,5 +373,5 @@ For more information on this topic follow these links:
   .. _issue #195: https://github.com/sbt/sbt-native-packager/issues/195
   .. _pullrequest #199: https://github.com/sbt/sbt-native-packager/pull/199
   .. _OpenSuse issue: https://github.com/sbt/sbt-native-packager/issues/215
-  .. _Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.rpm.RpmPlugin$$Names$
-  
+  .. _RPM Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.rpm.RpmPlugin$$Names$
+  .. _MaintainerScriptHelper Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$
