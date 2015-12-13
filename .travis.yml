@@ -5,9 +5,9 @@ env:
   - SCALA_VERSION=2.10.5
 script:
   - ./sbt ++$SCALA_VERSION --warn update compile test:compile
-  - ./sbt ++$SCALA_VERSION test "scripted jar/*"
+  - ./sbt ++$SCALA_VERSION test "scripted jar/* universalAll/*"
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
-      ./sbt ++$SCALA_VERSION "scripted universal/* rpm/* debian/*";
+      ./sbt ++$SCALA_VERSION "scripted universalLinux/* rpm/* debian/*";
     fi
 notifications:
   email:
