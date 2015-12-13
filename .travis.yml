@@ -3,11 +3,16 @@ os:
   - osx
 env:
   - SCALA_VERSION=2.10.5
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+      brew update;
+      brew install xz;
+    fi
 script:
   - ./sbt ++$SCALA_VERSION --warn update compile test:compile
-  - ./sbt ++$SCALA_VERSION test "scripted jar/*"
+  - ./sbt ++$SCALA_VERSION test "scripted universal/* jar/*"
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
-      ./sbt ++$SCALA_VERSION "scripted universal/* rpm/* debian/*";
+      ./sbt ++$SCALA_VERSION "scripted rpm/* debian/*";
     fi
 notifications:
   email:
