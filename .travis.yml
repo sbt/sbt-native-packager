@@ -1,13 +1,14 @@
-language: scala
+language: java
 os:
-  - linux
+  - osx
+env:
+  - SCALA_VERSION=2.10.5
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION --warn update compile test:compile && sbt ++$TRAVIS_SCALA_VERSION test "scripted rpm/* debian/* universal/* jar/*"
-scala:
-  - 2.10.5
-jdk:
-  - openjdk7
-  - oraclejdk8
+  - ./sbt ++$SCALA_VERSION --warn update compile test:compile
+  - ./sbt ++$SCALA_VERSION test "scripted jar/*"
+  - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
+      ./sbt ++$SCALA_VERSION "scripted universal/* rpm/* debian/*";
+    fi
 notifications:
   email:
     - qbranch@typesafe.com
@@ -15,6 +16,12 @@ addons:
   apt:
     packages:
     - rpm
+matrix:
+  include:
+    - os: linux
+      jdk: openjdk7
+    - os: linux
+      jdk: oraclejdk8
  
 sudo: false
 cache: 
