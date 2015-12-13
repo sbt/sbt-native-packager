@@ -91,7 +91,9 @@ object LinuxPlugin extends AutoPlugin {
       termTimeout = (termTimeout in Linux).value,
       killTimeout = (killTimeout in Linux).value
     ),
-    linuxScriptReplacements += controlScriptFunctionsReplacement( /* Add key for control-functions */ )
+    linuxScriptReplacements += controlScriptFunctionsReplacement( /* Add key for control-functions */ ),
+
+    maintainerScripts in Linux := Map.empty
 
   )
 

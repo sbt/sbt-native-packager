@@ -53,6 +53,10 @@ object TemplateWriter {
     sb toString
   }
 
+  private[this] def replaceValues(lines: Seq[String], replacements: Seq[(String, String)], keySurround: String => String): Seq[String] = {
+    lines.map(line => replace(line, replacements, keySurround))
+  }
+
   def generateScript(
     source: java.net.URL,
     replacements: Seq[(String, String)],
@@ -70,5 +74,19 @@ object TemplateWriter {
     keySurround: String => String = bashFriendlyKeySurround,
     charset: java.nio.charset.Charset = defaultCharset): String = {
     replaceValues(source split eol, replacements, eol, keySurround)
+  }
+
+  /**
+   * @param lines
+   * @param replacements
+   * @param keySurround defaults to bashFriendlyKeySurround
+   * @param charset defaults to UTF-8
+   */
+  def generateScriptFromLines(
+    lines: Seq[String],
+    replacements: Seq[(String, String)],
+    keySurround: String => String = bashFriendlyKeySurround,
+    charset: java.nio.charset.Charset = defaultCharset): Seq[String] = {
+    replaceValues(lines, replacements, keySurround)
   }
 }

@@ -97,7 +97,8 @@ object SbtNativePackager extends AutoPlugin {
     packageDescription := name.value,
     packageSummary := name.value,
     packageName := normalizedName.value,
-    executableScriptName := normalizedName.value
+    executableScriptName := normalizedName.value,
+    maintainerScripts := Map()
 
   )
 

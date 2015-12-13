@@ -1,3 +1,5 @@
+import RpmConstants._
+
 enablePlugins(RpmPlugin)
 
 name := "rpm-test"
@@ -19,17 +21,14 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
-rpmPre := Some("""echo "pre-install"""")
-
-rpmPost := Some("""echo "post-install"""")
-
-rpmPretrans := Some("""echo "pretrans"""")
-
-rpmPosttrans := Some("""echo "posttrans"""")
-
-rpmPreun := Some("""echo "pre-uninstall"""")
-
-rpmPostun := Some("""echo "post-uninstall"""")
+maintainerScripts in Rpm := Map(
+  Pre -> Seq("""echo "pre-install""""),
+  Post -> Seq("""echo "post-install""""),
+  Pretrans -> Seq("""echo "pretrans""""),
+  Posttrans -> Seq("""echo "posttrans""""),
+  Preun -> Seq("""echo "pre-uninstall""""),
+  Postun -> Seq("""echo "post-uninstall"""")
+)
 
 TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
   val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")

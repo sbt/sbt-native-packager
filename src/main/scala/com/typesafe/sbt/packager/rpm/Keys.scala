@@ -37,23 +37,32 @@ trait RpmKeys {
   val rpmConflicts = SettingKey[Seq[String]]("rpm-conflicts", "Packages this RPM conflicts with.")
   val rpmDependencies = SettingKey[RpmDependencies]("rpm-dependencies", "Configuration of dependency info for this RPM.")
 
+  // MAINTAINER SCRIPTS
+  @deprecated("Use maintainerScripts in RPM and RpmConstants.Pretrans instead.", "1.1.x")
+  val rpmPretrans = SettingKey[Option[String]]("rpm-pretrans", "%pretrans scriptlet")
+  @deprecated("Use maintainerScripts in RPM and RpmConstants.Pre instead.", "1.1.x")
+  val rpmPre = SettingKey[Option[String]]("rpm-pre", "%pre scriptlet")
+  @deprecated("Use maintainerScripts in RPM and RpmConstants.Verifyscript instead.", "1.1.x")
+  val rpmVerifyscript = SettingKey[Option[String]]("rpm-verifyscript", "%verifyscript scriptlet")
+  @deprecated("Use maintainerScripts in RPM and RpmConstants.Post instead.", "1.1.x")
+  val rpmPost = SettingKey[Option[String]]("rpm-post", "%post scriptlet")
+  @deprecated("Use maintainerScripts in RPM and RpmConstants.Posttrans instead.", "1.1.x")
+  val rpmPosttrans = SettingKey[Option[String]]("rpm-posttrans", "%posttrans scriptlet")
+  @deprecated("Use maintainerScripts in RPM and RpmConstants.Preun instead.", "1.1.x")
+  val rpmPreun = SettingKey[Option[String]]("rpm-preun", "%preun scriptlet")
+  @deprecated("Use maintainerScripts in RPM and RpmConstants.Postun instead.", "1.1.x")
+  val rpmPostun = SettingKey[Option[String]]("rpm-postun", "%postun scriptlet")
+
   // SPEC
   val rpmSpecConfig = TaskKey[RpmSpec]("rpm-spec-config", "All the configuration for an RPM .spec file.")
 
   // SCRIPTS
-  val rpmScripts = SettingKey[RpmScripts]("rpm-scripts", "Configuration of pre- and post-integration scripts.")
+  val rpmScripts = TaskKey[RpmScripts]("rpm-scripts", "Configuration of pre- and post-integration scripts.")
   val rpmScriptsDirectory = SettingKey[File](
     "rpm-scriptlets-directory",
     "Directory where all debian control scripts reside. Default is 'src/rpm/scriptlets'"
   )
 
-  val rpmPretrans = SettingKey[Option[String]]("rpm-pretrans", "%pretrans scriptlet")
-  val rpmPre = SettingKey[Option[String]]("rpm-pre", "%pre scriptlet")
-  val rpmVerifyscript = SettingKey[Option[String]]("rpm-verifyscript", "%verifyscript scriptlet")
-  val rpmPost = SettingKey[Option[String]]("rpm-post", "%post scriptlet")
-  val rpmPosttrans = SettingKey[Option[String]]("rpm-posttrans", "%posttrans scriptlet")
-  val rpmPreun = SettingKey[Option[String]]("rpm-preun", "%preun scriptlet")
-  val rpmPostun = SettingKey[Option[String]]("rpm-postun", "%postun scriptlet")
   val rpmBrpJavaRepackJars = SettingKey[Boolean]("brp-java-repack-jars", """Overrides the __os_post_install scriptlet
       http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build/ for details""")
 

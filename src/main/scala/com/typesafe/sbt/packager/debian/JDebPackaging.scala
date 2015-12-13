@@ -39,7 +39,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
     // FIXME do nothing. Java7 posix needed
     debianConffilesFile := {
-      target.value / Names.Debian / Names.Conffiles
+      target.value / Names.DebianMaintainerScripts / Names.Conffiles
     },
 
     // FIXME copied from the debian plugin. Java7 posix needed
@@ -51,7 +51,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
                  packageDescription in Debian := "My package Description""""
           )
         }
-        val cfile = dir / Names.Debian / Names.Control
+	val cfile = dir / Names.DebianMaintainerScripts / Names.Control
         IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
         cfile
     },
@@ -67,7 +67,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       val symlinks = linuxPackageSymlinks.value
 
       // unused, but needed as dependency
-      val controlDir = targetDir / Names.Debian
+      val controlDir = targetDir / Names.DebianMaintainerScripts
       val control = debianControlFile.value
       val conffile = debianConffilesFile.value
       val replacements = debianMakeChownReplacements.value +: linuxScriptReplacements.value
@@ -90,7 +90,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       )
       debMaker setDepends ""
       debMaker setDeb debianFile
-      debMaker setControl (targetDir / Names.Debian)
+      debMaker setControl (targetDir / Names.DebianMaintainerScripts)
 
       // TODO set compression, gzip is default
       // TODO add signing with setKeyring, setKey, setPassphrase, setSignPackage, setSignMethod, setSignRole

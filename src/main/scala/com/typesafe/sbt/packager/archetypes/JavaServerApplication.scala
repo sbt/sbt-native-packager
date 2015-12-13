@@ -5,13 +5,13 @@ package archetypes
 import sbt._
 import sbt.Keys.{ target, mainClass, sourceDirectory, streams, javaOptions, run }
 import SbtNativePackager.{ Debian, Rpm, Universal }
-import packager.Keys.{ packageName }
+import packager.Keys.{ packageName, maintainerScripts }
 import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
 import linux.LinuxPlugin.autoImport._
 import debian.DebianPlugin
 import debian.DebianPlugin.autoImport.{ debianMakePreinstScript, debianMakePostinstScript, debianMakePrermScript, debianMakePostrmScript }
 import rpm.RpmPlugin
-import rpm.RpmPlugin.autoImport.{ rpmPre, rpmPost, rpmPostun, rpmPreun, rpmScriptsDirectory, rpmDaemonLogFile }
+import rpm.RpmPlugin.autoImport.{ rpmPre, rpmPost, rpmPostun, rpmPreun, rpmScriptsDirectory, rpmDaemonLogFile, RpmConstants }
 import rpm.RpmPlugin.Names.RpmDaemonLogFileReplacement
 import JavaAppPackaging.autoImport.{ bashScriptConfigLocation, bashScriptEnvConfigLocation }
 
@@ -105,18 +105,27 @@ object JavaServerAppPackaging extends AutoPlugin {
         linuxScriptReplacements in Debian,
         target in Universal,
         serverLoading in Debian) map makeStartScript,
-      linuxPackageMappings <++= (packageName, linuxMakeStartScript, serverLoading, defaultLinuxStartScriptLocation, linuxStartScriptName) map startScriptMapping
+      linuxPackageMappings <++= (packageName, linuxMakeStartScript, serverLoading, defaultLinuxStartScriptLocation, linuxStartScriptName) map startScriptMapping,
+
+      // === Maintainer scripts ===
+      maintainerScripts := {
+        val scripts = (maintainerScripts in Debian).value
+        val replacements = (linuxScriptReplacements in Debian).value
+        val contentOf = getScriptContent(Debian, replacements) _
+
+        scripts ++ Map(
+          Preinst -> (scripts.getOrElse(Preinst, Nil) :+ contentOf(Preinst)),
+          Postinst -> (scripts.getOrElse(Postinst, Nil) :+ contentOf(Postinst)),
+          Prerm -> (scripts.getOrElse(Prerm, Nil) :+ contentOf(Prerm)),
+          Postrm -> (scripts.getOrElse(Postrm, Nil) :+ contentOf(Postrm))
+        )
+      }
     )) ++ Seq(
       // === Daemon User and Group ===
       daemonUser in Debian <<= daemonUser in Linux,
       daemonUserUid in Debian <<= daemonUserUid in Linux,
       daemonGroup in Debian <<= daemonGroup in Linux,
-      daemonGroupGid in Debian <<= daemonGroupGid in Linux,
-      // === Maintainer scripts ===
-      debianMakePreinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Preinst),
-      debianMakePostinstScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Postinst),
-      debianMakePrermScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Prerm),
-      debianMakePostrmScript <<= (target in Universal, serverLoading in Debian, linuxScriptReplacements) map makeMaintainerScript(Postrm)
+      daemonGroupGid in Debian <<= daemonGroupGid in Linux
     )
   }
 
@@ -163,19 +172,7 @@ object JavaServerAppPackaging extends AutoPlugin {
       linuxPackageMappings in Rpm <++= (packageName in Rpm, linuxMakeStartScript in Rpm, serverLoading in Rpm, defaultLinuxStartScriptLocation in Rpm, linuxStartScriptName in Rpm) map startScriptMapping,
 
       // == Maintainer scripts ===
-      // TODO this is very basic - align debian and rpm plugin
-      rpmPre <<= (rpmScriptsDirectory, rpmPre, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
-        (dir, pre, replacements, loader) => rpmScriptletContent(dir, Pre, replacements, pre)
-      },
-      rpmPost <<= (rpmScriptsDirectory, rpmPost, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
-        (dir, post, replacements, loader) => rpmScriptletContent(dir, Post, replacements, post)
-      },
-      rpmPostun <<= (rpmScriptsDirectory, rpmPostun, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
-        (dir, postun, replacements, loader) => rpmScriptletContent(dir, Postun, replacements, postun)
-      },
-      rpmPreun <<= (rpmScriptsDirectory, rpmPreun, linuxScriptReplacements in Rpm, serverLoading in Rpm) apply {
-        (dir, preun, replacements, loader) => rpmScriptletContent(dir, Preun, replacements, preun)
-      }
+      maintainerScripts in Rpm := rpmScriptletContents(rpmScriptsDirectory.value, (maintainerScripts in Rpm).value, (linuxScriptReplacements in Rpm).value)
     )
   }
 
@@ -186,9 +183,8 @@ object JavaServerAppPackaging extends AutoPlugin {
   private[this] def defaultTemplateName(loader: ServerLoader, config: Configuration): String = (loader, config.name) match {
     // SystemV has two different start scripts
     case (SystemV, name) => s"start-$name-template"
-    case _               => "start-template"
+    case _ => "start-template"
   }
-
 
   private[this] def overrideTemplate(sourceDirectory: File, loader: ServerLoader, config: Configuration): Option[File] = {
     Option(sourceDirectory / "templates" / config.name / loader.toString.toLowerCase)
@@ -204,7 +200,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     // Upstart cannot handle empty values
     val (startOn, stopOn) = loader match {
       case Upstart => (requiredStartFacilities.map("start on started " + _), requiredStopFacilities.map("stop on stopping " + _))
-      case _       => (requiredStartFacilities, requiredStopFacilities)
+      case _ => (requiredStartFacilities, requiredStopFacilities)
     }
     Seq(
       "start_runlevels" -> startRunlevels.getOrElse(""),
@@ -264,16 +260,17 @@ object JavaServerAppPackaging extends AutoPlugin {
     Some(script)
   }
 
-  protected def makeMaintainerScript(
-    scriptName: String,
-    template: Option[URL] = None, archetype: String = ARCHETYPE, config: Configuration = Debian)(
-      tmpDir: File, loader: ServerLoader, replacements: Seq[(String, String)]): Option[File] = {
-    val scriptBits = JavaServerBashScript(scriptName, archetype, config, replacements, template) getOrElse {
-      sys.error(s"Couldn't load [$scriptName] for config [${config.name}] in archetype [$archetype]")
+  /**
+   *
+   * @param config for which plugin (Debian, Rpm)
+   * @param replacements for the placeholders
+   * @param scriptName that should be loaded
+   * @return script lines
+   */
+  private[this] def getScriptContent(config: Configuration, replacements: Seq[(String, String)])(scriptName: String): String = {
+    JavaServerBashScript(scriptName, ARCHETYPE, config, replacements) getOrElse {
+      sys.error(s"Couldn't load [$scriptName] for config [${config.name}] in archetype [$ARCHETYPE]")
     }
-    val script = tmpDir / "tmp" / "bin" / (config.name + scriptName)
-    IO.write(script, scriptBits)
-    Some(script)
   }
 
   /**
@@ -295,15 +292,44 @@ object JavaServerAppPackaging extends AutoPlugin {
     Some(script)
   }
 
-  protected def rpmScriptletContent(dir: File, script: String,
-    replacements: Seq[(String, String)], definedScript: Option[String], archetype: String = ARCHETYPE, config: Configuration = Rpm): Option[String] = {
-    val file = (dir / script)
-    val template = if (file exists) Some(file.toURI.toURL) else None
+  /**
+   *
+   *
+   * @param scriptDirectory
+   * @param scripts
+   * @param replacements
+   */
+  protected def rpmScriptletContents(scriptDirectory: File, scripts: Map[String, Seq[String]], replacements: Seq[(String, String)]): Map[String, Seq[String]] = {
+    import RpmConstants._
+    val predefined = List(Pre, Post, Preun, Postun)
+    val predefinedScripts = predefined.foldLeft(scripts) {
+      case (scripts, script) =>
+        val userDefined = Option(scriptDirectory / script) collect {
+          case file if file.exists && file.isFile => file.toURI.toURL
+        }
+        // generate content
+        val content = JavaServerBashScript(script, ARCHETYPE, Rpm, replacements, userDefined).map {
+          script => TemplateWriter generateScriptFromString (script, replacements)
+        }.toSeq
+        // add new content
+        val newContent = scripts.getOrElse(script, Nil) ++ content.toSeq
+        scripts + (script -> newContent)
+    }
 
-    val content = definedScript.map(_ + "\n").getOrElse("")
+    // used to override template
+    val rpmScripts = Option(scriptDirectory.listFiles) getOrElse Array.empty
 
-    JavaServerBashScript(script, archetype, config, replacements, template) map {
-      case script => TemplateWriter generateScriptFromString (content + script, replacements)
+    // remove all non files and already processed templates
+    rpmScripts.diff(predefined).filter(_.isFile).foldLeft(predefinedScripts) {
+      case (scripts, scriptlet) =>
+        val script = scriptlet.getName
+        val existingContent = scripts.getOrElse(script, Nil)
+
+        val loadedContent = JavaServerBashScript(script, ARCHETYPE, Rpm, replacements, Some(scriptlet.toURI.toURL)).map {
+          script => TemplateWriter generateScriptFromString (script, replacements)
+        }.toSeq
+        // add the existing and loaded content
+        scripts + (script -> (existingContent ++ loadedContent))
     }
   }
 }
