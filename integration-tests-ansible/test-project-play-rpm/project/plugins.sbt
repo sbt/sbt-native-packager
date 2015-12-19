@@ -9,5 +9,5 @@ libraryDependencies <+= Def.setting[ModuleID] {
 
 lazy val root = Project("plugins", file(".")) dependsOn(packager)
 
-lazy val packager = file("..").getAbsoluteFile.toURI
+lazy val packager = file("../../").getAbsoluteFile.toURI
 

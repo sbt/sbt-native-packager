@@ -1,9 +1,0 @@
-* Sun Aug 24 2014 Team <contact@example.com> - 1.1.0
--Allow to login using social networks
-* Wed Aug 20 2014 Team <contact@example.com> - 1.0.1
--Vulnerability fix.
--Other information.
--Feature list.
-* Tue Aug 19 2014 Team <contact@example.com> - 1.0.0
--First version of the system
-

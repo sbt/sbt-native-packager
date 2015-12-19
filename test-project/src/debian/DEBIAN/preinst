@@ -1,1 +1,0 @@
-echo "installing ${{app_name}} from ${{author}}"
