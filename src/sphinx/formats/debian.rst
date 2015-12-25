@@ -57,8 +57,6 @@ you have these settings in your build:
     packageDescription := """A fun package description of our software,
       with multiple lines."""
 
-1.0 or higher
-~~~~~~~~~~~~~
 
 Enable the debian plugin to activate the native package implementation.
 
@@ -66,24 +64,24 @@ Enable the debian plugin to activate the native package implementation.
 
   enablePlugins(DebianPlugin)
 
+Java based packaging
+~~~~~~~~~~~~~~~~~~~~
+
 If you want to use the java based implementation, enable the following plugin.
 
 .. code-block:: scala
 
   enablePlugins(JDebPackaging)
-
-0.8 or lower
-~~~~~~~~~~~~
-
-For this versions debian packaging is automatically activated.
-See the :doc:`Getting Started </gettingstarted>` page for information
-on how to enable sbt native packager.
-
-If you want to enable `jdeb` packaging add the following to your `build.sbt`
+  
+and this to your ``plugins.sbt``
 
 .. code-block:: scala
 
-    packageBin in Debian <<= debianJDebPackaging in Debian
+  libraryDependencies += "org.vafer" % "jdeb" % "1.3" artifacts (Artifact("jdeb", "jar", "jar"))
+  
+JDeb is a provided dependency so you have to add it on your own. It brings a lot of dependencies
+that could slow your build times. This is the reason the dependency is marked as provided.
+
 
 
 Configurations

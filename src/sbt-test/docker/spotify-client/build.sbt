@@ -1,5 +1,3 @@
-import com.typesafe.sbt.packager.docker._
-
 enablePlugins(JavaAppPackaging, DockerSpotifyClientPlugin)
 
 name := "docker-test"
