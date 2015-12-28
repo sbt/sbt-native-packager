@@ -5,13 +5,12 @@ package docker
 import java.nio.file.Paths
 
 import com.spotify.docker.client.messages.ProgressMessage
-import com.spotify.docker.client.{ProgressHandler, DockerClient, DefaultDockerClient}
+import com.spotify.docker.client.{ ProgressHandler, DockerClient, DefaultDockerClient }
 import com.spotify.docker.client.DockerClient.BuildParameter._
 import sbt._
 import sbt.Keys._
 import packager.Keys._
 import universal.UniversalPlugin.autoImport.stage
-
 
 /**
  * == DockerSpotifyClientPlugin Plugin ==
@@ -36,9 +35,19 @@ import universal.UniversalPlugin.autoImport.stage
  *       configuration in a docker image with almost no ''any'' configuration.
  *
  * @example Enable the plugin in the `build.sbt`
- *          {{{
- *              enablePlugins(DockerSpotifyClientPlugin)
- *          }}}
+ * {{{
+ *   enablePlugins(DockerSpotifyClientPlugin)
+ * }}}
+ * 
+ * and add the dependency in your `plugins.sbt`
+ * 
+ * {{{
+ *   libraryDependencies += "com.spotify" % "docker-client" % "3.2.1"
+ * }}}
+ * 
+ * The Docker-spotify client is a provided dependency so you have to add it on your own. 
+ * It brings a lot of dependenciesthat could slow your build times. This is the reason 
+ * the dependency is marked as provided.
  */
 object DockerSpotifyClientPlugin extends AutoPlugin {
 
@@ -78,6 +87,5 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
       docker.tag(tag, name, true)
     }
   }
-
 
 }
