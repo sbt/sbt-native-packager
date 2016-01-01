@@ -14,6 +14,9 @@ script:
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
       ./sbt ++$SCALA_VERSION "scripted rpm/* debian/*";
     fi
+  - if [[ "$TRAVIS_JDK_VERSION" = "oraclejdk8" ]]; then
+      ./sbt ++$SCALA_VERSION "scripted jdkpackager/*";
+    fi
 notifications:
   email:
     - qbranch@typesafe.com
