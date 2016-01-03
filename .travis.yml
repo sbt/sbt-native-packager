@@ -15,7 +15,7 @@ script:
       ./sbt ++$SCALA_VERSION "scripted rpm/* debian/*";
     fi
   - if [[ "$TRAVIS_JDK_VERSION" = "oraclejdk8" ]]; then
-      ./sbt ++$SCALA_VERSION "scripted jdkpackager/*";
+      ./sbt ++$SCALA_VERSION "scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings";
     fi
 notifications:
   email:
