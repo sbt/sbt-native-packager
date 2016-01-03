@@ -8,6 +8,8 @@ scalacOptions in Compile ++= Seq("-deprecation", "-target:jvm-1.7")
 
 libraryDependencies ++= Seq(
     "org.apache.commons" % "commons-compress" % "1.4.1",
+    // for jdkpackager
+    "org.apache.ant" % "ant" % "1.9.6",
     // these dependencies have to be explicitly added by the user
     "com.spotify" % "docker-client" % "3.2.1" % "provided",
     "org.vafer" % "jdeb" % "1.3"  % "provided" artifacts (Artifact("jdeb", "jar", "jar")),
