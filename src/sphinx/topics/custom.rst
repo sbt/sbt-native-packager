@@ -73,6 +73,8 @@ Then configure the proguard options in ``build.sbt``:
 
 .. code-block:: scala
 
+    import com.typesafe.sbt.SbtProguard.ProguardKeys
+
     // initialize the proguard settings
     proguardSettings
 
