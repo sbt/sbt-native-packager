@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Custom Package Formats &mdash; sbt-native-packager 1.1-b7f5f74d4c4e71a268bea6ac6f4825e30005e1ce documentation</title>
+    <title>Custom Package Formats &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.1-b7f5f74d4c4e71a268bea6ac6f4825e30005e1ce',
+        VERSION:     '1.1.0-SNAPSHOT',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.1-b7f5f74d4c4e71a268bea6ac6f4825e30005e1ce documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html" />
     <link rel="up" title="Advanced Topics" href="index.html" />
     <link rel="next" title="Dealing with long classpaths" href="longclasspath.html" />
     <link rel="prev" title="Advanced Topics" href="index.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1-b7f5f74d4c4e71a268bea6ac6f4825e30005e1ce</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.1.0-SNAPSHOT</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -93,6 +93,7 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Custom Package Formats</a><ul>
 <li><a class="reference internal" href="#sbt-assembly">SBT Assembly</a></li>
+<li><a class="reference internal" href="#proguard">Proguard</a></li>
 <li><a class="reference internal" href="#multi-module-builds">Multi Module Builds</a></li>
 <li><a class="reference internal" href="#custom-packaging-format">Custom Packaging Format</a></li>
 </ul>
@@ -156,7 +157,7 @@
 <div class="line">self-containing jar as a package instead of the default lib/ structure</div>
 </div>
 </div></blockquote>
-<p>First add the sbt-assembly plugin to your <cite>plugins.sbt</cite> file.</p>
+<p>First add the sbt-assembly plugin to your <tt class="docutils literal"><span class="pre">plugins.sbt</span></tt> file.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.eed3si9n&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-assembly&quot;</span> <span class="o">%</span> <span class="s">&quot;0.11.2&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
@@ -193,6 +194,59 @@ contains the assembled jar. This is what the final <tt class="docutils literal">
 <span class="n">scriptClasspath</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span> <span class="o">(</span><span class="n">jarName</span> <span class="n">in</span> <span class="n">assembly</span><span class="o">).</span><span class="n">value</span> <span class="o">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="proguard">
+<h2>Proguard<a class="headerlink" href="#proguard" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Main Goal</strong></p>
+<div class="line-block">
+<div class="line">Create a package that contains a single fat-jar that has been shrunken / optimized / obfuscated with <a class="reference external" href="http://proguard.sourceforge.net/">proguard</a>.</div>
+</div>
+</div></blockquote>
+<p>First add the <a class="reference external" href="https://github.com/sbt/sbt-proguard">sbt-proguard</a> plugin to
+the <tt class="docutils literal"><span class="pre">plugins.sbt</span></tt> file:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.typesafe.sbt&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-proguard&quot;</span> <span class="o">%</span> <span class="s">&quot;0.2.2&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Then configure the proguard options in <tt class="docutils literal"><span class="pre">build.sbt</span></tt>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.SbtProguard.ProguardKeys</span>
+
+<span class="c1">// initialize the proguard settings</span>
+<span class="n">proguardSettings</span>
+
+<span class="c1">// to configure proguard for scala, see</span>
+<span class="c1">// http://proguard.sourceforge.net/manual/examples.html#scala</span>
+<span class="nc">ProguardKeys</span><span class="o">.</span><span class="n">options</span> <span class="n">in</span> <span class="nc">Proguard</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+    <span class="s">&quot;--dontwarn scala.**&quot;</span><span class="o">,</span>
+    <span class="s">&quot;--dontwarn ch.qos.**&quot;</span>
+    <span class="c1">// ...</span>
+<span class="o">)</span>
+
+<span class="c1">// specify the entry point for a standalone app</span>
+<span class="nc">ProguardKeys</span><span class="o">.</span><span class="n">options</span> <span class="n">in</span> <span class="nc">Proguard</span> <span class="o">+=</span> <span class="nc">ProguardOptions</span><span class="o">.</span><span class="n">keepMain</span><span class="o">(</span><span class="s">&quot;com.example.Main&quot;</span><span class="o">)</span>
+
+<span class="c1">// Java 8 requires a newer version of proguard than sbt-proguard&#39;s default</span>
+<span class="nc">ProguardKeys</span><span class="o">.</span><span class="n">proguardVersion</span> <span class="n">in</span> <span class="nc">Proguard</span> <span class="o">:=</span> <span class="s">&quot;5.2.1&quot;</span>
+
+<span class="c1">// filter out jar files from the list of generated files, while</span>
+<span class="c1">// keeping non-jar output such as generated launch scripts</span>
+<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span><span class="o">.</span>
+  <span class="n">filter</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="o">!</span> <span class="n">name</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;.jar&quot;</span><span class="o">)</span>
+  <span class="o">}</span>
+
+<span class="c1">// ... and then append the jar file emitted from the proguard task to</span>
+<span class="c1">// the file list</span>
+<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="o">(</span><span class="nc">ProguardKeys</span><span class="o">.</span><span class="n">proguard</span> <span class="n">in</span> <span class="nc">Proguard</span><span class="o">).</span>
+    <span class="n">value</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">jar</span> <span class="k">=&gt;</span> <span class="n">jar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span><span class="n">jar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
+
+<span class="c1">// point the classpath to the output from the proguard task</span>
+<span class="n">scriptClasspath</span> <span class="o">:=</span> <span class="o">(</span><span class="nc">ProguardKeys</span><span class="o">.</span><span class="n">proguard</span> <span class="n">in</span> <span class="nc">Proguard</span><span class="o">).</span><span class="n">value</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">jar</span> <span class="k">=&gt;</span> <span class="n">jar</span><span class="o">.</span><span class="n">getName</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Now when you package your project using a command such as <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">universal:package-zip-tarball</span></tt>,
+it will include fat jar that has been created by proguard rather than the normal
+output in <tt class="docutils literal"><span class="pre">/lib</span></tt>.</p>
 </div>
 <div class="section" id="multi-module-builds">
 <h2>Multi Module Builds<a class="headerlink" href="#multi-module-builds" title="Permalink to this headline">¶</a></h2>

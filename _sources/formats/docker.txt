@@ -34,19 +34,30 @@ Build
 Required Settings
 ~~~~~~~~~~~~~~~~~
     
-1.0 or higher
-~~~~~~~~~~~~~
-
 .. code-block:: scala
 
   enablePlugins(DockerPlugin)
+  
+Spotify java based docker client
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-0.8.x
-~~~~~
+You can also use the java-based spotify Docker client. Add this to your ``build.sbt``
 
-For this versions docker packaging is automatically activated.
-See the :doc:`Getting Started </gettingstarted>` page for information
-on how to enable sbt native packager.
+
+.. code-block:: scala
+
+  enablePlugins(DockerSpotifyClientPlugin)
+  
+  
+and this to your ``plugins.sbt``
+
+.. code-block:: scala
+
+  libraryDependencies += "com.spotify" % "docker-client" % "3.2.1"
+
+The Docker-spotify client is a provided dependency so you have to add it on your own. 
+It brings a lot of dependenciesthat could slow your build times. This is the reason 
+the dependency is marked as provided.
 
 Configuration
 -------------

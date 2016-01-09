@@ -41,7 +41,10 @@
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4> DockerSpotifyClientPlugin Plugin </h4><p>This plugin helps you build docker containers using Spotify Docker Client.</p><h4> Configuration </h4><p>In order to configure this plugin take a look at the available <a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">com.typesafe.sbt.packager.docker.DockerKeys</a></p><h4> Requirements </h4><p>You need docker to have docker installed on your system.
 Check with a single command:</p><pre>docker version</pre></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DockerSpotifyClientPlugin)</pre></li></ol>
+               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DockerSpotifyClientPlugin)</pre><p>and add the dependency in your <code>plugins.sbt</code></p><pre>libraryDependencies += <span class="lit">"com.spotify"</span> % <span class="lit">"docker-client"</span> % <span class="lit">"3.2.1"</span></pre><p>The Docker-spotify client is a provided dependency so you have to add it on your own.
+It brings a lot of dependenciesthat could slow your build times. This is the reason
+the dependency is marked as provided.
+</p></li></ol>
             </div><dt>Note</dt><dd><span class="cmt"><p>this plugin is not intended to build very customizable docker images, but turn your mappings
       configuration in a docker image with almost no <i>any</i> configuration.
 </p></span></dd></dl><div class="toggleContainer block">

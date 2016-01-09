@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Docker Plugin &mdash; sbt-native-packager 1.1-b7f5f74d4c4e71a268bea6ac6f4825e30005e1ce documentation</title>
+    <title>Docker Plugin &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.1-b7f5f74d4c4e71a268bea6ac6f4825e30005e1ce',
+        VERSION:     '1.1.0-SNAPSHOT',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.1-b7f5f74d4c4e71a268bea6ac6f4825e30005e1ce documentation" href="../index.html" />
+    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html" />
     <link rel="up" title="Packaging Formats" href="index.html" />
     <link rel="next" title="Windows Plugin" href="windows.html" />
     <link rel="prev" title="Rpm Plugin" href="rpm.html" />
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1-b7f5f74d4c4e71a268bea6ac6f4825e30005e1ce</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.1.0-SNAPSHOT</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -95,8 +95,7 @@
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#build">Build</a><ul>
 <li><a class="reference internal" href="#required-settings">Required Settings</a></li>
-<li><a class="reference internal" href="#or-higher">1.0 or higher</a></li>
-<li><a class="reference internal" href="#x">0.8.x</a></li>
+<li><a class="reference internal" href="#spotify-java-based-docker-client">Spotify java based docker client</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#configuration">Configuration</a></li>
@@ -206,18 +205,23 @@ authentication details. See <a class="reference external" href="https://docs.doc
 </div>
 <div class="section" id="required-settings">
 <h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="or-higher">
-<h3>1.0 or higher<a class="headerlink" href="#or-higher" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">DockerPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="x">
-<h3>0.8.x<a class="headerlink" href="#x" title="Permalink to this headline">¶</a></h3>
-<p>For this versions docker packaging is automatically activated.
-See the <a class="reference internal" href="../gettingstarted.html"><em>Getting Started</em></a> page for information
-on how to enable sbt native packager.</p>
+<div class="section" id="spotify-java-based-docker-client">
+<h3>Spotify java based docker client<a class="headerlink" href="#spotify-java-based-docker-client" title="Permalink to this headline">¶</a></h3>
+<p>You can also use the java-based spotify Docker client. Add this to your <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">DockerSpotifyClientPlugin</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>and this to your <tt class="docutils literal"><span class="pre">plugins.sbt</span></tt></p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;com.spotify&quot;</span> <span class="o">%</span> <span class="s">&quot;docker-client&quot;</span> <span class="o">%</span> <span class="s">&quot;3.2.1&quot;</span>
+</pre></div>
+</div>
+<p>The Docker-spotify client is a provided dependency so you have to add it on your own.
+It brings a lot of dependenciesthat could slow your build times. This is the reason
+the dependency is marked as provided.</p>
 </div>
 </div>
 <div class="section" id="configuration">
