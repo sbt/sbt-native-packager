@@ -1,6 +1,10 @@
 # Run the zip packaging.
 > show universal:package-bin
 $ exists target/universal/simple-test-0.1.0.zip
+> universal-docs:package-bin
+$ exists target/universal-docs/simple-test-0.1.0.zip
+> universal-src:package-bin
+$ exists target/universal-src/simple-test-0.1.0.zip
 
 # Run the tgz packaging.
 > universal:package-zip-tarball
