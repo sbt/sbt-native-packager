@@ -92,7 +92,11 @@ object UniversalPlugin extends AutoPlugin {
 
   private[this] def defaultUniversalArchiveOptions: Seq[Setting[_]] = Seq(
     universalArchiveOptions in (Universal, packageZipTarball) := Seq("-pcvf"),
-    universalArchiveOptions in (Universal, packageXzTarball) := Seq("-pcvf")
+    universalArchiveOptions in (Universal, packageXzTarball) := Seq("-pcvf"),
+    universalArchiveOptions in (UniversalDocs, packageXzTarball) := Seq("-pcvf"),
+    universalArchiveOptions in (UniversalDocs, packageXzTarball) := Seq("-pcvf"),
+    universalArchiveOptions in (UniversalSrc, packageXzTarball) := Seq("-pcvf"),
+    universalArchiveOptions in (UniversalSrc, packageXzTarball) := Seq("-pcvf")
   )
 
   private[this] def printDist(dist: File, streams: TaskStreams): File = {
