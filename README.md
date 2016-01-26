@@ -115,6 +115,7 @@ Please feel free to [contribute documentation](https://github.com/sbt/sbt-native
 - [sbt-assembly](https://github.com/sbt/sbt-assembly)
 - [sbt-packager](https://github.com/en-japan/sbt-packer)
 - [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
+  - This is in addition to the built-in [Docker Plugin](http://www.scala-sbt.org/sbt-native-packager/formats/docker.html) from  sbt-native.  Both generate docker images. `sbt-docker` provides more customization abilities, while the `DockerPlugin` in this project  integrates more directly with predefined archetypes.
 - [sbt-bundle](https://github.com/sbt/sbt-bundle)
 - [sbt-typesafe-conductr](https://github.com/sbt/sbt-conductr)
 - [sbt-newrelic](https://github.com/gilt/sbt-newrelic)
