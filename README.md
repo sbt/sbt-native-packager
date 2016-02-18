@@ -120,3 +120,4 @@ Please feel free to [contribute documentation](https://github.com/sbt/sbt-native
 - [sbt-typesafe-conductr](https://github.com/sbt/sbt-conductr)
 - [sbt-newrelic](https://github.com/gilt/sbt-newrelic)
 - [sbt-aether](https://github.com/arktekk/sbt-aether-deploy)
+- [sbt-package-courier](https://github.com/alkersan/sbt-package-courier)
