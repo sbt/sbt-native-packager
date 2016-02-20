@@ -11,7 +11,7 @@
 ## Goal ##
 
 SBT native packager lets you build application packages in native formats. It offers
-different archetypes for common configurations, such as simple java apps or server applications.
+different archetypes for common configurations, such as simple Java apps or server applications.
 
 ## Issues/Discussions ##
 
@@ -36,13 +36,13 @@ different archetypes for common configurations, such as simple java apps or serv
   * `msi` for Windows
   * `docker` images
 * Provide archetypes for common use cases
- * [Java application] with startscripts for linux/osx/windows
+ * [Java application][] with startscripts for linux/osx/windows
  * [Java server application][] with additional autostart configurations
    * Systemd
    * Systemv
    * Upstart
 * Java8 [jdkpackager][] wrapper
-* Optional JDeb integration for crossplattform debian builds
+* Optional JDeb integration for cross-platform Debian builds
 * Optional Spotify docker client integration
 
 ## Installation ##
@@ -104,20 +104,20 @@ Please feel free to [contribute documentation](https://github.com/sbt/sbt-native
 These are a list of plugins that either use sbt-native-packager, provide additional features
 or provide a richer API for a single packaging format.
 
-- [sbt-heroku](https://github.com/heroku/sbt-heroku)
+- [sbt-aether](https://github.com/arktekk/sbt-aether-deploy)
 - [sbt-assembly](https://github.com/sbt/sbt-assembly)
-- [sbt-packager](https://github.com/en-japan/sbt-packer)
+- [sbt-bundle](https://github.com/sbt/sbt-bundle)
 - [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
   - This is in addition to the built-in [Docker Plugin](http://www.scala-sbt.org/sbt-native-packager/formats/docker.html) from  sbt-native.  Both generate docker images. `sbt-docker` provides more customization abilities, while the `DockerPlugin` in this project  integrates more directly with predefined archetypes.
-- [sbt-bundle](https://github.com/sbt/sbt-bundle)
-- [sbt-typesafe-conductr](https://github.com/sbt/sbt-conductr)
+- [sbt-heroku](https://github.com/heroku/sbt-heroku)
 - [sbt-newrelic](https://github.com/gilt/sbt-newrelic)
-- [sbt-aether](https://github.com/arktekk/sbt-aether-deploy)
+- [sbt-packager](https://github.com/en-japan/sbt-packer)
 - [sbt-package-courier](https://github.com/alkersan/sbt-package-courier)
+- [sbt-typesafe-conductr](https://github.com/sbt/sbt-conductr)
 
 
 [formats]: http://www.scala-sbt.org/sbt-native-packager/gettingstarted.html#packaging-formats
 [Java application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/index.html
-[Java server application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/index.html
+[Java server application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/index.html
 [My First Packaged Server Project guide]: http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html
 [jdkpackager]: http://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html
