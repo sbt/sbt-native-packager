@@ -1,24 +1,19 @@
 # SBT Native Packager #
 
-Service | Status | Description
-------- | ------ | -----------
-Travis  | [![Build Status](https://api.travis-ci.org/sbt/sbt-native-packager.png?branch=master)](https://travis-ci.org/sbt/sbt-native-packager) | Universal, Debian, Rpm and Jar tests
-Appveyor | [![Build status](https://ci.appveyor.com/api/projects/status/pbxd0untlcst4we7/branch/master?svg=true)](https://ci.appveyor.com/project/muuki88/sbt-native-packager/branch/master) | Windows tests
-Codacy |  [![Codacy Badge](https://www.codacy.com/project/badge/0e9a7ec769c84e578f4550bf7da6bf05)](https://www.codacy.com/public/nepomukseiler/sbt-native-packager) | Code Quality
-Bintray | [ ![Download](https://api.bintray.com/packages/sbt/sbt-plugin-releases/sbt-native-packager/images/download.svg) ](https://bintray.com/sbt/sbt-plugin-releases/sbt-native-packager/_latestVersion) | Latest Version on Bintray
-Gitter | [![Join the chat at https://gitter.im/sbt/sbt-native-packager](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sbt/sbt-native-packager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) | Chatroom
-Issuestats | [![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/pr?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager) | 
-Issuestats | [![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/issue?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager) |
+[![Build Status](https://api.travis-ci.org/sbt/sbt-native-packager.png?branch=master)](https://travis-ci.org/sbt/sbt-native-packager)
+[![Build status](https://ci.appveyor.com/api/projects/status/pbxd0untlcst4we7/branch/master?svg=true)](https://ci.appveyor.com/project/muuki88/sbt-native-packager/branch/master)
+[![Codacy Badge](https://www.codacy.com/project/badge/0e9a7ec769c84e578f4550bf7da6bf05)](https://www.codacy.com/public/nepomukseiler/sbt-native-packager)
+[ ![Download](https://api.bintray.com/packages/sbt/sbt-plugin-releases/sbt-native-packager/images/download.svg) ](https://bintray.com/sbt/sbt-plugin-releases/sbt-native-packager/_latestVersion)
+[![Join the chat at https://gitter.im/sbt/sbt-native-packager](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sbt/sbt-native-packager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/pr?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager)
+[![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/issue?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager)
 
+## Goal ##
 
-This is a work in progress project.  The goal is to be able to bundle up Scala software built with SBT for native packaging systems, like deb, rpm, homebrew, msi.
+SBT native packager lets you build application packages in native formats. It offers
+different archetypes for common configurations, such as simple Java apps or server applications.
 
-# Announcement - 1.0.0 will require Java 7 or higher
-
-The next release will require java 7 or higher. If you need java 6, please
-join the discussion in [#498](https://github.com/sbt/sbt-native-packager/issues/498).
-
-## Issues/Discussions
+## Issues/Discussions ##
 
 *  **Discussion/Questions**:
   If you wish to ask questions about the native packager, we have a [mailinglist](https://groups.google.com/forum/#!forum/sbt-native-packager) and
@@ -31,26 +26,32 @@ join the discussion in [#498](https://github.com/sbt/sbt-native-packager/issues/
   Finally, any bugs or features you find you need, please report to our [issue tracker](https://github.com/sbt/sbt-native-packager/issues/new).
   Please check the [compatibility matrix](https://github.com/sbt/sbt-native-packager/wiki/Tested-On) to see if your system is able to
   produce the packages you want.
-  
-## Features
 
-* Build native packages for different systems
+## Features ##
+
+* Build [native packages][formats] for different systems
   * Universal `zip`,`tar.gz`, `xz` archives
   * `deb` and `rpm` packages for Debian/RHEL based systems
   * `dmg` for OSX
   * `msi` for Windows
   * `docker` images
 * Provide archetypes for common use cases
- * Java application with startscripts for linux/osx/windows
- * Java server additional autostart configurations
+ * [Java application][] with startscripts for linux/osx/windows
+ * [Java server application][] with additional autostart configurations
+   * Systemd
+   * Systemv
+   * Upstart
+* Java8 [jdkpackager][] wrapper
+* Optional JDeb integration for cross-platform Debian builds
+* Optional Spotify docker client integration
 
-## Installation
+## Installation ##
 
 Add the following to your `project/plugins.sbt` file:
 
 ```scala
 // for autoplugins
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.0.6")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.1.0-RC1")
 ```
 
 In your `build.sbt` enable the plugin you want. For example the
@@ -59,49 +60,38 @@ In your `build.sbt` enable the plugin you want. For example the
 ```scala
 enablePlugins(JavaAppPackaging)
 ```
-
-
-For non-autoplugins use the `0.8.0` version.
+Or if you need a server with autostart support
 
 ```scala
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0")
+enablePlugins(JavaServerAppPackaging)
 ```
 
+## Build ##
 
-For the native packager keys add this to your `build.sbt` if you use the a version
-before `1.0.0`
+If you have enabled one of the archetypes (app or server),
+you can build your application with
 
-```scala
-import NativePackagerKeys._
+```bash
+sbt <config-scope>:packageBin
 ```
 
+### Examples
 
-## Experimental systemd bootsystem support ##
+```bash
+# universal zip
+sbt universal:packageBin
 
-Native packager now provides experimental `systemd` startup scripts.
-Currently it works on Fedora `Fedora release 20 (Heisenbug)` and doesn't work on Ubuntu because of partial `systemd` support in `Ubuntu 14.04 LTS`.
-To enable this feature follow [My First Packaged Server Project guide](http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html) and use `Systemd` as server loader:
+# debian package
+sbt debian:packageBin
 
-    import com.typesafe.sbt.packager.archetypes.ServerLoader.Systemd
-    serverLoading in Rpm := Systemd
+# rpm package
+sbt rpm:packageBin
 
-Any help on testing and improving this feature is appreciated so feel free to report bugs or making PR.
+# docker image
+sbt docker:publishLocal
+```
 
-
-## Experimental Native Packages via `javapackager`
-
-JDK 8 from Oracle includes the tool `javapackager` (née `javafxpackager`) to generate application
-launchers and native installers for MacOS X, Windows, and Linux. This plugin complements the existing
-`sbt-native-packager` formats by taking the settings and staged output from `JavaAppPackaging`
-and passing them through `javapackager`.
-
-This plugin's most significant complement to the core `sbt-native-packager` capabilities is the
-generation of MacOS X App bundles, and associated `.dmg` and `.pkg` package formats.
-It can also generate Windows `.exe` and `.msi` installers provided the requisite tools are
-available on the Windows build platform.
-
-For usage details see the [JDKPackager Plugin guide](http://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html).
-
+Read more in the specific [format documentation][formats] on how to configure and build your package.
 
 ## Documentation ##
 
@@ -109,15 +99,25 @@ There's a complete "getting started" guide and more detailed topics available at
 
 Please feel free to [contribute documentation](https://github.com/sbt/sbt-native-packager/tree/master/src/sphinx), or raise issues where you feel it may be lacking.
 
-## Related SBT Plugins
+## Related SBT Plugins ##
 
-- [sbt-heroku](https://github.com/heroku/sbt-heroku)
+These are a list of plugins that either use sbt-native-packager, provide additional features
+or provide a richer API for a single packaging format.
+
+- [sbt-aether](https://github.com/arktekk/sbt-aether-deploy)
 - [sbt-assembly](https://github.com/sbt/sbt-assembly)
-- [sbt-packager](https://github.com/en-japan/sbt-packer)
+- [sbt-bundle](https://github.com/sbt/sbt-bundle)
 - [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
   - This is in addition to the built-in [Docker Plugin](http://www.scala-sbt.org/sbt-native-packager/formats/docker.html) from  sbt-native.  Both generate docker images. `sbt-docker` provides more customization abilities, while the `DockerPlugin` in this project  integrates more directly with predefined archetypes.
-- [sbt-bundle](https://github.com/sbt/sbt-bundle)
-- [sbt-typesafe-conductr](https://github.com/sbt/sbt-conductr)
+- [sbt-heroku](https://github.com/heroku/sbt-heroku)
 - [sbt-newrelic](https://github.com/gilt/sbt-newrelic)
-- [sbt-aether](https://github.com/arktekk/sbt-aether-deploy)
+- [sbt-packager](https://github.com/en-japan/sbt-packer)
 - [sbt-package-courier](https://github.com/alkersan/sbt-package-courier)
+- [sbt-typesafe-conductr](https://github.com/sbt/sbt-conductr)
+
+
+[formats]: http://www.scala-sbt.org/sbt-native-packager/gettingstarted.html#packaging-formats
+[Java application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/index.html
+[Java server application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/index.html
+[My First Packaged Server Project guide]: http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html
+[jdkpackager]: http://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html
