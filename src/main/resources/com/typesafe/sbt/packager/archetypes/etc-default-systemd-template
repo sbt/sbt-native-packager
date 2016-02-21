@@ -1,0 +1,29 @@
+# #####################################
+# ##### Environment Configuration #####
+# #####################################
+
+# This file is parsed by systemd. You can modify it to specify environment
+# variables for your application.
+#
+# For a description of the format, see: `man systemd.exec`, section
+# `EnvironmentFile`.
+
+# Available replacements
+# ------------------------------------------------
+# ${{author}}			debian author
+# ${{descr}}			debian package description
+# ${{exec}}				startup script name
+# ${{chdir}}			app directory
+# ${{retries}}			retries for startup
+# ${{retryTimeout}}		retry timeout
+# ${{app_name}}			normalized app name
+# ${{daemon_user}}		daemon user
+# -------------------------------------------------
+
+# Setting JAVA_OPTS
+# -----------------
+# JAVA_OPTS="-Dpidfile.path=/var/run/${{app_name}}/play.pid"
+
+# Setting PIDFILE
+# ---------------
+# PIDFILE="/var/run/${{app_name}}/play.pid"

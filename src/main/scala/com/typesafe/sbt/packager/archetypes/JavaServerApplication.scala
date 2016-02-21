@@ -39,8 +39,6 @@ object JavaServerAppPackaging extends AutoPlugin {
   /** These settings will be provided by this archetype*/
   def javaServerSettings: Seq[Setting[_]] = linuxSettings ++ debianSettings ++ rpmSettings
 
-  protected def etcDefaultTemplateSource: java.net.URL = getClass.getResource(ETC_DEFAULT + "-template")
-
   /**
    * general settings which apply to all linux server archetypes
    *
@@ -59,27 +57,30 @@ object JavaServerAppPackaging extends AutoPlugin {
     },
     // === etc config mapping ===
     bashScriptEnvConfigLocation := Some("/etc/default/" + (packageName in Linux).value),
-    linuxEtcDefaultTemplate <<= sourceDirectory map { dir =>
-      val overrideScript = dir / "templates" / ETC_DEFAULT
-      if (overrideScript.exists) overrideScript.toURI.toURL
-      else etcDefaultTemplateSource
-    },
-    linuxStartScriptName := None,
-    makeEtcDefault <<= (packageName in Linux, target in Universal, linuxEtcDefaultTemplate, linuxScriptReplacements)
-      map makeEtcDefaultScript,
-    linuxPackageMappings <++= (makeEtcDefault, bashScriptEnvConfigLocation) map { (conf, envLocation) =>
-      val mapping = for (
-        path <- envLocation;
-        c <- conf
-      ) yield LinuxPackageMapping(Seq(c -> path), LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()
 
-      mapping.toSeq
-    }
+    linuxStartScriptName := None
+  )
 
+  /* etcDefaultConfig is dependent on serverLoading (systemd, systemv, etc.),
+   * and is therefore distro specific. As such, these settings cannot be defined
+   * in the global config scope. */
+  private[this] val etcDefaultConfig: Seq[Setting[_]] = Seq(
+    linuxEtcDefaultTemplate := getEtcTemplateSource(
+      sourceDirectory.value,
+      serverLoading.value),
+    makeEtcDefault := makeEtcDefaultScript(
+      (packageName in Linux).value,
+      (target in Universal).value,
+      linuxEtcDefaultTemplate.value,
+      linuxScriptReplacements.value),
+    linuxPackageMappings ++= etcDefaultMapping(
+      makeEtcDefault.value,
+      bashScriptEnvConfigLocation.value)
   )
 
   def debianSettings: Seq[Setting[_]] = {
     import DebianPlugin.Names.{ Preinst, Postinst, Prerm, Postrm }
+    inConfig(Debian)(etcDefaultConfig) ++
     inConfig(Debian)(Seq(
       serverLoading := Upstart,
       startRunlevels <<= (serverLoading) apply defaultStartRunlevels,
@@ -131,6 +132,7 @@ object JavaServerAppPackaging extends AutoPlugin {
 
   def rpmSettings: Seq[Setting[_]] = {
     import RpmPlugin.Names.{ Pre, Post, Preun, Postun }
+    inConfig(Rpm)(etcDefaultConfig) ++
     inConfig(Rpm)(Seq(
       serverLoading := SystemV,
       startRunlevels <<= (serverLoading) apply defaultStartRunlevels,
@@ -240,6 +242,45 @@ object JavaServerAppPackaging extends AutoPlugin {
       case SystemV => "/etc/init.d/"
       case Systemd => "/usr/lib/systemd/system/"
     }
+  }
+
+  /* Find the template source for the given Server loading scheme, with cascading fallback
+   * If the serverLoader scheme is SystemD, then searches for files in this order:
+   *
+   * (assuming sourceDirectory is `src`)
+   *
+   * - src/templates/etc-default-systemd
+   * - src/templates/etc-default
+   * - Provided template
+   */
+
+  private[this] def getEtcTemplateSource(sourceDirectory: File, loader: ServerLoader): java.net.URL = {
+    val (suffix, default) = loader match {
+      case Upstart =>
+        ("-upstart", getClass.getResource(ETC_DEFAULT + "-template"))
+      case SystemV =>
+        ("-systemv", getClass.getResource(ETC_DEFAULT + "-template"))
+      case Systemd =>
+        ("-systemd", getClass.getResource(ETC_DEFAULT + "-systemd-template"))
+    }
+
+    val overrides = List[File](
+      sourceDirectory / "templates" / (ETC_DEFAULT + suffix),
+      sourceDirectory / "templates" / ETC_DEFAULT)
+    overrides.
+      find(_.exists).
+      map(_.toURI.toURL).
+      getOrElse(default)
+  }
+
+  // Used to tell our packager to install our /etc/default/{{appName}} config file.
+  protected def etcDefaultMapping(conf: Option[File], envLocation: Option[String]): Seq[LinuxPackageMapping] = {
+    val mapping = for (
+      path <- envLocation;
+      c <- conf
+    ) yield LinuxPackageMapping(Seq(c -> path), LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()
+
+    mapping.toSeq
   }
 
   protected def startScriptMapping(name: String, script: Option[File], loader: ServerLoader, scriptDir: String, scriptName: Option[String]): Seq[LinuxPackageMapping] = {
