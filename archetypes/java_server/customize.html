@@ -183,9 +183,11 @@ As this file is OS dependent, each OS gets section.</p>
 <h3>Linux Configuration<a class="headerlink" href="#linux-configuration" title="Permalink to this headline">¶</a></h3>
 <p>There are different ways described in <a class="reference internal" href="../java_app/customize.html"><em>Customizing the Application</em></a>
 and can be used the same way.</p>
-<p>The server archetype adds an additional way with an <tt class="docutils literal"><span class="pre">etc-default</span></tt> file placed in <tt class="docutils literal"><span class="pre">src/templates</span></tt>, which currently
-only works for <strong>SystemV</strong>. The file gets sourced before the actual startscript is executed.
+<p>The server archetype adds an additional way with an <tt class="docutils literal"><span class="pre">etc-default</span></tt> file placed
+in <tt class="docutils literal"><span class="pre">src/templates</span></tt>, which currently only works for <strong>SystemV</strong> and
+<strong>systemd</strong>. The file gets sourced before the actual startscript is executed.
 The file will be installed to <tt class="docutils literal"><span class="pre">/etc/default/&lt;normalizedName&gt;</span></tt></p>
+<p>Example <cite>/etc/default/&lt;normalizedName&gt;</cite> for SystemV:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># Available replacements</span>
 <span class="c"># ------------------------------------------------</span>
 <span class="c"># ${{author}}           package author</span>

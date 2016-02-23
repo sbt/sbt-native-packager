@@ -111,7 +111,7 @@
 <li><a class="reference internal" href="#bat-script-src-templates-bat-template">Bat Script - <tt class="docutils literal"><span class="pre">src/templates/bat-template</span></tt></a></li>
 <li><a class="reference internal" href="#bash-script-src-templates-bash-template">Bash Script - <tt class="docutils literal"><span class="pre">src/templates/bash-template</span></tt></a></li>
 <li><a class="reference internal" href="#service-manager">Service Manager</a></li>
-<li><a class="reference internal" href="#server-app-config-src-templates-etc-default">Server App Config - <tt class="docutils literal"><span class="pre">src/templates/etc-default</span></tt></a></li>
+<li><a class="reference internal" href="#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <tt class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></tt></a></li>
 </ul>
 </li>
 </ul>
@@ -334,7 +334,7 @@ and add this to your <tt class="docutils literal"><span class="pre">build.sbt</s
 </div>
 <div class="section" id="java-server">
 <h4>Java Server<a class="headerlink" href="#java-server" title="Permalink to this headline">¶</a></h4>
-<p>See <a class="reference internal" href="#server-app-config"><em>Server App Config - src/templates/etc-default</em></a></p>
+<p>See <a class="reference internal" href="#server-app-config"><em>Server App Config - src/templates/etc-default-{systemv,systemd}</em></a></p>
 </div>
 </div>
 <div class="section" id="setting-javaoptions">
@@ -480,10 +480,22 @@ Create a file <tt class="docutils literal"><span class="pre">src/templates/$form
 <li><tt class="docutils literal"><span class="pre">stop_runlevels</span></tt> - Intended for the <tt class="docutils literal"><span class="pre">Default-Stop:</span></tt> line in the <tt class="docutils literal"><span class="pre">INIT</span> <span class="pre">INFO</span></tt> block. Its value is automatically generated with respect to the chosen system loader.</li>
 </ul>
 </div>
-<div class="section" id="server-app-config-src-templates-etc-default">
-<span id="server-app-config"></span><h3>Server App Config - <tt class="docutils literal"><span class="pre">src/templates/etc-default</span></tt><a class="headerlink" href="#server-app-config-src-templates-etc-default" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="server-app-config-src-templates-etc-default-systemv-systemd">
+<span id="server-app-config"></span><h3>Server App Config - <tt class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></tt><a class="headerlink" href="#server-app-config-src-templates-etc-default-systemv-systemd" title="Permalink to this headline">¶</a></h3>
 <p>Creating a file here will override the <tt class="docutils literal"><span class="pre">/etc/default/&lt;application&gt;</span></tt> template
-used when SystemV is the server loader.</p>
+for the corresponding loader.</p>
+<p>The file <cite>/etc/default/&lt;application&gt;</cite> is used as follows given the loader:</p>
+<ul class="simple">
+<li><cite>systemv</cite>: sourced as a bourne script.</li>
+<li><cite>systemd</cite>: used as an EnvironmentFile directive parameter (see <a href="#id1"><span class="problematic" id="id2">`</span></a>man</li>
+</ul>
+<p>systemd.exec`, section <cite>EnvironmentFile</cite> for a description of the expected file
+format).
+- <cite>upstart</cite>: presently ignored.</p>
+<p>If you&#8217;re only overriding <cite>JAVA_OPTS</cite>, your environment file could be compatible
+with both systemv and systemd loaders; if such is the case, you can specify a
+single file at <cite>src/templates/etc-default</cite> which will serve as an override for
+all loaders.</p>
 </div>
 </div>
 </div>

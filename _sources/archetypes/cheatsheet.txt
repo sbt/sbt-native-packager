@@ -228,9 +228,21 @@ You can use ``${{variable_name}}`` to reference variables when writing your scri
 
 .. _server-app-config:
 
-Server App Config - ``src/templates/etc-default``
+Server App Config - ``src/templates/etc-default-{systemv,systemd}``
 -------------------------------------------------
 
 Creating a file here will override the ``/etc/default/<application>`` template
-used when SystemV is the server loader.
+for the corresponding loader.
 
+The file `/etc/default/<application>` is used as follows given the loader:
+
+- `systemv`: sourced as a bourne script.
+- `systemd`: used as an EnvironmentFile directive parameter (see `man
+systemd.exec`, section `EnvironmentFile` for a description of the expected file
+format).
+- `upstart`: presently ignored.
+
+If you're only overriding `JAVA_OPTS`, your environment file could be compatible
+with both systemv and systemd loaders; if such is the case, you can specify a
+single file at `src/templates/etc-default` which will serve as an override for
+all loaders.
