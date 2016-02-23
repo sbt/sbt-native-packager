@@ -21,10 +21,12 @@ Linux Configuration
 There are different ways described in :doc:`Customizing the Application </archetypes/java_app/customize>`
 and can be used the same way.
 
-
-The server archetype adds an additional way with an ``etc-default`` file placed in ``src/templates``, which currently
-only works for **SystemV**. The file gets sourced before the actual startscript is executed.
+The server archetype adds an additional way with an ``etc-default`` file placed
+in ``src/templates``, which currently only works for **SystemV** and
+**systemd**. The file gets sourced before the actual startscript is executed.
 The file will be installed to ``/etc/default/<normalizedName>``
+
+Example `/etc/default/<normalizedName>` for SystemV:
 
 .. code-block :: bash
 

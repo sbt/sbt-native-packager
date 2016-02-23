@@ -86,7 +86,7 @@ rights. **<package>** is a placeholder for your actual application name. By defa
 Folder                           User    Permissions  Purpose
 ===============================  ======  ===========  =======
 /usr/share/**<package>**         root    755 / (655)  static, non-changeable files
-/etc/default/**<package>**.conf  root    644          default config file
+/etc/default/**<package>**       root    644          default config file
 /etc/**<package>**               root    644          config folder -> link to /usr/share/**<package-name>**/conf
 /var/run/**<package>**           daemon  644          if the application generates a pid on its own
 /var/log/**<package>**           daemon  644          log folder -> symlinked from /usr/share/**<package>**/log

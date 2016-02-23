@@ -5,6 +5,7 @@ Requires=${{start_facilities}}
 [Service]
 Type=simple
 WorkingDirectory=${{chdir}}
+EnvironmentFile=${{env_config}}
 ExecStart=${{chdir}}/bin/${{exec}}
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=always
