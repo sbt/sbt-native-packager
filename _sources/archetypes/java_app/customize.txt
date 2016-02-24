@@ -83,7 +83,7 @@ The second option is to create ``src/universal/conf/application.ini`` with the f
 
 The file will be installed to ``${app_home}/conf/application.ini`` and read from there
 by the startscript. You can use ``#`` for comments and new lines as you like. This file
-currently doesn't has any variable substitution. We recommend using the ``build.sbt`` if
+currently doesn't have any variable substitution. We recommend using the ``build.sbt`` if
 you need any information from your build.
 
 The configuration file for bash scripts takes arguments for the BASH file on each line, 
