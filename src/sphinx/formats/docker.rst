@@ -53,7 +53,7 @@ and this to your ``plugins.sbt``
 
 .. code-block:: scala
 
-  libraryDependencies += "com.spotify" % "docker-client" % "3.2.1"
+  libraryDependencies += "com.spotify" % "docker-client" % "3.5.13"
 
 The Docker-spotify client is a provided dependency so you have to add it on your own. 
 It brings a lot of dependenciesthat could slow your build times. This is the reason 

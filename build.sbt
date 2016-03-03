@@ -11,7 +11,7 @@ libraryDependencies ++= Seq(
     // for jdkpackager
     "org.apache.ant" % "ant" % "1.9.6",
     // these dependencies have to be explicitly added by the user
-    "com.spotify" % "docker-client" % "3.2.1" % "provided",
+    "com.spotify" % "docker-client" % "3.5.13" % "provided",
     "org.vafer" % "jdeb" % "1.3"  % "provided" artifacts (Artifact("jdeb", "jar", "jar")),
     "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 )

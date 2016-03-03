@@ -6,7 +6,7 @@ import java.nio.file.Paths
 
 import com.spotify.docker.client.messages.ProgressMessage
 import com.spotify.docker.client.{ ProgressHandler, DockerClient, DefaultDockerClient }
-import com.spotify.docker.client.DockerClient.BuildParameter._
+import com.spotify.docker.client.DockerClient.BuildParam
 import sbt._
 import sbt.Keys._
 import packager.Keys._
@@ -42,7 +42,7 @@ import universal.UniversalPlugin.autoImport.stage
  * and add the dependency in your `plugins.sbt`
  * 
  * {{{
- *   libraryDependencies += "com.spotify" % "docker-client" % "3.2.1"
+ *   libraryDependencies += "com.spotify" % "docker-client" % "3.5.13"
  * }}}
  * 
  * The Docker-spotify client is a provided dependency so you have to add it on your own. 
@@ -77,10 +77,10 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
       def progress(message: ProgressMessage) = {
         Option(message.error()) match {
           case Some(error) if error.nonEmpty => log.error(message.error())
-          case _ => log.info(message.stream())
+          case _ => Option(message.stream()) foreach (v => log.info(v))
         }
       }
-    }, FORCE_RM)
+    }, BuildParam.forceRm())
 
     if (latest) {
       val name = tag.substring(0, tag.lastIndexOf(":")) + ":latest"
