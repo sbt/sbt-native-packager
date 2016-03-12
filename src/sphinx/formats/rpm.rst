@@ -1,3 +1,5 @@
+.. _rpm-plugin:
+
 Rpm Plugin
 ==========
 
@@ -7,17 +9,7 @@ http://fedoraproject.org/wiki/How_to_create_an_RPM_package is a good tutorial, b
 packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated
 'binary' packages.
 
-.. contents::
-  :depth: 2
-
-
-.. raw:: html
-
-  <div class="alert alert-info" role="alert">
-    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The rpm plugin depends on the linux plugin. For general linux settings read the
-    <a href="linux.html">Linux Plugin Documentation</a>
-  </div>
+.. note:: The rpm plugin depends on the :ref:`linux-plugin`.
 
 
 Requirements

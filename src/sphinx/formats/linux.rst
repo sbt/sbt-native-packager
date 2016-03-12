@@ -1,32 +1,19 @@
-.. _Linux:
+.. _linux-plugin:
 
 Linux Plugin
 ============
 
-The native packager plugin is designed so that linux packages look similar, but can contain distribution specific information. 
+The native packager plugin is designed so that linux packages look similar, but can contain distribution specific information.
 
-.. contents:: 
-  :depth: 2
-  
-.. raw:: html
-
-  <div class="alert alert-info" role="alert">
-    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The linux plugin depends on the universal plugin. For universal settings read the 
-    <a href="universal.html">Universal Plugin Documentation</a>
-  </div>
+.. note:: The linux plugin depends on the :ref:`universal-plugin`.
 
 Related Plugins
 ---------------
 
-.. toctree::
-   :maxdepth: 1
-   
-   debian.rst
-   rpm.rst
-   docker.rst
-   
-   
+- :ref:`debian-plugin`
+- :ref:`rpm-plugin`
+
+
 Build
 -----
 
@@ -58,8 +45,6 @@ you have these settings in your build:
     packageDescription := """A fun package description of our software,
       with multiple lines."""
 
-1.0 or higher
-~~~~~~~~~~~~~
 
 Enable the debian plugin to activate the native package implementation.
 
@@ -68,19 +53,6 @@ Enable the debian plugin to activate the native package implementation.
   enablePlugins(LinuxPlugin)
 
 
-0.8 or lower
-~~~~~~~~~~~~
-
-For this versions linux packaging is automatically activated.
-See the :doc:`Getting Started </gettingstarted>` page for information
-on how to enable sbt native packager.
-
-In order to use the utility functions you need to import them with
-(if you haven't already imported this)
-
-.. code-block:: scala
-
-  import com.typesafe.sbt.SbtNativePackager._
 
 Configurations
 --------------
@@ -119,7 +91,7 @@ Package Mappings
 
 Most of the work in generating a linux package is constructing package mappings.  These 'map' a file to a location on disk where it should
 reside as well as information about that file. Package mappings allow the specification of file ownership, permissions and whether or not
-the file can be considered "configuration".  
+the file can be considered "configuration".
 
   Note that while the ``sbt-native-packager`` plugin allows you to specify all of this information, not all platforms will make use of the
   information.  It's best to be specific about how you want files handled and run tests on each platform you wish to deploy to.
@@ -131,18 +103,18 @@ A package mapping takes this general form
     (packageMapping(
         file -> "/usr/share/man/man1/sbt.1.gz"
       ) withPerms "0644" gzipped) asDocs()
-      
+
 
 
 Let's look at each of the methods supported in the packageMapping 'library'.
 
 
   ``packageMapping(mappings: (File, String)*)``
-    This method takes a variable number of ``File -> String`` pairs.  The ``File`` should be a locally available file that can be bundled, 
+    This method takes a variable number of ``File -> String`` pairs.  The ``File`` should be a locally available file that can be bundled,
     and the ``String`` is the installation location on disk for that file.  This returns a new ``PackageMapping`` that supports the remaining methods.
 
   ``withPerms(mask: String)``
-    This function adjusts the installation permissions of the associated files.  The flags passed should be of the form of a mask, e.g. ``0755``.  
+    This function adjusts the installation permissions of the associated files.  The flags passed should be of the form of a mask, e.g. ``0755``.
 
   ``gzipped``
     This ensures that the files are written in compressed format to the destination.  This is a convenience for distributions that want files zipped.
@@ -159,7 +131,7 @@ Let's look at each of the methods supported in the packageMapping 'library'.
 
   ``withGroup(group:String)``
     This denotes which group should be the owner of the given files in the resulting package.
-    
+
 
 
 The LinuxPackageMapping Models
@@ -172,55 +144,55 @@ A ``LinuxPackageMapping`` contains the following fields:
 
   ``mappings: Traversable[(File, String)]``
     A list of mappings aggregated by this LinuxPackageMapping
-    
+
   ``fileData: LinuxFileMetaData``
     Permissions for all the defined mappings. Default to "root:root 755"
-    
+
   ``zipped: Boolean``
     Are the mappings zipped. Default to false
-    
+
 All mappings are stored in the task ``linuxPackageMappings`` which returns a ``Seq[LinuxPackageMapping]``. To display the contents
 open the sbt console and call
 
 .. code-block:: bash
 
     show linuxPackageMappings
-    
+
 
 The ``LinuxFileMetaData`` has the following fields
 
   ``user: String``
     The user owning all the mappings. Default "root"
-    
+
   ``group: String``
     The group owning all the mappings. Default "root"
-    
+
   ``permissions: String``
     Access permissions for all the mappings. Default "755"
-    
+
   ``config: String``
     Are the mappings config files. Default "false"
-    
+
   ``docs: Boolean``
     Are the mappings docs. Default to false
-    
+
 Last but not least there are the ``linuxPackageSymlinks``, which encapsulate symlinks on your
 destination system. A ``LinuxSymlink`` contains only  two fields
 
   ``link: String``
     The actual link that points to ``destination``
-    
+
   ``destination: String``
     The link destination
-    
-You can see all currently configured symlinks with this simple command. 
+
+You can see all currently configured symlinks with this simple command.
 ``linuxPackageSymlinks`` is just a ``Seq[LinuxSymlink]``
-    
+
 .. code-block:: bash
 
     show linuxPackageSymlinks
-    
-    
+
+
 Modifying Mappings in General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -231,10 +203,10 @@ The basic construct for adding looks like this
 
     // simple
     linuxPackageMappings += packageMapping( (theFile, "/absolute/path/somefile.txt") )
-    
+
     // specialized
     linuxPackageMappings += packageMapping( (theFile, "/absolute/path/somefile.txt") ) withPerms("644") asDocs()
-    
+
 If you want to filter or alter things. The example has a lot of things you can _possibly_ do. Just pick
 what you need. After this section there are smaller examples, showing how you can implement certain functions.
 
@@ -245,11 +217,11 @@ what you need. After this section there are smaller examples, showing how you ca
         // mappings: Seq[LinuxPackageMapping]
         val mappings = linuxPackageMappings.value
         // this process will must return another Seq[LinuxPackageMapping]
-        mappings map {  linuxPackage => 
+        mappings map {  linuxPackage =>
             // basic scala collections operations. Seq[(java.io.File, String)]
-            val filtered = linuxPackage.mappings map { 
+            val filtered = linuxPackage.mappings map {
                 case (file, name) => file -> name // altering stuff here
-            } filter { 
+            } filter {
                 case (file, name) => true // remove stuff from mappings
             }
             // case class copy method. Specify only what you need
@@ -266,23 +238,23 @@ what you need. After this section there are smaller examples, showing how you ca
                 mappings = filtered,
                 fileData = fileData
             )
-        } filter { 
+        } filter {
             linuxPackage => linuxPackage.mappings.nonEmpty // remove stuff. Here all empty linuxPackageMappings
-        }    
-    }
-    
-    // sbt 0.12.x syntax
-    linuxPackageMappings <<= linuxPackageMappings map { mappings => 
-        /* stuff. see above */ 
-        mappings 
+        }
     }
 
-The ordering in which you apply the tasks is important. 
+    // sbt 0.12.x syntax
+    linuxPackageMappings <<= linuxPackageMappings map { mappings =>
+        /* stuff. see above */
+        mappings
+    }
+
+The ordering in which you apply the tasks is important.
 
 Add Mappings
 ~~~~~~~~~~~~
 
-To add an arbitrary file in your build path 
+To add an arbitrary file in your build path
 
 .. code-block:: scala
 
@@ -299,7 +271,7 @@ To add an arbitrary file in your build path
       val file = sourceDirectory.value / "resources" / "debian-somefile.txt"
       packageMapping( (file, "/absolute/path/somefile.txt") )
     }
-    
+
     linuxPackageMappings in Rpm += {
       val file = sourceDirectory.value / "resources" / "rpm-somefile.txt"
       packageMapping( (file, "/absolute/path/somefile.txt") )
@@ -315,9 +287,9 @@ on how to filter mappings.
 
 .. code-block:: scala
 
-    // this is equal to 
+    // this is equal to
     // linuxPackageMappings <<= linuxPackageMappings map { mappings => /* stuff */ mappings }
-    linuxPackageMappings := { 
+    linuxPackageMappings := {
         // first get the current mappings. mapping is of type Seq[LinuxPackageMapping]
         val mappings = linuxPackageMappings.value
         // map over the mappings if you want to change them
@@ -331,9 +303,9 @@ on how to filter mappings.
         } filter {
             // remove all LinuxPackageMapping instances that have to file mappings
             _.mappings.nonEmpty
-        } 
+        }
     }
-    
+
 Alter LinuxPackageMapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -345,7 +317,7 @@ First we alter the permissions for all ``LinuxPackageMapping`` s that match a sp
     linuxPackageMappings := {
         val mappings = linuxPackageMappings.value
         // Changing the group for all configs
-        mappings map { 
+        mappings map {
             case linuxPackage if linuxPackage.fileData.config equals "true" =>
                 // altering the group
                 val newFileData = linuxPackage.fileData.copy(
@@ -369,16 +341,55 @@ First we alter the permissions for all ``LinuxPackageMapping`` s that match a sp
     // The same as linuxPackageMappings
     linuxPackageSymlinks := {
         val links = linuxPackageSymlinks.value
-        
+
         links filter { /* remove stuff */ } map { /* change stuff */}
     }
 
 Add Empty Directories
 ~~~~~~~~~~~~~~~~~~~~~
 
-There is a special helper function that allows you to add empty directories to the package mappings. This might be useful if the service needs some location to store files.
+There is a special helper function that allows you to add empty directories to the package mappings. This might be
+useful if the service needs some location to store files.
 
 .. code-block:: scala
 
     // Add an empty folder to mappings
     linuxPackageMappings += packageTemplateMapping(s"/usr/share/${name.value}/lib/native")() withUser(name.value) withGroup(name.value)
+
+Man Pages
+~~~~~~~~~
+
+There are many ways to document your projects, and many ways to expose them.  While the native packager places
+no limit on WHAT is included in a package, there are some things which receive special treatment.
+
+Specifically: linux man pages.
+
+To create a linux man page for the application, let's create a ``src/linux/usr/share/man/man1/example-cli.1`` file
+
+.. code-block:: bash
+
+
+    .\" Process this file with
+    .\" groff -man -Tascii example-cli.1
+    .\"
+    .TH EXAMPLE_CLI 1 "NOVEMBER 2011" Linux "User Manuals"
+    .SH NAME
+    example-cli \- Example CLI
+    .SH SYNOPSIS
+    .B example-cli [-h]
+
+Notice the location of the file.  Any file under ``src/linux`` is automatically included,
+relative to ``/``, in linux packages (deb, rpm).  That means the man file will **not** appear
+in the universal package (confusing linux users).
+
+Now that the man page is created, we can use a few tasks provided to view it in sbt.  Let's look in the sbt console
+
+.. code-block:: bash
+
+    sbt generateManPages
+
+We can use this task to work on the man pages and ensure they'll look OK.  You can also directly use ``groff`` to view
+changes in your man pages.
+
+In addition to providing the means to view the man page, the native packager will also automatically ``gzip`` man pages
+for the distribution.  The resulting man page is stored in ``/usr/share/man/man1/example-cli.1.gz`` in linux distributions.

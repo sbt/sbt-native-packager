@@ -1,5 +1,5 @@
-Customize Java Server Applications
-##################################
+.. _java-server-customize:
+
 
 Application Configuration
 =========================
@@ -12,7 +12,7 @@ There are generally two types of configurations:
 * Configuring the Application itself.
 
 The server archetype provides you with a special feature to configure your application
-with a single file outside of customizing the ``bash`` or ``bat`` script for applications. 
+with a single file outside of customizing the ``bash`` or ``bat`` script for applications.
 As this file is OS dependent, each OS gets section.
 
 Linux Configuration
@@ -30,7 +30,7 @@ Example `/etc/default/<normalizedName>` for SystemV:
 
 .. code-block :: bash
 
-    # Available replacements 
+    # Available replacements
     # ------------------------------------------------
     # ${{author}}           package author
     # ${{descr}}            package description
@@ -45,10 +45,10 @@ Example `/etc/default/<normalizedName>` for SystemV:
     # Setting JAVA_OPTS
     # -----------------
     JAVA_OPTS="-Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS"
-    
+
     # For rpm/systemv you need to set the PIDFILE env variable as well
     PIDFILE="/var/run/${{app_name}}/play.pid"
-    
+
     # export env vars for 3rd party libs
     # ----------------------------------
     COMPANY_API_KEY=123abc
@@ -70,25 +70,25 @@ Support planned.
 Service Manager Configuration
 =============================
 
-It is possible to change the default Service Manager for a given platform by specifying a ``ServerLoader``. To use 
+It is possible to change the default Service Manager for a given platform by specifying a ``ServerLoader``. To use
 Upstart for an Rpm package simply:
 
 .. code-block:: scala
 
     import com.typesafe.sbt.packager.archetypes.ServerLoader
-    
+
     serverLoading in Rpm := ServerLoader.Upstart
 
 
-*As a side note Fedora/RHEL/Centos family of linux specifies* ``Default requiretty`` *in its* ``/etc/sudoers`` 
+*As a side note Fedora/RHEL/Centos family of linux specifies* ``Default requiretty`` *in its* ``/etc/sudoers``
 *file. This prevents the default Upstart script from working correctly as it uses sudo to run the application
-as the* ``daemonUser`` *. Simply disable requiretty to use Upstart or modify the Upstart template.* 
+as the* ``daemonUser`` *. Simply disable requiretty to use Upstart or modify the Upstart template.*
 
 Customize Start Script
 ----------------------
 
-Sbt Native Packager leverages templating to customize various start/stop scripts and pre/post install tasks. 
-As an example, to alter the ``loader-functions`` which manage the specific start and stop process commands 
+Sbt Native Packager leverages templating to customize various start/stop scripts and pre/post install tasks.
+As an example, to alter the ``loader-functions`` which manage the specific start and stop process commands
 for SystemLoaders you can to the ``linuxScriptReplacements`` map:
 
 .. code-block:: scala
@@ -107,15 +107,15 @@ which will add the following resource file to use start/stop instead of initctl 
 
   startService() {
       app_name=$1
-      start $app_name 
+      start $app_name
   }
 
   stopService() {
       app_name=$1
-      stop $app_name 
+      stop $app_name
   }
 
-The :doc:`debian </formats/debian>` and :doc:`redhat </formats/rpm>` pages have further information on overriding 
+The :doc:`debian </formats/debian>` and :doc:`redhat </formats/rpm>` pages have further information on overriding
 distribution specific actions.
 
 Override Start Script
@@ -181,8 +181,8 @@ overridden with different techniques, depending on the packaging system.
 Partially Replace Template Functionality
 ----------------------------------------
 
-Most sbt-native-packager scripts are broken up into partial templates in the `resources directory 
-<https://github.com/sbt/sbt-native-packager/tree/master/src/main/resources/com/typesafe/sbt/packager>`_. 
+Most sbt-native-packager scripts are broken up into partial templates in the `resources directory
+<https://github.com/sbt/sbt-native-packager/tree/master/src/main/resources/com/typesafe/sbt/packager>`_.
 You can override these default template snippets by adding to the ``linuxScriptReplacements`` map. As
 an example you can change the ``loader-functions`` which starts/stop services based on a certain ```ServerLoader```:
 
@@ -199,39 +199,39 @@ RPM Scriptlets
 
 RPM puts all scripts into one file. To override or append settings to your
 scriptlets use these settings:
-     
-   ``rpmPre`` 
+
+   ``rpmPre``
      %pre scriptlet
-   
-   ``rpmPost`` 
+
+   ``rpmPost``
      %post scriptlet
-   
-   ``rpmPosttrans`` 
+
+   ``rpmPosttrans``
      %posttrans scriptlet
-     
-   ``rpmPreun`` 
+
+   ``rpmPreun``
      "%preun scriptlet"
-     
-   ``rpmPostun`` 
+
+   ``rpmPostun``
      %postun scriptlet
-     
-   ``rpmVerifyscript`` 
+
+   ``rpmVerifyscript``
      %verifyscript scriptlet
 
 If you want to have your files separated from the build definition use the
 default location for rpm scriptlets. To override default templates in a RPM
-build put the new scriptlets in the ``rpmScriptsDirectory`` (by default ``src/rpm/scriptlets``). 
+build put the new scriptlets in the ``rpmScriptsDirectory`` (by default ``src/rpm/scriptlets``).
 
-   ``rpmScriptsDirectory`` 
-     By default to ``src/rpm/scriptlets``. Place your templates here.    
-    
+   ``rpmScriptsDirectory``
+     By default to ``src/rpm/scriptlets``. Place your templates here.
+
 Available templates are
 
     ``post-rpm``
     ``pre-rpm``
     ``postun-rpm``
     ``preun-rpm``
-    
+
 Override Postinst scriptlet
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -240,14 +240,14 @@ By default the ``post-rpm`` template only starts the service, but doesn't regist
 .. code-block :: bash
 
     service ${{app_name}} start
-    
-For **CentOS** we can do 
+
+For **CentOS** we can do
 
 .. code-block :: bash
 
     chkconfig ${{app_name}} defaults
     service ${{app_name}} start || echo "${{app_name}} could not be started. Try manually with service ${{app_name}} start"
-    
+
 For **RHEL**
 
 .. code-block :: bash
@@ -255,20 +255,20 @@ For **RHEL**
     update-rc.d ${{app_name}} defaults
     service ${{app_name}} start || echo "${{app_name}} could not be started. Try manually with service ${{app_name}} start"
 
-    
+
 
 Debian Control Scripts
 ----------------------
 
 To override default templates in a Debian build put the new control files in the
-``debianControlScriptsDirectory`` (by default ``src/debian/DEBIAN``). 
+``debianControlScriptsDirectory`` (by default ``src/debian/DEBIAN``).
 
-   ``debianControlScriptsDirectory`` 
+   ``debianControlScriptsDirectory``
      By default to ``src/debian/DEBIAN``. Place your templates here.
-    
+
    ``debianMakePreinstScript``
      creates or discovers the preinst script used by this project.
-    
+
    ``debianMakePrermScript``
      creates or discovers the prerm script used by this project.
 
@@ -278,22 +278,22 @@ To override default templates in a Debian build put the new control files in the
    ``debianMakePostrmScript``
      creates or discovers the postrm script used by this project.
 
-    
+
 Available templates are
 
    ``postinst``
    ``preinst``
    ``postun``
    ``preun``
- 
- 
+
+
 Linux Replacements
 ------------------
- 
+
  This is a list of values you can access in your templates
- 
+
  .. code-block :: bash
- 
+
       ${{author}}
       ${{descr}}
       ${{exec}}
@@ -303,7 +303,7 @@ Linux Replacements
       ${{app_name}}
       ${{daemon_user}}
       ${{daemon_group}}
- 
+
 
 Example Configurations
 ======================
@@ -311,4 +311,3 @@ Example Configurations
 A list of very small configuration settings can be found at `sbt-native-packager-examples`_
 
     .. _sbt-native-packager-examples: https://github.com/muuki88/sbt-native-packager-examples
-

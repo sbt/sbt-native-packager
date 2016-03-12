@@ -1,7 +1,10 @@
 Deployment
 ==========
-This page shows you how to configure your build to deploy your build universal(zip, tgz, txz), rpm, debian or msi packages.
-For information on docker, please take a look at the docker page.
+This page shows you how to configure your build to deploy your build universal(zip, tgz, txz), rpm, debian or msi
+packages. For information on docker, please take a look at the docker page.
+
+.. note:: The deployment settings only add artifacts to your publish task. Native packager doesn't provide any
+    functionality for publishing to native repositories.
 
 Setup publish Task
 ------------------
@@ -30,8 +33,6 @@ Default Deployment
 The easiest way is to add ``UniversalDeployPlugin`` to your ``build.sbt``
 
 .. code-block:: scala
-
-    import NativePackagerKeys._
 
     enablePlugins(JavaServerAppPackaging, UniversalDeployPlugin)
 

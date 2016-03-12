@@ -1,13 +1,14 @@
-Advanced Topics
-###############
+.. _recipes:
+
+Recipes
+#######
 
 
 
 .. toctree::
-   :maxdepth: 2
-   
+   :hidden:
+
    custom.rst
    longclasspath.rst
    play.rst
    deployment.rst
-   documentation.rst

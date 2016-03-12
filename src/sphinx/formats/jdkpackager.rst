@@ -1,21 +1,24 @@
+.. _jdkpackager-plugin:
+
 JDKPackager Plugin
 ==================
 
-JDK 8 from Oracle includes the tool ``javapackager`` (née ``javafxpackager``), which generates native application launchers and installers for MacOS X, Windows, and Linux. This plugin complements the existing `sbt-native-packager` formats by taking the settings and staged output from ``JavaAppPackaging`` and passing them through ``javapackager`` to create native formats per Oracle's provided features.
+JDK 8 from Oracle includes the tool ``javapackager`` (née ``javafxpackager``), which generates native application
+launchers and installers for MacOS X, Windows, and Linux. This plugin complements the existing `sbt-native-packager`
+formats by taking the settings and staged output from ``JavaAppPackaging`` and passing them through ``javapackager``
+to create native formats per Oracle's provided features.
 
-The actual mechanism used by this plugin is the support provided by the ``lib/ant-javafx.jar`` Ant task library, which provides more capabilities than the ``javapackager`` command line version, but the idea is the same.
+The actual mechanism used by this plugin is the support provided by the ``lib/ant-javafx.jar`` Ant task library,
+which provides more capabilities than the ``javapackager`` command line version, but the idea is the same.
 
-This plugin's most relevant addition to the core `sbt-native-packager` capabilities is the generation of MacOS X App bundles, and associated ``.dmg` and ``.pkg`` package formats. With this plugin complete drag-and-drop installable application bundles are possible, including the embedding of the JRE. It can also generate Windows ``.exe`` and ``.msi`` installers provided the requisite tools are available on the Windows build platform (see below). While Linux package formats are also possible via this plugin, it is likely the native `sbt-native-packager` support for ``.deb`` and ``.rpm`` formats will provide more configurability.
+This plugin's most relevant addition to the core `sbt-native-packager` capabilities is the generation of MacOS X App
+bundles, and associated ``.dmg`` and ``.pkg`` package formats. With this plugin complete drag-and-drop installable
+application bundles are possible, including the embedding of the JRE. It can also generate Windows ``.exe`` and ``.msi``
+installers provided the requisite tools are available on the Windows build platform (see below). While Linux package
+formats are also possible via this plugin, it is likely the native `sbt-native-packager` support for ``.deb`` and
+``.rpm`` formats will provide more configurability.
 
-.. contents::
-  :depth: 2
-
-.. raw:: html
-
-  <div class="alert alert-info" role="alert">
-    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The <tt>JDKPackagerPlugin</tt> depends on the <tt>Universal</tt>, <tt>JavaAppPackaging</tt> and <tt>LauncherJarPlugin</tt> plugins. For inherited settings read the <a href="../archetypes/java_app/index.html">Java Application Plugin Documentation</a>
-  </div>
+.. note:: The JDKPackagerPlugin depends on the :ref:`universal-plugin`, :ref:`java-app-plugin` and :ref:`Launcher Plugin <launcher-jar-plugin>`
 
 
 Requirements
@@ -30,7 +33,11 @@ To use create Windows launchers & installers, the either the WIX Toolset (``msi`
 * `WIX Toolset <http://wixtoolset.org/>`_
 * `Inno Setup <http://www.jrsoftware.org/isinfo.php>`_
 
-For further details on the capabilities of `javapackager`, see the `windows <http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html>`_ and `Unix <http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html>`_ references. (Note: only a few of the possible settings are exposed through this plugin. Please submit a `Github <https://github.com/sbt/sbt-native-packager/issues>`_ issue or pull request if something specific is desired.)
+For further details on the capabilities of `javapackager`, see the
+`windows <http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html>`_ and
+`Unix <http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html>`_ references.
+(Note: only a few of the possible settings are exposed through this plugin. Please submit a
+`Github <https://github.com/sbt/sbt-native-packager/issues>`_ issue or pull request if something specific is desired.)
 
 
 Enabling
@@ -51,7 +58,9 @@ To use, first get your application working per ``JavaAppPackaging`` instructions
 
   sbt jdkPackager:packageBin
 
-By default, the plugin makes the installer type that is native to the current build platform in the directory ``target/jdkpackager/bundles``. The key ``jdkPackageType`` can be used to modify this behavior. Run ``help jdkPackageType`` in `sbt` for details. The most popular setting is likely to be ``jdkAppIcon``.
+By default, the plugin makes the installer type that is native to the current build platform in the directory
+``target/jdkpackager/bundles``. The key ``jdkPackageType`` can be used to modify this behavior. Run
+``help jdkPackageType`` in `sbt` for details. The most popular setting is likely to be ``jdkAppIcon``.
 
 Settings
 --------
@@ -76,12 +85,9 @@ Settings
   * ``exe``: Generates a Windows .exe package.
   * ``msi``: Generates a Windows Installer package.
 
-.. raw:: html
+.. note:: Because only a subset of the possible settings are exposed through he plugin, updates are likely required to fully
+    make use of all formats. ``dmg`` currently the most tested type.
 
-  <div class="alert alert-info" role="alert">
-    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    Because only a subset of the possible settings are exposed through he plugin, updates are likely required to fully make use of all formats. ``dmg`` currently the most tested type.
-  </div>
 
 ``jdkAppIcon``
   Path to platform-specific application icon:

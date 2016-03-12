@@ -1,98 +1,122 @@
+.. _java-server-plugin:
+
 Java Server Application Archetype
 #################################
 
-In the :doc:`Application Packaging </archetypes/java_app/index>` section we described how to build and
-customize settings related to an application. The server archetype adds additional features you may
-need when running your application as a service on a server. SBT Native Packager ships with a set of
-predefined install and uninstall scripts for various platforms and service managers.
+.. hint:: Supports only **deb** and **rpm** packaging. No support for Windows or OSX
+
+In the :ref:`java-app-plugin` section we described how to build and customize settings related to an application.
+The server archetype adds additional features you may need when running your application as a service on a server.
+SBT Native Packager ships with a set of predefined install and uninstall scripts for various platforms and service
+managers.
 
 
 Features
---------
+========
 
-The `JavaServerAppPackaging` archetype contains all `JavaAppPackaging` feature and the following
+The *JavaServerAppPackaging* archetype depends on the :ref:`java-app-plugin` and adds the following features
 
 * install/uninstall services
 * default mappings for server applications
-* Creates a start script in ``/etc/init.d`` (SystemV) or ``/etc/init/`` (Upstart)
+  * ``/var/log/<pkg>`` is symlinked from ``<install>/logs``
+  * ``/var/run/<pkg>`` owned by ``daemonUser``
+* Creates a start script in for the configured system loader (SystemV, Upstart or SystemD)
 
 
 Usage
------
-
-.. raw:: html
-
-  <div class="row">
-    <div class="col-md-6">
-
-Version 1.0 or higher with sbt 0.13.5 and and higher
+=====
 
 .. code-block:: scala
 
   enablePlugins(JavaServerAppPackaging)
 
-.. raw:: html
+Everything else works the same way as the :ref:`java-app-plugin`.
 
-    </div><!-- v1.0 -->
-    <div class="col-md-6">
-    
-Version 0.8 or lower
+Settings & Tasks
+================
 
-.. code-block:: scala
+This is a non extensive list of important settings and tasks this plugin provides. All settings
+have sensible defaults.
 
-  import com.typesafe.sbt.SbtNativePackager._
-  import NativePackagerKeys._
-  
-  packageArchetype.java_server
+  ``daemonUser``
+    User to start application daemon
 
-.. raw:: html
+  ``daemonUserUid``
+    UID of daemonUser
 
-    </div><!-- v0.8 -->
-  </div><!-- row end -->
+  ``daemonGroup``
+    Creates or discovers the bat script used by this project.
+
+  ``daemonGroupGid``
+    GID of daemonGroup
+
+  ``daemonShell``
+    Shell provided for the daemon user
+
+  ``serverLoading``
+    Loading system to be used for application start script (SystemV, Upstart, Systemd)
+
+  ``startRunlevels``
+    Sequence of runlevels on which application will start up
+
+  ``stopRunlevels``
+    Sequence of runlevels on which application will stop
+
+  ``requiredStartFacilities``
+    Names of system services that should be provided at application start
+
+  ``requiredStopFacilities``
+    Names of system services that should be provided at application stop
 
 
-Customize
----------
+Default Mappings
+================
 
-The server archetype provides :doc:`additional options to customize your application <customize>`
-behaviour at buildtime, installation, uninstallation and during runtime. The
-basic application script customization is discussed in :doc:`Java Application Customization </archetypes/java_app/customize>`.
+The java server archetype creates a default package structure with the following access rights. **<package>** is a
+placeholder for your actual application name. By default this is ``normalizedName``.
+
+===============================  ======  ===========  =======
+Folder                           User    Permissions  Purpose
+===============================  ======  ===========  =======
+/usr/share/**<package>**         root    755 / (655)  static, non-changeable files
+/etc/default/**<package>**       root    644          default config file
+/etc/**<package>**               root    644          config folder -> link to /usr/share/**<package-name>**/conf
+/var/run/**<package>**           daemon  644          if the application generates a pid on its own
+/var/log/**<package>**           daemon  644          log folder -> symlinked from /usr/share/**<package>**/log
+===============================  ======  ===========  =======
+
+You can read more on best practices on `wikipedia filesystem hierarchy`_, `debian policies`_ and in
+this `native packager discussion`_.
+
+.. _wikipedia filesystem hierarchy: http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+.. _debian policies: https://www.debian.org/doc/debian-policy/ch-files.html
+.. _native packager discussion: https://github.com/sbt/sbt-native-packager/pull/174
+
+If you want to change something in this predefined structure read more about it in
+the :doc:`linux section </formats/linux>`.
 
 Service Managers
-----------------
+================
 
-Platforms are tied to both package managers (Rpm, Debian) and Service Managers (System V, Upstart, SystemD). By 
-default the native packager will configure a service manager to run the daemon process. The available 
-configurations are:
+Platforms are tied to both package managers (Rpm, Debian) and Service Managers (System V, Upstart, SystemD). By
+default the native packager will configure a service manager to run the daemon process. The default configurations are:
 
-+---------------+--------------------+--------------+
-| Platform      |  Service Manager   |  Working     |
-+===============+====================+==============+
-| Ubuntu        | Upstart (Default)  |    X         |
-+---------------+--------------------+--------------+
-| Ubuntu        | System V           |    X         |
-+---------------+--------------------+--------------+
-| CentOS        | System V (Default) |    X         |
-+---------------+--------------------+--------------+
-| CentOS 6.5    | Upstart            |    X         |
-+---------------+--------------------+--------------+
-| Fedora        | System V (Default) |    X         |
-+---------------+--------------------+--------------+
-| Fedora        | systemd            | experimental |
-+---------------+--------------------+--------------+
-| Windows       | Windows Services   |              |
-+---------------+--------------------+--------------+
++---------------+--------------------+
+| Package Format|  Service Manager   |
++===============+====================+
+| Debian        | Upstart (Default)  |
++---------------+--------------------+
+| Rpm           | SystemV (Default)  |
++---------------+--------------------+
 
-Sitemap
--------
+See the :ref:`server-app-customize` section on how to change these.
+
+.. _server-app-customize:
+
+Customize
+=========
 
 .. toctree::
    :maxdepth: 1
-   
-   my-first-project.rst
+
    customize.rst
-
-
-Next, let's :doc:`get started with simple application <my-first-project>`
-
-
