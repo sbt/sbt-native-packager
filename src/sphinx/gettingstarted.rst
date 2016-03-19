@@ -1,173 +1,63 @@
-.. _GettingStarted:
+.. _getting-started:
 
-.. contents:: 
-  :depth: 2
 
-Installation
-============
+Getting Started
+###############
 
-The sbt-native-packager is a plugin. To use it, first create a ``project/plugins.sbt`` file with the following content. 
+Setup
+-----
+
+Sbt-native-packager is an *AutoPlugin*. Add it to your ``plugins.sbt``
 
 .. code-block:: scala
 
   addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "x.y.z")
 
 
-Also, each operating system requires its own tools. These tools are specified
-in the operating system specific sections.
+Native Tools
+~~~~~~~~~~~~
 
-Version 1.0 and greater
------------------------
+Depending on the package format you want to create, you may need additional tools available on your machine.
+Each :ref:`packaging format <packaging-formats>` has a requirements section.
 
-If you use sbt 0.13.5 or greater you can enable sbt native packager by enabling it in your ``build.sbt``.
-We recommend to `use an archetype <archetypes/>`_ for setting up your build
+
+Your first package
+------------------
+
+Native packager provides :ref:`packaging format plugins and archetype plugins <formats-and-archetypes>` to separate
+configuration and actual packaging. To get started we use the basic :ref:`Java Application Archetype <java-app-plugin>`.
+For more archetypes see the :ref:`archetypes page <archetypes>`.
+
+
+In your ``build.sbt`` you need to enable the archetype like this
 
 .. code-block:: scala
 
   enablePlugins(JavaAppPackaging)
 
-but if you only want the bare minimum you can only add the packager plugin
+This will also enable all supported format plugins.
 
-.. code-block:: scala
-
-  enablePlugins(SbtNativePackager)
-  
-The autoplugins mechanism will import everything automatically.
-
-Build.scala
+Run the app
 ~~~~~~~~~~~
 
-If you use a ``Build.scala`` you can import the available keys
-with this statement
+Native packager can *stage* your app so you can run it locally without having the app packaged.
 
-.. code-block:: scala
+.. code-block:: bash
 
-  import com.typesafe.sbt.SbtNativePackager.autoImport._
-
-
-Version 0.8.x or lower
-----------------------
+   sbt stage
+   ./target/universal/stage/bin/<your-app>
 
 
-If you don't use autoplugins you need to import the available
-keys yourself. In your ``build.sbt`` or ``Build.scala`` add
+Create a package
+~~~~~~~~~~~~~~~~
 
-.. code-block:: scala
+We can generate other packages via the following tasks. Note that each packaging format may needs some additional
+configuration and native tools available. Here's a complete list of current formats.
 
-  import com.typesafe.sbt.SbtNativePackager._
-  import NativePackagerKeys._
-
-
-
-Packaging Formats
-=================
-
-
-.. raw:: html
-
-  <hr>
-  <div class="row">
-      <div class="col-lg-3">
-        <h2>*.deb</h2>
-        <p>Packaging format for Debian based systems like Ubuntu</p>
-        <pre>debian:packageBin</pre>
-        <a class="btn btn-success" href="formats/debian.html" role="button"><i class="fa fa-linux"></i> Debian Plugin »</a>
-      </div>
-      <div class="col-lg-3 col-lg-offset-1">
-        <h2>*.rpm</h2>
-        <p>Packaging format for Redhat based systems like RHEL or CentOS.</p>
-        <pre>rpm:packageBin</pre>
-        <a class="btn btn-success" href="formats/rpm.html" role="button"><i class="fa fa-linux"></i> Rpm Plugin »</a>
-      </div>
-      <div class="col-lg-3 col-lg-offset-1">
-        <h2>*.msi</h2>
-        <p>Packaging format for windows systems.</p>
-        <pre>windows:packageBin</pre>
-        <a class="btn btn-success" href="formats/windows.html" role="button"><i class="fa fa-windows"></i> Windows Plugin »</a>
-      </div>
-      <br>
-    </div>
-    
-    <div class="row" style="margin-top:20px;">
-      <div class="col-lg-3">
-        <h2>*.dmg</h2>
-        <p>Packaging format for osx based systems.</p>
-        <pre>universal:packageOsxDmg</pre>
-        <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-apple"></i> Universal Plugin »</a>
-      </div>
-      <div class="col-lg-3 col-lg-offset-1">
-        <h2>docker</h2>
-        <p>Package your application in a docker container.</p>
-        <pre>docker:publishLocal</pre>
-        <a class="btn btn-success" href="formats/docker.html" role="button"><i class="fa fa-file-archive-o"></i> Docker Plugin »</a>
-      </div>
-      <div class="col-lg-3 col-lg-offset-1">
-        <h2>*.zip</h2>
-        <p>Packaging format for all systems supporting zip.</p>
-        <pre>universal:packageBin</pre>
-        <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
-      </div>
-      <br>
-    </div> 
-    
-    
-    <div class="row" style="margin-top:20px;">
-      <div class="col-lg-3">
-        <h2>*.tar</h2>
-        <p>Packaging format for all systems supporting tar.</p>
-        <pre>universal:packageZipTarball</pre>
-        <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
-      </div>
-      <div class="col-lg-3 col-lg-offset-1">
-        <h2>*.xz</h2>
-        <p>Packaging format for all systems supporting xz.</p>
-        <pre>universal:packageXzTarball</pre>
-        <a class="btn btn-success" href="formats/universal.html" role="button"><i class="fa fa-file-archive-o"></i> Universal Plugin »</a>
-      </div>
-      <div class="col-lg-3 col-lg-offset-1">
-        <h2>jdkpackager</h2>
-        <p>Oracle javapackager create packages for your running platform.</p>
-        <pre>jdkPackager:packageBinl</pre>
-        <a class="btn btn-success" href="formats/jdkpackager.html" role="button"><i class="fa fa-coffee"></i> JDK Packager Plugin »</a>
-      </div>
-    </div>
-    
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
-Archetypes
-==========
-
-
-.. raw:: html
-
-  <hr>
-  <div class="row">
-      <div class="col-lg-6">
-        <h2>Java Application</h2>
-        <p>Creates a standalone package with an executable bash/bat script.<br>&nbsp; </p>
-        <pre>enablePlugins(JavaAppPackaging)</pre>
-        <a class="btn btn-success" href="archetypes/java_app/" role="button"><i class="fa fa-play-circle-o"></i> Learn more »</a>
-      </div>
-      <div class="col-lg-6">
-        <h2>Java Server</h2>
-        <p>Creates a standalone package with an executable bash/bat script and additional configuration and autostart.</p>
-        <pre>enablePlugins(JavaServerAppPackaging)</pre>
-        <a class="btn btn-success" href="archetypes/java_server/" role="button"><i class="fa fa-gears"></i> Learn more »</a>
-      </div>
-    </div>
-    
-    
-    
-Sitemap
-=======
-
-.. raw:: html
-
-  <hr>
-
-.. toctree::
-   :maxdepth: 2
-   
-   archetypes/index.rst
-   formats/index.rst
-   topics/index.rst
+* ``universal:packageBin`` - Generates a universal zip file
+* ``universal:packageZipTarball`` - Generates a universal tgz file
+* ``debian:packageBin`` - Generates a deb
+* ``docker:publishLocal`` - Builds a Docker image using the local Docker server
+* ``rpm:packageBin`` - Generates an rpm
+* ``universal:packageOsxDmg`` - Generates a DMG file with the same contents as the universal zip/tgz.
+* ``windows:packageBin`` - Generates an MSI

@@ -1,3 +1,5 @@
+.. _long-classpaths:
+
 Dealing with long classpaths
 ============================
 
@@ -8,6 +10,8 @@ and difficult to work with when using tools like ``ps``, causes problems on some
 limits to how long commands can be.
 
 There are a few ways you can work around this in the native packager.
+
+.. _launcher-jar-plugin:
 
 Generate a launcher jar
 -----------------------
@@ -25,6 +29,8 @@ To enable the launcher jar, enable the ``LauncherJarPlugin``:
 .. code-block:: scala
 
     enablePlugins(LauncherJarPlugin)
+
+.. _classpath-jar-plugin:
 
 Generate a classpath jar
 ------------------------

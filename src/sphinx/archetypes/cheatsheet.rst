@@ -53,16 +53,16 @@ These settings configure the path behaviour
 
   ``packageName``
     Defaults to ``normalizedName``. Can be override in different scopes
-    
+
   ``executableScriptName``
     Defaults to ``normalizedName``. Sets the name of the executable starter script
 
   ``defaultLinuxInstallLocation``
     Defaults to ``/usr/share/``. Used to determine the installation path for for linux packages (rpm, debian)
-    
+
   ``defaultLinuxLogsLocation``
     Defaults to ``/var/log/``. Used to determine the log path for linux packages (rpm, debian).
-    
+
 
 JVM Options
 ===========
@@ -74,16 +74,10 @@ The available options are
 - Providing a ``application.ini`` (JavaApp) or ``etc-default`` (JavaServer) file
 - Set ``javaOptions in Universal`` (JavaApp) or ``javaOptions in Linux`` (JavaServer, linux only)
 
-.. raw:: html
-
-  <div class="alert alert-warning" role="alert">
-    If you want to change the location of your config keep in mind that
-    the path in <strong>bashScriptConfigLocation</strong> should either 
-    <ul>
-    <li>be <strong>absolute</strong> (e.g. <em>/etc/etc-default/my-config</em>) or</li> 
-    <li>starting with <em>${app_home}/../</em> (e.g. <em>${app_home}/../conf/application.ini</em>)</li>
-    </ul>
-  </div>
+.. warning:: If you want to change the location of your config keep in mind that the path in
+    **bashScriptConfigLocation** should either
+    - be **absolute** (e.g. */etc/etc-default/my-config<*) or
+    - starting with *${app_home}/../* (e.g. *${app_home}/../conf/application.ini*)
 
 Extra Defines
 -------------
@@ -97,17 +91,17 @@ For a bash script this could look like this.
 .. code-block:: scala
 
      bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/app.config""""
-     
+
      // or more. -X options don't need to be prefixed with -J
      bashScriptExtraDefines ++= Seq(
         """addJava "-Xms1024m"""",
         """addJava "-Xmx2048m""""
      )
-     
+
 For information take a look at the :doc:` customize section for java apps </archetypes/java_app/customize>`
 
 File - application.ini or etc-default
------------------------------------
+-------------------------------------
 
 Another approach would be to provide a file that is read by the bash script during execution.
 
@@ -118,9 +112,9 @@ Create a file ``src/universal/conf/application.ini`` (gets automatically added t
 and add this to your ``build.sbt`` inject the config location into the bashscript.
 
 .. code-block:: scala
-    
+
     bashScriptConfigLocation := Some("${app_home}/../conf/application.ini")
-    
+
 
 Java Server
 ~~~~~~~~~~~
@@ -129,7 +123,7 @@ See :ref:`server-app-config`
 
 Setting - javaOptions
 ---------------------
-  
+
 The last option to set your java options is using ``javaOptions in Universal`` (JavaApp and Server).
 This will generate files according to your archetype. The following table gives you an overview what
 you can use and how things will be behave if you mix different options. Options lower in the table
@@ -229,18 +223,17 @@ You can use ``${{variable_name}}`` to reference variables when writing your scri
 .. _server-app-config:
 
 Server App Config - ``src/templates/etc-default-{systemv,systemd}``
--------------------------------------------------
+-------------------------------------------------------------------
 
 Creating a file here will override the ``/etc/default/<application>`` template
 for the corresponding loader.
 
 The file `/etc/default/<application>` is used as follows given the loader:
 
-- `systemv`: sourced as a bourne script.
-- `systemd`: used as an EnvironmentFile directive parameter (see `man
-systemd.exec`, section `EnvironmentFile` for a description of the expected file
-format).
-- `upstart`: presently ignored.
+- *systemv*: sourced as a bourne script.
+- *systemd*: used as an EnvironmentFile directive parameter (see *man systemd.exec*, section *EnvironmentFile* for a
+  description of the expected file format).
+- *upstart*: presently ignored.
 
 If you're only overriding `JAVA_OPTS`, your environment file could be compatible
 with both systemv and systemd loaders; if such is the case, you can specify a
