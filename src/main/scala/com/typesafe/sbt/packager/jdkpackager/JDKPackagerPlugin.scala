@@ -31,6 +31,8 @@ object JDKPackagerPlugin extends AutoPlugin {
   override def requires = JavaAppPackaging && LauncherJarPlugin
   private val dirname = JDKPackager.name.toLowerCase
 
+  override def projectConfigurations: Seq[Configuration] =  Seq(JDKPackager)
+
   override lazy val projectSettings = Seq(
     jdkAppIcon := None,
     jdkPackagerType := "installer",
