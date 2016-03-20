@@ -300,6 +300,20 @@ Or just a plain hardcoded string
 
   topLevelDirectory := Some("awesome-app")
 
+Skip packageDoc task on stage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The stage task forces *javadoc.jar* build, which could slow down ``stage`` tasks performance. In order to deactivate
+this behaviour, add this to your ``build.sbt``
+
+.. code-block:: scala
+
+    mappings in (Compile, packageDoc) := Seq()
+
+Source `issue 651`_.
+
+.. _`issue 651`: https://github.com/sbt/sbt-native-packager/issues/651
+
 MappingsHelper
 ~~~~~~~~~~~~~~
 
