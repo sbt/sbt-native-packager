@@ -10,10 +10,11 @@ This section provides recipes for common configurations. If you can't find what 
 .. toctree::
    :maxdepth: 1
 
-   custom.rst
-   longclasspath.rst
-   play.rst
-   deployment.rst
+   custom
+   longclasspath
+   play
+   deployment
+   scalajs
 
 
 
