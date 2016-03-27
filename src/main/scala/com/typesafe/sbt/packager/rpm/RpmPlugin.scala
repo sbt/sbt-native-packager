@@ -97,7 +97,9 @@ object RpmPlugin extends AutoPlugin {
     name in Rpm <<= name in Linux,
     packageName in Rpm <<= packageName in Linux,
     executableScriptName in Rpm <<= executableScriptName in Linux,
-    rpmDaemonLogFile := s"${(packageName in Linux).value}.log"
+    rpmDaemonLogFile := s"${(packageName in Linux).value}.log",
+    // override the linux sourceDirectory setting
+    sourceDirectory in Rpm <<= sourceDirectory
   ) ++ inConfig(Rpm)(Seq(
       packageArchitecture := "noarch",
       rpmMetadata <<=

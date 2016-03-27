@@ -69,7 +69,7 @@ object JavaServerAppPackaging extends AutoPlugin {
       sourceDirectory.value,
       serverLoading.value),
     makeEtcDefault := makeEtcDefaultScript(
-      (packageName in Linux).value,
+      packageName.value,
       (target in Universal).value,
       linuxEtcDefaultTemplate.value,
       linuxScriptReplacements.value),

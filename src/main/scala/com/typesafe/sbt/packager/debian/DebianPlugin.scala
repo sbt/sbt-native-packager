@@ -87,6 +87,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     debianSignRole := "builder",
     target in Debian <<= (target, name in Debian, version in Debian) apply ((t, n, v) => t / (n + "-" + v)),
     name in Debian <<= (name in Linux),
+    // TODO maybe we can remove this, with the projectConfigurations
     maintainerScripts in Debian <<= (maintainerScripts in Linux),
     packageName in Debian <<= (packageName in Linux),
     executableScriptName in Debian <<= (executableScriptName in Linux),
@@ -95,6 +96,9 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     packageDescription in Debian <<= packageDescription in Linux,
     packageSummary in Debian <<= packageSummary in Linux,
     maintainer in Debian <<= maintainer in Linux,
+
+    // override the linux sourceDirectory setting
+    sourceDirectory in Debian <<= sourceDirectory,
 
     /* ==== Debian configuration settings ==== */
     debianControlScriptsDirectory <<= (sourceDirectory) apply (_ / "debian" / Names.DebianMaintainerScripts),
