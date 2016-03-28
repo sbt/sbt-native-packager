@@ -29,6 +29,8 @@ object LinuxPlugin extends AutoPlugin {
 
   import autoImport._
 
+  override def projectConfigurations: Seq[Configuration] =  Seq(Linux)
+
   /** default users available for */
   object Users {
     val Root = "root"

@@ -57,6 +57,8 @@ object RpmPlugin extends AutoPlugin {
 
   }
 
+  override def projectConfigurations: Seq[Configuration] =  Seq(Rpm)
+
   override lazy val projectSettings = Seq(
     rpmOs := "Linux", // TODO - default to something else?
     rpmRelease := "1",
@@ -95,7 +97,9 @@ object RpmPlugin extends AutoPlugin {
     name in Rpm <<= name in Linux,
     packageName in Rpm <<= packageName in Linux,
     executableScriptName in Rpm <<= executableScriptName in Linux,
-    rpmDaemonLogFile := s"${(packageName in Linux).value}.log"
+    rpmDaemonLogFile := s"${(packageName in Linux).value}.log",
+    // override the linux sourceDirectory setting
+    sourceDirectory in Rpm <<= sourceDirectory
   ) ++ inConfig(Rpm)(Seq(
       packageArchitecture := "noarch",
       rpmMetadata <<=
@@ -105,14 +109,14 @@ object RpmPlugin extends AutoPlugin {
       rpmDependencies <<=
         (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
       maintainerScripts := {
-	val scripts = maintainerScripts.value
-	if (rpmBrpJavaRepackJars.value) {
-	  val pre = scripts.getOrElse(Names.Pre, Nil)
+  val scripts = maintainerScripts.value
+  if (rpmBrpJavaRepackJars.value) {
+    val pre = scripts.getOrElse(Names.Pre, Nil)
           val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
-	  scripts + (Names.Pre -> (pre :+ scriptBits))
-	} else {
-	  scripts
-	}
+    scripts + (Names.Pre -> (pre :+ scriptBits))
+  } else {
+    scripts
+  }
       },
       rpmScripts := RpmScripts.fromMaintainerScripts(maintainerScripts.value),
       rpmSpecConfig <<=

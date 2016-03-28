@@ -67,6 +67,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
 
   val CHOWN_REPLACEMENT = "chown-paths"
 
+  override def projectConfigurations: Seq[Configuration] =  Seq(Debian)
+
   // TODO maybe we can put settings/debiansettings together
   /**
     * Enables native packaging by default
@@ -85,6 +87,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     debianSignRole := "builder",
     target in Debian <<= (target, name in Debian, version in Debian) apply ((t, n, v) => t / (n + "-" + v)),
     name in Debian <<= (name in Linux),
+    // TODO maybe we can remove this, with the projectConfigurations
     maintainerScripts in Debian <<= (maintainerScripts in Linux),
     packageName in Debian <<= (packageName in Linux),
     executableScriptName in Debian <<= (executableScriptName in Linux),
@@ -93,6 +96,9 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     packageDescription in Debian <<= packageDescription in Linux,
     packageSummary in Debian <<= packageSummary in Linux,
     maintainer in Debian <<= maintainer in Linux,
+
+    // override the linux sourceDirectory setting
+    sourceDirectory in Debian <<= sourceDirectory,
 
     /* ==== Debian configuration settings ==== */
     debianControlScriptsDirectory <<= (sourceDirectory) apply (_ / "debian" / Names.DebianMaintainerScripts),
@@ -107,36 +113,36 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     maintainerScripts in Debian := {
       val replacements = (linuxScriptReplacements in Debian).value
       val scripts = Map(
-	Names.Prerm -> defaultMaintainerScript(Names.Prerm).toSeq.flatten,
-	Names.Preinst -> defaultMaintainerScript(Names.Preinst).toSeq.flatten,
-	Names.Postinst -> defaultMaintainerScript(Names.Postinst).toSeq.flatten,
-	Names.Postrm -> defaultMaintainerScript(Names.Postrm).toSeq.flatten
+  Names.Prerm -> defaultMaintainerScript(Names.Prerm).toSeq.flatten,
+  Names.Preinst -> defaultMaintainerScript(Names.Preinst).toSeq.flatten,
+  Names.Postinst -> defaultMaintainerScript(Names.Postinst).toSeq.flatten,
+  Names.Postrm -> defaultMaintainerScript(Names.Postrm).toSeq.flatten
       )
 
       // this is for legacy purposes to keep old behaviour
       // --- legacy starts
       def readContent(scriptFiles: Seq[(File, String)]): Map[String, Seq[String]] = scriptFiles.map {
-	case (scriptFile, scriptName) => scriptName -> IO.readLines(scriptFile)
+  case (scriptFile, scriptName) => scriptName -> IO.readLines(scriptFile)
       }.toMap
 
       val userProvided = readContent(Seq(
-	debianMakePreinstScript.value.map(script => script -> Names.Preinst),
-	debianMakePostinstScript.value.map(script => script -> Names.Postinst),
-	debianMakePrermScript.value.map(script => script -> Names.Prerm),
-	debianMakePostrmScript.value.map(script => script -> Names.Postrm)
+  debianMakePreinstScript.value.map(script => script -> Names.Preinst),
+  debianMakePostinstScript.value.map(script => script -> Names.Postinst),
+  debianMakePrermScript.value.map(script => script -> Names.Prerm),
+  debianMakePostrmScript.value.map(script => script -> Names.Postrm)
       ).flatten)
 
       // these things get appended. Don't check for nonexisting keys as they are already in the default scripts map
       val appendedScripts = scripts.map {
-	case (scriptName, content) => scriptName -> (content ++ userProvided.getOrElse(scriptName, Nil))
+  case (scriptName, content) => scriptName -> (content ++ userProvided.getOrElse(scriptName, Nil))
       }
       // override and merge with the user defined scripts. Will change in the future
       val controlScriptsDir = debianControlScriptsDirectory.value
       val overridenScripts = scripts ++ readContent(Seq(
-	scriptMapping(Names.Prerm, debianMakePrermScript.value, controlScriptsDir),
-	scriptMapping(Names.Preinst, debianMakePreinstScript.value, controlScriptsDir),
-	scriptMapping(Names.Postinst, debianMakePostinstScript.value, controlScriptsDir),
-	scriptMapping(Names.Postrm, debianMakePostrmScript.value, controlScriptsDir)
+  scriptMapping(Names.Prerm, debianMakePrermScript.value, controlScriptsDir),
+  scriptMapping(Names.Preinst, debianMakePreinstScript.value, controlScriptsDir),
+  scriptMapping(Names.Postinst, debianMakePostinstScript.value, controlScriptsDir),
+  scriptMapping(Names.Postrm, debianMakePostrmScript.value, controlScriptsDir)
       ).flatten)
       // --- legacy ends
 
@@ -145,7 +151,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
 
       // apply all replacements
       content.mapValues { lines =>
-	TemplateWriter.generateScriptFromLines(lines, replacements)
+  TemplateWriter.generateScriptFromLines(lines, replacements)
       }
     },
     debianMaintainerScripts := generateDebianMaintainerScripts(
@@ -182,14 +188,14 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
                  packageDescription in Debian := "My package Description""""
             )
           }
-	  val cfile = dir / Names.DebianMaintainerScripts / Names.Control
+    val cfile = dir / Names.DebianMaintainerScripts / Names.Control
           IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
           chmod(cfile, "0644")
           cfile
       },
       debianConffilesFile <<= (linuxPackageMappings, target) map {
         (mappings, dir) =>
-	  val cfile = dir / Names.DebianMaintainerScripts / Names.Conffiles
+    val cfile = dir / Names.DebianMaintainerScripts / Names.Conffiles
           val conffiles = for {
             LinuxPackageMapping(files, meta, _) <- mappings
             if meta.config != "false"
@@ -202,11 +208,11 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       },
       debianMD5sumsFile <<= (debianExplodedPackage, target) map {
         (mappings, dir) =>
-	  val md5file = dir / Names.DebianMaintainerScripts / "md5sums"
+    val md5file = dir / Names.DebianMaintainerScripts / "md5sums"
           val md5sums = for {
             (file, name) <- (dir.*** --- dir pair relativeTo(dir))
             if file.isFile
-	    if !(name startsWith Names.DebianMaintainerScripts)
+      if !(name startsWith Names.DebianMaintainerScripts)
             if !(name contains "debian-binary")
             // TODO - detect symlinks with Java7 (when we can) rather than hackery...
             if file.getCanonicalPath == file.getAbsolutePath
@@ -219,7 +225,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       debianMakeChownReplacements <<= (linuxPackageMappings, streams) map makeChownReplacements,
       debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianChangelog,
         linuxScriptReplacements, debianMakeChownReplacements, linuxPackageSymlinks, target, streams)
-	map { (mappings, _, maintScripts, _, changelog, replacements, chown, symlinks, t, streams) =>
+  map { (mappings, _, maintScripts, _, changelog, replacements, chown, symlinks, t, streams) =>
 
           // Create files and directories
           mappings foreach {
@@ -244,7 +250,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
           // Put the maintainer files in `dir / "DEBIAN"` named as specified.
           // Valid values for the name are preinst,postinst,prerm,postrm
           for ((file, name) <- maintScripts) {
-	    val targetFile = t / Names.DebianMaintainerScripts / name
+      val targetFile = t / Names.DebianMaintainerScripts / name
             copyAndFixPerms(file, targetFile, LinuxFileMetaData())
             filterAndFixPerms(targetFile, chown +: replacements, LinuxFileMetaData())
           }
@@ -281,10 +287,10 @@ trait DebianPluginLike {
 
     scripts.map {
       case (scriptName, content) =>
-	val scriptBits = TemplateWriter.generateScriptFromLines(content, replacements)
-	val script = tmpDir / "tmp" / "debian" / scriptName
-	IO.write(script, scriptBits mkString "\n")
-	script -> scriptName
+  val scriptBits = TemplateWriter.generateScriptFromLines(content, replacements)
+  val script = tmpDir / "tmp" / "debian" / scriptName
+  IO.write(script, scriptBits mkString "\n")
+  script -> scriptName
     }.toList
   }
 
@@ -350,7 +356,7 @@ trait DebianPluginLike {
     (script, controlDir) match {
       // check if user defined script exists
       case (_, dir) if (dir / scriptName).exists =>
-	Some(file((dir / scriptName).getAbsolutePath) -> scriptName)
+  Some(file((dir / scriptName).getAbsolutePath) -> scriptName)
       // create mappings for generated script
       case (scr, _) => scr.map(_ -> scriptName)
     }
