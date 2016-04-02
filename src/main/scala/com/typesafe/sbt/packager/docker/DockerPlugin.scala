@@ -2,6 +2,7 @@ package com.typesafe.sbt
 package packager
 package docker
 
+import java.io.File
 import sbt._
 import sbt.Keys.{
   name,
@@ -61,11 +62,11 @@ object DockerPlugin extends AutoPlugin {
    * The separator for makeAdd force UNIX separator.
    * The separator doesn't depend to OS where i build Dockerfile.
    */
-  val UnixSeparatorChar = '/'
+  val SeparatorChar = File.separatorChar
 
   override def requires = universal.UniversalPlugin
 
-  override def projectConfigurations: Seq[Configuration] =  Seq(Docker)
+  override def projectConfigurations: Seq[Configuration] = Seq(Docker)
 
   override lazy val projectSettings = Seq(
     dockerBaseImage := "java:latest",
@@ -157,7 +158,7 @@ object DockerPlugin extends AutoPlugin {
    * @return ADD command adding all files inside the installation directory
    */
   private final def makeAdd(dockerBaseDirectory: String): CmdLike = {
-    val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
+    val files = dockerBaseDirectory.split(SeparatorChar)(1)
     Cmd("ADD", s"$files /$files")
   }
 
