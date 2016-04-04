@@ -1,186 +1,422 @@
+
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Debian Plugin &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+  
 
+  
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+
+  
+  
     
-    <title>Debian Plugin &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html"/>
+        <link rel="up" title="Packaging Formats" href="index.html"/>
+        <link rel="next" title="Rpm Plugin" href="rpm.html"/>
+        <link rel="prev" title="Linux Plugin" href="linux.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/yeti/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.1.0-SNAPSHOT',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html" />
-    <link rel="up" title="Packaging Formats" href="index.html" />
-    <link rel="next" title="Rpm Plugin" href="rpm.html" />
-    <link rel="prev" title="Docker Plugin" href="docker.html" />
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
-<meta name="apple-mobile-web-app-capable" content="yes">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
 
-  </head>
-  <body>
+          
+            <a href="../index.html" class="icon icon-home"> sbt-native-packager
+          
 
-  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="../index.html">
-          sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.0-SNAPSHOT</b></span>
-      </div>
-
-        <div class="collapse navbar-collapse nav-collapse">
-          <ul class="nav navbar-nav">
-            
-            
-              <li class="dropdown globaltoc-container">
-  <a role="button"
-     id="dLabelGlobalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="../index.html">Site <b class="caret"></b></a>
-  <ul class="dropdown-menu globaltoc"
-      role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#packaging-formats">Packaging Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#archetypes">Archetypes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../gettingstarted.html#sitemap">Sitemap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/java_app/index.html">Java Application Archetype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/java_server/index.html">Java Server Application Archetype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/akka_app/index.html">Akka Microkernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/cheatsheet.html">Archetype Cheatsheet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/index.html">Project Archetypes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Packaging Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">Advanced Topics</a></li>
-</ul>
-</ul>
-</li>
-              
-                <li class="dropdown">
-  <a role="button"
-     id="dLabelLocalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="#">Page <b class="caret"></b></a>
-  <ul class="dropdown-menu localtoc"
-      role="menu"
-      aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Debian Plugin</a><ul>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
-<li><a class="reference internal" href="#build">Build</a><ul>
-<li><a class="reference internal" href="#required-settings">Required Settings</a></li>
-<li><a class="reference internal" href="#java-based-packaging">Java based packaging</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#configurations">Configurations</a></li>
-<li><a class="reference internal" href="#settings">Settings</a></li>
-<li><a class="reference internal" href="#tasks">Tasks</a></li>
-<li><a class="reference internal" href="#customize">Customize</a><ul>
-<li><a class="reference internal" href="#customizing-debian-metadata">Customizing Debian Metadata</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</ul>
-</li>
-              
-            
-            
-              
-                
-  <li>
-    <a href="docker.html" title="Previous Chapter: Docker Plugin"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Docker Plugin</span>
-    </a>
-  </li>
-  <li>
-    <a href="rpm.html" title="Next Chapter: Rpm Plugin"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Rpm Plugin &raquo;</span>
-    </a>
-  </li>
-              
-            
-            
-            
-            
-              <li class="hidden-sm">
-<div id="sourcelink">
-  <a href="../_sources/formats/debian.txt"
-     rel="nofollow">Source</a>
-</div></li>
-            
-          </ul>
+          
+          </a>
 
           
             
-<form class="navbar-form navbar-right" action="../search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
+            
+              <div class="version">
+                1.1.0-SNAPSHOT
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
           
         </div>
-    </div>
-  </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      
-  <div class="section" id="debian-plugin">
-<h1><a class="toc-backref" href="#id1">Debian Plugin</a><a class="headerlink" href="#debian-plugin" title="Permalink to this headline">¶</a></h1>
-<p>The debian package specification is very robust and powerful.  If you wish to do any advanced features, it&#8217;s best to understand how
-the underlying packaging system works.  <a class="reference external" href="http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/">http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/</a> is an excellent tutorial.</p>
-<p>SBT Native Packager provides two ways to build debian packages. A native one, where you need <tt class="docutils literal"><span class="pre">dpkg-deb</span></tt> installed
-or a java, platform independent approach with <a class="reference external" href="https://github.com/tcurdt/jdeb">jdeb</a>. By default the <em>native</em> implementation
-is activated.</p>
-<div class="contents topic" id="contents">
-<p class="topic-title first">Contents</p>
-<ul class="simple">
-<li><a class="reference internal" href="#debian-plugin" id="id1">Debian Plugin</a><ul>
-<li><a class="reference internal" href="#requirements" id="id2">Requirements</a></li>
-<li><a class="reference internal" href="#build" id="id3">Build</a></li>
-<li><a class="reference internal" href="#configurations" id="id4">Configurations</a></li>
-<li><a class="reference internal" href="#settings" id="id5">Settings</a></li>
-<li><a class="reference internal" href="#tasks" id="id6">Tasks</a></li>
-<li><a class="reference internal" href="#customize" id="id7">Customize</a></li>
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#format-plugins">Format Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#archetype-plugins">Archetype Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#mappings">Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#architecture">Architecture</a></li>
 </ul>
 </li>
 </ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#native-tools">Native Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#your-first-package">Your first package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#run-the-app">Run the app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#create-a-package">Create a package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Formats</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="universal.html">Universal Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#universal-archive-options">Universal Archive Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#getting-started-with-universal-packaging">Getting Started with Universal Packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#universal-conventions">Universal Conventions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#change-remove-top-level-directory-in-output">Change/Remove Top Level Directory in Output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#skip-packagedoc-task-on-stage">Skip packageDoc task on stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#mappingshelper">MappingsHelper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#mapping-examples">Mapping Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="linux.html">Linux Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#package-mappings">Package Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#the-linuxpackagemapping-models">The LinuxPackageMapping Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#modifying-mappings-in-general">Modifying Mappings in General</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#add-mappings">Add Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#filter-remove-mappings">Filter/Remove Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#alter-linuxpackagemapping">Alter LinuxPackageMapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#alter-linuxsymlinks">Alter LinuxSymlinks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#add-empty-directories">Add Empty Directories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#man-pages">Man Pages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Debian Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#java-based-packaging">Java based packaging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rpm.html">Rpm Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#dependency-settings">Dependency Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#meta-settings">Meta Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-settings">Scriptlet Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#systemv-start-script-settings">SystemV Start Script Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#rpm-prefix">Rpm Prefix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#rpmchangelogfile">rpmChangelogFile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#jar-repackaging">Jar Repackaging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="docker.html">Docker Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#spotify-java-based-docker-client">Spotify java based docker client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#environment-settings">Environment Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#publishing-settings">Publishing Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-base-image">Docker Base Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-repository">Docker Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-customization">Docker Image Customization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#install-location">Install Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#custom-dockerfile">Custom Dockerfile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#remove-commands">Remove Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#add-commands">Add Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#write-from-scratch">Write from Scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html">Windows Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#feature-configuration">Feature configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jdkpackager.html">JDKPackager Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#enabling">Enabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#build">Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#debugging">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../archetypes/index.html">Archetypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/java_app/index.html">Java Command Line Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#start-script-options">Start script options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html">Application and runtime configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#start-script-customizations">Start script customizations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#overriding-templates-bash-bat">Overriding Templates (Bash/Bat)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/java_server/index.html">Java Server Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/cheatsheet.html">An archetype cheatsheet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#path-configurations">Path Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#quick-reference-table">Quick Reference Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#jvm-options">JVM Options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#extra-defines">Extra Defines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#file-application-ini-or-etc-default">File - application.ini or etc-default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#setting-javaoptions">Setting - javaOptions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../recipes/index.html">Recipes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/custom.html">Custom Package Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#sbt-assembly">SBT Assembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#proguard">Proguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#multi-module-builds">Multi Module Builds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#custom-packaging-format">Custom Packaging Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/longclasspath.html">Dealing with long classpaths</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#generate-a-launcher-jar">Generate a launcher jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#generate-a-classpath-jar">Generate a classpath jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#configure-a-wildcard-classpath">Configure a wildcard classpath</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/play.html">Play 2 Packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/play.html#build-configuration">Build Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/play.html#application-configuration">Application Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/play.html#systemv">SystemV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/deployment.html">Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#setup-publish-task">Setup publish Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#default-deployment">Default Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#custom-deployments">Custom Deployments</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#rpm">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#debian">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#custom-configurations">Custom Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id1">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id2">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id3">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#universal">Universal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/scalajs.html">Scala JS packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/scalajs.html#package-webjars-and-scalajs-resources">Package webjars and scalajs resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">sbt-native-packager</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Packaging Formats</a> &raquo;</li>
+      
+    <li>Debian Plugin</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/formats/debian.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
 </div>
-<div class="alert alert-info" role="alert">
-  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-  The debian plugin depends on the linux plugin. For general linux settings read the
-  <a href="linux.html">Linux Plugin Documentation</a>
-</div><div class="section" id="requirements">
-<h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="debian-plugin">
+<span id="id1"></span><h1>Debian Plugin<a class="headerlink" href="#debian-plugin" title="Permalink to this headline">¶</a></h1>
+<p>The debian package specification is very robust and powerful.  If you wish to do any advanced features, it&#8217;s best to understand how
+the underlying packaging system works.  <a class="reference external" href="http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/">http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/</a> is an excellent tutorial.</p>
+<p>SBT Native Packager provides two ways to build debian packages. A native one, where you need <code class="docutils literal"><span class="pre">dpkg-deb</span></code> installed
+or a java, platform independent approach with <a class="reference external" href="https://github.com/tcurdt/jdeb">jdeb</a>. By default the <em>native</em> implementation
+is activated.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The debian plugin depends on the <a class="reference internal" href="linux.html#linux-plugin"><span>Linux Plugin</span></a>.</p>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <p>If you use the <em>native</em>  debian package implementation you need the following applications installed:</p>
 <ul class="simple">
 <li>dpkg-deb</li>
@@ -191,15 +427,15 @@ is activated.</p>
 </ul>
 </div>
 <div class="section" id="build">
-<h2><a class="toc-backref" href="#id3">Build</a><a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre>sbt debian:packageBin
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt debian:packageBin
 </pre></div>
 </div>
 <div class="section" id="required-settings">
 <h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
 <p>A debian package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Debian Example&quot;</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Debian Example&quot;</span>
 
 <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span>
 
@@ -212,18 +448,18 @@ you have these settings in your build:</p>
 </pre></div>
 </div>
 <p>Enable the debian plugin to activate the native package implementation.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">DebianPlugin</span><span class="o">)</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">DebianPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="java-based-packaging">
 <h3>Java based packaging<a class="headerlink" href="#java-based-packaging" title="Permalink to this headline">¶</a></h3>
 <p>If you want to use the java based implementation, enable the following plugin.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JDebPackaging</span><span class="o">)</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JDebPackaging</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>and this to your <tt class="docutils literal"><span class="pre">plugins.sbt</span></tt></p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;org.vafer&quot;</span> <span class="o">%</span> <span class="s">&quot;jdeb&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3&quot;</span> <span class="n">artifacts</span> <span class="o">(</span><span class="nc">Artifact</span><span class="o">(</span><span class="s">&quot;jdeb&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">))</span>
+<p>and this to your <code class="docutils literal"><span class="pre">plugins.sbt</span></code></p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;org.vafer&quot;</span> <span class="o">%</span> <span class="s">&quot;jdeb&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3&quot;</span> <span class="n">artifacts</span> <span class="o">(</span><span class="nc">Artifact</span><span class="o">(</span><span class="s">&quot;jdeb&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">))</span>
 </pre></div>
 </div>
 <p>JDeb is a provided dependency so you have to add it on your own. It brings a lot of dependencies
@@ -231,71 +467,71 @@ that could slow your build times. This is the reason the dependency is marked as
 </div>
 </div>
 <div class="section" id="configurations">
-<h2><a class="toc-backref" href="#id4">Configurations</a><a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
-<p>Settings and Tasks inherited from parent plugins can be scoped with <tt class="docutils literal"><span class="pre">Debian</span></tt>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
+<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
+<p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal"><span class="pre">Debian</span></code>.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="settings">
-<h2><a class="toc-backref" href="#id5">Settings</a><a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <p>Debian requires the following specific settings:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Debian</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The name of the package for debian (if different from general linux name).</dd>
-<dt><tt class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Debian</span></tt></dt>
-<dd>The debian-friendly version of the package.   Should be of the form <tt class="docutils literal"><span class="pre">x.y.z-build-aa</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">debianPackageDependencies</span> <span class="pre">in</span> <span class="pre">Debian</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dd>The debian-friendly version of the package.   Should be of the form <code class="docutils literal"><span class="pre">x.y.z-build-aa</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">debianPackageDependencies</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The list of debian packages that this package depends on.</dd>
-<dt><tt class="docutils literal"><span class="pre">debianPackageRecommends</span> <span class="pre">in</span> <span class="pre">Debian</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">debianPackageRecommends</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The list of debian packages that are recommended to be installed with this package.</dd>
-<dt><tt class="docutils literal"><span class="pre">linuxPackageMappings</span> <span class="pre">in</span> <span class="pre">Debian</span></tt></dt>
-<dd>Debian requires a <tt class="docutils literal"><span class="pre">/usr/share/doc/{package</span> <span class="pre">name}/changelog.gz</span></tt> file that describes
+<dt><code class="docutils literal"><span class="pre">linuxPackageMappings</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dd>Debian requires a <code class="docutils literal"><span class="pre">/usr/share/doc/{package</span> <span class="pre">name}/changelog.gz</span></code> file that describes
 the version changes in this package. These should be appended to the base linux versions.</dd>
-<dt><tt class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></tt> (<tt class="docutils literal"><span class="pre">debianMaintainerScripts</span></tt>)</dt>
-<dd><em>DEPRECATED</em> use <tt class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></tt> instead.
-These are the packaging scripts themselves used by <tt class="docutils literal"><span class="pre">dpkg-deb</span></tt> to build your debian.  These
+<dt><code class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> (<code class="docutils literal"><span class="pre">debianMaintainerScripts</span></code>)</dt>
+<dd><em>DEPRECATED</em> use <code class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> instead.
+These are the packaging scripts themselves used by <code class="docutils literal"><span class="pre">dpkg-deb</span></code> to build your debian.  These
 scripts are used when installing/uninstalling a debian, like prerm, postinstall, etc.  These scripts
-are placed in the <tt class="docutils literal"><span class="pre">DEBIAN</span></tt> file when building.    Some of these files can be autogenerated,
+are placed in the <code class="docutils literal"><span class="pre">DEBIAN</span></code> file when building.    Some of these files can be autogenerated,
 for example when using a package archetype, like server_application.  However, any autogenerated file
-can be overridden by placing your own files in the <tt class="docutils literal"><span class="pre">src/debian/DEBIAN</span></tt> directory.</dd>
-<dt><tt class="docutils literal"><span class="pre">changelog</span> <span class="pre">in</span> <span class="pre">Debian</span></tt></dt>
-<dd>This is the changelog used by <tt class="docutils literal"><span class="pre">dpkg-genchanges</span></tt> to create the .changes file. This will allow you to
+can be overridden by placing your own files in the <code class="docutils literal"><span class="pre">src/debian/DEBIAN</span></code> directory.</dd>
+<dt><code class="docutils literal"><span class="pre">changelog</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dd>This is the changelog used by <code class="docutils literal"><span class="pre">dpkg-genchanges</span></code> to create the .changes file. This will allow you to
 upload the debian package to a mirror.</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="tasks">
-<h2><a class="toc-backref" href="#id6">Tasks</a><a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
+<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
 <p>The Debian support grants the following commands:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">debian:package-bin</span></tt></dt>
-<dd>Generates the <tt class="docutils literal"><span class="pre">.deb</span></tt> package for this project.</dd>
-<dt><tt class="docutils literal"><span class="pre">debian:lintian</span></tt></dt>
-<dd>Generates the <tt class="docutils literal"><span class="pre">.deb</span></tt> file and runs the <tt class="docutils literal"><span class="pre">lintian</span></tt> command to look for issues in the package.  Useful for debugging.</dd>
-<dt><tt class="docutils literal"><span class="pre">debian:gen-changes</span></tt></dt>
-<dd>Generates the <tt class="docutils literal"><span class="pre">.changes</span></tt>, and therefore the <tt class="docutils literal"><span class="pre">.deb</span></tt> package for this project.</dd>
+<dt><code class="docutils literal"><span class="pre">debian:package-bin</span></code></dt>
+<dd>Generates the <code class="docutils literal"><span class="pre">.deb</span></code> package for this project.</dd>
+<dt><code class="docutils literal"><span class="pre">debian:lintian</span></code></dt>
+<dd>Generates the <code class="docutils literal"><span class="pre">.deb</span></code> file and runs the <code class="docutils literal"><span class="pre">lintian</span></code> command to look for issues in the package.  Useful for debugging.</dd>
+<dt><code class="docutils literal"><span class="pre">debian:gen-changes</span></code></dt>
+<dd>Generates the <code class="docutils literal"><span class="pre">.changes</span></code>, and therefore the <code class="docutils literal"><span class="pre">.deb</span></code> package for this project.</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="customize">
-<h2><a class="toc-backref" href="#id7">Customize</a><a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
+<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
 <p>This section contains example on how you can customize your debian build.</p>
 <div class="section" id="customizing-debian-metadata">
 <h3>Customizing Debian Metadata<a class="headerlink" href="#customizing-debian-metadata" title="Permalink to this headline">¶</a></h3>
 <p>A Debian package provides metadata, which includes <strong>dependencies</strong> and <strong>recommendations</strong>.
 A basic example to depend on java and recommend a git installation.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">debianPackageDependencies</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;java2-runtime&quot;</span><span class="o">,</span> <span class="s">&quot;bash (&gt;= 2.05a-11)&quot;</span><span class="o">)</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">debianPackageDependencies</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;java2-runtime&quot;</span><span class="o">,</span> <span class="s">&quot;bash (&gt;= 2.05a-11)&quot;</span><span class="o">)</span>
 
 <span class="n">debianPackageRecommends</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span> <span class="s">&quot;git&quot;</span>
 </pre></div>
 </div>
 <p>To hook into the debian package lifecycle (<a class="reference external" href="https://wiki.debian.org/MaintainerScripts">https://wiki.debian.org/MaintainerScripts</a>) you
-can add <tt class="docutils literal"><span class="pre">preinst</span></tt> , <tt class="docutils literal"><span class="pre">postinst</span></tt> , <tt class="docutils literal"><span class="pre">prerm</span></tt> and/or <tt class="docutils literal"><span class="pre">postrm</span></tt> scripts. Just place them into
-<tt class="docutils literal"><span class="pre">src/debian/DEBIAN</span></tt>. Or you can do it programmatically in your <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">DebianConstants._</span>
+can add <code class="docutils literal"><span class="pre">preinst</span></code> , <code class="docutils literal"><span class="pre">postinst</span></code> , <code class="docutils literal"><span class="pre">prerm</span></code> and/or <code class="docutils literal"><span class="pre">postrm</span></code> scripts. Just place them into
+<code class="docutils literal"><span class="pre">src/debian/DEBIAN</span></code>. Or you can do it programmatically in your <code class="docutils literal"><span class="pre">build.sbt</span></code></p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">DebianConstants._</span>
 <span class="n">maintainerScripts</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="n">maintainerScriptsAppend</span><span class="o">((</span><span class="n">maintainerScripts</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">).</span><span class="n">value</span><span class="o">)(</span>
   <span class="nc">Preinst</span> <span class="o">-&gt;</span> <span class="s">&quot;echo &#39;hello, world&#39;&quot;</span><span class="o">,</span>
   <span class="nc">Postinst</span> <span class="o">-&gt;</span> <span class="s">s&quot;echo &#39;installed </span><span class="si">${</span><span class="o">(</span><span class="n">packageName</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">).</span><span class="n">value</span><span class="si">}</span><span class="s">&#39;&quot;</span>
@@ -303,11 +539,11 @@ can add <tt class="docutils literal"><span class="pre">preinst</span></tt> , <tt
 </pre></div>
 </div>
 <p>The helper methods can be found in <a class="reference external" href="http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$">MaintainerScriptHelper Scaladocs</a>.</p>
-<p>If you use the <tt class="docutils literal"><span class="pre">JavaServerAppPackaging</span></tt> there are predefined <tt class="docutils literal"><span class="pre">postinst</span></tt> and
-<tt class="docutils literal"><span class="pre">preinst</span></tt> files, which start/stop the application on install/remove calls. Existing
+<p>If you use the <code class="docutils literal"><span class="pre">JavaServerAppPackaging</span></code> there are predefined <code class="docutils literal"><span class="pre">postinst</span></code> and
+<code class="docutils literal"><span class="pre">preinst</span></code> files, which start/stop the application on install/remove calls. Existing
 maintainer scripts will be extended not overridden.</p>
 <p>Your control scripts are in a different castle.. directory? No problem.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">debianControlScriptsDirectory</span> <span class="o">&lt;&lt;=</span> <span class="o">(</span><span class="n">sourceDirectory</span><span class="o">)</span> <span class="n">apply</span> <span class="o">(</span><span class="k">_</span> <span class="o">/</span> <span class="s">&quot;deb&quot;</span> <span class="o">/</span> <span class="s">&quot;control&quot;</span><span class="o">)</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">debianControlScriptsDirectory</span> <span class="o">&lt;&lt;=</span> <span class="o">(</span><span class="n">sourceDirectory</span><span class="o">)</span> <span class="n">apply</span> <span class="o">(</span><span class="k">_</span> <span class="o">/</span> <span class="s">&quot;deb&quot;</span> <span class="o">/</span> <span class="s">&quot;control&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
@@ -315,21 +551,71 @@ maintainer scripts will be extended not overridden.</p>
 </div>
 
 
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rpm.html" class="btn btn-neutral float-right" title="Rpm Plugin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="linux.html" class="btn btn-neutral" title="Linux Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-      
-  </div>
-</div>
-<footer class="footer">
-  <div class="container">
-    <p class="pull-right">
-      <a href="#">Back to top</a>
-      
-    </p>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
     <p>
-        &copy; Copyright 2014 sbt-native-packager team.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+        &copy; Copyright 2014 sbt-native-packager team.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
 </footer>
-  </body>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.1.0-SNAPSHOT',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

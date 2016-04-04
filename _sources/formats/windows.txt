@@ -1,4 +1,4 @@
-.. _Windows:
+.. _windows-plugin:
 
 Windows Plugin
 ==============
@@ -11,17 +11,7 @@ However, the native-packager provides a simple layer on top of wix that *may* be
 If it is not, just override ``wixConfig`` or ``wixFile`` settings.  Let's look at the layer above direct
 xml configuration.
 
-.. contents:: 
-  :depth: 2
-  
-  
-.. raw:: html
-
-  <div class="alert alert-info" role="alert">
-    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The windows plugin depends on the linux plugin. For general linux settings read the 
-    <a href="universal.html">Universal Plugin Documentation</a>
-  </div>
+.. note:: The windows plugin depends on the :ref:`universal-plugin`.
 
 Requirements
 ------------
@@ -53,7 +43,7 @@ you have these settings in your build:
   // wix build information
   wixProductId := "ce07be71-510d-414a-92d4-dff47631848a"
   wixProductUpgradeId := "4552fb0e-e257-4dbd-9ecb-dba9dbacf424"
-    
+
 
 1.0 or higher
 ~~~~~~~~~~~~~
@@ -128,10 +118,10 @@ Tasks
 
   ``windows:packageBin``
     Creates the ``msi`` package.
-  
+
   ``wix-file``
     Generates the Wix xml file from `wixConfig` and `wixProductConfig` setings, unless overriden.
-    
+
 
 The native-packager plugin provides a few handy utilities for generating Wix XML.  These
 utilities are located in the ``com.typesafe.packager.windows.WixHelper`` object.  Among
@@ -139,7 +129,7 @@ these are the following functions:
 
   ``cleanStringForId(String): String``
     Takes in a string and returns a wix-friendly identifier.  Note: truncates to 50 characters.
-  
+
   ``cleanFileName(String): String``
     Takes in a file name and replaces any ``$`` with ``$$`` to make it past the Wix preprocessor.
 

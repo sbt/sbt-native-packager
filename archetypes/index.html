@@ -1,306 +1,490 @@
+
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Project Archetypes &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+  
 
+  
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+
+  
+  
     
-    <title>Project Archetypes &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html"/>
+        <link rel="next" title="Java Application Archetype" href="java_app/index.html"/>
+        <link rel="prev" title="JDKPackager Plugin" href="../formats/jdkpackager.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/yeti/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.1.0-SNAPSHOT',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html" />
-    <link rel="next" title="Java Application Archetype" href="java_app/index.html" />
-    <link rel="prev" title="Contributing Documentation" href="../topics/documentation.html" />
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
-<meta name="apple-mobile-web-app-capable" content="yes">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
 
-  </head>
-  <body>
+          
+            <a href="../index.html" class="icon icon-home"> sbt-native-packager
+          
 
-  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="../index.html">
-          sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.0-SNAPSHOT</b></span>
-      </div>
-
-        <div class="collapse navbar-collapse nav-collapse">
-          <ul class="nav navbar-nav">
-            
-            
-              <li class="dropdown globaltoc-container">
-  <a role="button"
-     id="dLabelGlobalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="../index.html">Site <b class="caret"></b></a>
-  <ul class="dropdown-menu globaltoc"
-      role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#packaging-formats">Packaging Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#archetypes">Archetypes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../gettingstarted.html#sitemap">Sitemap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="java_app/index.html">Java Application Archetype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="java_server/index.html">Java Server Application Archetype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="akka_app/index.html">Akka Microkernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cheatsheet.html">Archetype Cheatsheet</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Project Archetypes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Packaging Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">Advanced Topics</a></li>
-</ul>
-</ul>
-</li>
-              
-                <li class="dropdown">
-  <a role="button"
-     id="dLabelLocalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="#">Page <b class="caret"></b></a>
-  <ul class="dropdown-menu localtoc"
-      role="menu"
-      aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Project Archetypes</a><ul>
-<li><a class="reference internal" href="#java-command-line-application">Java Command Line Application</a></li>
-<li><a class="reference internal" href="#java-server">Java Server</a></li>
-<li><a class="reference internal" href="#akka-microkernel-application">Akka Microkernel Application</a></li>
-</ul>
-</li>
-</ul>
-</ul>
-</li>
-              
-            
-            
-              
-                
-  <li>
-    <a href="../topics/documentation.html" title="Previous Chapter: Contributing Documentation"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Contributing ...</span>
-    </a>
-  </li>
-  <li>
-    <a href="java_app/index.html" title="Next Chapter: Java Application Archetype"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Java Applicat... &raquo;</span>
-    </a>
-  </li>
-              
-            
-            
-            
-            
-              <li class="hidden-sm">
-<div id="sourcelink">
-  <a href="../_sources/archetypes/index.txt"
-     rel="nofollow">Source</a>
-</div></li>
-            
-          </ul>
+          
+          </a>
 
           
             
-<form class="navbar-form navbar-right" action="../search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
+            
+              <div class="version">
+                1.1.0-SNAPSHOT
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
           
         </div>
-    </div>
-  </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#format-plugins">Format Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#archetype-plugins">Archetype Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#mappings">Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#architecture">Architecture</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#native-tools">Native Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#your-first-package">Your first package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#run-the-app">Run the app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#create-a-package">Create a package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Formats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../formats/universal.html">Universal Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#universal-archive-options">Universal Archive Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#getting-started-with-universal-packaging">Getting Started with Universal Packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#universal-conventions">Universal Conventions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#change-remove-top-level-directory-in-output">Change/Remove Top Level Directory in Output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#skip-packagedoc-task-on-stage">Skip packageDoc task on stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#mappingshelper">MappingsHelper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#mapping-examples">Mapping Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/linux.html">Linux Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/linux.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/linux.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/linux.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/linux.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/linux.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#package-mappings">Package Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#the-linuxpackagemapping-models">The LinuxPackageMapping Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#modifying-mappings-in-general">Modifying Mappings in General</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#add-mappings">Add Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#filter-remove-mappings">Filter/Remove Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#alter-linuxpackagemapping">Alter LinuxPackageMapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#alter-linuxsymlinks">Alter LinuxSymlinks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#add-empty-directories">Add Empty Directories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#man-pages">Man Pages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/debian.html">Debian Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#java-based-packaging">Java based packaging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/rpm.html">Rpm Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#dependency-settings">Dependency Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#meta-settings">Meta Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#scriptlet-settings">Scriptlet Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#systemv-start-script-settings">SystemV Start Script Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#rpm-prefix">Rpm Prefix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#rpmchangelogfile">rpmChangelogFile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#jar-repackaging">Jar Repackaging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/docker.html">Docker Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#spotify-java-based-docker-client">Spotify java based docker client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#environment-settings">Environment Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#publishing-settings">Publishing Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-base-image">Docker Base Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-repository">Docker Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-image-customization">Docker Image Customization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#install-location">Install Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#custom-dockerfile">Custom Dockerfile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#remove-commands">Remove Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#add-commands">Add Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#write-from-scratch">Write from Scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/windows.html">Windows Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/windows.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/windows.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/windows.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/windows.html#feature-configuration">Feature configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/jdkpackager.html">JDKPackager Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#enabling">Enabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#build">Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#debugging">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Archetypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="java_app/index.html">Java Command Line Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="java_app/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java_app/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java_app/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java_app/index.html#start-script-options">Start script options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java_app/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="java_app/customize.html">Application and runtime configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="java_app/customize.html#start-script-customizations">Start script customizations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="java_app/customize.html#overriding-templates-bash-bat">Overriding Templates (Bash/Bat)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="java_server/index.html">Java Server Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="java_server/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java_server/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java_server/index.html#default-mappings">Default Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java_server/index.html#service-managers">Service Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java_server/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="java_server/customize.html">Application Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="java_server/customize.html#example-configurations">Example Configurations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc_archetypes.html">Configuration Archetypes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cheatsheet.html">An archetype cheatsheet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cheatsheet.html#path-configurations">Path Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#quick-reference-table">Quick Reference Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cheatsheet.html#jvm-options">JVM Options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#extra-defines">Extra Defines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#file-application-ini-or-etc-default">File - application.ini or etc-default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#setting-javaoptions">Setting - javaOptions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../recipes/index.html">Recipes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/custom.html">Custom Package Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#sbt-assembly">SBT Assembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#proguard">Proguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#multi-module-builds">Multi Module Builds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#custom-packaging-format">Custom Packaging Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/longclasspath.html">Dealing with long classpaths</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#generate-a-launcher-jar">Generate a launcher jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#generate-a-classpath-jar">Generate a classpath jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#configure-a-wildcard-classpath">Configure a wildcard classpath</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/play.html">Play 2 Packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/play.html#build-configuration">Build Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/play.html#application-configuration">Application Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/play.html#systemv">SystemV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/deployment.html">Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#setup-publish-task">Setup publish Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#default-deployment">Default Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#custom-deployments">Custom Deployments</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#rpm">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#debian">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#custom-configurations">Custom Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id1">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id2">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id3">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#universal">Universal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/scalajs.html">Scala JS packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/scalajs.html#package-webjars-and-scalajs-resources">Package webjars and scalajs resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
       
-  <div class="toctree-wrapper compound" id="archetypes">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="java_app/index.html">Java Application Archetype</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="java_app/index.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="java_app/index.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="java_app/index.html#customize">Customize</a></li>
-<li class="toctree-l2"><a class="reference internal" href="java_app/index.html#sitemap">Sitemap</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="java_server/index.html">Java Server Application Archetype</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="java_server/index.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="java_server/index.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="java_server/index.html#customize">Customize</a></li>
-<li class="toctree-l2"><a class="reference internal" href="java_server/index.html#service-managers">Service Managers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="java_server/index.html#sitemap">Sitemap</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="akka_app/index.html">Akka Microkernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cheatsheet.html">Archetype Cheatsheet</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cheatsheet.html#path-configurations">Path Configurations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheatsheet.html#jvm-options">JVM Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheatsheet.html#overriding-templates">Overriding Templates</a></li>
-</ul>
-</li>
-</ul>
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">sbt-native-packager</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Project Archetypes</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/archetypes/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
 </div>
-<div class="section" id="project-archetypes">
-<h1>Project Archetypes<a class="headerlink" href="#project-archetypes" title="Permalink to this headline">¶</a></h1>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="project-archetypes">
+<span id="archetypes"></span><h1>Project Archetypes<a class="headerlink" href="#project-archetypes" title="Permalink to this headline">¶</a></h1>
+<p>Archetype plugins provide predefined configurations for your build. Like <a class="reference internal" href="../formats/index.html#packaging-formats"><span>format plugins</span></a>,
+archetype plugins can depend on other archetype plugins to extend existing functionality.</p>
 <p>Project archetypes are default deployment scripts that try to &#8220;do the right thing&#8221; for a given type of project.
 Because not all projects are created equal, there is no one single archetype for all native packages, but a set
 of them for usage.</p>
-<p>The architecture of the plugin is set up so that you can customize your packages at any level of complexity.
-For example, if you&#8217;d like to write Windows Installer XML by hand and manually map files, you should be able to do this while
-still leveraging the default configuration for other platforms.</p>
-<p>Currently, in the nativepackager these archetypes are available:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Java Command Line Application</li>
-<li>Java Server Application</li>
-<li>Additional Configuration Archetypes (e.g. ClasspathJarPlugin, AshScriptPlugin,..)</li>
-</ul>
-</div></blockquote>
-<div class="section" id="java-command-line-application">
-<h2>Java Command Line Application<a class="headerlink" href="#java-command-line-application" title="Permalink to this headline">¶</a></h2>
-<p>A Java Command Line application is a Java application that consists of a set of JARs and a main method.  There is no
-custom start scripts, or services.  It is just a bash/bat script that starts up a Java project.   To use
-this archetype in your build, do the following in your <tt class="docutils literal"><span class="pre">build.sbt</span></tt>:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
-
-<span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;A-package-friendly-name&quot;</span>
-
-<span class="n">packageSummary</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;The name you want displayed in package summaries&quot;</span>
-<span class="n">packageSummary</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">:=</span> <span class="s">&quot;The name you want displayed in Add/Remove Programs&quot;</span>
-<span class="n">packageDescription</span> <span class="o">:=</span> <span class="s">&quot; A description of your project&quot;</span>
-
-<span class="n">maintainer</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">:=</span> <span class="s">&quot;Company&quot;</span>
-<span class="n">maintainer</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="s">&quot;Your Name &lt;your@email.com&gt;&quot;</span>
-
-<span class="n">wixProductId</span> <span class="o">:=</span> <span class="s">&quot;ce07be71-510d-414a-92d4-dff47631848a&quot;</span>
-<span class="n">wixProductUpgradeId</span> <span class="o">:=</span> <span class="s">&quot;4552fb0e-e257-4dbd-9ecb-dba9dbacf424&quot;</span>
-</pre></div>
-</div>
-<p>This archetype will use the <tt class="docutils literal"><span class="pre">mainClass</span></tt> setting of sbt (automatically discovers your main class) to generate <tt class="docutils literal"><span class="pre">bat</span></tt> and <tt class="docutils literal"><span class="pre">bin</span></tt> scripts for your project.
-In case you have multiple main classes you can point to a specific class with the following setting:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;foo.bar.Main&quot;</span><span class="o">)</span>
-</pre></div>
-</div>
-<p>The universal layout produced looks like the following:</p>
-<div class="highlight-none"><div class="highlight"><pre>bin/
-  &lt;app_name&gt;       &lt;- BASH script
-  &lt;app_name&gt;.bat   &lt;- cmd.exe script
-lib/
-   &lt;Your project and dependent jar files here.&gt;
-</pre></div>
-</div>
-<p>You can add additional files to the project by placing things in <tt class="docutils literal"><span class="pre">src/windows</span></tt>, <tt class="docutils literal"><span class="pre">src/universal</span></tt> or <tt class="docutils literal"><span class="pre">src/linux</span></tt> as needed.</p>
-<p>The scripts under <tt class="docutils literal"><span class="pre">bin</span></tt> will execute the <tt class="docutils literal"><span class="pre">main</span></tt> method of a class found in your application. But you can specific a custom main class method with the <tt class="docutils literal"><span class="pre">-main</span></tt> flag.</p>
-<p>The default bash script also supports having a configuration file.  This config file can be used to specify default arguments to the BASH script.
-To define a config location for your bash script, you can manually override the template defines:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">bashScriptConfigLocation</span> <span class="o">:=</span> <span class="s">&quot;$app_home/conf/my.conf&quot;</span>
-</pre></div>
-</div>
-<p>This string can include any variable defines in the BASH script. In this case, <tt class="docutils literal"><span class="pre">app_home</span></tt> refers to the install location of the script.</p>
-</div>
-<div class="section" id="java-server">
-<h2>Java Server<a class="headerlink" href="#java-server" title="Permalink to this headline">¶</a></h2>
-<p>This archetype is designed for Java applications that are intended to run as
-servers or services.  This archetype includes wiring an application to start
-immediately upon startup. To activate this archetype replace <tt class="docutils literal"><span class="pre">enablePlugins(JavaAppPackaging)</span></tt> with <tt class="docutils literal"><span class="pre">enablePlugins(JavaServerAppPackaging)</span></tt>.</p>
-<p>The Java Server archetype has a similar installation layout as the java
-application archetype. The primary differences are:</p>
-<ul class="simple">
-<li>Linux<ul>
-<li><tt class="docutils literal"><span class="pre">/var/log/&lt;pkg&gt;</span></tt> is symlinked from <tt class="docutils literal"><span class="pre">&lt;install&gt;/logs</span></tt></li>
-<li>Creates a start script in <tt class="docutils literal"><span class="pre">/etc/init.d</span></tt> or <tt class="docutils literal"><span class="pre">/etc/init/</span></tt></li>
-<li>Creates a startup config file in <tt class="docutils literal"><span class="pre">/etc/default/&lt;pkg&gt;</span></tt></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="section" id="akka-microkernel-application">
-<h2>Akka Microkernel Application<a class="headerlink" href="#akka-microkernel-application" title="Permalink to this headline">¶</a></h2>
-<div class="alert alert-danger" role="alert">
-  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-  The <em>Akka Microkernel Archetype</em> will be deprecated in favor of the more
-  general and better maintained <em>Java App Archetype</em>
-</div><p>An Akka microkernel application is similar to a Java Command Line application. Instead of running the classic <tt class="docutils literal"><span class="pre">mainClass</span></tt>,
-an Akka microkernel application instantiates and runs a subclass of
-<a class="reference external" href="https://github.com/akka/akka/blob/master/akka-kernel/src/main/scala/akka/kernel/Main.scala">Bootable</a> . A minimal example
-could look like this</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">class</span> <span class="nc">HelloKernel</span> <span class="k">extends</span> <span class="nc">Bootable</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">system</span> <span class="k">=</span> <span class="nc">ActorSystem</span><span class="o">(</span><span class="s">&quot;hellokernel&quot;</span><span class="o">)</span>
-
-  <span class="k">def</span> <span class="n">startup</span> <span class="k">=</span> <span class="o">{</span>
-    <span class="c1">// HelloActor and Start case object must of course be defined</span>
-    <span class="n">system</span><span class="o">.</span><span class="n">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">[</span><span class="kt">HelloActor</span><span class="o">])</span> <span class="o">!</span> <span class="nc">Start</span>
-  <span class="o">}</span>
-
-  <span class="k">def</span> <span class="n">shutdown</span> <span class="k">=</span> <span class="o">{</span>
-    <span class="n">system</span><span class="o">.</span><span class="n">terminate</span><span class="o">()</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</pre></div>
-</div>
-<p>The <em>bash/bat</em> script that starts up the Akka application is copied from the Akka distribution.</p>
-<p>To use this archetype in your build, add the following to your <tt class="docutils literal"><span class="pre">build.sbt</span></tt>:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">packageArchetype</span><span class="o">.</span><span class="n">akka_application</span>
-
-<span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;A-package-friendly-name&quot;</span>
-
-<span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;HelloKernel&quot;</span><span class="o">)</span>
-</pre></div>
-</div>
-<p>For more information take a look at the akka docs</p>
-<ul class="simple">
-<li><a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/scala/microkernel.html">Akka microkernel</a></li>
-<li><a class="reference external" href="https://github.com/akka/akka/blob/master/akka-kernel/src/main/scala/akka/kernel/Main.scala">akka.kernel.Main source</a></li>
-<li><a class="reference external" href="http://doc.akka.io/api/akka/snapshot/index.html#akka.kernel.Bootable">akka.kernel.Bootable docs</a></li>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="java_app/index.html">Java Command Line Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="java_server/index.html">Java Server Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc_archetypes.html">Configuration Archetypes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cheatsheet.html">An archetype cheatsheet</a></li>
 </ul>
 </div>
 </div>
 
 
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="java_app/index.html" class="btn btn-neutral float-right" title="Java Application Archetype" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../formats/jdkpackager.html" class="btn btn-neutral" title="JDKPackager Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-      
-  </div>
-</div>
-<footer class="footer">
-  <div class="container">
-    <p class="pull-right">
-      <a href="#">Back to top</a>
-      
-    </p>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
     <p>
-        &copy; Copyright 2014 sbt-native-packager team.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+        &copy; Copyright 2014 sbt-native-packager team.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
 </footer>
-  </body>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.1.0-SNAPSHOT',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

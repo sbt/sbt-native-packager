@@ -1,199 +1,422 @@
+
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Rpm Plugin &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+  
 
+  
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+
+  
+  
     
-    <title>Rpm Plugin &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html"/>
+        <link rel="up" title="Packaging Formats" href="index.html"/>
+        <link rel="next" title="Docker Plugin" href="docker.html"/>
+        <link rel="prev" title="Debian Plugin" href="debian.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/yeti/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.1.0-SNAPSHOT',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html" />
-    <link rel="up" title="Packaging Formats" href="index.html" />
-    <link rel="next" title="Docker Plugin" href="docker.html" />
-    <link rel="prev" title="Debian Plugin" href="debian.html" />
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
-<meta name="apple-mobile-web-app-capable" content="yes">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
 
-  </head>
-  <body>
+          
+            <a href="../index.html" class="icon icon-home"> sbt-native-packager
+          
 
-  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="../index.html">
-          sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.0-SNAPSHOT</b></span>
-      </div>
-
-        <div class="collapse navbar-collapse nav-collapse">
-          <ul class="nav navbar-nav">
-            
-            
-              <li class="dropdown globaltoc-container">
-  <a role="button"
-     id="dLabelGlobalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="../index.html">Site <b class="caret"></b></a>
-  <ul class="dropdown-menu globaltoc"
-      role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#packaging-formats">Packaging Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#archetypes">Archetypes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../gettingstarted.html#sitemap">Sitemap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/java_app/index.html">Java Application Archetype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/java_server/index.html">Java Server Application Archetype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/akka_app/index.html">Akka Microkernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/cheatsheet.html">Archetype Cheatsheet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/index.html">Project Archetypes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Packaging Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">Advanced Topics</a></li>
-</ul>
-</ul>
-</li>
-              
-                <li class="dropdown">
-  <a role="button"
-     id="dLabelLocalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="#">Page <b class="caret"></b></a>
-  <ul class="dropdown-menu localtoc"
-      role="menu"
-      aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Rpm Plugin</a><ul>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
-<li><a class="reference internal" href="#build">Build</a><ul>
-<li><a class="reference internal" href="#required-settings">Required Settings</a></li>
-<li><a class="reference internal" href="#or-higher">1.0 or higher</a></li>
-<li><a class="reference internal" href="#or-lower">0.8 or lower</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#configuration">Configuration</a></li>
-<li><a class="reference internal" href="#settings">Settings</a><ul>
-<li><a class="reference internal" href="#informational-settings">Informational Settings</a></li>
-<li><a class="reference internal" href="#dependency-settings">Dependency Settings</a></li>
-<li><a class="reference internal" href="#meta-settings">Meta Settings</a></li>
-<li><a class="reference internal" href="#scriptlet-settings">Scriptlet Settings</a></li>
-<li><a class="reference internal" href="#systemv-start-script-settings">SystemV Start Script Settings</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#tasks">Tasks</a></li>
-<li><a class="reference internal" href="#customize">Customize</a><ul>
-<li><a class="reference internal" href="#rpm-prefix">Rpm Prefix</a></li>
-<li><a class="reference internal" href="#rpmchangelogfile">rpmChangelogFile</a></li>
-<li><a class="reference internal" href="#template-changes">Template Changes</a></li>
-<li><a class="reference internal" href="#scriptlet-changes">Scriptlet Changes</a></li>
-<li><a class="reference internal" href="#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
-<li><a class="reference internal" href="#jar-repackaging">Jar Repackaging</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</ul>
-</li>
-              
-            
-            
-              
-                
-  <li>
-    <a href="debian.html" title="Previous Chapter: Debian Plugin"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Debian Plugin</span>
-    </a>
-  </li>
-  <li>
-    <a href="docker.html" title="Next Chapter: Docker Plugin"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Docker Plugin &raquo;</span>
-    </a>
-  </li>
-              
-            
-            
-            
-            
-              <li class="hidden-sm">
-<div id="sourcelink">
-  <a href="../_sources/formats/rpm.txt"
-     rel="nofollow">Source</a>
-</div></li>
-            
-          </ul>
+          
+          </a>
 
           
             
-<form class="navbar-form navbar-right" action="../search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
+            
+              <div class="version">
+                1.1.0-SNAPSHOT
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
           
         </div>
-    </div>
-  </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#format-plugins">Format Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#archetype-plugins">Archetype Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#mappings">Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#architecture">Architecture</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#native-tools">Native Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#your-first-package">Your first package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#run-the-app">Run the app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#create-a-package">Create a package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Formats</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="universal.html">Universal Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#universal-archive-options">Universal Archive Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#getting-started-with-universal-packaging">Getting Started with Universal Packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#universal-conventions">Universal Conventions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#change-remove-top-level-directory-in-output">Change/Remove Top Level Directory in Output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#skip-packagedoc-task-on-stage">Skip packageDoc task on stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#mappingshelper">MappingsHelper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#mapping-examples">Mapping Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="linux.html">Linux Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#package-mappings">Package Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#the-linuxpackagemapping-models">The LinuxPackageMapping Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#modifying-mappings-in-general">Modifying Mappings in General</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#add-mappings">Add Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#filter-remove-mappings">Filter/Remove Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#alter-linuxpackagemapping">Alter LinuxPackageMapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#alter-linuxsymlinks">Alter LinuxSymlinks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#add-empty-directories">Add Empty Directories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#man-pages">Man Pages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="debian.html">Debian Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#java-based-packaging">Java based packaging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Rpm Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dependency-settings">Dependency Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meta-settings">Meta Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scriptlet-settings">Scriptlet Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#systemv-start-script-settings">SystemV Start Script Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rpm-prefix">Rpm Prefix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rpmchangelogfile">rpmChangelogFile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scriptlet-changes">Scriptlet Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jar-repackaging">Jar Repackaging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="docker.html">Docker Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#spotify-java-based-docker-client">Spotify java based docker client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#environment-settings">Environment Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#publishing-settings">Publishing Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-base-image">Docker Base Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-repository">Docker Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-customization">Docker Image Customization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#install-location">Install Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#custom-dockerfile">Custom Dockerfile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#remove-commands">Remove Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#add-commands">Add Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#write-from-scratch">Write from Scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html">Windows Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#feature-configuration">Feature configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jdkpackager.html">JDKPackager Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#enabling">Enabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#build">Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#debugging">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../archetypes/index.html">Archetypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/java_app/index.html">Java Command Line Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#start-script-options">Start script options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html">Application and runtime configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#start-script-customizations">Start script customizations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#overriding-templates-bash-bat">Overriding Templates (Bash/Bat)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/java_server/index.html">Java Server Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/cheatsheet.html">An archetype cheatsheet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#path-configurations">Path Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#quick-reference-table">Quick Reference Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#jvm-options">JVM Options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#extra-defines">Extra Defines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#file-application-ini-or-etc-default">File - application.ini or etc-default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#setting-javaoptions">Setting - javaOptions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../recipes/index.html">Recipes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/custom.html">Custom Package Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#sbt-assembly">SBT Assembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#proguard">Proguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#multi-module-builds">Multi Module Builds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#custom-packaging-format">Custom Packaging Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/longclasspath.html">Dealing with long classpaths</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#generate-a-launcher-jar">Generate a launcher jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#generate-a-classpath-jar">Generate a classpath jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#configure-a-wildcard-classpath">Configure a wildcard classpath</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/play.html">Play 2 Packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/play.html#build-configuration">Build Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/play.html#application-configuration">Application Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/play.html#systemv">SystemV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/deployment.html">Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#setup-publish-task">Setup publish Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#default-deployment">Default Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#custom-deployments">Custom Deployments</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#rpm">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#debian">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#custom-configurations">Custom Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id1">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id2">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id3">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#universal">Universal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/scalajs.html">Scala JS packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/scalajs.html#package-webjars-and-scalajs-resources">Package webjars and scalajs resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
       
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">sbt-native-packager</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Packaging Formats</a> &raquo;</li>
+      
+    <li>Rpm Plugin</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/formats/rpm.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
   <div class="section" id="rpm-plugin">
-<h1><a class="toc-backref" href="#id1">Rpm Plugin</a><a class="headerlink" href="#rpm-plugin" title="Permalink to this headline">¶</a></h1>
-<p>RedHat <tt class="docutils literal"><span class="pre">rpm</span></tt> files support a very advanced number of features.  To take full advantage of this environment,
-it&#8217;s best to understand how the <tt class="docutils literal"><span class="pre">rpm</span></tt> package system works.
+<span id="id1"></span><h1>Rpm Plugin<a class="headerlink" href="#rpm-plugin" title="Permalink to this headline">¶</a></h1>
+<p>RedHat <code class="docutils literal"><span class="pre">rpm</span></code> files support a very advanced number of features.  To take full advantage of this environment,
+it&#8217;s best to understand how the <code class="docutils literal"><span class="pre">rpm</span></code> package system works.
 <a class="reference external" href="http://fedoraproject.org/wiki/How_to_create_an_RPM_package">http://fedoraproject.org/wiki/How_to_create_an_RPM_package</a> is a good tutorial, but it focuses on building
 packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated
 &#8216;binary&#8217; packages.</p>
-<div class="contents topic" id="contents">
-<p class="topic-title first">Contents</p>
-<ul class="simple">
-<li><a class="reference internal" href="#rpm-plugin" id="id1">Rpm Plugin</a><ul>
-<li><a class="reference internal" href="#requirements" id="id2">Requirements</a></li>
-<li><a class="reference internal" href="#build" id="id3">Build</a></li>
-<li><a class="reference internal" href="#configuration" id="id4">Configuration</a></li>
-<li><a class="reference internal" href="#settings" id="id5">Settings</a></li>
-<li><a class="reference internal" href="#tasks" id="id6">Tasks</a></li>
-<li><a class="reference internal" href="#customize" id="id7">Customize</a></li>
-</ul>
-</li>
-</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The rpm plugin depends on the <a class="reference internal" href="linux.html#linux-plugin"><span>Linux Plugin</span></a>.</p>
 </div>
-<div class="alert alert-info" role="alert">
-  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-  The rpm plugin depends on the linux plugin. For general linux settings read the
-  <a href="linux.html">Linux Plugin Documentation</a>
-</div><div class="section" id="requirements">
-<h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <p>You need the following applications installed</p>
 <ul class="simple">
 <li>rpm</li>
@@ -201,22 +424,22 @@ packages from source.   The sbt-native-packager takes the approach that SBT has 
 </ul>
 </div>
 <div class="section" id="build">
-<h2><a class="toc-backref" href="#id3">Build</a><a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre>sbt rpm:packageBin
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt rpm:packageBin
 </pre></div>
 </div>
 <div class="section" id="required-settings">
 <h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
 <p>A rpm package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">rpmVendor</span> <span class="o">:=</span> <span class="s">&quot;typesafe&quot;</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">rpmVendor</span> <span class="o">:=</span> <span class="s">&quot;typesafe&quot;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="or-higher">
 <h3>1.0 or higher<a class="headerlink" href="#or-higher" title="Permalink to this headline">¶</a></h3>
 <p>Enables the rpm plugin</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">RpmPlugin</span><span class="o">)</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">RpmPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
@@ -228,60 +451,60 @@ on how to enable sbt native packager.</p>
 </div>
 </div>
 <div class="section" id="configuration">
-<h2><a class="toc-backref" href="#id4">Configuration</a><a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
-<p>Settings and Tasks inherited from parent plugins can be scoped with <tt class="docutils literal"><span class="pre">Rpm</span></tt>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal"><span class="pre">Rpm</span></code>.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="settings">
-<h2><a class="toc-backref" href="#id5">Settings</a><a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="informational-settings">
 <h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
 <dd>The name of the package for the rpm.
 Its value defines the first component of the rpm file name
-(<tt class="docutils literal"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></tt>), as well as the <tt class="docutils literal"><span class="pre">Name:</span></tt>
+(<code class="docutils literal"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></code>), as well as the <code class="docutils literal"><span class="pre">Name:</span></code>
 tag in the spec file.
-Its default value is drawn from <tt class="docutils literal"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Linux</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt></dt>
+Its default value is drawn from <code class="docutils literal"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
 <dd>The version of the package for rpm.
-Takes the form <tt class="docutils literal"><span class="pre">x.y.z</span></tt>, and note that there can be no dashes in this version string.
+Takes the form <code class="docutils literal"><span class="pre">x.y.z</span></code>, and note that there can be no dashes in this version string.
 It defines the second component of the rpm file name
-(<tt class="docutils literal"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></tt>), as well as the <tt class="docutils literal"><span class="pre">Version:</span></tt>
+(<code class="docutils literal"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></code>), as well as the <code class="docutils literal"><span class="pre">Version:</span></code>
 tag in the spec file.
-Its default value is drawn from the project defined <tt class="docutils literal"><span class="pre">version</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmRelease</span></tt></dt>
+Its default value is drawn from the project defined <code class="docutils literal"><span class="pre">version</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">rpmRelease</span></code></dt>
 <dd>The release number is the package&#8217;s version. When the sofware is first packaged at a
-particular version, the release should be <tt class="docutils literal"><span class="pre">&quot;1&quot;</span></tt>. If the software is repackaged at
-the same version, the release number should be incremented, and dropped back to <tt class="docutils literal"><span class="pre">&quot;1&quot;</span></tt>
+particular version, the release should be <code class="docutils literal"><span class="pre">&quot;1&quot;</span></code>. If the software is repackaged at
+the same version, the release number should be incremented, and dropped back to <code class="docutils literal"><span class="pre">&quot;1&quot;</span></code>
 when the software version is new.
 Its value defines the third component of the rpm file name
-(<tt class="docutils literal"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></tt>), as well as the <tt class="docutils literal"><span class="pre">Release:</span></tt>
+(<code class="docutils literal"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></code>), as well as the <code class="docutils literal"><span class="pre">Release:</span></code>
 tag in the spec file.
-Its default value is <tt class="docutils literal"><span class="pre">&quot;1&quot;</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">packageArchitecture</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt></dt>
+Its default value is <code class="docutils literal"><span class="pre">&quot;1&quot;</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">packageArchitecture</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
 <dd>The build architecture for the binary rpm.
 Its value defines the fourth component of the rpm file name
-(<tt class="docutils literal"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></tt>), as well as the <tt class="docutils literal"><span class="pre">BuildArch:</span></tt>
+(<code class="docutils literal"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></code>), as well as the <code class="docutils literal"><span class="pre">BuildArch:</span></code>
 tag in the spec file.
-Its default value is <tt class="docutils literal"><span class="pre">&quot;noarch&quot;</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt></dt>
+Its default value is <code class="docutils literal"><span class="pre">&quot;noarch&quot;</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
 <dd>A brief, one-line summary of the package.
 Note, the summary <strong>must not</strong> contain line separators or end in a period.
-Its value defines the <tt class="docutils literal"><span class="pre">Summary:</span></tt> tag in the spec file, and its default
-value is drawn from <tt class="docutils literal"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Linux</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">packageDescription</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt></dt>
+Its value defines the <code class="docutils literal"><span class="pre">Summary:</span></code> tag in the spec file, and its default
+value is drawn from <code class="docutils literal"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">packageDescription</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
 <dd>A longer, multi-line description of the package.
-Its value defines the <tt class="docutils literal"><span class="pre">%description</span></tt> block in the spec file, and its
-default value is drawn from <tt class="docutils literal"><span class="pre">packageDescription</span> <span class="pre">in</span> <span class="pre">Linux</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmVendor</span></tt></dt>
+Its value defines the <code class="docutils literal"><span class="pre">%description</span></code> block in the spec file, and its
+default value is drawn from <code class="docutils literal"><span class="pre">packageDescription</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">rpmVendor</span></code></dt>
 <dd>The name of the company/user generating the RPM.</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmUrl</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">rpmUrl</span></code></dt>
 <dd>A url associated with the software in the RPM.</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmLicense</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">rpmLicense</span></code></dt>
 <dd>The license associated with software in the RPM.</dd>
 </dl>
 </div></blockquote>
@@ -290,23 +513,23 @@ default value is drawn from <tt class="docutils literal"><span class="pre">packa
 <h3>Dependency Settings<a class="headerlink" href="#dependency-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">rpmAutoreq</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">rpmAutoreq</span></code></dt>
 <dd>Enable or disable the automatic processing of required packages.
-Takes the form <tt class="docutils literal"><span class="pre">&quot;yes&quot;</span></tt> or <tt class="docutils literal"><span class="pre">&quot;no&quot;</span></tt>, defaults to <tt class="docutils literal"><span class="pre">&quot;yes&quot;</span></tt>.
-Defines the <tt class="docutils literal"><span class="pre">AutoReq:</span></tt> tag in the spec file.</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmRequirements</span></tt></dt>
+Takes the form <code class="docutils literal"><span class="pre">&quot;yes&quot;</span></code> or <code class="docutils literal"><span class="pre">&quot;no&quot;</span></code>, defaults to <code class="docutils literal"><span class="pre">&quot;yes&quot;</span></code>.
+Defines the <code class="docutils literal"><span class="pre">AutoReq:</span></code> tag in the spec file.</dd>
+<dt><code class="docutils literal"><span class="pre">rpmRequirements</span></code></dt>
 <dd>The RPM packages that are required to be installed for this RPM to work.</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmAutoprov</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">rpmAutoprov</span></code></dt>
 <dd>Enable or disable the automatic processing of provided packages.
-Takes the form <tt class="docutils literal"><span class="pre">&quot;yes&quot;</span></tt> or <tt class="docutils literal"><span class="pre">&quot;no&quot;</span></tt>, defaults to <tt class="docutils literal"><span class="pre">&quot;yes&quot;</span></tt>.
-Defines the <tt class="docutils literal"><span class="pre">AutoProv:</span></tt> tag in the spec file.</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmProvides</span></tt></dt>
+Takes the form <code class="docutils literal"><span class="pre">&quot;yes&quot;</span></code> or <code class="docutils literal"><span class="pre">&quot;no&quot;</span></code>, defaults to <code class="docutils literal"><span class="pre">&quot;yes&quot;</span></code>.
+Defines the <code class="docutils literal"><span class="pre">AutoProv:</span></code> tag in the spec file.</dd>
+<dt><code class="docutils literal"><span class="pre">rpmProvides</span></code></dt>
 <dd>The RPM package names that this RPM provides.</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmPrerequisites</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">rpmPrerequisites</span></code></dt>
 <dd>The RPM packages this RPM needs before installation</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmObsoletes</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">rpmObsoletes</span></code></dt>
 <dd>The packages this RPM allows you to remove</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmConflcits</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">rpmConflcits</span></code></dt>
 <dd>The packages this RPM conflicts with and cannot be installed with.</dd>
 </dl>
 </div></blockquote>
@@ -315,9 +538,9 @@ Defines the <tt class="docutils literal"><span class="pre">AutoProv:</span></tt>
 <h3>Meta Settings<a class="headerlink" href="#meta-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">rpmPrefix</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">rpmPrefix</span></code></dt>
 <dd>The path passed set as the base for the revocable package</dd>
-<dt><tt class="docutils literal"><span class="pre">rpmChangelogFile</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">rpmChangelogFile</span></code></dt>
 <dd>External file to be imported and used to generate the changelog of the RPM.</dd>
 </dl>
 </div></blockquote>
@@ -326,12 +549,12 @@ Defines the <tt class="docutils literal"><span class="pre">AutoProv:</span></tt>
 <h3>Scriptlet Settings<a class="headerlink" href="#scriptlet-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
 <dd>Contains the scriptles being injected into the specs file. Currently supports all
-previous scriptlets: <tt class="docutils literal"><span class="pre">%pretrans</span></tt>, <tt class="docutils literal"><span class="pre">%pre</span></tt>, <tt class="docutils literal"><span class="pre">%verifyscript%</span></tt>, <tt class="docutils literal"><span class="pre">%post</span></tt>, <tt class="docutils literal"><span class="pre">%posttrans</span></tt>,
-<tt class="docutils literal"><span class="pre">%preun</span></tt> and  <tt class="docutils literal"><span class="pre">%postun</span></tt></dd>
-<dt><tt class="docutils literal"><span class="pre">rpmBrpJavaRepackJars</span></tt></dt>
-<dd>appends <tt class="docutils literal"><span class="pre">__os_install_post</span></tt> scriptlet to <tt class="docutils literal"><span class="pre">rpmPre</span></tt> avoiding jar repackaging</dd>
+previous scriptlets: <code class="docutils literal"><span class="pre">%pretrans</span></code>, <code class="docutils literal"><span class="pre">%pre</span></code>, <code class="docutils literal"><span class="pre">%verifyscript%</span></code>, <code class="docutils literal"><span class="pre">%post</span></code>, <code class="docutils literal"><span class="pre">%posttrans</span></code>,
+<code class="docutils literal"><span class="pre">%preun</span></code> and  <code class="docutils literal"><span class="pre">%postun</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">rpmBrpJavaRepackJars</span></code></dt>
+<dd>appends <code class="docutils literal"><span class="pre">__os_install_post</span></code> scriptlet to <code class="docutils literal"><span class="pre">rpmPre</span></code> avoiding jar repackaging</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -339,33 +562,33 @@ previous scriptlets: <tt class="docutils literal"><span class="pre">%pretrans</s
 <h3>SystemV Start Script Settings<a class="headerlink" href="#systemv-start-script-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">rpmDaemonLogFile</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">rpmDaemonLogFile</span></code></dt>
 <dd>File name of the log generated by application daemon.</dd>
 </dl>
 </div></blockquote>
 </div>
 </div>
 <div class="section" id="tasks">
-<h2><a class="toc-backref" href="#id6">Tasks</a><a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
+<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
 <p>The Rpm support grants the following commands:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">rpm:package-bin</span></tt></dt>
-<dd>Generates the <tt class="docutils literal"><span class="pre">.rpm</span></tt> package for this project.</dd>
-<dt><tt class="docutils literal"><span class="pre">rpm:rpmlint</span></tt></dt>
-<dd>Generates the <tt class="docutils literal"><span class="pre">.rpm</span></tt> file and runs the <tt class="docutils literal"><span class="pre">rpmlint</span></tt> command to look for issues in the package.  Useful for debugging.</dd>
+<dt><code class="docutils literal"><span class="pre">rpm:package-bin</span></code></dt>
+<dd>Generates the <code class="docutils literal"><span class="pre">.rpm</span></code> package for this project.</dd>
+<dt><code class="docutils literal"><span class="pre">rpm:rpmlint</span></code></dt>
+<dd>Generates the <code class="docutils literal"><span class="pre">.rpm</span></code> file and runs the <code class="docutils literal"><span class="pre">rpmlint</span></code> command to look for issues in the package.  Useful for debugging.</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="customize">
-<h2><a class="toc-backref" href="#id7">Customize</a><a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
+<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="rpm-prefix">
 <h3>Rpm Prefix<a class="headerlink" href="#rpm-prefix" title="Permalink to this headline">¶</a></h3>
 <p>The rpm prefix allows you to create a relocatable package as defined by <a class="reference external" href="http://www.rpm.org/max-rpm/s1-rpm-reloc-prefix-tag.html">http://www.rpm.org/max-rpm/s1-rpm-reloc-prefix-tag.html</a>.
 This optional setting with a handful of overrides to scriptlets and templates will allow you to create a working java_server
 archetype that can be relocated in the file system.</p>
 <p>Example Settings:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">defaultLinuxInstallLocation</span> <span class="o">:=</span> <span class="s">&quot;/opt/package_root&quot;</span><span class="o">,</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">defaultLinuxInstallLocation</span> <span class="o">:=</span> <span class="s">&quot;/opt/package_root&quot;</span><span class="o">,</span>
 <span class="n">rpmPrefix</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">defaultLinuxInstallLocation</span><span class="o">),</span>
 <span class="n">linuxPackageSymlinks</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">.</span><span class="n">empty</span><span class="o">,</span>
 <span class="n">defaultLinuxLogsLocation</span> <span class="o">:=</span> <span class="n">defaultLinuxInstallLocation</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="n">name</span>
@@ -378,12 +601,12 @@ archetype that can be relocated in the file system.</p>
 So if you use rpm commands to see the changelog it brings that information. You have to create the content on
 that file following the RPM conventions that are available here <a class="reference external" href="http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs">http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs</a>.</p>
 <p>Example Settings:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">changelog</span> <span class="o">:=</span> <span class="s">&quot;changelog.txt&quot;</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">changelog</span> <span class="o">:=</span> <span class="s">&quot;changelog.txt&quot;</span>
 
 <span class="n">rpmChangelogFile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">changelog</span><span class="o">)</span>
 </pre></div>
 </div>
-<div class="highlight-bash"><div class="highlight"><pre>* Sun Aug <span class="m">24</span> <span class="m">2014</span> Team &lt;contact@example.com&gt; - 1.1.0
+<div class="highlight-bash"><div class="highlight"><pre><span></span>* Sun Aug <span class="m">24</span> <span class="m">2014</span> Team &lt;contact@example.com&gt; - 1.1.0
 -Allow to login using social networks
 * Wed Aug <span class="m">20</span> <span class="m">2014</span> Team &lt;contact@example.com&gt; - 1.0.1
 -Vulnerability fix.
@@ -392,24 +615,11 @@ that file following the RPM conventions that are available here <a class="refere
 </pre></div>
 </div>
 </div>
-<div class="section" id="template-changes">
-<h3>Template Changes<a class="headerlink" href="#template-changes" title="Permalink to this headline">¶</a></h3>
-<p>Apply the following changes to the default init start script.  You can find this in the sbt-native-packager source.</p>
-<p><tt class="docutils literal"><span class="pre">src/templates/start</span></tt></p>
-<div class="highlight-bash"><div class="highlight"><pre>...
-<span class="o">[</span> -e /etc/sysconfig/<span class="nv">$prog</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> . /etc/sysconfig/<span class="nv">$prog</span>
-
-<span class="c"># smb could define some additional options in $RUN_OPTS</span>
-<span class="nv">RUN_CMD</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PACKAGE_PREFIX</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">}/bin/</span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">}&quot;</span>
-...
-</pre></div>
-</div>
-</div>
 <div class="section" id="scriptlet-changes">
 <h3>Scriptlet Changes<a class="headerlink" href="#scriptlet-changes" title="Permalink to this headline">¶</a></h3>
-<p>Changing the scripts can be done in two ways. Override the <tt class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></tt>.
+<p>Changing the scripts can be done in two ways. Override the <code class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code>.
 For example:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// overriding</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// overriding</span>
 <span class="k">import</span> <span class="nn">RpmConstants._</span>
 <span class="n">maintainerScripts</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="nc">Map</span><span class="o">(</span>
   <span class="nc">Pre</span> <span class="o">-&gt;</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;&quot;&quot;echo &quot;pre-install&quot;&quot;&quot;&quot;</span><span class="o">),</span>
@@ -436,15 +646,15 @@ For example:</p>
 </pre></div>
 </div>
 <p>The helper methods can be found in <a class="reference external" href="http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$">MaintainerScriptHelper Scaladocs</a>.</p>
-<p>You also can place new scripts in the <tt class="docutils literal"><span class="pre">src/rpm/scriptlets</span></tt> folder. For example:</p>
-<p><tt class="docutils literal"><span class="pre">src/rpm/scriptlets/preinst</span></tt></p>
-<div class="highlight-bash"><div class="highlight"><pre>...
+<p>You also can place new scripts in the <code class="docutils literal"><span class="pre">src/rpm/scriptlets</span></code> folder. For example:</p>
+<p><code class="docutils literal"><span class="pre">src/rpm/scriptlets/preinst</span></code></p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>...
 <span class="nb">echo</span> <span class="s2">&quot;PACKAGE_PREFIX=</span><span class="si">${</span><span class="nv">RPM_INSTALL_PREFIX</span><span class="si">}</span><span class="s2">&quot;</span> &gt; /etc/sysconfig/<span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span>
 ...
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">src/rpm/scriptlets/preun</span></tt></p>
-<div class="highlight-bash"><div class="highlight"><pre>...
+<p><code class="docutils literal"><span class="pre">src/rpm/scriptlets/preun</span></code></p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>...
 rm /etc/sysconfig/<span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span>
 ...
 </pre></div>
@@ -455,7 +665,7 @@ the <a class="reference external" href="http://www.scala-sbt.org/sbt-native-pack
 <div class="section" id="scriptlet-migration-from-1-0-x">
 <h3>Scriptlet Migration from 1.0.x<a class="headerlink" href="#scriptlet-migration-from-1-0-x" title="Permalink to this headline">¶</a></h3>
 <p>Before</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">rpmPostun</span> <span class="o">:=</span> <span class="n">rpmPost</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="n">content</span> <span class="k">=&gt;</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">rpmPostun</span> <span class="o">:=</span> <span class="n">rpmPost</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="n">content</span> <span class="k">=&gt;</span>
   <span class="s">s&quot;&quot;&quot;|</span><span class="si">$content</span><span class="s"></span>
 <span class="s">     |echo &quot;I append this to the current content</span>
 <span class="s">     |&quot;&quot;&quot;</span><span class="o">.</span><span class="n">stripMargin</span>
@@ -466,7 +676,7 @@ the <a class="reference external" href="http://www.scala-sbt.org/sbt-native-pack
 </pre></div>
 </div>
 <p>After</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// this gives you easy access to the correct keys</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// this gives you easy access to the correct keys</span>
 <span class="k">import</span> <span class="nn">RpmConstants._</span>
 <span class="c1">// in order to append you have to pass the initial maintainerScripts map</span>
 <span class="n">maintainerScripts</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="n">maintainerScriptsAppend</span><span class="o">((</span><span class="n">maintainerScripts</span> <span class="n">in</span> <span class="nc">Rpm</span><span class="o">).</span><span class="n">value</span><span class="o">)(</span>
@@ -480,10 +690,10 @@ the <a class="reference external" href="http://www.scala-sbt.org/sbt-native-pack
 <h3>Jar Repackaging<a class="headerlink" href="#jar-repackaging" title="Permalink to this headline">¶</a></h3>
 <p>rpm repackages jars by default (described in this <a class="reference external" href="http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build">blog post</a>) in order to optimize jars.
 This behaviour is turned off by default with this setting.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">rpmBrpJavaRepackJars</span> <span class="o">:=</span> <span class="kc">false</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">rpmBrpJavaRepackJars</span> <span class="o">:=</span> <span class="kc">false</span>
 </pre></div>
 </div>
-<p>Note that this appends content to your <tt class="docutils literal"><span class="pre">Pre</span></tt> definition, so make sure not to override it.
+<p>Note that this appends content to your <code class="docutils literal"><span class="pre">Pre</span></code> definition, so make sure not to override it.
 For more information on this topic follow these links:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/195">issue #195</a></li>
@@ -495,21 +705,71 @@ For more information on this topic follow these links:</p>
 </div>
 
 
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="docker.html" class="btn btn-neutral float-right" title="Docker Plugin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="debian.html" class="btn btn-neutral" title="Debian Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-      
-  </div>
-</div>
-<footer class="footer">
-  <div class="container">
-    <p class="pull-right">
-      <a href="#">Back to top</a>
-      
-    </p>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
     <p>
-        &copy; Copyright 2014 sbt-native-packager team.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+        &copy; Copyright 2014 sbt-native-packager team.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
 </footer>
-  </body>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.1.0-SNAPSHOT',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

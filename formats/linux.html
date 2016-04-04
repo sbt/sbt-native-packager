@@ -1,209 +1,436 @@
+
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Linux Plugin &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+  
 
+  
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+
+  
+  
     
-    <title>Linux Plugin &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html"/>
+        <link rel="up" title="Packaging Formats" href="index.html"/>
+        <link rel="next" title="Debian Plugin" href="debian.html"/>
+        <link rel="prev" title="Universal Plugin" href="universal.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/yeti/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.1.0-SNAPSHOT',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html" />
-    <link rel="up" title="Packaging Formats" href="index.html" />
-    <link rel="next" title="Debian Plugin" href="debian.html" />
-    <link rel="prev" title="Docker Plugin" href="docker.html" />
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
-<meta name="apple-mobile-web-app-capable" content="yes">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
 
-  </head>
-  <body>
+          
+            <a href="../index.html" class="icon icon-home"> sbt-native-packager
+          
 
-  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="../index.html">
-          sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.0-SNAPSHOT</b></span>
-      </div>
-
-        <div class="collapse navbar-collapse nav-collapse">
-          <ul class="nav navbar-nav">
-            
-            
-              <li class="dropdown globaltoc-container">
-  <a role="button"
-     id="dLabelGlobalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="../index.html">Site <b class="caret"></b></a>
-  <ul class="dropdown-menu globaltoc"
-      role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#packaging-formats">Packaging Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#archetypes">Archetypes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../gettingstarted.html#sitemap">Sitemap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/java_app/index.html">Java Application Archetype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/java_server/index.html">Java Server Application Archetype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/akka_app/index.html">Akka Microkernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/cheatsheet.html">Archetype Cheatsheet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/index.html">Project Archetypes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Packaging Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">Advanced Topics</a></li>
-</ul>
-</ul>
-</li>
-              
-                <li class="dropdown">
-  <a role="button"
-     id="dLabelLocalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="#">Page <b class="caret"></b></a>
-  <ul class="dropdown-menu localtoc"
-      role="menu"
-      aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Linux Plugin</a><ul>
-<li><a class="reference internal" href="#related-plugins">Related Plugins</a></li>
-<li><a class="reference internal" href="#build">Build</a><ul>
-<li><a class="reference internal" href="#required-settings">Required Settings</a></li>
-<li><a class="reference internal" href="#or-higher">1.0 or higher</a></li>
-<li><a class="reference internal" href="#or-lower">0.8 or lower</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#configurations">Configurations</a></li>
-<li><a class="reference internal" href="#settings">Settings</a></li>
-<li><a class="reference internal" href="#customize">Customize</a><ul>
-<li><a class="reference internal" href="#package-mappings">Package Mappings</a></li>
-<li><a class="reference internal" href="#the-linuxpackagemapping-models">The LinuxPackageMapping Models</a></li>
-<li><a class="reference internal" href="#modifying-mappings-in-general">Modifying Mappings in General</a></li>
-<li><a class="reference internal" href="#add-mappings">Add Mappings</a></li>
-<li><a class="reference internal" href="#filter-remove-mappings">Filter/Remove Mappings</a></li>
-<li><a class="reference internal" href="#alter-linuxpackagemapping">Alter LinuxPackageMapping</a></li>
-<li><a class="reference internal" href="#alter-linuxsymlinks">Alter LinuxSymlinks</a></li>
-<li><a class="reference internal" href="#add-empty-directories">Add Empty Directories</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</ul>
-</li>
-              
-            
-            
-              
-                
-  <li>
-    <a href="docker.html" title="Previous Chapter: Docker Plugin"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Docker Plugin</span>
-    </a>
-  </li>
-  <li>
-    <a href="debian.html" title="Next Chapter: Debian Plugin"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Debian Plugin &raquo;</span>
-    </a>
-  </li>
-              
-            
-            
-            
-            
-              <li class="hidden-sm">
-<div id="sourcelink">
-  <a href="../_sources/formats/linux.txt"
-     rel="nofollow">Source</a>
-</div></li>
-            
-          </ul>
+          
+          </a>
 
           
             
-<form class="navbar-form navbar-right" action="../search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
+            
+              <div class="version">
+                1.1.0-SNAPSHOT
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
           
         </div>
-    </div>
-  </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      
-  <div class="section" id="linux-plugin">
-<span id="linux"></span><h1><a class="toc-backref" href="#id1">Linux Plugin</a><a class="headerlink" href="#linux-plugin" title="Permalink to this headline">¶</a></h1>
-<p>The native packager plugin is designed so that linux packages look similar, but can contain distribution specific information.</p>
-<div class="contents topic" id="contents">
-<p class="topic-title first">Contents</p>
-<ul class="simple">
-<li><a class="reference internal" href="#linux-plugin" id="id1">Linux Plugin</a><ul>
-<li><a class="reference internal" href="#related-plugins" id="id2">Related Plugins</a></li>
-<li><a class="reference internal" href="#build" id="id3">Build</a></li>
-<li><a class="reference internal" href="#configurations" id="id4">Configurations</a></li>
-<li><a class="reference internal" href="#settings" id="id5">Settings</a></li>
-<li><a class="reference internal" href="#customize" id="id6">Customize</a></li>
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#format-plugins">Format Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#archetype-plugins">Archetype Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#mappings">Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#architecture">Architecture</a></li>
 </ul>
 </li>
 </ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#native-tools">Native Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#your-first-package">Your first package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#run-the-app">Run the app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#create-a-package">Create a package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Formats</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="universal.html">Universal Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#universal-archive-options">Universal Archive Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#getting-started-with-universal-packaging">Getting Started with Universal Packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#universal-conventions">Universal Conventions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#change-remove-top-level-directory-in-output">Change/Remove Top Level Directory in Output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#skip-packagedoc-task-on-stage">Skip packageDoc task on stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#mappingshelper">MappingsHelper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#mapping-examples">Mapping Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Linux Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#package-mappings">Package Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-linuxpackagemapping-models">The LinuxPackageMapping Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modifying-mappings-in-general">Modifying Mappings in General</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-mappings">Add Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#filter-remove-mappings">Filter/Remove Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alter-linuxpackagemapping">Alter LinuxPackageMapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alter-linuxsymlinks">Alter LinuxSymlinks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-empty-directories">Add Empty Directories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#man-pages">Man Pages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="debian.html">Debian Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#java-based-packaging">Java based packaging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rpm.html">Rpm Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#dependency-settings">Dependency Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#meta-settings">Meta Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-settings">Scriptlet Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#systemv-start-script-settings">SystemV Start Script Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#rpm-prefix">Rpm Prefix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#rpmchangelogfile">rpmChangelogFile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#jar-repackaging">Jar Repackaging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="docker.html">Docker Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#spotify-java-based-docker-client">Spotify java based docker client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#environment-settings">Environment Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#publishing-settings">Publishing Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-base-image">Docker Base Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-repository">Docker Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-customization">Docker Image Customization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#install-location">Install Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#custom-dockerfile">Custom Dockerfile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#remove-commands">Remove Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#add-commands">Add Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#write-from-scratch">Write from Scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html">Windows Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#feature-configuration">Feature configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jdkpackager.html">JDKPackager Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#enabling">Enabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#build">Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#debugging">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../archetypes/index.html">Archetypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/java_app/index.html">Java Command Line Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#start-script-options">Start script options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html">Application and runtime configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#start-script-customizations">Start script customizations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#overriding-templates-bash-bat">Overriding Templates (Bash/Bat)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/java_server/index.html">Java Server Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/cheatsheet.html">An archetype cheatsheet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#path-configurations">Path Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#quick-reference-table">Quick Reference Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#jvm-options">JVM Options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#extra-defines">Extra Defines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#file-application-ini-or-etc-default">File - application.ini or etc-default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#setting-javaoptions">Setting - javaOptions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../recipes/index.html">Recipes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/custom.html">Custom Package Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#sbt-assembly">SBT Assembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#proguard">Proguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#multi-module-builds">Multi Module Builds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#custom-packaging-format">Custom Packaging Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/longclasspath.html">Dealing with long classpaths</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#generate-a-launcher-jar">Generate a launcher jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#generate-a-classpath-jar">Generate a classpath jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#configure-a-wildcard-classpath">Configure a wildcard classpath</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/play.html">Play 2 Packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/play.html#build-configuration">Build Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/play.html#application-configuration">Application Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/play.html#systemv">SystemV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/deployment.html">Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#setup-publish-task">Setup publish Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#default-deployment">Default Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#custom-deployments">Custom Deployments</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#rpm">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#debian">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#custom-configurations">Custom Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id1">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id2">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id3">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#universal">Universal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/scalajs.html">Scala JS packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/scalajs.html#package-webjars-and-scalajs-resources">Package webjars and scalajs resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">sbt-native-packager</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Packaging Formats</a> &raquo;</li>
+      
+    <li>Linux Plugin</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/formats/linux.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
 </div>
-<div class="alert alert-info" role="alert">
-  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-  The linux plugin depends on the universal plugin. For universal settings read the
-  <a href="universal.html">Universal Plugin Documentation</a>
-</div><div class="section" id="related-plugins">
-<h2><a class="toc-backref" href="#id2">Related Plugins</a><a class="headerlink" href="#related-plugins" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="debian.html">Debian Plugin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rpm.html">Rpm Plugin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker.html">Docker Plugin</a></li>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="linux-plugin">
+<span id="id1"></span><h1>Linux Plugin<a class="headerlink" href="#linux-plugin" title="Permalink to this headline">¶</a></h1>
+<p>The native packager plugin is designed so that linux packages look similar, but can contain distribution specific information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The linux plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span>Universal Plugin</span></a>.</p>
+</div>
+<div class="section" id="related-plugins">
+<h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="debian.html#debian-plugin"><span>Debian Plugin</span></a></li>
+<li><a class="reference internal" href="rpm.html#rpm-plugin"><span>Rpm Plugin</span></a></li>
 </ul>
 </div>
-</div>
 <div class="section" id="build">
-<h2><a class="toc-backref" href="#id3">Build</a><a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
 <p>The linux plugin is just a top level plugin for linux packaging formats.
-The <tt class="docutils literal"><span class="pre">Linux</span></tt> scope contains settings which can be used by the plugins
+The <code class="docutils literal"><span class="pre">Linux</span></code> scope contains settings which can be used by the plugins
 depending on the linux plugin.</p>
-<div class="highlight-bash"><div class="highlight"><pre>sbt <span class="s2">&quot;show linux:linuxPackageMappings&quot;</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt <span class="s2">&quot;show linux:linuxPackageMappings&quot;</span>
 </pre></div>
 </div>
 <div class="section" id="required-settings">
 <h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
 <p>A linux package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Linux Example&quot;</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Linux Example&quot;</span>
 
 <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span>
 
@@ -215,63 +442,49 @@ you have these settings in your build:</p>
 <span class="s">  with multiple lines.&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="or-higher">
-<h3>1.0 or higher<a class="headerlink" href="#or-higher" title="Permalink to this headline">¶</a></h3>
 <p>Enable the debian plugin to activate the native package implementation.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">LinuxPlugin</span><span class="o">)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="or-lower">
-<h3>0.8 or lower<a class="headerlink" href="#or-lower" title="Permalink to this headline">¶</a></h3>
-<p>For this versions linux packaging is automatically activated.
-See the <a class="reference internal" href="../gettingstarted.html"><em>Getting Started</em></a> page for information
-on how to enable sbt native packager.</p>
-<p>In order to use the utility functions you need to import them with
-(if you haven&#8217;t already imported this)</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.typesafe.sbt.SbtNativePackager._</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">LinuxPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="configurations">
-<h2><a class="toc-backref" href="#id4">Configurations</a><a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
-<p>Settings and tasks inherited from parent plugins can be scoped with <tt class="docutils literal"><span class="pre">Linux</span></tt>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">name</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="n">name</span><span class="o">.</span><span class="n">value</span>
+<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
+<p>Settings and tasks inherited from parent plugins can be scoped with <code class="docutils literal"><span class="pre">Linux</span></code>.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="n">name</span><span class="o">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="settings">
-<h2><a class="toc-backref" href="#id5">Settings</a><a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <p>The required fields for any linux distribution are:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Linux</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Linux</span></code></dt>
 <dd>The name given the package for installation.</dd>
-<dt><tt class="docutils literal"><span class="pre">maintainer</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">maintainer</span></code></dt>
 <dd>The name of the maintainer of the package (important for ownership and signing).</dd>
-<dt><tt class="docutils literal"><span class="pre">packageSummary</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">packageSummary</span></code></dt>
 <dd>A one-sentence short summary of what the package does.</dd>
-<dt><tt class="docutils literal"><span class="pre">packageDescription</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">packageDescription</span></code></dt>
 <dd>A longer description of what the package does and what it includes.</dd>
-<dt><tt class="docutils literal"><span class="pre">linuxPackageMappings</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">linuxPackageMappings</span></code></dt>
 <dd>A list of files and their desired installation locations for the package, as well as other metainformation.</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="customize">
-<h2><a class="toc-backref" href="#id6">Customize</a><a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
+<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="package-mappings">
 <h3>Package Mappings<a class="headerlink" href="#package-mappings" title="Permalink to this headline">¶</a></h3>
 <p>Most of the work in generating a linux package is constructing package mappings.  These &#8216;map&#8217; a file to a location on disk where it should
 reside as well as information about that file. Package mappings allow the specification of file ownership, permissions and whether or not
 the file can be considered &#8220;configuration&#8221;.</p>
 <blockquote>
-<div>Note that while the <tt class="docutils literal"><span class="pre">sbt-native-packager</span></tt> plugin allows you to specify all of this information, not all platforms will make use of the
+<div>Note that while the <code class="docutils literal"><span class="pre">sbt-native-packager</span></code> plugin allows you to specify all of this information, not all platforms will make use of the
 information.  It&#8217;s best to be specific about how you want files handled and run tests on each platform you wish to deploy to.</div></blockquote>
 <p>A package mapping takes this general form</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="o">(</span><span class="n">packageMapping</span><span class="o">(</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">packageMapping</span><span class="o">(</span>
     <span class="n">file</span> <span class="o">-&gt;</span> <span class="s">&quot;/usr/share/man/man1/sbt.1.gz&quot;</span>
   <span class="o">)</span> <span class="n">withPerms</span> <span class="s">&quot;0644&quot;</span> <span class="n">gzipped</span><span class="o">)</span> <span class="n">asDocs</span><span class="o">()</span>
 </pre></div>
@@ -279,81 +492,81 @@ information.  It&#8217;s best to be specific about how you want files handled an
 <p>Let&#8217;s look at each of the methods supported in the packageMapping &#8216;library&#8217;.</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">packageMapping(mappings:</span> <span class="pre">(File,</span> <span class="pre">String)*)</span></tt></dt>
-<dd>This method takes a variable number of <tt class="docutils literal"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">String</span></tt> pairs.  The <tt class="docutils literal"><span class="pre">File</span></tt> should be a locally available file that can be bundled,
-and the <tt class="docutils literal"><span class="pre">String</span></tt> is the installation location on disk for that file.  This returns a new <tt class="docutils literal"><span class="pre">PackageMapping</span></tt> that supports the remaining methods.</dd>
-<dt><tt class="docutils literal"><span class="pre">withPerms(mask:</span> <span class="pre">String)</span></tt></dt>
-<dd>This function adjusts the installation permissions of the associated files.  The flags passed should be of the form of a mask, e.g. <tt class="docutils literal"><span class="pre">0755</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">gzipped</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">packageMapping(mappings:</span> <span class="pre">(File,</span> <span class="pre">String)*)</span></code></dt>
+<dd>This method takes a variable number of <code class="docutils literal"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">String</span></code> pairs.  The <code class="docutils literal"><span class="pre">File</span></code> should be a locally available file that can be bundled,
+and the <code class="docutils literal"><span class="pre">String</span></code> is the installation location on disk for that file.  This returns a new <code class="docutils literal"><span class="pre">PackageMapping</span></code> that supports the remaining methods.</dd>
+<dt><code class="docutils literal"><span class="pre">withPerms(mask:</span> <span class="pre">String)</span></code></dt>
+<dd>This function adjusts the installation permissions of the associated files.  The flags passed should be of the form of a mask, e.g. <code class="docutils literal"><span class="pre">0755</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">gzipped</span></code></dt>
 <dd>This ensures that the files are written in compressed format to the destination.  This is a convenience for distributions that want files zipped.</dd>
-<dt><tt class="docutils literal"><span class="pre">asDocs</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">asDocs</span></code></dt>
 <dd>This denotes that the mapped files are documentation files.  <em>Note: I believe these are only used for ``RPM``s.</em></dd>
-<dt><tt class="docutils literal"><span class="pre">withConfig(value:String=&quot;true&quot;)</span></tt></dt>
-<dd>This denotes whether or not a <tt class="docutils literal"><span class="pre">%config</span></tt> attribute is attached to the given files in the generated rpm SPEC.  Any value other than <tt class="docutils literal"><span class="pre">&quot;true&quot;</span></tt> will be
-placed inside the <tt class="docutils literal"><span class="pre">%config()`</span> <span class="pre">definition,</span> <span class="pre">for</span> <span class="pre">example</span> <span class="pre">``withConfig(&quot;noreplace&quot;)</span></tt> results in <tt class="docutils literal"><span class="pre">%config(noreplace)</span></tt> attribute in the rpm spec.</dd>
-<dt><tt class="docutils literal"><span class="pre">withUser(user:String)</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">withConfig(value:String=&quot;true&quot;)</span></code></dt>
+<dd>This denotes whether or not a <code class="docutils literal"><span class="pre">%config</span></code> attribute is attached to the given files in the generated rpm SPEC.  Any value other than <code class="docutils literal"><span class="pre">&quot;true&quot;</span></code> will be
+placed inside the <code class="docutils literal"><span class="pre">%config()`</span> <span class="pre">definition,</span> <span class="pre">for</span> <span class="pre">example</span> <span class="pre">``withConfig(&quot;noreplace&quot;)</span></code> results in <code class="docutils literal"><span class="pre">%config(noreplace)</span></code> attribute in the rpm spec.</dd>
+<dt><code class="docutils literal"><span class="pre">withUser(user:String)</span></code></dt>
 <dd>This denotes which user should be the owner of the given files in the resulting package.</dd>
-<dt><tt class="docutils literal"><span class="pre">withGroup(group:String)</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">withGroup(group:String)</span></code></dt>
 <dd>This denotes which group should be the owner of the given files in the resulting package.</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="the-linuxpackagemapping-models">
 <h3>The LinuxPackageMapping Models<a class="headerlink" href="#the-linuxpackagemapping-models" title="Permalink to this headline">¶</a></h3>
-<p>All classes are located in the <tt class="docutils literal"><span class="pre">com.typesafe.sbt.packager.linux</span></tt> package. So if you want to create
-instances yourself you have to add <tt class="docutils literal"><span class="pre">import</span> <span class="pre">com.typesafe.sbt.packager.linux._</span></tt> to your build file.</p>
-<p>A <tt class="docutils literal"><span class="pre">LinuxPackageMapping</span></tt> contains the following fields:</p>
+<p>All classes are located in the <code class="docutils literal"><span class="pre">com.typesafe.sbt.packager.linux</span></code> package. So if you want to create
+instances yourself you have to add <code class="docutils literal"><span class="pre">import</span> <span class="pre">com.typesafe.sbt.packager.linux._</span></code> to your build file.</p>
+<p>A <code class="docutils literal"><span class="pre">LinuxPackageMapping</span></code> contains the following fields:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">mappings:</span> <span class="pre">Traversable[(File,</span> <span class="pre">String)]</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">mappings:</span> <span class="pre">Traversable[(File,</span> <span class="pre">String)]</span></code></dt>
 <dd>A list of mappings aggregated by this LinuxPackageMapping</dd>
-<dt><tt class="docutils literal"><span class="pre">fileData:</span> <span class="pre">LinuxFileMetaData</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">fileData:</span> <span class="pre">LinuxFileMetaData</span></code></dt>
 <dd>Permissions for all the defined mappings. Default to &#8220;root:root 755&#8221;</dd>
-<dt><tt class="docutils literal"><span class="pre">zipped:</span> <span class="pre">Boolean</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">zipped:</span> <span class="pre">Boolean</span></code></dt>
 <dd>Are the mappings zipped. Default to false</dd>
 </dl>
 </div></blockquote>
-<p>All mappings are stored in the task <tt class="docutils literal"><span class="pre">linuxPackageMappings</span></tt> which returns a <tt class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></tt>. To display the contents
+<p>All mappings are stored in the task <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> which returns a <code class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></code>. To display the contents
 open the sbt console and call</p>
-<div class="highlight-bash"><div class="highlight"><pre>show linuxPackageMappings
+<div class="highlight-bash"><div class="highlight"><pre><span></span>show linuxPackageMappings
 </pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">LinuxFileMetaData</span></tt> has the following fields</p>
+<p>The <code class="docutils literal"><span class="pre">LinuxFileMetaData</span></code> has the following fields</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">user:</span> <span class="pre">String</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">user:</span> <span class="pre">String</span></code></dt>
 <dd>The user owning all the mappings. Default &#8220;root&#8221;</dd>
-<dt><tt class="docutils literal"><span class="pre">group:</span> <span class="pre">String</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">group:</span> <span class="pre">String</span></code></dt>
 <dd>The group owning all the mappings. Default &#8220;root&#8221;</dd>
-<dt><tt class="docutils literal"><span class="pre">permissions:</span> <span class="pre">String</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">permissions:</span> <span class="pre">String</span></code></dt>
 <dd>Access permissions for all the mappings. Default &#8220;755&#8221;</dd>
-<dt><tt class="docutils literal"><span class="pre">config:</span> <span class="pre">String</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">config:</span> <span class="pre">String</span></code></dt>
 <dd>Are the mappings config files. Default &#8220;false&#8221;</dd>
-<dt><tt class="docutils literal"><span class="pre">docs:</span> <span class="pre">Boolean</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">docs:</span> <span class="pre">Boolean</span></code></dt>
 <dd>Are the mappings docs. Default to false</dd>
 </dl>
 </div></blockquote>
-<p>Last but not least there are the <tt class="docutils literal"><span class="pre">linuxPackageSymlinks</span></tt>, which encapsulate symlinks on your
-destination system. A <tt class="docutils literal"><span class="pre">LinuxSymlink</span></tt> contains only  two fields</p>
+<p>Last but not least there are the <code class="docutils literal"><span class="pre">linuxPackageSymlinks</span></code>, which encapsulate symlinks on your
+destination system. A <code class="docutils literal"><span class="pre">LinuxSymlink</span></code> contains only  two fields</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">link:</span> <span class="pre">String</span></tt></dt>
-<dd>The actual link that points to <tt class="docutils literal"><span class="pre">destination</span></tt></dd>
-<dt><tt class="docutils literal"><span class="pre">destination:</span> <span class="pre">String</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">link:</span> <span class="pre">String</span></code></dt>
+<dd>The actual link that points to <code class="docutils literal"><span class="pre">destination</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">destination:</span> <span class="pre">String</span></code></dt>
 <dd>The link destination</dd>
 </dl>
 </div></blockquote>
 <p>You can see all currently configured symlinks with this simple command.
-<tt class="docutils literal"><span class="pre">linuxPackageSymlinks</span></tt> is just a <tt class="docutils literal"><span class="pre">Seq[LinuxSymlink]</span></tt></p>
-<div class="highlight-bash"><div class="highlight"><pre>show linuxPackageSymlinks
+<code class="docutils literal"><span class="pre">linuxPackageSymlinks</span></code> is just a <code class="docutils literal"><span class="pre">Seq[LinuxSymlink]</span></code></p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>show linuxPackageSymlinks
 </pre></div>
 </div>
 </div>
 <div class="section" id="modifying-mappings-in-general">
 <h3>Modifying Mappings in General<a class="headerlink" href="#modifying-mappings-in-general" title="Permalink to this headline">¶</a></h3>
-<p>Adding, filtering and altering mappings are always simple methods on a sequence: <tt class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></tt>.
+<p>Adding, filtering and altering mappings are always simple methods on a sequence: <code class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></code>.
 The basic construct for adding looks like this</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// simple</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// simple</span>
 <span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">theFile</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
 
 <span class="c1">// specialized</span>
@@ -362,7 +575,7 @@ The basic construct for adding looks like this</p>
 </div>
 <p>If you want to filter or alter things. The example has a lot of things you can _possibly_ do. Just pick
 what you need. After this section there are smaller examples, showing how you can implement certain functions.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// sbt 0.13.0 syntax</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// sbt 0.13.0 syntax</span>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="c1">// mappings: Seq[LinuxPackageMapping]</span>
     <span class="k">val</span> <span class="n">mappings</span> <span class="k">=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
@@ -405,14 +618,14 @@ what you need. After this section there are smaller examples, showing how you ca
 <div class="section" id="add-mappings">
 <h3>Add Mappings<a class="headerlink" href="#add-mappings" title="Permalink to this headline">¶</a></h3>
 <p>To add an arbitrary file in your build path</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="o">{</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;somefile.txt&quot;</span>
   <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">linuxPackageMappings</span></tt> can be scoped to <tt class="docutils literal"><span class="pre">Rpm`</span> <span class="pre">or</span> <span class="pre">``Debian</span></tt> if you want to add mappings only for a single packaging type.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span> <span class="o">{</span>
+<p><code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> can be scoped to <code class="docutils literal"><span class="pre">Rpm`</span> <span class="pre">or</span> <span class="pre">``Debian</span></code> if you want to add mappings only for a single packaging type.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;debian-somefile.txt&quot;</span>
   <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
 <span class="o">}</span>
@@ -426,10 +639,10 @@ what you need. After this section there are smaller examples, showing how you ca
 </div>
 <div class="section" id="filter-remove-mappings">
 <h3>Filter/Remove Mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this headline">¶</a></h3>
-<p>If you want to remove some mappings you have to filter the current list of <tt class="docutils literal"><span class="pre">linuxPackageMappings</span></tt>.
-As <tt class="docutils literal"><span class="pre">linuxPackageMappings</span></tt> is a task, the order of your settings is important. Here are some examples
+<p>If you want to remove some mappings you have to filter the current list of <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code>.
+As <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> is a task, the order of your settings is important. Here are some examples
 on how to filter mappings.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// this is equal to</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// this is equal to</span>
 <span class="c1">// linuxPackageMappings &lt;&lt;= linuxPackageMappings map { mappings =&gt; /* stuff */ mappings }</span>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="c1">// first get the current mappings. mapping is of type Seq[LinuxPackageMapping]</span>
@@ -452,8 +665,8 @@ on how to filter mappings.</p>
 </div>
 <div class="section" id="alter-linuxpackagemapping">
 <h3>Alter LinuxPackageMapping<a class="headerlink" href="#alter-linuxpackagemapping" title="Permalink to this headline">¶</a></h3>
-<p>First we alter the permissions for all <tt class="docutils literal"><span class="pre">LinuxPackageMapping</span></tt> s that match a specific criteria.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// Altering permissions for configs</span>
+<p>First we alter the permissions for all <code class="docutils literal"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// Altering permissions for configs</span>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">mappings</span> <span class="k">=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
     <span class="c1">// Changing the group for all configs</span>
@@ -475,8 +688,8 @@ on how to filter mappings.</p>
 </div>
 <div class="section" id="alter-linuxsymlinks">
 <h3>Alter LinuxSymlinks<a class="headerlink" href="#alter-linuxsymlinks" title="Permalink to this headline">¶</a></h3>
-<p>First we alter the permissions for all <tt class="docutils literal"><span class="pre">LinuxPackageMapping</span></tt> s that match a specific criteria.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// The same as linuxPackageMappings</span>
+<p>First we alter the permissions for all <code class="docutils literal"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// The same as linuxPackageMappings</span>
 <span class="n">linuxPackageSymlinks</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">links</span> <span class="k">=</span> <span class="n">linuxPackageSymlinks</span><span class="o">.</span><span class="n">value</span>
 
@@ -487,31 +700,110 @@ on how to filter mappings.</p>
 </div>
 <div class="section" id="add-empty-directories">
 <h3>Add Empty Directories<a class="headerlink" href="#add-empty-directories" title="Permalink to this headline">¶</a></h3>
-<p>There is a special helper function that allows you to add empty directories to the package mappings. This might be useful if the service needs some location to store files.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// Add an empty folder to mappings</span>
+<p>There is a special helper function that allows you to add empty directories to the package mappings. This might be
+useful if the service needs some location to store files.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// Add an empty folder to mappings</span>
 <span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageTemplateMapping</span><span class="o">(</span><span class="s">s&quot;/usr/share/</span><span class="si">${</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">/lib/native&quot;</span><span class="o">)()</span> <span class="n">withUser</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="o">)</span> <span class="n">withGroup</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
+<div class="section" id="man-pages">
+<h3>Man Pages<a class="headerlink" href="#man-pages" title="Permalink to this headline">¶</a></h3>
+<p>There are many ways to document your projects, and many ways to expose them.  While the native packager places
+no limit on WHAT is included in a package, there are some things which receive special treatment.</p>
+<p>Specifically: linux man pages.</p>
+<p>To create a linux man page for the application, let&#8217;s create a <code class="docutils literal"><span class="pre">src/linux/usr/share/man/man1/example-cli.1</span></code> file</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>.<span class="se">\&quot;</span> Process this file with
+.<span class="se">\&quot;</span> groff -man -Tascii example-cli.1
+.<span class="se">\&quot;</span>
+.TH EXAMPLE_CLI <span class="m">1</span> <span class="s2">&quot;NOVEMBER 2011&quot;</span> Linux <span class="s2">&quot;User Manuals&quot;</span>
+.SH NAME
+example-cli <span class="se">\-</span> Example CLI
+.SH SYNOPSIS
+.B example-cli <span class="o">[</span>-h<span class="o">]</span>
+</pre></div>
+</div>
+<p>Notice the location of the file.  Any file under <code class="docutils literal"><span class="pre">src/linux</span></code> is automatically included,
+relative to <code class="docutils literal"><span class="pre">/</span></code>, in linux packages (deb, rpm).  That means the man file will <strong>not</strong> appear
+in the universal package (confusing linux users).</p>
+<p>Now that the man page is created, we can use a few tasks provided to view it in sbt.  Let&#8217;s look in the sbt console</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt generateManPages
+</pre></div>
+</div>
+<p>We can use this task to work on the man pages and ensure they&#8217;ll look OK.  You can also directly use <code class="docutils literal"><span class="pre">groff</span></code> to view
+changes in your man pages.</p>
+<p>In addition to providing the means to view the man page, the native packager will also automatically <code class="docutils literal"><span class="pre">gzip</span></code> man pages
+for the distribution.  The resulting man page is stored in <code class="docutils literal"><span class="pre">/usr/share/man/man1/example-cli.1.gz</span></code> in linux distributions.</p>
+</div>
 </div>
 </div>
 
 
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="debian.html" class="btn btn-neutral float-right" title="Debian Plugin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="universal.html" class="btn btn-neutral" title="Universal Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-      
-  </div>
-</div>
-<footer class="footer">
-  <div class="container">
-    <p class="pull-right">
-      <a href="#">Back to top</a>
-      
-    </p>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
     <p>
-        &copy; Copyright 2014 sbt-native-packager team.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+        &copy; Copyright 2014 sbt-native-packager team.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
 </footer>
-  </body>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.1.0-SNAPSHOT',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

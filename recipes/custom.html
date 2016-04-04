@@ -1,0 +1,705 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Custom Package Formats &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html"/>
+        <link rel="up" title="Recipes" href="index.html"/>
+        <link rel="next" title="Dealing with long classpaths" href="longclasspath.html"/>
+        <link rel="prev" title="Recipes" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> sbt-native-packager
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.1.0-SNAPSHOT
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#format-plugins">Format Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#archetype-plugins">Archetype Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#mappings">Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#architecture">Architecture</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#native-tools">Native Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#your-first-package">Your first package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#run-the-app">Run the app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#create-a-package">Create a package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Formats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../formats/universal.html">Universal Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/universal.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#universal-archive-options">Universal Archive Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#getting-started-with-universal-packaging">Getting Started with Universal Packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#universal-conventions">Universal Conventions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#change-remove-top-level-directory-in-output">Change/Remove Top Level Directory in Output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#skip-packagedoc-task-on-stage">Skip packageDoc task on stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#mappingshelper">MappingsHelper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/universal.html#mapping-examples">Mapping Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/linux.html">Linux Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/linux.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/linux.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/linux.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/linux.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/linux.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#package-mappings">Package Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#the-linuxpackagemapping-models">The LinuxPackageMapping Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#modifying-mappings-in-general">Modifying Mappings in General</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#add-mappings">Add Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#filter-remove-mappings">Filter/Remove Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#alter-linuxpackagemapping">Alter LinuxPackageMapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#alter-linuxsymlinks">Alter LinuxSymlinks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#add-empty-directories">Add Empty Directories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/linux.html#man-pages">Man Pages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/debian.html">Debian Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#java-based-packaging">Java based packaging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/rpm.html">Rpm Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#dependency-settings">Dependency Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#meta-settings">Meta Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#scriptlet-settings">Scriptlet Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#systemv-start-script-settings">SystemV Start Script Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/rpm.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#rpm-prefix">Rpm Prefix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#rpmchangelogfile">rpmChangelogFile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#jar-repackaging">Jar Repackaging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/docker.html">Docker Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#spotify-java-based-docker-client">Spotify java based docker client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#environment-settings">Environment Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#publishing-settings">Publishing Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-base-image">Docker Base Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-repository">Docker Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-image-customization">Docker Image Customization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#install-location">Install Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#custom-dockerfile">Custom Dockerfile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#remove-commands">Remove Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#add-commands">Add Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#write-from-scratch">Write from Scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/windows.html">Windows Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/windows.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/windows.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/windows.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/windows.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../formats/windows.html#feature-configuration">Feature configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../formats/jdkpackager.html">JDKPackager Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#enabling">Enabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#build">Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formats/jdkpackager.html#debugging">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../archetypes/index.html">Archetypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/java_app/index.html">Java Command Line Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#start-script-options">Start script options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html">Application and runtime configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#start-script-customizations">Start script customizations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#overriding-templates-bash-bat">Overriding Templates (Bash/Bat)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/java_server/index.html">Java Server Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/cheatsheet.html">An archetype cheatsheet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#path-configurations">Path Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#quick-reference-table">Quick Reference Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#jvm-options">JVM Options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#extra-defines">Extra Defines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#file-application-ini-or-etc-default">File - application.ini or etc-default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#setting-javaoptions">Setting - javaOptions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Recipes</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">Custom Package Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sbt-assembly">SBT Assembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#proguard">Proguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-module-builds">Multi Module Builds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-packaging-format">Custom Packaging Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="longclasspath.html">Dealing with long classpaths</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="longclasspath.html#generate-a-launcher-jar">Generate a launcher jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="longclasspath.html#generate-a-classpath-jar">Generate a classpath jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="longclasspath.html#configure-a-wildcard-classpath">Configure a wildcard classpath</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="play.html">Play 2 Packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="play.html#build-configuration">Build Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="play.html#application-configuration">Application Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="play.html#systemv">SystemV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html">Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="deployment.html#setup-publish-task">Setup publish Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deployment.html#default-deployment">Default Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deployment.html#custom-deployments">Custom Deployments</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="deployment.html#rpm">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deployment.html#debian">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deployment.html#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deployment.html#custom-configurations">Custom Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="deployment.html#id1">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deployment.html#id2">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deployment.html#id3">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deployment.html#universal">Universal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scalajs.html">Scala JS packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scalajs.html#package-webjars-and-scalajs-resources">Package webjars and scalajs resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">sbt-native-packager</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Recipes</a> &raquo;</li>
+      
+    <li>Custom Package Formats</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/recipes/custom.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="custom-package-formats">
+<span id="custom"></span><h1>Custom Package Formats<a class="headerlink" href="#custom-package-formats" title="Permalink to this headline">¶</a></h1>
+<p>This section provides an overview of different packaging flavors.</p>
+<div class="section" id="sbt-assembly">
+<h2>SBT Assembly<a class="headerlink" href="#sbt-assembly" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Main Goal</strong></p>
+<div class="line-block">
+<div class="line">Create a fat-jar with sbt-assembly in order to deliver a single,</div>
+<div class="line">self-containing jar as a package instead of the default lib/ structure</div>
+</div>
+</div></blockquote>
+<p>First add the sbt-assembly plugin to your <code class="docutils literal"><span class="pre">plugins.sbt</span></code> file.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.eed3si9n&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-assembly&quot;</span> <span class="o">%</span> <span class="s">&quot;0.11.2&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>The next step is to remove all the jar mappings from the normal mappings and only add the
+assembly jar. In this example we&#8217;ll set the assembly jar name ourself, so we know exactly
+what the output should look like. Finally we change the <code class="docutils literal"><span class="pre">scriptClasspath</span></code> so it only
+contains the assembled jar. This is what the final <code class="docutils literal"><span class="pre">build.sbt</span></code> should contain:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">AssemblyKeys._</span>
+
+<span class="c1">// the assembly settings</span>
+<span class="n">assemblySettings</span>
+
+<span class="c1">// we specify the name for our fat jar</span>
+<span class="n">jarName</span> <span class="n">in</span> <span class="n">assembly</span> <span class="o">:=</span> <span class="s">&quot;assembly-project.jar&quot;</span>
+
+<span class="c1">// using the java server for this application. java_application is fine, too</span>
+<span class="n">packageArchetype</span><span class="o">.</span><span class="n">java_server</span>
+
+<span class="c1">// removes all jar mappings in universal and appends the fat jar</span>
+<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">{</span>
+    <span class="c1">// universalMappings: Seq[(File,String)]</span>
+    <span class="k">val</span> <span class="n">universalMappings</span> <span class="k">=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
+    <span class="k">val</span> <span class="n">fatJar</span> <span class="k">=</span> <span class="o">(</span><span class="n">assembly</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span>
+    <span class="c1">// removing means filtering</span>
+    <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">universalMappings</span> <span class="n">filter</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="o">!</span> <span class="n">name</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;.jar&quot;</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="c1">// add the fat jar</span>
+    <span class="n">filtered</span> <span class="o">:+</span> <span class="o">(</span><span class="n">fatJar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">fatJar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
+<span class="o">}</span>
+
+
+<span class="c1">// the bash scripts classpath only needs the fat jar</span>
+<span class="n">scriptClasspath</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span> <span class="o">(</span><span class="n">jarName</span> <span class="n">in</span> <span class="n">assembly</span><span class="o">).</span><span class="n">value</span> <span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="proguard">
+<h2>Proguard<a class="headerlink" href="#proguard" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Main Goal</strong></p>
+<div class="line-block">
+<div class="line">Create a package that contains a single fat-jar that has been shrunken / optimized / obfuscated with <a class="reference external" href="http://proguard.sourceforge.net/">proguard</a>.</div>
+</div>
+</div></blockquote>
+<p>First add the <a class="reference external" href="https://github.com/sbt/sbt-proguard">sbt-proguard</a> plugin to
+the <code class="docutils literal"><span class="pre">plugins.sbt</span></code> file:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.typesafe.sbt&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-proguard&quot;</span> <span class="o">%</span> <span class="s">&quot;0.2.2&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Then configure the proguard options in <code class="docutils literal"><span class="pre">build.sbt</span></code>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.SbtProguard.ProguardKeys</span>
+
+<span class="c1">// initialize the proguard settings</span>
+<span class="n">proguardSettings</span>
+
+<span class="c1">// to configure proguard for scala, see</span>
+<span class="c1">// http://proguard.sourceforge.net/manual/examples.html#scala</span>
+<span class="nc">ProguardKeys</span><span class="o">.</span><span class="n">options</span> <span class="n">in</span> <span class="nc">Proguard</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+    <span class="s">&quot;--dontwarn scala.**&quot;</span><span class="o">,</span>
+    <span class="s">&quot;--dontwarn ch.qos.**&quot;</span>
+    <span class="c1">// ...</span>
+<span class="o">)</span>
+
+<span class="c1">// specify the entry point for a standalone app</span>
+<span class="nc">ProguardKeys</span><span class="o">.</span><span class="n">options</span> <span class="n">in</span> <span class="nc">Proguard</span> <span class="o">+=</span> <span class="nc">ProguardOptions</span><span class="o">.</span><span class="n">keepMain</span><span class="o">(</span><span class="s">&quot;com.example.Main&quot;</span><span class="o">)</span>
+
+<span class="c1">// Java 8 requires a newer version of proguard than sbt-proguard&#39;s default</span>
+<span class="nc">ProguardKeys</span><span class="o">.</span><span class="n">proguardVersion</span> <span class="n">in</span> <span class="nc">Proguard</span> <span class="o">:=</span> <span class="s">&quot;5.2.1&quot;</span>
+
+<span class="c1">// filter out jar files from the list of generated files, while</span>
+<span class="c1">// keeping non-jar output such as generated launch scripts</span>
+<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span><span class="o">.</span>
+  <span class="n">filter</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="o">!</span> <span class="n">name</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;.jar&quot;</span><span class="o">)</span>
+  <span class="o">}</span>
+
+<span class="c1">// ... and then append the jar file emitted from the proguard task to</span>
+<span class="c1">// the file list</span>
+<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="o">(</span><span class="nc">ProguardKeys</span><span class="o">.</span><span class="n">proguard</span> <span class="n">in</span> <span class="nc">Proguard</span><span class="o">).</span>
+    <span class="n">value</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">jar</span> <span class="k">=&gt;</span> <span class="n">jar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span><span class="n">jar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
+
+<span class="c1">// point the classpath to the output from the proguard task</span>
+<span class="n">scriptClasspath</span> <span class="o">:=</span> <span class="o">(</span><span class="nc">ProguardKeys</span><span class="o">.</span><span class="n">proguard</span> <span class="n">in</span> <span class="nc">Proguard</span><span class="o">).</span><span class="n">value</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">jar</span> <span class="k">=&gt;</span> <span class="n">jar</span><span class="o">.</span><span class="n">getName</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Now when you package your project using a command such as <code class="docutils literal"><span class="pre">sbt</span> <span class="pre">universal:package-zip-tarball</span></code>,
+it will include fat jar that has been created by proguard rather than the normal
+output in <code class="docutils literal"><span class="pre">/lib</span></code>.</p>
+</div>
+<div class="section" id="multi-module-builds">
+<h2>Multi Module Builds<a class="headerlink" href="#multi-module-builds" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Main Goal</strong></p>
+<div class="line-block">
+<div class="line">Aggregate multiple projects into one native package</div>
+</div>
+</div></blockquote>
+<p>If you want to aggregate different projects in a multi module build to a single package,
+you can specify everything in a single <code class="docutils literal"><span class="pre">build.sbt</span></code></p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">NativePackagerKeys._</span>
+
+<span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;mukis-fullstack&quot;</span>
+
+<span class="c1">// used like the groupId in maven</span>
+<span class="n">organization</span> <span class="n">in</span> <span class="nc">ThisBuild</span> <span class="o">:=</span> <span class="s">&quot;de.mukis&quot;</span>
+
+<span class="c1">// all sub projects have the same version</span>
+<span class="n">version</span> <span class="n">in</span> <span class="nc">ThisBuild</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span>
+
+<span class="n">scalaVersion</span> <span class="n">in</span> <span class="nc">ThisBuild</span> <span class="o">:=</span> <span class="s">&quot;2.11.2&quot;</span>
+
+<span class="c1">// common dependencies</span>
+<span class="n">libraryDependencies</span> <span class="n">in</span> <span class="nc">ThisBuild</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+    <span class="s">&quot;com.typesafe&quot;</span> <span class="o">%</span> <span class="s">&quot;config&quot;</span> <span class="o">%</span> <span class="s">&quot;1.2.0&quot;</span>
+<span class="o">)</span>
+
+<span class="c1">// this is the root project, aggregating all sub projects</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">root</span> <span class="k">=</span> <span class="nc">Project</span><span class="o">(</span>
+    <span class="n">id</span> <span class="k">=</span> <span class="s">&quot;root&quot;</span><span class="o">,</span>
+    <span class="n">base</span> <span class="k">=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">),</span>
+    <span class="c1">// configure your native packaging settings here</span>
+    <span class="n">settings</span> <span class="k">=</span> <span class="n">packageArchetype</span><span class="o">.</span><span class="n">java_server</span><span class="o">++</span> <span class="nc">Seq</span><span class="o">(</span>
+        <span class="n">maintainer</span> <span class="o">:=</span> <span class="s">&quot;John Smith &lt;john.smith@example.com&gt;&quot;</span><span class="o">,</span>
+        <span class="n">packageDescription</span> <span class="o">:=</span> <span class="s">&quot;Fullstack Application&quot;</span><span class="o">,</span>
+        <span class="n">packageSummary</span> <span class="o">:=</span> <span class="s">&quot;Fullstack Application&quot;</span><span class="o">,</span>
+        <span class="c1">// entrypoint</span>
+        <span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;de.mukis.frontend.ProductionServer&quot;</span><span class="o">)</span>
+    <span class="o">),</span>
+    <span class="c1">// always run all commands on each sub project</span>
+    <span class="n">aggregate</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">frontend</span><span class="o">,</span> <span class="n">backend</span><span class="o">,</span> <span class="n">api</span><span class="o">)</span>
+<span class="o">)</span> <span class="n">dependsOn</span><span class="o">(</span><span class="n">frontend</span><span class="o">,</span> <span class="n">backend</span><span class="o">,</span> <span class="n">api</span><span class="o">)</span> <span class="c1">// this does the actual aggregation</span>
+
+<span class="c1">// --------- Project Frontend ------------------</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">frontend</span> <span class="k">=</span> <span class="nc">Project</span><span class="o">(</span>
+    <span class="n">id</span> <span class="k">=</span> <span class="s">&quot;frontend&quot;</span><span class="o">,</span>
+    <span class="n">base</span> <span class="k">=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;frontend&quot;</span><span class="o">)</span>
+<span class="o">)</span> <span class="n">dependsOn</span><span class="o">(</span><span class="n">api</span><span class="o">)</span>
+
+
+<span class="c1">// --------- Project Backend ----------------</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">backend</span> <span class="k">=</span> <span class="nc">Project</span><span class="o">(</span>
+    <span class="n">id</span> <span class="k">=</span> <span class="s">&quot;backend&quot;</span><span class="o">,</span>
+    <span class="n">base</span> <span class="k">=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;backend&quot;</span><span class="o">)</span>
+<span class="o">)</span> <span class="n">dependsOn</span><span class="o">(</span><span class="n">api</span><span class="o">)</span>
+
+<span class="c1">// --------- Project API ------------------</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">api</span> <span class="k">=</span> <span class="nc">Project</span><span class="o">(</span>
+    <span class="n">id</span> <span class="k">=</span> <span class="s">&quot;api&quot;</span><span class="o">,</span>
+    <span class="n">base</span> <span class="k">=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;api&quot;</span><span class="o">)</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-packaging-format">
+<h2>Custom Packaging Format<a class="headerlink" href="#custom-packaging-format" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Main Goal</strong></p>
+<div class="line-block">
+<div class="line">Use native packager to define your own custom packaging format</div>
+<div class="line">and reuse stuff you already like</div>
+</div>
+</div></blockquote>
+<p>The very core principle of native packager are the <code class="docutils literal"><span class="pre">mappings</span></code>. They are a sequence
+of <code class="docutils literal"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">String</span></code> tuples, that map a file on your system to a location on your install
+location.</p>
+<p>Defining a custom mapping format is basically transforming these mappings into the format
+of you choice. To do so, we recommend the following steps</p>
+<ol class="arabic simple">
+<li>Create a new configuration <code class="docutils literal"><span class="pre">scope</span></code> for you packaging type</li>
+<li>Define a <code class="docutils literal"><span class="pre">packageBin</span></code> task in your new scope that transforms the mappings into a package</li>
+</ol>
+<p>The following examples demonstrates how to create a simple <em>text format</em>, which lists all your
+mappings inside a package format. A minimal <code class="docutils literal"><span class="pre">build.sbt</span></code> would look like this</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">NativePackagerKeys._</span>
+
+<span class="k">val</span> <span class="nc">TxtFormat</span> <span class="k">=</span> <span class="n">config</span><span class="o">(</span><span class="s">&quot;txtFormat&quot;</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">root</span> <span class="k">=</span> <span class="n">project</span><span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">))</span>
+    <span class="c1">// adding your custom configuration scope</span>
+    <span class="o">.</span><span class="n">configs</span><span class="o">(</span> <span class="nc">TxtFormat</span> <span class="o">)</span>
+    <span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">packageArchetype</span><span class="o">.</span><span class="n">java_server</span><span class="k">:_</span><span class="kt">*</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">settings</span><span class="o">(</span>
+        <span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;mukis-custom-package&quot;</span><span class="o">,</span>
+        <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span><span class="o">,</span>
+        <span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;de.mukis.ConfigApp&quot;</span><span class="o">),</span>
+        <span class="n">maintainer</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;Nepomuk Seiler &lt;nepomuk.seiler@mukis.de&gt;&quot;</span><span class="o">,</span>
+        <span class="n">packageSummary</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;Custom application configuration&quot;</span><span class="o">,</span>
+        <span class="n">packageDescription</span> <span class="o">:=</span> <span class="s">&quot;Custom application configuration&quot;</span><span class="o">,</span>
+        <span class="c1">// defining your custom configuration</span>
+        <span class="n">packageBin</span> <span class="n">in</span> <span class="nc">TxtFormat</span> <span class="o">:=</span> <span class="o">{</span>
+            <span class="k">val</span> <span class="n">fileMappings</span> <span class="k">=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
+            <span class="k">val</span> <span class="n">output</span> <span class="k">=</span> <span class="n">target</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">s&quot;</span><span class="si">${</span><span class="n">packageName</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">.txt&quot;</span>
+            <span class="c1">// create the is with the mappings. Note this is not the ISO format -.-</span>
+            <span class="nc">IO</span><span class="o">.</span><span class="n">write</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="s">&quot;# Filemappings\n&quot;</span><span class="o">)</span>
+            <span class="c1">// append all mappings to the list</span>
+            <span class="n">fileMappings</span> <span class="n">foreach</span> <span class="o">{</span>
+                <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">IO</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="s">s&quot;</span><span class="si">${</span><span class="n">file</span><span class="o">.</span><span class="n">getAbsolutePath</span><span class="si">}</span><span class="s">\t</span><span class="si">$name$</span><span class="s">{IO.Newline}&quot;</span><span class="o">)</span>
+            <span class="o">}</span>
+            <span class="n">output</span>
+        <span class="o">}</span>
+    <span class="o">)</span>
+</pre></div>
+</div>
+<p>To create your new &#8220;packageFormat&#8221; just run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>txtFormat:packageBin
+</pre></div>
+</div>
+<p>If you want to read more about sbt configurations:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.scala-sbt.org/0.13/docs/Tasks.html">sbt tasks</a></li>
+<li><a class="reference external" href="http://www.scala-sbt.org/0.13.5/docs/Detailed-Topics/Testing.html#additional-test-configurations-with-shared-sources">sbt configurations</a></li>
+<li><a class="reference external" href="http://stackoverflow.com/questions/18789477/define-custom-configuration-in-sbt">custom configuration</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="longclasspath.html" class="btn btn-neutral float-right" title="Dealing with long classpaths" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Recipes" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 sbt-native-packager team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.1.0-SNAPSHOT',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

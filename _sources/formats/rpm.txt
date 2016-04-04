@@ -1,3 +1,5 @@
+.. _rpm-plugin:
+
 Rpm Plugin
 ==========
 
@@ -7,17 +9,7 @@ http://fedoraproject.org/wiki/How_to_create_an_RPM_package is a good tutorial, b
 packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated
 'binary' packages.
 
-.. contents::
-  :depth: 2
-
-
-.. raw:: html
-
-  <div class="alert alert-info" role="alert">
-    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    The rpm plugin depends on the linux plugin. For general linux settings read the
-    <a href="linux.html">Linux Plugin Documentation</a>
-  </div>
+.. note:: The rpm plugin depends on the :ref:`linux-plugin`.
 
 
 Requirements
@@ -245,26 +237,6 @@ Example Settings:
     -Vulnerability fix.
     * Tue Aug 19 2014 Team <contact@example.com> - 1.0.0
     -First version of the system
-
-
-Template Changes
-~~~~~~~~~~~~~~~~
-
-Apply the following changes to the default init start script.  You can find this in the sbt-native-packager source.
-
-
-``src/templates/start``
-
-.. code-block:: bash
-
-    ...
-    [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
-
-    # smb could define some additional options in $RUN_OPTS
-    RUN_CMD="${PACKAGE_PREFIX}/${{app_name}}/bin/${{app_name}}"
-    ...
-
-
 
 Scriptlet Changes
 ~~~~~~~~~~~~~~~~~

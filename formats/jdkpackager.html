@@ -1,228 +1,489 @@
+
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>JDKPackager Plugin &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+  
 
+  
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+
+  
+  
     
-    <title>JDKPackager Plugin &mdash; sbt-native-packager 1.1.0-SNAPSHOT documentation</title>
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html"/>
+        <link rel="up" title="Packaging Formats" href="index.html"/>
+        <link rel="next" title="Project Archetypes" href="../archetypes/index.html"/>
+        <link rel="prev" title="Windows Plugin" href="windows.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/yeti/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.1.0-SNAPSHOT',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="sbt-native-packager 1.1.0-SNAPSHOT documentation" href="../index.html" />
-    <link rel="up" title="Packaging Formats" href="index.html" />
-    <link rel="next" title="Advanced Topics" href="../topics/index.html" />
-    <link rel="prev" title="Windows Plugin" href="windows.html" />
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
-<meta name="apple-mobile-web-app-capable" content="yes">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
 
-  </head>
-  <body>
+          
+            <a href="../index.html" class="icon icon-home"> sbt-native-packager
+          
 
-  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="../index.html">
-          sbt-native-packager</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.0-SNAPSHOT</b></span>
-      </div>
-
-        <div class="collapse navbar-collapse nav-collapse">
-          <ul class="nav navbar-nav">
-            
-            
-              <li class="dropdown globaltoc-container">
-  <a role="button"
-     id="dLabelGlobalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="../index.html">Site <b class="caret"></b></a>
-  <ul class="dropdown-menu globaltoc"
-      role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#packaging-formats">Packaging Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html#archetypes">Archetypes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../gettingstarted.html#sitemap">Sitemap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/java_app/index.html">Java Application Archetype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/java_server/index.html">Java Server Application Archetype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/akka_app/index.html">Akka Microkernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/cheatsheet.html">Archetype Cheatsheet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../archetypes/index.html">Project Archetypes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Packaging Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">Advanced Topics</a></li>
-</ul>
-</ul>
-</li>
-              
-                <li class="dropdown">
-  <a role="button"
-     id="dLabelLocalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="#">Page <b class="caret"></b></a>
-  <ul class="dropdown-menu localtoc"
-      role="menu"
-      aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">JDKPackager Plugin</a><ul>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
-<li><a class="reference internal" href="#enabling">Enabling</a></li>
-<li><a class="reference internal" href="#build">Build</a></li>
-<li><a class="reference internal" href="#settings">Settings</a></li>
-<li><a class="reference internal" href="#example">Example</a></li>
-<li><a class="reference internal" href="#debugging">Debugging</a></li>
-</ul>
-</li>
-</ul>
-</ul>
-</li>
-              
-            
-            
-              
-                
-  <li>
-    <a href="windows.html" title="Previous Chapter: Windows Plugin"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Windows Plugin</span>
-    </a>
-  </li>
-  <li>
-    <a href="../topics/index.html" title="Next Chapter: Advanced Topics"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Advanced Topics &raquo;</span>
-    </a>
-  </li>
-              
-            
-            
-            
-            
-              <li class="hidden-sm">
-<div id="sourcelink">
-  <a href="../_sources/formats/jdkpackager.txt"
-     rel="nofollow">Source</a>
-</div></li>
-            
-          </ul>
+          
+          </a>
 
           
             
-<form class="navbar-form navbar-right" action="../search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
+            
+              <div class="version">
+                1.1.0-SNAPSHOT
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
           
         </div>
-    </div>
-  </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      
-  <div class="section" id="jdkpackager-plugin">
-<h1><a class="toc-backref" href="#id1">JDKPackager Plugin</a><a class="headerlink" href="#jdkpackager-plugin" title="Permalink to this headline">¶</a></h1>
-<p>JDK 8 from Oracle includes the tool <tt class="docutils literal"><span class="pre">javapackager</span></tt> (née <tt class="docutils literal"><span class="pre">javafxpackager</span></tt>), which generates native application launchers and installers for MacOS X, Windows, and Linux. This plugin complements the existing <cite>sbt-native-packager</cite> formats by taking the settings and staged output from <tt class="docutils literal"><span class="pre">JavaAppPackaging</span></tt> and passing them through <tt class="docutils literal"><span class="pre">javapackager</span></tt> to create native formats per Oracle&#8217;s provided features.</p>
-<p>The actual mechanism used by this plugin is the support provided by the <tt class="docutils literal"><span class="pre">lib/ant-javafx.jar</span></tt> Ant task library, which provides more capabilities than the <tt class="docutils literal"><span class="pre">javapackager</span></tt> command line version, but the idea is the same.</p>
-<p>This plugin&#8217;s most relevant addition to the core <cite>sbt-native-packager</cite> capabilities is the generation of MacOS X App bundles, and associated <tt class="docutils literal"><span class="pre">.dmg`</span> <span class="pre">and</span> <span class="pre">``.pkg</span></tt> package formats. With this plugin complete drag-and-drop installable application bundles are possible, including the embedding of the JRE. It can also generate Windows <tt class="docutils literal"><span class="pre">.exe</span></tt> and <tt class="docutils literal"><span class="pre">.msi</span></tt> installers provided the requisite tools are available on the Windows build platform (see below). While Linux package formats are also possible via this plugin, it is likely the native <cite>sbt-native-packager</cite> support for <tt class="docutils literal"><span class="pre">.deb</span></tt> and <tt class="docutils literal"><span class="pre">.rpm</span></tt> formats will provide more configurability.</p>
-<div class="contents topic" id="contents">
-<p class="topic-title first">Contents</p>
-<ul class="simple">
-<li><a class="reference internal" href="#jdkpackager-plugin" id="id1">JDKPackager Plugin</a><ul>
-<li><a class="reference internal" href="#requirements" id="id2">Requirements</a></li>
-<li><a class="reference internal" href="#enabling" id="id3">Enabling</a></li>
-<li><a class="reference internal" href="#build" id="id4">Build</a></li>
-<li><a class="reference internal" href="#settings" id="id5">Settings</a></li>
-<li><a class="reference internal" href="#example" id="id6">Example</a></li>
-<li><a class="reference internal" href="#debugging" id="id7">Debugging</a></li>
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#format-plugins">Format Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#archetype-plugins">Archetype Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#mappings">Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#architecture">Architecture</a></li>
 </ul>
 </li>
 </ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#native-tools">Native Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#your-first-package">Your first package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#run-the-app">Run the app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gettingstarted.html#create-a-package">Create a package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Formats</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="universal.html">Universal Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="universal.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#universal-archive-options">Universal Archive Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#getting-started-with-universal-packaging">Getting Started with Universal Packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#universal-conventions">Universal Conventions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#change-remove-top-level-directory-in-output">Change/Remove Top Level Directory in Output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#skip-packagedoc-task-on-stage">Skip packageDoc task on stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#mappingshelper">MappingsHelper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="universal.html#mapping-examples">Mapping Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="linux.html">Linux Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#related-plugins">Related Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#package-mappings">Package Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#the-linuxpackagemapping-models">The LinuxPackageMapping Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#modifying-mappings-in-general">Modifying Mappings in General</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#add-mappings">Add Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#filter-remove-mappings">Filter/Remove Mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#alter-linuxpackagemapping">Alter LinuxPackageMapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#alter-linuxsymlinks">Alter LinuxSymlinks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#add-empty-directories">Add Empty Directories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="linux.html#man-pages">Man Pages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="debian.html">Debian Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#java-based-packaging">Java based packaging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rpm.html">Rpm Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#dependency-settings">Dependency Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#meta-settings">Meta Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-settings">Scriptlet Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#systemv-start-script-settings">SystemV Start Script Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpm.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#rpm-prefix">Rpm Prefix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#rpmchangelogfile">rpmChangelogFile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#jar-repackaging">Jar Repackaging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="docker.html">Docker Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#spotify-java-based-docker-client">Spotify java based docker client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#informational-settings">Informational Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#environment-settings">Environment Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#publishing-settings">Publishing Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-base-image">Docker Base Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-repository">Docker Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-customization">Docker Image Customization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#install-location">Install Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#custom-dockerfile">Custom Dockerfile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#remove-commands">Remove Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#add-commands">Add Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#write-from-scratch">Write from Scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html">Windows Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#or-higher">1.0 or higher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#or-lower">0.8 or lower</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#feature-configuration">Feature configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">JDKPackager Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enabling">Enabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build">Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debugging">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../archetypes/index.html">Archetypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/java_app/index.html">Java Command Line Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#start-script-options">Start script options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html">Application and runtime configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#start-script-customizations">Start script customizations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#overriding-templates-bash-bat">Overriding Templates (Bash/Bat)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/java_server/index.html">Java Server Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/cheatsheet.html">An archetype cheatsheet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#path-configurations">Path Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#quick-reference-table">Quick Reference Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#jvm-options">JVM Options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#extra-defines">Extra Defines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#file-application-ini-or-etc-default">File - application.ini or etc-default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#setting-javaoptions">Setting - javaOptions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../recipes/index.html">Recipes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/custom.html">Custom Package Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#sbt-assembly">SBT Assembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#proguard">Proguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#multi-module-builds">Multi Module Builds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/custom.html#custom-packaging-format">Custom Packaging Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/longclasspath.html">Dealing with long classpaths</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#generate-a-launcher-jar">Generate a launcher jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#generate-a-classpath-jar">Generate a classpath jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/longclasspath.html#configure-a-wildcard-classpath">Configure a wildcard classpath</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/play.html">Play 2 Packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/play.html#build-configuration">Build Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/play.html#application-configuration">Application Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/play.html#systemv">SystemV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/deployment.html">Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#setup-publish-task">Setup publish Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#default-deployment">Default Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#custom-deployments">Custom Deployments</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#rpm">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#debian">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/deployment.html#custom-configurations">Custom Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id1">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id2">RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#id3">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recipes/deployment.html#universal">Universal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/scalajs.html">Scala JS packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/scalajs.html#package-webjars-and-scalajs-resources">Package webjars and scalajs resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">sbt-native-packager</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Packaging Formats</a> &raquo;</li>
+      
+    <li>JDKPackager Plugin</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/formats/jdkpackager.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
 </div>
-<div class="alert alert-info" role="alert">
-  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-  The <tt>JDKPackagerPlugin</tt> depends on the <tt>Universal</tt>, <tt>JavaAppPackaging</tt> and <tt>LauncherJarPlugin</tt> plugins. For inherited settings read the <a href="../archetypes/java_app/index.html">Java Application Plugin Documentation</a>
-</div><div class="section" id="requirements">
-<h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">ant-javafx.jar</span></tt> library comes with <em>Oracle</em> JDK 8, found in the <tt class="docutils literal"><span class="pre">lib</span></tt> directory along with <tt class="docutils literal"><span class="pre">tools.jar</span></tt> and friends. If <cite>sbt</cite> is running under the JVM in Oracle JDK 8, then the plugin should be able to find the path to <tt class="docutils literal"><span class="pre">ant-javafx.jar</span></tt>. If <cite>sbt</cite> is running under a different JVM, then the path to the tool will have to be specified via the <tt class="docutils literal"><span class="pre">jdkPackager:antPackagerTasks</span></tt> setting.</p>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="jdkpackager-plugin">
+<span id="id1"></span><h1>JDKPackager Plugin<a class="headerlink" href="#jdkpackager-plugin" title="Permalink to this headline">¶</a></h1>
+<p>JDK 8 from Oracle includes the tool <code class="docutils literal"><span class="pre">javapackager</span></code> (née <code class="docutils literal"><span class="pre">javafxpackager</span></code>), which generates native application
+launchers and installers for MacOS X, Windows, and Linux. This plugin complements the existing <cite>sbt-native-packager</cite>
+formats by taking the settings and staged output from <code class="docutils literal"><span class="pre">JavaAppPackaging</span></code> and passing them through <code class="docutils literal"><span class="pre">javapackager</span></code>
+to create native formats per Oracle&#8217;s provided features.</p>
+<p>The actual mechanism used by this plugin is the support provided by the <code class="docutils literal"><span class="pre">lib/ant-javafx.jar</span></code> Ant task library,
+which provides more capabilities than the <code class="docutils literal"><span class="pre">javapackager</span></code> command line version, but the idea is the same.</p>
+<p>This plugin&#8217;s most relevant addition to the core <cite>sbt-native-packager</cite> capabilities is the generation of MacOS X App
+bundles, and associated <code class="docutils literal"><span class="pre">.dmg</span></code> and <code class="docutils literal"><span class="pre">.pkg</span></code> package formats. With this plugin complete drag-and-drop installable
+application bundles are possible, including the embedding of the JRE. It can also generate Windows <code class="docutils literal"><span class="pre">.exe</span></code> and <code class="docutils literal"><span class="pre">.msi</span></code>
+installers provided the requisite tools are available on the Windows build platform (see below). While Linux package
+formats are also possible via this plugin, it is likely the native <cite>sbt-native-packager</cite> support for <code class="docutils literal"><span class="pre">.deb</span></code> and
+<code class="docutils literal"><span class="pre">.rpm</span></code> formats will provide more configurability.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The JDKPackagerPlugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span>Universal Plugin</span></a>, <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span>Java Application Archetype</span></a> and <a class="reference internal" href="../recipes/longclasspath.html#launcher-jar-plugin"><span>Launcher Plugin</span></a></p>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">ant-javafx.jar</span></code> library comes with <em>Oracle</em> JDK 8, found in the <code class="docutils literal"><span class="pre">lib</span></code> directory along with <code class="docutils literal"><span class="pre">tools.jar</span></code> and friends. If <cite>sbt</cite> is running under the JVM in Oracle JDK 8, then the plugin should be able to find the path to <code class="docutils literal"><span class="pre">ant-javafx.jar</span></code>. If <cite>sbt</cite> is running under a different JVM, then the path to the tool will have to be specified via the <code class="docutils literal"><span class="pre">jdkPackager:antPackagerTasks</span></code> setting.</p>
 <p>This plugin must be run on the platform of the target installer. The Oracle tooling does <em>not</em> provide a means of creating, say, Windows installers on MacOS, or MacOS on Linux, etc.</p>
-<p>To use create Windows launchers &amp; installers, the either the WIX Toolset (<tt class="docutils literal"><span class="pre">msi</span></tt>) or Inno Setup (<tt class="docutils literal"><span class="pre">exe</span></tt>) is required:</p>
+<p>To use create Windows launchers &amp; installers, the either the WIX Toolset (<code class="docutils literal"><span class="pre">msi</span></code>) or Inno Setup (<code class="docutils literal"><span class="pre">exe</span></code>) is required:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://wixtoolset.org/">WIX Toolset</a></li>
 <li><a class="reference external" href="http://www.jrsoftware.org/isinfo.php">Inno Setup</a></li>
 </ul>
-<p>For further details on the capabilities of <cite>javapackager</cite>, see the <a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html">windows</a> and <a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html">Unix</a> references. (Note: only a few of the possible settings are exposed through this plugin. Please submit a <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues">Github</a> issue or pull request if something specific is desired.)</p>
+<p>For further details on the capabilities of <cite>javapackager</cite>, see the
+<a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html">windows</a> and
+<a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html">Unix</a> references.
+(Note: only a few of the possible settings are exposed through this plugin. Please submit a
+<a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues">Github</a> issue or pull request if something specific is desired.)</p>
 </div>
 <div class="section" id="enabling">
-<h2><a class="toc-backref" href="#id3">Enabling</a><a class="headerlink" href="#enabling" title="Permalink to this headline">¶</a></h2>
-<p>The plugin is enabled via the <tt class="docutils literal"><span class="pre">AutoPlugins</span></tt> facility:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JDKPackagerPlugin</span><span class="o">)</span>
+<h2>Enabling<a class="headerlink" href="#enabling" title="Permalink to this headline">¶</a></h2>
+<p>The plugin is enabled via the <code class="docutils literal"><span class="pre">AutoPlugins</span></code> facility:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JDKPackagerPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="build">
-<h2><a class="toc-backref" href="#id4">Build</a><a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<p>To use, first get your application working per <tt class="docutils literal"><span class="pre">JavaAppPackaging</span></tt> instructions (including the <tt class="docutils literal"><span class="pre">mainClass</span></tt> setting). Once that is working, run</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">sbt</span> <span class="n">jdkPackager</span><span class="k">:</span><span class="kt">packageBin</span>
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
+<p>To use, first get your application working per <code class="docutils literal"><span class="pre">JavaAppPackaging</span></code> instructions (including the <code class="docutils literal"><span class="pre">mainClass</span></code> setting). Once that is working, run</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">sbt</span> <span class="n">jdkPackager</span><span class="k">:</span><span class="kt">packageBin</span>
 </pre></div>
 </div>
-<p>By default, the plugin makes the installer type that is native to the current build platform in the directory <tt class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></tt>. The key <tt class="docutils literal"><span class="pre">jdkPackageType</span></tt> can be used to modify this behavior. Run <tt class="docutils literal"><span class="pre">help</span> <span class="pre">jdkPackageType</span></tt> in <cite>sbt</cite> for details. The most popular setting is likely to be <tt class="docutils literal"><span class="pre">jdkAppIcon</span></tt>.</p>
+<p>By default, the plugin makes the installer type that is native to the current build platform in the directory
+<code class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></code>. The key <code class="docutils literal"><span class="pre">jdkPackageType</span></code> can be used to modify this behavior. Run
+<code class="docutils literal"><span class="pre">help</span> <span class="pre">jdkPackageType</span></code> in <cite>sbt</cite> for details. The most popular setting is likely to be <code class="docutils literal"><span class="pre">jdkAppIcon</span></code>.</p>
 </div>
 <div class="section" id="settings">
-<h2><a class="toc-backref" href="#id5">Settings</a><a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <p><em>For the latest documentation reference the key descriptions in sbt.</em></p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">jdkPackagerBasename</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">jdkPackagerBasename</span></code></dt>
 <dd>Filename sans extension for generated installer package.</dd>
-<dt><tt class="docutils literal"><span class="pre">jdkPackagerType</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">jdkPackagerType</span></code></dt>
 <dd><p class="first">Value passed as the <cite>native</cite> attribute to <cite>fx:deploy</cite> task.
 Per <cite>javapackager</cite> documentation, this may be one of the following:</p>
 <ul class="last simple">
-<li><tt class="docutils literal"><span class="pre">all</span></tt>: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.</li>
-<li><tt class="docutils literal"><span class="pre">installer</span></tt>: Runs all of the installers for the platform on which it is running.</li>
-<li><tt class="docutils literal"><span class="pre">image</span></tt>: Creates a disk image for the application. On OS X, the image is the .app file. On Linux, the image is the directory that gets installed.</li>
-<li><tt class="docutils literal"><span class="pre">dmg</span></tt>: Generates a DMG file for OS X.</li>
-<li><tt class="docutils literal"><span class="pre">pkg</span></tt>: Generates a .pkg package for OS X.</li>
-<li><tt class="docutils literal"><span class="pre">mac.appStore</span></tt>: Generates a package for the Mac App Store.</li>
-<li><tt class="docutils literal"><span class="pre">rpm</span></tt>: Generates an RPM package for Linux.</li>
-<li><tt class="docutils literal"><span class="pre">deb</span></tt>: Generates a Debian package for Linux.</li>
-<li><tt class="docutils literal"><span class="pre">exe</span></tt>: Generates a Windows .exe package.</li>
-<li><tt class="docutils literal"><span class="pre">msi</span></tt>: Generates a Windows Installer package.</li>
+<li><code class="docutils literal"><span class="pre">all</span></code>: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.</li>
+<li><code class="docutils literal"><span class="pre">installer</span></code>: Runs all of the installers for the platform on which it is running.</li>
+<li><code class="docutils literal"><span class="pre">image</span></code>: Creates a disk image for the application. On OS X, the image is the .app file. On Linux, the image is the directory that gets installed.</li>
+<li><code class="docutils literal"><span class="pre">dmg</span></code>: Generates a DMG file for OS X.</li>
+<li><code class="docutils literal"><span class="pre">pkg</span></code>: Generates a .pkg package for OS X.</li>
+<li><code class="docutils literal"><span class="pre">mac.appStore</span></code>: Generates a package for the Mac App Store.</li>
+<li><code class="docutils literal"><span class="pre">rpm</span></code>: Generates an RPM package for Linux.</li>
+<li><code class="docutils literal"><span class="pre">deb</span></code>: Generates a Debian package for Linux.</li>
+<li><code class="docutils literal"><span class="pre">exe</span></code>: Generates a Windows .exe package.</li>
+<li><code class="docutils literal"><span class="pre">msi</span></code>: Generates a Windows Installer package.</li>
 </ul>
 </dd>
 </dl>
-<div class="alert alert-info" role="alert">
-  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-  Because only a subset of the possible settings are exposed through he plugin, updates are likely required to fully make use of all formats. ``dmg`` currently the most tested type.
-</div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">jdkAppIcon</span></tt></dt>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Because only a subset of the possible settings are exposed through he plugin, updates are likely required to fully
+make use of all formats. <code class="docutils literal"><span class="pre">dmg</span></code> currently the most tested type.</p>
+</div>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">jdkAppIcon</span></code></dt>
 <dd><p class="first">Path to platform-specific application icon:</p>
 <ul class="simple">
 <li><cite>icns</cite>: MacOS</li>
@@ -231,21 +492,21 @@ Per <cite>javapackager</cite> documentation, this may be one of the following:</
 </ul>
 <p class="last">Defaults a generically bland Java icon.</p>
 </dd>
-<dt><tt class="docutils literal"><span class="pre">jdkPackagerToolkit</span></tt></dt>
-<dd>GUI toolkit used in app. Either <tt class="docutils literal"><span class="pre">JavaFXToolkit</span></tt> (default) or <tt class="docutils literal"><span class="pre">SwingToolkit</span></tt></dd>
-<dt><tt class="docutils literal"><span class="pre">jdkPackagerJVMArgs</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">jdkPackagerToolkit</span></code></dt>
+<dd>GUI toolkit used in app. Either <code class="docutils literal"><span class="pre">JavaFXToolkit</span></code> (default) or <code class="docutils literal"><span class="pre">SwingToolkit</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">jdkPackagerJVMArgs</span></code></dt>
 <dd>Sequence of arguments to pass to the JVM.
-Default: <tt class="docutils literal"><span class="pre">Seq(&quot;-Xmx768m&quot;)</span></tt>.
+Default: <code class="docutils literal"><span class="pre">Seq(&quot;-Xmx768m&quot;)</span></code>.
 <a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHJIJG">Oracle JVM argument docs</a></dd>
-<dt><tt class="docutils literal"><span class="pre">jdkPackagerAppArgs</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">jdkPackagerAppArgs</span></code></dt>
 <dd>List of command line arguments to pass to the application on launch.
-Default: <tt class="docutils literal"><span class="pre">Seq.empty</span></tt>
+Default: <code class="docutils literal"><span class="pre">Seq.empty</span></code>
 <a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACIJFHB">Oracle arguments docs</a></dd>
-<dt><tt class="docutils literal"><span class="pre">jdkPackagerProperties</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">jdkPackagerProperties</span></code></dt>
 <dd>Map of <cite>System</cite> properties to define in application.
-Default: <tt class="docutils literal"><span class="pre">Map.empty</span></tt>
+Default: <code class="docutils literal"><span class="pre">Map.empty</span></code>
 <a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHCIFJ">Oracle properties docs</a></dd>
-<dt><tt class="docutils literal"><span class="pre">jdkPackagerAssociations</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">jdkPackagerAssociations</span></code></dt>
 <dd>Set of application file associations to register for the application.
 Example: <cite>jdkPackagerAssociations := Seq(FileAssociation(&#8220;foo&#8221;, &#8220;application/x-foo&#8221;, Foo Data File&#8221;, iconPath))
 Default: `Seq.empty</cite>
@@ -254,10 +515,10 @@ Note: Requires JDK &gt;= 8 build 40.
 </dl>
 </div>
 <div class="section" id="example">
-<h2><a class="toc-backref" href="#id6">Example</a><a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>To take it for a test spin, run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">jdkPackager:packageBin</span></tt> in the <tt class="docutils literal"><span class="pre">test-project-jdkpackager</span></tt> directory of the <cite>sbt-native-packager</cite> source. Then look in the <tt class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></tt> directory for the result (specific name depends on platform built).</p>
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>To take it for a test spin, run <code class="docutils literal"><span class="pre">sbt</span> <span class="pre">jdkPackager:packageBin</span></code> in the <code class="docutils literal"><span class="pre">test-project-jdkpackager</span></code> directory of the <cite>sbt-native-packager</cite> source. Then look in the <code class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></code> directory for the result (specific name depends on platform built).</p>
 <p>Here&#8217;s what the build file looks like:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;JDKPackagerPlugin Example&quot;</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;JDKPackagerPlugin Example&quot;</span>
 
 <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;0.1.0&quot;</span>
 
@@ -308,27 +569,77 @@ Note: Requires JDK &gt;= 8 build 40.
 </div>
 </div>
 <div class="section" id="debugging">
-<h2><a class="toc-backref" href="#id7">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
-<p>If you are having trouble figuring out how certain features affect the generated package, you can find the Ant-based build definition file in <tt class="docutils literal"><span class="pre">target/jdkpackager/build.xml</span></tt>. You should be able to run Ant directly in that file assuming <tt class="docutils literal"><span class="pre">jdkPackager:packageBin</span></tt> has been run at least once.</p>
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>If you are having trouble figuring out how certain features affect the generated package, you can find the Ant-based build definition file in <code class="docutils literal"><span class="pre">target/jdkpackager/build.xml</span></code>. You should be able to run Ant directly in that file assuming <code class="docutils literal"><span class="pre">jdkPackager:packageBin</span></code> has been run at least once.</p>
 </div>
 </div>
 
 
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../archetypes/index.html" class="btn btn-neutral float-right" title="Project Archetypes" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="windows.html" class="btn btn-neutral" title="Windows Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-      
-  </div>
-</div>
-<footer class="footer">
-  <div class="container">
-    <p class="pull-right">
-      <a href="#">Back to top</a>
-      
-    </p>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
     <p>
-        &copy; Copyright 2014 sbt-native-packager team.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+        &copy; Copyright 2014 sbt-native-packager team.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
 </footer>
-  </body>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.1.0-SNAPSHOT',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

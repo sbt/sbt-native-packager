@@ -1,3 +1,5 @@
+.. _docker-plugin:
+
 Docker Plugin
 =============
 
@@ -7,10 +9,8 @@ Docker images describe how to set up a container for running an application, inc
   https://docs.docker.com/reference/builder/ describes the Dockerfile; a file which describes how to set up the image.
 
   sbt-native-packager focuses on creating a Docker image which can "just run" the application built by SBT.
-  
-  
-.. contents:: 
-  :depth: 2
+
+.. note:: The docker plugin depends on the :ref:`universal-plugin`.
 
 Requirements
 ------------
@@ -29,15 +29,15 @@ Build
 .. code-block:: bash
 
   sbt docker:publishLocal
-  
+
 
 Required Settings
 ~~~~~~~~~~~~~~~~~
-    
+
 .. code-block:: scala
 
   enablePlugins(DockerPlugin)
-  
+
 Spotify java based docker client
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -47,16 +47,16 @@ You can also use the java-based spotify Docker client. Add this to your ``build.
 .. code-block:: scala
 
   enablePlugins(DockerSpotifyClientPlugin)
-  
-  
+
+
 and this to your ``plugins.sbt``
 
 .. code-block:: scala
 
-  libraryDependencies += "com.spotify" % "docker-client" % "3.2.1"
+  libraryDependencies += "com.spotify" % "docker-client" % "3.5.13"
 
-The Docker-spotify client is a provided dependency so you have to add it on your own. 
-It brings a lot of dependenciesthat could slow your build times. This is the reason 
+The Docker-spotify client is a provided dependency so you have to add it on your own.
+It brings a lot of dependenciesthat could slow your build times. This is the reason
 the dependency is marked as provided.
 
 Configuration
@@ -67,7 +67,7 @@ Settings and Tasks inherited from parent plugins can be scoped with ``Docker``.
 .. code-block:: scala
 
   mappings in Docker := mappings.value
-  
+
 
 Settings
 --------
@@ -76,7 +76,7 @@ Settings
 Informational Settings
 ~~~~~~~~~~~~~~~~~~~~~~
 
-    
+
   ``packageName in Docker``
     The name of the package for Docker (if different from general name).
     This will only affect the image name.
@@ -134,7 +134,7 @@ Customize
 
 There are some predefined settings, which you can easily customize. These
 settings are explained in some detail in the next sections. If you want to
-describe your Dockerfile completely yourself, you can provide your own 
+describe your Dockerfile completely yourself, you can provide your own
 `docker commands` as described in `Custom Dockerfile`_.
 
 Docker Image Name
@@ -143,35 +143,35 @@ Docker Image Name
 .. code-block:: scala
 
     packageName in Docker := packageName.value
-    
+
     version in Docker := version.value
-    
+
 Docker Base Image
 ~~~~~~~~~~~~~~~~~
 
 .. code-block:: scala
 
     dockerBaseImage := "dockerfile/java"
-    
+
 Docker Repository
 ~~~~~~~~~~~~~~~~~
 
 .. code-block:: scala
 
     dockerRepository := Some("dockeruser")
-    
+
 Docker Image Customization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: scala
 
     dockerExposedPorts := Seq(9000, 9443)
-    
+
     dockerExposedVolumes := Seq("/opt/docker/logs")
-    
-    
+
+
 In order to work properly with `USER daemon` the exposed volumes are first
-created (if they do not existend) and chowned. 
+created (if they do not existend) and chowned.
 
 Install Location
 ~~~~~~~~~~~~~~~~
@@ -179,7 +179,7 @@ The path to which the application is written can be changed with the setting.
 The files from ``mappings in Docker`` are extracted underneath this directory.
 
 .. code-block:: scala
-  
+
   defaultLinuxInstallLocation in Docker := "/opt/docker"
 
 Custom Dockerfile
@@ -196,7 +196,7 @@ In your sbt console type
 
     > show dockerCommands
     [info] List(Cmd(FROM,dockerfile/java:latest), Cmd(MAINTAINER,Your Name <y.n@yourcompany.com>), ...)
-    
+
 
 
 Remove Commands
@@ -213,10 +213,10 @@ the chowning of a exposed volume.
   dockerExposedVolumes += "/data"
 
   dockerCommands := dockerCommands.value.filterNot {
-  
+
     // ExecCmd is a case class, and args is a varargs variable, so you need to bind it with @
     case ExecCmd("RUN", args @ _*) => args.contains("chown") && args.contains("/data")
-    
+
     // dont filter the rest
     case cmd                       => false
   }
@@ -230,9 +230,9 @@ Adding commands is as straightforward as adding anything in a list.
 .. code-block:: scala
 
   import com.typesafe.sbt.packager.docker._
-  
+
   dockerCommands += Cmd("USER", daemonUser.value)
-  
+
   dockerCommands ++= Seq(
     // setting the run script executable
     ExecCmd("RUN",
@@ -251,8 +251,8 @@ You can simply wipe out all docker commands with
 .. code-block:: scala
 
   dockerCommands := Seq()
-  
-  
+
+
 Now let's start adding some Docker commands.
 
 .. code-block:: scala
@@ -279,10 +279,10 @@ AshScriptPlugin.  Enable this by including:
 .. code-block:: scala
 
   enablePlugins(AshScriptPlugin)
-  
+
 With this plugin enabled an ash-compatible launch script will be generated in your Docker image.
 
 Just like for JavaAppPackaging you have the option of overriding the default script by supplying
-your own src/templates/ash-template file.  When overriding the file don't forget to include 
+your own src/templates/ash-template file.  When overriding the file don't forget to include
 ${{template_declares}} somewhere to populate $app_classpath $app_mainclass from your sbt project.
 You'll likely need these to launch your program.
