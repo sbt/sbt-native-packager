@@ -162,7 +162,7 @@ object WindowsPlugin extends AutoPlugin {
       // TODO - we may have issues here...
       WindowsFeature(
         id = "AddBinToPath",
-        title = "Update Enviornment Variables",
+        title = "Update Environment Variables",
         desc = "Update PATH environment variables (requires restart).",
         components = Seq(AddDirectoryToPath("bin"))
       )
