@@ -39,9 +39,8 @@ lib_dir="$(realpath "${app_home}/../lib")"
 
 ${{template_declares}}
 
-# if configuration files exist, prepend their contents to $@ so it can be processed by this runner
-[ -f "$script_conf_file" ] && set -- $(loadConfigFile "$script_conf_file") "$@"
+# If a configuration file exist, read the contents to $opts
+[ -f "$script_conf_file" ] && set -- $(loadConfigFile "$script_conf_file") "$opts"
 
-java -classpath $app_classpath "$@" $app_mainclass
-
+java -classpath $app_classpath $opts $app_mainclass $@
 
