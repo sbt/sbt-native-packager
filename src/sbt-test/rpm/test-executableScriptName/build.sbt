@@ -21,6 +21,8 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
+rpmGroup := Some("test-group")
+
 TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
   val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
   assert(spec contains "%attr(0644,root,root) /usr/share/rpm-test/lib/rpm-test.rpm-test-0.1.0.jar", "Wrong installation path\n" + spec)
@@ -41,7 +43,7 @@ TaskKey[Unit]("unzip") <<= (packageBin in Rpm, streams) map { (rpmFile, streams)
 TaskKey[Unit]("checkStartupScript") <<= (target, streams) map { (target, out) =>
   val script = IO.read(file("etc/init.d/rpm-test"))
   assert(script contains "rpm-exec", "SystemV script didn't contain correct executable filename 'rpm-exec' \n" + script)
-  assert(script contains """RUN_CMD="$exec >> /var/log/rpm-test/rpm-test.log 2>&1 &"""", "SystemV script didn't contain default daemon log filename 'rpm-test.log' \n" + script)
+  assert(script contains """RUN_CMD="$exec >> /var/log/rpm-test/$logfile 2>&1 &"""", "SystemV script didn't contain default daemon log filename 'rpm-test.log' \n" + script)
   out.log.success("Successfully tested startup script start up script")
   ()
 }

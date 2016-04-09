@@ -5,14 +5,13 @@ package archetypes
 import sbt._
 import sbt.Keys.{ target, mainClass, sourceDirectory, streams, javaOptions, run }
 import SbtNativePackager.{ Debian, Rpm, Universal }
-import packager.Keys.{ packageName, maintainerScripts }
+import packager.Keys.{ packageName, maintainerScripts, daemonStdoutLogFile }
 import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
 import linux.LinuxPlugin.autoImport._
 import debian.DebianPlugin
 import debian.DebianPlugin.autoImport.{ debianMakePreinstScript, debianMakePostinstScript, debianMakePrermScript, debianMakePostrmScript }
 import rpm.RpmPlugin
 import rpm.RpmPlugin.autoImport.{ rpmPre, rpmPost, rpmPostun, rpmPreun, rpmScriptsDirectory, rpmDaemonLogFile, RpmConstants }
-import rpm.RpmPlugin.Names.RpmDaemonLogFileReplacement
 import JavaAppPackaging.autoImport.{ bashScriptConfigLocation, bashScriptEnvConfigLocation }
 
 /**
@@ -28,7 +27,13 @@ object JavaServerAppPackaging extends AutoPlugin {
   import ServerLoader._
   import LinuxPlugin.Users
 
+  object Names {
+    val DaemonStdoutLogFileReplacement = "daemon_log_file"
+  }
+
   override def requires = JavaAppPackaging
+
+  object autoImport extends JavaServerAppKeys
 
   override def projectSettings = javaServerSettings
 
@@ -58,7 +63,9 @@ object JavaServerAppPackaging extends AutoPlugin {
     // === etc config mapping ===
     bashScriptEnvConfigLocation := Some("/etc/default/" + (packageName in Linux).value),
 
-    linuxStartScriptName := None
+    linuxStartScriptName := None,
+
+    daemonStdoutLogFile := None
   )
 
   /* etcDefaultConfig is dependent on serverLoading (systemd, systemv, etc.),
@@ -92,6 +99,7 @@ object JavaServerAppPackaging extends AutoPlugin {
         makeStartScriptReplacements,
       linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
       linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
+      linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
 
       linuxStartScriptTemplate <<= (serverLoading in Debian, sourceDirectory) map { (loader, srcDir) =>
         JavaServerLoaderScript(
@@ -143,7 +151,7 @@ object JavaServerAppPackaging extends AutoPlugin {
         makeStartScriptReplacements,
       linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
       linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
-      linuxScriptReplacements ++= Seq((RpmDaemonLogFileReplacement, rpmDaemonLogFile.value)),
+      linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
 
       // === /var/run/app pid folder ===
       linuxPackageMappings <+= (packageName, daemonUser, daemonGroup) map { (name, user, group) =>

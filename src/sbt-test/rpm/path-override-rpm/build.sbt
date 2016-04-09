@@ -21,6 +21,8 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
+rpmGroup := Some("test-group")
+
 defaultLinuxInstallLocation := "/opt/test"
 
 defaultLinuxLogsLocation := "/opt/test/log"
@@ -34,7 +36,7 @@ TaskKey[Unit]("unzip") <<= (baseDirectory, packageBin in Rpm, streams) map { (ba
 TaskKey[Unit]("check-init-file") <<= (baseDirectory, streams) map { (target, out) =>
   val initd = IO.read(target / "etc" / "init.d" / "rpm-test")
   assert(initd contains "/opt/test/rpm-test", "defaultLinuxInstallLocation not overriden in init.d\n" + initd)
-  assert(initd contains "/opt/test/log/rpm-test/rpm-test.log", "defaultLinuxLogsLocation not overriden in init.d\n" + initd)
+  assert(initd contains "/opt/test/log/rpm-test/$logfile", "defaultLinuxLogsLocation not overriden in init.d\n" + initd)
   out.log.success("Successfully tested rpm-test file")
   ()
 }

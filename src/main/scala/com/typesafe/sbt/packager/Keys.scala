@@ -48,3 +48,4 @@ object Keys extends NativePackagerKeys
   with debian.DebianKeys
   with rpm.RpmKeys
   with archetypes.JavaAppKeys
+  with archetypes.JavaServerAppKeys

@@ -18,6 +18,8 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
+rpmGroup := Some("test-group")
+
 rpmDaemonLogFile := "test.log"
 
 mainClass in (Compile, run) := Some("com.example.MainApp")
@@ -38,7 +40,7 @@ TaskKey[Unit]("unzipAndCheck") <<= (baseDirectory, packageBin in Rpm, streams) m
         |[ -n "${PACKAGE_PREFIX}" ] && INSTALL_DIR="${PACKAGE_PREFIX}/rpm-test"
         |cd $INSTALL_DIR
         |""".stripMargin, "Ensuring application is running on the install directory is not present in \n" + startupScript)
-    assert(startupScript contains """RUN_CMD="$exec >> /var/log/rpm-test/test.log 2>&1 &"""", "Setting key rpmDaemonLogFile not present in \n" + startupScript)
+    assert(startupScript contains """logfile="test.log"""", "Setting key rpmDaemonLogFile not present in \n" + startupScript)
 
     // TODO check symlinks
     ()
