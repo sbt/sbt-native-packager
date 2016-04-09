@@ -12,7 +12,7 @@ script:
   - ./sbt ++$SCALA_VERSION --warn update compile test:compile
   - ./sbt ++$SCALA_VERSION test "scripted universal/* jar/*"
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
-      ./sbt ++$SCALA_VERSION "scripted rpm/* debian/*";
+      ./sbt ++$SCALA_VERSION "scripted rpm/* debian/* docker/staging docker/entrypoint docker/ports docker/volumes";
     fi
   - if [[ "$TRAVIS_JDK_VERSION" = "oraclejdk8" ]]; then
       ./sbt ++$SCALA_VERSION "scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings";
@@ -30,9 +30,9 @@ matrix:
       jdk: openjdk7
     - os: linux
       jdk: oraclejdk8
- 
+
 sudo: false
-cache: 
+cache:
  apt: true
  directories:
  - $HOME/.sbt

@@ -52,7 +52,7 @@ import SbtNativePackager.{ Universal, Linux }
 object DockerPlugin extends AutoPlugin {
 
   object autoImport extends DockerKeys {
-    val Docker = config("docker") extend Universal
+    val Docker = config("docker")
   }
 
   import autoImport._
