@@ -38,6 +38,7 @@ Via Application.ini
 ^^^^^^^^^^^^^^^^^^^
 
 The second option is to create ``src/universal/conf/application.ini`` with the following template
+(For Windows-user: Create ``src/universal/<APP_ENV_NAME>_config.txt`` instead of the application.ini, it is expected that way by the BAT-template. Inside the <App_ENV_NAME>_config.txt the jvm-options are expected like in the command-line  (e.g. -Xms2G -Xmx3G) without an leading ``J``)
 
 .. code-block:: bash
 
