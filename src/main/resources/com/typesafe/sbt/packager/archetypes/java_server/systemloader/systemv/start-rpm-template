@@ -54,7 +54,7 @@ export JAVA_OPTS
 # create PIDDIR where PIDFILE will be kept
 if [ -z "${PIDDIR:-}" ]; then
     PIDDIR=/var/run/${{app_name}}/
-    mkdir -p $PIDDIR && chown $DAEMON_USER:$DAEMON_USER $PIDDIR
+    mkdir -p $PIDDIR && chown $DAEMON_USER:$DAEMON_GROUP $PIDDIR
 fi
 
 # If program manages its own PID file then it
