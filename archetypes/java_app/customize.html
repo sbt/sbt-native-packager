@@ -438,7 +438,8 @@ recognize these as vm config parameters.</p>
 </div>
 <div class="section" id="via-application-ini">
 <h2>Via Application.ini<a class="headerlink" href="#via-application-ini" title="Permalink to this headline">¶</a></h2>
-<p>The second option is to create <code class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></code> with the following template</p>
+<p>The second option is to create <code class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></code> with the following template
+(For Windows-user: Create <code class="docutils literal"><span class="pre">src/universal/&lt;APP_ENV_NAME&gt;_config.txt</span></code> instead of the application.ini, it is expected that way by the BAT-template. Inside the &lt;App_ENV_NAME&gt;_config.txt the jvm-options are expected like in the command-line  (e.g. -Xms2G -Xmx3G) without an leading <code class="docutils literal"><span class="pre">J</span></code>)</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Setting -X directly (-J is stripped)</span>
 <span class="c1"># -J-X</span>
 -J-Xmx1024
