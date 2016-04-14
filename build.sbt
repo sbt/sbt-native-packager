@@ -17,14 +17,8 @@ libraryDependencies ++= Seq(
 )
 
 // configure github page
-site.settings
+enablePlugins(SphinxPlugin, SiteScaladocPlugin)
 
-com.typesafe.sbt.SbtSite.SiteKeys.siteMappings <+= (baseDirectory) map { dir => 
-  val nojekyll = dir / "src" / "site" / ".nojekyll"
-  nojekyll -> ".nojekyll"
-}
-site.sphinxSupport()
-site.includeScaladoc()
 ghpages.settings
 git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 
@@ -48,7 +42,8 @@ releaseProcess := Seq[ReleaseStep](
   publishArtifacts,
   setNextVersion,
   commitNextVersion,
-  pushChanges
+  pushChanges,
+  releaseStepTask(GhPagesKeys.pushSite)
 )
 
 // bintray config
