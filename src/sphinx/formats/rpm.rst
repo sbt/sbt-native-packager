@@ -188,7 +188,7 @@ The Rpm support grants the following commands:
   ``rpm:package-bin``
     Generates the ``.rpm`` package for this project.
 
-  ``rpm:rpmlint``
+  ``rpm:rpm-lint``
     Generates the ``.rpm`` file and runs the ``rpmlint`` command to look for issues in the package.  Useful for debugging.
 
 
