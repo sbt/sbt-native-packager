@@ -44,7 +44,12 @@ exec="$INSTALL_DIR/bin/${{exec}}"
 prog="${{app_name}}"
 lockfile="/var/lock/subsys/${{app_name}}"
 
-RUN_CMD="$exec >> ${{logdir}}/${{app_name}}/${{rpm_daemon_log_file}} 2>&1 &"
+logfile="${{daemon_log_file}}"
+if [ -z "${logfile:-}" ]; then
+  RUN_CMD="$exec &"
+else
+  RUN_CMD="$exec >> ${{logdir}}/${{app_name}}/$logfile 2>&1 &"
+fi
 
 # $JAVA_OPTS used in $exec wrapper
 export JAVA_OPTS

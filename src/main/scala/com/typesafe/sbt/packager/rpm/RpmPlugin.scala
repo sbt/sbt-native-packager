@@ -52,9 +52,6 @@ object RpmPlugin extends AutoPlugin {
     /** `posttrans` */
     val Posttrans = "posttrans"
 
-    // replacements
-    val RpmDaemonLogFileReplacement = "rpm_daemon_log_file"
-
   }
 
   override def projectConfigurations: Seq[Configuration] =  Seq(Rpm)
@@ -98,6 +95,7 @@ object RpmPlugin extends AutoPlugin {
     packageName in Rpm <<= packageName in Linux,
     executableScriptName in Rpm <<= executableScriptName in Linux,
     rpmDaemonLogFile := s"${(packageName in Linux).value}.log",
+    daemonStdoutLogFile in Rpm := Some((rpmDaemonLogFile).value),
     // override the linux sourceDirectory setting
     sourceDirectory in Rpm <<= sourceDirectory
   ) ++ inConfig(Rpm)(Seq(
