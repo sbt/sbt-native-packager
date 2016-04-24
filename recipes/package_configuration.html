@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scala JS packaging &mdash; sbt-native-packager 1.1.1-SNAPSHOT documentation</title>
+  <title>Build the same package with different configs &mdash; sbt-native-packager 1.1.1-SNAPSHOT documentation</title>
   
 
   
@@ -32,8 +32,7 @@
   
     <link rel="top" title="sbt-native-packager 1.1.1-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Recipes" href="index.html"/>
-        <link rel="next" title="Build the same package with different configs" href="package_configuration.html"/>
-        <link rel="prev" title="Deployment" href="deployment.html"/> 
+        <link rel="prev" title="Scala JS packaging" href="scalajs.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -352,14 +351,14 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Scala JS packaging</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#package-webjars-and-scalajs-resources">Package webjars and scalajs resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scalajs.html">Scala JS packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scalajs.html#package-webjars-and-scalajs-resources">Package webjars and scalajs resources</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="package_configuration.html">Build the same package with different configs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="package_configuration.html#sbt-sub-modules">SBT sub modules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="package_configuration.html#sbt-parameters-and-build-environment">SBT parameters and Build Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Build the same package with different configs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sbt-sub-modules">SBT sub modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sbt-parameters-and-build-environment">SBT parameters and Build Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
 </ul>
 </li>
 </ul>
@@ -396,11 +395,11 @@
       
           <li><a href="index.html">Recipes</a> &raquo;</li>
       
-    <li>Scala JS packaging</li>
+    <li>Build the same package with different configs</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/recipes/scalajs.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/recipes/package_configuration.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -410,19 +409,202 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="scala-js-packaging">
-<span id="scalajs"></span><h1>Scala JS packaging<a class="headerlink" href="#scala-js-packaging" title="Permalink to this headline">¶</a></h1>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This is no official scala js doc, but created from the native-packager community.
-See <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/699">issue-699</a>.</p>
+  <div class="section" id="build-the-same-package-with-different-configs">
+<span id="packageconfigurations"></span><h1>Build the same package with different configs<a class="headerlink" href="#build-the-same-package-with-different-configs" title="Permalink to this headline">¶</a></h1>
+<p>If you want to build your application with different settings, e.g. for <em>test</em>, <em>staging</em> and <em>production</em>, then you
+have three ways to do this.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">All examples are shown in a simple <code class="docutils literal"><span class="pre">build.sbt</span></code>. We recommend using AutoPlugins to encapsulate certain aspects
+of your build.</p>
 </div>
-<div class="section" id="package-webjars-and-scalajs-resources">
-<h2>Package webjars and scalajs resources<a class="headerlink" href="#package-webjars-and-scalajs-resources" title="Permalink to this headline">¶</a></h2>
-<p>In order to package all assets correctly, add this to your project</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">managedClasspath</span> <span class="n">in</span> <span class="nc">Runtime</span><span class="o">)</span> <span class="o">+=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="n">previewJVM</span> <span class="n">in</span> <span class="nc">Assets</span><span class="o">).</span><span class="n">value</span>
+<p>All examples can also be found in the <a class="reference external" href="https://github.com/muuki88/sbt-native-packager-examples">native-packager examples</a>,</p>
+<div class="section" id="sbt-sub-modules">
+<h2>SBT sub modules<a class="headerlink" href="#sbt-sub-modules" title="Permalink to this headline">¶</a></h2>
+<p>The main idea is to create a submodule per configuration. We start with a simple project <code class="docutils literal"><span class="pre">build.sbt</span></code>.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;my-app&quot;</span>
+<span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
 </pre></div>
 </div>
+<p>In the end we want to create three different packages (<em>test</em>, <em>stage</em>, <em>prod</em>) with the respective configurations.
+We do this by creating an application module and three packaging submodules.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// the application</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">app</span> <span class="k">=</span> <span class="n">project</span>
+  <span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">))</span>
+  <span class="o">.</span><span class="n">settings</span><span class="o">(</span>
+    <span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;my-app&quot;</span><span class="o">,</span>
+    <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;com.typesafe&quot;</span> <span class="o">%</span> <span class="s">&quot;config&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3.0&quot;</span>
+  <span class="o">)</span>
+</pre></div>
+</div>
+<p>Now that our application is defined in a module, we can add the three packaging submodules. We will override the <code class="docutils literal"><span class="pre">resourceDirectory</span></code> setting with our <code class="docutils literal"><span class="pre">app</span></code> resource directory to gain easy access to the applications resources.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">lazy</span> <span class="k">val</span> <span class="n">testPackage</span> <span class="k">=</span> <span class="n">project</span>
+  <span class="c1">// we put the results  in a build folder</span>
+  <span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;build/test&quot;</span><span class="o">))</span>
+  <span class="o">.</span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
+  <span class="o">.</span><span class="n">settings</span><span class="o">(</span>
+    <span class="c1">// override the resource directory</span>
+    <span class="n">resourceDirectory</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="o">(</span><span class="n">resourceDirectory</span> <span class="n">in</span> <span class="o">(</span><span class="n">app</span><span class="o">,</span> <span class="nc">Compile</span><span class="o">)).</span><span class="n">value</span><span class="o">,</span>
+    <span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">+=</span> <span class="o">{</span>
+      <span class="o">((</span><span class="n">resourceDirectory</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;test.conf&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;conf/application.conf&quot;</span>
+    <span class="o">}</span>
+  <span class="o">)</span>
+  <span class="o">.</span><span class="n">dependsOn</span><span class="o">(</span><span class="n">app</span><span class="o">)</span>
+
+<span class="c1">// bascially identical despite the configuration differences</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">stagePackage</span> <span class="k">=</span> <span class="n">project</span>
+  <span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;build/stage&quot;</span><span class="o">))</span>
+  <span class="o">.</span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
+  <span class="o">.</span><span class="n">settings</span><span class="o">(</span>
+    <span class="n">resourceDirectory</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="o">(</span><span class="n">resourceDirectory</span> <span class="n">in</span> <span class="o">(</span><span class="n">app</span><span class="o">,</span> <span class="nc">Compile</span><span class="o">)).</span><span class="n">value</span><span class="o">,</span>
+    <span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">+=</span> <span class="o">{</span>
+      <span class="o">((</span><span class="n">resourceDirectory</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;stage.conf&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;conf/application.conf&quot;</span>
+    <span class="o">}</span>
+  <span class="o">)</span>
+  <span class="o">.</span><span class="n">dependsOn</span><span class="o">(</span><span class="n">app</span><span class="o">)</span>
+
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">prodPackage</span> <span class="k">=</span> <span class="n">project</span>
+  <span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;build/prod&quot;</span><span class="o">))</span>
+  <span class="o">.</span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
+  <span class="o">.</span><span class="n">settings</span><span class="o">(</span>
+    <span class="n">resourceDirectory</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="o">(</span><span class="n">resourceDirectory</span> <span class="n">in</span> <span class="o">(</span><span class="n">app</span><span class="o">,</span> <span class="nc">Compile</span><span class="o">)).</span><span class="n">value</span><span class="o">,</span>
+    <span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">+=</span> <span class="o">{</span>
+      <span class="o">((</span><span class="n">resourceDirectory</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;prod.conf&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;conf/application.conf&quot;</span>
+    <span class="o">}</span>
+  <span class="o">)</span>
+  <span class="o">.</span><span class="n">dependsOn</span><span class="o">(</span><span class="n">app</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Now that you have your <code class="docutils literal"><span class="pre">build.sbt</span></code> set up, you can try building packages.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># stages a test build in build/test/target/universal/stage</span>
+testPackage/stage
+
+<span class="c1"># creates a zip with the test configuration</span>
+sbt testPackage/universal:packageBin
+</pre></div>
+</div>
+<p>This technique is a bit verbose, but communicates very clear what is being built and why.</p>
+</div>
+<div class="section" id="sbt-parameters-and-build-environment">
+<h2>SBT parameters and Build Environment<a class="headerlink" href="#sbt-parameters-and-build-environment" title="Permalink to this headline">¶</a></h2>
+<p>SBT is a java process, which means you can start it with system properties and use these in your build.
+This pattern may be useful in other scopes as well. First we define an <em>AutoPlugin</em> that sets a build environment.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">sbt._</span>
+<span class="k">import</span> <span class="nn">sbt.Keys._</span>
+<span class="k">import</span> <span class="nn">sbt.plugins.JvmPlugin</span>
+
+<span class="cm">/** sets the build environment */</span>
+<span class="k">object</span> <span class="nc">BuildEnvPlugin</span> <span class="k">extends</span> <span class="nc">AutoPlugin</span> <span class="o">{</span>
+
+  <span class="c1">// make sure it triggers automatically</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">trigger</span> <span class="k">=</span> <span class="nc">AllRequirements</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="k">requires</span> <span class="k">=</span> <span class="nc">JvmPlugin</span>
+
+  <span class="k">object</span> <span class="nc">autoImport</span> <span class="o">{</span>
+    <span class="k">object</span> <span class="nc">BuildEnv</span> <span class="k">extends</span> <span class="nc">Enumeration</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="nc">Production</span><span class="o">,</span> <span class="nc">Stage</span><span class="o">,</span> <span class="nc">Test</span><span class="o">,</span> <span class="nc">Developement</span> <span class="k">=</span> <span class="nc">Value</span>
+    <span class="o">}</span>
+
+    <span class="k">val</span> <span class="n">buildEnv</span> <span class="k">=</span> <span class="n">settingKey</span><span class="o">[</span><span class="kt">BuildEnv.Value</span><span class="o">](</span><span class="s">&quot;the current build environment&quot;</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="k">import</span> <span class="nn">autoImport._</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">projectSettings</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Setting</span><span class="o">[</span><span class="k">_</span><span class="o">]]</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+    <span class="n">buildEnv</span> <span class="o">:=</span> <span class="o">{</span>
+      <span class="n">sys</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;env&quot;</span><span class="o">)</span>
+         <span class="o">.</span><span class="n">orElse</span><span class="o">(</span><span class="n">sys</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;BUILD_ENV&quot;</span><span class="o">))</span>
+         <span class="o">.</span><span class="n">flatMap</span> <span class="o">{</span>
+           <span class="k">case</span> <span class="s">&quot;prod&quot;</span> <span class="k">=&gt;</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Production</span><span class="o">)</span>
+           <span class="k">case</span> <span class="s">&quot;stage&quot;</span> <span class="k">=&gt;</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Stage</span><span class="o">)</span>
+           <span class="k">case</span> <span class="s">&quot;test&quot;</span> <span class="k">=&gt;</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Test</span><span class="o">)</span>
+           <span class="k">case</span> <span class="s">&quot;dev&quot;</span> <span class="k">=&gt;</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Developement</span><span class="o">)</span>
+           <span class="k">case</span> <span class="n">unkown</span> <span class="k">=&gt;</span> <span class="nc">None</span>
+         <span class="o">}</span>
+         <span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Developement</span><span class="o">)</span>
+    <span class="o">},</span>
+    <span class="c1">// give feed back</span>
+    <span class="n">onLoadMessage</span> <span class="o">:=</span> <span class="o">{</span>
+      <span class="c1">// depend on the old message as well</span>
+      <span class="k">val</span> <span class="n">defaultMessage</span> <span class="k">=</span> <span class="n">onLoadMessage</span><span class="o">.</span><span class="n">value</span>
+      <span class="k">val</span> <span class="n">env</span> <span class="k">=</span> <span class="n">buildEnv</span><span class="o">.</span><span class="n">value</span>
+      <span class="s">s&quot;&quot;&quot;|</span><span class="si">$defaultMessage</span><span class="s"></span>
+<span class="s">          |Running in build environment: </span><span class="si">$env</span><span class="s">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">stripMargin</span>
+    <span class="o">}</span>
+  <span class="o">)</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>This plugin allows you to start sbt for example like</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt -Denv<span class="o">=</span>prod
+<span class="o">[</span>info<span class="o">]</span> Set current project to my-app <span class="o">(</span>in build file: ...<span class="o">)</span>
+<span class="o">[</span>info<span class="o">]</span> Running in build environment: Production
+&gt; show buildEnv
+<span class="o">[</span>info<span class="o">]</span> Production
+</pre></div>
+</div>
+<p>Now we can use this <code class="docutils literal"><span class="pre">buildEnv</span></code> setting to change things. For example the <code class="docutils literal"><span class="pre">mappings</span></code>. We recommend doing this in a
+plugin as it involes quite some logic. In this case we decide which configuration file to map as <code class="docutils literal"><span class="pre">application.conf</span></code>.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">+=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">confFile</span> <span class="k">=</span> <span class="n">buildEnv</span><span class="o">.</span><span class="n">value</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Developement</span> <span class="k">=&gt;</span> <span class="s">&quot;dev.conf&quot;</span>
+    <span class="k">case</span> <span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Test</span> <span class="k">=&gt;</span> <span class="s">&quot;test.conf&quot;</span>
+    <span class="k">case</span> <span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Stage</span> <span class="k">=&gt;</span> <span class="s">&quot;stage.conf&quot;</span>
+    <span class="k">case</span> <span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Production</span> <span class="k">=&gt;</span> <span class="s">&quot;prod.conf&quot;</span>
+  <span class="o">}</span>
+  <span class="o">((</span><span class="n">resourceDirectory</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span> <span class="o">/</span> <span class="n">confFile</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;conf/application.conf&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Ofcourse you can change all other settings, package names, etc. as well. Building different output packages would look
+like this</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt -Denv<span class="o">=</span><span class="nb">test</span> universal:packageBin
+sbt -Denv<span class="o">=</span>stage universal:packageBin
+sbt -Denv<span class="o">=</span>prod universal:packageBin
+</pre></div>
+</div>
+</div>
+<div class="section" id="sbt-configuration-scope-not-recommended">
+<h2>SBT configuration scope (not recommended)<a class="headerlink" href="#sbt-configuration-scope-not-recommended" title="Permalink to this headline">¶</a></h2>
+<p>The other option is to generate additional scopes in order to build a package like <code class="docutils literal"><span class="pre">prod:packageBin</span></code>. Scopes behave
+counter intuitive sometimes, why we don&#8217;t recommend this technique.</p>
+<div class="admonition error">
+<p class="first admonition-title">Error</p>
+<p class="last">This example is work in progress and doesn&#8217;t work. Unless you are not very familiar with sbt we highly
+recommend using another technique.</p>
+</div>
+<p>A simple start may look like this</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">lazy</span> <span class="k">val</span> <span class="nc">Prod</span> <span class="k">=</span> <span class="n">config</span><span class="o">(</span><span class="s">&quot;prod&quot;</span><span class="o">)</span> <span class="n">extend</span><span class="o">(</span><span class="nc">Universal</span><span class="o">)</span> <span class="n">describedAs</span><span class="o">(</span><span class="s">&quot;scope to build production packages&quot;</span><span class="o">)</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="nc">Stage</span> <span class="k">=</span> <span class="n">config</span><span class="o">(</span><span class="s">&quot;stage&quot;</span><span class="o">)</span> <span class="n">extend</span><span class="o">(</span><span class="nc">Universal</span><span class="o">)</span> <span class="n">describedAs</span><span class="o">(</span><span class="s">&quot;scope to build staging packages&quot;</span><span class="o">)</span>
+
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">app</span> <span class="k">=</span> <span class="n">project</span>
+  <span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">))</span>
+  <span class="o">.</span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
+  <span class="o">.</span><span class="n">configs</span><span class="o">(</span><span class="nc">Prod</span><span class="o">,</span> <span class="nc">Stage</span><span class="o">)</span>
+  <span class="o">.</span><span class="n">settings</span><span class="o">(</span>
+    <span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;my-app&quot;</span><span class="o">,</span>
+    <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;com.typesafe&quot;</span> <span class="o">%</span> <span class="s">&quot;config&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3.0&quot;</span>
+  <span class="o">)</span>
+</pre></div>
+</div>
+<p>You would expect <code class="docutils literal"><span class="pre">prod:packageBin</span></code> to work, but <em>extending</em> scopes doesn&#8217;t imply inheriting tasks and settings. This
+needs to be done manually. Append this to the <code class="docutils literal"><span class="pre">app</span></code> project.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// inheriting tasks and settings</span>
+<span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">inConfig</span><span class="o">(</span><span class="nc">Prod</span><span class="o">)(</span><span class="nc">UniversalPlugin</span><span class="o">.</span><span class="n">projectSettings</span><span class="o">))</span>
+<span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">inConfig</span><span class="o">(</span><span class="nc">Prod</span><span class="o">)(</span><span class="nc">JavaAppPackaging</span><span class="o">.</span><span class="n">projectSettings</span><span class="o">))</span>
+<span class="c1">// define custom settings</span>
+<span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">inConfig</span><span class="o">(</span><span class="nc">Prod</span><span class="o">)(</span><span class="nc">Seq</span><span class="o">(</span>
+  <span class="c1">// you have to override everything carefully</span>
+  <span class="n">packageName</span> <span class="o">:=</span> <span class="s">&quot;my-prod-app&quot;</span><span class="o">,</span>
+  <span class="n">executableScriptName</span> <span class="o">:=</span> <span class="s">&quot;my-prod-app&quot;</span><span class="o">,</span>
+  <span class="c1">// this is what we acutally want to change</span>
+  <span class="n">mappings</span> <span class="o">+=</span> <span class="o">((</span><span class="n">resourceDirectory</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;prod.conf&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;conf/application.conf&quot;</span>
+<span class="o">)))</span>
+</pre></div>
+</div>
+<p>Note that you have to know more on native-packager internals than you should, because you override all the necessary
+settings with the intended values. Still this doesn&#8217;t work as the universal plugin picks up the wrong mappings to build
+the package.</p>
 </div>
 </div>
 
@@ -433,10 +615,8 @@ See <a class="reference external" href="https://github.com/sbt/sbt-native-packag
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="package_configuration.html" class="btn btn-neutral float-right" title="Build the same package with different configs" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="deployment.html" class="btn btn-neutral" title="Deployment" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="scalajs.html" class="btn btn-neutral" title="Scala JS packaging" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

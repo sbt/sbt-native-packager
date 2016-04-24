@@ -15,6 +15,7 @@ This section provides recipes for common configurations. If you can't find what 
    play
    deployment
    scalajs
+   package_configuration
 
 
 
