@@ -77,6 +77,7 @@ object RpmPlugin extends AutoPlugin {
     rpmPrerequisites := Seq.empty,
     rpmObsoletes := Seq.empty,
     rpmConflicts := Seq.empty,
+    rpmSetarch := None,
     rpmChangelogFile := None,
     rpmBrpJavaRepackJars := false,
 
@@ -120,7 +121,7 @@ object RpmPlugin extends AutoPlugin {
       },
       rpmScripts := RpmScripts.fromMaintainerScripts(maintainerScripts.value),
       rpmSpecConfig <<=
-        (rpmMetadata, rpmDescription, rpmDependencies, rpmScripts, linuxPackageMappings, linuxPackageSymlinks, defaultLinuxInstallLocation) map RpmSpec,
+        (rpmMetadata, rpmDescription, rpmDependencies, rpmSetarch, rpmScripts, linuxPackageMappings, linuxPackageSymlinks, defaultLinuxInstallLocation) map RpmSpec,
       packageBin <<= (rpmSpecConfig, target, streams) map { (spec, dir, s) =>
         spec.validate(s.log)
         RpmHelper.buildRpm(spec, dir, s.log)
