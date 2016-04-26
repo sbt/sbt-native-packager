@@ -151,6 +151,9 @@ Dependency Settings
   ``rpmConflcits``
     The packages this RPM conflicts with and cannot be installed with.
 
+  ``rpmSetarch[SettingKey[Option[String]]]``
+    Run rpmbuild via Linux ``setarch`` command.  Use this for cross-platform builds.
+
 Meta Settings
 ~~~~~~~~~~~~~
 

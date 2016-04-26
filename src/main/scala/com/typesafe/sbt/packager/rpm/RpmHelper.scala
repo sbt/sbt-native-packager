@@ -69,7 +69,10 @@ object RpmHelper {
     val gpg = false
     // TODO - Full GPG support (with GPG plugin).
     IO.withTemporaryDirectory { tmpRpmBuildDir =>
-      val args: Seq[String] = Seq(
+      val args: Seq[String] = (spec.setarch match {
+        case Some(arch) => Seq("setarch", arch)
+        case None       => Seq()
+      }) ++ Seq(
         "rpmbuild",
         "-bb",
         "--target", spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os,

@@ -36,6 +36,7 @@ trait RpmKeys {
   val rpmObsoletes = SettingKey[Seq[String]]("rpm-obsoletes", "Packages this RPM makes obsolete.")
   val rpmConflicts = SettingKey[Seq[String]]("rpm-conflicts", "Packages this RPM conflicts with.")
   val rpmDependencies = SettingKey[RpmDependencies]("rpm-dependencies", "Configuration of dependency info for this RPM.")
+  val rpmSetarch = SettingKey[Option[String]]("rpm-setarch", "run rpmbuild in the context of an architecture.")
 
   // MAINTAINER SCRIPTS
   @deprecated("Use maintainerScripts in RPM and RpmConstants.Pretrans instead.", "1.1.x")

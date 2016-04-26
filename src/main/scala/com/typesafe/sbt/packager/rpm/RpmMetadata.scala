@@ -124,6 +124,7 @@ case class RpmSpec(
   meta: RpmMetadata,
   desc: RpmDescription = RpmDescription(),
   deps: RpmDependencies = RpmDependencies(),
+  setarch: Option[String],
   scriptlets: RpmScripts = RpmScripts(),
   mappings: Seq[LinuxPackageMapping] = Seq.empty,
   symlinks: Seq[LinuxSymlink] = Seq.empty,
