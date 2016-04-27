@@ -49,4 +49,6 @@ trait DebianKeys {
   val debianMakeChownReplacements = TaskKey[(String, String)]("debianMakeChownReplacements", "Creates the chown commands for correct own files and directories")
 
   val debianPackageInstallSize = TaskKey[Long]("debian-installed-size")
+
+  val debianNativeBuildOptions = SettingKey[Seq[String]]("debian-native-build-options", "Options passed to dpkg-deb, e.g. compression level")
 }

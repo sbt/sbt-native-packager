@@ -43,6 +43,7 @@ trait DebianNativePackaging extends DebianPluginLike {
    * package.
    */
   private[debian] def debianNativeSettings: Seq[Setting[_]] = inConfig(Debian)(Seq(
+    debianNativeBuildOptions += "-Znone", // packages are largely JARs, which are already compressed
     genChanges <<= (packageBin, target, debianChangelog, name, version, debianPackageMetadata) map {
       (pkg, tdir, changelog, name, version, data) =>
         changelog match {
@@ -81,12 +82,12 @@ trait DebianNativePackaging extends DebianPluginLike {
     },
 
     /** Implementation of the actual packaging  */
-    packageBin <<= (debianExplodedPackage, debianMD5sumsFile, debianSection, debianPriority, name, version, packageArchitecture, target, streams) map {
-      (pkgdir, _, section, priority, name, version, arch, tdir, s) =>
+    packageBin <<= (debianExplodedPackage, debianMD5sumsFile, debianSection, debianPriority, name, version, packageArchitecture, debianNativeBuildOptions, target, streams) map {
+      (pkgdir, _, section, priority, name, version, arch, options, tdir, s) =>
         s.log.info("Building debian package with native implementation")
         // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
         val archive = archiveFilename(name, version, arch)
-        Process(Seq("fakeroot", "--", "dpkg-deb", "--build", pkgdir.getAbsolutePath, "../" + archive), Some(tdir)) ! s.log match {
+        Process(Seq("fakeroot", "--", "dpkg-deb", "--build") ++ options ++ Seq(pkgdir.getAbsolutePath, "../" + archive), Some(tdir)) ! s.log match {
           case 0 => ()
           case x => sys.error("Failure packaging debian file.  Exit code: " + x)
         }

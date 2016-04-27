@@ -158,7 +158,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       (maintainerScripts in Debian).value,
       (linuxScriptReplacements in Debian).value,
       (target in Universal).value
-    )
+    ),
+    debianNativeBuildOptions := Nil
   )
 
   /**

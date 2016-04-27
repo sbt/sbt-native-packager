@@ -56,6 +56,21 @@ Enable the debian plugin to activate the native package implementation.
 
   enablePlugins(DebianPlugin)
 
+Native packaging
+~~~~~~~~~~~~~~~~
+
+Since JARs are by default already compressed, `DebianPlugin` disables additional compression of the debian package
+contents.
+
+To compress the debian package, override `debianNativeBuildOptions` with
+`options <http://man7.org/linux/man-pages/man1/dpkg-deb.1.html>`_ for `dpkg-deb`.
+
+.. code-block:: scala
+
+  debianNativeBuildOptions in Debian := Nil // dpkg-deb's default compression (currently xz)
+
+  debianNativeBuildOptions in Debian := Seq("-Zgzip", "-z3") // gzip compression at level 3
+
 Java based packaging
 ~~~~~~~~~~~~~~~~~~~~
 
