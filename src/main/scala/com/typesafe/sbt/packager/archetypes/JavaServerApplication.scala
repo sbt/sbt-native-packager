@@ -295,7 +295,6 @@ object JavaServerAppPackaging extends AutoPlugin {
     val (path, permissions, isConf) = loader match {
       case Upstart => ("/etc/init/" + scriptName.getOrElse(name + ".conf"), "0644", "true")
       case SystemV => ("/etc/init.d/" + scriptName.getOrElse(name), "0755", "false")
-      case Systemd => ("/usr/lib/systemd/system/" + scriptName.getOrElse(name + ".service"), "0644", "true")
     }
     for {
       s <- script.toSeq

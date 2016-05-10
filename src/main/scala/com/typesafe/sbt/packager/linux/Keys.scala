@@ -13,11 +13,14 @@ trait LinuxKeys {
   val daemonGroup = SettingKey[String]("daemon-group", "Group to start application daemon")
   val daemonGroupGid = SettingKey[Option[String]]("daemon-group-gid", "GID of daemonGroup")
   val daemonShell = SettingKey[String]("daemon-shell", "Shell provided for the daemon user")
+
+  // TODO move these to the sysloader Keys
   val serverLoading = SettingKey[ServerLoader]("server-loader", "Loading system to be used for application start script")
   val startRunlevels = SettingKey[Option[String]]("start-runlevels", "Sequence of runlevels on which application will start up")
   val stopRunlevels = SettingKey[Option[String]]("stop-runlevels", "Sequence of runlevels on which application will stop")
   val requiredStartFacilities = SettingKey[Option[String]]("required-start-facilities", "Names of system services that should be provided at application start")
   val requiredStopFacilities = SettingKey[Option[String]]("required-stop-facilities", "Names of system services that should be provided at application stop")
+
   val linuxPackageMappings = TaskKey[Seq[LinuxPackageMapping]]("linux-package-mappings", "File to install location mappings including owner and privileges.")
   val linuxPackageSymlinks = TaskKey[Seq[LinuxSymlink]]("linux-package-symlinks", "Symlinks we should produce in the underlying package.")
   val generateManPages = TaskKey[Unit]("generate-man-pages", "Shows all the man files in the current project")
