@@ -11,7 +11,6 @@ import linux.LinuxPlugin.autoImport.{
   linuxScriptReplacements,
   linuxPackageMappings,
   linuxPackageSymlinks,
-  serverLoading,
   daemonShell
 }
 import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }

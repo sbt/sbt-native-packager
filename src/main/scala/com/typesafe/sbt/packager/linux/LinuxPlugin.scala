@@ -6,7 +6,8 @@ import sbt._
 import sbt.Keys.{ name, normalizedName, mappings, sourceDirectory }
 import linux.LinuxPlugin.Users
 import packager.Keys._
-import packager.archetypes.{ ServerLoader, TemplateWriter }
+import packager.archetypes.{ TemplateWriter }
+import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
 import SbtNativePackager.Universal
 
 /**

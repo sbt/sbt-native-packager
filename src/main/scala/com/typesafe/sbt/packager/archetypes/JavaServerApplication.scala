@@ -1,18 +1,15 @@
-package com.typesafe.sbt
-package packager
-package archetypes
+package com.typesafe.sbt.packager.archetypes
 
 import sbt._
 import sbt.Keys.{ target, mainClass, sourceDirectory, streams, javaOptions, run }
-import SbtNativePackager.{ Debian, Rpm, Universal }
-import packager.Keys.{ packageName, maintainerScripts, daemonStdoutLogFile }
-import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
-import linux.LinuxPlugin.autoImport._
-import debian.DebianPlugin
-import debian.DebianPlugin.autoImport.{ debianMakePreinstScript, debianMakePostinstScript, debianMakePrermScript, debianMakePostrmScript }
-import rpm.RpmPlugin
-import rpm.RpmPlugin.autoImport.{ rpmPre, rpmPost, rpmPostun, rpmPreun, rpmScriptsDirectory, rpmDaemonLogFile, RpmConstants }
-import JavaAppPackaging.autoImport.{ bashScriptConfigLocation, bashScriptEnvConfigLocation }
+import com.typesafe.sbt.SbtNativePackager.{ Debian, Rpm, Universal, Linux }
+import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink, LinuxPlugin }
+import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.packageTemplateMapping
+import com.typesafe.sbt.packager.debian.DebianPlugin
+import com.typesafe.sbt.packager.rpm.RpmPlugin
+import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
+import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
 
 /**
  * This class contains the default settings for creating and deploying an archetypical Java application.
@@ -101,10 +98,10 @@ object JavaServerAppPackaging extends AutoPlugin {
         val contentOf = getScriptContent(Debian, replacements) _
 
         scripts ++ Map(
-          Preinst -> (scripts.getOrElse(Preinst, Nil) :+ contentOf(Preinst)),
-          Postinst -> (scripts.getOrElse(Postinst, Nil) :+ contentOf(Postinst)),
-          Prerm -> (scripts.getOrElse(Prerm, Nil) :+ contentOf(Prerm)),
-          Postrm -> (scripts.getOrElse(Postrm, Nil) :+ contentOf(Postrm))
+          Preinst -> (scripts.getOrElse(Preinst, Nil) ++ contentOf(Preinst)),
+          Postinst -> (scripts.getOrElse(Postinst, Nil) ++ contentOf(Postinst)),
+          Prerm -> (scripts.getOrElse(Prerm, Nil) ++ contentOf(Prerm)),
+          Postrm -> (scripts.getOrElse(Postrm, Nil) ++ contentOf(Postrm))
         )
       }
     )) ++ Seq(
@@ -144,25 +141,6 @@ object JavaServerAppPackaging extends AutoPlugin {
   /* ============ Helper Methods ==============  */
   /* ==========================================  */
 
-  private[this] def makeStartScriptReplacements(
-    requiredStartFacilities: Option[String],
-    requiredStopFacilities: Option[String],
-    startRunlevels: Option[String],
-    stopRunlevels: Option[String],
-    loader: ServerLoader): Seq[(String, String)] = {
-
-    // Upstart cannot handle empty values
-    val (startOn, stopOn) = loader match {
-      case Upstart => (requiredStartFacilities.map("start on started " + _), requiredStopFacilities.map("stop on stopping " + _))
-      case _ => (requiredStartFacilities, requiredStopFacilities)
-    }
-    Seq(
-      "start_runlevels" -> startRunlevels.getOrElse(""),
-      "stop_runlevels" -> stopRunlevels.getOrElse(""),
-      "start_facilities" -> startOn.getOrElse(""),
-      "stop_facilities" -> stopOn.getOrElse("")
-    )
-  }
 
   /* Find the template source for the given Server loading scheme, with cascading fallback
    * If the serverLoader scheme is SystemD, then searches for files in this order:
@@ -173,7 +151,6 @@ object JavaServerAppPackaging extends AutoPlugin {
    * - src/templates/etc-default
    * - Provided template
    */
-
   private[this] def getEtcTemplateSource(sourceDirectory: File, loader: ServerLoader): java.net.URL = {
     val (suffix, default) = loader match {
       case Upstart =>
@@ -204,16 +181,15 @@ object JavaServerAppPackaging extends AutoPlugin {
   }
 
   /**
-   *
+   * Loads an available script from the native-packager source if available.
+   * 
    * @param config for which plugin (Debian, Rpm)
    * @param replacements for the placeholders
    * @param scriptName that should be loaded
    * @return script lines
    */
-  private[this] def getScriptContent(config: Configuration, replacements: Seq[(String, String)])(scriptName: String): String = {
-    JavaServerBashScript(scriptName, ARCHETYPE, config, replacements) getOrElse {
-      sys.error(s"Couldn't load [$scriptName] for config [${config.name}] in archetype [$ARCHETYPE]")
-    }
+  private[this] def getScriptContent(config: Configuration, replacements: Seq[(String, String)])(scriptName: String): Seq[String] = {
+    JavaServerBashScript(scriptName, ARCHETYPE, config, replacements).toSeq
   }
 
   /**

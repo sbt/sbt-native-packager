@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.archetypes
 
 import sbt._
-import com.typesafe.sbt.packager.archetypes.ServerLoader._
+import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader._
 
 /**
  * Loads scripts from the resource path that are associated with
@@ -65,7 +65,7 @@ object JavaServerLoaderScript {
   }
 
   /**
-   * Loads the [[ServerLoader]] specific "functions" resource,
+   * Loads the [[com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader]] specific "functions" resource,
    * replaces all placeholders and returns the resolved string.
    *
    * The functions script resides in "[archetype]/[loader]/functions"

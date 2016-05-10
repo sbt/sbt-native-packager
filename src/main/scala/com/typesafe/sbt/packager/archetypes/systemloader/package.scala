@@ -7,7 +7,7 @@ import java.net.URL
 import com.typesafe.sbt.packager.linux._
 import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
 
-import ServerLoader.ServerLoader
+import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader._
 
 package object systemloader {
 
@@ -21,13 +21,13 @@ package object systemloader {
   def loaderFunctionsReplacement(sourceDirectory: File, loader: ServerLoader): (String, String) = {
     val source = overrideFromFile(sourceDirectory, loader, LOADER_FUNCTIONS)
       .orElse(Option(getClass getResource in(loader, LOADER_FUNCTIONS)))
-      .getOrElse(sys.error("Loader functions could not be loaded"))
+      .getOrElse(sys.error(s"Loader functions could not be loaded for ${loader}"))
     LOADER_FUNCTIONS -> TemplateWriter.generateScript(source, Nil)
   }
 
-  def makeStartScript(template: URL, replacements: Seq[(String, String)], tmpDir: File, name: String): Option[File] = {
+  def makeStartScript(template: URL, replacements: Seq[(String, String)], target: File, path: String, name: String): Option[File] = {
     val scriptBits = TemplateWriter generateScript (template, replacements)
-    val script = tmpDir / "tmp" / "systemloader" / name
+    val script = target / path / name
     IO.write(script, scriptBits)
     Some(script)
   }
@@ -40,6 +40,7 @@ package object systemloader {
    */
   def startScriptMapping(
     scriptName: Option[String], script: Option[File], location: String): Seq[LinuxPackageMapping] = {
+    println(s"Add systemloader script from $script")
     val name = scriptName.getOrElse(
       sys.error("""No linuxStartScriptName defined. Add `linuxStartScriptName in <PackageFormat> := Some("name.service")""")
     )

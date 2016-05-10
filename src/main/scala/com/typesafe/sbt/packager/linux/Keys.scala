@@ -3,7 +3,7 @@ package packager
 package linux
 
 import sbt._
-import com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader
+import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
 
 /** Linux packaging generic build targets. */
 trait LinuxKeys {
@@ -14,20 +14,13 @@ trait LinuxKeys {
   val daemonGroupGid = SettingKey[Option[String]]("daemon-group-gid", "GID of daemonGroup")
   val daemonShell = SettingKey[String]("daemon-shell", "Shell provided for the daemon user")
 
-  // TODO move these to the sysloader Keys
-  val serverLoading = SettingKey[ServerLoader]("server-loader", "Loading system to be used for application start script")
-  val startRunlevels = SettingKey[Option[String]]("start-runlevels", "Sequence of runlevels on which application will start up")
-  val stopRunlevels = SettingKey[Option[String]]("stop-runlevels", "Sequence of runlevels on which application will stop")
-  val requiredStartFacilities = SettingKey[Option[String]]("required-start-facilities", "Names of system services that should be provided at application start")
-  val requiredStopFacilities = SettingKey[Option[String]]("required-stop-facilities", "Names of system services that should be provided at application stop")
-
   val linuxPackageMappings = TaskKey[Seq[LinuxPackageMapping]]("linux-package-mappings", "File to install location mappings including owner and privileges.")
   val linuxPackageSymlinks = TaskKey[Seq[LinuxSymlink]]("linux-package-symlinks", "Symlinks we should produce in the underlying package.")
   val generateManPages = TaskKey[Unit]("generate-man-pages", "Shows all the man files in the current project")
   val termTimeout = SettingKey[Int]("term-timeout", "Timeout before sigterm on stop")
   val killTimeout = SettingKey[Int]("kill-timeout", "Timeout before sigkill on stop (after term)")
 
-  val linuxMakeStartScript = TaskKey[Option[File]]("makeStartScript", "Creates or discovers the start script used by this project")
+  val linuxMakeStartScript = TaskKey[Option[File]]("linuxMakeStartScript", "Creates or discovers the start script used by this project")
   val linuxStartScriptTemplate = TaskKey[URL]("linuxStartScriptTemplate", "The location of the template start script file we use for debian (upstart or init.d")
   val linuxStartScriptName = SettingKey[Option[String]]("linuxStartScriptName", "The name of the start script for debian (primary useful for systemd)")
   val linuxEtcDefaultTemplate = TaskKey[URL]("linuxEtcDefaultTemplate", "The location of the /etc/default/<pkg> template script.")

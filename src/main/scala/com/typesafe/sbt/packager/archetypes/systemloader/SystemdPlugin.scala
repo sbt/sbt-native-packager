@@ -10,17 +10,19 @@ import com.typesafe.sbt.packager.Keys.{
   linuxMakeStartScript,
   linuxScriptReplacements,
   linuxPackageMappings,
-  defaultLinuxStartScriptLocation
+  defaultLinuxStartScriptLocation,
+  serverLoading,
+  startRunlevels,
+  stopRunlevels,
+  requiredStartFacilities,
+  requiredStopFacilities
 }
+import com.typesafe.sbt.SbtNativePackager.{ Debian, Rpm, Universal, Linux } 
 import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
-import com.typesafe.sbt.packager.archetypes.ServerLoader._
-import com.typesafe.sbt.packager.archetypes.ServerLoader.Systemd
-import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{ Linux }
 import com.typesafe.sbt.packager.debian.DebianPlugin
-import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.{ Debian, DebianConstants }
+import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.DebianConstants
 import com.typesafe.sbt.packager.rpm.RpmPlugin
-import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.{ Rpm, RpmConstants }
-import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.{ Universal }
+import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
 
 import java.nio.file.{ Paths, Files }
 
@@ -28,7 +30,7 @@ object SystemdPlugin extends AutoPlugin {
 
   override def requires = SystemloaderPlugin && DebianPlugin && RpmPlugin
 
-  object autoImport extends Keys {
+  object autoImport {
     // all systemd specific settings/tasks here
     val systemdExitSuccessStatus = settingKey[Int]("defines the ExitSuccessStatus for systemd")
   }
@@ -40,7 +42,7 @@ object SystemdPlugin extends AutoPlugin {
 
   def systemdSettings: Seq[Setting[_]] = Seq(
     // used by other archetypes to define systemloader dependent behaviour
-    serverLoading := Systemd,
+    serverLoading := ServerLoader.Systemd,
     // Systemd settings
     startRunlevels := None,
     stopRunlevels := None,

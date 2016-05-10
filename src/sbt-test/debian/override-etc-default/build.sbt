@@ -1,5 +1,3 @@
-import com.typesafe.sbt.packager.archetypes.ServerLoader
-
 enablePlugins(JavaServerAppPackaging, JDebPackaging)
 
 serverLoading in Debian := ServerLoader.Upstart

@@ -3,7 +3,9 @@ package com.typesafe.sbt.packager.archetypes.systemloader
 import sbt._
 import sbt.Keys.{ target, sourceDirectory }
 import com.typesafe.sbt.packager.Keys.{
+  packageName,
   serverLoading,
+  linuxStartScriptName,
   linuxStartScriptTemplate,
   linuxMakeStartScript,
   defaultLinuxStartScriptLocation,
@@ -12,7 +14,6 @@ import com.typesafe.sbt.packager.Keys.{
   startRunlevels,
   stopRunlevels
 }
-import com.typesafe.sbt.packager.archetypes.ServerLoader._
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.Debian
 import com.typesafe.sbt.packager.rpm.RpmPlugin
@@ -29,13 +30,14 @@ object UpstartPlugin extends AutoPlugin {
 
   def upstartSettings: Seq[Setting[_]] = Seq(
     // used by other archetypes to define systemloader dependent behaviour
-    serverLoading := Upstart,
+    serverLoading := ServerLoader.Upstart,
     // Systemd settings
     startRunlevels := Some("[2345]"),
     stopRunlevels := Some("[016]"),
     requiredStartFacilities := None,
     requiredStopFacilities := None,
-    defaultLinuxStartScriptLocation := "/etc/init/"
+    defaultLinuxStartScriptLocation := "/etc/init",
+    linuxStartScriptName := Some(packageName.value + ".conf")
   )
 
 

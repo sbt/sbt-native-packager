@@ -2,6 +2,7 @@ package com.typesafe.sbt.packager.archetypes.systemloader
 
 import sbt._
 import sbt.Keys.{ sourceDirectory, target }
+import com.typesafe.sbt.SbtNativePackager.{ Debian, Rpm }
 import com.typesafe.sbt.packager.Keys.{
   packageName,
   maintainerScripts,
@@ -13,18 +14,24 @@ import com.typesafe.sbt.packager.Keys.{
   linuxPackageMappings,
   serverLoading
 }
-import com.typesafe.sbt.packager.archetypes.ServerLoader.{ ServerLoader, Upstart }
+import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
 import com.typesafe.sbt.packager.debian.DebianPlugin
-import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.{ Debian, DebianConstants }
+import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.DebianConstants
 import com.typesafe.sbt.packager.rpm.RpmPlugin
-import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.{ Rpm, RpmConstants }
-import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.{ Universal }
+import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
+import ServerLoader.{ ServerLoader, Upstart }
 
 /**
  * General settings for all systemloader plugins.
  */
 object SystemloaderPlugin extends AutoPlugin {
+  
+  override def requires = DebianPlugin && RpmPlugin
+
+  object autoImport extends SystemloaderKeys {
+    val ServerLoader = com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
+  }
 
   override def projectSettings: Seq[Setting[_]] =
     inConfig(Debian)(systemloaderSettings) ++ debianSettings
@@ -40,8 +47,9 @@ object SystemloaderPlugin extends AutoPlugin {
     linuxMakeStartScript := makeStartScript(
       linuxStartScriptTemplate.value,
       linuxScriptReplacements.value,
-      (target in Universal).value,
-      s"${serverLoading.value}-init"
+      target.value,
+      defaultLinuxStartScriptLocation.value,
+      linuxStartScriptName.value.getOrElse(sys.error("`linuxStartScriptName` is not defined"))
     ),
     // add systemloader to mappings
     linuxPackageMappings ++= startScriptMapping(

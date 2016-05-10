@@ -1,7 +1,4 @@
-package com.typesafe.sbt.packager.archetypes
-
-import java.io.File
-import java.net.URL
+package com.typesafe.sbt.packager.archetypes.systemloader
 
 /**
  * Stores the available types of server loaders.

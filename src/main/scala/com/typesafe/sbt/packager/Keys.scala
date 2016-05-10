@@ -49,3 +49,4 @@ object Keys extends NativePackagerKeys
   with rpm.RpmKeys
   with archetypes.JavaAppKeys
   with archetypes.JavaServerAppKeys
+  with archetypes.systemloader.SystemloaderKeys

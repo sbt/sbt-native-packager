@@ -8,7 +8,7 @@ import java.nio.charset.Charset
 import SbtNativePackager.Linux
 
 import sbt.Keys.{ name, version, sourceDirectory, target, packageBin, streams }
-import linux.LinuxPlugin.autoImport.{ linuxPackageMappings, linuxPackageSymlinks, serverLoading, packageArchitecture }
+import linux.LinuxPlugin.autoImport.{ linuxPackageMappings, linuxPackageSymlinks, packageArchitecture }
 import packager.Keys._
 
 /**
