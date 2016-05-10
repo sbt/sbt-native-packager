@@ -4,6 +4,9 @@ import sbt._
 import java.io.File
 import java.net.URL
 
+import com.typesafe.sbt.packager.linux._
+import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
+
 import ServerLoader.ServerLoader
 
 package object systemloader {
@@ -27,6 +30,23 @@ package object systemloader {
     val script = tmpDir / "tmp" / "systemloader" / name
     IO.write(script, scriptBits)
     Some(script)
+  }
+
+  /**
+   * Create the linuxPackageMapping for the systemloader start-script/conffile
+   * @param scriptName - optional name from `linuxStartScriptName.value`
+   * @param script - file with contents from ` linuxMakeStartScript.value`
+   * @param location - target destination from `defaultLinuxStartScriptLocation.value`
+   */
+  def startScriptMapping(
+    scriptName: Option[String], script: Option[File], location: String): Seq[LinuxPackageMapping] = {
+    val name = scriptName.getOrElse(
+      sys.error("""No linuxStartScriptName defined. Add `linuxStartScriptName in <PackageFormat> := Some("name.service")""")
+    )
+    val path = location + "/" + name
+    for {
+      s <- script.toSeq
+    } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(Users.Root, Users.Root, "0644", "true"))
   }
 
   private def in(loader: ServerLoader, name: String): String = loader.toString + "/" + name

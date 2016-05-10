@@ -6,7 +6,7 @@ libraryDependencies ++= Seq(
 
 mainClass in Compile := Some("ExampleApp")
 
-enablePlugins(JavaServerAppPackaging, JDebPackaging, SystemD)
+enablePlugins(JavaServerAppPackaging, JDebPackaging, SystemdPlugin)
 
 maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 packageSummary := "Minimal Native Packager"

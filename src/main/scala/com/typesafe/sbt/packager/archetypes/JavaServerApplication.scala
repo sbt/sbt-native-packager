@@ -90,31 +90,9 @@ object JavaServerAppPackaging extends AutoPlugin {
     inConfig(Debian)(etcDefaultConfig) ++
     inConfig(Debian)(Seq(
       serverLoading := Upstart,
-      startRunlevels <<= (serverLoading) apply defaultStartRunlevels,
-      stopRunlevels <<= (serverLoading) apply defaultStopRunlevels,
-      requiredStartFacilities <<= (serverLoading) apply defaultFacilities,
-      requiredStopFacilities <<= (serverLoading) apply defaultFacilities,
-      // === Startscript creation ===
-      linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
-        makeStartScriptReplacements,
-      linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
+      // === Extra replacements ===
       linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
       linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
-
-      linuxStartScriptTemplate <<= (serverLoading in Debian, sourceDirectory) map { (loader, srcDir) =>
-        JavaServerLoaderScript(
-          script = defaultTemplateName(loader, Debian),
-          loader = loader,
-          archetype = ARCHETYPE,
-          template = overrideTemplate(srcDir, loader, Debian)
-        )
-      },
-      defaultLinuxStartScriptLocation <<= serverLoading apply getStartScriptLocation,
-      linuxMakeStartScript in Debian <<= (linuxStartScriptTemplate in Debian,
-        linuxScriptReplacements in Debian,
-        target in Universal,
-        serverLoading in Debian) map makeStartScript,
-      linuxPackageMappings <++= (packageName, linuxMakeStartScript, serverLoading, defaultLinuxStartScriptLocation, linuxStartScriptName) map startScriptMapping,
 
       // === Maintainer scripts ===
       maintainerScripts := {
@@ -143,13 +121,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     inConfig(Rpm)(etcDefaultConfig) ++
     inConfig(Rpm)(Seq(
       serverLoading := SystemV,
-      startRunlevels <<= (serverLoading) apply defaultStartRunlevels,
-      stopRunlevels in Rpm <<= (serverLoading) apply defaultStopRunlevels,
-      requiredStartFacilities in Rpm <<= (serverLoading) apply defaultFacilities,
-      requiredStopFacilities in Rpm <<= (serverLoading) apply defaultFacilities,
-      linuxScriptReplacements <++= (requiredStartFacilities, requiredStopFacilities, startRunlevels, stopRunlevels, serverLoading) apply
-        makeStartScriptReplacements,
-      linuxScriptReplacements += JavaServerLoaderScript.loaderFunctionsReplacement(serverLoading.value, ARCHETYPE),
+      // === Extra replacements ===
       linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
       linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
 
@@ -163,24 +135,6 @@ object JavaServerAppPackaging extends AutoPlugin {
       daemonUserUid in Rpm <<= daemonUserUid in Linux,
       daemonGroup in Rpm <<= daemonGroup in Linux,
       daemonGroupGid in Rpm <<= daemonGroupGid in Linux,
-      // === Startscript creation ===
-      linuxStartScriptTemplate <<= (serverLoading in Rpm, sourceDirectory) map { (loader, srcDir) =>
-        JavaServerLoaderScript(
-          script = defaultTemplateName(loader, Rpm),
-          loader = loader,
-          archetype = ARCHETYPE,
-          template = overrideTemplate(srcDir, loader, Rpm)
-        )
-      },
-      linuxMakeStartScript in Rpm <<= (linuxStartScriptTemplate in Rpm,
-        linuxScriptReplacements in Rpm,
-        target in Universal,
-        serverLoading in Rpm) map makeStartScript,
-
-      defaultLinuxStartScriptLocation in Rpm <<= (serverLoading in Rpm) apply getStartScriptLocation,
-      linuxStartScriptName in Rpm <<= linuxStartScriptName in Linux,
-      linuxPackageMappings in Rpm <++= (packageName in Rpm, linuxMakeStartScript in Rpm, serverLoading in Rpm, defaultLinuxStartScriptLocation in Rpm, linuxStartScriptName in Rpm) map startScriptMapping,
-
       // == Maintainer scripts ===
       maintainerScripts in Rpm := rpmScriptletContents(rpmScriptsDirectory.value, (maintainerScripts in Rpm).value, (linuxScriptReplacements in Rpm).value)
     )
@@ -189,16 +143,6 @@ object JavaServerAppPackaging extends AutoPlugin {
   /* ==========================================  */
   /* ============ Helper Methods ==============  */
   /* ==========================================  */
-
-  private[this] def defaultTemplateName(loader: ServerLoader, config: Configuration): String = (loader, config.name) match {
-    // SystemV has two different start scripts
-    case (SystemV, name) => s"start-$name-template"
-    case _ => "start-template"
-  }
-
-  private[this] def overrideTemplate(sourceDirectory: File, loader: ServerLoader, config: Configuration): Option[File] = {
-    Option(sourceDirectory / "templates" / config.name / loader.toString.toLowerCase)
-  }
 
   private[this] def makeStartScriptReplacements(
     requiredStartFacilities: Option[String],
@@ -218,38 +162,6 @@ object JavaServerAppPackaging extends AutoPlugin {
       "start_facilities" -> startOn.getOrElse(""),
       "stop_facilities" -> stopOn.getOrElse("")
     )
-  }
-
-  private[this] def defaultFacilities(loader: ServerLoader): Option[String] = {
-    Option(loader match {
-      case SystemV => "$remote_fs $syslog"
-      case Upstart => null
-      case Systemd => "network.target"
-    })
-  }
-
-  private[this] def defaultStartRunlevels(loader: ServerLoader): Option[String] = {
-    Option(loader match {
-      case SystemV => "2 3 4 5"
-      case Upstart => "[2345]"
-      case Systemd => null
-    })
-  }
-
-  private[this] def defaultStopRunlevels(loader: ServerLoader): Option[String] = {
-    Option(loader match {
-      case SystemV => "0 1 6"
-      case Upstart => "[016]"
-      case Systemd => null
-    })
-  }
-
-  private[this] def getStartScriptLocation(loader: ServerLoader): String = {
-    loader match {
-      case Upstart => "/etc/init/"
-      case SystemV => "/etc/init.d/"
-      case Systemd => "/usr/lib/systemd/system/"
-    }
   }
 
   /* Find the template source for the given Server loading scheme, with cascading fallback
@@ -289,23 +201,6 @@ object JavaServerAppPackaging extends AutoPlugin {
     ) yield LinuxPackageMapping(Seq(c -> path), LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()
 
     mapping.toSeq
-  }
-
-  protected def startScriptMapping(name: String, script: Option[File], loader: ServerLoader, scriptDir: String, scriptName: Option[String]): Seq[LinuxPackageMapping] = {
-    val (path, permissions, isConf) = loader match {
-      case Upstart => ("/etc/init/" + scriptName.getOrElse(name + ".conf"), "0644", "true")
-      case SystemV => ("/etc/init.d/" + scriptName.getOrElse(name), "0755", "false")
-    }
-    for {
-      s <- script.toSeq
-    } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(Users.Root, Users.Root, permissions, isConf))
-  }
-
-  protected def makeStartScript(template: URL, replacements: Seq[(String, String)], tmpDir: File, loader: ServerLoader): Option[File] = {
-    val scriptBits = TemplateWriter generateScript (template, replacements)
-    val script = tmpDir / "tmp" / "bin" / s"$loader-init"
-    IO.write(script, scriptBits)
-    Some(script)
   }
 
   /**
