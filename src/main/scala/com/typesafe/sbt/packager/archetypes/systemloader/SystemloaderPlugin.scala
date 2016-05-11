@@ -12,7 +12,11 @@ import com.typesafe.sbt.packager.Keys.{
   linuxScriptReplacements,
   linuxStartScriptName,
   linuxPackageMappings,
-  serverLoading
+  serverLoading,
+  requiredStartFacilities,
+  requiredStopFacilities,
+  startRunlevels,
+  stopRunlevels
 }
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
@@ -41,6 +45,13 @@ object SystemloaderPlugin extends AutoPlugin {
     linuxStartScriptName := Some(packageName.value),
     // add loader-functions to script replacements
     linuxScriptReplacements += loaderFunctionsReplacement((sourceDirectory in Compile).value, serverLoading.value),
+    linuxScriptReplacements ++= makeStartScriptReplacements(
+      requiredStartFacilities.value,
+      requiredStopFacilities.value,
+      startRunlevels.value,
+      stopRunlevels.value,
+      serverLoading.value
+    ),
     // set the template
     linuxStartScriptTemplate := linuxStartScriptUrl((sourceDirectory in Compile).value, serverLoading.value),
     // define task to generate the systemloader script
