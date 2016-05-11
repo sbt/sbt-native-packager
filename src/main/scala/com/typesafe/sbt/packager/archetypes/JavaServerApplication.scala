@@ -86,7 +86,6 @@ object JavaServerAppPackaging extends AutoPlugin {
     import DebianPlugin.Names.{ Preinst, Postinst, Prerm, Postrm }
     inConfig(Debian)(etcDefaultConfig) ++
     inConfig(Debian)(Seq(
-      serverLoading := Upstart,
       // === Extra replacements ===
       linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
       linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
@@ -117,7 +116,6 @@ object JavaServerAppPackaging extends AutoPlugin {
     import RpmPlugin.Names.{ Pre, Post, Preun, Postun }
     inConfig(Rpm)(etcDefaultConfig) ++
     inConfig(Rpm)(Seq(
-      serverLoading := SystemV,
       // === Extra replacements ===
       linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
       linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
@@ -151,15 +149,13 @@ object JavaServerAppPackaging extends AutoPlugin {
    * - src/templates/etc-default
    * - Provided template
    */
-  private[this] def getEtcTemplateSource(sourceDirectory: File, loader: ServerLoader): java.net.URL = {
-    val (suffix, default) = loader match {
-      case Upstart =>
-        ("-upstart", getClass.getResource(ETC_DEFAULT + "-template"))
-      case SystemV =>
-        ("-systemv", getClass.getResource(ETC_DEFAULT + "-template"))
-      case Systemd =>
-        ("-systemd", getClass.getResource(ETC_DEFAULT + "-systemd-template"))
-    }
+  private[this] def getEtcTemplateSource(sourceDirectory: File, loader: Option[ServerLoader]): java.net.URL = {
+    val defaultTemplate = getClass.getResource(ETC_DEFAULT + "-template")
+    val (suffix, default) = loader.map {
+      case Upstart => ("-upstart", defaultTemplate)
+      case SystemV => ("-systemv", defaultTemplate)
+      case Systemd => ("-systemd", getClass.getResource(ETC_DEFAULT + "-systemd-template"))
+    }.getOrElse(("", defaultTemplate))
 
     val overrides = List[File](
       sourceDirectory / "templates" / (ETC_DEFAULT + suffix),

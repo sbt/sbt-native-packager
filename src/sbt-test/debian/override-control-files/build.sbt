@@ -1,4 +1,4 @@
-enablePlugins(JavaServerAppPackaging)
+enablePlugins(JavaServerAppPackaging, UpstartPlugin)
 
 mainClass in Compile := Some("empty")
 

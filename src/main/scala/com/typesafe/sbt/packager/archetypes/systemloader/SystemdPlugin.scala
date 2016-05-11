@@ -42,7 +42,7 @@ object SystemdPlugin extends AutoPlugin {
 
   def systemdSettings: Seq[Setting[_]] = Seq(
     // used by other archetypes to define systemloader dependent behaviour
-    serverLoading := ServerLoader.Systemd,
+    serverLoading := Some(ServerLoader.Systemd),
     // Systemd settings
     startRunlevels := None,
     stopRunlevels := None,

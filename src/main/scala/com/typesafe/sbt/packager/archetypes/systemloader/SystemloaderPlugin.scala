@@ -38,10 +38,11 @@ object SystemloaderPlugin extends AutoPlugin {
   }
 
   override def projectSettings: Seq[Setting[_]] =
-    inConfig(Debian)(systemloaderSettings) ++ debianSettings
-  inConfig(Rpm)(systemloaderSettings) ++ rpmSettings
+    inConfig(Debian)(systemloaderSettings) ++ debianSettings ++
+    inConfig(Rpm)(systemloaderSettings) ++ rpmSettings
 
   def systemloaderSettings: Seq[Setting[_]] = Seq(
+    serverLoading := None,
     linuxStartScriptName := Some(packageName.value),
     // add loader-functions to script replacements
     linuxScriptReplacements += loaderFunctionsReplacement((sourceDirectory in Compile).value, serverLoading.value),
@@ -58,7 +59,7 @@ object SystemloaderPlugin extends AutoPlugin {
     linuxMakeStartScript := makeStartScript(
       linuxStartScriptTemplate.value,
       linuxScriptReplacements.value,
-      target.value,
+      (target in Universal).value,
       defaultLinuxStartScriptLocation.value,
       linuxStartScriptName.value.getOrElse(sys.error("`linuxStartScriptName` is not defined"))
     ),
@@ -66,7 +67,8 @@ object SystemloaderPlugin extends AutoPlugin {
     linuxPackageMappings ++= startScriptMapping(
       linuxStartScriptName.value,
       linuxMakeStartScript.value,
-      defaultLinuxStartScriptLocation.value
+      defaultLinuxStartScriptLocation.value,
+      isConf = true
     )
   )
 
@@ -122,11 +124,11 @@ object SystemloaderPlugin extends AutoPlugin {
     requiredStopFacilities: Option[String],
     startRunlevels: Option[String],
     stopRunlevels: Option[String],
-    loader: ServerLoader): Seq[(String, String)] = {
+    loader: Option[ServerLoader]): Seq[(String, String)] = {
 
     // Upstart cannot handle empty values
     val (startOn, stopOn) = loader match {
-      case Upstart => (requiredStartFacilities.map("start on started " + _), requiredStopFacilities.map("stop on stopping " + _))
+      case Some(Upstart) => (requiredStartFacilities.map("start on started " + _), requiredStopFacilities.map("stop on stopping " + _))
       case _       => (requiredStartFacilities, requiredStopFacilities)
     }
     Seq(

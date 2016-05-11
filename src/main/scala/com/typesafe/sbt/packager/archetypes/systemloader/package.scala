@@ -13,21 +13,27 @@ package object systemloader {
 
   private val LOADER_FUNCTIONS = "loader-functions"
 
-  def linuxStartScriptUrl(sourceDirectory: File, loader: ServerLoader, name: String = "start-template"): URL = {
+  def linuxStartScriptUrl(sourceDirectory: File, loaderOpt: Option[ServerLoader], name: String = "start-template"): URL = {
+    val loader = loaderOpt.getOrElse(
+      sys.error("No serverLoader defined. Enable a systemloader, e.g. with `enablePlugins(UpstartPlugin)`")
+    )
     overrideFromFile(sourceDirectory, loader, name)
       .getOrElse(getClass getResource in(loader, name))
   }
 
-  def loaderFunctionsReplacement(sourceDirectory: File, loader: ServerLoader): (String, String) = {
-    val source = overrideFromFile(sourceDirectory, loader, LOADER_FUNCTIONS)
-      .orElse(Option(getClass getResource in(loader, LOADER_FUNCTIONS)))
-      .getOrElse(sys.error(s"Loader functions could not be loaded for ${loader}"))
-    LOADER_FUNCTIONS -> TemplateWriter.generateScript(source, Nil)
+  def loaderFunctionsReplacement(sourceDirectory: File, loaderOpt: Option[ServerLoader]): (String, String) = {
+    val replacement = for {
+      loader <- loaderOpt
+      source <- overrideFromFile(sourceDirectory, loader, LOADER_FUNCTIONS)
+        .orElse(Option(getClass getResource in(loader, LOADER_FUNCTIONS)))
+    } yield LOADER_FUNCTIONS -> TemplateWriter.generateScript(source, Nil)
+
+    replacement.getOrElse(sys.error(s"Loader functions could not be loaded for ${loaderOpt}"))
   }
 
   def makeStartScript(template: URL, replacements: Seq[(String, String)], target: File, path: String, name: String): Option[File] = {
     val scriptBits = TemplateWriter generateScript (template, replacements)
-    val script = target / path / name
+    val script = target / "tmp" / path / name
     IO.write(script, scriptBits)
     Some(script)
   }
@@ -37,17 +43,17 @@ package object systemloader {
    * @param scriptName - optional name from `linuxStartScriptName.value`
    * @param script - file with contents from ` linuxMakeStartScript.value`
    * @param location - target destination from `defaultLinuxStartScriptLocation.value`
+   * @param isConf - if the start script should be registered as a config file
    */
   def startScriptMapping(
-    scriptName: Option[String], script: Option[File], location: String): Seq[LinuxPackageMapping] = {
-    println(s"Add systemloader script from $script")
+    scriptName: Option[String], script: Option[File], location: String, isConf: Boolean): Seq[LinuxPackageMapping] = {
     val name = scriptName.getOrElse(
       sys.error("""No linuxStartScriptName defined. Add `linuxStartScriptName in <PackageFormat> := Some("name.service")""")
     )
     val path = location + "/" + name
     for {
       s <- script.toSeq
-    } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(Users.Root, Users.Root, "0644", "true"))
+    } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(Users.Root, Users.Root, "0644", isConf.toString))
   }
 
   private def in(loader: ServerLoader, name: String): String = loader.toString + "/" + name

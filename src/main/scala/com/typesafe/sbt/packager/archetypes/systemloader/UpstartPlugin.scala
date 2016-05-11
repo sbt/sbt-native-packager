@@ -30,7 +30,7 @@ object UpstartPlugin extends AutoPlugin {
 
   def upstartSettings: Seq[Setting[_]] = Seq(
     // used by other archetypes to define systemloader dependent behaviour
-    serverLoading := ServerLoader.Upstart,
+    serverLoading := Some(ServerLoader.Upstart),
     // Systemd settings
     startRunlevels := Some("[2345]"),
     stopRunlevels := Some("[016]"),
@@ -39,6 +39,5 @@ object UpstartPlugin extends AutoPlugin {
     defaultLinuxStartScriptLocation := "/etc/init",
     linuxStartScriptName := Some(packageName.value + ".conf")
   )
-
 
 }
