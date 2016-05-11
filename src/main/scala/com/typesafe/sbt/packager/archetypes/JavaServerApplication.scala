@@ -71,7 +71,7 @@ object JavaServerAppPackaging extends AutoPlugin {
   private[this] val etcDefaultConfig: Seq[Setting[_]] = Seq(
     linuxEtcDefaultTemplate := getEtcTemplateSource(
       sourceDirectory.value,
-      serverLoading.value),
+      (serverLoading ?? None).value),
     makeEtcDefault := makeEtcDefaultScript(
       packageName.value,
       (target in Universal).value,

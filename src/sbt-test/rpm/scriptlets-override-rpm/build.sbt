@@ -1,22 +1,15 @@
-// only works with java_server archetype
-enablePlugins(JavaServerAppPackaging)
+enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
 name := "rpm-test"
-
 version := "0.1.0"
-
 maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 
 packageSummary := "Test rpm package"
-
 packageDescription := "Description"
 
 rpmRelease := "1"
-
 rpmVendor := "typesafe"
-
 rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
-
 rpmLicense := Some("BSD")
 
 mainClass in (Compile, run) := Some("com.example.MainApp")
