@@ -49,7 +49,14 @@ object SystemdPlugin extends AutoPlugin {
     requiredStartFacilities := Some("network.target"),
     requiredStopFacilities := Some("network.target"),
     defaultLinuxStartScriptLocation := "/usr/lib/systemd/system",
-    linuxStartScriptName := Some(packageName.value + ".service")
+    linuxStartScriptName := Some(packageName.value + ".service"),
+    // add systemloader to mappings
+    linuxPackageMappings ++= startScriptMapping(
+      linuxStartScriptName.value,
+      linuxMakeStartScript.value,
+      defaultLinuxStartScriptLocation.value,
+      isConf = true
+    )
   )
 
 

@@ -41,7 +41,7 @@ trait MaintainerScriptHelper {
    * import RpmConstants._
    * maintainerScripts in Rpm := maintainerScriptsAppend((maintainerScripts in Rpm).value)(
    *    Pretrans -> "echo 'hello, world'",
-   *    Post -> s"echo 'installing ${(packageName in Rpm).value}'"
+   *    Post -> "echo 'installing " + (packageName in Rpm).value + "'"
    * )
    * }}}
    *
@@ -59,7 +59,7 @@ trait MaintainerScriptHelper {
    *
    *
    * @param current maintainer scripts
-   * @param replacements (e.g. (linuxScriptReplacements in Debian).value
+   * @param replacements (e.g. (linuxScriptReplacements in Debian).value)
    * @param scripts scriptName -> scriptContent pairs
    * @return maintainerScripts with appended `scripts`
    * @see [[maintainerScriptsAppendFromFile]]

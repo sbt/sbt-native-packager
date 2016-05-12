@@ -51,9 +51,10 @@ package object systemloader {
       sys.error("""No linuxStartScriptName defined. Add `linuxStartScriptName in <PackageFormat> := Some("name.service")""")
     )
     val path = location + "/" + name
+    val perms = if (isConf) "0644" else "0755"
     for {
       s <- script.toSeq
-    } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(Users.Root, Users.Root, "0644", isConf.toString))
+    } yield LinuxPackageMapping(Seq(s -> path), LinuxFileMetaData(Users.Root, Users.Root, perms, isConf.toString))
   }
 
   private def in(loader: ServerLoader, name: String): String = loader.toString + "/" + name

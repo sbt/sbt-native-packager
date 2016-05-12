@@ -18,7 +18,6 @@ import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
  *
  *  This doesn't create the best of distributions, but it can simplify the distribution of code.
  *
- *  **NOTE:  EXPERIMENTAL**   This currently only supports debian upstart scripts.
  */
 object JavaServerAppPackaging extends AutoPlugin {
   import ServerLoader._

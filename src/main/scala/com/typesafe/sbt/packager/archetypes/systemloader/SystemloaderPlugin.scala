@@ -62,13 +62,6 @@ object SystemloaderPlugin extends AutoPlugin {
       (target in Universal).value,
       defaultLinuxStartScriptLocation.value,
       linuxStartScriptName.value.getOrElse(sys.error("`linuxStartScriptName` is not defined"))
-    ),
-    // add systemloader to mappings
-    linuxPackageMappings ++= startScriptMapping(
-      linuxStartScriptName.value,
-      linuxMakeStartScript.value,
-      defaultLinuxStartScriptLocation.value,
-      isConf = true
     )
   )
 

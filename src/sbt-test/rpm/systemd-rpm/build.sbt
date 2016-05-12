@@ -32,6 +32,7 @@ TaskKey[Unit]("checkStartupScript") <<= (target, streams) map { (target, out) =>
 
 TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
   val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+  println(spec)
   assert(spec contains
     """
       |#

@@ -8,6 +8,7 @@ import com.typesafe.sbt.packager.Keys.{
   linuxStartScriptName,
   linuxStartScriptTemplate,
   linuxMakeStartScript,
+  linuxPackageMappings,
   defaultLinuxStartScriptLocation,
   requiredStartFacilities,
   requiredStopFacilities,
@@ -37,7 +38,14 @@ object UpstartPlugin extends AutoPlugin {
     requiredStartFacilities := None,
     requiredStopFacilities := None,
     defaultLinuxStartScriptLocation := "/etc/init",
-    linuxStartScriptName := Some(packageName.value + ".conf")
+    linuxStartScriptName := Some(packageName.value + ".conf"),
+      // add systemloader to mappings
+    linuxPackageMappings ++= startScriptMapping(
+      linuxStartScriptName.value,
+      linuxMakeStartScript.value,
+      defaultLinuxStartScriptLocation.value,
+      isConf = true
+    )
   )
 
 }
