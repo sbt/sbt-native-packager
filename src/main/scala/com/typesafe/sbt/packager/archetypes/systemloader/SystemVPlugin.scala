@@ -19,8 +19,8 @@ import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin
 
 object SystemVPlugin extends AutoPlugin {
-  
-  override def requires = SystemloaderPlugin && DebianPlugin && RpmPlugin
+
+  override def requires = SystemloaderPlugin
 
   override def projectSettings: Seq[Setting[_]] =
     inConfig(Debian)(systemVSettings) ++ debianSettings ++

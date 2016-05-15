@@ -28,7 +28,7 @@ import java.nio.file.{ Paths, Files }
 
 object SystemdPlugin extends AutoPlugin {
 
-  override def requires = SystemloaderPlugin && DebianPlugin && RpmPlugin
+  override def requires = SystemloaderPlugin
 
   object autoImport {
     // all systemd specific settings/tasks here

@@ -24,7 +24,7 @@ import java.nio.file.{ Paths, Files }
 
 object UpstartPlugin extends AutoPlugin {
 
-  override def requires = SystemloaderPlugin && DebianPlugin && RpmPlugin
+  override def requires = SystemloaderPlugin
 
   override def projectSettings: Seq[Setting[_]] =
     inConfig(Debian)(upstartSettings) ++ inConfig(Rpm)(upstartSettings)
@@ -39,7 +39,7 @@ object UpstartPlugin extends AutoPlugin {
     requiredStopFacilities := None,
     defaultLinuxStartScriptLocation := "/etc/init",
     linuxStartScriptName := Some(packageName.value + ".conf"),
-      // add systemloader to mappings
+    // add systemloader to mappings
     linuxPackageMappings ++= startScriptMapping(
       linuxStartScriptName.value,
       linuxMakeStartScript.value,
