@@ -68,6 +68,9 @@ have sensible defaults.
   ``requiredStopFacilities``
     Names of system services that should be provided at application stop
 
+  ``daemonStdoutLogFile``
+    Filename stdout/stderr of application daemon. Now it's supported only in SystemV
+
 
 Default Mappings
 ================

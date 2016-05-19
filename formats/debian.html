@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Debian Plugin &mdash; sbt-native-packager 1.1.1-SNAPSHOT documentation</title>
+  <title>Debian Plugin &mdash; sbt-native-packager 1.1.2-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.1-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.1.2-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Packaging Formats" href="index.html"/>
         <link rel="next" title="Rpm Plugin" href="rpm.html"/>
         <link rel="prev" title="Linux Plugin" href="linux.html"/> 
@@ -156,6 +156,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#java-based-packaging">Java based packaging</a></li>
 </ul>
 </li>
@@ -458,6 +459,18 @@ you have these settings in your build:</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="native-packaging">
+<h3>Native packaging<a class="headerlink" href="#native-packaging" title="Permalink to this headline">¶</a></h3>
+<p>Since JARs are by default already compressed, <cite>DebianPlugin</cite> disables additional compression of the debian package
+contents.</p>
+<p>To compress the debian package, override <cite>debianNativeBuildOptions</cite> with
+<a class="reference external" href="http://man7.org/linux/man-pages/man1/dpkg-deb.1.html">options</a> for <cite>dpkg-deb</cite>.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">debianNativeBuildOptions</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">Nil</span> <span class="c1">// dpkg-deb&#39;s default compression (currently xz)</span>
+
+<span class="n">debianNativeBuildOptions</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;-Zgzip&quot;</span><span class="o">,</span> <span class="s">&quot;-z3&quot;</span><span class="o">)</span> <span class="c1">// gzip compression at level 3</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="java-based-packaging">
 <h3>Java based packaging<a class="headerlink" href="#java-based-packaging" title="Permalink to this headline">¶</a></h3>
 <p>If you want to use the java based implementation, enable the following plugin.</p>
@@ -597,7 +610,7 @@ maintainer scripts will be extended not overridden.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.1.1-SNAPSHOT',
+            VERSION:'1.1.2-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

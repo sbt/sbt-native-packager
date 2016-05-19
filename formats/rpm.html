@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Rpm Plugin &mdash; sbt-native-packager 1.1.1-SNAPSHOT documentation</title>
+  <title>Rpm Plugin &mdash; sbt-native-packager 1.1.2-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.1-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.1.2-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Packaging Formats" href="index.html"/>
         <link rel="next" title="Docker Plugin" href="docker.html"/>
         <link rel="prev" title="Debian Plugin" href="debian.html"/> 
@@ -156,6 +156,7 @@
 <li class="toctree-l3"><a class="reference internal" href="debian.html#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debian.html#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#java-based-packaging">Java based packaging</a></li>
 </ul>
 </li>
@@ -537,6 +538,8 @@ Defines the <code class="docutils literal"><span class="pre">AutoProv:</span></c
 <dd>The packages this RPM allows you to remove</dd>
 <dt><code class="docutils literal"><span class="pre">rpmConflcits</span></code></dt>
 <dd>The packages this RPM conflicts with and cannot be installed with.</dd>
+<dt><code class="docutils literal"><span class="pre">rpmSetarch[SettingKey[Option[String]]]</span></code></dt>
+<dd>Run rpmbuild via Linux <code class="docutils literal"><span class="pre">setarch</span></code> command.  Use this for cross-platform builds.</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -751,7 +754,7 @@ For more information on this topic follow these links:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.1.1-SNAPSHOT',
+            VERSION:'1.1.2-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

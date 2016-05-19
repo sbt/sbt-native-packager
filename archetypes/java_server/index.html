@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Java Server Application Archetype &mdash; sbt-native-packager 1.1.1-SNAPSHOT documentation</title>
+  <title>Java Server Application Archetype &mdash; sbt-native-packager 1.1.2-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.1-SNAPSHOT documentation" href="../../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.1.2-SNAPSHOT documentation" href="../../index.html"/>
         <link rel="up" title="Project Archetypes" href="../index.html"/>
         <link rel="next" title="Application Configuration" href="customize.html"/>
         <link rel="prev" title="Application and runtime configuration" href="../java_app/customize.html"/> 
@@ -156,6 +156,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../formats/debian.html#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/debian.html#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#java-based-packaging">Java based packaging</a></li>
 </ul>
 </li>
@@ -464,6 +465,8 @@ have sensible defaults.</p>
 <dd>Names of system services that should be provided at application start</dd>
 <dt><code class="docutils literal"><span class="pre">requiredStopFacilities</span></code></dt>
 <dd>Names of system services that should be provided at application stop</dd>
+<dt><code class="docutils literal"><span class="pre">daemonStdoutLogFile</span></code></dt>
+<dd>Filename stdout/stderr of application daemon. Now it&#8217;s supported only in SystemV</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -597,7 +600,7 @@ default the native packager will configure a service manager to run the daemon p
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.1.1-SNAPSHOT',
+            VERSION:'1.1.2-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

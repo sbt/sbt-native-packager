@@ -396,19 +396,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RpmKeys.html" class="extype" name="com.typesafe.sbt.packager.rpm.RpmKeys">RpmKeys</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.rpm.RpmKeys#rpmDaemonLogFile" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="rpmDaemonLogFile:sbt.SettingKey[String]"></a>
-      <a id="rpmDaemonLogFile:SettingKey[String]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">rpmDaemonLogFile</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RpmKeys.html" class="extype" name="com.typesafe.sbt.packager.rpm.RpmKeys">RpmKeys</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.rpm.RpmKeys#rpmDependencies" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="rpmDependencies:sbt.SettingKey[com.typesafe.sbt.packager.rpm.RpmDependencies]"></a>
       <a id="rpmDependencies:SettingKey[RpmDependencies]"></a>
@@ -643,6 +630,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RpmKeys.html" class="extype" name="com.typesafe.sbt.packager.rpm.RpmKeys">RpmKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.rpm.RpmKeys#rpmSetarch" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="rpmSetarch:sbt.SettingKey[Option[String]]"></a>
+      <a id="rpmSetarch:SettingKey[Option[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rpmSetarch</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RpmKeys.html" class="extype" name="com.typesafe.sbt.packager.rpm.RpmKeys">RpmKeys</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.rpm.RpmKeys#rpmSpecConfig" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="rpmSpecConfig:sbt.TaskKey[com.typesafe.sbt.packager.rpm.RpmSpec]"></a>
       <a id="rpmSpecConfig:TaskKey[RpmSpec]"></a>
@@ -772,7 +772,23 @@
 
         <div id="values" class="values members">
               <h3>Deprecated Value Members</h3>
-              <ol><li name="com.typesafe.sbt.packager.rpm.RpmKeys#rpmPost" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+              <ol><li name="com.typesafe.sbt.packager.rpm.RpmKeys#rpmDaemonLogFile" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="rpmDaemonLogFile:sbt.SettingKey[String]"></a>
+      <a id="rpmDaemonLogFile:SettingKey[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 1.1.x) Use daemonStdoutLogFile instead">rpmDaemonLogFile</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RpmKeys.html" class="extype" name="com.typesafe.sbt.packager.rpm.RpmKeys">RpmKeys</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 1.1.x)</i> Use daemonStdoutLogFile instead</p></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.rpm.RpmKeys#rpmPost" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="rpmPost:sbt.SettingKey[Option[String]]"></a>
       <a id="rpmPost:SettingKey[Option[String]]"></a>
       <h4 class="signature">
