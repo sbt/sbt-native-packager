@@ -16,12 +16,11 @@ Features
 
 The *JavaServerAppPackaging* archetype depends on the :ref:`java-app-plugin` and adds the following features
 
-* install/uninstall services
+* daemon user/group support
 * default mappings for server applications
   * ``/var/log/<pkg>`` is symlinked from ``<install>/logs``
   * ``/var/run/<pkg>`` owned by ``daemonUser``
-* Creates a start script in for the configured system loader (SystemV, Upstart or SystemD)
-
+* ``etc-default`` support
 
 Usage
 =====
@@ -31,6 +30,8 @@ Usage
   enablePlugins(JavaServerAppPackaging)
 
 Everything else works the same way as the :ref:`java-app-plugin`.
+
+.. tip:: If you want your application to be registered as a service enable a :ref:`systemloaders` plugin.
 
 Settings & Tasks
 ================
@@ -52,21 +53,6 @@ have sensible defaults.
 
   ``daemonShell``
     Shell provided for the daemon user
-
-  ``serverLoading``
-    Loading system to be used for application start script (SystemV, Upstart, Systemd)
-
-  ``startRunlevels``
-    Sequence of runlevels on which application will start up
-
-  ``stopRunlevels``
-    Sequence of runlevels on which application will stop
-
-  ``requiredStartFacilities``
-    Names of system services that should be provided at application start
-
-  ``requiredStopFacilities``
-    Names of system services that should be provided at application stop
 
   ``daemonStdoutLogFile``
     Filename stdout/stderr of application daemon. Now it's supported only in SystemV
@@ -98,21 +84,6 @@ this `native packager discussion`_.
 If you want to change something in this predefined structure read more about it in
 the :doc:`linux section </formats/linux>`.
 
-Service Managers
-================
-
-Platforms are tied to both package managers (Rpm, Debian) and Service Managers (System V, Upstart, SystemD). By
-default the native packager will configure a service manager to run the daemon process. The default configurations are:
-
-+---------------+--------------------+
-| Package Format|  Service Manager   |
-+===============+====================+
-| Debian        | Upstart (Default)  |
-+---------------+--------------------+
-| Rpm           | SystemV (Default)  |
-+---------------+--------------------+
-
-See the :ref:`server-app-customize` section on how to change these.
 
 .. _server-app-customize:
 

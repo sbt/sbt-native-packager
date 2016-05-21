@@ -12,12 +12,11 @@ import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
 import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
 
 /**
- * This class contains the default settings for creating and deploying an archetypical Java application.
- *  A Java application archetype is defined as a project that has a main method and is run by placing
- *  all of its JAR files on the classpath and calling that main method.
+ * == Java Server App Packaging ==
  *
- *  This doesn't create the best of distributions, but it can simplify the distribution of code.
+ * Provides configuration for running an application on a server.
  *
+ * @see [[http://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html]]
  */
 object JavaServerAppPackaging extends AutoPlugin {
   import ServerLoader._
@@ -177,7 +176,7 @@ object JavaServerAppPackaging extends AutoPlugin {
 
   /**
    * Loads an available script from the native-packager source if available.
-   * 
+   *
    * @param config for which plugin (Debian, Rpm)
    * @param replacements for the placeholders
    * @param scriptName that should be loaded
