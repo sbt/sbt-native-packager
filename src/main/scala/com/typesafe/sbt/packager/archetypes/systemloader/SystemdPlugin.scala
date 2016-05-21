@@ -30,13 +30,6 @@ object SystemdPlugin extends AutoPlugin {
 
   override def requires = SystemloaderPlugin
 
-  object autoImport {
-    // all systemd specific settings/tasks here
-    val systemdExitSuccessStatus = settingKey[Int]("defines the ExitSuccessStatus for systemd")
-  }
-
-  import autoImport._
-
   override def projectSettings: Seq[Setting[_]] =
     inConfig(Debian)(systemdSettings) ++ inConfig(Rpm)(systemdSettings)
 
