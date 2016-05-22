@@ -31,7 +31,7 @@ object SystemdPlugin extends AutoPlugin {
   override def requires = SystemloaderPlugin
 
   override def projectSettings: Seq[Setting[_]] =
-    inConfig(Debian)(systemdSettings) ++ inConfig(Rpm)(systemdSettings)
+    debianSettings ++ inConfig(Debian)(systemdSettings) ++ rpmSettings ++ inConfig(Rpm)(systemdSettings)
 
   def systemdSettings: Seq[Setting[_]] = Seq(
     // used by other archetypes to define systemloader dependent behaviour
@@ -41,7 +41,6 @@ object SystemdPlugin extends AutoPlugin {
     stopRunlevels := None,
     requiredStartFacilities := Some("network.target"),
     requiredStopFacilities := Some("network.target"),
-    defaultLinuxStartScriptLocation := "/usr/lib/systemd/system",
     linuxStartScriptName := Some(packageName.value + ".service"),
     // add systemloader to mappings
     linuxPackageMappings ++= startScriptMapping(
@@ -50,6 +49,14 @@ object SystemdPlugin extends AutoPlugin {
       defaultLinuxStartScriptLocation.value,
       isConf = true
     )
+  )
+
+  def debianSettings: Seq[Setting[_]] = inConfig(Debian)(
+    defaultLinuxStartScriptLocation := "/lib/systemd/system"
+  )
+
+  def rpmSettings: Seq[Setting[_]] = inConfig(Rpm)(
+    defaultLinuxStartScriptLocation := "/usr/lib/systemd/system"
   )
 
 }
