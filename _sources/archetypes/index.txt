@@ -15,6 +15,6 @@ of them for usage.
 
    Java Command Line Application <java_app/index.rst>
    Java Server Application <java_server/index.rst>
-   Akka App [DEPRECATED] <akka_app.rst>
+   Systemloaders <systemloaders.rst>
    Configuration Archetypes <misc_archetypes.rst>
    An archetype cheatsheet <cheatsheet.rst>

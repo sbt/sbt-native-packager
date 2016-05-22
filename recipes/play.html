@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Play 2 Packaging &mdash; sbt-native-packager 1.1.2-SNAPSHOT documentation</title>
+  <title>Play 2 Packaging &mdash; sbt-native-packager 1.1.1-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.2-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.1.1-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Recipes" href="index.html"/>
         <link rel="next" title="Deployment" href="deployment.html"/>
         <link rel="prev" title="Dealing with long classpaths" href="longclasspath.html"/> 
@@ -274,17 +274,30 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#systemloader-configuration">Systemloader Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/systemloaders.html">Systemloaders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#general-settings">General Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemv">SystemV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemd">Systemd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#upstart">Upstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#customization">Customization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#customize-start-script">Customize Start Script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#override-start-script">Override Start Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
@@ -530,7 +543,7 @@ template.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.1.2-SNAPSHOT',
+            VERSION:'1.1.1-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
