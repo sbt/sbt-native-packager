@@ -31,7 +31,7 @@ object JDKPackagerPlugin extends AutoPlugin {
   override def requires = JavaAppPackaging && LauncherJarPlugin
   private val dirname = JDKPackager.name.toLowerCase
 
-  override def projectConfigurations: Seq[Configuration] =  Seq(JDKPackager)
+  override def projectConfigurations: Seq[Configuration] = Seq(JDKPackager)
 
   override lazy val projectSettings = Seq(
     jdkAppIcon := None,
@@ -43,56 +43,61 @@ object JDKPackagerPlugin extends AutoPlugin {
     jdkPackagerProperties := Map.empty,
     jdkPackagerAssociations := Seq.empty
   ) ++ inConfig(JDKPackager)(
-    Seq(
-      sourceDirectory := sourceDirectory.value / "deploy",
-      target := target.value / dirname,
-      mainClass := (mainClass in Runtime).value,
-      name := name.value,
-      packageName := packageName.value,
-      maintainer := maintainer.value,
-      packageSummary := packageSummary.value,
-      packageDescription := packageDescription.value,
-      mappings := (mappings in Universal).value,
-      antPackagerTasks := locateAntTasks(javaHome.value, sLog.value),
-      antExtraClasspath := Seq(sourceDirectory.value, target.value),
-      antBuildDefn := makeAntBuild(
-        antPackagerTasks.value,
-        antExtraClasspath.value,
-        name.value,
-        (stage in Universal).value,
-        mappings.value,
-        platformDOM(
-          jdkPackagerJVMArgs.value,
-          jdkPackagerProperties.value),
-        applicationDOM(
+      Seq(
+        sourceDirectory := sourceDirectory.value / "deploy",
+        target := target.value / dirname,
+        mainClass := (mainClass in Runtime).value,
+        name := name.value,
+        packageName := packageName.value,
+        maintainer := maintainer.value,
+        packageSummary := packageSummary.value,
+        packageDescription := packageDescription.value,
+        mappings := (mappings in Universal).value,
+        antPackagerTasks := locateAntTasks(javaHome.value, sLog.value),
+        antExtraClasspath := Seq(sourceDirectory.value, target.value),
+        antBuildDefn := makeAntBuild(
+          antPackagerTasks.value,
+          antExtraClasspath.value,
           name.value,
-          version.value,
-          mainClass.value,
-          jdkPackagerToolkit.value,
-          jdkPackagerAppArgs.value),
-        deployDOM(
-          jdkPackagerBasename.value,
-          jdkPackagerType.value,
-          (artifactPath in LauncherJarPlugin.autoImport.packageJavaLauncherJar).value,
-          target.value,
-          infoDOM(
+          (stage in Universal).value,
+          mappings.value,
+          platformDOM(
+            jdkPackagerJVMArgs.value,
+            jdkPackagerProperties.value
+          ),
+          applicationDOM(
             name.value,
-            packageDescription.value,
-            maintainer.value,
-            jdkAppIcon.value,
-            jdkPackagerAssociations.value)
+            version.value,
+            mainClass.value,
+            jdkPackagerToolkit.value,
+            jdkPackagerAppArgs.value
+          ),
+          deployDOM(
+            jdkPackagerBasename.value,
+            jdkPackagerType.value,
+            (artifactPath in LauncherJarPlugin.autoImport.packageJavaLauncherJar).value,
+            target.value,
+            infoDOM(
+              name.value,
+              packageDescription.value,
+              maintainer.value,
+              jdkAppIcon.value,
+              jdkPackagerAssociations.value
+            )
+          )
+        ),
+        writeAntBuild := writeAntFile(
+          target.value,
+          antBuildDefn.value,
+          streams.value
+        ),
+        packageBin := buildPackageWithAnt(
+          writeAntBuild.value,
+          target.value,
+          streams.value
         )
-      ),
-      writeAntBuild := writeAntFile(
-        target.value,
-        antBuildDefn.value,
-        streams.value
-      ),
-      packageBin := buildPackageWithAnt(
-        writeAntBuild.value,
-        target.value,
-        streams.value)
-    ))
+      )
+    )
 
 }
 

@@ -35,7 +35,8 @@ object TemplateWriter {
   private def replace(
     line: String,
     replacements: Seq[(String, String)],
-    keySurround: String => String): String = {
+    keySurround: String => String
+  ): String = {
     replacements.foldLeft(line) {
       case (line, (key, value)) =>
         keySurround(key).r.replaceAllIn(line, java.util.regex.Matcher.quoteReplacement(value))
@@ -46,7 +47,8 @@ object TemplateWriter {
     lines: Seq[String],
     replacements: Seq[(String, String)],
     eol: String,
-    keySurround: String => String): String = {
+    keySurround: String => String
+  ): String = {
     val sb = new StringBuilder
     for (line <- lines) {
       sb append replace(line, replacements, keySurround)
@@ -64,7 +66,8 @@ object TemplateWriter {
     replacements: Seq[(String, String)],
     eol: String = "\n",
     keySurround: String => String = bashFriendlyKeySurround,
-    charset: java.nio.charset.Charset = defaultCharset): String = {
+    charset: java.nio.charset.Charset = defaultCharset
+  ): String = {
     val lines = sbt.IO.readLinesURL(source, charset)
     replaceValues(lines, replacements, eol, keySurround)
   }
@@ -74,7 +77,8 @@ object TemplateWriter {
     replacements: Seq[(String, String)],
     eol: String = "\n",
     keySurround: String => String = bashFriendlyKeySurround,
-    charset: java.nio.charset.Charset = defaultCharset): String = {
+    charset: java.nio.charset.Charset = defaultCharset
+  ): String = {
     replaceValues(source split eol, replacements, eol, keySurround)
   }
 
@@ -88,7 +92,8 @@ object TemplateWriter {
     lines: Seq[String],
     replacements: Seq[(String, String)],
     keySurround: String => String = bashFriendlyKeySurround,
-    charset: java.nio.charset.Charset = defaultCharset): Seq[String] = {
+    charset: java.nio.charset.Charset = defaultCharset
+  ): Seq[String] = {
     replaceValues(lines, replacements, keySurround)
   }
 }

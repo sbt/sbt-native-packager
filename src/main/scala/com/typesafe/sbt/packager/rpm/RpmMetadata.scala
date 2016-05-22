@@ -19,7 +19,8 @@ case class RpmMetadata(
   summary: String,
   description: String,
   autoprov: String,
-  autoreq: String)
+  autoreq: String
+)
 
 /**
  * The Description used to generate an RPM
@@ -31,14 +32,16 @@ case class RpmDescription(
   group: Option[String] = None,
   packager: Option[String] = None,
   icon: Option[String] = None,
-  changelogFile: Option[String] = None)
+  changelogFile: Option[String] = None
+)
 
 case class RpmDependencies(
   provides: Seq[String] = Seq.empty,
   requirements: Seq[String] = Seq.empty,
   prereq: Seq[String] = Seq.empty,
   obsoletes: Seq[String] = Seq.empty,
-  conflicts: Seq[String] = Seq.empty) {
+  conflicts: Seq[String] = Seq.empty
+) {
   def contents: String = {
     val sb = new StringBuilder
     def appendSetting(prefix: String, values: Seq[String]) =
@@ -62,7 +65,8 @@ case class RpmScripts(
   verifyscript: Option[String] = None,
   posttrans: Option[String] = None,
   preun: Option[String] = None,
-  postun: Option[String] = None) {
+  postun: Option[String] = None
+) {
 
   def pretransContent(): String =
     pretrans.fold("")("\n%pretrans\n" + _ + "\n\n")
@@ -97,7 +101,8 @@ case class RpmScripts(
 
   @deprecated(
     "Call individual scriptlet content method instead, e.g. pretransContent(). This is to allow managing symlink during %post and %postun so it can be relocated",
-    since = "1.0.5-M4")
+    since = "1.0.5-M4"
+  )
   @deprecated("Use contents(maintainerScripts) until next major release", "1.1.x")
   def contents(): String = {
     val labelledScripts = Seq("%pretrans", "%pre", "%post", "%verifyscript", "%posttrans", "%preun", "%postun")
@@ -111,7 +116,8 @@ object RpmScripts {
 
   def fromMaintainerScripts(
     maintainerScripts: Map[String, Seq[String]],
-    replacements: Seq[(String, String)]): RpmScripts = {
+    replacements: Seq[(String, String)]
+  ): RpmScripts = {
     val toContent = toContentWith(replacements) _
     RpmScripts(
       pretrans = maintainerScripts.get(Pretrans).map(toContent),
@@ -138,7 +144,8 @@ case class RpmSpec(
   scriptlets: RpmScripts = RpmScripts(),
   mappings: Seq[LinuxPackageMapping] = Seq.empty,
   symlinks: Seq[LinuxSymlink] = Seq.empty,
-  installLocation: String) {
+  installLocation: String
+) {
 
   def installDir: String =
     LinuxPlugin.chdir(installLocation, meta.name)
@@ -164,7 +171,8 @@ case class RpmSpec(
         ensureOr(meta.vendor, "`rpmVendor in Rpm` is empty.  Please provide a valid vendor for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.os, "`rpmOs in Rpm` is empty.  Please provide a valid os vaue for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.summary, "`packageSummary in Rpm` is empty.  Please provide a valid summary for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.description, "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty))
+        ensureOr(meta.description, "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty)
+      )
     // TODO - Continue validating after this point?
     if (!emptyValidators.forall(identity)) sys.error("There are issues with the rpm spec data.")
   }

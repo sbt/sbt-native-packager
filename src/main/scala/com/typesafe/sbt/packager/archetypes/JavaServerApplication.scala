@@ -69,74 +69,76 @@ object JavaServerAppPackaging extends AutoPlugin {
   private[this] val etcDefaultConfig: Seq[Setting[_]] = Seq(
     linuxEtcDefaultTemplate := getEtcTemplateSource(
       sourceDirectory.value,
-      (serverLoading ?? None).value),
+      (serverLoading ?? None).value
+    ),
     makeEtcDefault := makeEtcDefaultScript(
       packageName.value,
       (target in Universal).value,
       linuxEtcDefaultTemplate.value,
-      linuxScriptReplacements.value),
+      linuxScriptReplacements.value
+    ),
     linuxPackageMappings ++= etcDefaultMapping(
       makeEtcDefault.value,
-      bashScriptEnvConfigLocation.value)
+      bashScriptEnvConfigLocation.value
+    )
   )
 
   def debianSettings: Seq[Setting[_]] = {
     import DebianPlugin.Names.{ Preinst, Postinst, Prerm, Postrm }
     inConfig(Debian)(etcDefaultConfig) ++
-    inConfig(Debian)(Seq(
-      // === Extra replacements ===
-      linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
-      linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
+      inConfig(Debian)(Seq(
+        // === Extra replacements ===
+        linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
+        linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
 
-      // === Maintainer scripts ===
-      maintainerScripts := {
-        val scripts = (maintainerScripts in Debian).value
-        val replacements = (linuxScriptReplacements in Debian).value
-        val contentOf = getScriptContent(Debian, replacements) _
+        // === Maintainer scripts ===
+        maintainerScripts := {
+          val scripts = (maintainerScripts in Debian).value
+          val replacements = (linuxScriptReplacements in Debian).value
+          val contentOf = getScriptContent(Debian, replacements) _
 
-        scripts ++ Map(
-          Preinst -> (scripts.getOrElse(Preinst, Nil) ++ contentOf(Preinst)),
-          Postinst -> (scripts.getOrElse(Postinst, Nil) ++ contentOf(Postinst)),
-          Prerm -> (scripts.getOrElse(Prerm, Nil) ++ contentOf(Prerm)),
-          Postrm -> (scripts.getOrElse(Postrm, Nil) ++ contentOf(Postrm))
-        )
-      }
-    )) ++ Seq(
-      // === Daemon User and Group ===
-      daemonUser in Debian <<= daemonUser in Linux,
-      daemonUserUid in Debian <<= daemonUserUid in Linux,
-      daemonGroup in Debian <<= daemonGroup in Linux,
-      daemonGroupGid in Debian <<= daemonGroupGid in Linux
-    )
+          scripts ++ Map(
+            Preinst -> (scripts.getOrElse(Preinst, Nil) ++ contentOf(Preinst)),
+            Postinst -> (scripts.getOrElse(Postinst, Nil) ++ contentOf(Postinst)),
+            Prerm -> (scripts.getOrElse(Prerm, Nil) ++ contentOf(Prerm)),
+            Postrm -> (scripts.getOrElse(Postrm, Nil) ++ contentOf(Postrm))
+          )
+        }
+      )) ++ Seq(
+        // === Daemon User and Group ===
+        daemonUser in Debian <<= daemonUser in Linux,
+        daemonUserUid in Debian <<= daemonUserUid in Linux,
+        daemonGroup in Debian <<= daemonGroup in Linux,
+        daemonGroupGid in Debian <<= daemonGroupGid in Linux
+      )
   }
 
   def rpmSettings: Seq[Setting[_]] = {
     import RpmPlugin.Names.{ Pre, Post, Preun, Postun }
     inConfig(Rpm)(etcDefaultConfig) ++
-    inConfig(Rpm)(Seq(
-      // === Extra replacements ===
-      linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
-      linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
+      inConfig(Rpm)(Seq(
+        // === Extra replacements ===
+        linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
+        linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
 
-      // === /var/run/app pid folder ===
-      linuxPackageMappings <+= (packageName, daemonUser, daemonGroup) map { (name, user, group) =>
-        packageTemplateMapping("/var/run/" + name)() withUser user withGroup group withPerms "755"
-      }
-    )) ++ Seq(
-      // === Daemon User and Group ===
-      daemonUser in Rpm <<= daemonUser in Linux,
-      daemonUserUid in Rpm <<= daemonUserUid in Linux,
-      daemonGroup in Rpm <<= daemonGroup in Linux,
-      daemonGroupGid in Rpm <<= daemonGroupGid in Linux,
-      // == Maintainer scripts ===
-      maintainerScripts in Rpm := rpmScriptletContents(rpmScriptsDirectory.value, (maintainerScripts in Rpm).value, (linuxScriptReplacements in Rpm).value)
-    )
+        // === /var/run/app pid folder ===
+        linuxPackageMappings <+= (packageName, daemonUser, daemonGroup) map { (name, user, group) =>
+          packageTemplateMapping("/var/run/" + name)() withUser user withGroup group withPerms "755"
+        }
+      )) ++ Seq(
+        // === Daemon User and Group ===
+        daemonUser in Rpm <<= daemonUser in Linux,
+        daemonUserUid in Rpm <<= daemonUserUid in Linux,
+        daemonGroup in Rpm <<= daemonGroup in Linux,
+        daemonGroupGid in Rpm <<= daemonGroupGid in Linux,
+        // == Maintainer scripts ===
+        maintainerScripts in Rpm := rpmScriptletContents(rpmScriptsDirectory.value, (maintainerScripts in Rpm).value, (linuxScriptReplacements in Rpm).value)
+      )
   }
 
   /* ==========================================  */
   /* ============ Helper Methods ==============  */
   /* ==========================================  */
-
 
   /* Find the template source for the given Server loading scheme, with cascading fallback
    * If the serverLoader scheme is SystemD, then searches for files in this order:
@@ -157,7 +159,8 @@ object JavaServerAppPackaging extends AutoPlugin {
 
     val overrides = List[File](
       sourceDirectory / "templates" / (ETC_DEFAULT + suffix),
-      sourceDirectory / "templates" / ETC_DEFAULT)
+      sourceDirectory / "templates" / ETC_DEFAULT
+    )
     overrides.
       find(_.exists).
       map(_.toURI.toURL).
@@ -198,7 +201,8 @@ object JavaServerAppPackaging extends AutoPlugin {
    * @return Some(file: File)
    */
   protected def makeEtcDefaultScript(
-    name: String, tmpDir: File, source: java.net.URL, replacements: Seq[(String, String)]): Option[File] = {
+    name: String, tmpDir: File, source: java.net.URL, replacements: Seq[(String, String)]
+  ): Option[File] = {
     val scriptBits = TemplateWriter.generateScript(source, replacements)
     val script = tmpDir / "tmp" / "etc" / "default" / name
     IO.write(script, scriptBits)

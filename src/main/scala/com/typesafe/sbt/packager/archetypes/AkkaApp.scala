@@ -10,9 +10,9 @@ import SbtNativePackager.Universal
 
 /**
  * == Deprecated ==
- * 
+ *
  * Use `JavaAppPackaging` instead. Akka Microkernel will be removed soon.
- * 
+ *
  * Provides a new default script for akka-micro-kernel applications.
  * This plugin requires the [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]],
  * which will be automatically enabled.

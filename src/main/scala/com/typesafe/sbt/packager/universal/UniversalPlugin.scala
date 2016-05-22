@@ -54,7 +54,7 @@ object UniversalPlugin extends AutoPlugin {
 
   override def requires = SbtNativePackager
 
-  override def projectConfigurations: Seq[Configuration] =  Seq(Universal, UniversalDocs, UniversalSrc)
+  override def projectConfigurations: Seq[Configuration] = Seq(Universal, UniversalDocs, UniversalSrc)
 
   /** The basic settings for the various packaging types. */
   override lazy val projectSettings = Seq[Setting[_]](

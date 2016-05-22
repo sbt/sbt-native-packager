@@ -46,7 +46,8 @@ package object systemloader {
    * @param isConf - if the start script should be registered as a config file
    */
   def startScriptMapping(
-    scriptName: Option[String], script: Option[File], location: String, isConf: Boolean): Seq[LinuxPackageMapping] = {
+    scriptName: Option[String], script: Option[File], location: String, isConf: Boolean
+  ): Seq[LinuxPackageMapping] = {
     val name = scriptName.getOrElse(
       sys.error("""No linuxStartScriptName defined. Add `linuxStartScriptName in <PackageFormat> := Some("name.service")""")
     )

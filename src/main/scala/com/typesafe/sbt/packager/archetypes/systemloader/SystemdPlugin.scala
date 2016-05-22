@@ -17,7 +17,7 @@ import com.typesafe.sbt.packager.Keys.{
   requiredStartFacilities,
   requiredStopFacilities
 }
-import com.typesafe.sbt.SbtNativePackager.{ Debian, Rpm, Universal, Linux } 
+import com.typesafe.sbt.SbtNativePackager.{ Debian, Rpm, Universal, Linux }
 import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.DebianConstants
@@ -51,6 +51,5 @@ object SystemdPlugin extends AutoPlugin {
       isConf = true
     )
   )
-
 
 }

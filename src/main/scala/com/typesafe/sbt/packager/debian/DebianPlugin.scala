@@ -20,21 +20,21 @@ import archetypes.TemplateWriter
 import SbtNativePackager.{ Universal, Linux }
 
 /**
-  * == Debian Plugin ==
-  *
-  * This plugin provides the ability to build ''.deb'' packages.
-  *
-  * == Configuration ==
-  *
-  * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.debian.DebianKeys]]
-  *
-  * @example Enable the plugin in the `build.sbt`. By default this will use
-  * the native debian packaging implementation [[com.typesafe.sbt.packager.debian.DebianNativePackaging]].
-  * {{{
-  *    enablePlugins(DebianPlugin)
-  * }}}
-  *
-  */
+ * == Debian Plugin ==
+ *
+ * This plugin provides the ability to build ''.deb'' packages.
+ *
+ * == Configuration ==
+ *
+ * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.debian.DebianKeys]]
+ *
+ * @example Enable the plugin in the `build.sbt`. By default this will use
+ * the native debian packaging implementation [[com.typesafe.sbt.packager.debian.DebianNativePackaging]].
+ * {{{
+ *    enablePlugins(DebianPlugin)
+ * }}}
+ *
+ */
 object DebianPlugin extends AutoPlugin with DebianNativePackaging {
 
   override def requires = linux.LinuxPlugin
@@ -66,17 +66,17 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
 
   val CHOWN_REPLACEMENT = "chown-paths"
 
-  override def projectConfigurations: Seq[Configuration] =  Seq(Debian)
+  override def projectConfigurations: Seq[Configuration] = Seq(Debian)
 
   // TODO maybe we can put settings/debiansettings together
   /**
-    * Enables native packaging by default
-    */
+   * Enables native packaging by default
+   */
   override lazy val projectSettings = settings ++ debianSettings ++ debianNativeSettings
 
   /**
-    * the default debian settings for the debian namespaced settings
-    */
+   * the default debian settings for the debian namespaced settings
+   */
   private def settings = Seq(
     /* ==== Debian default settings ==== */
     debianPriority := "optional",
@@ -162,10 +162,10 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   )
 
   /**
-    * == Debian scoped settings ==
-    * Everything used inside the debian scope
-    *
-    */
+   * == Debian scoped settings ==
+   * Everything used inside the debian scope
+   *
+   */
   private def debianSettings: Seq[Setting[_]] = inConfig(Debian)(
     Seq(
       packageArchitecture := "all",
@@ -188,14 +188,14 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
                  packageDescription in Debian := "My package Description""""
             )
           }
-    val cfile = dir / Names.DebianMaintainerScripts / Names.Control
+          val cfile = dir / Names.DebianMaintainerScripts / Names.Control
           IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
           chmod(cfile, "0644")
           cfile
       },
       debianConffilesFile <<= (linuxPackageMappings, target) map {
         (mappings, dir) =>
-    val cfile = dir / Names.DebianMaintainerScripts / Names.Conffiles
+          val cfile = dir / Names.DebianMaintainerScripts / Names.Conffiles
           val conffiles = for {
             LinuxPackageMapping(files, meta, _) <- mappings
             if meta.config != "false"
@@ -208,11 +208,11 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       },
       debianMD5sumsFile <<= (debianExplodedPackage, target) map {
         (mappings, dir) =>
-    val md5file = dir / Names.DebianMaintainerScripts / "md5sums"
+          val md5file = dir / Names.DebianMaintainerScripts / "md5sums"
           val md5sums = for {
             (file, name) <- (dir.*** --- dir pair relativeTo(dir))
             if file.isFile
-      if !(name startsWith Names.DebianMaintainerScripts)
+            if !(name startsWith Names.DebianMaintainerScripts)
             if !(name contains "debian-binary")
             // TODO - detect symlinks with Java7 (when we can) rather than hackery...
             if file.getCanonicalPath == file.getAbsolutePath
@@ -225,7 +225,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       debianMakeChownReplacements <<= (linuxPackageMappings, streams) map makeChownReplacements,
       debianExplodedPackage <<= (linuxPackageMappings, debianControlFile, debianMaintainerScripts, debianConffilesFile, debianChangelog,
         linuxScriptReplacements, debianMakeChownReplacements, linuxPackageSymlinks, target, streams)
-  map { (mappings, _, maintScripts, _, changelog, replacements, chown, symlinks, t, streams) =>
+        map { (mappings, _, maintScripts, _, changelog, replacements, chown, symlinks, t, streams) =>
 
           // Create files and directories
           mappings foreach {
@@ -250,7 +250,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
           // Put the maintainer files in `dir / "DEBIAN"` named as specified.
           // Valid values for the name are preinst,postinst,prerm,postrm
           for ((file, name) <- maintScripts) {
-      val targetFile = t / Names.DebianMaintainerScripts / name
+            val targetFile = t / Names.DebianMaintainerScripts / name
             copyAndFixPerms(file, targetFile, LinuxFileMetaData())
             filterAndFixPerms(targetFile, chown +: replacements, LinuxFileMetaData())
           }
@@ -266,15 +266,15 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
 }
 
 /**
-  * == Debian Helper Methods ==
-  *
-  * This trait provides a set of helper methods for debian packaging
-  * implementations.
-  *
-  * Most of the methods are for java 6 file permission handling and
-  * debian script adjustements.
-  *
-  */
+ * == Debian Helper Methods ==
+ *
+ * This trait provides a set of helper methods for debian packaging
+ * implementations.
+ *
+ * Most of the methods are for java 6 file permission handling and
+ * debian script adjustements.
+ *
+ */
 trait DebianPluginLike {
 
   /** validate group and usernames for debian systems */
@@ -283,14 +283,15 @@ trait DebianPluginLike {
   private[debian] final def generateDebianMaintainerScripts(
     scripts: Map[String, Seq[String]],
     replacements: Seq[(String, String)],
-    tmpDir: File): Seq[(File, String)] = {
+    tmpDir: File
+  ): Seq[(File, String)] = {
 
     scripts.map {
       case (scriptName, content) =>
-  val scriptBits = TemplateWriter.generateScriptFromLines(content, replacements)
-  val script = tmpDir / "tmp" / "debian" / scriptName
-  IO.write(script, scriptBits mkString "\n")
-  script -> scriptName
+        val scriptBits = TemplateWriter.generateScriptFromLines(content, replacements)
+        val script = tmpDir / "tmp" / "debian" / scriptName
+        IO.write(script, scriptBits mkString "\n")
+        script -> scriptName
     }.toList
   }
 
@@ -356,24 +357,24 @@ trait DebianPluginLike {
     (script, controlDir) match {
       // check if user defined script exists
       case (_, dir) if (dir / scriptName).exists =>
-  Some(file((dir / scriptName).getAbsolutePath) -> scriptName)
+        Some(file((dir / scriptName).getAbsolutePath) -> scriptName)
       // create mappings for generated script
       case (scr, _) => scr.map(_ -> scriptName)
     }
   }
 
   /**
-    * Debian assumes the application chowns the necessary files and directories in the
-    * control scripts (Pre/Postinst).
-    *
-    * This method generates a replacement which can be inserted in bash script to chown
-    * all files which are not root. While adding the chown commands it checks if the users
-    * and groups have valid names.
-    *
-    * @param mappings - all mapped files
-    * @param streams - logging
-    * @return (CHOWN_REPLACEMENT -> ".. list of chown commands")
-    */
+   * Debian assumes the application chowns the necessary files and directories in the
+   * control scripts (Pre/Postinst).
+   *
+   * This method generates a replacement which can be inserted in bash script to chown
+   * all files which are not root. While adding the chown commands it checks if the users
+   * and groups have valid names.
+   *
+   * @param mappings - all mapped files
+   * @param streams - logging
+   * @return (CHOWN_REPLACEMENT -> ".. list of chown commands")
+   */
   private[debian] def makeChownReplacements(mappings: Seq[LinuxPackageMapping], streams: TaskStreams): (String, String) = {
     // how to create the chownCmd. TODO maybe configurable?
     def chownCmd(user: String, group: String)(path: String): String = s"chown $user:$group $path"

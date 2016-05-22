@@ -77,7 +77,8 @@ object JDKPackagerAntHelper {
     version: String,
     mainClass: Option[String],
     toolkit: JDKPackagerToolkit,
-    appArgs: Seq[String]): ApplicationDOM =
+    appArgs: Seq[String]
+  ): ApplicationDOM =
   // format: OFF
     <fx:application id="app"
                     name={name}
@@ -99,7 +100,8 @@ object JDKPackagerAntHelper {
     description: String,
     maintainer: String,
     iconPath: Option[File],
-    associations: Seq[FileAssociation]): InfoDOM =
+    associations: Seq[FileAssociation]
+  ): InfoDOM =
   // format: OFF
     <fx:info id="info" title={name} description={description} vendor={maintainer}>
       {
@@ -122,7 +124,8 @@ object JDKPackagerAntHelper {
     packageType: String,
     mainJar: File,
     outputDir: File,
-    infoDOM: InfoDOM): DeployDOM =
+    infoDOM: InfoDOM
+  ): DeployDOM =
   // format: OFF
     <fx:deploy outdir={outputDir.getAbsolutePath}
                outfile={basename}
@@ -162,13 +165,15 @@ object JDKPackagerAntHelper {
     mappings: Seq[(File, String)],
     platformDOM: PlatformDOM,
     applicationDOM: ApplicationDOM,
-    deployDOM: DeployDOM): BuildDOM = {
+    deployDOM: DeployDOM
+  ): BuildDOM = {
 
     if (antTaskLib.isEmpty) {
       sys.error(
         "Please set key `antPackagerTasks in JDKPackager` to `ant-javafx.jar` path, " +
           "which should be find in the `lib` directory of the Oracle JDK 8 installation. For example (Windows):\n" +
-          """(antPackagerTasks in JDKPackager) := Some("C:\\Program Files\\Java\\jdk1.8.0_45\\lib\\ant-javafx.jar")""")
+          """(antPackagerTasks in JDKPackager) := Some("C:\\Program Files\\Java\\jdk1.8.0_45\\lib\\ant-javafx.jar")"""
+      )
     }
 
     val taskClassPath = antTaskLib.get +: antExtraClasspath
@@ -228,7 +233,8 @@ object JDKPackagerAntHelper {
 
   /** Build package via Ant build.xml definition. */
   private[jdkpackager] def buildPackageWithAnt(
-    buildXML: File, target: File, s: TaskStreams): File = {
+    buildXML: File, target: File, s: TaskStreams
+  ): File = {
     import org.apache.tools.ant.{ Project ⇒ AntProject }
 
     val ap = new AntProject

@@ -39,7 +39,7 @@ object WindowsPlugin extends AutoPlugin {
   override lazy val projectSettings = windowsSettings ++ mapGenericFilesToWindows
   override def requires = universal.UniversalPlugin
 
-  override def projectConfigurations: Seq[Configuration] =  Seq(Windows)
+  override def projectConfigurations: Seq[Configuration] = Seq(Windows)
 
   /**
    * default windows settings
