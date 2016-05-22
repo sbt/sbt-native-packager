@@ -1,8 +1,4 @@
-import com.typesafe.sbt.packager.archetypes.ServerLoader
-
-enablePlugins(JavaServerAppPackaging)
-
-serverLoading in Debian := ServerLoader.SystemV
+enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
 daemonUser in Debian := "root"
 

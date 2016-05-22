@@ -11,7 +11,6 @@ import linux.LinuxPlugin.autoImport.{
   linuxScriptReplacements,
   linuxPackageMappings,
   linuxPackageSymlinks,
-  serverLoading,
   daemonShell
 }
 import linux.{ LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink }
@@ -113,36 +112,36 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     maintainerScripts in Debian := {
       val replacements = (linuxScriptReplacements in Debian).value
       val scripts = Map(
-  Names.Prerm -> defaultMaintainerScript(Names.Prerm).toSeq.flatten,
-  Names.Preinst -> defaultMaintainerScript(Names.Preinst).toSeq.flatten,
-  Names.Postinst -> defaultMaintainerScript(Names.Postinst).toSeq.flatten,
-  Names.Postrm -> defaultMaintainerScript(Names.Postrm).toSeq.flatten
+        Names.Prerm -> defaultMaintainerScript(Names.Prerm).toSeq.flatten,
+        Names.Preinst -> defaultMaintainerScript(Names.Preinst).toSeq.flatten,
+        Names.Postinst -> defaultMaintainerScript(Names.Postinst).toSeq.flatten,
+        Names.Postrm -> defaultMaintainerScript(Names.Postrm).toSeq.flatten
       )
 
       // this is for legacy purposes to keep old behaviour
       // --- legacy starts
       def readContent(scriptFiles: Seq[(File, String)]): Map[String, Seq[String]] = scriptFiles.map {
-  case (scriptFile, scriptName) => scriptName -> IO.readLines(scriptFile)
+        case (scriptFile, scriptName) => scriptName -> IO.readLines(scriptFile)
       }.toMap
 
       val userProvided = readContent(Seq(
-  debianMakePreinstScript.value.map(script => script -> Names.Preinst),
-  debianMakePostinstScript.value.map(script => script -> Names.Postinst),
-  debianMakePrermScript.value.map(script => script -> Names.Prerm),
-  debianMakePostrmScript.value.map(script => script -> Names.Postrm)
+        debianMakePreinstScript.value.map(script => script -> Names.Preinst),
+        debianMakePostinstScript.value.map(script => script -> Names.Postinst),
+        debianMakePrermScript.value.map(script => script -> Names.Prerm),
+        debianMakePostrmScript.value.map(script => script -> Names.Postrm)
       ).flatten)
 
       // these things get appended. Don't check for nonexisting keys as they are already in the default scripts map
       val appendedScripts = scripts.map {
-  case (scriptName, content) => scriptName -> (content ++ userProvided.getOrElse(scriptName, Nil))
+        case (scriptName, content) => scriptName -> (content ++ userProvided.getOrElse(scriptName, Nil))
       }
       // override and merge with the user defined scripts. Will change in the future
       val controlScriptsDir = debianControlScriptsDirectory.value
       val overridenScripts = scripts ++ readContent(Seq(
-  scriptMapping(Names.Prerm, debianMakePrermScript.value, controlScriptsDir),
-  scriptMapping(Names.Preinst, debianMakePreinstScript.value, controlScriptsDir),
-  scriptMapping(Names.Postinst, debianMakePostinstScript.value, controlScriptsDir),
-  scriptMapping(Names.Postrm, debianMakePostrmScript.value, controlScriptsDir)
+        scriptMapping(Names.Prerm, debianMakePrermScript.value, controlScriptsDir),
+        scriptMapping(Names.Preinst, debianMakePreinstScript.value, controlScriptsDir),
+        scriptMapping(Names.Postinst, debianMakePostinstScript.value, controlScriptsDir),
+        scriptMapping(Names.Postrm, debianMakePostrmScript.value, controlScriptsDir)
       ).flatten)
       // --- legacy ends
 
@@ -151,7 +150,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
 
       // apply all replacements
       content.mapValues { lines =>
-  TemplateWriter.generateScriptFromLines(lines, replacements)
+        TemplateWriter.generateScriptFromLines(lines, replacements)
       }
     },
     debianMaintainerScripts := generateDebianMaintainerScripts(

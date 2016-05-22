@@ -5,6 +5,7 @@ package rpm
 import sbt._
 import com.typesafe.sbt.packager.linux.{ LinuxPlugin, LinuxPackageMapping, LinuxFileMetaData, LinuxSymlink }
 import com.typesafe.sbt.packager.rpm.RpmPlugin.Names._
+import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import java.io.File
 
 case class RpmMetadata(
@@ -108,15 +109,24 @@ case class RpmScripts(
 
 object RpmScripts {
 
-  def fromMaintainerScripts(maintainerScripts: Map[String, Seq[String]] = Map()): RpmScripts = RpmScripts(
-    pretrans = maintainerScripts.get(Pretrans).map(_.mkString("\n")),
-    pre = maintainerScripts.get(Pre).map(_.mkString("\n")),
-    post = maintainerScripts.get(Post).map(_.mkString("\n")),
-    verifyscript = maintainerScripts.get(Verifyscript).map(_.mkString("\n")),
-    posttrans = maintainerScripts.get(Posttrans).map(_.mkString("\n")),
-    preun = maintainerScripts.get(Preun).map(_.mkString("\n")),
-    postun = maintainerScripts.get(Postun).map(_.mkString("\n"))
-  )
+  def fromMaintainerScripts(
+    maintainerScripts: Map[String, Seq[String]],
+    replacements: Seq[(String, String)]): RpmScripts = {
+    val toContent = toContentWith(replacements) _
+    RpmScripts(
+      pretrans = maintainerScripts.get(Pretrans).map(toContent),
+      pre = maintainerScripts.get(Pre).map(toContent),
+      post = maintainerScripts.get(Post).map(toContent),
+      verifyscript = maintainerScripts.get(Verifyscript).map(toContent),
+      posttrans = maintainerScripts.get(Posttrans).map(toContent),
+      preun = maintainerScripts.get(Preun).map(toContent),
+      postun = maintainerScripts.get(Postun).map(toContent)
+    )
+  }
+
+  // insert replacements
+  private def toContentWith(replacements: Seq[(String, String)])(lines: Seq[String]): String =
+    TemplateWriter.generateScriptFromLines(lines, replacements).mkString("\n")
 
 }
 

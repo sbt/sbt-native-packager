@@ -1,15 +1,13 @@
-package com.typesafe.sbt
-package packager
-package rpm
+package com.typesafe.sbt.packager.rpm
 
 import sbt._
-import linux._
-import java.nio.charset.Charset
-import SbtNativePackager.Linux
-
 import sbt.Keys.{ name, version, sourceDirectory, target, packageBin, streams }
-import linux.LinuxPlugin.autoImport.{ linuxPackageMappings, linuxPackageSymlinks, serverLoading, packageArchitecture }
-import packager.Keys._
+import java.nio.charset.Charset
+
+import com.typesafe.sbt.SbtNativePackager.Linux
+import com.typesafe.sbt.packager.SettingsHelper
+import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.linux._
 
 /**
  * Plugin containing all generic values used for packaging rpms.
@@ -108,16 +106,16 @@ object RpmPlugin extends AutoPlugin {
       rpmDependencies <<=
         (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
       maintainerScripts := {
-  val scripts = maintainerScripts.value
-  if (rpmBrpJavaRepackJars.value) {
-    val pre = scripts.getOrElse(Names.Pre, Nil)
-          val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
-    scripts + (Names.Pre -> (pre :+ scriptBits))
-  } else {
-    scripts
-  }
+        val scripts = maintainerScripts.value
+        if (rpmBrpJavaRepackJars.value) {
+          val pre = scripts.getOrElse(Names.Pre, Nil)
+                val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
+          scripts + (Names.Pre -> (pre :+ scriptBits))
+        } else {
+          scripts
+        }
       },
-      rpmScripts := RpmScripts.fromMaintainerScripts(maintainerScripts.value),
+      rpmScripts := RpmScripts.fromMaintainerScripts(maintainerScripts.value, linuxScriptReplacements.value),
       rpmSpecConfig <<=
         (rpmMetadata, rpmDescription, rpmDependencies, rpmSetarch, rpmScripts, linuxPackageMappings, linuxPackageSymlinks, defaultLinuxInstallLocation) map RpmSpec,
       packageBin <<= (rpmSpecConfig, target, streams) map { (spec, dir, s) =>

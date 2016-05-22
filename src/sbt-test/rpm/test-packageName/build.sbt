@@ -1,4 +1,4 @@
-enablePlugins(JavaServerAppPackaging)
+enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
 name := "rpm-test"
 

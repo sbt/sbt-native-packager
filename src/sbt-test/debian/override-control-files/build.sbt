@@ -1,6 +1,4 @@
-import com.typesafe.sbt.packager.archetypes.ServerLoader
-
-enablePlugins(JavaServerAppPackaging)
+enablePlugins(JavaServerAppPackaging, UpstartPlugin)
 
 mainClass in Compile := Some("empty")
 

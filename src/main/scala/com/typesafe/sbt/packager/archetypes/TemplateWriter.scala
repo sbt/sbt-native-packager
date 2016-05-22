@@ -21,6 +21,8 @@ package com.typesafe.sbt.packager.archetypes
  *  val replacements = Seq("name" -> "your-app", "custom" -> "1")
  *  TemplateWriter.generateScript(template, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
  * }}}
+ *
+ * TODO move out of archetypes package
  */
 object TemplateWriter {
   def defaultCharset: java.nio.charset.Charset = java.nio.charset.Charset.forName("UTF-8")

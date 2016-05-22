@@ -1,4 +1,4 @@
-enablePlugins(JavaServerAppPackaging)
+enablePlugins(JavaAppPackaging)
 
 name := "debian-test"
 

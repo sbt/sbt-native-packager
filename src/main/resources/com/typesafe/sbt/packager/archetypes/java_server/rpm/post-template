@@ -1,9 +1,0 @@
-${{loader-functions}}
-
-# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
-# $1 == 1 is first installation and $1 == 2 is upgrade
-
-if [ $1 -eq 1 ] ;
-then
-  startService ${{app_name}} || echo "Could not start ${{app_name}}"
-fi

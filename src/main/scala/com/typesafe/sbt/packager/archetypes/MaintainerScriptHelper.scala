@@ -41,19 +41,37 @@ trait MaintainerScriptHelper {
    * import RpmConstants._
    * maintainerScripts in Rpm := maintainerScriptsAppend((maintainerScripts in Rpm).value)(
    *    Pretrans -> "echo 'hello, world'",
-   *    Post -> s"echo 'installing ${(packageName in Rpm).value}'"
+   *    Post -> "echo 'installing " + (packageName in Rpm).value + "'"
+   * )
+   * }}}
+   *
+   * @example Adding content from a string and use script replacements
+   * {{{
+   * import DebianConstants._
+   * maintainerScripts in Rpm := maintainerScriptsAppend(
+   *   (maintainerScripts in Debian).value,
+   *   (linuxScriptReplacements in Debian).value
+   * )(
+   *    Preinst -> "echo 'hello, world'",
+   *    Postinst -> s"echo 'installing ${(packageName in Debian).value}'"
    * )
    * }}}
    *
    *
    * @param current maintainer scripts
+   * @param replacements (e.g. (linuxScriptReplacements in Debian).value)
    * @param scripts scriptName -> scriptContent pairs
    * @return maintainerScripts with appended `scripts`
    * @see [[maintainerScriptsAppendFromFile]]
    */
-  def maintainerScriptsAppend(current: Map[String, Seq[String]] = Map.empty)(scripts: (String, String)*): Map[String, Seq[String]] = {
+  def maintainerScriptsAppend(
+    current: Map[String, Seq[String]] = Map.empty,
+    replacements: Seq[(String, String)] = Nil)(scripts: (String, String)*): Map[String, Seq[String]] = {
     val appended = scripts.map {
-      case (key, script) => key -> (current.getOrElse(key, Seq.empty) :+ script)
+      case (key, script) => key -> TemplateWriter.generateScriptFromLines(
+        (current.getOrElse(key, Seq.empty) :+ script),
+        replacements
+      )
     }.toMap
     current ++ appended
   }
@@ -86,3 +104,5 @@ trait MaintainerScriptHelper {
   }
 
 }
+
+object MaintainerScriptHelper extends MaintainerScriptHelper

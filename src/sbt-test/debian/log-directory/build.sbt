@@ -1,8 +1,4 @@
-import com.typesafe.sbt.packager.archetypes.ServerLoader
-
 enablePlugins(JavaServerAppPackaging)
-
-serverLoading in Debian := ServerLoader.Upstart
 
 daemonUser in Debian := "root"
 

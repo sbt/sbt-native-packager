@@ -1,26 +1,17 @@
-import com.typesafe.sbt.packager.archetypes.ServerLoader
+enablePlugins(JavaServerAppPackaging, SystemdPlugin)
 
-enablePlugins(JavaServerAppPackaging)
-
-serverLoading in Rpm := ServerLoader.Systemd
 
 name := "rpm-test"
-
 version := "0.1.0"
-
 maintainer := "Alexey Kardapoltsev <alexey.kardapoltsev@frumatic.com>"
 
 packageSummary := "Test rpm package"
-
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
 rpmRelease := "1"
-
 rpmVendor := "typesafe"
-
 rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
-
 rpmLicense := Some("BSD")
 
 requiredStartFacilities in Rpm := Some("serviceA.service")
@@ -41,6 +32,7 @@ TaskKey[Unit]("checkStartupScript") <<= (target, streams) map { (target, out) =>
 
 TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
   val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+  println(spec)
   assert(spec contains
     """
       |#
