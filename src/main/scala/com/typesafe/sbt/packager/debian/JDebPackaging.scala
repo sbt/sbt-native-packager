@@ -51,7 +51,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
                  packageDescription in Debian := "My package Description""""
           )
         }
-	val cfile = dir / Names.DebianMaintainerScripts / Names.Control
+        val cfile = dir / Names.DebianMaintainerScripts / Names.Control
         IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
         cfile
     },

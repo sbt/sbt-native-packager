@@ -23,14 +23,14 @@ import SbtNativePackager.{ Universal, Debian }
  * in a highly-constrained environment like ash+BusyBox.  Something much simpler will do, for example:
  *
  * #!/usr/bin/env sh
- * 
+ *
  * realpath () {
  * (
  *   TARGET_FILE="$1"
- * 
+ *
  *   cd "$(dirname "$TARGET_FILE")"
  *   TARGET_FILE=$(basename "$TARGET_FILE")
- * 
+ *
  *   COUNT=0
  *   while [ -L "$TARGET_FILE" -a $COUNT -lt 100 ]
  *   do
@@ -39,25 +39,25 @@ import SbtNativePackager.{ Universal, Debian }
  *       TARGET_FILE=$(basename "$TARGET_FILE")
  *       COUNT=$(($COUNT + 1))
  *   done
- * 
+ *
  *   if [ "$TARGET_FILE" == "." -o "$TARGET_FILE" == ".." ]; then
  *     cd "$TARGET_FILE"
  *     TARGET_FILEPATH=
  *   else
  *     TARGET_FILEPATH=/$TARGET_FILE
  *   fi
- * 
+ *
  *   echo "$(pwd -P)/$TARGET_FILE"
  * )
  * }
- * 
+ *
  * real_script_path="$(realpath "$0")"
  * app_home="$(realpath "$(dirname "$real_script_path")")"
  * lib_dir="$(realpath "${app_home}/../lib")"
- * 
+ *
  * ${{template_declares}}
- * 
- * java -classpath $app_classpath $app_mainclass $@ 
+ *
+ * java -classpath $app_classpath $app_mainclass $@
  *
  *
  * == Configuration ==
@@ -89,7 +89,7 @@ object AshScriptPlugin extends AutoPlugin {
         } yield JavaAppAshScript.makeDefines(cn, appClasspath = cp, extras = extras, configFile = config)
       hasMain getOrElse Nil
     }
-    )
+  )
 
   def makeUniversalAshScript(defaultTemplateLocation: File, defines: Seq[String], tmpDir: File, name: String, sourceDir: File): Option[File] =
     if (defines.isEmpty) None

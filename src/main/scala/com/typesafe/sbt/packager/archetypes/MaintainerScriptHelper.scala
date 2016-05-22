@@ -66,7 +66,8 @@ trait MaintainerScriptHelper {
    */
   def maintainerScriptsAppend(
     current: Map[String, Seq[String]] = Map.empty,
-    replacements: Seq[(String, String)] = Nil)(scripts: (String, String)*): Map[String, Seq[String]] = {
+    replacements: Seq[(String, String)] = Nil
+  )(scripts: (String, String)*): Map[String, Seq[String]] = {
     val appended = scripts.map {
       case (key, script) => key -> TemplateWriter.generateScriptFromLines(
         (current.getOrElse(key, Seq.empty) :+ script),

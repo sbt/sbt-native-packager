@@ -52,7 +52,7 @@ object RpmPlugin extends AutoPlugin {
 
   }
 
-  override def projectConfigurations: Seq[Configuration] =  Seq(Rpm)
+  override def projectConfigurations: Seq[Configuration] = Seq(Rpm)
 
   override lazy val projectSettings = Seq(
     rpmOs := "Linux", // TODO - default to something else?
@@ -109,7 +109,7 @@ object RpmPlugin extends AutoPlugin {
         val scripts = maintainerScripts.value
         if (rpmBrpJavaRepackJars.value) {
           val pre = scripts.getOrElse(Names.Pre, Nil)
-                val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
+          val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
           scripts + (Names.Pre -> (pre :+ scriptBits))
         } else {
           scripts

@@ -24,10 +24,10 @@ object SystemVPlugin extends AutoPlugin {
 
   override def projectSettings: Seq[Setting[_]] =
     inConfig(Debian)(systemVSettings) ++ debianSettings ++
-    inConfig(Rpm)(systemVSettings) ++ rpmSettings
+      inConfig(Rpm)(systemVSettings) ++ rpmSettings
 
   def systemVSettings: Seq[Setting[_]] = Seq(
-      // used by other archetypes to define systemloader dependent behaviour
+    // used by other archetypes to define systemloader dependent behaviour
     serverLoading := Some(ServerLoader.SystemV),
     // Systemd settings
     startRunlevels := Some("2 3 4 5"),
@@ -44,23 +44,22 @@ object SystemVPlugin extends AutoPlugin {
     )
   )
 
-
   def debianSettings: Seq[Setting[_]] = inConfig(Debian)(Seq(
-  // set the template
-   linuxStartScriptTemplate := linuxStartScriptUrl(
-        (sourceDirectory in Compile).value,
-        serverLoading.value,
-        "start-debian-template"
+    // set the template
+    linuxStartScriptTemplate := linuxStartScriptUrl(
+      (sourceDirectory in Compile).value,
+      serverLoading.value,
+      "start-debian-template"
     )
   ))
-  
+
   def rpmSettings: Seq[Setting[_]] = inConfig(Rpm)(Seq(
     // set the template
     linuxStartScriptTemplate := linuxStartScriptUrl(
-        (sourceDirectory in Compile).value,
-        serverLoading.value,
-        "start-rpm-template"
+      (sourceDirectory in Compile).value,
+      serverLoading.value,
+      "start-rpm-template"
     )
   ))
-  
+
 }

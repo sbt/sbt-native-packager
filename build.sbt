@@ -52,7 +52,7 @@ bintrayRepository := "sbt-plugin-releases"
 
 // scalariform
 import scalariform.formatter.preferences._
-scalariformSettings
+import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(AlignParameters, false)
   .setPreference(FormatXml, true)

@@ -26,7 +26,8 @@ object JavaAppBashScript {
     mainClass: String,
     appClasspath: Seq[String] = Seq("*"),
     configFile: Option[String] = None,
-    extras: Seq[String] = Nil): Seq[String] =
+    extras: Seq[String] = Nil
+  ): Seq[String] =
     Seq(mainClassDefine(mainClass)) ++
       (configFile map configFileDefine).toSeq ++
       Seq(makeClasspathDefine(appClasspath)) ++

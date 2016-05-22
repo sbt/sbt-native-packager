@@ -38,15 +38,15 @@ import universal.UniversalPlugin.autoImport.stage
  * {{{
  *   enablePlugins(DockerSpotifyClientPlugin)
  * }}}
- * 
+ *
  * and add the dependency in your `plugins.sbt`
- * 
+ *
  * {{{
  *   libraryDependencies += "com.spotify" % "docker-client" % "3.5.13"
  * }}}
- * 
- * The Docker-spotify client is a provided dependency so you have to add it on your own. 
- * It brings a lot of dependenciesthat could slow your build times. This is the reason 
+ *
+ * The Docker-spotify client is a provided dependency so you have to add it on your own.
+ * It brings a lot of dependenciesthat could slow your build times. This is the reason
  * the dependency is marked as provided.
  */
 object DockerSpotifyClientPlugin extends AutoPlugin {
@@ -77,7 +77,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
       def progress(message: ProgressMessage) = {
         Option(message.error()) match {
           case Some(error) if error.nonEmpty => log.error(message.error())
-          case _ => Option(message.stream()) foreach (v => log.info(v))
+          case _                             => Option(message.stream()) foreach (v => log.info(v))
         }
       }
     }, BuildParam.forceRm())

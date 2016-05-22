@@ -30,7 +30,7 @@ import ServerLoader.{ ServerLoader, Upstart }
  * General settings for all systemloader plugins.
  */
 object SystemloaderPlugin extends AutoPlugin {
-  
+
   override def requires = DebianPlugin && RpmPlugin
 
   object autoImport extends SystemloaderKeys {
@@ -39,7 +39,7 @@ object SystemloaderPlugin extends AutoPlugin {
 
   override def projectSettings: Seq[Setting[_]] =
     inConfig(Debian)(systemloaderSettings) ++ debianSettings ++
-    inConfig(Rpm)(systemloaderSettings) ++ rpmSettings
+      inConfig(Rpm)(systemloaderSettings) ++ rpmSettings
 
   def systemloaderSettings: Seq[Setting[_]] = Seq(
     serverLoading := None,
@@ -71,16 +71,16 @@ object SystemloaderPlugin extends AutoPlugin {
       maintainerScripts.value,
       linuxScriptReplacements.value
     )(
-        DebianConstants.Postinst -> s"""|# ${serverLoading.value} support
+      DebianConstants.Postinst -> s"""|# ${serverLoading.value} support
                                         |$${{loader-functions}}
                                         |startService $${{app_name}} || echo "$${{app_name}} could not be registered or started"
                                         |""".stripMargin,
-        DebianConstants.Prerm -> s"""|# ${serverLoading.value} support
+      DebianConstants.Prerm -> s"""|# ${serverLoading.value} support
                                      |$${{loader-functions}}
                                      |stopService $${{app_name}} || echo "$${{app_name}} wasn't even running!"
                                      |""".stripMargin
-      ))
-  )
+    )
+  ))
 
   def rpmSettings: Seq[Setting[_]] = inConfig(Rpm)(Seq(
     // add automatic service start/stop
@@ -88,7 +88,7 @@ object SystemloaderPlugin extends AutoPlugin {
       maintainerScripts.value,
       linuxScriptReplacements.value
     )(
-        RpmConstants.Post -> s"""|# ${serverLoading.value} support
+      RpmConstants.Post -> s"""|# ${serverLoading.value} support
                                  |$${{loader-functions}}
                                  |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
                                  |# $$1 == 1 is first installation and $$1 == 2 is upgrade
@@ -97,32 +97,33 @@ object SystemloaderPlugin extends AutoPlugin {
                                  |  startService $${{app_name}} || echo "Could not start $${{app_name}}"
                                  |fi
                                  |""".stripMargin,
-        RpmConstants.Postun -> s"""|# ${serverLoading.value} support
+      RpmConstants.Postun -> s"""|# ${serverLoading.value} support
                                    |if [ $$1 -ge 1 ]
                                    |  restartService $${{app_name}} || echo "Failed to try-restart $${{app_name}}"
                                    |fi
                                    |""".stripMargin,
-        RpmConstants.Preun -> s"""|# ${serverLoading.value} support
+      RpmConstants.Preun -> s"""|# ${serverLoading.value} support
                                   |$${{loader-functions}}
                                   |if [ $$1 -eq 0 ] ;
                                   |then
                                   |  stopService $${{app_name}} || echo "Could not stop $${{app_name}}"
                                   |fi
                                   |""".stripMargin
-      ))
-  )
+    )
+  ))
 
   private[this] def makeStartScriptReplacements(
     requiredStartFacilities: Option[String],
     requiredStopFacilities: Option[String],
     startRunlevels: Option[String],
     stopRunlevels: Option[String],
-    loader: Option[ServerLoader]): Seq[(String, String)] = {
+    loader: Option[ServerLoader]
+  ): Seq[(String, String)] = {
 
     // Upstart cannot handle empty values
     val (startOn, stopOn) = loader match {
       case Some(Upstart) => (requiredStartFacilities.map("start on started " + _), requiredStopFacilities.map("stop on stopping " + _))
-      case _       => (requiredStartFacilities, requiredStopFacilities)
+      case _             => (requiredStartFacilities, requiredStopFacilities)
     }
     Seq(
       "start_runlevels" -> startRunlevels.getOrElse(""),

@@ -31,7 +31,7 @@ object LauncherJarPlugin extends AutoPlugin {
       val manifestMainClass = (mainClass in (Compile, packageJavaLauncherJar)).value.map(Attributes.Name.MAIN_CLASS -> _)
       Seq(
         ManifestAttributes(
-          manifestMainClass.toSeq :+ manifestClasspath : _*
+          manifestMainClass.toSeq :+ manifestClasspath: _*
         )
       )
     },

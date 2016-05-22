@@ -17,7 +17,8 @@ case class WindowsProductInfo(
   comments: String = "",
   installScope: String = "perMachine",
   installerVersion: String = "200",
-  compressed: Boolean = true)
+  compressed: Boolean = true
+)
 
 sealed trait FeatureComponent
 /** Define a new feature, that will be selectable in the default MSI. */
@@ -28,11 +29,13 @@ case class WindowsFeature(
   absent: String = "allow",
   level: String = "1",
   display: String = "collapse",
-  components: Seq[FeatureComponent] = Seq.empty) extends FeatureComponent {}
+  components: Seq[FeatureComponent] = Seq.empty
+) extends FeatureComponent {}
 /** Adds a file into a given windows feature. */
 case class ComponentFile(
   source: String,
-  editable: Boolean = false) extends FeatureComponent
+  editable: Boolean = false
+) extends FeatureComponent
 /**
  * Will add the directory to the windows path.  NOTE: Only one of these
  * per MSI.
@@ -40,7 +43,8 @@ case class ComponentFile(
 case class AddDirectoryToPath(dir: String = "") extends FeatureComponent
 case class AddShortCuts(
   target: Seq[String],
-  workingDir: String = "INSTALLDIR") extends FeatureComponent
+  workingDir: String = "INSTALLDIR"
+) extends FeatureComponent
 
 // TODO - Shortcut as a component element.
 
@@ -205,7 +209,8 @@ object WixHelper {
   def makeWixConfig(
     name: String, // package name
     product: WindowsProductInfo,
-    rest: xml.Node): xml.Node = {
+    rest: xml.Node
+  ): xml.Node = {
     <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
       <Product Id={ product.id } Name={ product.title } Language='1033' Version={ product.version } Manufacturer={ product.maintainer } UpgradeCode={ product.upgradeId }>
         <Package Description={ product.description } Comments={ product.comments } Manufacturer={ product.maintainer } InstallScope={ product.installScope } InstallerVersion={ product.installerVersion } Compressed={ if (product.compressed) "yes" else "no" }/>
