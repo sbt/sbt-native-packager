@@ -13,7 +13,7 @@ requiredStartFacilities in Debian := Some("network.target")
 daemonUser in Linux := "testuser"
 
 TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) =>
-  val script = IO.read(target / "debian-test-0.1.0" / "usr" / "lib" / "systemd" / "system" / "debian-test.service")
+  val script = IO.read(target / "debian-test-0.1.0" / "lib" / "systemd" / "system" / "debian-test.service")
   assert(script.contains("Requires=network.target"), "script doesn't contain Default-Start header\n" + script)
   assert(script.contains("User=testuser"), "script doesn't contain `User` header\n" + script)
   assert(script.contains("EnvironmentFile=/etc/default/debian-test"), "script doesn't contain EnvironmentFile header\n" + script)
