@@ -34,6 +34,18 @@ General Settings
   ``requiredStopFacilities``
     Names of system services that should be provided at application stop
 
+  ``killTimeout``
+    Timeout before sigkill on stop (after term)
+
+  ``termTimeout``
+    Timeout before sigterm on stop
+    
+  ``retries``
+    Number of retries to start service"
+
+  ``retryTimeout``
+    Timeout between retries in seconds
+
 
 SystemV
 -------

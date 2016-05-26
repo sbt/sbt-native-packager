@@ -19,9 +19,9 @@ requiredStartFacilities := Some("$test-service")
 
 requiredStartFacilities in Debian := Some("$test-deb-service")
 
-termTimeout := 10
+termTimeout in Debian := 10
 
-killTimeout := 20
+killTimeout in Debian := 20
 
 TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =>
   val header = "#!/bin/sh"
