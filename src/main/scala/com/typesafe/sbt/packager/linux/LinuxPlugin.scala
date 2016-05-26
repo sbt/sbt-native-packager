@@ -1,14 +1,14 @@
-package com.typesafe.sbt
-package packager
-package linux
+package com.typesafe.sbt.packager.linux
 
 import sbt._
 import sbt.Keys.{ name, normalizedName, mappings, sourceDirectory }
-import linux.LinuxPlugin.Users
-import packager.Keys._
-import packager.archetypes.{ TemplateWriter }
+import com.typesafe.sbt.SbtNativePackager.Universal
+import com.typesafe.sbt.packager.MappingsHelper
+import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.universal.UniversalPlugin
+import com.typesafe.sbt.packager.archetypes.{ TemplateWriter }
 import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
-import SbtNativePackager.Universal
+import LinuxPlugin.Users
 
 /**
  * Plugin containing all the generic values used for
@@ -21,7 +21,7 @@ import SbtNativePackager.Universal
  */
 object LinuxPlugin extends AutoPlugin {
 
-  override def requires = universal.UniversalPlugin
+  override def requires = UniversalPlugin
   override lazy val projectSettings = linuxSettings ++ mapGenericFilesToLinux
 
   object autoImport extends LinuxKeys with LinuxMappingDSL {
@@ -74,8 +74,8 @@ object LinuxPlugin extends AutoPlugin {
     stopRunlevels := None,
     requiredStartFacilities := None,
     requiredStopFacilities := None,
-    termTimeout := 60,
-    killTimeout := 30,
+    termTimeout := 10,
+    killTimeout := 10,
 
     // Default linux bashscript replacements
     linuxScriptReplacements := makeReplacements(
@@ -90,9 +90,7 @@ object LinuxPlugin extends AutoPlugin {
       daemonUserUid = (daemonUserUid in Linux).value,
       daemonGroup = (daemonGroup in Linux).value,
       daemonGroupGid = (daemonGroupGid in Linux).value,
-      daemonShell = (daemonShell in Linux).value,
-      termTimeout = (termTimeout in Linux).value,
-      killTimeout = (killTimeout in Linux).value
+      daemonShell = (daemonShell in Linux).value
     ),
     linuxScriptReplacements += controlScriptFunctionsReplacement( /* Add key for control-functions */ ),
 
@@ -146,16 +144,6 @@ object LinuxPlugin extends AutoPlugin {
       }
   )
 
-  /**
-   *
-   * @param author -
-   * @param description - short description
-   * @param execScript - name of the script in /usr/bin
-   * @param chdir - execution path of the script
-   * @param retries - on fail, how often should a restart be tried
-   * @param retryTimeout - pause between retries
-   * @return Seq of placeholder>replacement pairs
-   */
   def makeReplacements(
     author: String,
     description: String,
@@ -168,11 +156,7 @@ object LinuxPlugin extends AutoPlugin {
     daemonUserUid: Option[String],
     daemonGroup: String,
     daemonGroupGid: Option[String],
-    daemonShell: String,
-    retries: Int = 0,
-    retryTimeout: Int = 60,
-    termTimeout: Int = 60,
-    killTimeout: Int = 30
+    daemonShell: String
   ): Seq[(String, String)] =
     Seq(
       "author" -> author,
@@ -180,17 +164,13 @@ object LinuxPlugin extends AutoPlugin {
       "exec" -> execScript,
       "chdir" -> chdir,
       "logdir" -> logdir,
-      "retries" -> retries.toString,
-      "retryTimeout" -> retryTimeout.toString,
       "app_name" -> appName,
       "version" -> version,
       "daemon_user" -> daemonUser,
       "daemon_user_uid" -> daemonUserUid.getOrElse(""),
       "daemon_group" -> daemonGroup,
       "daemon_group_gid" -> daemonGroupGid.getOrElse(""),
-      "daemon_shell" -> daemonShell,
-      "term_timeout" -> termTimeout.toString,
-      "kill_timeout" -> killTimeout.toString
+      "daemon_shell" -> daemonShell
     )
 
   /**

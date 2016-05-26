@@ -13,7 +13,9 @@ import com.typesafe.sbt.packager.Keys.{
   requiredStartFacilities,
   requiredStopFacilities,
   startRunlevels,
-  stopRunlevels
+  stopRunlevels,
+  killTimeout,
+  termTimeout
 }
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin
@@ -35,6 +37,8 @@ object SystemVPlugin extends AutoPlugin {
     requiredStartFacilities := Some("$remote_fs $syslog"),
     requiredStopFacilities := Some("$remote_fs $syslog"),
     defaultLinuxStartScriptLocation := "/etc/init.d",
+    termTimeout := 60,
+    killTimeout := 30,
     // add systemloader to mappings and override the isConf setting
     linuxPackageMappings ++= startScriptMapping(
       linuxStartScriptName.value,

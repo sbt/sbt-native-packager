@@ -27,6 +27,7 @@ TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) 
   assert(script.contains("stop on runlevel [016]"), "script doesn't contain stop on runlevel header\n" + script)
   assert(script.contains("start on started [networking]"), "script contains start on started header\n" + script)
   assert(script.contains("stop on stopping [networking]"), "script contains stop on stopping header\n" + script)
+  assert(script.contains("kill timeout 5"), "script doenst't contain kill 'kill timeout 5'\n" + script)
   out.log.success("Successfully tested systemV start up script")
   ()
 }

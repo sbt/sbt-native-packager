@@ -13,7 +13,8 @@ import com.typesafe.sbt.packager.Keys.{
   requiredStartFacilities,
   requiredStopFacilities,
   startRunlevels,
-  stopRunlevels
+  stopRunlevels,
+  killTimeout
 }
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.Debian
@@ -32,12 +33,13 @@ object UpstartPlugin extends AutoPlugin {
   def upstartSettings: Seq[Setting[_]] = Seq(
     // used by other archetypes to define systemloader dependent behaviour
     serverLoading := Some(ServerLoader.Upstart),
-    // Systemd settings
+    // Upstart settings
     startRunlevels := Some("[2345]"),
     stopRunlevels := Some("[016]"),
     requiredStartFacilities := None,
     requiredStopFacilities := None,
     defaultLinuxStartScriptLocation := "/etc/init",
+    killTimeout := 5,
     linuxStartScriptName := Some(packageName.value + ".conf"),
     // add systemloader to mappings
     linuxPackageMappings ++= startScriptMapping(
