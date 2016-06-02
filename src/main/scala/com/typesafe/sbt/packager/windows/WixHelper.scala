@@ -36,6 +36,12 @@ case class ComponentFile(
   source: String,
   editable: Boolean = false
 ) extends FeatureComponent
+/** Define wix namespace definitions, that depend on the major version of Wix tools **/
+case class NamespaceDefinitions(
+  majorVersionNumber: Int,
+  namespace: String,
+  utilExtension: String
+)
 /**
  * Will add the directory to the windows path.  NOTE: Only one of these
  * per MSI.
@@ -209,15 +215,35 @@ object WixHelper {
   def makeWixConfig(
     name: String, // package name
     product: WindowsProductInfo,
+    namespaceDefinitions: NamespaceDefinitions,
     rest: xml.Node
   ): xml.Node = {
-    <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+    <Wix xmlns={ namespaceDefinitions.namespace } xmlns:util={ namespaceDefinitions.utilExtension }>
       <Product Id={ product.id } Name={ product.title } Language='1033' Version={ product.version } Manufacturer={ product.maintainer } UpgradeCode={ product.upgradeId }>
         <Package Description={ product.description } Comments={ product.comments } Manufacturer={ product.maintainer } InstallScope={ product.installScope } InstallerVersion={ product.installerVersion } Compressed={ if (product.compressed) "yes" else "no" }/>
         <Media Id='1' Cabinet={ cleanStringForId(name.toLowerCase).takeRight(66) + ".cab" } EmbedCab='yes'/>
         { rest }
       </Product>
     </Wix>
+  }
+
+  /**
+   * Wix namespace changed from major version 3 to 4.
+   * TODO: Not sure if schema of 2006 is compatible with major versions < 3
+   */
+  def getNameSpaceDefinitions(majorVersion: Int): NamespaceDefinitions = {
+    if (majorVersion <= 3)
+      NamespaceDefinitions(
+        majorVersion,
+        namespace = "http://schemas.microsoft.com/wix/2006/wi",
+        utilExtension = "http://schemas.microsoft.com/wix/UtilExtension"
+      )
+    else
+      NamespaceDefinitions(
+        majorVersion,
+        namespace = "http://wixtoolset.org/schemas/v4/wxs",
+        utilExtension = "http://wixtoolset.org/schemas/v4/wxs/util"
+      )
   }
 
   /**

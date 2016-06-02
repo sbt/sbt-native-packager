@@ -57,6 +57,8 @@ object WindowsPlugin extends AutoPlugin {
       "-cultures:en-us"),
     wixProductId := WixHelper.makeGUID,
     wixProductUpgradeId := WixHelper.makeGUID,
+    wixMajorVersion := 4,
+
     maintainer in Windows <<= maintainer,
     packageSummary in Windows <<= packageSummary,
     packageDescription in Windows <<= packageDescription,
@@ -88,8 +90,9 @@ object WindowsPlugin extends AutoPlugin {
     wixProductConfig <<= (name in Windows, wixPackageInfo, wixFeatures, wixProductLicense) map { (name, product, features, license) =>
       WixHelper.makeWixProductConfig(name, product, features, license)
     },
-    wixConfig <<= (name in Windows, wixPackageInfo, wixProductConfig) map { (name, product, nested) =>
-      WixHelper.makeWixConfig(name, product, nested)
+    wixConfig <<= (name in Windows, wixPackageInfo, wixMajorVersion, wixProductConfig) map { (name, product, wmv, nested) =>
+      val namespaceDefinitions = WixHelper.getNameSpaceDefinitions(wmv)
+      WixHelper.makeWixConfig(name, product, namespaceDefinitions, nested)
     },
     wixConfig in Windows <<= wixConfig,
     wixProductConfig in Windows <<= wixProductConfig,
