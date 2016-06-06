@@ -168,8 +168,20 @@ object WindowsPlugin extends AutoPlugin {
         desc = "Update PATH environment variables (requires restart).",
         components = Seq(AddDirectoryToPath("bin"))
       )
+    val configLinks = for {
+      (file, name) <- mappings
+      if !file.isDirectory
+      if name startsWith "conf/"
+    } yield name.replaceAll("//", "/").stripSuffix("/").stripSuffix("/")
+    val menuLinks =
+      WindowsFeature(
+        id = "AddConfigLinks",
+        title = "Configuration start menu links",
+        desc = "Adds start menu shortcuts to edit configuration files.",
+        components = Seq(AddShortCuts(configLinks))
+      )
     // TODO - Add feature for shortcuts to binary scripts.
-    Seq(corePackage, addBinToPath)
+    Seq(corePackage, addBinToPath, menuLinks)
   }
 }
 
