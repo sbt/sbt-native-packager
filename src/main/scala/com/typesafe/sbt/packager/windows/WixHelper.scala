@@ -173,7 +173,7 @@ object WixHelper {
       <Directory Id='TARGETDIR' Name='SourceDir'>
         <Directory Id="ProgramMenuFolder">
           <Directory Id="ApplicationProgramsFolder" Name={ name }>
-            <Component Id={ removeId }>
+            <Component Id={ removeId } Guid={ makeGUID }>
               <RemoveFolder Id="ApplicationProgramsFolderRemove" On="uninstall"/>
             </Component>
           </Directory>
