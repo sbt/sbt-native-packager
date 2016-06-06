@@ -57,8 +57,7 @@ object WindowsPlugin extends AutoPlugin {
       "-cultures:en-us"),
     wixProductId := WixHelper.makeGUID,
     wixProductUpgradeId := WixHelper.makeGUID,
-    wixMajorVersion := 4,
-
+    wixMajorVersion := 3,
     maintainer in Windows <<= maintainer,
     packageSummary in Windows <<= packageSummary,
     packageDescription in Windows <<= packageDescription,
