@@ -1,3 +1,4 @@
+
 name := "test-project-windows"
 version := "0.2.0"
 libraryDependencies ++= Seq(
@@ -10,6 +11,10 @@ enablePlugins(JavaServerAppPackaging, WindowsPlugin, SystemdPlugin, UniversalPlu
 
 // import com.typesafe.sbt.packager.Keys._
 // import com.typesafe.sbt.packager.windows.WindowsPlugin
+
+maintainer := "some-company <someofus@some-company.com>"
+
+packageSummary := "some application"
 
 wixProductId := "ce07be71-510d-414a-92d4-dff47631848b"
 

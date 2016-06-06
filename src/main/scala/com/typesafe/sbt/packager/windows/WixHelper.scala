@@ -153,7 +153,6 @@ object WixHelper {
                   <Shortcut Id={ id + "_SC" + (s"%0${targetSize}d").format(i + 1) } Name={ cleanName } Description={ desc } Target={ "[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\") } WorkingDirectory="INSTALLDIR"/>
                 }
               }
-              <RemoveFolder Id="ApplicationProgramsFolderRemove" Directory="ApplicationProgramsFolder" On="uninstall"/>
               <RegistryValue Root="HKCU" Key={ "Software\\" + product.maintainer + "\\" + name } Name="installed" Type="integer" Value="1" KeyPath="yes"/>
             </Component>
           </DirectoryRef>
@@ -168,11 +167,16 @@ object WixHelper {
         f.id -> componentInfos
       }).toMap
 
+    val removeId = cleanStringForId("ApplicationProgramsFolderRemove").takeRight(67)
     <xml:group>
       <!-- Define the directories we use -->
       <Directory Id='TARGETDIR' Name='SourceDir'>
         <Directory Id="ProgramMenuFolder">
-          <Directory Id="ApplicationProgramsFolder" Name={ name }/>
+          <Directory Id="ApplicationProgramsFolder" Name={ name }>
+            <Component Id={ removeId }>
+              <RemoveFolder Id="ApplicationProgramsFolderRemove" On="uninstall"/>
+            </Component>
+          </Directory>
         </Directory>
         <Directory Id='ProgramFilesFolder' Name='PFiles'>
           <Directory Id='INSTALLDIR' Name={ name }>
