@@ -175,6 +175,7 @@ object WixHelper {
           <Directory Id="ApplicationProgramsFolder" Name={ name }>
             <Component Id={ removeId } Guid={ makeGUID }>
               <RemoveFolder Id="ApplicationProgramsFolderRemove" On="uninstall"/>
+              <RegistryValue Root="HKCU" Key={ "Software\\" + product.maintainer + "\\" + name } Name="installed" Type="integer" Value="1" KeyPath="yes"/>
             </Component>
           </Directory>
         </Directory>
@@ -193,6 +194,10 @@ object WixHelper {
       }
       <!-- Now define the features! -->
       <Feature Id='Complete' Title={ product.title } Description={ product.description } Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
+        <!-- Manually added uninstall feautre -->
+        <Feature Id='Uninstall' Title='Uninstall' Description='Uninstall ApplicationFolder' Level='1' Absent='allow'>
+          <ComponentRef Id={ removeId }/>
+        </Feature>
         {
           for (f <- features)
             yield <Feature Id={ f.id } Title={ f.title } Description={ f.desc } Level={ f.level } Absent={ f.absent }>
