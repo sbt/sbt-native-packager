@@ -10,7 +10,9 @@ trait DebianKeys {
   // Metadata keys
   val debianSection = SettingKey[String]("debian-section", "The section category for this deb file.")
   val debianPriority = SettingKey[String]("debian-priority")
+  val debianPackageConflicts = SettingKey[Seq[String]]("debian-package-conflicts", "Packages that conflict with the currently packaged one.")
   val debianPackageDependencies = SettingKey[Seq[String]]("debian-package-dependencies", "Packages that this debian package depends on.")
+  val debianPackageProvides = SettingKey[Seq[String]]("debian-package-provides", "Packages that are provided by the currently packaged one.")
   val debianPackageRecommends = SettingKey[Seq[String]]("debian-package-recommends", "Packages recommended to use with the currently packaged one.")
   val debianPackageInfo = SettingKey[PackageInfo]("debian-package-info", "Information (name, version, etc.) about a debian package.")
   val debianPackageMetadata = SettingKey[PackageMetaData]("debian-package-metadata", "Meta data used when constructing a debian package.")
