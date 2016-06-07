@@ -81,7 +81,9 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     /* ==== Debian default settings ==== */
     debianPriority := "optional",
     debianSection := "java",
+    debianPackageConflicts := Seq.empty,
     debianPackageDependencies := Seq.empty,
+    debianPackageProvides := Seq.empty,
     debianPackageRecommends := Seq.empty,
     debianSignRole := "builder",
     target in Debian <<= (target, name in Debian, version in Debian) apply ((t, n, v) => t / (n + "-" + v)),
@@ -171,7 +173,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       packageArchitecture := "all",
       debianPackageInfo <<= (packageName, version, maintainer, packageSummary, packageDescription) apply PackageInfo,
       debianPackageMetadata <<= (debianPackageInfo, debianPriority, packageArchitecture, debianSection,
-        debianPackageDependencies, debianPackageRecommends) apply PackageMetaData,
+        debianPackageConflicts, debianPackageDependencies, debianPackageProvides, debianPackageRecommends) apply PackageMetaData,
       debianPackageInstallSize <<= linuxPackageMappings map { mappings =>
         (for {
           LinuxPackageMapping(files, _, zipped) <- mappings

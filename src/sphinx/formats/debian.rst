@@ -112,8 +112,14 @@ Debian requires the following specific settings:
   ``version in Debian``
     The debian-friendly version of the package.   Should be of the form ``x.y.z-build-aa``.
 
+  ``debianPackageConflicts in Debian``
+    The list of debian packages that this package conflicts with.
+
   ``debianPackageDependencies in Debian``
     The list of debian packages that this package depends on.
+
+  ``debianPackageProvides in Debian``
+    The list of debian packages that are provided by this package.
 
   ``debianPackageRecommends in Debian``
     The list of debian packages that are recommended to be installed with this package.
