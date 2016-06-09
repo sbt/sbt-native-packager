@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Debian Plugin &mdash; sbt-native-packager 1.1.1-SNAPSHOT documentation</title>
+  <title>Debian Plugin &mdash; sbt-native-packager 1.2.0-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.1-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.2.0-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Packaging Formats" href="index.html"/>
         <link rel="next" title="Rpm Plugin" href="rpm.html"/>
         <link rel="prev" title="Linux Plugin" href="linux.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1
+                1.2.0-SNAPSHOT
               </div>
             
           
@@ -292,6 +292,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemd">Systemd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#upstart">Upstart</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#customization">Customization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#start-script-location">Start Script Location</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#customize-start-script">Customize Start Script</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#override-start-script">Override Start Script</a></li>
 </ul>
@@ -514,8 +515,12 @@ that could slow your build times. This is the reason the dependency is marked as
 <dd>The name of the package for debian (if different from general linux name).</dd>
 <dt><code class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The debian-friendly version of the package.   Should be of the form <code class="docutils literal"><span class="pre">x.y.z-build-aa</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">debianPackageConflicts</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dd>The list of debian packages that this package conflicts with.</dd>
 <dt><code class="docutils literal"><span class="pre">debianPackageDependencies</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The list of debian packages that this package depends on.</dd>
+<dt><code class="docutils literal"><span class="pre">debianPackageProvides</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dd>The list of debian packages that are provided by this package.</dd>
 <dt><code class="docutils literal"><span class="pre">debianPackageRecommends</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The list of debian packages that are recommended to be installed with this package.</dd>
 <dt><code class="docutils literal"><span class="pre">linuxPackageMappings</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
@@ -623,7 +628,7 @@ maintainer scripts will be extended not overridden.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.1.1-SNAPSHOT',
+            VERSION:'1.2.0-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

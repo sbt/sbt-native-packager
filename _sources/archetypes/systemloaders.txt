@@ -34,6 +34,18 @@ General Settings
   ``requiredStopFacilities``
     Names of system services that should be provided at application stop
 
+  ``killTimeout``
+    Timeout before sigkill on stop (after term)
+
+  ``termTimeout``
+    Timeout before sigterm on stop
+    
+  ``retries``
+    Number of retries to start service"
+
+  ``retryTimeout``
+    Timeout between retries in seconds
+
 
 SystemV
 -------
@@ -73,6 +85,25 @@ as the* ``daemonUser`` *. Simply disable requiretty to use Upstart or modify the
 
 Customization
 -------------
+
+Native packager provides general settings to customize the created systemloader scripts.
+
+Start Script Location
+~~~~~~~~~~~~~~~~~~~~~
+
+In order to change the location of the systemloader script/config file you need to adjust the
+``defaultLinuxStartScriptLocation`` like this:
+
+.. code-block:: scala
+
+  defaultLinuxStartScriptLocation in Debian := "/lib/systemd/system"
+
+
+You may need to change these paths according to your distribution. References are
+
+- `Ubuntu systemd documentation <https://wiki.ubuntu.com/systemd>`_
+- `Debian systemd documentation <https://wiki.debian.org/Teams/pkg-systemd/Packaging>`_
+- `RHEL systemd documentation <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/chap-Managing_Services_with_systemd.html>`_
 
 Customize Start Script
 ~~~~~~~~~~~~~~~~~~~~~~

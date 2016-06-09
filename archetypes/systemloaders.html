@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Systemloaders &mdash; sbt-native-packager 1.1.1-SNAPSHOT documentation</title>
+  <title>Systemloaders &mdash; sbt-native-packager 1.2.0-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.1-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.2.0-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Project Archetypes" href="index.html"/>
         <link rel="next" title="Configuration Archetypes" href="misc_archetypes.html"/>
         <link rel="prev" title="Application Configuration" href="java_server/customize.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1
+                1.2.0-SNAPSHOT
               </div>
             
           
@@ -292,6 +292,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#systemd">Systemd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#upstart">Upstart</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#customization">Customization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#start-script-location">Start Script Location</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#customize-start-script">Customize Start Script</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#override-start-script">Override Start Script</a></li>
 </ul>
@@ -452,6 +453,14 @@ This setting can be used to trigger systemloader specific behaviour in your buil
 <dd>Names of system services that should be provided at application start</dd>
 <dt><code class="docutils literal"><span class="pre">requiredStopFacilities</span></code></dt>
 <dd>Names of system services that should be provided at application stop</dd>
+<dt><code class="docutils literal"><span class="pre">killTimeout</span></code></dt>
+<dd>Timeout before sigkill on stop (after term)</dd>
+<dt><code class="docutils literal"><span class="pre">termTimeout</span></code></dt>
+<dd>Timeout before sigterm on stop</dd>
+<dt><code class="docutils literal"><span class="pre">retries</span></code></dt>
+<dd>Number of retries to start service&#8221;</dd>
+<dt><code class="docutils literal"><span class="pre">retryTimeout</span></code></dt>
+<dd>Timeout between retries in seconds</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -486,6 +495,21 @@ as the</em> <code class="docutils literal"><span class="pre">daemonUser</span></
 </div>
 <div class="section" id="customization">
 <h2>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h2>
+<p>Native packager provides general settings to customize the created systemloader scripts.</p>
+<div class="section" id="start-script-location">
+<h3>Start Script Location<a class="headerlink" href="#start-script-location" title="Permalink to this headline">¶</a></h3>
+<p>In order to change the location of the systemloader script/config file you need to adjust the
+<code class="docutils literal"><span class="pre">defaultLinuxStartScriptLocation</span></code> like this:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">defaultLinuxStartScriptLocation</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="s">&quot;/lib/systemd/system&quot;</span>
+</pre></div>
+</div>
+<p>You may need to change these paths according to your distribution. References are</p>
+<ul class="simple">
+<li><a class="reference external" href="https://wiki.ubuntu.com/systemd">Ubuntu systemd documentation</a></li>
+<li><a class="reference external" href="https://wiki.debian.org/Teams/pkg-systemd/Packaging">Debian systemd documentation</a></li>
+<li><a class="reference external" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/chap-Managing_Services_with_systemd.html">RHEL systemd documentation</a></li>
+</ul>
+</div>
 <div class="section" id="customize-start-script">
 <h3>Customize Start Script<a class="headerlink" href="#customize-start-script" title="Permalink to this headline">¶</a></h3>
 <p>Sbt Native Packager leverages templating to customize various start/stop scripts and pre/post install tasks.
@@ -583,7 +607,7 @@ Create a file <code class="docutils literal"><span class="pre">src/templates/sys
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.1.1-SNAPSHOT',
+            VERSION:'1.2.0-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

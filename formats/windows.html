@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Windows Plugin &mdash; sbt-native-packager 1.1.1-SNAPSHOT documentation</title>
+  <title>Windows Plugin &mdash; sbt-native-packager 1.2.0-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.1-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.2.0-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Packaging Formats" href="index.html"/>
         <link rel="next" title="JDKPackager Plugin" href="jdkpackager.html"/>
         <link rel="prev" title="Docker Plugin" href="docker.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1
+                1.2.0-SNAPSHOT
               </div>
             
           
@@ -292,6 +292,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemd">Systemd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#upstart">Upstart</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#customization">Customization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#start-script-location">Start Script Location</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#customize-start-script">Customize Start Script</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#override-start-script">Override Start Script</a></li>
 </ul>
@@ -495,6 +496,8 @@ on how to enable sbt native packager.</p>
 <dd>the list of options to pass to the <code class="docutils literal"><span class="pre">candle.exe</span></code> command.</dd>
 <dt><code class="docutils literal"><span class="pre">lightOptions</span></code></dt>
 <dd>the list of options to pass to the <code class="docutils literal"><span class="pre">light.exe</span></code> command.  Most likely setting is: <code class="docutils literal"><span class="pre">Seq(&quot;-ext&quot;,</span> <span class="pre">&quot;WixUIExtension&quot;,</span> <span class="pre">&quot;-cultures:en-us&quot;)</span></code> for UI.</dd>
+<dt><code class="docutils literal"><span class="pre">wixMajorVersion</span></code></dt>
+<dd>the major version of the Wix tool-set (e.g. when using Wix 4.0.1, major version is 4). Default is 3.</dd>
 <dt><code class="docutils literal"><span class="pre">wixProductId</span></code></dt>
 <dd>The GUID to use to identify the windows package/product.</dd>
 <dt><code class="docutils literal"><span class="pre">wixProductUpgradeId</span></code></dt>
@@ -633,7 +636,7 @@ do so!   However, for most command line tools, it should be sufficient for gener
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.1.1-SNAPSHOT',
+            VERSION:'1.2.0-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
