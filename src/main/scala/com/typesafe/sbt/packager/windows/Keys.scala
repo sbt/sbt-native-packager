@@ -17,4 +17,6 @@ trait WindowsKeys {
   val wixFile = TaskKey[File]("wix-file", "The WIX XML file to package with.")
   val candleOptions = SettingKey[Seq[String]]("candle-options", "Options to pass to the candle.exe program.")
   val lightOptions = SettingKey[Seq[String]]("light-options", "Options to pass to the light.exe program.")
+  val wixMajorVersion = SettingKey[Int]("wix-major-version", "Major version of the Wix suit.")
+
 }

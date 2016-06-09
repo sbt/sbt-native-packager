@@ -36,6 +36,12 @@ case class ComponentFile(
   source: String,
   editable: Boolean = false
 ) extends FeatureComponent
+/** Define wix namespace definitions, that depend on the major version of Wix tools **/
+case class NamespaceDefinitions(
+  majorVersionNumber: Int,
+  namespace: String,
+  utilExtension: String
+)
 /**
  * Will add the directory to the windows path.  NOTE: Only one of these
  * per MSI.
@@ -147,7 +153,6 @@ object WixHelper {
                   <Shortcut Id={ id + "_SC" + (s"%0${targetSize}d").format(i + 1) } Name={ cleanName } Description={ desc } Target={ "[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\") } WorkingDirectory="INSTALLDIR"/>
                 }
               }
-              <RemoveFolder Id="ApplicationProgramsFolderRemove" Directory="ApplicationProgramsFolder" On="uninstall"/>
               <RegistryValue Root="HKCU" Key={ "Software\\" + product.maintainer + "\\" + name } Name="installed" Type="integer" Value="1" KeyPath="yes"/>
             </Component>
           </DirectoryRef>
@@ -162,11 +167,17 @@ object WixHelper {
         f.id -> componentInfos
       }).toMap
 
+    val removeId = cleanStringForId("ApplicationProgramsFolderRemove").takeRight(67)
     <xml:group>
       <!-- Define the directories we use -->
       <Directory Id='TARGETDIR' Name='SourceDir'>
         <Directory Id="ProgramMenuFolder">
-          <Directory Id="ApplicationProgramsFolder" Name={ name }/>
+          <Directory Id="ApplicationProgramsFolder" Name={ name }>
+            <Component Id={ removeId } Guid={ makeGUID }>
+              <RemoveFolder Id="ApplicationProgramsFolderRemove" On="uninstall"/>
+              <RegistryValue Root="HKCU" Key={ "Software\\" + product.maintainer + "\\" + name } Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+            </Component>
+          </Directory>
         </Directory>
         <Directory Id='ProgramFilesFolder' Name='PFiles'>
           <Directory Id='INSTALLDIR' Name={ name }>
@@ -183,6 +194,10 @@ object WixHelper {
       }
       <!-- Now define the features! -->
       <Feature Id='Complete' Title={ product.title } Description={ product.description } Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
+        <!-- Manually added uninstall feautre -->
+        <Feature Id='Uninstall' Title='Uninstall' Description='Uninstall ApplicationFolder' Level='1' Absent='allow'>
+          <ComponentRef Id={ removeId }/>
+        </Feature>
         {
           for (f <- features)
             yield <Feature Id={ f.id } Title={ f.title } Description={ f.desc } Level={ f.level } Absent={ f.absent }>
@@ -209,15 +224,35 @@ object WixHelper {
   def makeWixConfig(
     name: String, // package name
     product: WindowsProductInfo,
+    namespaceDefinitions: NamespaceDefinitions,
     rest: xml.Node
   ): xml.Node = {
-    <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+    <Wix xmlns={ namespaceDefinitions.namespace } xmlns:util={ namespaceDefinitions.utilExtension }>
       <Product Id={ product.id } Name={ product.title } Language='1033' Version={ product.version } Manufacturer={ product.maintainer } UpgradeCode={ product.upgradeId }>
         <Package Description={ product.description } Comments={ product.comments } Manufacturer={ product.maintainer } InstallScope={ product.installScope } InstallerVersion={ product.installerVersion } Compressed={ if (product.compressed) "yes" else "no" }/>
         <Media Id='1' Cabinet={ cleanStringForId(name.toLowerCase).takeRight(66) + ".cab" } EmbedCab='yes'/>
         { rest }
       </Product>
     </Wix>
+  }
+
+  /**
+   * Wix namespace changed from major version 3 to 4.
+   * TODO: Not sure if schema of 2006 is compatible with major versions < 3
+   */
+  def getNameSpaceDefinitions(majorVersion: Int): NamespaceDefinitions = {
+    if (majorVersion <= 3)
+      NamespaceDefinitions(
+        majorVersion,
+        namespace = "http://schemas.microsoft.com/wix/2006/wi",
+        utilExtension = "http://schemas.microsoft.com/wix/UtilExtension"
+      )
+    else
+      NamespaceDefinitions(
+        majorVersion,
+        namespace = "http://wixtoolset.org/schemas/v4/wxs",
+        utilExtension = "http://wixtoolset.org/schemas/v4/wxs/util"
+      )
   }
 
   /**
