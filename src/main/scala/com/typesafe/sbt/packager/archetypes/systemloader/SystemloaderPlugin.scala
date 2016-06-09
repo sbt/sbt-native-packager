@@ -16,7 +16,11 @@ import com.typesafe.sbt.packager.Keys.{
   requiredStartFacilities,
   requiredStopFacilities,
   startRunlevels,
-  stopRunlevels
+  stopRunlevels,
+  termTimeout,
+  killTimeout,
+  retryTimeout,
+  retries
 }
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
@@ -44,14 +48,23 @@ object SystemloaderPlugin extends AutoPlugin {
   def systemloaderSettings: Seq[Setting[_]] = Seq(
     serverLoading := None,
     linuxStartScriptName := Some(packageName.value),
+    // defaults, may be override by concrete systemloader
+    retries := 0,
+    retryTimeout := 60,
+    killTimeout := 5,
+    termTimeout := 5,
     // add loader-functions to script replacements
     linuxScriptReplacements += loaderFunctionsReplacement(sourceDirectory.value, serverLoading.value),
     linuxScriptReplacements ++= makeStartScriptReplacements(
-      requiredStartFacilities.value,
-      requiredStopFacilities.value,
-      startRunlevels.value,
-      stopRunlevels.value,
-      serverLoading.value
+      requiredStartFacilities = requiredStartFacilities.value,
+      requiredStopFacilities = requiredStopFacilities.value,
+      startRunlevels = startRunlevels.value,
+      stopRunlevels = stopRunlevels.value,
+      termTimeout = termTimeout.value,
+      killTimeout = killTimeout.value,
+      retries = retries.value,
+      retryTimeout = retryTimeout.value,
+      loader = serverLoading.value
     ),
     // set the template
     linuxStartScriptTemplate := linuxStartScriptUrl(sourceDirectory.value, serverLoading.value),
@@ -117,6 +130,10 @@ object SystemloaderPlugin extends AutoPlugin {
     requiredStopFacilities: Option[String],
     startRunlevels: Option[String],
     stopRunlevels: Option[String],
+    termTimeout: Int,
+    killTimeout: Int,
+    retries: Int,
+    retryTimeout: Int,
     loader: Option[ServerLoader]
   ): Seq[(String, String)] = {
 
@@ -129,7 +146,11 @@ object SystemloaderPlugin extends AutoPlugin {
       "start_runlevels" -> startRunlevels.getOrElse(""),
       "stop_runlevels" -> stopRunlevels.getOrElse(""),
       "start_facilities" -> startOn.getOrElse(""),
-      "stop_facilities" -> stopOn.getOrElse("")
+      "stop_facilities" -> stopOn.getOrElse(""),
+      "term_timeout" -> termTimeout.toString,
+      "kill_timeout" -> killTimeout.toString,
+      "retries" -> retries.toString,
+      "retryTimeout" -> retryTimeout.toString
     )
   }
 

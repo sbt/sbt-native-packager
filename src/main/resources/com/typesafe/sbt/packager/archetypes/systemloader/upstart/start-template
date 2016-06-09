@@ -8,6 +8,9 @@ author "${{author}}"
 # Stanzas control when and how a process is started and stopped
 # See a list of stanzas here: http://upstart.ubuntu.com/wiki/Stanzas#respawn
 
+# General settings
+kill timeout ${{kill_timeout}}
+
 # When to start the service
 start on runlevel ${{start_runlevels}}
 ${{start_facilities}}
