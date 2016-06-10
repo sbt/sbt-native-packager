@@ -139,6 +139,16 @@ Available templates are
     ``pre-rpm``
     ``postun-rpm``
     ``preun-rpm``
+    
+The corresponding maintainer file names are: 
+
+    ``pretrans``
+    ``post``
+    ``pre``
+    ``postun``
+    ``preun``
+    ``verifyscript``
+    ``posttrans``
 
 Override Postinst scriptlet
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
