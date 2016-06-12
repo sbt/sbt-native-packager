@@ -30,7 +30,8 @@ case class WindowsFeature(
   level: String = "1",
   display: String = "collapse",
   components: Seq[FeatureComponent] = Seq.empty
-) extends FeatureComponent {}
+) extends FeatureComponent
+
 /** Adds a file into a given windows feature. */
 case class ComponentFile(
   source: String,
