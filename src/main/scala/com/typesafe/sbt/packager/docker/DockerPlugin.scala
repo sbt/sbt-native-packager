@@ -3,6 +3,7 @@ package packager
 package docker
 
 import java.io.File
+import java.util.concurrent.atomic.AtomicBoolean
 import sbt._
 import sbt.Keys.{
   name,
@@ -303,8 +304,7 @@ object DockerPlugin extends AutoPlugin {
   }
 
   def publishDocker(tag: String, log: Logger): Unit = {
-    @volatile
-    var loginRequired = false
+    val loginRequired = new AtomicBoolean(false)
 
     def publishLogger(log: Logger) = {
       new ProcessLogger {
@@ -316,10 +316,9 @@ object DockerPlugin extends AutoPlugin {
 
         def info(inf: => String) = {
           inf match {
-            case s if !loginRequired && s.startsWith("Please login") =>
-              loginRequired = true
-            case s if !loginRequired && !s.trim.isEmpty => log.info(s)
-            case s                                      =>
+            case s if s.startsWith("Please login") => loginRequired.compareAndSet(false, true)
+            case s if !loginRequired.get && !s.trim.isEmpty => log.info(s)
+            case s =>
           }
         }
 
@@ -333,10 +332,10 @@ object DockerPlugin extends AutoPlugin {
 
     val ret = Process(cmd) ! publishLogger(log)
 
-    if (loginRequired)
-      throw new RuntimeException("""No credentials for repository, please run "docker login"""")
+    if (loginRequired.get)
+      sys.error("""No credentials for repository, please run "docker login"""")
     else if (ret != 0)
-      throw new RuntimeException("Nonzero exit value: " + ret)
+      sys.error("Nonzero exit value: " + ret)
     else
       log.info("Published image " + tag)
   }
