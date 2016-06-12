@@ -19,11 +19,9 @@ object MappingsHelper {
    * @return mappings
    */
   def directory(sourceDir: File): Seq[(File, String)] = {
-    val parentFile = sourceDir.getParentFile
-    if (parentFile != null)
-      sourceDir.*** pair relativeTo(sourceDir.getParentFile)
-    else
-      sourceDir.*** pair basic
+    Option(sourceDir.getParentFile)
+      .map(parent => sourceDir.*** pair relativeTo(parent))
+      .getOrElse(sourceDir.*** pair basic)
   }
 
   /**
