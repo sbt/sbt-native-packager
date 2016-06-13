@@ -197,5 +197,17 @@ Your control scripts are in a different castle.. directory? No problem.
 
     debianControlScriptsDirectory <<= (sourceDirectory) apply (_ / "deb" / "control")
 
+Debian Wheezy and Python integration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Note that sbt-native-package generated packages can't be installed through
+python-apt on debian wheezy since commit cee091c released since version 1.1.1,
+because it disables debian package re-compression, which is bugged in
+python-apt 8.8 series which is used in Debian Wheezy, used by python tools such
+as Ansible and probably SaltStack.
+
+Note that this `bug has been fixed upstream
+<https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718330>`_ and that upgrading
+to Jessie eliminates this issue.
 
 .. _MaintainerScriptHelper Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$
