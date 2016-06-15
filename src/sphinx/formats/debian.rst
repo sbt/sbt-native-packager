@@ -71,6 +71,27 @@ To compress the debian package, override `debianNativeBuildOptions` with
 
   debianNativeBuildOptions in Debian := Seq("-Zgzip", "-z3") // gzip compression at level 3
 
+Note that commit cee091c released in 1.1.1 disables package re-compression by
+default. While this works great with tools such as apt and dpkg, un-compressed
+package installation is `bugged in python-apt 8.8 series
+<https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718330>`_. This bug prevents
+installation of the generated debian package in the following configuration:
+
+- installation using python-apt module, used by Ansible and SaltStack for
+  example,
+- being on python-apt 8.8 series, that's on Debian Wheezy and perhaps older
+
+It will fail with an error message like::
+
+    E: This is not a valid DEB archive, it has no 'data.tar.gz', 'data.tar.bz2' or 'data.tar.lzma' member
+
+Solutions include:
+
+- upgrading to Debian Jessie,
+- upgrading python-apt, note that no official backport is known
+- re-enabling package re-compression in sbt-native-packager, by overridding
+  `debianNativeBuildOptions` as described above.
+
 Java based packaging
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -196,6 +217,5 @@ Your control scripts are in a different castle.. directory? No problem.
 .. code-block:: scala
 
     debianControlScriptsDirectory <<= (sourceDirectory) apply (_ / "deb" / "control")
-
 
 .. _MaintainerScriptHelper Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$
