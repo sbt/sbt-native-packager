@@ -9,6 +9,8 @@
 [![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/pr?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager)
 [![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/issue?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager)
 
+![Native Packager Logo](src/sphinx/static/np_logo_full_horizontal_transparent.png)
+
 ## Goal ##
 
 SBT native packager lets you build application packages in native formats. It offers
