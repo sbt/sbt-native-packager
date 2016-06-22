@@ -34,3 +34,16 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
     ()
 }
 
+def countSubstring( str:String, substr:String ) = substr.r.findAllMatchIn(str).length
+
+def isUnique(str:String, searchstr: String) = countSubstring(str, searchstr) == 1
+
+TaskKey[Unit]("unique-scripts-in-spec-file") <<= (target, streams) map { (target, out) =>
+    val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+    assert( isUnique(spec, "echo postinst"), "'echo 'postinst' not unique in \n" + spec)
+    assert( isUnique(spec, "echo preinst"), "'echo 'preinst' not unique in \n" + spec)
+    assert( isUnique(spec, "echo postun"), "'echo 'postun' not unique in \n" + spec)
+    assert( isUnique(spec, "echo preun"), "'echo 'preun' not unique in \n" + spec)
+    ()
+}
+
