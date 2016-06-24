@@ -9,6 +9,8 @@
 [![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/pr?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager)
 [![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/issue?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager)
 
+![Native Packager Logo](src/sphinx/static/np_logo_full_horizontal_transparent.png)
+
 ## Goal ##
 
 SBT native packager lets you build application packages in native formats. It offers
@@ -124,3 +126,8 @@ or provide a richer API for a single packaging format.
 [Java server application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/index.html
 [My First Packaged Server Project guide]: http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html
 [jdkpackager]: http://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html
+
+## Credits ##
+
+- [Josh Suereth](https://twitter.com/jsuereth) for the initial developement
+- [Sascha Rinaldi](http://www.imagelab.net/) for the native-packager logo
