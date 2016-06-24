@@ -377,6 +377,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -484,6 +489,26 @@ contents.</p>
 <span class="n">debianNativeBuildOptions</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;-Zgzip&quot;</span><span class="o">,</span> <span class="s">&quot;-z3&quot;</span><span class="o">)</span> <span class="c1">// gzip compression at level 3</span>
 </pre></div>
 </div>
+<p>Note that commit cee091c released in 1.1.1 disables package re-compression by
+default. While this works great with tools such as apt and dpkg, un-compressed
+package installation is <a class="reference external" href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718330">bugged in python-apt 8.8 series</a>. This bug prevents
+installation of the generated debian package in the following configuration:</p>
+<ul class="simple">
+<li>installation using python-apt module, used by Ansible and SaltStack for
+example,</li>
+<li>being on python-apt 8.8 series, that&#8217;s on Debian Wheezy and perhaps older</li>
+</ul>
+<p>It will fail with an error message like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>E: This is not a valid DEB archive, it has no &#39;data.tar.gz&#39;, &#39;data.tar.bz2&#39; or &#39;data.tar.lzma&#39; member
+</pre></div>
+</div>
+<p>Solutions include:</p>
+<ul class="simple">
+<li>upgrading to Debian Jessie,</li>
+<li>upgrading python-apt, note that no official backport is known</li>
+<li>re-enabling package re-compression in sbt-native-packager, by overridding
+<cite>debianNativeBuildOptions</cite> as described above.</li>
+</ul>
 </div>
 <div class="section" id="java-based-packaging">
 <h3>Java based packaging<a class="headerlink" href="#java-based-packaging" title="Permalink to this headline">¶</a></h3>

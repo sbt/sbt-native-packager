@@ -377,6 +377,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -517,6 +522,9 @@ have sensible defaults.</p>
 <dd>Don&#8217;t run the java version check</dd>
 <dt><code class="docutils literal"><span class="pre">-jvm-debug</span> <span class="pre">&lt;port&gt;</span></code></dt>
 <dd>Turn on JVM debugging, open at the given port</dd>
+<dt><code class="docutils literal"><span class="pre">-java-home</span> <span class="pre">&lt;java</span> <span class="pre">home&gt;</span></code></dt>
+<dd>Override the default JVM home, it accept variable expansions, e.g.
+<code class="docutils literal"><span class="pre">-java-home</span> <span class="pre">${app_home}/../jre</span></code></dd>
 <dt><code class="docutils literal"><span class="pre">-main</span></code></dt>
 <dd>Define a custom main class</dd>
 </dl>

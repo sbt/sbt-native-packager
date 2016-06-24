@@ -377,6 +377,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -532,10 +537,10 @@ scriptlets use these settings:</p>
 </div></blockquote>
 <p>If you want to have your files separated from the build definition use the
 default location for rpm scriptlets. To override default templates in a RPM
-build put the new scriptlets in the <code class="docutils literal"><span class="pre">rpmScriptsDirectory</span></code> (by default <code class="docutils literal"><span class="pre">src/rpm/scriptlets</span></code>).</p>
+build put the new scriptlets in the <code class="docutils literal"><span class="pre">rpmScriptletsDirectory</span></code> (by default <code class="docutils literal"><span class="pre">src/rpm/scriptlets</span></code>).</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">rpmScriptsDirectory</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">rpmScriptletsDirectory</span></code></dt>
 <dd>By default to <code class="docutils literal"><span class="pre">src/rpm/scriptlets</span></code>. Place your templates here.</dd>
 </dl>
 </div></blockquote>

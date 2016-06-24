@@ -119,6 +119,10 @@ The start script provides a few standard options you can pass:
   ``-jvm-debug <port>``
     Turn on JVM debugging, open at the given port
 
+  ``-java-home <java home>``
+    Override the default JVM home, it accept variable expansions, e.g.
+    ``-java-home ${app_home}/../jre``
+
   ``-main``
     Define a custom main class
 

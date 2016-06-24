@@ -128,9 +128,9 @@ scriptlets use these settings:
 
 If you want to have your files separated from the build definition use the
 default location for rpm scriptlets. To override default templates in a RPM
-build put the new scriptlets in the ``rpmScriptsDirectory`` (by default ``src/rpm/scriptlets``).
+build put the new scriptlets in the ``rpmScriptletsDirectory`` (by default ``src/rpm/scriptlets``).
 
-   ``rpmScriptsDirectory``
+   ``rpmScriptletsDirectory``
      By default to ``src/rpm/scriptlets``. Place your templates here.
 
 Available templates are
