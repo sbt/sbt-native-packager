@@ -34,9 +34,11 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
     ()
 }
 
-def countSubstring( str:String, substr:String ) = substr.r.findAllMatchIn(str).length
+def countSubstring(str: String, substr: String): Int =
+    substr.r.findAllMatchIn(str).length
 
-def isUnique(str:String, searchstr: String) = countSubstring(str, searchstr) == 1
+def isUnique(str: String, searchstr: String): Boolean =
+    countSubstring(str, searchstr) == 1
 
 TaskKey[Unit]("unique-scripts-in-spec-file") <<= (target, streams) map { (target, out) =>
     val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
