@@ -106,31 +106,34 @@ RPM Scriptlets
 --------------
 
 RPM puts all scripts into one file. To override or append settings to your
-scriptlets use these settings:
+scriptlets use ``maintainerScripts in Rpm`` or these ``RpmConstants._``s:
 
-   ``rpmPre``
+   ``Pre``
      %pre scriptlet
 
-   ``rpmPost``
+   ``Post``
      %post scriptlet
 
-   ``rpmPosttrans``
+   ``Pretrans``
+     %pretrans scriptlet
+     
+   ``Posttrans``
      %posttrans scriptlet
 
-   ``rpmPreun``
+   ``Preun``
      "%preun scriptlet"
 
-   ``rpmPostun``
+   ``Postun``
      %postun scriptlet
 
-   ``rpmVerifyscript``
+   ``Verifyscript``
      %verifyscript scriptlet
 
 If you want to have your files separated from the build definition use the
 default location for rpm scriptlets. To override default templates in a RPM
 build put the new scriptlets in the ``rpmScriptletsDirectory`` (by default ``src/rpm/scriptlets``).
 
-   ``rpmScriptletsDirectory``
+   ``RpmConstants.Scriptlets``
      By default to ``src/rpm/scriptlets``. Place your templates here.
 
 Available templates are
