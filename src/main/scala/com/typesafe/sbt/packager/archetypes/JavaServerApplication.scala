@@ -369,7 +369,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     val rpmScripts = Option(scriptDirectory.listFiles) getOrElse Array.empty
 
     // remove all non files and already processed templates
-    rpmScripts.diff(predefined).filter(_.isFile).foldLeft(predefinedScripts) {
+    rpmScripts.filter(s => s.isFile && !predefined.contains(s.getName)).foldLeft(predefinedScripts) {
       case (scripts, scriptlet) =>
         val script = scriptlet.getName
         val existingContent = scripts.getOrElse(script, Nil)
