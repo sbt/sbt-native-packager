@@ -40,7 +40,7 @@ TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) 
   assert(script.contains("# Default-Stop: 0 1 6"), "script doesn't contain Default-Stop header\n" + script)
   assert(script.contains("# Required-Start: $test-deb-service"), "script doesn't contain Required-Start header\n" + script)
   assert(script.contains("# Required-Stop: $remote_fs $syslog"), "script doesn't contain Required-Stop header\n" + script)
-  assert(script.contains("""start-stop-daemon --background --chdir /usr/share/debian-test --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --startas "$RUN_CMD" --start -- $RUN_OPTS "$stdout_redirect"""), "script has wrong startup line\n" + script)
+  assert(script.contains("""start-stop-daemon --no-close --background --chdir /usr/share/debian-test --chuid '$DAEMON_USER' --make-pidfile --pidfile '$PIDFILE' --startas '$RUN_CMD' --start -- $RUN_OPTS $stdout_redirect"""), "script has wrong startup line\n" + script)
   assert(script.contains("""logfile="test.log"""") ,"script contains wrong log file for stdout\n" + script)
 
   out.log.success("Successfully tested systemV start up script")

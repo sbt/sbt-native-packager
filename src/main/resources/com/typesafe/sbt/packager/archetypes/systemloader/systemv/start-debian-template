@@ -48,9 +48,9 @@ start_daemon() {
     fi
 
     if [ "$create_pidfile" = true ]; then
-        start-stop-daemon --background --chdir ${{chdir}} --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --startas "$RUN_CMD" --start -- $RUN_OPTS "$stdout_redirect"
+        eval "start-stop-daemon --no-close --background --chdir ${{chdir}} --chuid '$DAEMON_USER' --make-pidfile --pidfile '$PIDFILE' --startas '$RUN_CMD' --start -- $RUN_OPTS $stdout_redirect"
     else
-        start-stop-daemon --background --chdir ${{chdir}} --chuid "$DAEMON_USER" --pidfile "$PIDFILE" --startas "$RUN_CMD" --start -- $RUN_OPTS "$stdout_redirect"
+        eval "start-stop-daemon --no-close --background --chdir ${{chdir}} --chuid '$DAEMON_USER' --pidfile '$PIDFILE' --startas '$RUN_CMD' --start -- $RUN_OPTS $stdout_redirect"
     fi
     log_end_msg $?
 }
