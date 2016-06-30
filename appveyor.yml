@@ -16,7 +16,7 @@ build_script:
   - sbt clean compile
 test_script:
   - sbt "test-only * -- -n windows"
-  - sbt "scripted universal/dist universal/stage windows/*"
+  - sbt "scripted universal/dist universal/stage windows/* jar/*"
 cache:
   - C:\sbt\
   - C:\Users\appveyor\.m2
