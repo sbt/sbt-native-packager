@@ -104,6 +104,10 @@ There's a complete "getting started" guide and more detailed topics available at
 
 Please feel free to [contribute documentation](https://github.com/sbt/sbt-native-packager/tree/master/src/sphinx), or raise issues where you feel it may be lacking.
 
+## Contributing ##
+
+Please read the [contributing.md](CONTRIBUTING.md) on how to build and test native-packager.
+
 ## Related SBT Plugins ##
 
 These are a list of plugins that either use sbt-native-packager, provide additional features
