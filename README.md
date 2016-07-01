@@ -118,6 +118,7 @@ or provide a richer API for a single packaging format.
 - [sbt-bundle](https://github.com/sbt/sbt-bundle)
 - [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
   - This is in addition to the built-in [Docker Plugin](http://www.scala-sbt.org/sbt-native-packager/formats/docker.html) from  sbt-native.  Both generate docker images. `sbt-docker` provides more customization abilities, while the `DockerPlugin` in this project  integrates more directly with predefined archetypes.
+- [sbt-docker-containers](https://github.com/Dwolla/sbt-docker-containers) - enhances sbt-native-packager's docker functionality.
 - [sbt-heroku](https://github.com/heroku/sbt-heroku)
 - [sbt-newrelic](https://github.com/gilt/sbt-newrelic)
 - [sbt-packager](https://github.com/en-japan/sbt-packer)
