@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Debian Plugin &mdash; sbt-native-packager 1.1.3-SNAPSHOT documentation</title>
+  <title>Debian Plugin &mdash; sbt-native-packager 1.2.0-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.3-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.2.0-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Packaging Formats" href="index.html"/>
         <link rel="next" title="Rpm Plugin" href="rpm.html"/>
         <link rel="prev" title="Linux Plugin" href="linux.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1
+                1.2.0-SNAPSHOT
               </div>
             
           
@@ -274,17 +274,31 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#systemloader-configuration">Systemloader Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/systemloaders.html">Systemloaders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#general-settings">General Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemv">SystemV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemd">Systemd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#upstart">Upstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#customization">Customization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#start-script-location">Start Script Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#customize-start-script">Customize Start Script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#override-start-script">Override Start Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
@@ -361,6 +375,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../recipes/package_configuration.html#sbt-sub-modules">SBT sub modules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../recipes/package_configuration.html#sbt-parameters-and-build-environment">SBT parameters and Build Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -470,6 +489,26 @@ contents.</p>
 <span class="n">debianNativeBuildOptions</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;-Zgzip&quot;</span><span class="o">,</span> <span class="s">&quot;-z3&quot;</span><span class="o">)</span> <span class="c1">// gzip compression at level 3</span>
 </pre></div>
 </div>
+<p>Note that commit cee091c released in 1.1.1 disables package re-compression by
+default. While this works great with tools such as apt and dpkg, un-compressed
+package installation is <a class="reference external" href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718330">bugged in python-apt 8.8 series</a>. This bug prevents
+installation of the generated debian package in the following configuration:</p>
+<ul class="simple">
+<li>installation using python-apt module, used by Ansible and SaltStack for
+example,</li>
+<li>being on python-apt 8.8 series, that&#8217;s on Debian Wheezy and perhaps older</li>
+</ul>
+<p>It will fail with an error message like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>E: This is not a valid DEB archive, it has no &#39;data.tar.gz&#39;, &#39;data.tar.bz2&#39; or &#39;data.tar.lzma&#39; member
+</pre></div>
+</div>
+<p>Solutions include:</p>
+<ul class="simple">
+<li>upgrading to Debian Jessie,</li>
+<li>upgrading python-apt, note that no official backport is known</li>
+<li>re-enabling package re-compression in sbt-native-packager, by overridding
+<cite>debianNativeBuildOptions</cite> as described above.</li>
+</ul>
 </div>
 <div class="section" id="java-based-packaging">
 <h3>Java based packaging<a class="headerlink" href="#java-based-packaging" title="Permalink to this headline">¶</a></h3>
@@ -501,8 +540,12 @@ that could slow your build times. This is the reason the dependency is marked as
 <dd>The name of the package for debian (if different from general linux name).</dd>
 <dt><code class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The debian-friendly version of the package.   Should be of the form <code class="docutils literal"><span class="pre">x.y.z-build-aa</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">debianPackageConflicts</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dd>The list of debian packages that this package conflicts with.</dd>
 <dt><code class="docutils literal"><span class="pre">debianPackageDependencies</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The list of debian packages that this package depends on.</dd>
+<dt><code class="docutils literal"><span class="pre">debianPackageProvides</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dd>The list of debian packages that are provided by this package.</dd>
 <dt><code class="docutils literal"><span class="pre">debianPackageRecommends</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The list of debian packages that are recommended to be installed with this package.</dd>
 <dt><code class="docutils literal"><span class="pre">linuxPackageMappings</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
@@ -610,7 +653,7 @@ maintainer scripts will be extended not overridden.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.1.3-SNAPSHOT',
+            VERSION:'1.2.0-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

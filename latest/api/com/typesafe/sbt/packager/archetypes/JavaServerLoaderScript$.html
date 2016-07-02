@@ -164,7 +164,7 @@
       </h4>
       
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerLoaderScript#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="apply(script:String,archetype:String,loader:com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader,template:Option[sbt.File]):sbt.URL"></a>
+      <a id="apply(script:String,archetype:String,loader:com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader.ServerLoader,template:Option[sbt.File]):sbt.URL"></a>
       <a id="apply(String,String,ServerLoader,Option[File]):URL"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -172,7 +172,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="script">script: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="archetype">archetype: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="loader">loader: <a href="ServerLoader$.html#ServerLoader=com.typesafe.sbt.packager.archetypes.ServerLoader.Value" class="extmbr" name="com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader">ServerLoader</a></span>, <span name="template">template: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>)</span><span class="result">: <a href="../../../../../sbt/package.html#URL=java.net.URL" class="extmbr" name="sbt.URL">URL</a></span>
+        <span class="name">apply</span><span class="params">(<span name="script">script: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="archetype">archetype: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="loader">loader: <a href="systemloader/ServerLoader$.html#ServerLoader=com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader.Value" class="extmbr" name="com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader.ServerLoader">ServerLoader</a></span>, <span name="template">template: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>)</span><span class="result">: <a href="../../../../../sbt/package.html#URL=java.net.URL" class="extmbr" name="sbt.URL">URL</a></span>
       </span>
       </h4>
       
@@ -293,7 +293,7 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerLoaderScript#loaderFunctionsReplacement" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="loaderFunctionsReplacement(loader:com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader,archetype:String,script:String):(String,String)"></a>
+      <a id="loaderFunctionsReplacement(loader:com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader.ServerLoader,archetype:String,script:String):(String,String)"></a>
       <a id="loaderFunctionsReplacement(ServerLoader,String,String):(String,String)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -301,11 +301,11 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">loaderFunctionsReplacement</span><span class="params">(<span name="loader">loader: <a href="ServerLoader$.html#ServerLoader=com.typesafe.sbt.packager.archetypes.ServerLoader.Value" class="extmbr" name="com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader">ServerLoader</a></span>, <span name="archetype">archetype: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="script">script: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="#LOADER_FUNCTIONS:String">LOADER_FUNCTIONS</a></span></span></span>)</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)</span>
+        <span class="name">loaderFunctionsReplacement</span><span class="params">(<span name="loader">loader: <a href="systemloader/ServerLoader$.html#ServerLoader=com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader.Value" class="extmbr" name="com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader.ServerLoader">ServerLoader</a></span>, <span name="archetype">archetype: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="script">script: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="#LOADER_FUNCTIONS:String">LOADER_FUNCTIONS</a></span></span></span>)</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Loads the <a href="ServerLoader$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.ServerLoader">ServerLoader</a> specific &quot;functions&quot; resource,
-replaces all placeholders and returns the resolved string.</p><div class="fullcomment"><div class="comment cmt"><p>Loads the <a href="ServerLoader$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.ServerLoader">ServerLoader</a> specific &quot;functions&quot; resource,
+      <p class="shortcomment cmt">Loads the <a href="systemloader/ServerLoader$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader">com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader</a> specific &quot;functions&quot; resource,
+replaces all placeholders and returns the resolved string.</p><div class="fullcomment"><div class="comment cmt"><p>Loads the <a href="systemloader/ServerLoader$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader">com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader</a> specific &quot;functions&quot; resource,
 replaces all placeholders and returns the resolved string.</p><p>The functions script resides in &quot;[archetype]/[loader]/functions&quot;
 </p></div><dl class="paramcmts block"><dt class="param">loader</dt><dd class="cmt"><p>- Upstart, SystemV, SystemD</p></dd><dt class="param">script</dt><dd class="cmt"><p>- default is &quot;functions&quot;</p></dd><dt>returns</dt><dd class="cmt"><p>functions - addService/stopService with resolved variables
 </p></dd></dl></div>
@@ -362,7 +362,7 @@ replaces all placeholders and returns the resolved string.</p><p>The functions s
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerLoaderScript#templatePath" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="templatePath(script:String,loader:com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader,archetype:String):String"></a>
+      <a id="templatePath(script:String,loader:com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader.ServerLoader,archetype:String):String"></a>
       <a id="templatePath(String,ServerLoader,String):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -370,7 +370,7 @@ replaces all placeholders and returns the resolved string.</p><p>The functions s
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">templatePath</span><span class="params">(<span name="script">script: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="loader">loader: <a href="ServerLoader$.html#ServerLoader=com.typesafe.sbt.packager.archetypes.ServerLoader.Value" class="extmbr" name="com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader">ServerLoader</a></span>, <span name="archetype">archetype: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">templatePath</span><span class="params">(<span name="script">script: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="loader">loader: <a href="systemloader/ServerLoader$.html#ServerLoader=com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader.Value" class="extmbr" name="com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader.ServerLoader">ServerLoader</a></span>, <span name="archetype">archetype: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
       
