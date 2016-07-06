@@ -26,6 +26,7 @@ TaskKey[Unit]("checkStartupScript") <<= (target, streams) map { (target, out) =>
   val script = IO.read(file("usr/lib/systemd/system/rpm-test.service"))
   val runScript = file("usr/share/rpm-test/bin/rpm-test")
   assert(script.contains("Requires=serviceA.service"), "script doesn't contain Default-Start header\n" + script)
+  assert(script.contains("SuccessExitStatus="), "script doesn't contain SuccessExitStatus header\n" + script)
   out.log.success("Successfully tested systemd start up script")
   ()
 }
