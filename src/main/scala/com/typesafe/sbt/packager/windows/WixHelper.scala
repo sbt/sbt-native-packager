@@ -96,7 +96,7 @@ object WixHelper {
         sys.error("Nested windows features currently unsupported!")
       case AddDirectoryToPath(dir) =>
         val dirRef = if (dir.isEmpty) "INSTALLDIR" else cleanStringForId(dir)
-        val homeEnvVar = archetypes.JavaAppBatScript.makeEnvFriendlyName(name) + "_HOME"
+        val homeEnvVar = NameHelper.makeEnvFriendlyName(name) + "_HOME"
         val pathAddition =
           if (dir.isEmpty) "%" + homeEnvVar + "%"
           else "[INSTALLDIR]" + dir.replaceAll("\\/", "\\\\")

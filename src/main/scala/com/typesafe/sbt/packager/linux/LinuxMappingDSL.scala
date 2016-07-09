@@ -42,12 +42,11 @@ trait LinuxMappingDSL {
     * @param mappings list of mappings to update
     * @return updated list of mappings
     */
-  def configWithNoReplace(mappings: Seq[LinuxPackageMapping]): Seq[LinuxPackageMapping] = {
+  def configWithNoReplace(mappings: Seq[LinuxPackageMapping]): Seq[LinuxPackageMapping] =
     mappings.map {
       case mapping if mapping.fileData.config != "false" => mapping.withConfig("noreplace")
       case mapping => mapping
     }
-  }
 }
 
 object Mapper extends LinuxMappingDSL

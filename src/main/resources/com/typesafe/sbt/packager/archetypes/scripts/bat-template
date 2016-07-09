@@ -126,7 +126,7 @@ goto param_loop
 
 set _JAVA_OPTS=!_JAVA_OPTS! !_JAVA_PARAMS!
 :run
- 
+
 @@APP_DEFINES@@
 
 if defined CUSTOM_MAIN_CLASS (
