@@ -219,21 +219,18 @@ case class RpmSpec(
     sb.toString
   }
 
-  private[this] def installSection(root: File): String = {
-    val sb = new StringBuilder
-    sb append "\n"
-    sb append "%install\n"
-    sb append "if [ -e \"$RPM_BUILD_ROOT\" ]; "
-    sb append "then\n"
-    sb append "  mv \""
-    sb append root.getAbsolutePath
-    sb append "\"/* \"$RPM_BUILD_ROOT\"\n"
-    sb append "else\n"
-    sb append "  mv \""
-    sb append root.getAbsolutePath
-    sb append "\" \"$RPM_BUILD_ROOT\"\n"
-    sb append "fi\n"
-    sb.toString
+  private[this] def installSection(root: File, createSymlinkScript: Option[String]): String = {
+    s"""|
+      |%install
+      |if [ -e "$$RPM_BUILD_ROOT" ];
+      |then
+      |  mv "${root.getAbsolutePath}"/* "$$RPM_BUILD_ROOT"
+      |else
+      |  mv "${root.getAbsolutePath}" "$$RPM_BUILD_ROOT"
+      |fi
+      |
+      |${createSymlinkScript getOrElse ""}
+    """.stripMargin
   }
 
   // TODO - This is *very* tied to RPM helper, may belong *in* RpmHelper
@@ -267,17 +264,15 @@ case class RpmSpec(
     sb append "\n\n"
 
     // write build as moving everything into RPM directory.
-    sb append installSection(tmpRoot)
+    sb append installSection(tmpRoot, buildSymlinkScript(meta.name, installDir, symlinks))
     // TODO - Allow symlinks
 
     // write scriptlets
     sb append scriptlets.pretransContent()
     sb append scriptlets.preContent()
-    sb append scriptlets.postContent(buildSymlinkScript(meta.name, installDir, symlinks))
     sb append scriptlets.verifyscriptContent()
     sb append scriptlets.posttransContent()
     sb append scriptlets.preunContent()
-    sb append scriptlets.postunContent(teardownSymlinkScript(meta.name, installDir, symlinks))
 
     // Write file mappings
     sb append fileSection
