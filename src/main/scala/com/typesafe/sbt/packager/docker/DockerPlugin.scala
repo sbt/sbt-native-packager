@@ -59,10 +59,10 @@ object DockerPlugin extends AutoPlugin {
   import autoImport._
 
   /**
-   * The separator for makeAdd force UNIX separator.
-   * The separator doesn't depend to OS where i build Dockerfile.
+   * The separator used by makeAdd should be always forced to UNIX separator.
+   * The separator doesn't depend on the OS where Dockerfile is being built.
    */
-  val SeparatorChar = File.separatorChar
+  val UnixSeparatorChar = '/'
 
   override def requires = universal.UniversalPlugin
 
@@ -158,7 +158,12 @@ object DockerPlugin extends AutoPlugin {
    * @return ADD command adding all files inside the installation directory
    */
   private final def makeAdd(dockerBaseDirectory: String): CmdLike = {
-    val files = dockerBaseDirectory.split(SeparatorChar)(1)
+    /**
+     * This is the file path of the file in the Docker image, and does not depend on the OS where the image
+     * is being built. This means that it needs to be the Unix file separator even when the image is built
+     * on e.g. Windows systems.
+     */
+    val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
     Cmd("ADD", s"$files /$files")
   }
 
