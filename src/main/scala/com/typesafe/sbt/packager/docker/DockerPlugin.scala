@@ -294,7 +294,7 @@ object DockerPlugin extends AutoPlugin {
 
     if (latest) {
       val name = tag.substring(0, tag.lastIndexOf(":")) + ":latest"
-      val latestCmd = Seq("docker", "tag", "-f", tag, name)
+      val latestCmd = Seq("docker", "tag", tag, name)
       Process(latestCmd).! match {
         case 0 => log.info("Update Latest from image " + tag)
         case n => sys.error("Failed to run docker tag")
