@@ -65,7 +65,7 @@ Core Concepts
 Native packager is based on a few simple concepts. If you understand these, you will be able to customize your build,
 create own packaging formats and deploy more effectively.
 
-The first concept is the separation of concners in two plugin kinds.
+The first concept is the separation of concerns in two plugin kinds.
 
 - :ref:`format plugins <packaging-formats>` define **how** a package is created
 - :ref:`archetype plugins <archetypes>` define **what** a package should contain

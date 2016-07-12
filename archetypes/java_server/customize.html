@@ -32,7 +32,7 @@
   
     <link rel="top" title="sbt-native-packager 1.1.4-SNAPSHOT documentation" href="../../index.html"/>
         <link rel="up" title="Java Server Application Archetype" href="index.html"/>
-        <link rel="next" title="Akka Microkernel" href="../akka_app.html"/>
+        <link rel="next" title="Systemloaders" href="../systemloaders.html"/>
         <link rel="prev" title="Java Server Application Archetype" href="index.html"/> 
 
   
@@ -274,17 +274,34 @@
 <li class="toctree-l3"><a class="reference internal" href="index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index.html#default-mappings">Default Mappings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index.html#service-managers">Service Managers</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="index.html#customize">Customize</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="">Application Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#systemloader-configuration">Systemloader Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#example-configurations">Example Configurations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../systemloaders.html">Systemloaders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#general-settings">General Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#systemv">SystemV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#systemd">Systemd</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#upstart">Upstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#customization">Customization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#start-script-location">Start Script Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#customize-start-script">Customize Start Script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#override-start-script">Override Start Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
@@ -361,6 +378,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-sub-modules">SBT sub modules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-parameters-and-build-environment">SBT parameters and Build Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -469,87 +491,10 @@ different jvm settings with just restarting the jvm.</p>
 <p>Support planned.</p>
 </div>
 </div>
-<div class="section" id="service-manager-configuration">
-<h1>Service Manager Configuration<a class="headerlink" href="#service-manager-configuration" title="Permalink to this headline">¶</a></h1>
-<p>It is possible to change the default Service Manager for a given platform by specifying a <code class="docutils literal"><span class="pre">ServerLoader</span></code>. To use
-Upstart for an Rpm package simply:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.archetypes.ServerLoader</span>
-
-<span class="n">serverLoading</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="nc">ServerLoader</span><span class="o">.</span><span class="nc">Upstart</span>
-</pre></div>
-</div>
-<p><em>As a side note Fedora/RHEL/Centos family of linux specifies</em> <code class="docutils literal"><span class="pre">Default</span> <span class="pre">requiretty</span></code> <em>in its</em> <code class="docutils literal"><span class="pre">/etc/sudoers</span></code>
-<em>file. This prevents the default Upstart script from working correctly as it uses sudo to run the application
-as the</em> <code class="docutils literal"><span class="pre">daemonUser</span></code> <em>. Simply disable requiretty to use Upstart or modify the Upstart template.</em></p>
-<div class="section" id="customize-start-script">
-<h2>Customize Start Script<a class="headerlink" href="#customize-start-script" title="Permalink to this headline">¶</a></h2>
-<p>Sbt Native Packager leverages templating to customize various start/stop scripts and pre/post install tasks.
-As an example, to alter the <code class="docutils literal"><span class="pre">loader-functions</span></code> which manage the specific start and stop process commands
-for SystemLoaders you can to the <code class="docutils literal"><span class="pre">linuxScriptReplacements</span></code> map:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.archetypes.TemplateWriter</span>
-
-<span class="n">linuxScriptReplacements</span> <span class="o">+=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">functions</span> <span class="k">=</span> <span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;templates&quot;</span> <span class="o">/</span> <span class="s">&quot;custom-loader-functions&quot;</span>
-  <span class="c1">// Nil == replacements. If you want to replace stuff in your script put them in this Seq[(String,String)]</span>
-  <span class="s">&quot;loader-functions&quot;</span> <span class="o">-&gt;</span> <span class="nc">TemplateWriter</span><span class="o">.</span><span class="n">generateScript</span><span class="o">(</span><span class="n">functions</span><span class="o">.</span><span class="n">toURL</span><span class="o">,</span> <span class="nc">Nil</span><span class="o">)</span>
-<span class="o">}</span>
-</pre></div>
-</div>
-<p>which will add the following resource file to use start/stop instead of initctl in the post install script:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>startService<span class="o">()</span> <span class="o">{</span>
-    <span class="nv">app_name</span><span class="o">=</span><span class="nv">$1</span>
-    start <span class="nv">$app_name</span>
-<span class="o">}</span>
-
-stopService<span class="o">()</span> <span class="o">{</span>
-    <span class="nv">app_name</span><span class="o">=</span><span class="nv">$1</span>
-    stop <span class="nv">$app_name</span>
-<span class="o">}</span>
-</pre></div>
-</div>
-<p>The <a class="reference internal" href="../../formats/debian.html"><em>debian</em></a> and <a class="reference internal" href="../../formats/rpm.html"><em>redhat</em></a> pages have further information on overriding
-distribution specific actions.</p>
-</div>
-<div class="section" id="override-start-script">
-<h2>Override Start Script<a class="headerlink" href="#override-start-script" title="Permalink to this headline">¶</a></h2>
-<p>It&#8217;s also possible to override the entire script/configuration for your service manager.
-Create a file <code class="docutils literal"><span class="pre">src/templates/$format/$loader</span></code> and it will be used instead.</p>
-<p>Possible values:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">$format</span></code> - <code class="docutils literal"><span class="pre">debian</span></code> or <code class="docutils literal"><span class="pre">rpm</span></code></li>
-<li><code class="docutils literal"><span class="pre">$loader</span></code> - <code class="docutils literal"><span class="pre">upstart</span></code>, <code class="docutils literal"><span class="pre">systemv</span></code> or <code class="docutils literal"><span class="pre">systemd</span></code></li>
-</ul>
-<p><strong>Syntax</strong></p>
-<p>You can use <code class="docutils literal"><span class="pre">${{variable_name}}</span></code> to reference variables when writing your script.  The default set of variables is:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">descr</span></code> - The description of the server.</li>
-<li><code class="docutils literal"><span class="pre">author</span></code> - The configured author name.</li>
-<li><code class="docutils literal"><span class="pre">exec</span></code> - The script/binary to execute when starting the server</li>
-<li><code class="docutils literal"><span class="pre">chdir</span></code> - The working directory for the server.</li>
-<li><code class="docutils literal"><span class="pre">retries</span></code> - The number of times to retry starting the server.</li>
-<li><code class="docutils literal"><span class="pre">retryTimeout</span></code> - The amount of time to wait before trying to run the server.</li>
-<li><code class="docutils literal"><span class="pre">app_name</span></code> - The name of the application (linux friendly)</li>
-<li><code class="docutils literal"><span class="pre">app_main_class</span></code> - The main class / entry point of the application.</li>
-<li><code class="docutils literal"><span class="pre">app_classpath</span></code> - The (ordered) classpath of the application.</li>
-<li><code class="docutils literal"><span class="pre">daemon_user</span></code> - The user that the server should run as.</li>
-</ul>
-</div>
-<div class="section" id="systemd-support">
-<h2>SystemD Support<a class="headerlink" href="#systemd-support" title="Permalink to this headline">¶</a></h2>
-<p>There is also experimental SystemD support for Fedora release 20 (Heisenbug). You can use the <code class="docutils literal"><span class="pre">`Systemd`</span></code> server loader:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.archetypes.ServerLoader</span>
-
-<span class="n">serverLoading</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="nc">ServerLoader</span><span class="o">.</span><span class="nc">Systemd</span>
-</pre></div>
-</div>
-<p>There is only partial systemd support in Ubuntu 14.04 LTS which prevents sbt-native-packager systemd from working correctly on
-Ubuntu. Ubuntu 15.04 is the first version that switched to Systemd and the default Upstart won&#8217;t work. Switch to Systemd with</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.archetypes.ServerLoader</span>
-
-<span class="n">serverLoading</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">ServerLoader</span><span class="o">.</span><span class="nc">Systemd</span>
-</pre></div>
-</div>
-</div>
+<div class="section" id="systemloader-configuration">
+<h1>Systemloader Configuration<a class="headerlink" href="#systemloader-configuration" title="Permalink to this headline">¶</a></h1>
+<p>See the <a class="reference internal" href="../systemloaders.html#systemloaders"><span>Systemloaders</span></a> documentation on how to add a systemloader (e.g. SystemV, Systemd or Upstart) to your
+package.</p>
 </div>
 <div class="section" id="package-lifecycle-configuration">
 <h1>Package Lifecycle Configuration<a class="headerlink" href="#package-lifecycle-configuration" title="Permalink to this headline">¶</a></h1>
@@ -576,29 +521,31 @@ service management scripts.</p>
 <div class="section" id="rpm-scriptlets">
 <h2>RPM Scriptlets<a class="headerlink" href="#rpm-scriptlets" title="Permalink to this headline">¶</a></h2>
 <p>RPM puts all scripts into one file. To override or append settings to your
-scriptlets use these settings:</p>
+scriptlets use <code class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code> or these <a href="#id1"><span class="problematic" id="id2">``</span></a>RpmConstants._``s:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">rpmPre</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">Pre</span></code></dt>
 <dd>%pre scriptlet</dd>
-<dt><code class="docutils literal"><span class="pre">rpmPost</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">Post</span></code></dt>
 <dd>%post scriptlet</dd>
-<dt><code class="docutils literal"><span class="pre">rpmPosttrans</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">Pretrans</span></code></dt>
+<dd>%pretrans scriptlet</dd>
+<dt><code class="docutils literal"><span class="pre">Posttrans</span></code></dt>
 <dd>%posttrans scriptlet</dd>
-<dt><code class="docutils literal"><span class="pre">rpmPreun</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">Preun</span></code></dt>
 <dd>&#8220;%preun scriptlet&#8221;</dd>
-<dt><code class="docutils literal"><span class="pre">rpmPostun</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">Postun</span></code></dt>
 <dd>%postun scriptlet</dd>
-<dt><code class="docutils literal"><span class="pre">rpmVerifyscript</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">Verifyscript</span></code></dt>
 <dd>%verifyscript scriptlet</dd>
 </dl>
 </div></blockquote>
 <p>If you want to have your files separated from the build definition use the
 default location for rpm scriptlets. To override default templates in a RPM
-build put the new scriptlets in the <code class="docutils literal"><span class="pre">rpmScriptsDirectory</span></code> (by default <code class="docutils literal"><span class="pre">src/rpm/scriptlets</span></code>).</p>
+build put the new scriptlets in the <code class="docutils literal"><span class="pre">rpmScriptletsDirectory</span></code> (by default <code class="docutils literal"><span class="pre">src/rpm/scriptlets</span></code>).</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">rpmScriptsDirectory</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">RpmConstants.Scriptlets</span></code></dt>
 <dd>By default to <code class="docutils literal"><span class="pre">src/rpm/scriptlets</span></code>. Place your templates here.</dd>
 </dl>
 </div></blockquote>
@@ -608,6 +555,15 @@ build put the new scriptlets in the <code class="docutils literal"><span class="
 <code class="docutils literal"><span class="pre">pre-rpm</span></code>
 <code class="docutils literal"><span class="pre">postun-rpm</span></code>
 <code class="docutils literal"><span class="pre">preun-rpm</span></code></div></blockquote>
+<p>The corresponding maintainer file names are:</p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">pretrans</span></code>
+<code class="docutils literal"><span class="pre">post</span></code>
+<code class="docutils literal"><span class="pre">pre</span></code>
+<code class="docutils literal"><span class="pre">postun</span></code>
+<code class="docutils literal"><span class="pre">preun</span></code>
+<code class="docutils literal"><span class="pre">verifyscript</span></code>
+<code class="docutils literal"><span class="pre">posttrans</span></code></div></blockquote>
 <div class="section" id="override-postinst-scriptlet">
 <h3>Override Postinst scriptlet<a class="headerlink" href="#override-postinst-scriptlet" title="Permalink to this headline">¶</a></h3>
 <p>By default the <code class="docutils literal"><span class="pre">post-rpm</span></code> template only starts the service, but doesn&#8217;t register it.</p>
@@ -683,7 +639,7 @@ service <span class="si">${</span><span class="p">{app_name</span><span class="s
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../akka_app.html" class="btn btn-neutral float-right" title="Akka Microkernel" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../systemloaders.html" class="btn btn-neutral float-right" title="Systemloaders" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral" title="Java Server Application Archetype" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

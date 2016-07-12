@@ -85,6 +85,9 @@ Settings
   ``lightOptions``
     the list of options to pass to the ``light.exe`` command.  Most likely setting is: ``Seq("-ext", "WixUIExtension", "-cultures:en-us")`` for UI.
 
+  ``wixMajorVersion``
+    the major version of the Wix tool-set (e.g. when using Wix 4.0.1, major version is 4). Default is 3.
+
   ``wixProductId``
     The GUID to use to identify the windows package/product.
 
