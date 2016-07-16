@@ -43,9 +43,9 @@ start_daemon() {
     [ -d "/var/run/${{app_name}}" ] || install -d -o "$DAEMON_USER" -g "$DAEMON_GROUP" -m755 "/var/run/${{app_name}}"
     logfile="${{daemon_log_file}}"
     stdout_redirect=""
-    if [ ! -z "${logfile:-}"]; then
+    if [ ! -z "${logfile:-}" ]; then
       stdout_redirect=" >> ${{logdir}}/${{app_name}}/$logfile 2>&1"
-    if
+    fi
 
     if [ "$create_pidfile" = true ]; then
         start-stop-daemon --background --chdir ${{chdir}} --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --startas "$RUN_CMD" --start -- $RUN_OPTS "$stdout_redirect"
