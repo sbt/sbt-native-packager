@@ -1,4 +1,4 @@
-# Run the debian packaging.
+# Run the rpm packaging.
 > rpm:packageBin
 $ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 
@@ -8,3 +8,12 @@ $ exists usr/lib/systemd/system/rpm-test.service
 > checkStartupScript
 
 > checkSpecFile
+> check-spec-autostart
+
+
+# test that autostart can be disabled
+
+> set every NativePackagerKeys.serviceAutostart := false
+> rpm:packageBin
+> checkSpecFile
+> check-spec-no-autostart

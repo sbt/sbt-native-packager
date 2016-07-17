@@ -40,6 +40,7 @@ TaskKey[Unit]("unzipAndCheck") <<= (baseDirectory, packageBin in Rpm, streams) m
 
 TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
     val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+    println(spec)
     assert(spec contains "addGroup rpm-test", "addGroup not present in \n" + spec)
     assert(spec contains "addUser rpm-test", "Incorrect useradd command in \n" + spec)
     assert(spec contains "deleteGroup rpm-test", "deleteGroup not present in \n" + spec)
@@ -56,5 +57,102 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
         |  echo "PACKAGE_PREFIX=${RPM_INSTALL_PREFIX}" >> /etc/sysconfig/rpm-test
         |fi
         |""".stripMargin, "Persisting $RPM_INSTALL_PREFIX not present in \n" + spec)
+    assert(spec contains
+      """
+        |#
+        |# Add service for management
+        |# $1 = service name
+        |#
+        |addService() {
+        |    app_name=$1
+        |    if hash update-rc.d >/dev/null 2>&1; then
+        |		echo "Adding $app_name to service management using update-rc.d"
+        |		update-rc.d $app_name defaults
+        |    elif hash chkconfig >/dev/null 2>&1; then
+        |		echo "Adding $app_name to service management using chkconfig"
+        |		chkconfig --add rpm-test
+        |		chkconfig $app_name on
+        |    else
+        |		echo "WARNING: Could not add $app_name to autostart: neither update-rc nor chkconfig found!"
+        |    fi
+        |}
+        |""".stripMargin, "rpm addService() scriptlet missing or incorrect")
+    assert(spec contains
+      """
+        |#
+        |# Start the service
+        |# $1 = service name
+        |#
+        |startService() {
+        |    app_name=$1
+        |    service $app_name start
+        |}
+        |""".stripMargin, "rpm startService() scriptlet is missing or incorrect")
+    assert(spec contains
+      """
+        |#
+        |# Removing service from autostart
+        |# $1 = service name
+        |#
+        |stopService() {
+        |    app_name=$1
+        |    if hash update-rc.d >/dev/null 2>&1; then
+        |	echo "Removing $app_name from autostart using update-rc.d"
+        |	update-rc.d -f $app_name remove
+        |	service $app_name stop
+        |    elif hash chkconfig >/dev/null 2>&1; then
+        |	echo "Removing $app_name from autostart using chkconfig"
+        |	chkconfig $app_name off
+        |	chkconfig --del $app_name
+        |	service $app_name stop
+        |    else
+        |	echo "WARNING: Could not remove $app_name from autostart: neither update-rc nor chkconfig found!"
+        |    fi
+        |}
+        |""".stripMargin, "rpm stopService() scriptlet is missing or incorrect")
+    assert(spec contains
+      """
+        |#
+        |# Restarting the service after package upgrade
+        |# $1 = service name
+        |#
+        |restartService() {
+        |	app_name=$1
+        |	service $app_name restart
+        |}
+        |""".stripMargin, "rpm restartService() scriptlet is missing or incorrect")
+    ()
+}
+
+TaskKey[Unit]("check-spec-autostart") <<= (target, streams) map { (target, out) =>
+    val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+    println(spec)
+    assert(spec contains
+      """
+        |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
+        |# $1 == 1 is first installation and $1 == 2 is upgrade
+        |if [ $1 -eq 1 ] ;
+        |then
+        |  addService rpm-test || echo "rpm-test could not be registered"
+        |  startService rpm-test || echo "rpm-test could not be started"
+        |fi
+        |""".stripMargin, "rpm rpm addService, startService post install commands missing or incorrect")
+
+    ()
+}
+
+TaskKey[Unit]("check-spec-no-autostart") <<= (target, streams) map { (target, out) =>
+    val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+    println(spec)
+    assert(spec contains
+      """
+        |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
+        |# $1 == 1 is first installation and $1 == 2 is upgrade
+        |if [ $1 -eq 1 ] ;
+        |then
+        |  addService rpm-test || echo "rpm-test could not be registered"
+        |fi
+        |""".stripMargin, "rpm rpm addService, startService post install commands missing or incorrect")
+
     ()
 }

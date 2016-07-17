@@ -41,11 +41,11 @@ different archetypes for common configurations, such as simple Java apps or serv
   * `msi` for Windows
   * `docker` images
 * Provide archetypes for common use cases
- * [Java application][] with startscripts for linux/osx/windows
- * [Java server application][] with additional autostart configurations
-   * Systemd
-   * Systemv
-   * Upstart
+  * [Java application][] with start scripts for Linux, OSX and Windows
+  * [Java server application][] adds support for service managers:s
+    * Systemd
+    * Systemv
+    * Upstart
 * Java8 [jdkpackager][] wrapper
 * Optional JDeb integration for cross-platform Debian builds
 * Optional Spotify docker client integration
