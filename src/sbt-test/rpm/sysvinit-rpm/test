@@ -1,8 +1,9 @@
-# Run the debian packaging.
+# Run the rpm packaging.
 > rpm:package-bin
 $ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 
 > check-spec-file
+> check-spec-autostart
 
 # Check rpm contents
 > unzipAndCheck
@@ -24,3 +25,11 @@ $ exists var/run/rpm-test
 
 > set NativePackagerKeys.rpmBrpJavaRepackJars := true
 > check-spec-file
+> check-spec-autostart
+
+# Test that serviceAutostart can be disabled
+
+> set every NativePackagerKeys.serviceAutostart := false
+> rpm:package-bin
+> check-spec-file
+> check-spec-no-autostart 

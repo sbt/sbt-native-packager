@@ -22,6 +22,9 @@ General Settings
     Loading system to be used for application start script (SystemV, Upstart, Systemd).
     This setting can be used to trigger systemloader specific behaviour in your build.
 
+  ``serverAutostart``
+    Determines if service will be automatically started after installation.  The default value is true.
+
   ``startRunlevels``
     Sequence of runlevels on which application will start up
 

@@ -8,3 +8,10 @@ $ exists target/debian-test-0.1.0/etc/init.d/debian-test
 
 > check-control-files
 > check-startup-script
+> check-autostart
+
+# Test that serviceAutostart can be disabled
+
+> set every NativePackagerKeys.serviceAutostart := false
+> debian:package-bin
+> check-no-autostart

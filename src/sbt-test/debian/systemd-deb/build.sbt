@@ -29,3 +29,20 @@ TaskKey[Unit]("check-etc-default") <<= (target, streams) map { (target, out) =>
   assert(script.contains("systemd"), s"systemd etc-default template wasn't selected; contents are:\n" + script)
   ()
 }
+
+TaskKey[Unit]("check-autostart") <<= (target, streams) map { (target, out) =>
+  val script = IO.read(target / "debian-test-0.1.0" / "DEBIAN" / "postinst")
+  assert(script.contains(
+    """addService debian-test || echo "debian-test could not be registered"
+      |startService debian-test || echo "debian-test could not be started"
+      |""".stripMargin), "addService, startService post install commands missing or incorrect")
+  ()
+}
+
+TaskKey[Unit]("check-no-autostart") <<= (target, streams) map { (target, out) =>
+  val script = IO.read(target / "debian-test-0.1.0" / "DEBIAN" / "postinst")
+  assert(script.contains(
+    """addService debian-test || echo "debian-test could not be registered"
+      |""".stripMargin), "addService post install commands missing or incorrect")
+  ()
+}

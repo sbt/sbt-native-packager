@@ -1,8 +1,8 @@
 #
-# Adding service to autostart
+# Adding service for management
 # $1 = service name
 #
-startService() {
+addService() {
     app_name=$1
 
     app_sys_config="/etc/sysconfig/${app_name}"
@@ -16,6 +16,14 @@ startService() {
     fi
 
     systemctl enable "$app_name.service"
+}
+
+#
+# Start the service
+# $1 = service name
+#
+startService() {
+    app_name=$1
     systemctl start "$app_name.service"
 }
 

@@ -13,6 +13,7 @@ import com.typesafe.sbt.packager.Keys.{
   linuxStartScriptName,
   linuxPackageMappings,
   serverLoading,
+  serviceAutostart,
   requiredStartFacilities,
   requiredStopFacilities,
   startRunlevels,
@@ -47,6 +48,7 @@ object SystemloaderPlugin extends AutoPlugin {
 
   def systemloaderSettings: Seq[Setting[_]] = Seq(
     serverLoading := None,
+    serviceAutostart := true,
     linuxStartScriptName := Some(packageName.value),
     // defaults, may be override by concrete systemloader
     retries := 0,
@@ -78,6 +80,12 @@ object SystemloaderPlugin extends AutoPlugin {
     )
   )
 
+  def addAndStartService(autostart: Boolean, pad: String = ""): String = {
+    val addService = s"""${pad}addService $${{app_name}} || echo "$${{app_name}} could not be registered""""
+    val startService = s"""${pad}startService $${{app_name}} || echo "$${{app_name}} could not be started""""
+    if (autostart) s"${addService}\n${startService}" else addService
+  }
+
   def debianSettings: Seq[Setting[_]] = inConfig(Debian)(Seq(
     // add automatic service start/stop
     maintainerScripts := maintainerScriptsAppend(
@@ -86,7 +94,7 @@ object SystemloaderPlugin extends AutoPlugin {
     )(
       DebianConstants.Postinst -> s"""|# ${serverLoading.value} support
                                         |$${{loader-functions}}
-                                        |startService $${{app_name}} || echo "$${{app_name}} could not be registered or started"
+                                        |${addAndStartService(serviceAutostart.value)}
                                         |""".stripMargin,
       DebianConstants.Prerm -> s"""|# ${serverLoading.value} support
                                      |$${{loader-functions}}
@@ -107,7 +115,7 @@ object SystemloaderPlugin extends AutoPlugin {
                                  |# $$1 == 1 is first installation and $$1 == 2 is upgrade
                                  |if [ $$1 -eq 1 ] ;
                                  |then
-                                 |  startService $${{app_name}} || echo "Could not start $${{app_name}}"
+                                 |${addAndStartService(serviceAutostart.value, "  ")}
                                  |fi
                                  |""".stripMargin,
       RpmConstants.Postun -> s"""|# ${serverLoading.value} support

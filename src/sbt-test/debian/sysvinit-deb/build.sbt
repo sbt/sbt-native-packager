@@ -46,3 +46,21 @@ TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) 
   out.log.success("Successfully tested systemV start up script")
   ()
 }
+
+TaskKey[Unit]("check-autostart") <<= (target, streams) map { (target, out) =>
+  val script = IO.read(target / "debian-test-0.1.0" / "DEBIAN" / "postinst")
+  assert(script.contains(
+    """addService debian-test || echo "debian-test could not be registered"
+      |startService debian-test || echo "debian-test could not be started"
+      |""".stripMargin), "addService, startService post install commands missing or incorrect")
+  ()
+}
+
+TaskKey[Unit]("check-no-autostart") <<= (target, streams) map { (target, out) =>
+  val script = IO.read(target / "debian-test-0.1.0" / "DEBIAN" / "postinst")
+  assert(script.contains(
+    """addService debian-test || echo "debian-test could not be registered"
+      |""".stripMargin), "addService post install commands missing or incorrect")
+  ()
+}
+

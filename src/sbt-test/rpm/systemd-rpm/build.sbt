@@ -37,10 +37,10 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
   assert(spec contains
     """
       |#
-      |# Adding service to autostart
+      |# Adding service for management
       |# $1 = service name
       |#
-      |startService() {
+      |addService() {
       |    app_name=$1
       |
       |    app_sys_config="/etc/sysconfig/${app_name}"
@@ -54,9 +54,20 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
       |    fi
       |
       |    systemctl enable "$app_name.service"
+      |}
+      |""".stripMargin, "rpm addService() scriptlet is missing or incorrect")
+
+  assert(spec contains
+    """
+      |#
+      |# Start the service
+      |# $1 = service name
+      |#
+      |startService() {
+      |    app_name=$1
       |    systemctl start "$app_name.service"
       |}
-      |""".stripMargin, "rpm scriptlet does not systemd service registration and startup")
+      |""".stripMargin, "rpm startService() scriptlet is missing or incorrect")
 
   assert(spec contains
     """
@@ -71,7 +82,7 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
       |    systemctl stop "$app_name.service"
       |    systemctl disable "$app_name.service"
       |}
-      |""".stripMargin, "rpm scriptlet does not systemd stop service and disable")
+      |""".stripMargin, "rpm stopService() scriptlet is missing or incorrect")
 
   assert(spec contains
     """
@@ -85,8 +96,43 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
       |   systemctl daemon-reload
       |   systemctl try-restart "$app_name.service"
       |}
-      |""".stripMargin, "rpm scriptlet does not systemd reload during restart")
+      |""".stripMargin, "rpm restartService() scriptlet is missing or incorrect")
 
   out.log.success("Successfully tested rpm test file")
   ()
 }
+
+TaskKey[Unit]("check-spec-autostart") <<= (target, streams) map { (target, out) =>
+  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+  println(spec)
+
+  assert(spec contains
+    """
+      |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
+      |# $1 == 1 is first installation and $1 == 2 is upgrade
+      |if [ $1 -eq 1 ] ;
+      |then
+      |  addService rpm-test || echo "rpm-test could not be registered"
+      |  startService rpm-test || echo "rpm-test could not be started"
+      |fi
+      |""".stripMargin, "rpm addService, startService post install commands missing or incorrect")
+  ()
+}
+
+
+TaskKey[Unit]("check-spec-no-autostart") <<= (target, streams) map { (target, out) =>
+  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+  println(spec)
+
+  assert(spec contains
+    """
+      |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
+      |# $1 == 1 is first installation and $1 == 2 is upgrade
+      |if [ $1 -eq 1 ] ;
+      |then
+      |  addService rpm-test || echo "rpm-test could not be registered"
+      |fi
+      |""".stripMargin, "rpm addService post install commands missing or incorrect")
+  ()
+}
+
