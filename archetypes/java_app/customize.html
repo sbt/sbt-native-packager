@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Application and runtime configuration &mdash; sbt-native-packager 1.1.4-SNAPSHOT documentation</title>
+  <title>Application and runtime configuration &mdash; sbt-native-packager 1.1.5-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.4-SNAPSHOT documentation" href="../../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.1.5-SNAPSHOT documentation" href="../../index.html"/>
         <link rel="up" title="Java Application Archetype" href="index.html"/>
         <link rel="next" title="Java Server Application Archetype" href="../java_server/index.html"/>
         <link rel="prev" title="Java Application Archetype" href="index.html"/> 
@@ -274,34 +274,17 @@
 <li class="toctree-l3"><a class="reference internal" href="../java_server/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../java_server/index.html#default-mappings">Default Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../java_server/index.html#service-managers">Service Managers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../java_server/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../java_server/customize.html">Application Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../java_server/customize.html#systemloader-configuration">Systemloader Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../java_server/customize.html#example-configurations">Example Configurations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../systemloaders.html">Systemloaders</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#overview">Overview</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#general-settings">General Settings</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#systemv">SystemV</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#systemd">Systemd</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#settings">Settings</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#upstart">Upstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#customization">Customization</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#start-script-location">Start Script Location</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#customize-start-script">Customize Start Script</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#override-start-script">Override Start Script</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../akka_app.html">Akka App [DEPRECATED]</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
@@ -378,11 +361,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-sub-modules">SBT sub modules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-parameters-and-build-environment">SBT parameters and Build Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -626,7 +604,7 @@ You can also use a different file location by setting <code class="docutils lite
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.1.4-SNAPSHOT',
+            VERSION:'1.1.5-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

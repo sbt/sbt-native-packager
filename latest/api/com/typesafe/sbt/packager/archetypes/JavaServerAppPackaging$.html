@@ -39,9 +39,10 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4> Java Server App Packaging </h4><p>Provides configuration for running an application on a server.
-</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="http://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html" target="_blank">http://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html</a>
-</p></span></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This class contains the default settings for creating and deploying an archetypical Java application.
+ A Java application archetype is defined as a project that has a main method and is run by placing
+ all of its JAR files on the classpath and calling that main method.</p><p> This doesn't create the best of distributions, but it can simplify the distribution of code.</p><p> **NOTE:  EXPERIMENTAL**   This currently only supports debian upstart scripts.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="sbt.AutoPlugin">AutoPlugin</span>, <span class="extype" name="sbt.PluginsFunctions">PluginsFunctions</span>, <span class="extype" name="sbt.Plugins.Basic">Basic</span>, <span class="extype" name="sbt.Plugins">Plugins</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -484,6 +485,19 @@ for an app.
 </p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>of the etc-default config file</p></dd><dt class="param">tmpDir</dt><dd class="cmt"><p>to store the resulting file in (e.g. target in Universal)</p></dd><dt class="param">source</dt><dd class="cmt"><p>of etc-default script</p></dd><dt class="param">replacements</dt><dd class="cmt"><p>for placeholders in etc-default script
 </p></dd><dt>returns</dt><dd class="cmt"><p>Some(file: File)
 </p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#makeStartScript" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="makeStartScript(template:sbt.URL,replacements:Seq[(String,String)],tmpDir:sbt.File,loader:com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader):Option[sbt.File]"></a>
+      <a id="makeStartScript(URL,Seq[(String,String)],File,ServerLoader):Option[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">makeStartScript</span><span class="params">(<span name="template">template: <a href="../../../../../sbt/package.html#URL=java.net.URL" class="extmbr" name="sbt.URL">URL</a></span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="loader">loader: <a href="ServerLoader$.html#ServerLoader=com.typesafe.sbt.packager.archetypes.ServerLoader.Value" class="extmbr" name="com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader">ServerLoader</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -602,6 +616,19 @@ for an app.
       </span>
       </h4>
       
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#startScriptMapping" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="startScriptMapping(name:String,script:Option[sbt.File],loader:com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader,scriptDir:String,scriptName:Option[String]):Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]"></a>
+      <a id="startScriptMapping(String,Option[File],ServerLoader,String,Option[String]):Seq[LinuxPackageMapping]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">startScriptMapping</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="script">script: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>, <span name="loader">loader: <a href="ServerLoader$.html#ServerLoader=com.typesafe.sbt.packager.archetypes.ServerLoader.Value" class="extmbr" name="com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader">ServerLoader</a></span>, <span name="scriptDir">scriptDir: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="scriptName">scriptName: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../linux/LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
