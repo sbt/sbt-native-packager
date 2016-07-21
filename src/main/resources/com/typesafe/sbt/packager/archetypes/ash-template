@@ -42,4 +42,4 @@ ${{template_declares}}
 # If a configuration file exist, read the contents to $opts
 [ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
 
-java -classpath $app_classpath $opts $app_mainclass $@
+exec java -classpath $app_classpath $opts $app_mainclass $@
