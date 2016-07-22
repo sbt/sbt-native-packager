@@ -75,6 +75,7 @@ object DockerPlugin extends AutoPlugin {
     dockerExposedVolumes := Seq(),
     dockerRepository := None,
     dockerUpdateLatest := false,
+    dockerAdditionalVersions := Seq(),        
     dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
     dockerCmd := Seq(),
     dockerCommands := {
@@ -105,16 +106,20 @@ object DockerPlugin extends AutoPlugin {
       mappings ++= Seq(dockerGenerateConfig.value) pair relativeTo(target.value),
       name := name.value,
       packageName := packageName.value,
-      publishLocal <<= (stage, dockerTarget, dockerUpdateLatest, streams) map {
-        (context, target, updateLatest, s) =>
-          publishLocalDocker(context, target, updateLatest, s.log)
+      publishLocal <<= (stage, dockerTarget, dockerUpdateLatest, dockerAdditionalVersions, streams) map {
+        (context, target, updateLatest, additionalVersions, s) =>
+          publishLocalDocker(context, target, updateLatest, additionalVersions, s.log)
       },
-      publish <<= (publishLocal, dockerTarget, dockerUpdateLatest, streams) map {
-        (_, target, updateLatest, s) =>
+      publish <<= (publishLocal, dockerTarget, dockerUpdateLatest, dockerAdditionalVersions, streams) map {
+        (_, target, updateLatest, additionalVersions, s) =>
           publishDocker(target, s.log)
           if (updateLatest) {
             val name = target.substring(0, target.lastIndexOf(":")) + ":latest"
             publishDocker(name, s.log)
+          }
+          additionalVersions foreach { v =>
+            val name = target.substring(0, target.lastIndexOf(":")) + ":" + v
+            publishDocker(name, s.log) 
           }
       },
       sourceDirectory := sourceDirectory.value / "docker",
@@ -285,7 +290,7 @@ object DockerPlugin extends AutoPlugin {
     }
   }
 
-  def publishLocalDocker(context: File, tag: String, latest: Boolean, log: Logger): Unit = {
+  def publishLocalDocker(context: File, tag: String, latest: Boolean, additionalVersions: Seq[String], log: Logger): Unit = {
     val cmd = Seq("docker", "build", "--force-rm", "-t", tag, ".")
 
     log.debug("Executing Native " + cmd.mkString(" "))
@@ -303,6 +308,15 @@ object DockerPlugin extends AutoPlugin {
       val latestCmd = Seq("docker", "tag", tag, name)
       Process(latestCmd).! match {
         case 0 => log.info("Update Latest from image " + tag)
+        case n => sys.error("Failed to run docker tag")
+      }
+    }
+
+    additionalVersions foreach { v =>
+      val name = tag.substring(0, tag.lastIndexOf(":")) + ":" + v
+      val cmd = Seq("docker", "tag", "-f", tag, name)
+      Process(cmd).! match {
+        case 0 => log.info("Update version " + v + " from image " + tag)
         case n => sys.error("Failed to run docker tag")
       }
     }
