@@ -55,6 +55,8 @@ object DockerPlugin extends AutoPlugin {
 
   object autoImport extends DockerKeys {
     val Docker = config("docker")
+
+    val DockerAlias = com.typesafe.sbt.packager.docker.DockerAlias
   }
 
   import autoImport._
@@ -74,10 +76,17 @@ object DockerPlugin extends AutoPlugin {
     dockerExposedPorts := Seq(),
     dockerExposedVolumes := Seq(),
     dockerRepository := None,
-    dockerTag := dockerRepository.value.map(_ + "/").getOrElse("") + packageName.value + ":" + version.value,
+    dockerAlias := DockerAlias(dockerRepository.value, None, packageName.value, Some(version.value)),
     dockerUpdateLatest := false,
     dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
     dockerCmd := Seq(),
+    dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
+      if (dockerUpdateLatest.value)
+        Seq("-t", dockerAlias.value.latest)
+      else
+        Seq()
+    ),
+    dockerBuildCommand := Seq("docker", "build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerCommands := {
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
       val user = (daemonUser in Docker).value
@@ -106,16 +115,16 @@ object DockerPlugin extends AutoPlugin {
       mappings ++= Seq(dockerGenerateConfig.value) pair relativeTo(target.value),
       name := name.value,
       packageName := packageName.value,
-      publishLocal <<= (stage, dockerTag, dockerUpdateLatest, streams) map {
-        (context, target, updateLatest, s) =>
-          publishLocalDocker(context, target, updateLatest, s.log)
+      publishLocal <<= (stage, dockerAlias, dockerBuildCommand, streams) map {
+        (context, alias, buildCommand, s) =>
+          publishLocalDocker(context, buildCommand, s.log)
+          s.log.info(s"Built image $alias")
       },
-      publish <<= (publishLocal, dockerTag, dockerUpdateLatest, streams) map {
-        (_, target, updateLatest, s) =>
-          publishDocker(target, s.log)
+      publish <<= (publishLocal, dockerAlias, dockerUpdateLatest, streams) map {
+        (_, alias, updateLatest, s) =>
+          publishDocker(alias.versioned, s.log)
           if (updateLatest) {
-            val name = target.substring(0, target.lastIndexOf(":")) + ":latest"
-            publishDocker(name, s.log)
+            publishDocker(alias.latest, s.log)
           }
       },
       sourceDirectory := sourceDirectory.value / "docker",
@@ -283,27 +292,14 @@ object DockerPlugin extends AutoPlugin {
     }
   }
 
-  def publishLocalDocker(context: File, tag: String, latest: Boolean, log: Logger): Unit = {
-    val cmd = Seq("docker", "build", "--force-rm", "-t", tag, ".")
-
-    log.debug("Executing Native " + cmd.mkString(" "))
+  def publishLocalDocker(context: File, buildCommand: Seq[String], log: Logger): Unit = {
+    log.debug("Executing Native " + buildCommand.mkString(" "))
     log.debug("Working directory " + context.toString)
 
-    val ret = Process(cmd, context) ! publishLocalLogger(log)
+    val ret = Process(buildCommand, context) ! publishLocalLogger(log)
 
     if (ret != 0)
       throw new RuntimeException("Nonzero exit value: " + ret)
-    else
-      log.info("Built image " + tag)
-
-    if (latest) {
-      val name = tag.substring(0, tag.lastIndexOf(":")) + ":latest"
-      val latestCmd = Seq("docker", "tag", tag, name)
-      Process(latestCmd).! match {
-        case 0 => log.info("Update Latest from image " + tag)
-        case n => sys.error("Failed to run docker tag")
-      }
-    }
   }
 
   def publishDocker(tag: String, log: Logger): Unit = {

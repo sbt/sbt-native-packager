@@ -1,0 +1,3 @@
+# Stage the distribution and ensure files show up.
+> docker:publishLocal
+$ exec bash -c 'docker run docker-alias-test:0.1.0 | grep -q "Hello world"'
