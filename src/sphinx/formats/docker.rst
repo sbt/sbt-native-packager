@@ -115,6 +115,10 @@ Publishing Settings
   ``dockerUpdateLatest``
     The flag to automatic update the latest tag when the ``docker:publish`` task is run. Default value is ``FALSE``.
 
+  ``dockerTag``
+    The tag to be used during build for the resulting image.
+    Defaults to ``[dockerRepository]/[name]:[version]``.
+
 Tasks
 -----
 The Docker support provides the following commands:

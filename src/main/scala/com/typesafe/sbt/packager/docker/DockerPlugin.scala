@@ -74,6 +74,7 @@ object DockerPlugin extends AutoPlugin {
     dockerExposedPorts := Seq(),
     dockerExposedVolumes := Seq(),
     dockerRepository := None,
+    dockerTag := dockerRepository.value.map(_ + "/").getOrElse("") + packageName.value + ":" + version.value,
     dockerUpdateLatest := false,
     dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
     dockerCmd := Seq(),
@@ -105,11 +106,11 @@ object DockerPlugin extends AutoPlugin {
       mappings ++= Seq(dockerGenerateConfig.value) pair relativeTo(target.value),
       name := name.value,
       packageName := packageName.value,
-      publishLocal <<= (stage, dockerTarget, dockerUpdateLatest, streams) map {
+      publishLocal <<= (stage, dockerTag, dockerUpdateLatest, streams) map {
         (context, target, updateLatest, s) =>
           publishLocalDocker(context, target, updateLatest, s.log)
       },
-      publish <<= (publishLocal, dockerTarget, dockerUpdateLatest, streams) map {
+      publish <<= (publishLocal, dockerTag, dockerUpdateLatest, streams) map {
         (_, target, updateLatest, s) =>
           publishDocker(target, s.log)
           if (updateLatest) {
@@ -129,10 +130,7 @@ object DockerPlugin extends AutoPlugin {
       dockerPackageMappings <<= sourceDirectory map { dir =>
         MappingsHelper contentOf dir
       },
-      dockerGenerateConfig <<= (dockerCommands, target) map generateDockerConfig,
-      dockerTarget <<= (dockerRepository, packageName, version) map {
-        (repo, name, version) => repo.map(_ + "/").getOrElse("") + name + ":" + version
-      }
+      dockerGenerateConfig <<= (dockerCommands, target) map generateDockerConfig
     ))
 
   /**
