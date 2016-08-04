@@ -115,9 +115,18 @@ Publishing Settings
   ``dockerUpdateLatest``
     The flag to automatic update the latest tag when the ``docker:publish`` task is run. Default value is ``FALSE``.
 
-  ``dockerTag``
-    The tag to be used during build for the resulting image.
-    Defaults to ``[dockerRepository]/[name]:[version]``.
+  ``dockerAlias``
+    The alias to be used for tagging the resulting image of the Docker build.
+    The type of the setting key is ``DockerAlias`.
+    Defaults to ``[dockerRepository/][name]:[version]``.
+
+  ``dockerBuildOptions``
+    Overrides the default Docker build options.
+    Defaults to ``Seq("--force-rm", "-t", "[dockerAlias]")``. This default is expanded if ``dockerUpdateLatest`` is set to true.
+
+  ``dockerBuildCommand``
+    Overrides the default Docker build command.
+    Defaults to ``Seq("docker", "build", "[dockerBuildOptions]", ".")``.
 
 Tasks
 -----

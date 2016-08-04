@@ -64,7 +64,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
   def publishLocalDocker = Def.task {
     val context = stage.value
-    val tag = dockerTag.value
+    val tag = dockerAlias.value.versioned
     val latest = dockerUpdateLatest.value
     val log = streams.value.log
 

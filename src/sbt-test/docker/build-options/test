@@ -1,0 +1,4 @@
+# Stage the distribution and ensure files show up.
+> docker:publishLocal
+$ exec bash -c 'docker run docker-build-options-test:0.1.0 | grep -q "Hello world"'
+$ exec bash -c 'docker run docker-build-options-test:0.1.0-random-tag | grep -q "Hello world"'
