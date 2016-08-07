@@ -528,9 +528,16 @@ Defaults to the bash executable script, available at <code class="docutils liter
 <dd>The repository to which the image is pushed when the <code class="docutils literal"><span class="pre">docker:publish</span></code> task is run. This should be of the form <code class="docutils literal"><span class="pre">[username]</span></code> (assumes use of the <code class="docutils literal"><span class="pre">index.docker.io</span></code> repository) or <code class="docutils literal"><span class="pre">[repository.host]/[username]</span></code>.</dd>
 <dt><code class="docutils literal"><span class="pre">dockerUpdateLatest</span></code></dt>
 <dd>The flag to automatic update the latest tag when the <code class="docutils literal"><span class="pre">docker:publish</span></code> task is run. Default value is <code class="docutils literal"><span class="pre">FALSE</span></code>.</dd>
-<dt><code class="docutils literal"><span class="pre">dockerTag</span></code></dt>
-<dd>The tag to be used during build for the resulting image.
-Defaults to <code class="docutils literal"><span class="pre">[dockerRepository]/[name]:[version]</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">dockerAlias</span></code></dt>
+<dd>The alias to be used for tagging the resulting image of the Docker build.
+The type of the setting key is <code class="docutils literal"><span class="pre">DockerAlias`.</span>
+<span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">``[dockerRepository/][name]:[version]</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">dockerBuildOptions</span></code></dt>
+<dd>Overrides the default Docker build options.
+Defaults to <code class="docutils literal"><span class="pre">Seq(&quot;--force-rm&quot;,</span> <span class="pre">&quot;-t&quot;,</span> <span class="pre">&quot;[dockerAlias]&quot;)</span></code>. This default is expanded if <code class="docutils literal"><span class="pre">dockerUpdateLatest</span></code> is set to true.</dd>
+<dt><code class="docutils literal"><span class="pre">dockerBuildCommand</span></code></dt>
+<dd>Overrides the default Docker build command.
+Defaults to <code class="docutils literal"><span class="pre">Seq(&quot;docker&quot;,</span> <span class="pre">&quot;build&quot;,</span> <span class="pre">&quot;[dockerBuildOptions]&quot;,</span> <span class="pre">&quot;.&quot;)</span></code>.</dd>
 </dl>
 </div></blockquote>
 </div>
