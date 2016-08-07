@@ -1,3 +1,5 @@
+
+
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
 name := "rpm-test"
@@ -40,7 +42,6 @@ TaskKey[Unit]("unzipAndCheck") <<= (baseDirectory, packageBin in Rpm, streams) m
 
 TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
     val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
-    println(spec)
     assert(spec contains "addGroup rpm-test", "addGroup not present in \n" + spec)
     assert(spec contains "addUser rpm-test", "Incorrect useradd command in \n" + spec)
     assert(spec contains "deleteGroup rpm-test", "deleteGroup not present in \n" + spec)
@@ -126,7 +127,6 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
 
 TaskKey[Unit]("check-spec-autostart") <<= (target, streams) map { (target, out) =>
     val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
-    println(spec)
     assert(spec contains
       """
         |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
@@ -141,9 +141,8 @@ TaskKey[Unit]("check-spec-autostart") <<= (target, streams) map { (target, out) 
     ()
 }
 
-TaskKey[Unit]("check-spec-no-autostart") <<= (target, streams) map { (target, out) =>
-    val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
-    println(spec)
+TaskKey[Unit]("check-spec-no-autostart") := {
+    val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
     assert(spec contains
       """
         |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
