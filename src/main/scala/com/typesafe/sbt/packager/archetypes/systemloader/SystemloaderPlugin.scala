@@ -92,11 +92,11 @@ object SystemloaderPlugin extends AutoPlugin {
       maintainerScripts.value,
       linuxScriptReplacements.value
     )(
-      DebianConstants.Postinst -> s"""|# ${serverLoading.value} support
+      DebianConstants.Postinst -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                         |$${{loader-functions}}
                                         |${addAndStartService(serviceAutostart.value)}
                                         |""".stripMargin,
-      DebianConstants.Prerm -> s"""|# ${serverLoading.value} support
+      DebianConstants.Prerm -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                      |$${{loader-functions}}
                                      |stopService $${{app_name}} || echo "$${{app_name}} wasn't even running!"
                                      |""".stripMargin
@@ -109,7 +109,7 @@ object SystemloaderPlugin extends AutoPlugin {
       maintainerScripts.value,
       linuxScriptReplacements.value
     )(
-      RpmConstants.Post -> s"""|# ${serverLoading.value} support
+      RpmConstants.Post -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                  |$${{loader-functions}}
                                  |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
                                  |# $$1 == 1 is first installation and $$1 == 2 is upgrade
@@ -118,12 +118,13 @@ object SystemloaderPlugin extends AutoPlugin {
                                  |${addAndStartService(serviceAutostart.value, "  ")}
                                  |fi
                                  |""".stripMargin,
-      RpmConstants.Postun -> s"""|# ${serverLoading.value} support
-                                   |if [ $$1 -ge 1 ]
+      RpmConstants.Postun -> s"""|# ${getOrUnsupported(serverLoading.value)} support
+                                   |if [ $$1 -ge 1 ] ;
+                                   |then
                                    |  restartService $${{app_name}} || echo "Failed to try-restart $${{app_name}}"
                                    |fi
                                    |""".stripMargin,
-      RpmConstants.Preun -> s"""|# ${serverLoading.value} support
+      RpmConstants.Preun -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                   |$${{loader-functions}}
                                   |if [ $$1 -eq 0 ] ;
                                   |then
@@ -161,5 +162,7 @@ object SystemloaderPlugin extends AutoPlugin {
       "retryTimeout" -> retryTimeout.toString
     )
   }
+
+  private def getOrUnsupported(serverLoader: Option[ServerLoader]): String = serverLoader.map(_.toString).getOrElse("No system loader")
 
 }
