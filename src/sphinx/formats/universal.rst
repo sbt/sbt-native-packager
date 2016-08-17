@@ -3,9 +3,9 @@
 Universal Plugin
 ================
 
-Universal packaging just takes a plain ``mappings`` configuration and generates various
-package files for distribution in the format specified.  It creates a distribution
-that is not tied to any particular platform and so may require manual labor (more work from your users) to correctly install and set up.
+The Universal Plugin creates a generic, or "universal" distribution package.  This is called "universal packaging."  Universal packaging just takes a plain ``mappings`` configuration and generates various
+package files in the output format specified.  Because it creates a distribution
+that is not tied to any particular platform it may require manual labor (more work from your users) to correctly install and set up.
 
 Related Plugins
 ---------------
