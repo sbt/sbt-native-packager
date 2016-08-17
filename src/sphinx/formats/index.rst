@@ -36,8 +36,8 @@ looks like this
 
 To learn more about a specific plugin, read the appropriate doc.
 
-.. tip:: You may also need to read the docs of the dependent plugins. We recommend always to read the
-    :ref:`universal-plugin` documentation as all plugins rely on this one.
+.. tip:: You may also need to read the docs of the dependent plugins. We recommend always that you read the
+    :ref:`universal-plugin` documentation because all plugins rely on this one.
 
 .. toctree::
    :maxdepth: 1
