@@ -101,7 +101,7 @@ By enabling a format plugin only with
 
     enablePlugins(SomePackageFormatPlugin)
 
-the resulting package will be empty as a format plugin doesn't provide any configuration other than the default settings
+the resulting package will be empty because a format plugin doesn't provide any configuration other than the default settings
 for the format plugin's specific settings.
 
 
