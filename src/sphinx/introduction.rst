@@ -95,7 +95,7 @@ Format plugins provide the implementation to create package, the **how** a packa
 3. Implement package task
     The ``packageBin`` or ``publishLocal`` ( docker ) task provides the actual action to create a package.
 
-By enabling only a format plugin with
+By enabling a format plugin only with
 
 .. code-block:: scala
 
