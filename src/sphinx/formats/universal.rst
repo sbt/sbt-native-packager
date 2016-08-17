@@ -18,7 +18,7 @@ Related Plugins
 Requirements
 ------------
 
-Depending on what package format you want to use, you need one of the following applications installed
+Depending on what output format you want to use, you need one of the following applications installed
 
 * zip (if native)
 * gzip
