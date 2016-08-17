@@ -149,7 +149,7 @@ mappings <universal-plugin-getting-started-with-packaging>`.
 Architecture
 ~~~~~~~~~~~~
 
-Native packagers architecture can be summarized with this diagram
+The architecture can be summarized with this diagram
 
 .. image:: /static/sbt-native-packager-design.svg
     :alt: Architecture diagram.
