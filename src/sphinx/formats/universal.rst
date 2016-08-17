@@ -83,6 +83,9 @@ Universal packaging provides three Configurations:
   ``universal-src``
     For creating bundles of source.
 
+
+Here is how the values for ``name`` and ``packageName`` are used by the three configurations:
+
 .. code-block:: scala
 
     name in Universal := name.value
