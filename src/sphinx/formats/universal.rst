@@ -172,7 +172,8 @@ Currently, these task can be customized:
 Getting Started with Universal Packaging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 By default, all files found in the ``src/universal`` directory are included in the distribution.  So, the first step
-in creating a a distribution is to place files in this directory in the layout you would like in the distributed zip file.
+in creating a a distribution is to place files in this directory and organize them as you'd like in them to be in the distributed package.
+If your output format is a zip file, for example, although the distribution will consist of just one zip file, the files and directories within that zip file will reflect the same organization and structure as ``src/universal``.
 
 To add build generated files to the distribution, simple add a *mapping* to the ``mappings in Universal`` setting.  Let's
 look at an example where we add the packaged jar of a project to the lib folder of a distribution:
