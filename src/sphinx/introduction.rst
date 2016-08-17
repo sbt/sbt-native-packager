@@ -65,13 +65,16 @@ Core Concepts
 Native packager is based on a few simple concepts. If you understand these, you will be able to customize your build,
 create own packaging formats and deploy more effectively.
 
-The first concept is the separation of concerns in two plugin kinds.
+1. **Separation of concerns** of the two plugin kinds
 
-- :ref:`format plugins <packaging-formats>` define **how** a package is created
-- :ref:`archetype plugins <archetypes>` define **what** a package should contain
+    - :ref:`format plugins <packaging-formats>` define **how** a package is created
+    - :ref:`archetype plugins <archetypes>` define **what** a package should contain
 
-The second concept are ``mappings``. Mappings are a ``Seq[(File, String)]``, which translates to "a list of tuples,
-where each tuple defines a source file that gets mapped to a path on the target system".
+
+2. **Mappings** define how your build files should be organized on the target system.
+
+    ``Mappings`` are a ``Seq[(File, String)]``, which translates to "a list of tuples,  where each tuple defines a source file that gets mapped to a path on the target system".
+
 
 The following sections describe these concepts in more detail.
 
