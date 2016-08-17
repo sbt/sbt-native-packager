@@ -108,8 +108,8 @@ for the format plugin's specific settings.
 Archetype Plugins
 ~~~~~~~~~~~~~~~~~
 
-While format plugins provide the **how**, archetypes provide the **what** gets packaged. They don't add configuration
-scopes, but change the configuration in all supported package format scopes. A full list of archetypes can be found
+While format plugins provide the **how**, archetypes provide the **what** gets packaged. An archetype changes the configuration in all supported package format scopes; they don't add configuration
+scopes. A full list of archetypes can be found
 :ref:`here <archetypes>`. An archetype may provide the following:
 
 1. New, archetype related settings and tasks
