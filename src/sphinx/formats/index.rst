@@ -23,7 +23,9 @@ existing functionality. Currently the autoplugin hierarchy looks like this ::
 
 
 If you enable the ``DebianPlugin`` all plugins that depend on the ``DebianPlugin`` will be enabled as well (``LinuxPlugin``, ``UniversalPlugin``
-and ``SbtNativePackager``). Each packaging format defines its own scope for settings and tasks, so you can customize
+and ``SbtNativePackager``).
+
+Each packaging format defines its own scope for settings and tasks, so you can customize
 your build on a packaging level. The settings and tasks must be explicitly inherited. For the ``mappings`` task this
 looks like this
 
