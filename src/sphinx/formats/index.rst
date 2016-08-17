@@ -3,7 +3,7 @@
 Packaging Formats
 #################
 
-There is a plugin for each packaging format, native-packager supports. These plugins can rely on each other to reuse
+There is a plugin for each packaging format that native-packager supports. These plugins can rely on each other to reuse
 existing functionality. Currently the autoplugin hierarchy looks like this ::
 
             SbtNativePackager
