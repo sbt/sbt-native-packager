@@ -59,7 +59,7 @@ There is a task for each output format
 Required Settings
 ~~~~~~~~~~~~~~~~~
 
-A universal has no mandatory fields.
+The Universal Plugin has no mandatory fields.
 
 Enable the universal plugin
 
