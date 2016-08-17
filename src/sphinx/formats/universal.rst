@@ -98,8 +98,8 @@ Here is how the values for ``name`` and ``packageName`` are used by the three co
 
 Settings
 --------
-As we showed before, the Universal packages are completely configured through the use of the mappings key.  Simply
-specify the desired mappings for a given configuration.  For Example:
+As we showed before, the universal packages are completely configured through the use of mappings.  Simply
+specify the desired mappings for a given configuration.  For example:
 
 .. code-block:: scala
 
