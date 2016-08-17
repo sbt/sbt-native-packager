@@ -260,7 +260,9 @@ The ``mapGenericFilesToLinux`` settings will create the following package (symli
     /etc/<pkg-name> -> /usr/share/<package-name>/conf
 
 The ``mapGenericFilesToWindows`` will construct an MSI that installs the application in ``<Platform Program Files>\<Package Name>`` and include
-the ``bin`` directory on Windows ``PATH`` environment variable (optionally disabled).  While these mappings provide a great start to nice packaging, it still
+the ``bin`` directory on Windows ``PATH`` environment variable (optionally disabled).
+
+While these mappings provide a great start to nice packaging, it still
 may be necessary to customize the native packaging for each platform.   This can be done by configuring those settings directly.
 
 For example, even using generic mapping, debian has a requirement for changelog files to be fully formed.  Using the above generic mapping, we can configure just this
@@ -275,7 +277,9 @@ changelog in addition to the generic packaging by first defining a changelog in 
       ) withUser "root" withGroup "root" withPerms "0644" gzipped) asDocs()
     }
 
-Notice how we're *only* modifying the package mappings for Debian linux packages.  For more information on the
+Notice how we're *only* modifying the package mappings for Debian linux packages.
+
+For more information on the
 underlying packaging settings, see :ref:`windows-plugin` and :ref:`linux-plugin` documentation.
 
 Change/Remove Top Level Directory in Output
