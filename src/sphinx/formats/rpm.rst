@@ -168,7 +168,7 @@ Scriptlet Settings
 ~~~~~~~~~~~~~~~~~~
 
   ``maintainerScripts in Rpm``
-    Contains the scriptles being injected into the specs file. Currently supports all
+    Contains the scriptlets being injected into the specs file. Currently supports all
     previous scriptlets: ``%pretrans``, ``%pre``, ``%verifyscript%``, ``%post``, ``%posttrans``,
     ``%preun`` and  ``%postun``
 
