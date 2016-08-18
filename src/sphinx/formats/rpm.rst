@@ -340,13 +340,13 @@ Jar Repackaging
 ~~~~~~~~~~~~~~~
 
 rpm repackages jars by default (described in this `blog post`_) in order to optimize jars.
-This behaviour is turned off by default with this setting.
+This behaviour is turned off by default with this setting:
 
 .. code-block:: scala
 
     rpmBrpJavaRepackJars := false
 
-Note that this appends content to your ``Pre`` definition, so make sure not to override it.
+Note that this *appends* content to your ``Pre`` definition, so make sure not to override it.
 For more information on this topic follow these links:
 
 * `issue #195`_
