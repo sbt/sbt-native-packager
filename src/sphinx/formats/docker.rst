@@ -149,7 +149,7 @@ The Docker plugin provides the following commands:
 Customize
 ---------
 
-There are some predefined settings, which you can easily customize. These
+There are some predefined settings which you can easily customize. These
 settings are explained in some detail in the next sections. If you want to
 describe your Dockerfile completely yourself, you can provide your own
 `docker commands` as described in `Custom Dockerfile`_.
