@@ -244,7 +244,16 @@ Example Settings:
 Scriptlet Changes
 ~~~~~~~~~~~~~~~~~
 
-Changing the scripts can be done in two ways. Override the ``maintainerScripts in Rpm``.
+Changing scriptlets can be done in two ways:
+
+1. Override the ``maintainerScripts in Rpm``, or
+
+2. Place new scripts in the ``src/rpm/scriptlets``
+
+To **override the ``maintainerScripts in Rpm``** you can override the command string explicitly,
+create a command string using appends and/or replacements,
+or even get a command string from a file source.
+
 For example:
 
 .. code-block:: scala
@@ -276,7 +285,8 @@ For example:
 
 The helper methods can be found in `MaintainerScriptHelper Scaladocs`_.
 
-You also can place new scripts in the ``src/rpm/scriptlets`` folder. For example:
+To **place new scripts in the src/rpm/scriptlets folder**  you simply put the commands into the appropriate scriptlet file.
+(The scriptlet file names can be found in the `RPM Scaladocs`_.)
 
 
 ``src/rpm/scriptlets/preinst``
@@ -295,8 +305,7 @@ You also can place new scripts in the ``src/rpm/scriptlets`` folder. For example
     rm /etc/sysconfig/${{app_name}}
     ...
 
-Using files will override all previous contents. The names used can be found in
-the `RPM Scaladocs`_.
+Using scriptlet files like this *will override all previous contents.*
 
 Scriptlet Migration from 1.0.x
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
