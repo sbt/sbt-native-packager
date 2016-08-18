@@ -146,10 +146,10 @@ A ``LinuxPackageMapping`` contains the following fields:
     A list of mappings aggregated by this LinuxPackageMapping
 
   ``fileData: LinuxFileMetaData``
-    Permissions for all the defined mappings. Default to "root:root 755"
+    Permissions for all the defined mappings. Defaults to "root:root 755"
 
   ``zipped: Boolean``
-    Are the mappings zipped. Default to false
+    Are the mappings zipped? Defaults to false
 
 All mappings are stored in the task ``linuxPackageMappings`` which returns a ``Seq[LinuxPackageMapping]``. To display the contents
 open the sbt console and call
