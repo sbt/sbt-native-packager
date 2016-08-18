@@ -124,7 +124,7 @@ Let's look at each of the methods supported in the packageMapping 'library'.
 
   ``withConfig(value:String="true")``
     This denotes whether or not a ``%config`` attribute is attached to the given files in the generated rpm SPEC.  Any value other than ``"true"`` will be
-    placed inside the ``%config()` definition, for example ``withConfig("noreplace")`` results in ``%config(noreplace)`` attribute in the rpm spec.
+    placed inside the ``%config()`` definition.  For example ``withConfig("noreplace")`` results in ``%config(noreplace)`` attribute in the rpm spec.
 
   ``withUser(user:String)``
     This denotes which user should be the owner of the given files in the resulting package.
