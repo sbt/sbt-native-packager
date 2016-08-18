@@ -287,7 +287,7 @@ To add an arbitrary file in your build path
 Filter/Remove Mappings
 ~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to remove some mappings you have to filter the current list of ``linuxPackageMappings``.
+If you want to remove some mappings you have to **filter** the current list of ``linuxPackageMappings``.
 As ``linuxPackageMappings`` is a task, the order of your settings is important. Here are some examples
 on how to filter mappings.
 
@@ -315,7 +315,7 @@ on how to filter mappings.
 Alter LinuxPackageMapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-First we alter the permissions for all ``LinuxPackageMapping`` s that match a specific criteria.
+To alter the permissions for all ``LinuxPackageMapping`` s that match a specific criteria:
 
 .. code-block:: scala
 
@@ -340,7 +340,7 @@ First we alter the permissions for all ``LinuxPackageMapping`` s that match a sp
 Alter LinuxSymlinks
 ~~~~~~~~~~~~~~~~~~~
 
-First we alter the permissions for all ``LinuxPackageMapping`` s that match a specific criteria.
+To alter the permissions for all ``LinuxPackageMapping`` s that match a specific criteria:
 
 .. code-block:: scala
 
