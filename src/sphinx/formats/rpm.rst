@@ -186,7 +186,7 @@ SystemV Start Script Settings
 Tasks
 -----
 
-The Rpm support grants the following commands:
+The Rpm plugin support grants the following commands:
 
   ``rpm:package-bin``
     Generates the ``.rpm`` package for this project.
