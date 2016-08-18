@@ -85,7 +85,7 @@ installation of the generated debian package in the following configuration:
 
 - installation using python-apt module, used by Ansible and SaltStack for
   example,
-- being on python-apt 8.8 series, that's on Debian Wheezy and perhaps older
+- being on python-apt 8.8 series that's on Debian Wheezy and perhaps older
 
 It will fail with an error message like::
 
