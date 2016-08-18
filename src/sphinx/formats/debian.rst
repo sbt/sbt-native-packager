@@ -101,13 +101,13 @@ Solutions include:
 Java based packaging
 ~~~~~~~~~~~~~~~~~~~~
 
-If you want to use the java based implementation, enable the following plugin.
+If you want to use the java based implementation, enable the following plugin:
 
 .. code-block:: scala
 
   enablePlugins(JDebPackaging)
 
-and this to your ``plugins.sbt``
+and this to your ``plugins.sbt``:
 
 .. code-block:: scala
 
