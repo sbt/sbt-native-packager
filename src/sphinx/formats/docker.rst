@@ -243,14 +243,16 @@ the chowning of a exposed volume:
 Add Commands
 ~~~~~~~~~~~~
 
-Adding commands is as straightforward as adding anything in a list.
+Since ``dockerCommands`` is just a ``Sequence``, adding commands is straightforward:
 
 .. code-block:: scala
 
   import com.typesafe.sbt.packager.docker._
 
+  // use += to add an item to a Sequence
   dockerCommands += Cmd("USER", daemonUser.value)
 
+  // use ++= to merge a sequence with an existing sequence
   dockerCommands ++= Seq(
     // setting the run script executable
     ExecCmd("RUN",
