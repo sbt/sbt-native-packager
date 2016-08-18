@@ -219,8 +219,8 @@ In your sbt console type
 Remove Commands
 ~~~~~~~~~~~~~~~
 
-SBT Native Packager added some commands you may not need. For example
-the chowning of a exposed volume.
+SBT Native Packager adds commands you may not need. For example,
+the chowning of a exposed volume:
 
 .. code-block:: scala
 
