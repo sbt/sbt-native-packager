@@ -312,7 +312,7 @@ Or just a plain hardcoded string
 Skip packageDoc task on stage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The stage task forces *javadoc.jar* build, which could slow down ``stage`` tasks performance. In order to deactivate
+The ``stage`` task forces a *javadoc.jar* build, which could slow down ``stage`` tasks performance. In order to deactivate
 this behaviour, add this to your ``build.sbt``
 
 .. code-block:: scala
