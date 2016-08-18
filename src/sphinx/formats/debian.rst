@@ -9,9 +9,12 @@ the underlying packaging system works.  `Debian Binary Package Building HOWTO`_ 
 .. _Debian Binary Package Building HOWTO: http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/
 
 
-SBT Native Packager provides two ways to build debian packages. A native one, where you need ``dpkg-deb`` installed
-or a java, platform independent approach with `jdeb <https://github.com/tcurdt/jdeb>`_. By default the *native* implementation
-is activated.
+SBT Native Packager provides two ways to build debian packages:
+
+1.  A native implementation, where you need ``dpkg-deb`` installed, or
+2.  A java, platform independent approach with `jdeb <https://github.com/tcurdt/jdeb>`_.
+
+By default the *native* implementation is activated.
 
 .. note:: The debian plugin depends on the :ref:`linux-plugin`.
 
