@@ -4,7 +4,10 @@ Debian Plugin
 =============
 
 The debian package specification is very robust and powerful.  If you wish to do any advanced features, it's best to understand how
-the underlying packaging system works.  http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/ is an excellent tutorial.
+the underlying packaging system works.  `Debian Binary Package Building HOWTO`_ by Chr. Clemens Lee is an excellent tutorial.
+
+.. _Debian Binary Package Building HOWTO: http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/
+
 
 SBT Native Packager provides two ways to build debian packages. A native one, where you need ``dpkg-deb`` installed
 or a java, platform independent approach with `jdeb <https://github.com/tcurdt/jdeb>`_. By default the *native* implementation
