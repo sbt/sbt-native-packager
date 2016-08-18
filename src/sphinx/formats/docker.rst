@@ -89,7 +89,7 @@ Informational Settings
     The version of the package for Docker (if different from general version).  Often takes the form ``x.y.z``.
 
   ``maintainer in Docker``
-    The maintainer of the package, required by the Dockerfile format.
+    The maintainer of the package, required by the Docker file format.
 
 Environment Settings
 ~~~~~~~~~~~~~~~~~~~~
