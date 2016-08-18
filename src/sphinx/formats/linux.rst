@@ -269,7 +269,7 @@ To add an arbitrary file in your build path
       packageMapping( (file, "/absolute/path/somefile.txt") )
     }
 
-``linuxPackageMappings`` can be scoped to ``Rpm` or ``Debian`` if you want to add mappings only for a single packaging type.
+``linuxPackageMappings`` can be scoped to ``Rpm`` or ``Debian`` if you want to add mappings only for a single packaging type.
 
 .. code-block:: scala
 
