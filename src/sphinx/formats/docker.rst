@@ -229,12 +229,13 @@ the chowning of a exposed volume:
   // we want to filter the chown command for '/data'
   dockerExposedVolumes += "/data"
 
+  // use filterNot to return all items that do NOT meet the criteria
   dockerCommands := dockerCommands.value.filterNot {
 
     // ExecCmd is a case class, and args is a varargs variable, so you need to bind it with @
     case ExecCmd("RUN", args @ _*) => args.contains("chown") && args.contains("/data")
 
-    // dont filter the rest
+    // don't filter the rest; don't filter out anything that doesn't match a pattern
     case cmd                       => false
   }
 
