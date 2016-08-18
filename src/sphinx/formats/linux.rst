@@ -46,7 +46,7 @@ you have these settings in your build:
       with multiple lines."""
 
 
-Enable the debian plugin to activate the native package implementation.
+Enable the linux plugin to activate the native package implementation.
 
 .. code-block:: scala
 
