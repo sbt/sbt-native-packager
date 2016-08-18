@@ -56,9 +56,12 @@ and this to your ``plugins.sbt``
 
   libraryDependencies += "com.spotify" % "docker-client" % "3.5.13"
 
-The Docker-spotify client is a provided dependency so you have to add it on your own.
-It brings a lot of dependenciesthat could slow your build times. This is the reason
-the dependency is marked as provided.
+The Docker-spotify client is a provided dependency. (It is not a not an AutoPlugin_.) You have to explicitly add it on your own. It brings a lot of dependencies
+that could slow your build times. This is the reason the dependency is marked as provided.
+
+.. _AutoPlugin: http://www.scala-sbt.org/0.13/docs/Using-Plugins.html#Enabling+and+disabling+auto+plugins
+
+
 
 Configuration
 -------------
