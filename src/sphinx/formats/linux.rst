@@ -146,12 +146,12 @@ A ``LinuxPackageMapping`` contains the following fields:
     A list of mappings aggregated by this LinuxPackageMapping
 
   ``fileData: LinuxFileMetaData``
-    Permissions for all the defined mappings. Defaults to "root:root 755"
+    Permissions for all the defined mappings. Default = "root:root 755"
 
   ``zipped: Boolean``
-    Are the mappings zipped? Defaults to false
+    Are the mappings zipped? Default = false
 
-All mappings are stored in the task ``linuxPackageMappings`` which returns a ``Seq[LinuxPackageMapping]``. To display the contents
+All mappings are stored in the task ``linuxPackageMappings`` which returns a ``Seq[LinuxPackageMapping]``. To display the contents (value),
 open the sbt console and call
 
 .. code-block:: bash
@@ -162,19 +162,19 @@ open the sbt console and call
 The ``LinuxFileMetaData`` has the following fields
 
   ``user: String``
-    The user owning all the mappings. Default "root"
+    The user owning all the mappings. Default = "root"
 
   ``group: String``
-    The group owning all the mappings. Default "root"
+    The group owning all the mappings. Default = "root"
 
   ``permissions: String``
-    Access permissions for all the mappings. Default "755"
+    Access permissions for all the mappings. Default = "755"
 
   ``config: String``
-    Are the mappings config files. Default "false"
+    Are the mappings config files. Default = "false"
 
   ``docs: Boolean``
-    Are the mappings docs. Default to false
+    Are the mappings docs. Default = false
 
 Last but not least there are the ``linuxPackageSymlinks``, which encapsulate symlinks on your
 destination system. A ``LinuxSymlink`` contains only  two fields
