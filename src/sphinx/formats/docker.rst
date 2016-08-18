@@ -6,9 +6,10 @@ Docker Plugin
 Docker images describe how to set up a container for running an application, including what files are present, and what program to run.
 
   https://docs.docker.com/introduction/understanding-docker/ provides an introduction to Docker.
-  https://docs.docker.com/reference/builder/ describes the Dockerfile; a file which describes how to set up the image.
 
-  sbt-native-packager focuses on creating a Docker image which can "just run" the application built by SBT.
+  https://docs.docker.com/reference/builder/ describes the ``Dockerfile``: a file which describes how to set up the image.
+
+sbt-native-packager focuses on creating a Docker image which can "just run" the application built by SBT.
 
 .. note:: The docker plugin depends on the :ref:`universal-plugin`.
 
