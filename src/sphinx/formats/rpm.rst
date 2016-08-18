@@ -220,8 +220,8 @@ rpmChangelogFile
 ~~~~~~~~~~~~~~~~
 
 The rpmChangelogFile property allows you to set a source that will be imported and used on the RPM generation.
-So if you use rpm commands to see the changelog it brings that information. You have to create the content on
-that file following the RPM conventions that are available here http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs.
+So if you use rpm commands to see the changelog it brings that information. You have to create the content in
+the changelog file using the RPM conventions that are available here http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs.
 
 Example Settings:
 
