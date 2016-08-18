@@ -154,8 +154,8 @@ settings are explained in some detail in the next sections. If you want to
 describe your Dockerfile completely yourself, you can provide your own
 `docker commands` as described in `Custom Dockerfile`_.
 
-Docker Image Name
-~~~~~~~~~~~~~~~~~
+Docker Image Name and Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: scala
 
