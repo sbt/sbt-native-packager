@@ -134,7 +134,7 @@ Publishing Settings
 
 Tasks
 -----
-The Docker support provides the following commands:
+The Docker plugin provides the following commands:
 
   ``docker:stage``
     Generates a directory with the Dockerfile and environment prepared for creating a Docker image.
