@@ -192,7 +192,7 @@ created (if they do not existend) and then chowned.
 
 Install Location
 ~~~~~~~~~~~~~~~~
-The path to which the application is written can be changed with the setting.
+The path to which the application is written can be changed with the location setting.
 The files from ``mappings in Docker`` are extracted underneath this directory.
 
 .. code-block:: scala
