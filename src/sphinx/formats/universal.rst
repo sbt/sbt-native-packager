@@ -360,13 +360,14 @@ You get a set of methods which will help you to create mappings very easily.
 Mapping Examples
 ~~~~~~~~~~~~~~~~
 
-SBT provides the `IO` and `Path`_ APIs, which
+SBT provides the `IO`_ and `Path`_ APIs, which
 help make defining custom mappings easy. The files will appear in the generate universal zip, but also in your
 debian/rpm/msi/dmg builds as described above in the conventions.
 
+.. _IO: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html
 .. _Path: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html
 
-The ``packageBin in Compile`` dependency is only needed, if your files get generated
+The ``packageBin in Compile`` dependency is only needed if your files get generated
 during the ``packageBin`` command or before. For static files you can remove it.
 
 Mapping a complete directory
