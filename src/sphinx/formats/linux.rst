@@ -211,7 +211,7 @@ The basic construct for **adding** a mapping is
 
 To **filter** or **modify** a mapping, you generally create a new mapping by copying an existing one (or occasionally by creating a new blank one),
 then filter or modify it, and then return that filtered or modified mapping.  Here's an example that shows a number of things you can *possibly* do.  See the next section for specifc examples.
-(Basic scala collections operations are used in the code)
+(Basic scala collections operations are used in the code. `Here is an explanation of the filter method`_.)
 
 .. code-block:: scala
 
@@ -227,7 +227,7 @@ then filter or modify it, and then return that filtered or modified mapping.  He
             val filtered = linuxPackage.mappings map {
                 case (file, name) => file -> name // alter stuff here
             } filter {
-                case (file, name) => true // filter (remove) anything from the mapping where the case (file, name) => true  pattern is satisfied
+                case (file, name) => true // filter anything from the mapping where the case (file, name) => true  pattern is satisfied
             }
 
             // Copy values from the mapping: (Include only what you need)
@@ -245,7 +245,7 @@ then filter or modify it, and then return that filtered or modified mapping.  He
                 fileData = fileData
             )
         } filter {
-            linuxPackage => linuxPackage.mappings.nonEmpty // return all mappings that are nonEmpty (this filters out all empty linuxPackageMappings)
+            linuxPackage => linuxPackage.mappings.nonEmpty // return all mappings that are nonEmpty (this effectively removes all empty linuxPackageMappings)
         }
     }
 
@@ -256,6 +256,8 @@ then filter or modify it, and then return that filtered or modified mapping.  He
     }
 
 The ordering in which you apply the tasks is important.
+
+.. _Here is an explanation of the filter method: https://twitter.github.io/scala_school/collections.html#filter
 
 Add Mappings
 ~~~~~~~~~~~~
@@ -298,16 +300,20 @@ on how to filter mappings.
     linuxPackageMappings := {
         // first get the current mappings. mapping is of type Seq[LinuxPackageMapping]
         val mappings = linuxPackageMappings.value
+
         // map over the mappings if you want to change them
         mappings map { mapping =>
+
             // we remove everything besides files that end with ".conf"
             val filtered = mapping.mappings filter {
-                case (file, name) => name endsWith ".conf"
+                case (file, name) => name endsWith ".conf"  // only elements where this is true are kept
             }
+
             // now we copy the mapping but replace the mappings
             mapping.copy(mappings = filtered)
+
         } filter {
-            // remove all LinuxPackageMapping instances that have to file mappings
+            // only keep those mappings that are nonEmpty (_.mappings.nonEmpty == true)
             _.mappings.nonEmpty
         }
     }

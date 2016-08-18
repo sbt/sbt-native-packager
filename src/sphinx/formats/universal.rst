@@ -458,9 +458,11 @@ The ``dir`` gets excluded and is used as root for ``relativeTo(dir)``.
 Filter/Remove mappings
 ^^^^^^^^^^^^^^^^^^^^^^
 
-If you want to remove mappings, you have to filter the current list of mappings.
+If you want to remove mappings, you have to filter_ the current list of mappings.
 This example demonstrates how to build a fat jar with sbt-assembly, but using all
 the convenience of the sbt native packager archetypes.
+
+.. _filter: https://twitter.github.io/scala_school/collections.html#filter
 
 tl;dr how to remove stuff
 
@@ -471,11 +473,14 @@ tl;dr how to remove stuff
         // universalMappings: Seq[(File,String)]
         val universalMappings = (mappings in Universal).value
         val fatJar = (assembly in Compile).value
+
         // removing means filtering
+        // notice the "!" - it means NOT, so only keep those that do NOT have a name ending with "jar"
         val filtered = universalMappings filter {
             case (file, name) =>  ! name.endsWith(".jar")
         }
-        // add the fat jar
+
+        // add the fat jar to our sequence of things that we've filtered
         filtered :+ (fatJar -> ("lib/" + fatJar.getName))
     }
 
