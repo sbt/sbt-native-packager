@@ -373,6 +373,26 @@ during the ``packageBin`` command or before. For static files you can remove it.
 Mapping a complete directory
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+There are some helper methods so you can create a mapping for a complete directory:
+
+For static content, you can just add the directory to the mapping:
+
+.. code-block:: scala
+
+    mappings in Universal ++= directory("SomeDirectoryNameToInclude")
+
+If you want to add everything in a directory where the path for the directory is dynamic, e.g. the ``scala-2.10/api`` directory that is nested under in the ``target`` directory, and ``target`` is defined in a task:
+
+.. code-block:: scala
+
+    mappings in Universal <++= (packageBin in Compile, target) map { (_, target) =>
+      directory(target / "scala-2.10" / "api")
+    }
+
+
+
+You can also use the following approach if, for example, you need more flexibility:
+
 .. code-block:: scala
 
     mappings in Universal <++= (packageBin in Compile, target ) map { (_, target) =>
@@ -380,24 +400,48 @@ Mapping a complete directory
         (dir.***) pair relativeTo(dir.getParentFile)
     }
 
-This maps the ``api`` folder directly to the generate universal zip. ``dir.***`` is a short way for
-``dir ** "*"``, which means _select all files including *dir*. ``relativeTo(dir.getParentFile)``
-generates a function with a ``file -> Option[String]`` mapping, which tries to generate a relative
-string path from ``dir.getParentFile`` to the passed in file. ``pair`` uses the ``relativeTo``
-function to generate a mapping ``File -> String``, which is *your file* to *relative destination*.
+Here is what happens in this code:
 
-It exists some helper methods to map a complete directory in more human readable way.
+    ``dir.***`` is a PathFinder_ method that creates a sequence of every file under a directory, *including the directory itself.*
 
-.. code-block:: scala
+    ``relativeTo()``  returns a String that is the path relative to whatever you pass to it.
 
-    //For dynamic content, e.g. something in the target directory which depends on a Task
-    mappings in Universal <++= (packageBin in Compile, target) map { (_, target) =>
-      directory(target / "scala-2.10" / "api")
-    }
+    ``dir.getParentFile``  returns the parent of ``dir``.  In this example, it's the parent directory of whatever ``target`` is.
 
-    //For static content it can be added to mappings directly
-    mappings in Universal ++= directory("SomeResourcesToInclude")
+    ``pair`` is a PathFinder_ method that takes a function and applies it to every file (in the sequence), and returns a *(file, function-result)* tuple.
 
+Putting it all together, this creates a map of every file under ``target/scala-2.10/api`` (including the directory ``target/scala-2.10/api`` itself)
+with a string that is the path to the parent of ``target``.  This is a mapping for every file and a string that tells the universal packager where it is located.
+
+For example:
+
+if target = ``/Users/you/dev/fantasticApp/src/scala/fantasticApp-0.1-HOTFIX01``
+
+and
+``fantasticApp-0.1-HOTFIX01/scala-2.10/api/`` contains the files
+
+.. code-block:: none
+
+  somedata.csv
+  README
+
+
+Then the code above will produce this mapping:
+
+.. code-block:: none
+
+    ((/Users/you/dev/fantasticApp/src/scala/fantasticApp-0.1-HOTFIX01,fantasticApp-0.1-HOTFIX01),
+
+    (/Users/you/dev/fantasticApp/src/scala/fantasticApp-0.1-HOTFIX01/README,fantasticApp-0.1-HOTFIX01/README),
+
+    (//Users/you/dev/fantasticApp/src/scala/fantasticApp-0.1-HOTFIX01/somedata.csv,fantasticApp-0.1-HOTFIX01/somedata.csv))
+
+
+Note that the first item of each pair is the full path to where the file exists on the system ``/Users/you.....``, and the
+second part is the just the path starting after ``.../scala``.  That second part is what is returned from
+``<each file>.relativeTo(dir.getParentFile)``.
+
+.. _PathFinder: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html#path-finders
 
 Mapping the content of a directory
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
