@@ -443,8 +443,8 @@ second part is the just the path starting after ``.../scala``.  That second part
 
 .. _PathFinder: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html#path-finders
 
-Mapping the content of a directory
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Mapping the content of a directory (excluding the directory itself)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: scala
 
