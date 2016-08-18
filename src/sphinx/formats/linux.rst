@@ -196,8 +196,10 @@ You can see all currently configured symlinks with this simple command.
 Modifying Mappings in General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Adding, filtering and altering mappings are always simple methods on a sequence: ``Seq[LinuxPackageMapping]``.
-The basic construct for adding looks like this
+Adding, filtering and altering mappings are always simple methods on a ``Seq[LinuxPackageMapping]`` sequence.
+This section shows you the general way to add, modify, or filter mappings.  The following sections have specific examples.
+
+The basic construct for **adding** a mapping is
 
 .. code-block:: scala
 
@@ -207,8 +209,9 @@ The basic construct for adding looks like this
     // specialized
     linuxPackageMappings += packageMapping( (theFile, "/absolute/path/somefile.txt") ) withPerms("644") asDocs()
 
-If you want to filter or alter things. The example has a lot of things you can _possibly_ do. Just pick
-what you need. After this section there are smaller examples, showing how you can implement certain functions.
+To **filter** or **modify** a mapping, you generally create a new mapping by copying an existing one (or occasionally by creating a new blank one),
+then filter or modify it, and then return that filtered or modified mapping.  Here's an example that shows a number of things you can *possibly* do.  See the next section for specifc examples.
+(Basic scala collections operations are used in the code)
 
 .. code-block:: scala
 
@@ -216,15 +219,18 @@ what you need. After this section there are smaller examples, showing how you ca
     linuxPackageMappings := {
         // mappings: Seq[LinuxPackageMapping]
         val mappings = linuxPackageMappings.value
+
         // this process will must return another Seq[LinuxPackageMapping]
         mappings map {  linuxPackage =>
-            // basic scala collections operations. Seq[(java.io.File, String)]
+
+            // each mapping element is a Seq[(java.io.File, String)]
             val filtered = linuxPackage.mappings map {
-                case (file, name) => file -> name // altering stuff here
+                case (file, name) => file -> name // alter stuff here
             } filter {
-                case (file, name) => true // remove stuff from mappings
+                case (file, name) => true // filter (remove) anything from the mapping where the case (file, name) => true  pattern is satisfied
             }
-            // case class copy method. Specify only what you need
+
+            // Copy values from the mapping: (Include only what you need)
             val fileData = linuxPackage.fileData.copy(
                 user = "new user",
                 group = "another group",
@@ -232,14 +238,14 @@ what you need. After this section there are smaller examples, showing how you ca
                 config = "false",
                 docs = false
             )
-            // case class copy method. Specify only what you need.
-            // returns a fresh LinuxPackageMapping
+
+            // returns a fresh LinuxPackageMapping based on the above
             linuxPackage.copy(
                 mappings = filtered,
                 fileData = fileData
             )
         } filter {
-            linuxPackage => linuxPackage.mappings.nonEmpty // remove stuff. Here all empty linuxPackageMappings
+            linuxPackage => linuxPackage.mappings.nonEmpty // return all mappings that are nonEmpty (this filters out all empty linuxPackageMappings)
         }
     }
 
