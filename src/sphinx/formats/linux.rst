@@ -3,7 +3,7 @@
 Linux Plugin
 ============
 
-The native packager plugin is designed so that linux packages look similar, but can contain distribution specific information.
+The native packager plugin is designed so that linux packages look similar but can contain distribution specific information.
 
 .. note:: The linux plugin depends on the :ref:`universal-plugin`.
 
