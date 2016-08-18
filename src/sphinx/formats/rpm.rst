@@ -105,7 +105,7 @@ Informational Settings
 
   ``packageSummary in Rpm``
     A brief, one-line summary of the package.
-    Note, the summary **must not** contain line separators or end in a period.
+    Note: the summary **must not** contain line separators or end in a period.
     Its value defines the ``Summary:`` tag in the spec file, and its default
     value is drawn from ``packageSummary in Linux``.
 
