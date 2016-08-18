@@ -360,8 +360,8 @@ You get a set of methods which will help you to create mappings very easily.
 Mapping Examples
 ~~~~~~~~~~~~~~~~
 
-SBT provides and IO and `Path`_ API, which
-lets you define custom mappings easily. The files will appear in the generate universal zip, but also in your
+SBT provides the `IO` and `Path`_ APIs, which
+help make defining custom mappings easy. The files will appear in the generate universal zip, but also in your
 debian/rpm/msi/dmg builds as described above in the conventions.
 
 .. _Path: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html
