@@ -201,9 +201,12 @@ This example adds a dependency on java and recommends a git installation.
 
     debianPackageRecommends in Debian += "git"
 
+Hook Actions into the Debian Package Lifecycle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 To hook into the debian package lifecycle (https://wiki.debian.org/MaintainerScripts) you
 can add ``preinst`` , ``postinst`` , ``prerm`` and/or ``postrm`` scripts. Just place them into
-``src/debian/DEBIAN``. Or you can do it programmatically in your ``build.sbt``
+``src/debian/DEBIAN``. Or you can do it programmatically in your ``build.sbt``.  This example adds actions to ``preinst`` and ``postinst``:
 
 .. code-block:: scala
 
@@ -217,7 +220,10 @@ The helper methods can be found in `MaintainerScriptHelper Scaladocs`_.
 
 If you use the ``JavaServerAppPackaging`` there are predefined ``postinst`` and
 ``preinst`` files, which start/stop the application on install/remove calls. Existing
-maintainer scripts will be extended not overridden.
+maintainer scripts will be *extended* not overridden.
+
+Use a Different Castle Directory for your Control Scripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Your control scripts are in a different castle.. directory? No problem.
 
