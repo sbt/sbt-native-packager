@@ -188,7 +188,7 @@ Docker Image Customization
 
 
 In order to work properly with `USER daemon` the exposed volumes are first
-created (if they do not existend) and chowned.
+created (if they do not existend) and then chowned.
 
 Install Location
 ~~~~~~~~~~~~~~~~
