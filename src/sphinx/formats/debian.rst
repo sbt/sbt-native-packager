@@ -187,13 +187,13 @@ The Debian support grants the following commands:
 Customize
 ---------------
 
-This section contains example on how you can customize your debian build.
+This section contains examples of how you can customize your debian build.
 
 Customizing Debian Metadata
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A Debian package provides metadata, which includes **dependencies** and **recommendations**.
-A basic example to depend on java and recommend a git installation.
+This example adds a dependency on java and recommends a git installation.
 
 .. code-block:: scala
 
