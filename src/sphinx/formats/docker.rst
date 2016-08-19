@@ -295,7 +295,7 @@ generated bash launch script will likely not work.
 
 .. _ash: https://en.wikipedia.org/wiki/Almquist_shell
 
-To handle this, you can use *AshScriptPlugin*, an ash-compatible archetype that is derived from the :ref:`java-app-plugin`` archetype.
+To handle this, you can use *AshScriptPlugin*, an ash-compatible archetype that is derived from the :ref:`java-app-plugin` archetype.
 .  Enable this by including:
 
 .. code-block:: scala
