@@ -26,9 +26,13 @@ formats are also possible via this plugin, it is likely the native `sbt-native-p
 Requirements
 ------------
 
-The ``ant-javafx.jar`` library comes with *Oracle* JDK 8, found in the ``lib`` directory along with ``tools.jar`` and friends. If `sbt` is running under the JVM in Oracle JDK 8, then the plugin should be able to find the path to ``ant-javafx.jar``. If `sbt` is running under a different JVM, then the path to the tool will have to be specified via the ``jdkPackager:antPackagerTasks`` setting.
+The ``ant-javafx.jar`` library comes with *Oracle* JDK 8, found in the ``lib`` directory along with ``tools.jar``
+and friends. If `sbt` is running under the JVM in Oracle JDK 8, then the plugin should be able to find the path to
+``ant-javafx.jar``. If `sbt` is running under a different JVM, then the path to the tool will have to be specified
+via the ``jdkPackager:antPackagerTasks`` setting.
 
-This plugin must be run on the platform of the target installer. The Oracle tooling does *not* provide a means of creating, say, Windows installers on MacOS, or MacOS on Linux, etc.
+This plugin must be run on the platform of the target installer. The Oracle tooling does *not* provide a means of
+creating, say, Windows installers on MacOS, or MacOS on Linux, etc.
 
 To use create Windows launchers & installers, the either the WIX Toolset (``msi``) or Inno Setup (``exe``) is required:
 
@@ -54,7 +58,7 @@ The plugin is enabled via the ``AutoPlugins`` facility:
 Build
 -----
 
-To use, first get your application working per ``JavaAppPackaging`` instructions (including the ``mainClass`` setting). Once that is working, run
+To use, first get your application working per :ref:`java-app-plugin` instructions (including the ``mainClass`` setting). Once that is working, run
 
 .. code-block:: scala
 
