@@ -78,7 +78,7 @@ Settings
 
 ``jdkPackagerType``
   Value passed as the `native` attribute to `fx:deploy` task.
-  Per `javapackager` documentation, this may be one of the following:
+  Per `javapackager`_ documentation, this may be one of the following:
 
   * ``all``: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.
   * ``installer``: Runs all of the installers for the platform on which it is running.
