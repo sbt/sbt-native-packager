@@ -14,8 +14,8 @@ The actual mechanism used by this plugin is the support provided by the ``lib/an
 which provides more capabilities than the ``javapackager`` command line version, but the idea is the same.
 
 This plugin's most relevant addition to the core `sbt-native-packager` capabilities is the generation of MacOS X App
-bundles, and associated ``.dmg`` and ``.pkg`` package formats. With this plugin complete drag-and-drop installable
-application bundles are possible, including the embedding of the JRE. It can also generate Windows ``.exe`` and ``.msi``
+bundles and associated ``.dmg`` and ``.pkg`` package formats.  With this plugin complete drag-and-drop installable
+application bundles are possible, including the embedding of the JRE.  It can also generate Windows ``.exe`` and ``.msi``
 installers provided the requisite tools are available on the Windows build platform (see below). While Linux package
 formats are also possible via this plugin, it is likely the native `sbt-native-packager` support for ``.deb`` and
 ``.rpm`` formats will provide more configurability.
