@@ -71,10 +71,10 @@ By default, the plugin makes the installer type that is native to the current bu
 Settings
 --------
 
-*For the latest documentation reference the key descriptions in sbt. *
+*For the latest documentation reference the key descriptions in sbt.*
 
 ``jdkPackagerBasename``
-  Filename sans extension for generated installer package.
+  Filename without the extension for the generated installer package.
 
 ``jdkPackagerType``
   Value passed as the `native` attribute to `fx:deploy` task.
