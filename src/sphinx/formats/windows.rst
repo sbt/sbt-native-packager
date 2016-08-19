@@ -58,9 +58,9 @@ Enables the windows plugin
 0.8 or lower
 ~~~~~~~~~~~~
 
-For this versions windows packaging is automatically activated.
+For these versions windows packaging is automatically activated.
 See the :doc:`Getting Started </gettingstarted>` page for information
-on how to enable sbt native packager.
+on how to enable sbt-native-packager.
 
 Configuration
 -------------
