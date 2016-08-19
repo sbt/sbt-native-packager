@@ -64,14 +64,14 @@ To use, first get your application working per :ref:`java-app-plugin` instructio
 
   sbt jdkPackager:packageBin
 
-By default, the plugin makes the installer type that is native to the current build platform in the directory
+By default, the plugin makes the installer type that is native to the current build platform.  The installer is put in the directory
 ``target/jdkpackager/bundles``. The key ``jdkPackageType`` can be used to modify this behavior. Run
 ``help jdkPackageType`` in `sbt` for details. The most popular setting is likely to be ``jdkAppIcon``.
 
 Settings
 --------
 
-*For the latest documentation reference the key descriptions in sbt.*
+*For the latest documentation reference the key descriptions in sbt. *
 
 ``jdkPackagerBasename``
   Filename sans extension for generated installer package.
