@@ -100,7 +100,7 @@ Settings
     The information used to autoconstruct the ``<Product><Package/>`` portion of the wix xml.  **Note: unused if ``wixConfig`` is overridden**
 
   ``wixProductLicense``
-    An (optional) ``rtf`` file to display as the product license during installation.  Default to looking for ``src/windows/License.rtf``
+    An (optional) ``rtf`` file to display as the product license during installation.  Defaults to ``src/windows/License.rtf``
 
   ``wixFeatures``
     A set of windows features that users can install with this package.  **Note: unused if ``wixConfig`` is overridden**
@@ -116,7 +116,7 @@ Settings
 
   ``mappings in packageMsi in Windows``
     A list of file->location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a ``cab`` or embedded ``cab`` for the ``msi``.
-    The WIX xml should use the relative locations in this mappings when references files for the package.
+    The WIX xml should use the relative locations in this mappings when referencing files for the package.
 
 Tasks
 -----
