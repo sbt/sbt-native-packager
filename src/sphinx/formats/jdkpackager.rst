@@ -102,7 +102,7 @@ Settings
   * `ico`: Windows
   * `png`: Linux
 
-  Defaults a generically bland Java icon.
+  Defaults to a generically bland Java icon. `Oracle javafx ant task reference <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACFJBFJ>`_
 
 ``jdkPackagerToolkit``
   GUI toolkit used in app. Either ``JavaFXToolkit`` (default) or ``SwingToolkit``
