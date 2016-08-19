@@ -3,10 +3,12 @@
 JDKPackager Plugin
 ==================
 
-JDK 8 from Oracle includes the tool ``javapackager`` (née ``javafxpackager``), which generates native application
-launchers and installers for MacOS X, Windows, and Linux. This plugin complements the existing `sbt-native-packager`
-formats by taking the settings and staged output from ``JavaAppPackaging`` and passing them through ``javapackager``
+This plugin builds on Oracle's `javapackager`_ tool to generate  native application
+launchers and installers for MacOS X, Windows, and Linux. This plugin takes the settings and staged output from
+:ref:`java-app-plugin` and passes them through ``javapackager``
 to create native formats per Oracle's provided features.
+
+.. _javapackager: https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/packager.html#CCHIHIIJ
 
 The actual mechanism used by this plugin is the support provided by the ``lib/ant-javafx.jar`` Ant task library,
 which provides more capabilities than the ``javapackager`` command line version, but the idea is the same.
