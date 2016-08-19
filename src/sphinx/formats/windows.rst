@@ -92,7 +92,9 @@ Settings
     The GUID to use to identify the windows package/product.
 
   ``wixProductUpgradeId``
-    The GUID to use to identify the windows package/product *upgrade* identifier (see wix docs).
+    The GUID to use to identify the windows package/product *upgrade* identifier (`See the wix docs on upgrades`_).
+
+.. _See the wix docs on upgrades: http://wixtoolset.org/documentation/manual/v3/howtos/updates/major_upgrade.html
 
   ``wixPackageInfo``
     The information used to autoconstruct the ``<Product><Package/>`` portion of the wix xml.  **Note: unused if ``wixConfig`` is overridden**
