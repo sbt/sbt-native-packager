@@ -91,8 +91,8 @@ Settings
   * ``exe``: Generates a Windows .exe package.
   * ``msi``: Generates a Windows Installer package.
 
-.. note:: Because only a subset of the possible settings are exposed through he plugin, updates are likely required to fully
-    make use of all formats. ``dmg`` currently the most tested type.
+.. note:: Because only a subset of the possible settings are exposed through the plugin, updates are likely required to fully
+    make use of all formats. ``dmg`` is currently the most tested type.
 
 
 ``jdkAppIcon``
