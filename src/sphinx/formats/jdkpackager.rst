@@ -36,7 +36,7 @@ To use create Windows launchers & installers, the either the WIX Toolset (``msi`
 * `Inno Setup <http://www.jrsoftware.org/isinfo.php>`_
 
 For further details on the capabilities of `javapackager`, see the
-`windows <http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html>`_ and
+`Windows <http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html>`_ and
 `Unix <http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html>`_ references.
 (Note: only a few of the possible settings are exposed through this plugin. Please submit a
 `Github <https://github.com/sbt/sbt-native-packager/issues>`_ issue or pull request if something specific is desired.)
