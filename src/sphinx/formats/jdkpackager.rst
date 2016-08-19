@@ -78,6 +78,7 @@ Settings
 
 ``jdkPackagerType``
   Value passed as the `native` attribute to `fx:deploy` task.
+
   Per `javapackager`_ documentation, this may be one of the following:
 
   * ``all``: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.
@@ -109,24 +110,34 @@ Settings
 
 ``jdkPackagerJVMArgs``
   Sequence of arguments to pass to the JVM.
+
   Default: ``Seq("-Xmx768m")``.
+
   `Oracle JVM argument docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHJIJG>`_
 
 ``jdkPackagerAppArgs``
   List of command line arguments to pass to the application on launch.
+
   Default: ``Seq.empty``
+
   `Oracle arguments docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACIJFHB>`_
 
 ``jdkPackagerProperties``
   Map of `System` properties to define in application.
+
   Default: ``Map.empty``
+
   `Oracle properties docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHCIFJ>`_
 
 ``jdkPackagerAssociations``
   Set of application file associations to register for the application.
-  Example: `jdkPackagerAssociations := Seq(FileAssociation("foo", "application/x-foo", Foo Data File", iconPath))
+
+  Example: ``jdkPackagerAssociations := Seq(FileAssociation("foo", "application/x-foo", Foo Data File", iconPath))``
+
   Default: `Seq.empty`
+
   Note: Requires JDK >= 8 build 40.
+
   `Oracle associations docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAIDHBJ>`_
 
 Example
