@@ -161,7 +161,7 @@ like a set of files or menu links. The currently supported components of feature
 
 To create a new feature, simple instantiate the ``WindowsFeature`` class with the desired feature components that are included.
 
-Here's an example feature that installs a binary and a script, as well as path settings:
+Here's an example feature that installs a binary file (`cool.jar`) and a script (`cool.bat`), and adds a directory to the PATH:
 
 .. code-block:: scala
 
@@ -175,7 +175,7 @@ Here's an example feature that installs a binary and a script, as well as path s
           AddDirectoryToPath("bin"))
     )
 
-All file references should line up exactly with those found in the ``mappings in Windows`` configuration.   When generating an MSI, the plugin will first create
+All file references should line up exactly with those found in the ``mappings in Windows`` configuration.   When generating a MSI, the plugin will first create
 a directory using all the ``mappings in Windows`` and configure this for inclusion in a ``cab`` file.  If you'd like to add files to include, these must *first*
 be added to the mappings, and then to a feature.   For example, if we complete the above setting to include file mappings, we'd have the following:
 
@@ -196,4 +196,4 @@ be added to the mappings, and then to a feature.   For example, if we complete t
     )
 
 Right now this layer is *very* limited in what it can accomplish, and hasn't been heavily debugged.  If you're interested in helping contribute, please
-do so!   However, for most command line tools, it should be sufficient for generating a basic ``msi`` that windows users can install.
+do so!   However, for most command line tools, it should be sufficient for generating a basic ``msi`` that Windows users can install.
