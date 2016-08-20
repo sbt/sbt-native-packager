@@ -113,10 +113,8 @@ and this to your ``plugins.sbt``:
 
   libraryDependencies += "org.vafer" % "jdeb" % "1.3" artifacts (Artifact("jdeb", "jar", "jar"))
 
-JDeb is a provided dependency. (It is not a not an AutoPlugin_.) You have to explicitly add it on your own. It brings a lot of dependencies
+JDeb is a provided dependency. You have to explicitly add it on your own. It brings a lot of dependencies
 that could slow your build times. This is the reason the dependency is marked as provided.
-
-.. _AutoPlugin: http://www.scala-sbt.org/0.13/docs/Using-Plugins.html#Enabling+and+disabling+auto+plugins
 
 
 Configurations

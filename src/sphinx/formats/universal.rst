@@ -385,8 +385,7 @@ If you want to add everything in a directory where the path for the directory is
 
 .. code-block:: scala
 
-    mappings in Universal <++= (packageBin in Compile, target) map { (_, target) =>
-      directory(target / "scala-2.10" / "api")
+    mappings in Universal := (mappings in Universal).value ++ directory(target.value / "scala-2.10" / "api")
     }
 
 

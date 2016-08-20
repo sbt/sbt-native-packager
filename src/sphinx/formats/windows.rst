@@ -8,7 +8,7 @@ it's important to understand how WIX works.  http://wix.tramontana.co.hu/ is an 
 to how to create packages using wix.
 
 However, the native-packager provides a simple layer on top of wix that *may* be enough for most projects.
-If it is not enought, just override ``wixConfig`` or ``wixFile`` settings.  Let's look at the layer above direct
+If it is not enough, just override ``wixConfig`` or ``wixFile`` settings.  Let's look at the layer above direct
 xml configuration.
 
 .. note:: The windows plugin depends on the :ref:`universal-plugin`.
