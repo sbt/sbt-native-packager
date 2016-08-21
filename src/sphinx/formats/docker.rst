@@ -6,16 +6,17 @@ Docker Plugin
 Docker images describe how to set up a container for running an application, including what files are present, and what program to run.
 
   https://docs.docker.com/introduction/understanding-docker/ provides an introduction to Docker.
-  https://docs.docker.com/reference/builder/ describes the Dockerfile; a file which describes how to set up the image.
 
-  sbt-native-packager focuses on creating a Docker image which can "just run" the application built by SBT.
+  https://docs.docker.com/reference/builder/ describes the ``Dockerfile``: a file which describes how to set up the image.
+
+sbt-native-packager focuses on creating a Docker image which can "just run" the application built by SBT.
 
 .. note:: The docker plugin depends on the :ref:`universal-plugin`.
 
 Requirements
 ------------
 
-You need the docker console client installed and version `1.3` or higher is required.
+You need the version 1.3 or higher of the docker console client installed.
 SBT Native Packager doesn't use the REST API, but instead uses the CLI directly.
 
 It is currently not possible to provide authentication for Docker repositories from within the build.
@@ -55,9 +56,10 @@ and this to your ``plugins.sbt``
 
   libraryDependencies += "com.spotify" % "docker-client" % "3.5.13"
 
-The Docker-spotify client is a provided dependency so you have to add it on your own.
-It brings a lot of dependenciesthat could slow your build times. This is the reason
-the dependency is marked as provided.
+The Docker-spotify client is a provided dependency. You have to explicitly add it on your own. It brings a lot of dependencies
+that could slow your build times. This is the reason the dependency is marked as provided.
+
+
 
 Configuration
 -------------
@@ -130,7 +132,7 @@ Publishing Settings
 
 Tasks
 -----
-The Docker support provides the following commands:
+The Docker plugin provides the following commands:
 
   ``docker:stage``
     Generates a directory with the Dockerfile and environment prepared for creating a Docker image.
@@ -145,13 +147,13 @@ The Docker support provides the following commands:
 Customize
 ---------
 
-There are some predefined settings, which you can easily customize. These
+There are some predefined settings which you can easily customize. These
 settings are explained in some detail in the next sections. If you want to
 describe your Dockerfile completely yourself, you can provide your own
 `docker commands` as described in `Custom Dockerfile`_.
 
-Docker Image Name
-~~~~~~~~~~~~~~~~~
+Docker Image Name and Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: scala
 
@@ -184,11 +186,11 @@ Docker Image Customization
 
 
 In order to work properly with `USER daemon` the exposed volumes are first
-created (if they do not existend) and chowned.
+created (if they do not existend) and then chowned.
 
 Install Location
 ~~~~~~~~~~~~~~~~
-The path to which the application is written can be changed with the setting.
+The path to which the application is written can be changed with the location setting.
 The files from ``mappings in Docker`` are extracted underneath this directory.
 
 .. code-block:: scala
@@ -215,8 +217,8 @@ In your sbt console type
 Remove Commands
 ~~~~~~~~~~~~~~~
 
-SBT Native Packager added some commands you may not need. For example
-the chowning of a exposed volume.
+SBT Native Packager adds commands you may not need. For example,
+the chowning of a exposed volume:
 
 .. code-block:: scala
 
@@ -225,12 +227,13 @@ the chowning of a exposed volume.
   // we want to filter the chown command for '/data'
   dockerExposedVolumes += "/data"
 
+  // use filterNot to return all items that do NOT meet the criteria
   dockerCommands := dockerCommands.value.filterNot {
 
     // ExecCmd is a case class, and args is a varargs variable, so you need to bind it with @
     case ExecCmd("RUN", args @ _*) => args.contains("chown") && args.contains("/data")
 
-    // dont filter the rest
+    // don't filter the rest; don't filter out anything that doesn't match a pattern
     case cmd                       => false
   }
 
@@ -238,14 +241,16 @@ the chowning of a exposed volume.
 Add Commands
 ~~~~~~~~~~~~
 
-Adding commands is as straightforward as adding anything in a list.
+Since ``dockerCommands`` is just a ``Sequence``, adding commands is straightforward:
 
 .. code-block:: scala
 
   import com.typesafe.sbt.packager.docker._
 
+  // use += to add an item to a Sequence
   dockerCommands += Cmd("USER", daemonUser.value)
 
+  // use ++= to merge a sequence with an existing sequence
   dockerCommands ++= Seq(
     // setting the run script executable
     ExecCmd("RUN",
@@ -281,13 +286,15 @@ Now let's start adding some Docker commands.
 Busybox/Ash Support
 ~~~~~~~~~~~~~~~~~~~
 
-The default shell support for the Java archetype (JavaAppPackaging) is bash, with a Windows
-bat file also generated.  Busybox is a popular minimal Docker base image that uses ash, a much
-more limited shell than bash.  The result is that if you build a Docker image for Busybox the
+Busybox is a popular minimal Docker base image that uses ash_, a much
+more limited shell than bash.  By default, the Java archetype (:ref:`java-app-plugin`) generates two files for shell
+support: a ``bash`` file, and a Windows ``.bat`` file.  If you build a Docker image for Busybox using the defaults, the
 generated bash launch script will likely not work.
 
-Optionally you can use an ash-compatible archetype that derives from JavaAppPacking called
-AshScriptPlugin.  Enable this by including:
+.. _ash: https://en.wikipedia.org/wiki/Almquist_shell
+
+To handle this, you can use *AshScriptPlugin*, an ash-compatible archetype that is derived from the :ref:`java-app-plugin` archetype.
+.  Enable this by including:
 
 .. code-block:: scala
 
@@ -295,7 +302,9 @@ AshScriptPlugin.  Enable this by including:
 
 With this plugin enabled an ash-compatible launch script will be generated in your Docker image.
 
-Just like for JavaAppPackaging you have the option of overriding the default script by supplying
-your own src/templates/ash-template file.  When overriding the file don't forget to include
-${{template_declares}} somewhere to populate $app_classpath $app_mainclass from your sbt project.
+Just like for :ref:`java-app-plugin`, you have the option of overriding the default script by supplying
+your own ``src/templates/ash-template`` file.  When overriding the file don't forget to include
+``${{template_declares}}`` somewhere to populate ``$app_classpath $app_mainclass`` from your sbt project.
 You'll likely need these to launch your program.
+
+
