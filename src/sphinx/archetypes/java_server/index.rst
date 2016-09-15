@@ -46,7 +46,7 @@ have sensible defaults.
     UID of daemonUser
 
   ``daemonGroup``
-    Creates or discovers the bat script used by this project.
+    Group to place daemonUser to.
 
   ``daemonGroupGid``
     GID of daemonGroup
