@@ -74,6 +74,7 @@ object DockerPlugin extends AutoPlugin {
   override lazy val projectSettings = Seq(
     dockerBaseImage := "openjdk:latest",
     dockerExposedPorts := Seq(),
+    dockerExposedUdpPorts := Seq(),
     dockerExposedVolumes := Seq(),
     dockerRepository := None,
     dockerAlias := DockerAlias(dockerRepository.value, None, packageName.value, Some(version.value)),
@@ -99,7 +100,7 @@ object DockerPlugin extends AutoPlugin {
         makeAdd(dockerBaseDirectory),
         makeChown(user, group, "." :: Nil)
       ) ++
-        makeExposePorts(dockerExposedPorts.value) ++
+        makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
         makeVolumes(dockerExposedVolumes.value, user, group) ++
         Seq(
           makeUser(user),
@@ -207,8 +208,8 @@ object DockerPlugin extends AutoPlugin {
    * @param exposedPorts
    * @return if ports are exposed the EXPOSE command
    */
-  private final def makeExposePorts(exposedPorts: Seq[Int]): Option[CmdLike] = {
-    if (exposedPorts.isEmpty) None else Some(Cmd("EXPOSE", exposedPorts mkString " "))
+  private final def makeExposePorts(exposedPorts: Seq[Int], exposedUdpPorts: Seq[Int]): Option[CmdLike] = {
+    if (exposedPorts.isEmpty) None else Some(Cmd("EXPOSE", (exposedPorts.map(_.toString) ++ exposedUdpPorts.map(_.toString).map(_ + "/udp")) mkString " "))
   }
 
   /**
