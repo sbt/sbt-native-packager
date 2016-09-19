@@ -151,7 +151,7 @@ Docker Base Image
 
 .. code-block:: scala
 
-    dockerBaseImage := "dockerfile/java"
+    dockerBaseImage := "dockerfile/openjdk"
 
 Docker Repository
 ~~~~~~~~~~~~~~~~~
@@ -195,7 +195,7 @@ In your sbt console type
 .. code-block:: bash
 
     > show dockerCommands
-    [info] List(Cmd(FROM,dockerfile/java:latest), Cmd(MAINTAINER,Your Name <y.n@yourcompany.com>), ...)
+    [info] List(Cmd(FROM,dockerfile/openjdk:latest), Cmd(MAINTAINER,Your Name <y.n@yourcompany.com>), ...)
 
 
 
@@ -260,7 +260,7 @@ Now let's start adding some Docker commands.
   import com.typesafe.sbt.packager.docker._
 
   dockerCommands := Seq(
-    Cmd("FROM", "dockerfile/java:latest"),
+    Cmd("FROM", "dockerfile/openjdk:latest"),
     Cmd("MAINTAINER", maintainer.value),
     ExecCmd("CMD", "echo", "Hello, World from Docker")
   )
