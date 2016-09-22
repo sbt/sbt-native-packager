@@ -12,7 +12,8 @@ trait DockerKeys {
   val dockerPackageMappings = TaskKey[Seq[(File, String)]]("docker-package-mappings", "Generates location mappings for Docker build.")
 
   val dockerBaseImage = SettingKey[String]("dockerBaseImage", "Base image for Dockerfile.")
-  val dockerExposedPorts = SettingKey[Seq[Int]]("dockerExposedPorts", "Ports exposed by Docker image")
+  val dockerExposedPorts = SettingKey[Seq[Int]]("dockerExposedPorts", "TCP Ports exposed by Docker image")
+  val dockerExposedUdpPorts = SettingKey[Seq[Int]]("dockerExposedUdpPorts", "UDP Ports exposed by Docker image")
   val dockerExposedVolumes = SettingKey[Seq[String]]("dockerExposedVolumes", "Volumes exposed by Docker image")
   val dockerRepository = SettingKey[Option[String]]("dockerRepository", "Repository for published Docker image")
   val dockerAlias = SettingKey[DockerAlias]("dockerAlias", "Docker alias for the built image")

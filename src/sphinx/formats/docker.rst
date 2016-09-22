@@ -99,7 +99,10 @@ Environment Settings
     The user to use when executing the application. Files below the install path also have their ownership set to this user.
 
   ``dockerExposedPorts``
-    A list of ports to expose from the Docker image.
+    A list of TCP ports to expose from the Docker image.
+
+  ``dockerExposedUdpPorts``
+    A list of UDP ports to expose from the Docker image.
 
   ``dockerExposedVolumes in Docker``
     A list of data volumes to make available in the Docker image.
