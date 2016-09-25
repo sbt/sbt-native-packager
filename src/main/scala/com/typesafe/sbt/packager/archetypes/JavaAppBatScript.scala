@@ -11,7 +11,11 @@ object JavaAppBatScript {
 
   def makeWindowsRelativeClasspathDefine(cp: Seq[String]): String = {
     def cleanPath(path: String): String = path.replaceAll("/", "\\\\")
-    def isAbsolute(path: String): Boolean = path.length > "c:\\".length && Character.isLetter(path(0)) && path(1) == ':'
+    def isAbsolute(path: String): Boolean =
+      path.length > "c:\\".length && // check path len is long enough to hold a windows absolute path
+        Character.isLetter(path(0)) &&
+        path(1) == ':'
+
     def makeRelativePath(path: String): String =
       "%APP_LIB_DIR%\\" + cleanPath(path)
     "set \"APP_CLASSPATH=" + (cp map { path => if (isAbsolute(path)) path else makeRelativePath(path) } mkString ";") + "\""
