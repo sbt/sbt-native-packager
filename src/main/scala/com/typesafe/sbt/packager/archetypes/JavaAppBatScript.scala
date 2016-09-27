@@ -12,7 +12,7 @@ object JavaAppBatScript {
   def makeWindowsRelativeClasspathDefine(cp: Seq[String]): String = {
     def cleanPath(path: String): String = path.replaceAll("/", "\\\\")
     def isAbsolute(path: String): Boolean =
-      path.length > "c:\\".length && // check path len is long enough to hold a windows absolute path
+      path.length > 3 && // check path len is long enough to hold a windows absolute path ("c:\ ...")
         Character.isLetter(path(0)) &&
         path(1) == ':'
 
