@@ -1,5 +1,6 @@
 package com.typesafe.sbt.packager.archetypes
 
+import java.io.File
 import java.net.URL
 
 /**
@@ -34,7 +35,7 @@ object JavaAppBashScript {
       extras
 
   private def makeClasspathDefine(cp: Seq[String]): String = {
-    val fullString = cp map (n => "$lib_dir/" + n) mkString ":"
+    val fullString = cp map (n => if (n.startsWith(File.separator)) n else "$lib_dir/" + n) mkString ":"
     "declare -r app_classpath=\"" + fullString + "\"\n"
   }
   def generateScript(defines: Seq[String], template: URL = bashTemplateSource): String = {
