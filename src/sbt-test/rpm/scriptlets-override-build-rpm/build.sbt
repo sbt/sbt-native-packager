@@ -31,18 +31,28 @@ maintainerScripts in Rpm := Map(
 
 TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
   val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
-  assert(spec contains "%pre\necho \"pre-install\"", "Spec doesn't contain %pre scriptlet")
-  assert(spec contains "%post\necho \"post-install\"", "Spec doesn't contain %post scriptlet")
-  assert(spec contains "%pretrans\necho \"pretrans\"", "Spec doesn't contain %pretrans scriptlet")
-  assert(spec contains "%posttrans\necho \"posttrans\"", "Spec doesn't contain %posttrans scriptlet")
-  assert(spec contains "%preun\necho \"pre-uninstall\"", "Spec doesn't contain %preun scriptlet")
-  assert(spec contains "%postun\necho \"post-uninstall\"", "Spec doesn't contain %postun scriptlet")
+  assert(spec contains "%pre\necho \"pre-install\"",
+         "Spec doesn't contain %pre scriptlet")
+  assert(spec contains "%post\necho \"post-install\"",
+         "Spec doesn't contain %post scriptlet")
+  assert(spec contains "%pretrans\necho \"pretrans\"",
+         "Spec doesn't contain %pretrans scriptlet")
+  assert(spec contains "%posttrans\necho \"posttrans\"",
+         "Spec doesn't contain %posttrans scriptlet")
+  assert(spec contains "%preun\necho \"pre-uninstall\"",
+         "Spec doesn't contain %preun scriptlet")
+  assert(spec contains "%postun\necho \"post-uninstall\"",
+         "Spec doesn't contain %postun scriptlet")
   // Checking for the stuff that should be overriden
-  assert(!(spec contains "groupadd --system rpm-test"), "Groupadd should be overridden \n" + spec)
-  assert(!(spec contains "useradd --gid rpm-test --no-create-home --system -c 'Test rpm package' rpm-test"), "Useradd should be overridden \n" + spec)
-  assert(!(spec contains "groupdel rpm-test"), "Groupdel should be overridden \n" + spec)
-  assert(!(spec contains "userdel rpm-test"), "Userdel should be overridden in \n" + spec)
+  assert(!(spec contains "groupadd --system rpm-test"),
+         "Groupadd should be overridden \n" + spec)
+  assert(
+    !(spec contains "useradd --gid rpm-test --no-create-home --system -c 'Test rpm package' rpm-test"),
+    "Useradd should be overridden \n" + spec)
+  assert(!(spec contains "groupdel rpm-test"),
+         "Groupdel should be overridden \n" + spec)
+  assert(!(spec contains "userdel rpm-test"),
+         "Userdel should be overridden in \n" + spec)
   out.log.success("Successfully tested rpm test file")
   ()
 }
-

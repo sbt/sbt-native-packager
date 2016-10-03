@@ -5,14 +5,15 @@ import com.typesafe.sbt.packager.jdkpackager.JDKPackagerPlugin.autoImport._
 import sbt._
 
 /**
- * Keys specific to deployment via the `javapackger` tool.
- *
- * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
- * @since 2/11/15
- */
+  * Keys specific to deployment via the `javapackger` tool.
+  *
+  * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
+  * @since 2/11/15
+  */
 trait JDKPackagerKeys {
 
-  val jdkPackagerBasename = settingKey[String]("Filename sans extension for generated installer package.")
+  val jdkPackagerBasename = settingKey[String](
+    "Filename sans extension for generated installer package.")
 
   val jdkPackagerType = settingKey[String](
     """Value passed as the `native` attribute to `fx:deploy` task.

@@ -3,44 +3,49 @@ package packager
 package rpm
 
 import sbt._
-import com.typesafe.sbt.packager.linux.{ LinuxPlugin, LinuxPackageMapping, LinuxFileMetaData, LinuxSymlink }
+import com.typesafe.sbt.packager.linux.{
+  LinuxPlugin,
+  LinuxPackageMapping,
+  LinuxFileMetaData,
+  LinuxSymlink
+}
 import com.typesafe.sbt.packager.rpm.RpmPlugin.Names._
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import java.io.File
 
 case class RpmMetadata(
-  name: String,
-  version: String,
-  release: String,
-  prefix: Option[String] = None,
-  arch: String,
-  vendor: String,
-  os: String,
-  summary: String,
-  description: String,
-  autoprov: String,
-  autoreq: String
+    name: String,
+    version: String,
+    release: String,
+    prefix: Option[String] = None,
+    arch: String,
+    vendor: String,
+    os: String,
+    summary: String,
+    description: String,
+    autoprov: String,
+    autoreq: String
 )
 
 /**
- * The Description used to generate an RPM
- */
+  * The Description used to generate an RPM
+  */
 case class RpmDescription(
-  license: Option[String] = None,
-  distribution: Option[String] = None,
-  url: Option[String] = None,
-  group: Option[String] = None,
-  packager: Option[String] = None,
-  icon: Option[String] = None,
-  changelogFile: Option[String] = None
+    license: Option[String] = None,
+    distribution: Option[String] = None,
+    url: Option[String] = None,
+    group: Option[String] = None,
+    packager: Option[String] = None,
+    icon: Option[String] = None,
+    changelogFile: Option[String] = None
 )
 
 case class RpmDependencies(
-  provides: Seq[String] = Seq.empty,
-  requirements: Seq[String] = Seq.empty,
-  prereq: Seq[String] = Seq.empty,
-  obsoletes: Seq[String] = Seq.empty,
-  conflicts: Seq[String] = Seq.empty
+    provides: Seq[String] = Seq.empty,
+    requirements: Seq[String] = Seq.empty,
+    prereq: Seq[String] = Seq.empty,
+    obsoletes: Seq[String] = Seq.empty,
+    conflicts: Seq[String] = Seq.empty
 ) {
   def contents: String = {
     val sb = new StringBuilder
@@ -56,16 +61,16 @@ case class RpmDependencies(
 }
 
 /**
- * Parameters stay because of binary compatibility.
- */
+  * Parameters stay because of binary compatibility.
+  */
 case class RpmScripts(
-  pretrans: Option[String] = None,
-  pre: Option[String] = None,
-  post: Option[String] = None,
-  verifyscript: Option[String] = None,
-  posttrans: Option[String] = None,
-  preun: Option[String] = None,
-  postun: Option[String] = None
+    pretrans: Option[String] = None,
+    pre: Option[String] = None,
+    post: Option[String] = None,
+    verifyscript: Option[String] = None,
+    posttrans: Option[String] = None,
+    preun: Option[String] = None,
+    postun: Option[String] = None
 ) {
 
   def pretransContent(): String =
@@ -103,11 +108,19 @@ case class RpmScripts(
     "Call individual scriptlet content method instead, e.g. pretransContent(). This is to allow managing symlink during %post and %postun so it can be relocated",
     since = "1.0.5-M4"
   )
-  @deprecated("Use contents(maintainerScripts) until next major release", "1.1.x")
+  @deprecated("Use contents(maintainerScripts) until next major release",
+              "1.1.x")
   def contents(): String = {
-    val labelledScripts = Seq("%pretrans", "%pre", "%post", "%verifyscript", "%posttrans", "%preun", "%postun")
-      .zip(Seq(pretrans, pre, post, verifyscript, posttrans, preun, postun))
-    labelledScripts.collect { case (a, Some(b)) => a + "\n" + b }.mkString("\n\n")
+    val labelledScripts = Seq("%pretrans",
+                              "%pre",
+                              "%post",
+                              "%verifyscript",
+                              "%posttrans",
+                              "%preun",
+                              "%postun").zip(
+      Seq(pretrans, pre, post, verifyscript, posttrans, preun, postun))
+    labelledScripts.collect { case (a, Some(b)) => a + "\n" + b }
+      .mkString("\n\n")
   }
 
 }
@@ -115,8 +128,8 @@ case class RpmScripts(
 object RpmScripts {
 
   def fromMaintainerScripts(
-    maintainerScripts: Map[String, Seq[String]],
-    replacements: Seq[(String, String)]
+      maintainerScripts: Map[String, Seq[String]],
+      replacements: Seq[(String, String)]
   ): RpmScripts = {
     val toContent = toContentWith(replacements) _
     RpmScripts(
@@ -131,20 +144,21 @@ object RpmScripts {
   }
 
   // insert replacements
-  private def toContentWith(replacements: Seq[(String, String)])(lines: Seq[String]): String =
+  private def toContentWith(replacements: Seq[(String, String)])(
+      lines: Seq[String]): String =
     TemplateWriter.generateScriptFromLines(lines, replacements).mkString("\n")
 
 }
 
 case class RpmSpec(
-  meta: RpmMetadata,
-  desc: RpmDescription = RpmDescription(),
-  deps: RpmDependencies = RpmDependencies(),
-  setarch: Option[String],
-  scriptlets: RpmScripts = RpmScripts(),
-  mappings: Seq[LinuxPackageMapping] = Seq.empty,
-  symlinks: Seq[LinuxSymlink] = Seq.empty,
-  installLocation: String
+    meta: RpmMetadata,
+    desc: RpmDescription = RpmDescription(),
+    deps: RpmDependencies = RpmDependencies(),
+    setarch: Option[String],
+    scriptlets: RpmScripts = RpmScripts(),
+    mappings: Seq[LinuxPackageMapping] = Seq.empty,
+    symlinks: Seq[LinuxSymlink] = Seq.empty,
+    installLocation: String
 ) {
 
   def installDir: String =
@@ -162,6 +176,7 @@ case class RpmSpec(
       }
     }
     def isNonEmpty(s: String): Boolean = !s.isEmpty
+    // format: off
     val emptyValidators =
       Seq(
         ensureOr(meta.name, "`name in Rpm` is empty.  Please provide one.", isNonEmpty),
@@ -173,8 +188,10 @@ case class RpmSpec(
         ensureOr(meta.summary, "`packageSummary in Rpm` is empty.  Please provide a valid summary for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.description, "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty)
       )
+    // format: on
     // TODO - Continue validating after this point?
-    if (!emptyValidators.forall(identity)) sys.error("There are issues with the rpm spec data.")
+    if (!emptyValidators.forall(identity))
+      sys.error("There are issues with the rpm spec data.")
   }
 
   private[this] def fixFilename(n: String): String = {
@@ -185,13 +202,15 @@ case class RpmSpec(
     else tmp
   }
 
-  private[this] def makeFilesLine(target: String, meta: LinuxFileMetaData, isDir: Boolean): String = {
+  private[this] def makeFilesLine(target: String,
+                                  meta: LinuxFileMetaData,
+                                  isDir: Boolean): String = {
 
     val sb = new StringBuilder
     meta.config.toLowerCase match {
       case "false" => ()
-      case "true"  => sb append "%config "
-      case x       => sb append ("%config(" + x + ") ")
+      case "true" => sb append "%config "
+      case x => sb append ("%config(" + x + ") ")
     }
     if (meta.docs) sb append "%doc "
     if (isDir) sb append "%dir "
@@ -243,16 +262,28 @@ case class RpmSpec(
     sb append ("Version: %s\n" format meta.version)
     sb append ("Release: %s\n" format meta.release)
     sb append ("Summary: %s\n" format meta.summary)
-    meta.prefix foreach { v => sb append ("prefix: %s\n" format v) }
+    meta.prefix foreach { v =>
+      sb append ("prefix: %s\n" format v)
+    }
 
-    desc.license foreach { v => sb append ("License: %s\n" format v) }
-    desc.distribution foreach { v => sb append ("Distribution: %s\n" format v) }
+    desc.license foreach { v =>
+      sb append ("License: %s\n" format v)
+    }
+    desc.distribution foreach { v =>
+      sb append ("Distribution: %s\n" format v)
+    }
     // TODO - Icon
 
     sb append ("Vendor: %s\n" format meta.vendor)
-    desc.url foreach { v => sb append ("URL: %s\n" format v) }
-    desc.group foreach { v => sb append ("Group: %s\n" format v) }
-    desc.packager foreach { v => sb append ("Packager: %s\n" format v) }
+    desc.url foreach { v =>
+      sb append ("URL: %s\n" format v)
+    }
+    desc.group foreach { v =>
+      sb append ("Group: %s\n" format v)
+    }
+    desc.packager foreach { v =>
+      sb append ("Packager: %s\n" format v)
+    }
 
     sb append deps.contents
 
@@ -273,11 +304,13 @@ case class RpmSpec(
     // write scriptlets
     sb append scriptlets.pretransContent()
     sb append scriptlets.preContent()
-    sb append scriptlets.postContent(buildSymlinkScript(meta.name, installDir, symlinks))
+    sb append scriptlets.postContent(
+      buildSymlinkScript(meta.name, installDir, symlinks))
     sb append scriptlets.verifyscriptContent()
     sb append scriptlets.posttransContent()
     sb append scriptlets.preunContent()
-    sb append scriptlets.postunContent(teardownSymlinkScript(meta.name, installDir, symlinks))
+    sb append scriptlets.postunContent(
+      teardownSymlinkScript(meta.name, installDir, symlinks))
 
     // Write file mappings
     sb append fileSection
@@ -294,29 +327,31 @@ case class RpmSpec(
     sb.toString
   }
 
-  private def buildSymlinkScript(appName: String, installDir: String, symlinks: Seq[LinuxSymlink]): Option[String] =
+  private def buildSymlinkScript(appName: String,
+                                 installDir: String,
+                                 symlinks: Seq[LinuxSymlink]): Option[String] =
     if (symlinks.isEmpty)
       None
     else {
-      val relocateLinks = symlinks
-        .map { symlink =>
-          s"""rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$RPM_INSTALL_PREFIX) && ln -s $$(relocateLink ${symlink.destination} $installDir $appName $$RPM_INSTALL_PREFIX) $$(relocateLink ${symlink.link} $installDir $appName $$RPM_INSTALL_PREFIX)"""
-        }
-        .mkString("\n")
+      val relocateLinks = symlinks.map { symlink =>
+        s"""rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$RPM_INSTALL_PREFIX) && ln -s $$(relocateLink ${symlink.destination} $installDir $appName $$RPM_INSTALL_PREFIX) $$(relocateLink ${symlink.link} $installDir $appName $$RPM_INSTALL_PREFIX)"""
+      }.mkString("\n")
 
       Some(relocateLinkFunction + "\n" + relocateLinks)
     }
 
-  private def teardownSymlinkScript(appName: String, installDir: String, symlinks: Seq[LinuxSymlink]): Option[String] =
+  private def teardownSymlinkScript(
+      appName: String,
+      installDir: String,
+      symlinks: Seq[LinuxSymlink]): Option[String] =
     if (symlinks.isEmpty)
       None
     else {
-      val sourceAppConfig = s"""[ -e /etc/sysconfig/$appName ] && . /etc/sysconfig/$appName"""
-      val cleanupLinks = symlinks
-        .map { symlink =>
-          s"""rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$PACKAGE_PREFIX)"""
-        }
-        .mkString("\n")
+      val sourceAppConfig =
+        s"""[ -e /etc/sysconfig/$appName ] && . /etc/sysconfig/$appName"""
+      val cleanupLinks = symlinks.map { symlink =>
+        s"""rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$PACKAGE_PREFIX)"""
+      }.mkString("\n")
 
       Some(relocateLinkFunction + "\n" + sourceAppConfig + "\n" + cleanupLinks)
     }

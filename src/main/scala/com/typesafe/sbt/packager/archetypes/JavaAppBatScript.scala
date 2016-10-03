@@ -18,31 +18,34 @@ object JavaAppBatScript {
 
     def makeRelativePath(path: String): String =
       "%APP_LIB_DIR%\\" + cleanPath(path)
-    "set \"APP_CLASSPATH=" + (cp map { path => if (isAbsolute(path)) path else makeRelativePath(path) } mkString ";") + "\""
+    "set \"APP_CLASSPATH=" + (cp map { path =>
+      if (isAbsolute(path)) path else makeRelativePath(path)
+    } mkString ";") + "\""
   }
 
   def makeMainClassDefine(mainClass: String) = {
     "set \"APP_MAIN_CLASS=" + mainClass + "\""
   }
 
-  def makeDefines(defines: Seq[String], replacements: Seq[(String, String)]): String = {
+  def makeDefines(defines: Seq[String],
+                  replacements: Seq[(String, String)]): String = {
     defines.map(replace(_, replacements)).mkString("\r\n")
   }
 
   def makeReplacements(
-    name: String,
-    mainClass: String,
-    appClasspath: Seq[String] = Seq("*"),
-    extras: Seq[String] = Nil
+      name: String,
+      mainClass: String,
+      appClasspath: Seq[String] = Seq("*"),
+      extras: Seq[String] = Nil
   ): Seq[(String, String)] = {
     val replacements = Seq(
       "APP_NAME" -> name,
       "APP_ENV_NAME" -> makeEnvFriendlyName(name)
     )
     val defines = Seq(
-      makeWindowsRelativeClasspathDefine(appClasspath),
-      makeMainClassDefine(mainClass)
-    ) ++ extras
+        makeWindowsRelativeClasspathDefine(appClasspath),
+        makeMainClassDefine(mainClass)
+      ) ++ extras
 
     replacements :+ "APP_DEFINES" -> makeDefines(defines, replacements)
   }
@@ -51,13 +54,18 @@ object JavaAppBatScript {
   def replace(line: String, replacements: Seq[(String, String)]): String = {
     replacements.foldLeft(line) {
       case (line, (key, value)) =>
-        line.replaceAll("@@" + key + "@@", java.util.regex.Matcher.quoteReplacement(value))
+        line.replaceAll("@@" + key + "@@",
+                        java.util.regex.Matcher.quoteReplacement(value))
     }
   }
 
   def generateScript(
-    replacements: Seq[(String, String)], template: java.net.URL = bashTemplateSource
+      replacements: Seq[(String, String)],
+      template: java.net.URL = bashTemplateSource
   ): String =
-    TemplateWriter.generateScript(template, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
+    TemplateWriter.generateScript(template,
+                                  replacements,
+                                  "\r\n",
+                                  TemplateWriter.batFriendlyKeySurround)
 
 }

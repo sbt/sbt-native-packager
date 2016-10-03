@@ -3,31 +3,45 @@ package packager
 package windows
 
 import sbt._
-import sbt.Keys.{ normalizedName, name, version, sourceDirectory, target, mappings, packageBin, streams }
-import packager.Keys.{ packageName, maintainer, packageSummary, packageDescription }
+import sbt.Keys.{
+  normalizedName,
+  name,
+  version,
+  sourceDirectory,
+  target,
+  mappings,
+  packageBin,
+  streams
+}
+import packager.Keys.{
+  packageName,
+  maintainer,
+  packageSummary,
+  packageDescription
+}
 import SbtNativePackager.Universal
 
 /**
- * == Windows Plugin ==
- *
- * This plugin generates ''msi'' packages that can be installed on windows systems.
- *
- * == Configuration ==
- *
- * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.windows.WindowsKeys]]
- *
- * == Requirements ==
- *
- * <ul>
- * <li>Windows System</li>
- * <li>Wix Toolset ([[http://wixtoolset.org/]]) installed
- * </ul>
- *
- * @example Enable the plugin in the `build.sbt`
- * {{{
- *    enablePlugins(WindowsPlugin)
- * }}}
- */
+  * == Windows Plugin ==
+  *
+  * This plugin generates ''msi'' packages that can be installed on windows systems.
+  *
+  * == Configuration ==
+  *
+  * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.windows.WindowsKeys]]
+  *
+  * == Requirements ==
+  *
+  * <ul>
+  * <li>Windows System</li>
+  * <li>Wix Toolset ([[http://wixtoolset.org/]]) installed
+  * </ul>
+  *
+  * @example Enable the plugin in the `build.sbt`
+  * {{{
+  *    enablePlugins(WindowsPlugin)
+  * }}}
+  */
 object WindowsPlugin extends AutoPlugin {
 
   object autoImport extends WindowsKeys {
@@ -41,9 +55,10 @@ object WindowsPlugin extends AutoPlugin {
 
   override def projectConfigurations: Seq[Configuration] = Seq(Windows)
 
+  // format: off
   /**
-   * default windows settings
-   */
+    * default windows settings
+    */
   def windowsSettings: Seq[Setting[_]] = Seq(
     sourceDirectory in Windows <<= sourceDirectory(_ / "windows"),
     target in Windows <<= target apply (_ / "windows"),
@@ -126,23 +141,26 @@ object WindowsPlugin extends AutoPlugin {
         msi
       }
     ))
+  // format: on
 
   /**
-   * set the `mappings in Windows` and the `wixFeatures`
-   */
+    * set the `mappings in Windows` and the `wixFeatures`
+    */
   def mapGenericFilesToWindows: Seq[Setting[_]] = Seq(
     mappings in Windows <<= mappings in Universal,
     wixFeatures <<= (packageName in Windows, mappings in Windows) map makeWindowsFeatures
   )
 
   /**
-   * Generates the wix configuration features
-   *
-   * @param name - title of the core package
-   * @param mappings - use to generate different features
-   * @return windows features
-   */
-  def makeWindowsFeatures(name: String, mappings: Seq[(File, String)]): Seq[windows.WindowsFeature] = {
+    * Generates the wix configuration features
+    *
+    * @param name - title of the core package
+    * @param mappings - use to generate different features
+    * @return windows features
+    */
+  def makeWindowsFeatures(
+      name: String,
+      mappings: Seq[(File, String)]): Seq[windows.WindowsFeature] = {
     // TODO select main script!  Filter Config links!
     import windows._
 
@@ -192,5 +210,6 @@ object WindowsDeployPlugin extends AutoPlugin {
   override def requires = WindowsPlugin
 
   override def projectSettings =
-    SettingsHelper.makeDeploymentSettings(Windows, packageBin in Windows, "msi")
+    SettingsHelper
+      .makeDeploymentSettings(Windows, packageBin in Windows, "msi")
 }

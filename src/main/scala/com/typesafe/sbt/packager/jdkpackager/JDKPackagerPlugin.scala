@@ -11,11 +11,11 @@ import SbtNativePackager.Universal
 import JDKPackagerAntHelper._
 
 /**
- * Package format via Oracle's packaging tool bundled with JDK 8.
- *
- * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
- * @since 2/11/15
- */
+  * Package format via Oracle's packaging tool bundled with JDK 8.
+  *
+  * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
+  * @since 2/11/15
+  */
 object JDKPackagerPlugin extends AutoPlugin {
 
   object autoImport extends JDKPackagerKeys {
@@ -23,8 +23,10 @@ object JDKPackagerPlugin extends AutoPlugin {
     case object SwingToolkit extends JDKPackagerToolkit { val arg = "swing" }
     case object JavaFXToolkit extends JDKPackagerToolkit { val arg = "fx" }
 
-    case class FileAssociation(extension: String, mimetype: String,
-      description: String, icon: Option[File] = None)
+    case class FileAssociation(extension: String,
+                               mimetype: String,
+                               description: String,
+                               icon: Option[File] = None)
   }
 
   import autoImport._
@@ -34,15 +36,15 @@ object JDKPackagerPlugin extends AutoPlugin {
   override def projectConfigurations: Seq[Configuration] = Seq(JDKPackager)
 
   override lazy val projectSettings = Seq(
-    jdkAppIcon := None,
-    jdkPackagerType := "installer",
-    jdkPackagerBasename := packageName.value + "-pkg",
-    jdkPackagerToolkit := JavaFXToolkit,
-    jdkPackagerJVMArgs := Seq("-Xmx768m"),
-    jdkPackagerAppArgs := Seq.empty,
-    jdkPackagerProperties := Map.empty,
-    jdkPackagerAssociations := Seq.empty
-  ) ++ inConfig(JDKPackager)(
+      jdkAppIcon := None,
+      jdkPackagerType := "installer",
+      jdkPackagerBasename := packageName.value + "-pkg",
+      jdkPackagerToolkit := JavaFXToolkit,
+      jdkPackagerJVMArgs := Seq("-Xmx768m"),
+      jdkPackagerAppArgs := Seq.empty,
+      jdkPackagerProperties := Map.empty,
+      jdkPackagerAssociations := Seq.empty
+    ) ++ inConfig(JDKPackager)(
       Seq(
         sourceDirectory := sourceDirectory.value / "deploy",
         target := target.value / dirname,
@@ -107,5 +109,7 @@ object JDKPackagerDeployPlugin extends AutoPlugin {
   override def requires = JDKPackagerPlugin
 
   override def projectSettings =
-    SettingsHelper.makeDeploymentSettings(JDKPackager, packageBin in JDKPackager, "jdkPackager")
+    SettingsHelper.makeDeploymentSettings(JDKPackager,
+                                          packageBin in JDKPackager,
+                                          "jdkPackager")
 }

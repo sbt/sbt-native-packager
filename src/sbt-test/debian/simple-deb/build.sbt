@@ -13,7 +13,8 @@ packageDescription := """A fun package description of our software,
 
 debianPackageConflicts in Debian += "debian-other-test-package"
 
-debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
+debianPackageDependencies in Debian ++= Seq("java2-runtime",
+                                            "bash (>= 2.05a-11)")
 
 debianPackageProvides in Debian += "debian-test-package"
 

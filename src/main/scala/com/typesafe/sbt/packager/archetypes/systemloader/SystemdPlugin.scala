@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
 import sbt._
-import sbt.Keys.{ target, sourceDirectory }
+import sbt.Keys.{target, sourceDirectory}
 import com.typesafe.sbt.packager.Keys.{
   maintainerScripts,
   packageName,
@@ -17,27 +17,29 @@ import com.typesafe.sbt.packager.Keys.{
   requiredStartFacilities,
   requiredStopFacilities
 }
-import com.typesafe.sbt.SbtNativePackager.{ Debian, Rpm, Universal, Linux }
+import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm, Universal, Linux}
 import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.DebianConstants
 import com.typesafe.sbt.packager.rpm.RpmPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
 
-import java.nio.file.{ Paths, Files }
+import java.nio.file.{Paths, Files}
 
 object SystemdPlugin extends AutoPlugin {
 
   override def requires = SystemloaderPlugin
 
   object autoImport {
-    val systemdSuccessExitStatus = settingKey[Seq[String]]("SuccessExitStatus property")
+    val systemdSuccessExitStatus =
+      settingKey[Seq[String]]("SuccessExitStatus property")
   }
 
   import autoImport._
 
   override def projectSettings: Seq[Setting[_]] =
-    debianSettings ++ inConfig(Debian)(systemdSettings) ++ rpmSettings ++ inConfig(Rpm)(systemdSettings)
+    debianSettings ++ inConfig(Debian)(systemdSettings) ++ rpmSettings ++ inConfig(
+      Rpm)(systemdSettings)
 
   def systemdSettings: Seq[Setting[_]] = Seq(
     // used by other archetypes to define systemloader dependent behaviour
@@ -57,7 +59,8 @@ object SystemdPlugin extends AutoPlugin {
       isConf = true
     ),
     // add additional system configurations to script replacements
-    linuxScriptReplacements += ("SuccessExitStatus" -> systemdSuccessExitStatus.value.mkString(" "))
+    linuxScriptReplacements += ("SuccessExitStatus" -> systemdSuccessExitStatus.value
+      .mkString(" "))
   )
 
   def debianSettings: Seq[Setting[_]] = inConfig(Debian)(

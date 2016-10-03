@@ -17,4 +17,3 @@ class DeleteDirectoryVisitor extends SimpleFileVisitor[Path] {
   }
 
 }
-

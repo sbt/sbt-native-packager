@@ -19,7 +19,7 @@ object Hashing {
     try {
       def read(): Unit = in.read(buffer) match {
         case x if x <= 0 => ()
-        case size        => md.update(buffer, 0, size); read()
+        case size => md.update(buffer, 0, size); read()
       }
       read()
     } finally in.close()

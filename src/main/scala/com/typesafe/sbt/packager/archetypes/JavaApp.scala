@@ -3,53 +3,66 @@ package packager
 package archetypes
 
 import sbt._
-import sbt.Keys.{ mappings, target, name, mainClass, sourceDirectory, javaOptions, streams }
-import packager.Keys.{ packageName, executableScriptName }
-import linux.{ LinuxFileMetaData, LinuxPackageMapping }
-import linux.LinuxPlugin.autoImport.{ linuxPackageMappings, defaultLinuxInstallLocation }
-import SbtNativePackager.{ Universal, Debian }
+import sbt.Keys.{
+  mappings,
+  target,
+  name,
+  mainClass,
+  sourceDirectory,
+  javaOptions,
+  streams
+}
+import packager.Keys.{packageName, executableScriptName}
+import linux.{LinuxFileMetaData, LinuxPackageMapping}
+import linux.LinuxPlugin.autoImport.{
+  linuxPackageMappings,
+  defaultLinuxInstallLocation
+}
+import SbtNativePackager.{Universal, Debian}
 
 /**
- * == Java Application ==
- *
- * This class contains the default settings for creating and deploying an archetypical Java application.
- * A Java application archetype is defined as a project that has a main method and is run by placing
- * all of its JAR files on the classpath and calling that main method.
- *
- * == Configuration ==
- *
- * This plugin adds new settings to configure your packaged application.
- * The keys are defined in [[com.typesafe.sbt.packager.archetypes.JavaAppKeys]]
- *
- * @example Enable this plugin in your `build.sbt` with
- *
- * {{{
- *  enablePlugins(JavaAppPackaging)
- * }}}
- */
+  * == Java Application ==
+  *
+  * This class contains the default settings for creating and deploying an archetypical Java application.
+  * A Java application archetype is defined as a project that has a main method and is run by placing
+  * all of its JAR files on the classpath and calling that main method.
+  *
+  * == Configuration ==
+  *
+  * This plugin adds new settings to configure your packaged application.
+  * The keys are defined in [[com.typesafe.sbt.packager.archetypes.JavaAppKeys]]
+  *
+  * @example Enable this plugin in your `build.sbt` with
+  *
+  * {{{
+  *  enablePlugins(JavaAppPackaging)
+  * }}}
+  */
 object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
 
   /**
-   * Name of the bash template if user wants to provide custom one
-   */
+    * Name of the bash template if user wants to provide custom one
+    */
   val bashTemplate = "bash-template"
 
   /**
-   * Name of the bat template if user wants to provide custom one
-   */
+    * Name of the bat template if user wants to provide custom one
+    */
   val batTemplate = "bat-template"
 
   /**
-   * Location for the application.ini file used by the bash script to load initialization parameters for jvm and app
-   */
+    * Location for the application.ini file used by the bash script to load initialization parameters for jvm and app
+    */
   val appIniLocation = "${app_home}/../conf/application.ini"
 
   object autoImport extends JavaAppKeys with MaintainerScriptHelper
 
   import JavaAppPackaging.autoImport._
 
-  override def requires = debian.DebianPlugin && rpm.RpmPlugin && docker.DockerPlugin && windows.WindowsPlugin
+  override def requires =
+    debian.DebianPlugin && rpm.RpmPlugin && docker.DockerPlugin && windows.WindowsPlugin
 
+  // format: off
   override def projectSettings = Seq(
     javaOptions in Universal := Nil,
     // Here we record the classpath as it's added to the mappings separately, so
@@ -131,10 +144,11 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
         d.mkdirs()
         LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData())
     }
-
   )
+  // format: on
 
-  private def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =
+  private def makeRelativeClasspathNames(
+      mappings: Seq[(File, String)]): Seq[String] =
     for {
       (file, name) <- mappings
     } yield {
@@ -145,12 +159,19 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     }
 
   /**
-   * Constructs a jar name from components...(ModuleID/Artifact)
-   */
-  def makeJarName(org: String, name: String, revision: String, artifactName: String, artifactClassifier: Option[String]): String =
+    * Constructs a jar name from components...(ModuleID/Artifact)
+    */
+  def makeJarName(org: String,
+                  name: String,
+                  revision: String,
+                  artifactName: String,
+                  artifactClassifier: Option[String]): String =
     org + "." +
       name + "-" +
-      Option(artifactName.replace(name, "")).filterNot(_.isEmpty).map(_ + "-").getOrElse("") +
+      Option(artifactName.replace(name, ""))
+        .filterNot(_.isEmpty)
+        .map(_ + "-")
+        .getOrElse("") +
       revision +
       artifactClassifier.filterNot(_.isEmpty).map("-" + _).getOrElse("") +
       ".jar"
@@ -161,22 +182,30 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     val filename: Option[String] = for {
       module <- dep.metadata.get(AttributeKey[ModuleID]("module-id"))
       artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
-    } yield makeJarName(module.organization, module.name, module.revision, artifact.name, artifact.classifier)
+    } yield
+      makeJarName(module.organization,
+                  module.name,
+                  module.revision,
+                  artifact.name,
+                  artifact.classifier)
     filename.getOrElse(dep.data.getName)
   }
 
   // Here we grab the dependencies...
-  private def dependencyProjectRefs(build: sbt.BuildDependencies, thisProject: ProjectRef): Seq[ProjectRef] =
+  private def dependencyProjectRefs(build: sbt.BuildDependencies,
+                                    thisProject: ProjectRef): Seq[ProjectRef] =
     build.classpathTransitive.get(thisProject).getOrElse(Nil)
 
-  private def filterArtifacts(artifacts: Seq[(Artifact, File)], config: Option[String]): Seq[(Artifact, File)] =
+  private def filterArtifacts(artifacts: Seq[(Artifact, File)],
+                              config: Option[String]): Seq[(Artifact, File)] =
     for {
       (art, file) <- artifacts
       // TODO - Default to compile or default?
       if art.configurations.exists(_.name == config.getOrElse("default"))
     } yield art -> file
 
-  private def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[File]]] =
+  private def extractArtifacts(stateTask: Task[State],
+                               ref: ProjectRef): Task[Seq[Attributed[File]]] =
     stateTask flatMap { state =>
       val extracted = Project extract state
       // TODO - Is this correct?
@@ -188,9 +217,10 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
         for {
           (art, file) <- arts.toSeq // TODO -Filter!
         } yield {
-          sbt.Attributed.blank(file).
-            put(sbt.Keys.moduleID.key, module).
-            put(sbt.Keys.artifact.key, art)
+          sbt.Attributed
+            .blank(file)
+            .put(sbt.Keys.moduleID.key, module)
+            .put(sbt.Keys.artifact.key, art)
         }
       }
     }
@@ -199,25 +229,33 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
   private def isRuntimeArtifact(dep: Attributed[File]): Boolean =
     dep.get(sbt.Keys.artifact.key).map(_.`type` == "jar").getOrElse {
       val name = dep.data.getName
-      !(name.endsWith(".jar") || name.endsWith("-sources.jar") || name.endsWith("-javadoc.jar"))
+      !(name.endsWith(".jar") || name.endsWith("-sources.jar") || name
+        .endsWith("-javadoc.jar"))
     }
 
-  private def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[File]]]] =
-    (sbt.Keys.buildDependencies, sbt.Keys.thisProjectRef, sbt.Keys.state) apply { (build, thisProject, stateTask) =>
-      val refs = thisProject +: dependencyProjectRefs(build, thisProject)
-      // Dynamic lookup of dependencies...
-      val artTasks = (refs) map { ref => extractArtifacts(stateTask, ref) }
-      val allArtifactsTask: Task[Seq[Attributed[File]]] =
-        artTasks.fold[Task[Seq[Attributed[File]]]](task(Nil)) { (previous, next) =>
-          for {
-            p <- previous
-            n <- next
-          } yield (p ++ n.filter(isRuntimeArtifact))
+  private def findProjectDependencyArtifacts: Def.Initialize[
+    Task[Seq[Attributed[File]]]] =
+    (sbt.Keys.buildDependencies, sbt.Keys.thisProjectRef, sbt.Keys.state) apply {
+      (build, thisProject, stateTask) =>
+        val refs = thisProject +: dependencyProjectRefs(build, thisProject)
+        // Dynamic lookup of dependencies...
+        val artTasks = (refs) map { ref =>
+          extractArtifacts(stateTask, ref)
         }
-      allArtifactsTask
+        val allArtifactsTask: Task[Seq[Attributed[File]]] =
+          artTasks.fold[Task[Seq[Attributed[File]]]](task(Nil)) {
+            (previous, next) =>
+              for {
+                p <- previous
+                n <- next
+              } yield (p ++ n.filter(isRuntimeArtifact))
+          }
+        allArtifactsTask
     }
 
-  private def findRealDep(dep: Attributed[File], projectArts: Seq[Attributed[File]]): Option[Attributed[File]] = {
+  private def findRealDep(
+      dep: Attributed[File],
+      projectArts: Seq[Attributed[File]]): Option[Attributed[File]] = {
     if (dep.data.isFile) Some(dep)
     else {
       projectArts.find { art =>
@@ -235,56 +273,63 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
   }
 
   // Converts a managed classpath into a set of lib mappings.
-  private def universalDepMappings(deps: Seq[Attributed[File]], projectArts: Seq[Attributed[File]]): Seq[(File, String)] =
+  private def universalDepMappings(
+      deps: Seq[Attributed[File]],
+      projectArts: Seq[Attributed[File]]): Seq[(File, String)] =
     for {
       dep <- deps
       realDep <- findRealDep(dep, projectArts)
     } yield realDep.data -> ("lib/" + getJarFullFilename(realDep))
 
   /**
-   * Currently unused.
-   * TODO figure out a proper way to ship default `application.ini` if necessary
-   */
-  protected def applicationIniTemplateSource: java.net.URL = getClass.getResource("application.ini-template")
+    * Currently unused.
+    * TODO figure out a proper way to ship default `application.ini` if necessary
+    */
+  protected def applicationIniTemplateSource: java.net.URL =
+    getClass.getResource("application.ini-template")
 
   /**
-   * @param path that could be relative to app_home
-   * @return path relative to app_home
-   */
+    * @param path that could be relative to app_home
+    * @return path relative to app_home
+    */
   private def cleanApplicationIniPath(path: String): String = {
     path.replaceFirst("\\$\\{app_home\\}/../", "")
   }
 }
 
 /**
- * Mixin this trait to generate startup scripts provided in the classpath of native packager.
- *
- * @example A simple plugin definition could look like this
- *
- * {{{
- * object AkkaAppPackaging extends AutoPlugin with JavaAppStartScript {
- *   // templates have to be placed inside the com/typesafe/sbt.packager/archetypes/ resource folder
- *   // the name is also used to find user-defined scripts
- *   val bashTemplate = "your-bash-template"
- *   val batTemplate = "your-bat-template"
- *
- *   override def requires = JavaAppPackaging
- *
- *   override def projectSettings = settings
- *
- *   import JavaAppPackaging.autoImport._
- *
- *   private def settings: Seq[Setting[_]] = Seq(
- *     makeBashScript <<= (bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBinScript(bashTemplate),
- *     makeBatScript <<= (batScriptReplacements, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBatScript(batTemplate)
- *   )
- * }
- *
- * }}}
- */
+  * Mixin this trait to generate startup scripts provided in the classpath of native packager.
+  *
+  * @example A simple plugin definition could look like this
+  *
+  * {{{
+  * object AkkaAppPackaging extends AutoPlugin with JavaAppStartScript {
+  *   // templates have to be placed inside the com/typesafe/sbt.packager/archetypes/ resource folder
+  *   // the name is also used to find user-defined scripts
+  *   val bashTemplate = "your-bash-template"
+  *   val batTemplate = "your-bat-template"
+  *
+  *   override def requires = JavaAppPackaging
+  *
+  *   override def projectSettings = settings
+  *
+  *   import JavaAppPackaging.autoImport._
+  *
+  *   private def settings: Seq[Setting[_]] = Seq(
+  *     makeBashScript <<= (bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBinScript(bashTemplate),
+  *     makeBatScript <<= (batScriptReplacements, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBatScript(batTemplate)
+  *   )
+  * }
+  *
+  * }}}
+  */
 trait JavaAppStartScript {
 
-  def makeUniversalBinScript(defaultTemplateLocation: File, defines: Seq[String], tmpDir: File, name: String, sourceDir: File): Option[File] =
+  def makeUniversalBinScript(defaultTemplateLocation: File,
+                             defines: Seq[String],
+                             tmpDir: File,
+                             name: String,
+                             sourceDir: File): Option[File] =
     if (defines.isEmpty) None
     else {
       val template = resolveTemplate(defaultTemplateLocation)
@@ -296,15 +341,35 @@ trait JavaAppStartScript {
       Some(script)
     }
 
-  def makeUniversalBinScript(bashTemplate: String)(defines: Seq[String], tmpDir: File, name: String, sourceDir: File): Option[File] = {
-    makeUniversalBinScript(sourceDir / "templates" / bashTemplate, defines, tmpDir, name, sourceDir)
+  def makeUniversalBinScript(bashTemplate: String)(
+      defines: Seq[String],
+      tmpDir: File,
+      name: String,
+      sourceDir: File): Option[File] = {
+    makeUniversalBinScript(sourceDir / "templates" / bashTemplate,
+                           defines,
+                           tmpDir,
+                           name,
+                           sourceDir)
   }
 
-  def makeUniversalBatScript(batTemplate: String)(replacements: Seq[(String, String)], tmpDir: File, name: String, sourceDir: File): Option[File] = {
-    makeUniversalBatScript(sourceDir / "templates" / batTemplate, replacements, tmpDir, name, sourceDir)
+  def makeUniversalBatScript(batTemplate: String)(
+      replacements: Seq[(String, String)],
+      tmpDir: File,
+      name: String,
+      sourceDir: File): Option[File] = {
+    makeUniversalBatScript(sourceDir / "templates" / batTemplate,
+                           replacements,
+                           tmpDir,
+                           name,
+                           sourceDir)
   }
 
-  def makeUniversalBatScript(defaultTemplateLocation: File, replacements: Seq[(String, String)], tmpDir: File, name: String, sourceDir: File): Option[File] =
+  def makeUniversalBatScript(defaultTemplateLocation: File,
+                             replacements: Seq[(String, String)],
+                             tmpDir: File,
+                             name: String,
+                             sourceDir: File): Option[File] =
     if (replacements.isEmpty) None
     else {
       val template = resolveTemplate(defaultTemplateLocation)

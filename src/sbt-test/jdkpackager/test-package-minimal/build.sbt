@@ -6,13 +6,15 @@ mainClass in Compile := Some("ExampleApp")
 
 jdkPackagerType := "image"
 
-TaskKey[Unit]("checkImage") <<= (target in JDKPackager, name, streams) map { (base, name, streams) ⇒
+TaskKey[Unit]("checkImage") <<= (target in JDKPackager, name, streams) map {
+  (base, name, streams) ⇒
     val extension = sys.props("os.name").toLowerCase match {
-        case os if os.contains("mac") ⇒ ".app"
-        case os if os.contains("win") ⇒ ".exe"
-        case _ ⇒ ""
+      case os if os.contains("mac") ⇒ ".app"
+      case os if os.contains("win") ⇒ ".exe"
+      case _ ⇒ ""
     }
     val expectedImage = base / "bundles" / (name + extension)
     println(s"Checking for '${expectedImage.getAbsolutePath}'")
-    assert(expectedImage.exists, s"Expected image file to be found at '$expectedImage'")
+    assert(expectedImage.exists,
+           s"Expected image file to be found at '$expectedImage'")
 }

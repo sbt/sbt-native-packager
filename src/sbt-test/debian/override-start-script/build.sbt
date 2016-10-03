@@ -14,12 +14,17 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) =>
-  val extracted = target / "tmp" / "extracted-package"
-  extracted.mkdirs()
-  Seq("dpkg-deb", "-R", (target / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+TaskKey[Unit]("check-startup-script") <<= (target, streams) map {
+  (target, out) =>
+    val extracted = target / "tmp" / "extracted-package"
+    extracted.mkdirs()
+    Seq("dpkg-deb",
+        "-R",
+        (target / "debian-test_0.1.0_all.deb").absolutePath,
+        extracted.absolutePath).!
 
-  val script = IO.read(extracted / "etc" / "init" / "debian-test.conf")
-  assert(script.startsWith("# right upstart template"), s"override script wasn't picked, script is\n$script")
-  ()
+    val script = IO.read(extracted / "etc" / "init" / "debian-test.conf")
+    assert(script.startsWith("# right upstart template"),
+           s"override script wasn't picked, script is\n$script")
+    ()
 }

@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.rpm
 
 import sbt._
-import sbt.Keys.{ name, version, sourceDirectory, target, packageBin, streams }
+import sbt.Keys.{name, version, sourceDirectory, target, packageBin, streams}
 import java.nio.charset.Charset
 
 import com.typesafe.sbt.SbtNativePackager.Linux
@@ -10,13 +10,13 @@ import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.linux._
 
 /**
- * Plugin containing all generic values used for packaging rpms.
- *
- * @example Enable the plugin in the `build.sbt`
- * {{{
- *    enablePlugins(RpmPlugin)
- * }}}
- */
+  * Plugin containing all generic values used for packaging rpms.
+  *
+  * @example Enable the plugin in the `build.sbt`
+  * {{{
+  *    enablePlugins(RpmPlugin)
+  * }}}
+  */
 object RpmPlugin extends AutoPlugin {
 
   override def requires = LinuxPlugin
@@ -28,7 +28,8 @@ object RpmPlugin extends AutoPlugin {
 
   import autoImport._
 
-  private final def osPostInstallMacro: java.net.URL = getClass getResource "brpJavaRepackJar"
+  private final def osPostInstallMacro: java.net.URL =
+    getClass getResource "brpJavaRepackJar"
 
   /** RPM specific names */
   object Names {
@@ -37,16 +38,22 @@ object RpmPlugin extends AutoPlugin {
     //maintainer script names
     /** `pretrans` */
     val Pretrans = "pretrans"
+
     /** `postinst` */
     val Post = "post"
+
     /** `preinst` */
     val Pre = "pre"
+
     /** `postun` */
     val Postun = "postun"
+
     /** `preun` */
     val Preun = "preun"
+
     /** `verifyscript` */
     val Verifyscript = "verifyscript"
+
     /** `posttrans` */
     val Posttrans = "posttrans"
 
@@ -75,7 +82,6 @@ object RpmPlugin extends AutoPlugin {
     rpmSetarch := None,
     rpmChangelogFile := None,
     rpmBrpJavaRepackJars := false,
-
     rpmPretrans := None,
     rpmPre := None,
     rpmPost := None,
@@ -83,7 +89,6 @@ object RpmPlugin extends AutoPlugin {
     rpmPosttrans := None,
     rpmPreun := None,
     rpmPostun := None,
-
     rpmScriptsDirectory <<= sourceDirectory apply (_ / "rpm" / Names.Scriptlets),
     // Explicitly defer  default settings to generic Linux Settings.
     maintainerScripts in Rpm <<= maintainerScripts in Linux,
@@ -99,27 +104,58 @@ object RpmPlugin extends AutoPlugin {
     sourceDirectory in Rpm <<= sourceDirectory,
     packageArchitecture in Rpm := "noarch",
     rpmMetadata <<=
-      (packageName in Rpm, version in Rpm, rpmRelease, rpmPrefix, packageArchitecture in Rpm, rpmVendor, rpmOs, packageSummary in Rpm, packageDescription in Rpm, rpmAutoprov, rpmAutoreq) apply RpmMetadata,
+      (packageName in Rpm,
+       version in Rpm,
+       rpmRelease,
+       rpmPrefix,
+       packageArchitecture in Rpm,
+       rpmVendor,
+       rpmOs,
+       packageSummary in Rpm,
+       packageDescription in Rpm,
+       rpmAutoprov,
+       rpmAutoreq) apply RpmMetadata,
     rpmDescription <<=
-      (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon, rpmChangelogFile) apply RpmDescription,
+      (rpmLicense,
+       rpmDistribution,
+       rpmUrl,
+       rpmGroup,
+       rpmPackager,
+       rpmIcon,
+       rpmChangelogFile) apply RpmDescription,
     rpmDependencies <<=
-      (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
+      (rpmProvides,
+       rpmRequirements,
+       rpmPrerequisites,
+       rpmObsoletes,
+       rpmConflicts) apply RpmDependencies,
     maintainerScripts in Rpm := {
       val scripts = (maintainerScripts in Rpm).value
       if (rpmBrpJavaRepackJars.value) {
         val pre = scripts.getOrElse(Names.Pre, Nil)
-        val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
+        val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream,
+                                       Charset forName "UTF-8")
         scripts + (Names.Pre -> (pre :+ scriptBits))
       } else {
         scripts
       }
     },
-    rpmScripts := RpmScripts.fromMaintainerScripts((maintainerScripts in Rpm).value, (linuxScriptReplacements in Rpm).value),
+    rpmScripts := RpmScripts.fromMaintainerScripts(
+      (maintainerScripts in Rpm).value,
+      (linuxScriptReplacements in Rpm).value),
     rpmSpecConfig <<=
-      (rpmMetadata, rpmDescription, rpmDependencies, rpmSetarch, rpmScripts, linuxPackageMappings in Rpm, linuxPackageSymlinks in Rpm, defaultLinuxInstallLocation in Rpm) map RpmSpec,
-    packageBin in Rpm <<= (rpmSpecConfig, target in Rpm, streams) map { (spec, dir, s) =>
-      spec.validate(s.log)
-      RpmHelper.buildRpm(spec, dir, s.log)
+      (rpmMetadata,
+       rpmDescription,
+       rpmDependencies,
+       rpmSetarch,
+       rpmScripts,
+       linuxPackageMappings in Rpm,
+       linuxPackageSymlinks in Rpm,
+       defaultLinuxInstallLocation in Rpm) map RpmSpec,
+    packageBin in Rpm <<= (rpmSpecConfig, target in Rpm, streams) map {
+      (spec, dir, s) =>
+        spec.validate(s.log)
+        RpmHelper.buildRpm(spec, dir, s.log)
     },
     rpmLint <<= (packageBin in Rpm, streams) map { (rpm, s) =>
       (Process(Seq("rpmlint", "-v", rpm.getAbsolutePath)) ! s.log) match {

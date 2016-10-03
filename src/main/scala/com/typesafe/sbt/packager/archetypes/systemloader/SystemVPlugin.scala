@@ -1,8 +1,8 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
 import sbt._
-import sbt.Keys.{ target, sourceDirectory }
-import com.typesafe.sbt.SbtNativePackager.{ Debian, Rpm }
+import sbt.Keys.{target, sourceDirectory}
+import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm}
 import com.typesafe.sbt.packager.Keys.{
   serverLoading,
   linuxStartScriptTemplate,
@@ -48,22 +48,26 @@ object SystemVPlugin extends AutoPlugin {
     )
   )
 
-  def debianSettings: Seq[Setting[_]] = inConfig(Debian)(Seq(
-    // set the template
-    linuxStartScriptTemplate := linuxStartScriptUrl(
-      (sourceDirectory in Compile).value,
-      serverLoading.value,
-      "start-debian-template"
-    )
-  ))
+  def debianSettings: Seq[Setting[_]] =
+    inConfig(Debian)(
+      Seq(
+        // set the template
+        linuxStartScriptTemplate := linuxStartScriptUrl(
+          (sourceDirectory in Compile).value,
+          serverLoading.value,
+          "start-debian-template"
+        )
+      ))
 
-  def rpmSettings: Seq[Setting[_]] = inConfig(Rpm)(Seq(
-    // set the template
-    linuxStartScriptTemplate := linuxStartScriptUrl(
-      (sourceDirectory in Compile).value,
-      serverLoading.value,
-      "start-rpm-template"
-    )
-  ))
+  def rpmSettings: Seq[Setting[_]] =
+    inConfig(Rpm)(
+      Seq(
+        // set the template
+        linuxStartScriptTemplate := linuxStartScriptUrl(
+          (sourceDirectory in Compile).value,
+          serverLoading.value,
+          "start-rpm-template"
+        )
+      ))
 
 }

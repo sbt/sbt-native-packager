@@ -23,9 +23,13 @@ packageDescription := """A fun package description of our software,
 TaskKey[Unit]("check-etc-default") <<= (target, streams) map { (target, out) =>
   val extracted = target / "tmp" / "extracted-package"
   extracted.mkdirs()
-  Seq("dpkg-deb", "-R", (target / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+  Seq("dpkg-deb",
+      "-R",
+      (target / "debian-test_0.1.0_all.deb").absolutePath,
+      extracted.absolutePath).!
 
   val script = IO.read(extracted / "etc" / "default" / "debian-test")
-  assert(script.startsWith("# right etc-default template"), s"etc-default script wasn't picked, contents instead are:\n$script")
+  assert(script.startsWith("# right etc-default template"),
+         s"etc-default script wasn't picked, contents instead are:\n$script")
   ()
 }

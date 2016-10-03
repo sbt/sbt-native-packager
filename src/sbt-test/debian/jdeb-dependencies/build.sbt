@@ -13,13 +13,17 @@ packageDescription := """A fun package description of our software,
 
 debianPackageDependencies in Debian := Seq()
 
-TaskKey[Unit]("check-dependencies") <<= (target, streams) map { (target, out) =>
-  val extracted = target / "extracted"
-  Seq("dpkg-deb", "-R", (target / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+TaskKey[Unit]("check-dependencies") <<= (target, streams) map {
+  (target, out) =>
+    val extracted = target / "extracted"
+    Seq("dpkg-deb",
+        "-R",
+        (target / "debian-test_0.1.0_all.deb").absolutePath,
+        extracted.absolutePath).!
 
-  val control = IO.read(extracted / "DEBIAN" / "control")
-  assert(!control.contains("Depends:"))
+    val control = IO.read(extracted / "DEBIAN" / "control")
+    assert(!control.contains("Depends:"))
 
-  out.log.success("Successfully tested systemV control files")
-  ()
+    out.log.success("Successfully tested systemV control files")
+    ()
 }

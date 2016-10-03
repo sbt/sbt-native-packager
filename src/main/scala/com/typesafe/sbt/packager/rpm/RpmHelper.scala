@@ -23,7 +23,9 @@ object RpmHelper {
     workArea / "RPMS" / spec.meta.arch / rpmname
   }
 
-  private[this] def copyFiles(spec: RpmSpec, workArea: File, log: sbt.Logger): Unit = {
+  private[this] def copyFiles(spec: RpmSpec,
+                              workArea: File,
+                              log: sbt.Logger): Unit = {
     // TODO - special treatment of icon...
     val buildroot = workArea / "tmp-buildroot"
 
@@ -50,7 +52,9 @@ object RpmHelper {
     } copyWithZip(file, target, mapping.zipped)
   }
 
-  private[this] def writeSpecFile(spec: RpmSpec, workArea: File, log: sbt.Logger): File = {
+  private[this] def writeSpecFile(spec: RpmSpec,
+                                  workArea: File,
+                                  log: sbt.Logger): File = {
     val specdir = workArea / "SPECS"
     val rpmBuildroot = workArea / "buildroot"
     val tmpBuildRoot = workArea / "tmp-buildroot"
@@ -61,9 +65,9 @@ object RpmHelper {
   }
 
   private[this] def buildPackage(
-    workArea: File,
-    spec: RpmSpec,
-    log: sbt.Logger
+      workArea: File,
+      spec: RpmSpec,
+      log: sbt.Logger
   ): Unit = {
     val buildRoot = workArea / "buildroot"
     val specsDir = workArea / "SPECS"
@@ -72,27 +76,39 @@ object RpmHelper {
     IO.withTemporaryDirectory { tmpRpmBuildDir =>
       val args: Seq[String] = (spec.setarch match {
         case Some(arch) => Seq("setarch", arch)
-        case None       => Seq()
+        case None => Seq()
       }) ++ Seq(
-        "rpmbuild",
-        "-bb",
-        "--target", spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os,
-        "--buildroot", buildRoot.getAbsolutePath,
-        "--define", "_topdir " + workArea.getAbsolutePath,
-        "--define", "_tmppath " + tmpRpmBuildDir.getAbsolutePath
-      ) ++ (
+          "rpmbuild",
+          "-bb",
+          "--target",
+          spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os,
+          "--buildroot",
+          buildRoot.getAbsolutePath,
+          "--define",
+          "_topdir " + workArea.getAbsolutePath,
+          "--define",
+          "_tmppath " + tmpRpmBuildDir.getAbsolutePath
+        ) ++ (
           if (gpg) Seq("--define", "_gpg_name " + "<insert keyname>", "--sign")
           else Seq.empty
         ) ++ Seq(spec.meta.name + ".spec")
       log.debug("Executing rpmbuild with: " + args.mkString(" "))
       (Process(args, Some(specsDir)) ! log) match {
-        case 0    => ()
-        case code => sys.error("Unable to run rpmbuild, check output for details. Errorcode " + code)
+        case 0 => ()
+        case code =>
+          sys.error(
+            "Unable to run rpmbuild, check output for details. Errorcode " + code)
       }
     }
   }
 
-  private[this] val topleveldirs = Seq("BUILD", "RPMS", "SOURCES", "SPECS", "SRPMS", "tmp-buildroot", "buildroot")
+  private[this] val topleveldirs = Seq("BUILD",
+                                       "RPMS",
+                                       "SOURCES",
+                                       "SPECS",
+                                       "SRPMS",
+                                       "tmp-buildroot",
+                                       "buildroot")
 
   /** Builds the work area and returns the tmp build root, and rpm build root. */
   private[this] def buildWorkArea(workArea: File): Unit = {

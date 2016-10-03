@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
 import sbt._
-import sbt.Keys.{ target, sourceDirectory }
+import sbt.Keys.{target, sourceDirectory}
 import com.typesafe.sbt.packager.Keys.{
   packageName,
   serverLoading,
@@ -21,7 +21,7 @@ import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.Debian
 import com.typesafe.sbt.packager.rpm.RpmPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.Rpm
 
-import java.nio.file.{ Paths, Files }
+import java.nio.file.{Paths, Files}
 
 object UpstartPlugin extends AutoPlugin {
 

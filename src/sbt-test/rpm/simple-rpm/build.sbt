@@ -36,9 +36,10 @@ linuxPackageSymlinks in Rpm := Seq(
 
 defaultLinuxInstallLocation in Rpm := "/opt/foo"
 
-TaskKey[Unit]("unzip") <<= (packageBin in Rpm, streams) map { (rpmFile, streams) =>
-  val rpmPath = Seq(rpmFile.getAbsolutePath)
-  Process("rpm2cpio" , rpmPath) #| Process("cpio -i --make-directories") ! streams.log
+TaskKey[Unit]("unzip") <<= (packageBin in Rpm, streams) map {
+  (rpmFile, streams) =>
+    val rpmPath = Seq(rpmFile.getAbsolutePath)
+    Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.log
 }
 
 TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
@@ -49,28 +50,30 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
   assert(spec contains "Summary: Test rpm package", "Contains project summary")
   assert(spec contains "License: BSD", "Contains project license")
   assert(spec contains "Vendor: typesafe", "Contains project vendor")
-  assert(spec contains "URL: http://github.com/sbt/sbt-native-packager", "Contains project url")
-  assert(spec contains "BuildArch: x86_64", "Contains project package architecture")
+  assert(spec contains "URL: http://github.com/sbt/sbt-native-packager",
+         "Contains project url")
+  assert(spec contains "BuildArch: x86_64",
+         "Contains project package architecture")
 
-  assert(spec contains
-    "%description\nA fun package description of our software,\n  with multiple lines.",
-    "Contains project description"
-  )
+  assert(
+    spec contains
+      "%description\nA fun package description of our software,\n  with multiple lines.",
+    "Contains project description")
 
-  assert(spec contains
-    "%files\n%attr(755,root,root) /tmp/test\n%attr(755,root,root) /tmp/build.sbt",
-    "Contains package mappings"
-  )
+  assert(
+    spec contains
+      "%files\n%attr(755,root,root) /tmp/test\n%attr(755,root,root) /tmp/build.sbt",
+    "Contains package mappings")
 
-  assert(spec contains
-    "ln -s $(relocateLink destination1 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX) $(relocateLink /etc/link1 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX)",
-    "Contains package symlink link (1)"
-  )
+  assert(
+    spec contains
+      "ln -s $(relocateLink destination1 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX) $(relocateLink /etc/link1 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX)",
+    "Contains package symlink link (1)")
 
-  assert(spec contains
-    "ln -s $(relocateLink destination2 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX) $(relocateLink link2 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX)",
-    "Contains package symlink link (2)"
-  )
+  assert(
+    spec contains
+      "ln -s $(relocateLink destination2 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX) $(relocateLink link2 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX)",
+    "Contains package symlink link (2)")
 
   out.log.success("Successfully tested rpm test file")
   ()

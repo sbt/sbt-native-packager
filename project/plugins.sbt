@@ -14,4 +14,4 @@ libraryDependencies += "jline" % "jline" % "2.11"
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
 
 // For code formatting
-addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.6.0")
+addSbtPlugin("com.geirsson" % "sbt-scalafmt" % "0.4.2")

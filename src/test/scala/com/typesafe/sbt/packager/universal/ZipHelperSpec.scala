@@ -4,11 +4,15 @@ import com.typesafe.sbt.packager._
 import com.typesafe.sbt.packager.permissions
 import org.scalatest._
 import java.io.File
-import java.nio.file.{ Path, Paths, Files }
+import java.nio.file.{Path, Paths, Files}
 import java.nio.file.attribute.PosixFilePermission._
 import scala.collection.JavaConversions._
 
-class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with BeforeAndAfterAll {
+class ZipHelperSpec
+    extends WordSpec
+    with Matchers
+    with BeforeAndAfterEach
+    with BeforeAndAfterAll {
 
   var tmp: Path = _
   val toDelete = scala.collection.mutable.ListBuffer[Path]()
@@ -127,7 +131,6 @@ class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with 
     zipper(List(nested.toFile -> "dir/nested"), out.toFile)
 
     ZipHelper.withZipFilesystem(out.toFile, false) { system =>
-
       val zDir = system getPath "dir"
       Files exists zDir should be(true)
       Files isDirectory zDir should be(true)

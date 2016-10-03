@@ -4,7 +4,8 @@ name := "absolute-path-in-bash"
 
 version := "0.1.0"
 
-scriptClasspath in bashScriptDefines ++= Seq("/dummy/absolute/path", "relative/path")
+scriptClasspath in bashScriptDefines ++= Seq("/dummy/absolute/path",
+                                             "relative/path")
 
 TaskKey[Unit]("run-check") := {
   val dir = (stagingDirectory in Universal).value
