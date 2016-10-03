@@ -12,7 +12,8 @@ TaskKey[Unit]("check-dockerfile") <<= (target, streams) map { (target, out) =>
   val dockerfile = IO.read(target / "docker" / "Dockerfile")
   assert(
     dockerfile.contains("ENTRYPOINT [\"bin/docker-test\"]\n"),
-    "dockerfile doesn't contain ENTRYPOINT [\"docker-test\"]\n" + dockerfile)
+    "dockerfile doesn't contain ENTRYPOINT [\"docker-test\"]\n" + dockerfile
+  )
   out.log.success("Successfully tested control script")
   ()
 }

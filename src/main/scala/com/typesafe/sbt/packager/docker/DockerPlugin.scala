@@ -6,21 +6,21 @@ import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 import sbt._
 import sbt.Keys.{
-  name,
-  version,
-  target,
+  cacheDirectory,
   mappings,
+  name,
   publish,
-  publishLocal,
   publishArtifact,
+  publishLocal,
   sourceDirectory,
   streams,
-  cacheDirectory
+  target,
+  version
 }
 import packager.Keys._
 import linux.LinuxPlugin.autoImport.{daemonUser, defaultLinuxInstallLocation}
 import universal.UniversalPlugin.autoImport.stage
-import SbtNativePackager.{Universal, Linux}
+import SbtNativePackager.{Linux, Universal}
 
 /**
   * == Docker Plugin ==
@@ -185,11 +185,8 @@ object DockerPlugin extends AutoPlugin {
     * @param daemonGroup
     * @return chown command, owning the installation directory with the daemonuser
     */
-  private final def makeChown(daemonUser: String,
-                              daemonGroup: String,
-                              directories: Seq[String]): CmdLike =
-    ExecCmd("RUN",
-            Seq("chown", "-R", s"$daemonUser:$daemonGroup") ++ directories: _*)
+  private final def makeChown(daemonUser: String, daemonGroup: String, directories: Seq[String]): CmdLike =
+    ExecCmd("RUN", Seq("chown", "-R", s"$daemonUser:$daemonGroup") ++ directories: _*)
 
   /**
     * @param daemonUser
@@ -217,17 +214,12 @@ object DockerPlugin extends AutoPlugin {
     * @param exposedPorts
     * @return if ports are exposed the EXPOSE command
     */
-  private final def makeExposePorts(
-      exposedPorts: Seq[Int],
-      exposedUdpPorts: Seq[Int]): Option[CmdLike] = {
+  private final def makeExposePorts(exposedPorts: Seq[Int], exposedUdpPorts: Seq[Int]): Option[CmdLike] =
     if (exposedPorts.isEmpty) None
     else
       Some(
-        Cmd("EXPOSE",
-            (exposedPorts.map(_.toString) ++ exposedUdpPorts
-              .map(_.toString)
-              .map(_ + "/udp")) mkString " "))
-  }
+        Cmd("EXPOSE", (exposedPorts.map(_.toString) ++ exposedUdpPorts.map(_.toString).map(_ + "/udp")) mkString " ")
+      )
 
   /**
     * If the exposed volume does not exist, the volume is made available
@@ -243,9 +235,7 @@ object DockerPlugin extends AutoPlugin {
     * @see http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
     * @see https://docs.docker.com/userguide/dockervolumes/
     */
-  private final def makeVolumes(exposedVolumes: Seq[String],
-                                daemonUser: String,
-                                daemonGroup: String): Seq[CmdLike] = {
+  private final def makeVolumes(exposedVolumes: Seq[String], daemonUser: String, daemonGroup: String): Seq[CmdLike] =
     if (exposedVolumes.isEmpty) Seq.empty
     else
       Seq(
@@ -253,7 +243,6 @@ object DockerPlugin extends AutoPlugin {
         makeChown(daemonUser, daemonGroup, exposedVolumes),
         ExecCmd("VOLUME", exposedVolumes: _*)
       )
-  }
 
   /**
     * @param commands representing the Dockerfile
@@ -267,8 +256,7 @@ object DockerPlugin extends AutoPlugin {
     * @param target directory for Dockerfile
     * @return Dockerfile
     */
-  private[this] final def generateDockerConfig(commands: Seq[CmdLike],
-                                               target: File): File = {
+  private[this] final def generateDockerConfig(commands: Seq[CmdLike], target: File): File = {
     val dockerContent = makeDockerContent(commands)
 
     val f = target / "Dockerfile"
@@ -281,25 +269,20 @@ object DockerPlugin extends AutoPlugin {
     * `mappings in Docker`.
     */
   def mapGenericFilesToDocker: Seq[Setting[_]] = {
-    def renameDests(from: Seq[(File, String)], dest: String) = {
+    def renameDests(from: Seq[(File, String)], dest: String) =
       for {
         (f, path) <- from
         newPath = "%s/%s" format (dest, path)
       } yield (f, newPath)
-    }
 
-    inConfig(Docker)(
-      Seq(
-        mappings <<= (mappings in Universal, defaultLinuxInstallLocation) map {
-          (mappings, dest) =>
-            renameDests(mappings, dest)
-        }
-      ))
+    inConfig(Docker)(Seq(mappings <<= (mappings in Universal, defaultLinuxInstallLocation) map { (mappings, dest) =>
+      renameDests(mappings, dest)
+    }))
   }
 
-  private[docker] def publishLocalLogger(log: Logger) = {
+  private[docker] def publishLocalLogger(log: Logger) =
     new ProcessLogger {
-      def error(err: => String) = {
+      def error(err: => String) =
         err match {
           case s if s.startsWith("Uploading context") =>
             log.debug(s) // pre-1.0
@@ -308,7 +291,6 @@ object DockerPlugin extends AutoPlugin {
           case s if !s.trim.isEmpty => log.error(s)
           case s =>
         }
-      }
 
       def info(inf: => String) = inf match {
         case s if !s.trim.isEmpty => log.info(s)
@@ -317,11 +299,8 @@ object DockerPlugin extends AutoPlugin {
 
       def buffer[T](f: => T) = f
     }
-  }
 
-  def publishLocalDocker(context: File,
-                         buildCommand: Seq[String],
-                         log: Logger): Unit = {
+  def publishLocalDocker(context: File, buildCommand: Seq[String], log: Logger): Unit = {
     log.debug("Executing Native " + buildCommand.mkString(" "))
     log.debug("Working directory " + context.toString)
 
@@ -334,7 +313,7 @@ object DockerPlugin extends AutoPlugin {
   def publishDocker(tag: String, log: Logger): Unit = {
     val loginRequired = new AtomicBoolean(false)
 
-    def publishLogger(log: Logger) = {
+    def publishLogger(log: Logger) =
       new ProcessLogger {
 
         def error(err: => String) = err match {
@@ -342,18 +321,16 @@ object DockerPlugin extends AutoPlugin {
           case s =>
         }
 
-        def info(inf: => String) = {
+        def info(inf: => String) =
           inf match {
             case s if s.startsWith("Please login") =>
               loginRequired.compareAndSet(false, true)
             case s if !loginRequired.get && !s.trim.isEmpty => log.info(s)
             case s =>
           }
-        }
 
         def buffer[T](f: => T) = f
       }
-    }
 
     val cmd = Seq("docker", "push", tag)
 

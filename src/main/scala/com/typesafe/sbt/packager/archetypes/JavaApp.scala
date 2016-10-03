@@ -3,22 +3,11 @@ package packager
 package archetypes
 
 import sbt._
-import sbt.Keys.{
-  mappings,
-  target,
-  name,
-  mainClass,
-  sourceDirectory,
-  javaOptions,
-  streams
-}
-import packager.Keys.{packageName, executableScriptName}
+import sbt.Keys.{javaOptions, mainClass, mappings, name, sourceDirectory, streams, target}
+import packager.Keys.{executableScriptName, packageName}
 import linux.{LinuxFileMetaData, LinuxPackageMapping}
-import linux.LinuxPlugin.autoImport.{
-  linuxPackageMappings,
-  defaultLinuxInstallLocation
-}
-import SbtNativePackager.{Universal, Debian}
+import linux.LinuxPlugin.autoImport.{defaultLinuxInstallLocation, linuxPackageMappings}
+import SbtNativePackager.{Debian, Universal}
 
 /**
   * == Java Application ==
@@ -147,8 +136,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
   )
   // format: on
 
-  private def makeRelativeClasspathNames(
-      mappings: Seq[(File, String)]): Seq[String] =
+  private def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =
     for {
       (file, name) <- mappings
     } yield {
@@ -168,10 +156,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
                   artifactClassifier: Option[String]): String =
     org + "." +
       name + "-" +
-      Option(artifactName.replace(name, ""))
-        .filterNot(_.isEmpty)
-        .map(_ + "-")
-        .getOrElse("") +
+      Option(artifactName.replace(name, "")).filterNot(_.isEmpty).map(_ + "-").getOrElse("") +
       revision +
       artifactClassifier.filterNot(_.isEmpty).map("-" + _).getOrElse("") +
       ".jar"
@@ -182,30 +167,22 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     val filename: Option[String] = for {
       module <- dep.metadata.get(AttributeKey[ModuleID]("module-id"))
       artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
-    } yield
-      makeJarName(module.organization,
-                  module.name,
-                  module.revision,
-                  artifact.name,
-                  artifact.classifier)
+    } yield makeJarName(module.organization, module.name, module.revision, artifact.name, artifact.classifier)
     filename.getOrElse(dep.data.getName)
   }
 
   // Here we grab the dependencies...
-  private def dependencyProjectRefs(build: sbt.BuildDependencies,
-                                    thisProject: ProjectRef): Seq[ProjectRef] =
+  private def dependencyProjectRefs(build: sbt.BuildDependencies, thisProject: ProjectRef): Seq[ProjectRef] =
     build.classpathTransitive.get(thisProject).getOrElse(Nil)
 
-  private def filterArtifacts(artifacts: Seq[(Artifact, File)],
-                              config: Option[String]): Seq[(Artifact, File)] =
+  private def filterArtifacts(artifacts: Seq[(Artifact, File)], config: Option[String]): Seq[(Artifact, File)] =
     for {
       (art, file) <- artifacts
       // TODO - Default to compile or default?
       if art.configurations.exists(_.name == config.getOrElse("default"))
     } yield art -> file
 
-  private def extractArtifacts(stateTask: Task[State],
-                               ref: ProjectRef): Task[Seq[Attributed[File]]] =
+  private def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[File]]] =
     stateTask flatMap { state =>
       val extracted = Project extract state
       // TODO - Is this correct?
@@ -217,10 +194,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
         for {
           (art, file) <- arts.toSeq // TODO -Filter!
         } yield {
-          sbt.Attributed
-            .blank(file)
-            .put(sbt.Keys.moduleID.key, module)
-            .put(sbt.Keys.artifact.key, art)
+          sbt.Attributed.blank(file).put(sbt.Keys.moduleID.key, module).put(sbt.Keys.artifact.key, art)
         }
       }
     }
@@ -229,33 +203,27 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
   private def isRuntimeArtifact(dep: Attributed[File]): Boolean =
     dep.get(sbt.Keys.artifact.key).map(_.`type` == "jar").getOrElse {
       val name = dep.data.getName
-      !(name.endsWith(".jar") || name.endsWith("-sources.jar") || name
-        .endsWith("-javadoc.jar"))
+      !(name.endsWith(".jar") || name.endsWith("-sources.jar") || name.endsWith("-javadoc.jar"))
     }
 
-  private def findProjectDependencyArtifacts: Def.Initialize[
-    Task[Seq[Attributed[File]]]] =
-    (sbt.Keys.buildDependencies, sbt.Keys.thisProjectRef, sbt.Keys.state) apply {
-      (build, thisProject, stateTask) =>
-        val refs = thisProject +: dependencyProjectRefs(build, thisProject)
-        // Dynamic lookup of dependencies...
-        val artTasks = (refs) map { ref =>
-          extractArtifacts(stateTask, ref)
+  private def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[File]]]] =
+    (sbt.Keys.buildDependencies, sbt.Keys.thisProjectRef, sbt.Keys.state) apply { (build, thisProject, stateTask) =>
+      val refs = thisProject +: dependencyProjectRefs(build, thisProject)
+      // Dynamic lookup of dependencies...
+      val artTasks = (refs) map { ref =>
+        extractArtifacts(stateTask, ref)
+      }
+      val allArtifactsTask: Task[Seq[Attributed[File]]] =
+        artTasks.fold[Task[Seq[Attributed[File]]]](task(Nil)) { (previous, next) =>
+          for {
+            p <- previous
+            n <- next
+          } yield (p ++ n.filter(isRuntimeArtifact))
         }
-        val allArtifactsTask: Task[Seq[Attributed[File]]] =
-          artTasks.fold[Task[Seq[Attributed[File]]]](task(Nil)) {
-            (previous, next) =>
-              for {
-                p <- previous
-                n <- next
-              } yield (p ++ n.filter(isRuntimeArtifact))
-          }
-        allArtifactsTask
+      allArtifactsTask
     }
 
-  private def findRealDep(
-      dep: Attributed[File],
-      projectArts: Seq[Attributed[File]]): Option[Attributed[File]] = {
+  private def findRealDep(dep: Attributed[File], projectArts: Seq[Attributed[File]]): Option[Attributed[File]] =
     if (dep.data.isFile) Some(dep)
     else {
       projectArts.find { art =>
@@ -270,12 +238,10 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
         }
       }
     }
-  }
 
   // Converts a managed classpath into a set of lib mappings.
-  private def universalDepMappings(
-      deps: Seq[Attributed[File]],
-      projectArts: Seq[Attributed[File]]): Seq[(File, String)] =
+  private def universalDepMappings(deps: Seq[Attributed[File]],
+                                   projectArts: Seq[Attributed[File]]): Seq[(File, String)] =
     for {
       dep <- deps
       realDep <- findRealDep(dep, projectArts)
@@ -292,9 +258,8 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     * @param path that could be relative to app_home
     * @return path relative to app_home
     */
-  private def cleanApplicationIniPath(path: String): String = {
+  private def cleanApplicationIniPath(path: String): String =
     path.replaceFirst("\\$\\{app_home\\}/../", "")
-  }
 }
 
 /**
@@ -341,29 +306,15 @@ trait JavaAppStartScript {
       Some(script)
     }
 
-  def makeUniversalBinScript(bashTemplate: String)(
-      defines: Seq[String],
-      tmpDir: File,
-      name: String,
-      sourceDir: File): Option[File] = {
-    makeUniversalBinScript(sourceDir / "templates" / bashTemplate,
-                           defines,
-                           tmpDir,
-                           name,
-                           sourceDir)
-  }
+  def makeUniversalBinScript(
+    bashTemplate: String
+  )(defines: Seq[String], tmpDir: File, name: String, sourceDir: File): Option[File] =
+    makeUniversalBinScript(sourceDir / "templates" / bashTemplate, defines, tmpDir, name, sourceDir)
 
-  def makeUniversalBatScript(batTemplate: String)(
-      replacements: Seq[(String, String)],
-      tmpDir: File,
-      name: String,
-      sourceDir: File): Option[File] = {
-    makeUniversalBatScript(sourceDir / "templates" / batTemplate,
-                           replacements,
-                           tmpDir,
-                           name,
-                           sourceDir)
-  }
+  def makeUniversalBatScript(
+    batTemplate: String
+  )(replacements: Seq[(String, String)], tmpDir: File, name: String, sourceDir: File): Option[File] =
+    makeUniversalBatScript(sourceDir / "templates" / batTemplate, replacements, tmpDir, name, sourceDir)
 
   def makeUniversalBatScript(defaultTemplateLocation: File,
                              replacements: Seq[(String, String)],
@@ -379,11 +330,10 @@ trait JavaAppStartScript {
       Some(script)
     }
 
-  private def resolveTemplate(defaultTemplateLocation: File): URL = {
+  private def resolveTemplate(defaultTemplateLocation: File): URL =
     if (defaultTemplateLocation.exists)
       defaultTemplateLocation.toURI.toURL
     else
       getClass.getResource(defaultTemplateLocation.getName)
-  }
 
 }

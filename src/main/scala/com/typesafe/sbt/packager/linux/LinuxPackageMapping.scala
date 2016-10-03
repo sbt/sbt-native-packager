@@ -5,13 +5,11 @@ package linux
 import sbt._
 import LinuxPlugin.Users
 
-case class LinuxFileMetaData(
-    user: String = Users.Root,
-    group: String = Users.Root,
-    permissions: String = "755",
-    config: String = "false",
-    docs: Boolean = false
-) {
+case class LinuxFileMetaData(user: String = Users.Root,
+                             group: String = Users.Root,
+                             permissions: String = "755",
+                             config: String = "false",
+                             docs: Boolean = false) {
 
   def withUser(u: String) = copy(user = u)
   def withGroup(g: String) = copy(group = g)
@@ -20,11 +18,9 @@ case class LinuxFileMetaData(
   def asDocs() = copy(docs = true)
 }
 
-case class LinuxPackageMapping(
-    mappings: Traversable[(File, String)],
-    fileData: LinuxFileMetaData = LinuxFileMetaData(),
-    zipped: Boolean = false
-) {
+case class LinuxPackageMapping(mappings: Traversable[(File, String)],
+                               fileData: LinuxFileMetaData = LinuxFileMetaData(),
+                               zipped: Boolean = false) {
 
   def withUser(user: String) = copy(fileData = fileData withUser user)
   def withGroup(group: String) = copy(fileData = fileData withGroup group)
@@ -60,9 +56,7 @@ object LinuxSymlink {
     } else from
   }
   // TODO - Does this belong here?
-  def makeSymLinks(symlinks: Seq[LinuxSymlink],
-                   pkgDir: File,
-                   relativeLinks: Boolean = true): Unit = {
+  def makeSymLinks(symlinks: Seq[LinuxSymlink], pkgDir: File, relativeLinks: Boolean = true): Unit =
     for (link <- symlinks) {
       // TODO - drop preceeding '/'
       def dropFirstSlash(n: String): String =
@@ -75,8 +69,7 @@ object LinuxSymlink {
       val linkDir = to.getParentFile
       if (!linkDir.isDirectory) IO.createDirectory(linkDir)
       val name = IO.relativize(linkDir, to).getOrElse {
-        sys.error(
-          "Could not relativize names (" + to + ") (" + linkDir + ")!!! *(logic error)*")
+        sys.error("Could not relativize names (" + to + ") (" + linkDir + ")!!! *(logic error)*")
       }
       val linkFinal =
         if (relativeLinks) makeRelative(link.destination, link.link)
@@ -90,5 +83,4 @@ object LinuxSymlink {
             sys.error("Failed to symlink " + link.destination + " to " + to)
         }
     }
-  }
 }

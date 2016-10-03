@@ -16,9 +16,7 @@ name := "test-project-play-rpm"
 
 description := "Demo of RPM packaging"
 
-libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play" % "2.3.8"
-)
+libraryDependencies ++= Seq("com.typesafe.play" %% "play" % "2.3.8")
 
 enablePlugins(PlayScala)
 

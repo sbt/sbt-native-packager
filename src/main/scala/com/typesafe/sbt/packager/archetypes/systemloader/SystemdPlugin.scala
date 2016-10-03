@@ -1,30 +1,30 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
 import sbt._
-import sbt.Keys.{target, sourceDirectory}
+import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.packager.Keys.{
-  maintainerScripts,
-  packageName,
+  defaultLinuxStartScriptLocation,
+  linuxMakeStartScript,
+  linuxPackageMappings,
+  linuxScriptReplacements,
   linuxStartScriptName,
   linuxStartScriptTemplate,
-  linuxMakeStartScript,
-  linuxScriptReplacements,
-  linuxPackageMappings,
-  defaultLinuxStartScriptLocation,
+  maintainerScripts,
+  packageName,
+  requiredStartFacilities,
+  requiredStopFacilities,
   serverLoading,
   startRunlevels,
-  stopRunlevels,
-  requiredStartFacilities,
-  requiredStopFacilities
+  stopRunlevels
 }
-import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm, Universal, Linux}
+import com.typesafe.sbt.SbtNativePackager.{Debian, Linux, Rpm, Universal}
 import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.DebianConstants
 import com.typesafe.sbt.packager.rpm.RpmPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
 
-import java.nio.file.{Paths, Files}
+import java.nio.file.{Files, Paths}
 
 object SystemdPlugin extends AutoPlugin {
 
@@ -38,8 +38,7 @@ object SystemdPlugin extends AutoPlugin {
   import autoImport._
 
   override def projectSettings: Seq[Setting[_]] =
-    debianSettings ++ inConfig(Debian)(systemdSettings) ++ rpmSettings ++ inConfig(
-      Rpm)(systemdSettings)
+    debianSettings ++ inConfig(Debian)(systemdSettings) ++ rpmSettings ++ inConfig(Rpm)(systemdSettings)
 
   def systemdSettings: Seq[Setting[_]] = Seq(
     // used by other archetypes to define systemloader dependent behaviour
@@ -59,16 +58,11 @@ object SystemdPlugin extends AutoPlugin {
       isConf = true
     ),
     // add additional system configurations to script replacements
-    linuxScriptReplacements += ("SuccessExitStatus" -> systemdSuccessExitStatus.value
-      .mkString(" "))
+    linuxScriptReplacements += ("SuccessExitStatus" -> systemdSuccessExitStatus.value.mkString(" "))
   )
 
-  def debianSettings: Seq[Setting[_]] = inConfig(Debian)(
-    defaultLinuxStartScriptLocation := "/lib/systemd/system"
-  )
+  def debianSettings: Seq[Setting[_]] = inConfig(Debian)(defaultLinuxStartScriptLocation := "/lib/systemd/system")
 
-  def rpmSettings: Seq[Setting[_]] = inConfig(Rpm)(
-    defaultLinuxStartScriptLocation := "/usr/lib/systemd/system"
-  )
+  def rpmSettings: Seq[Setting[_]] = inConfig(Rpm)(defaultLinuxStartScriptLocation := "/usr/lib/systemd/system")
 
 }

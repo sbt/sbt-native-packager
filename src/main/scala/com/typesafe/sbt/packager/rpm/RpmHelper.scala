@@ -23,9 +23,7 @@ object RpmHelper {
     workArea / "RPMS" / spec.meta.arch / rpmname
   }
 
-  private[this] def copyFiles(spec: RpmSpec,
-                              workArea: File,
-                              log: sbt.Logger): Unit = {
+  private[this] def copyFiles(spec: RpmSpec, workArea: File, log: sbt.Logger): Unit = {
     // TODO - special treatment of icon...
     val buildroot = workArea / "tmp-buildroot"
 
@@ -52,9 +50,7 @@ object RpmHelper {
     } copyWithZip(file, target, mapping.zipped)
   }
 
-  private[this] def writeSpecFile(spec: RpmSpec,
-                                  workArea: File,
-                                  log: sbt.Logger): File = {
+  private[this] def writeSpecFile(spec: RpmSpec, workArea: File, log: sbt.Logger): File = {
     val specdir = workArea / "SPECS"
     val rpmBuildroot = workArea / "buildroot"
     val tmpBuildRoot = workArea / "tmp-buildroot"
@@ -64,11 +60,7 @@ object RpmHelper {
     specfile
   }
 
-  private[this] def buildPackage(
-      workArea: File,
-      spec: RpmSpec,
-      log: sbt.Logger
-  ): Unit = {
+  private[this] def buildPackage(workArea: File, spec: RpmSpec, log: sbt.Logger): Unit = {
     val buildRoot = workArea / "buildroot"
     val specsDir = workArea / "SPECS"
     val gpg = false
@@ -96,19 +88,12 @@ object RpmHelper {
       (Process(args, Some(specsDir)) ! log) match {
         case 0 => ()
         case code =>
-          sys.error(
-            "Unable to run rpmbuild, check output for details. Errorcode " + code)
+          sys.error("Unable to run rpmbuild, check output for details. Errorcode " + code)
       }
     }
   }
 
-  private[this] val topleveldirs = Seq("BUILD",
-                                       "RPMS",
-                                       "SOURCES",
-                                       "SPECS",
-                                       "SRPMS",
-                                       "tmp-buildroot",
-                                       "buildroot")
+  private[this] val topleveldirs = Seq("BUILD", "RPMS", "SOURCES", "SPECS", "SRPMS", "tmp-buildroot", "buildroot")
 
   /** Builds the work area and returns the tmp build root, and rpm build root. */
   private[this] def buildWorkArea(workArea: File): Unit = {

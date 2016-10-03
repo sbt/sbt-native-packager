@@ -23,12 +23,10 @@ object JavaAppBashScript {
     * @param configFile An (optional) filename from which the script will read arguments.
     * @param extras  Any additional defines/commands that should be run in this script.
     */
-  def makeDefines(
-      mainClass: String,
-      appClasspath: Seq[String] = Seq("*"),
-      configFile: Option[String] = None,
-      extras: Seq[String] = Nil
-  ): Seq[String] =
+  def makeDefines(mainClass: String,
+                  appClasspath: Seq[String] = Seq("*"),
+                  configFile: Option[String] = None,
+                  extras: Seq[String] = Nil): Seq[String] =
     Seq(mainClassDefine(mainClass)) ++
       (configFile map configFileDefine).toSeq ++
       Seq(makeClasspathDefine(appClasspath)) ++
@@ -40,8 +38,7 @@ object JavaAppBashScript {
                                else "$lib_dir/" + n) mkString ":"
     "declare -r app_classpath=\"" + fullString + "\"\n"
   }
-  def generateScript(defines: Seq[String],
-                     template: URL = bashTemplateSource): String = {
+  def generateScript(defines: Seq[String], template: URL = bashTemplateSource): String = {
     val defineString = defines mkString "\n"
     val replacements = Seq("template_declares" -> defineString)
     TemplateWriter.generateScript(template, replacements)

@@ -19,10 +19,7 @@ object Archives {
     "Use [[com.typesafe.sbt.packager.universal.Archives.makeZip(File, String, Seq[(File, String)], Option[String], Seq[String]): File]]",
     since = "1.0.5"
   )
-  def makeZip(target: File,
-              name: String,
-              mappings: Seq[(File, String)],
-              top: Option[String]): File =
+  def makeZip(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File =
     makeZip(target, name, mappings, top, options = Seq.empty)
 
   /**
@@ -64,10 +61,7 @@ object Archives {
     "Use [[com.typesafe.sbt.packager.universal.Archives.makeNativeZip(File, String, Seq[(File, String)], Option[String], Seq[String]): File]]",
     since = "1.0.5"
   )
-  def makeNativeZip(target: File,
-                    name: String,
-                    mappings: Seq[(File, String)],
-                    top: Option[String]): File =
+  def makeNativeZip(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File =
     makeNativeZip(target, name, mappings, top, options = Seq.empty)
 
   /**
@@ -111,10 +105,7 @@ object Archives {
     "Use [[com.typesafe.sbt.packager.universal.Archives.makeDmg(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File]]",
     since = "1.0.5"
   )
-  def makeDmg(target: File,
-              name: String,
-              mappings: Seq[(File, String)],
-              top: Option[String]): File =
+  def makeDmg(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File =
     makeDmg(target, name, mappings, top, options = Seq.empty)
 
   /**
@@ -143,18 +134,10 @@ object Archives {
     val neededMegabytes = math.ceil((sizeBytes * 1.05) / (1024 * 1024)).toLong
 
     // Create the DMG file:
-    Process(Seq(
-              "hdiutil",
-              "create",
-              "-megabytes",
-              "%d" format neededMegabytes,
-              "-fs",
-              "HFS+",
-              "-volname",
-              name,
-              name
-            ),
-            Some(target)).! match {
+    Process(
+      Seq("hdiutil", "create", "-megabytes", "%d" format neededMegabytes, "-fs", "HFS+", "-volname", name, name),
+      Some(target)
+    ).! match {
       case 0 => ()
       case n => sys.error("Error creating dmg: " + dmg + ". Exit code " + n)
     }
@@ -163,15 +146,7 @@ object Archives {
     val mountPoint = (t / name)
     if (!mountPoint.isDirectory) IO.createDirectory(mountPoint)
     val mountedPath = mountPoint.getAbsolutePath
-    Process(Seq(
-              "hdiutil",
-              "attach",
-              dmg.getAbsolutePath,
-              "-readwrite",
-              "-mountpoint",
-              mountedPath
-            ),
-            Some(target)).! match {
+    Process(Seq("hdiutil", "attach", dmg.getAbsolutePath, "-readwrite", "-mountpoint", mountedPath), Some(target)).! match {
       case 0 => ()
       case n => sys.error("Unable to mount dmg: " + dmg + ". Exit code " + n)
     }
@@ -235,17 +210,9 @@ object Archives {
     * @return tar file
     *
     */
-  def makeTarball(compressor: File => File, ext: String)(
-      target: File,
-      name: String,
-      mappings: Seq[(File, String)],
-      top: Option[String]): File =
-    makeTarballWithOptions(compressor, ext)(target,
-                                            name,
-                                            mappings,
-                                            top,
-                                            options =
-                                              Seq("--force-local", "-pcvf"))
+  def makeTarball(compressor: File => File,
+                  ext: String)(target: File, name: String, mappings: Seq[(File, String)], top: Option[String]): File =
+    makeTarballWithOptions(compressor, ext)(target, name, mappings, top, options = Seq("--force-local", "-pcvf"))
 
   /**
     * Helper method used to construct tar-related compression functions.
@@ -257,12 +224,10 @@ object Archives {
     * @return tar file
     *
     */
-  def makeTarballWithOptions(compressor: File => File, ext: String)(
-      target: File,
-      name: String,
-      mappings: Seq[(File, String)],
-      top: Option[String],
-      options: Seq[String]): File = {
+  def makeTarballWithOptions(
+    compressor: File => File,
+    ext: String
+  )(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File = {
     val relname = name
     val tarball = target / (name + ext)
     IO.withTemporaryDirectory { f =>
@@ -285,9 +250,7 @@ object Archives {
 
       // all directories that should be zipped
       val distdirs = top map (_ :: Nil) getOrElse {
-        IO.listFiles(rdir)
-          .map(_.getName)
-          .toList // no top level dir, use all available
+        IO.listFiles(rdir).map(_.getName).toList // no top level dir, use all available
       }
 
       val tmptar = f / (relname + ".tar")

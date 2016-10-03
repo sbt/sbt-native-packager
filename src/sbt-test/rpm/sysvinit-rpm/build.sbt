@@ -16,46 +16,40 @@ rpmDaemonLogFile := "test.log"
 
 mainClass in (Compile, run) := Some("com.example.MainApp")
 
-TaskKey[Unit]("unzipAndCheck") <<= (baseDirectory, packageBin in Rpm, streams) map {
-  (baseDir, rpmFile, streams) =>
-    val rpmPath = Seq(rpmFile.getAbsolutePath)
-    Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.log
-    val scriptlets = Process("rpm -qp --scripts " + rpmFile.getAbsolutePath) !! streams.log
-    assert(scriptlets contains "addGroup rpm-test",
-           "addGroup not present in \n" + scriptlets)
-    assert(scriptlets contains "addUser rpm-test",
-           "Incorrect useradd command in \n" + scriptlets)
-    assert(scriptlets contains "deleteGroup rpm-test",
-           "deleteGroup not present in \n" + scriptlets)
-    assert(scriptlets contains "deleteUser rpm-test",
-           "deleteUser rpm not present in \n" + scriptlets)
+TaskKey[Unit]("unzipAndCheck") <<= (baseDirectory, packageBin in Rpm, streams) map { (baseDir, rpmFile, streams) =>
+  val rpmPath = Seq(rpmFile.getAbsolutePath)
+  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.log
+  val scriptlets = Process("rpm -qp --scripts " + rpmFile.getAbsolutePath) !! streams.log
+  assert(scriptlets contains "addGroup rpm-test", "addGroup not present in \n" + scriptlets)
+  assert(scriptlets contains "addUser rpm-test", "Incorrect useradd command in \n" + scriptlets)
+  assert(scriptlets contains "deleteGroup rpm-test", "deleteGroup not present in \n" + scriptlets)
+  assert(scriptlets contains "deleteUser rpm-test", "deleteUser rpm not present in \n" + scriptlets)
 
-    val startupScript = IO.read(baseDir / "etc" / "init.d" / "rpm-test")
-    assert(
-      startupScript contains
-        """
+  val startupScript = IO.read(baseDir / "etc" / "init.d" / "rpm-test")
+  assert(
+    startupScript contains
+      """
         |INSTALL_DIR="/usr/share/rpm-test"
         |[ -n "${PACKAGE_PREFIX}" ] && INSTALL_DIR="${PACKAGE_PREFIX}/rpm-test"
         |cd $INSTALL_DIR
         |""".stripMargin,
-      "Ensuring application is running on the install directory is not present in \n" + startupScript)
-    assert(startupScript contains """logfile="test.log"""",
-           "Setting key rpmDaemonLogFile not present in \n" + startupScript)
+    "Ensuring application is running on the install directory is not present in \n" + startupScript
+  )
+  assert(
+    startupScript contains """logfile="test.log"""",
+    "Setting key rpmDaemonLogFile not present in \n" + startupScript
+  )
 
-    // TODO check symlinks
-    ()
+  // TODO check symlinks
+  ()
 }
 
 TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
   val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
-  assert(spec contains "addGroup rpm-test",
-         "addGroup not present in \n" + spec)
-  assert(spec contains "addUser rpm-test",
-         "Incorrect useradd command in \n" + spec)
-  assert(spec contains "deleteGroup rpm-test",
-         "deleteGroup not present in \n" + spec)
-  assert(spec contains "deleteUser rpm-test",
-         "deleteUser rpm not present in \n" + spec)
+  assert(spec contains "addGroup rpm-test", "addGroup not present in \n" + spec)
+  assert(spec contains "addUser rpm-test", "Incorrect useradd command in \n" + spec)
+  assert(spec contains "deleteGroup rpm-test", "deleteGroup not present in \n" + spec)
+  assert(spec contains "deleteUser rpm-test", "deleteUser rpm not present in \n" + spec)
   assert(
     spec contains
       """
@@ -69,7 +63,8 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
         |  echo "PACKAGE_PREFIX=${RPM_INSTALL_PREFIX}" >> /etc/sysconfig/rpm-test
         |fi
         |""".stripMargin,
-    "Persisting $RPM_INSTALL_PREFIX not present in \n" + spec)
+    "Persisting $RPM_INSTALL_PREFIX not present in \n" + spec
+  )
   assert(
     spec contains
       """
@@ -91,9 +86,11 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
         |    fi
         |}
         |""".stripMargin,
-    "rpm addService() scriptlet missing or incorrect")
-  assert(spec contains
-           """
+    "rpm addService() scriptlet missing or incorrect"
+  )
+  assert(
+    spec contains
+      """
         |#
         |# Start the service
         |# $1 = service name
@@ -103,7 +100,8 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
         |    service $app_name start
         |}
         |""".stripMargin,
-         "rpm startService() scriptlet is missing or incorrect")
+    "rpm startService() scriptlet is missing or incorrect"
+  )
   assert(
     spec contains
       """
@@ -127,9 +125,11 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
         |    fi
         |}
         |""".stripMargin,
-    "rpm stopService() scriptlet is missing or incorrect")
-  assert(spec contains
-           """
+    "rpm stopService() scriptlet is missing or incorrect"
+  )
+  assert(
+    spec contains
+      """
         |#
         |# Restarting the service after package upgrade
         |# $1 = service name
@@ -139,16 +139,16 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
         |	service $app_name restart
         |}
         |""".stripMargin,
-         "rpm restartService() scriptlet is missing or incorrect")
+    "rpm restartService() scriptlet is missing or incorrect"
+  )
   ()
 }
 
-TaskKey[Unit]("check-spec-autostart") <<= (target, streams) map {
-  (target, out) =>
-    val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
-    assert(
-      spec contains
-        """
+TaskKey[Unit]("check-spec-autostart") <<= (target, streams) map { (target, out) =>
+  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+  assert(
+    spec contains
+      """
         |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
         |# $1 == 1 is first installation and $1 == 2 is upgrade
         |if [ $1 -eq 1 ] ;
@@ -157,9 +157,10 @@ TaskKey[Unit]("check-spec-autostart") <<= (target, streams) map {
         |  startService rpm-test || echo "rpm-test could not be started"
         |fi
         |""".stripMargin,
-      "rpm rpm addService, startService post install commands missing or incorrect")
+    "rpm rpm addService, startService post install commands missing or incorrect"
+  )
 
-    ()
+  ()
 }
 
 TaskKey[Unit]("check-spec-no-autostart") := {
@@ -174,7 +175,8 @@ TaskKey[Unit]("check-spec-no-autostart") := {
         |  addService rpm-test || echo "rpm-test could not be registered"
         |fi
         |""".stripMargin,
-    "rpm rpm addService, startService post install commands missing or incorrect")
+    "rpm rpm addService, startService post install commands missing or incorrect"
+  )
 
   ()
 }

@@ -3,29 +3,21 @@ package packager
 package debian
 
 import sbt._
-import sbt.Keys.{
-  streams,
-  name,
-  version,
-  sourceDirectory,
-  target,
-  packageBin,
-  TaskStreams
-}
+import sbt.Keys.{name, packageBin, sourceDirectory, streams, target, version, TaskStreams}
 import packager.Keys._
 import packager.Hashing
 import linux.LinuxPlugin.autoImport.{
-  packageArchitecture,
-  linuxScriptReplacements,
+  daemonShell,
   linuxPackageMappings,
   linuxPackageSymlinks,
-  daemonShell
+  linuxScriptReplacements,
+  packageArchitecture
 }
 import linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink}
 import linux.LinuxPlugin.Users
 import universal.Archives
 import archetypes.TemplateWriter
-import SbtNativePackager.{Universal, Linux}
+import SbtNativePackager.{Linux, Universal}
 
 /**
   * == Debian Plugin ==
@@ -94,10 +86,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     debianPackageProvides := Seq.empty,
     debianPackageRecommends := Seq.empty,
     debianSignRole := "builder",
-    target in Debian <<= (target, name in Debian, version in Debian) apply ((t,
-                                                                             n,
-                                                                             v) =>
-                                                                              t / (n + "-" + v)),
+    target in Debian <<= (target, name in Debian, version in Debian) apply ((t, n, v) => t / (n + "-" + v)),
     name in Debian <<= (name in Linux),
     // TODO maybe we can remove this, with the projectConfigurations
     maintainerScripts in Debian <<= (maintainerScripts in Linux),
@@ -130,8 +119,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
 
       // this is for legacy purposes to keep old behaviour
       // --- legacy starts
-      def readContent(
-          scriptFiles: Seq[(File, String)]): Map[String, Seq[String]] =
+      def readContent(scriptFiles: Seq[(File, String)]): Map[String, Seq[String]] =
         scriptFiles.map {
           case (scriptFile, scriptName) =>
             scriptName -> IO.readLines(scriptFile)
@@ -140,11 +128,11 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       val userProvided = readContent(
         Seq(
           debianMakePreinstScript.value.map(script => script -> Names.Preinst),
-          debianMakePostinstScript.value.map(script =>
-            script -> Names.Postinst),
+          debianMakePostinstScript.value.map(script => script -> Names.Postinst),
           debianMakePrermScript.value.map(script => script -> Names.Prerm),
           debianMakePostrmScript.value.map(script => script -> Names.Postrm)
-        ).flatten)
+        ).flatten
+      )
 
       // these things get appended. Don't check for nonexisting keys as they are already in the default scripts map
       val appendedScripts = scripts.map {
@@ -155,19 +143,12 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       val controlScriptsDir = debianControlScriptsDirectory.value
       val overridenScripts = scripts ++ readContent(
           Seq(
-            scriptMapping(Names.Prerm,
-                          debianMakePrermScript.value,
-                          controlScriptsDir),
-            scriptMapping(Names.Preinst,
-                          debianMakePreinstScript.value,
-                          controlScriptsDir),
-            scriptMapping(Names.Postinst,
-                          debianMakePostinstScript.value,
-                          controlScriptsDir),
-            scriptMapping(Names.Postrm,
-                          debianMakePostrmScript.value,
-                          controlScriptsDir)
-          ).flatten)
+            scriptMapping(Names.Prerm, debianMakePrermScript.value, controlScriptsDir),
+            scriptMapping(Names.Preinst, debianMakePreinstScript.value, controlScriptsDir),
+            scriptMapping(Names.Postinst, debianMakePostinstScript.value, controlScriptsDir),
+            scriptMapping(Names.Postrm, debianMakePostrmScript.value, controlScriptsDir)
+          ).flatten
+        )
       // --- legacy ends
 
       // TODO remove the overridenScripts
@@ -186,6 +167,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     debianNativeBuildOptions := Nil
   )
 
+  // format: off
   /**
     * == Debian scoped settings ==
     * Everything used inside the debian scope
@@ -312,6 +294,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       // Adding package specific implementation settings
     )
   )
+  // format: on
 
 }
 
@@ -330,12 +313,9 @@ trait DebianPluginLike {
   /** validate group and usernames for debian systems */
   val UserNamePattern = "^[a-z][-a-z0-9_]*$".r
 
-  private[debian] final def generateDebianMaintainerScripts(
-      scripts: Map[String, Seq[String]],
-      replacements: Seq[(String, String)],
-      tmpDir: File
-  ): Seq[(File, String)] = {
-
+  private[debian] final def generateDebianMaintainerScripts(scripts: Map[String, Seq[String]],
+                                                            replacements: Seq[(String, String)],
+                                                            tmpDir: File): Seq[(File, String)] =
     scripts.map {
       case (scriptName, content) =>
         val scriptBits =
@@ -344,10 +324,8 @@ trait DebianPluginLike {
         IO.write(script, scriptBits mkString "\n")
         script -> scriptName
     }.toList
-  }
 
-  private[debian] final def defaultMaintainerScript(
-      name: String): Option[List[String]] = {
+  private[debian] final def defaultMaintainerScript(name: String): Option[List[String]] = {
     val url = Option(getClass getResource s"$name-template")
     url.map(source => IO.readLinesURL(source))
   }
@@ -369,10 +347,9 @@ trait DebianPluginLike {
     // TODO - Can we do anything about user/group ownership?
   }
 
-  private[debian] final def filterAndFixPerms(
-      script: File,
-      replacements: Seq[(String, String)],
-      perms: LinuxFileMetaData): File = {
+  private[debian] final def filterAndFixPerms(script: File,
+                                              replacements: Seq[(String, String)],
+                                              perms: LinuxFileMetaData): File = {
     val filtered =
       TemplateWriter.generateScript(script.toURI.toURL, replacements)
     IO.delete(script)
@@ -381,28 +358,20 @@ trait DebianPluginLike {
     script
   }
 
-  private[debian] final def prependAndFixPerms(
-      script: File,
-      lines: Seq[String],
-      perms: LinuxFileMetaData): File = {
+  private[debian] final def prependAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
     val old = IO.readLines(script)
     IO.writeLines(script, lines ++ old, append = false)
     chmod(script, perms.permissions)
     script
   }
 
-  private[debian] final def appendAndFixPerms(
-      script: File,
-      lines: Seq[String],
-      perms: LinuxFileMetaData): File = {
+  private[debian] final def appendAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
     IO.writeLines(script, lines, append = true)
     chmod(script, perms.permissions)
     script
   }
 
-  private[debian] final def createFileIfRequired(
-      script: File,
-      perms: LinuxFileMetaData): File = {
+  private[debian] final def createFileIfRequired(script: File, perms: LinuxFileMetaData): File = {
     if (!script.exists()) {
       script.createNewFile()
       chmod(script, perms.permissions)
@@ -410,23 +379,23 @@ trait DebianPluginLike {
     script
   }
 
-  private[debian] final def validateUserGroupNames(user: String,
-                                                   streams: TaskStreams) {
+  private[debian] final def validateUserGroupNames(user: String, streams: TaskStreams) {
     if ((UserNamePattern findFirstIn user).isEmpty) {
       streams.log.warn(
-        "The user or group '" + user + "' may contain invalid characters for Debian based distributions")
+        "The user or group '" + user + "' may contain invalid characters for Debian based distributions"
+      )
     }
     if (user.length > 32) {
       streams.log.warn(
-        "The length of '" + user + "' must be not be greater than 32 characters for Debian based distributions.")
+        "The length of '" + user + "' must be not be greater than 32 characters for Debian based distributions."
+      )
     }
   }
 
   @deprecated("Will be removed", "1.0.3")
-  private[debian] def scriptMapping(
-      scriptName: String,
-      script: Option[File],
-      controlDir: File): Option[(File, String)] = {
+  private[debian] def scriptMapping(scriptName: String,
+                                    script: Option[File],
+                                    controlDir: File): Option[(File, String)] =
     (script, controlDir) match {
       // check if user defined script exists
       case (_, dir) if (dir / scriptName).exists =>
@@ -434,7 +403,6 @@ trait DebianPluginLike {
       // create mappings for generated script
       case (scr, _) => scr.map(_ -> scriptName)
     }
-  }
 
   /**
     * Debian assumes the application chowns the necessary files and directories in the
@@ -448,9 +416,8 @@ trait DebianPluginLike {
     * @param streams - logging
     * @return (CHOWN_REPLACEMENT -> ".. list of chown commands")
     */
-  private[debian] def makeChownReplacements(
-      mappings: Seq[LinuxPackageMapping],
-      streams: TaskStreams): (String, String) = {
+  private[debian] def makeChownReplacements(mappings: Seq[LinuxPackageMapping],
+                                            streams: TaskStreams): (String, String) = {
     // how to create the chownCmd. TODO maybe configurable?
     def chownCmd(user: String, group: String)(path: String): String =
       s"chown $user:$group $path"
@@ -459,10 +426,7 @@ trait DebianPluginLike {
     // Check for non root user/group and create chown commands
     // filter all root mappings, map to (user,group) key, group by, append everything
     val chowns = mappings filter {
-      case LinuxPackageMapping(
-          _,
-          LinuxFileMetaData(Users.Root, Users.Root, _, _, _),
-          _) =>
+      case LinuxPackageMapping(_, LinuxFileMetaData(Users.Root, Users.Root, _, _, _), _) =>
         false
       case _ => true
     } map {
@@ -480,17 +444,11 @@ trait DebianPluginLike {
     DebianPlugin.CHOWN_REPLACEMENT -> replacement
   }
 
-  private[debian] def archiveFilename(appName: String,
-                                      version: String,
-                                      arch: String): String = {
+  private[debian] def archiveFilename(appName: String, version: String, arch: String): String =
     appName + "_" + version + "_" + arch + ".deb"
-  }
 
-  private[debian] def changesFilename(appName: String,
-                                      version: String,
-                                      arch: String): String = {
+  private[debian] def changesFilename(appName: String, version: String, arch: String): String =
     appName + "_" + version + "_" + arch + ".changes"
-  }
 }
 
 object DebianDeployPlugin extends AutoPlugin {
@@ -500,8 +458,6 @@ object DebianDeployPlugin extends AutoPlugin {
   override def requires = DebianPlugin
 
   override def projectSettings =
-    SettingsHelper
-      .makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
-      SettingsHelper
-        .makeDeploymentSettings(Debian, genChanges in Debian, "changes")
+    SettingsHelper.makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
+      SettingsHelper.makeDeploymentSettings(Debian, genChanges in Debian, "changes")
 }

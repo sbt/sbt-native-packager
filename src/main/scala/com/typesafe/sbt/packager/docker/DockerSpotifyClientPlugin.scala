@@ -5,11 +5,7 @@ package docker
 import java.nio.file.Paths
 
 import com.spotify.docker.client.messages.ProgressMessage
-import com.spotify.docker.client.{
-  ProgressHandler,
-  DockerClient,
-  DefaultDockerClient
-}
+import com.spotify.docker.client.{DefaultDockerClient, DockerClient, ProgressHandler}
 import com.spotify.docker.client.DockerClient.BuildParam
 import sbt._
 import sbt.Keys._
@@ -61,9 +57,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
   override lazy val projectSettings = inConfig(Docker)(clientSettings)
 
-  def clientSettings = Seq(
-    publishLocal := publishLocalDocker.value
-  )
+  def clientSettings = Seq(publishLocal := publishLocalDocker.value)
 
   def publishLocalDocker = Def.task {
     val context = stage.value
@@ -78,12 +72,11 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
     val id =
       docker.build(Paths.get(dockerDirectory), tag, new ProgressHandler() {
-        def progress(message: ProgressMessage) = {
+        def progress(message: ProgressMessage) =
           Option(message.error()) match {
             case Some(error) if error.nonEmpty => log.error(message.error())
             case _ => Option(message.stream()) foreach (v => log.info(v))
           }
-        }
       }, BuildParam.forceRm())
 
     if (latest) {

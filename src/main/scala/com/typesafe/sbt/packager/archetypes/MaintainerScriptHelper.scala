@@ -25,9 +25,7 @@ trait MaintainerScriptHelper {
     * @param scripts - a list of script names that should be used
     * @return filename to content mapping
     */
-  def maintainerScriptsFromDirectory(
-      dir: File,
-      scripts: Seq[String]): Map[String, Seq[String]] = {
+  def maintainerScriptsFromDirectory(dir: File, scripts: Seq[String]): Map[String, Seq[String]] =
     scripts
       .map(dir / _)
       .filter(_.exists)
@@ -35,7 +33,6 @@ trait MaintainerScriptHelper {
         script.getName -> IO.readLines(script)
       }
       .toMap
-  }
 
   /**
     * Use this method to append additional script content to specific maintainer scripts.
@@ -69,15 +66,12 @@ trait MaintainerScriptHelper {
     * @see [[maintainerScriptsAppendFromFile]]
     */
   def maintainerScriptsAppend(
-      current: Map[String, Seq[String]] = Map.empty,
-      replacements: Seq[(String, String)] = Nil
+    current: Map[String, Seq[String]] = Map.empty,
+    replacements: Seq[(String, String)] = Nil
   )(scripts: (String, String)*): Map[String, Seq[String]] = {
     val appended = scripts.map {
       case (key, script) =>
-        key -> TemplateWriter.generateScriptFromLines(
-          (current.getOrElse(key, Seq.empty) :+ script),
-          replacements
-        )
+        key -> TemplateWriter.generateScriptFromLines((current.getOrElse(key, Seq.empty) :+ script), replacements)
     }.toMap
     current ++ appended
   }
@@ -101,15 +95,14 @@ trait MaintainerScriptHelper {
     * @return maintainerScripts with appended `scripts`
     * @see [[maintainerScriptsAppend]] for pure strings where you can insert arbitrary settings and tasks values
     */
-  def maintainerScriptsAppendFromFile(current: Map[String, Seq[String]] =
-                                        Map.empty)(
-      scripts: (String, File)*): Map[String, Seq[String]] = {
+  def maintainerScriptsAppendFromFile(
+    current: Map[String, Seq[String]] = Map.empty
+  )(scripts: (String, File)*): Map[String, Seq[String]] = {
     val appended = scripts.map {
       case (key, script) if script.exists && script.isFile =>
         key -> (current.getOrElse(key, Seq.empty) ++ IO.readLines(script))
       case (key, script) =>
-        sys.error(
-          s"The maintainer script $key doesn't exist here: ${script.getAbsolutePath}")
+        sys.error(s"The maintainer script $key doesn't exist here: ${script.getAbsolutePath}")
     }.toMap
     current ++ appended
   }

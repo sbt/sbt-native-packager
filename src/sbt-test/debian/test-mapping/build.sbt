@@ -15,19 +15,15 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-debianPackageDependencies in Debian ++= Seq("java2-runtime",
-                                            "bash (>= 2.05a-11)")
+debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
 
 debianPackageRecommends in Debian += "git"
 
-TaskKey[Unit]("check-control-script") <<= (target, streams) map {
-  (target, out) =>
-    val script =
-      IO.read(target / "debian-test-override-0.1.0" / "DEBIAN" / "control")
-    assert(script.contains("Package: debian-test-package\n"),
-           "script doesn't [Package: debian-test-package]\n" + script)
-    assert(script.contains("Source: debian-test-package\n"),
-           "script doesn't [Source: debian-test-package]\n" + script)
-    out.log.success("Successfully tested control script")
-    ()
+TaskKey[Unit]("check-control-script") <<= (target, streams) map { (target, out) =>
+  val script =
+    IO.read(target / "debian-test-override-0.1.0" / "DEBIAN" / "control")
+  assert(script.contains("Package: debian-test-package\n"), "script doesn't [Package: debian-test-package]\n" + script)
+  assert(script.contains("Source: debian-test-package\n"), "script doesn't [Source: debian-test-package]\n" + script)
+  out.log.success("Successfully tested control script")
+  ()
 }

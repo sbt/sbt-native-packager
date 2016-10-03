@@ -3,10 +3,7 @@ package com.typesafe.sbt
 import packager._
 
 import debian.DebianPlugin.autoImport.genChanges
-import universal.UniversalPlugin.autoImport.{
-  packageZipTarball,
-  packageXzTarball
-}
+import universal.UniversalPlugin.autoImport.{packageXzTarball, packageZipTarball}
 import sbt._
 import sbt.Keys.{name, normalizedName, packageBin}
 
@@ -88,9 +85,7 @@ object SbtNativePackager extends AutoPlugin {
         makeDeploymentSettings(Windows, packageBin in Windows, "msi") ++
         makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
         addPackage(Universal, packageZipTarball in Universal, "tgz") ++
-        makeDeploymentSettings(UniversalDocs,
-                               packageBin in UniversalDocs,
-                               "zip") ++
+        makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
         addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz") ++
         makeDeploymentSettings(Debian, genChanges in Debian, "changes")
   }

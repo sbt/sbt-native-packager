@@ -18,11 +18,10 @@ object MappingsHelper {
     * @param sourceDir
     * @return mappings
     */
-  def directory(sourceDir: File): Seq[(File, String)] = {
+  def directory(sourceDir: File): Seq[(File, String)] =
     Option(sourceDir.getParentFile)
       .map(parent => sourceDir.*** pair relativeTo(parent))
       .getOrElse(sourceDir.*** pair basic)
-  }
 
   /**
     * It lightens the build file if one wants to give a string instead of file.
@@ -35,9 +34,8 @@ object MappingsHelper {
     * @param sourceDir
     * @return mappings
     */
-  def directory(sourceDir: String): Seq[(File, String)] = {
+  def directory(sourceDir: String): Seq[(File, String)] =
     directory(file(sourceDir))
-  }
 
   /**
     * return a Seq of mappings which effect is to add the content of directory in the generated package,
@@ -51,9 +49,8 @@ object MappingsHelper {
     * @param sourceDir
     * @return mappings
     */
-  def contentOf(sourceDir: File): Seq[(File, String)] = {
+  def contentOf(sourceDir: File): Seq[(File, String)] =
     (sourceDir.*** --- sourceDir) pair relativeTo(sourceDir)
-  }
 
   /**
     * It lightens the build file if one wants to give a string instead of file.
@@ -66,9 +63,8 @@ object MappingsHelper {
     * @param sourceDir as string representation
     * @return mappings
     */
-  def contentOf(sourceDir: String): Seq[(File, String)] = {
+  def contentOf(sourceDir: String): Seq[(File, String)] =
     contentOf(file(sourceDir))
-  }
 
   /**
     * Create mappings from your classpath. For example if you want to add additional
@@ -84,10 +80,8 @@ object MappingsHelper {
     * @param target
     * @return a list of mappings
     */
-  def fromClasspath(entries: Seq[Attributed[File]],
-                    target: String): Seq[(File, String)] = {
+  def fromClasspath(entries: Seq[Attributed[File]], target: String): Seq[(File, String)] =
     fromClasspath(entries, target, _ => true)
-  }
 
   /**
     * Create mappings from your classpath. For example if you want to add additional
@@ -109,20 +103,14 @@ object MappingsHelper {
     * @param includeArtifact function to determine if an artifact should result in a mapping
     * @param includeOnNoArtifact default is false. When there's no Artifact meta data remove it
     */
-  def fromClasspath(
-      entries: Seq[Attributed[File]],
-      target: String,
-      includeArtifact: Artifact => Boolean,
-      includeOnNoArtifact: Boolean = false
-  ): Seq[(File, String)] = {
-
-    entries
-      .filter(attr =>
-        attr.get(sbt.Keys.artifact.key) map includeArtifact getOrElse includeOnNoArtifact)
-      .map { attribute =>
+  def fromClasspath(entries: Seq[Attributed[File]],
+                    target: String,
+                    includeArtifact: Artifact => Boolean,
+                    includeOnNoArtifact: Boolean = false): Seq[(File, String)] =
+    entries.filter(attr => attr.get(sbt.Keys.artifact.key) map includeArtifact getOrElse includeOnNoArtifact).map {
+      attribute =>
         val file = attribute.data
         file -> s"$target/${file.getName}"
-      }
-  }
+    }
 
 }

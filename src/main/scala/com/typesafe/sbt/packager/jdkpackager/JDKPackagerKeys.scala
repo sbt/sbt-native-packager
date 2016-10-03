@@ -12,8 +12,7 @@ import sbt._
   */
 trait JDKPackagerKeys {
 
-  val jdkPackagerBasename = settingKey[String](
-    "Filename sans extension for generated installer package.")
+  val jdkPackagerBasename = settingKey[String]("Filename sans extension for generated installer package.")
 
   val jdkPackagerType = settingKey[String](
     """Value passed as the `native` attribute to `fx:deploy` task.
@@ -38,9 +37,8 @@ trait JDKPackagerKeys {
     """.stripMargin
   )
 
-  val jdkPackagerToolkit = settingKey[JDKPackagerToolkit](
-    "GUI toolkit used in app. Either `JavaFXToolkit` (default) or `SwingToolkit`"
-  )
+  val jdkPackagerToolkit =
+    settingKey[JDKPackagerToolkit]("GUI toolkit used in app. Either `JavaFXToolkit` (default) or `SwingToolkit`")
 
   val jdkPackagerJVMArgs = settingKey[Seq[String]](
     """Sequence of arguments to pass to the JVM.
@@ -67,15 +65,13 @@ trait JDKPackagerKeys {
     """.stripMargin
   )
 
-  val jdkAppIcon = settingKey[Option[File]](
-    """Path to platform-specific application icon:
+  val jdkAppIcon = settingKey[Option[File]]("""Path to platform-specific application icon:
       |    * `icns`: MacOS
       |    * `ico`: Windows
       |    * `png`: Linux
       |
       | Defaults to generic Java icon.
-    """.stripMargin
-  )
+    """.stripMargin)
 
   val jdkPackagerAssociations = settingKey[Seq[FileAssociation]](
     """Set of application file associations to register for the application.
@@ -98,15 +94,11 @@ trait JDKPackagerKeys {
     "Path to `ant-javafx.jar` library in JDK. By plugin attempts to find location based on `java.home` property. Specifying `JAVA_HOME` or `JDK_HOME` can help."
   )
 
-  val antBuildDefn = taskKey[xml.Node](
-    "Generates a Ant XML DOM defining package generating build for JDK provided Ant task."
-  )
+  val antBuildDefn =
+    taskKey[xml.Node]("Generates a Ant XML DOM defining package generating build for JDK provided Ant task.")
 
-  val writeAntBuild = taskKey[File](
-    "Write the Ant `build.xml` file to the jdkpackager target directory"
-  )
+  val writeAntBuild = taskKey[File]("Write the Ant `build.xml` file to the jdkpackager target directory")
 
-  val antExtraClasspath = settingKey[Seq[File]](
-    "Additional classpath entries for the JavaFX Ant task beyond `antPackagerTasks`"
-  )
+  val antExtraClasspath =
+    settingKey[Seq[File]]("Additional classpath entries for the JavaFX Ant task beyond `antPackagerTasks`")
 }

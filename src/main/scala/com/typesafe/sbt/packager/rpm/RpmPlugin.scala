@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.rpm
 
 import sbt._
-import sbt.Keys.{name, version, sourceDirectory, target, packageBin, streams}
+import sbt.Keys.{name, packageBin, sourceDirectory, streams, target, version}
 import java.nio.charset.Charset
 
 import com.typesafe.sbt.SbtNativePackager.Linux
@@ -116,33 +116,21 @@ object RpmPlugin extends AutoPlugin {
        rpmAutoprov,
        rpmAutoreq) apply RpmMetadata,
     rpmDescription <<=
-      (rpmLicense,
-       rpmDistribution,
-       rpmUrl,
-       rpmGroup,
-       rpmPackager,
-       rpmIcon,
-       rpmChangelogFile) apply RpmDescription,
+      (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon, rpmChangelogFile) apply RpmDescription,
     rpmDependencies <<=
-      (rpmProvides,
-       rpmRequirements,
-       rpmPrerequisites,
-       rpmObsoletes,
-       rpmConflicts) apply RpmDependencies,
+      (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
     maintainerScripts in Rpm := {
       val scripts = (maintainerScripts in Rpm).value
       if (rpmBrpJavaRepackJars.value) {
         val pre = scripts.getOrElse(Names.Pre, Nil)
-        val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream,
-                                       Charset forName "UTF-8")
+        val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
         scripts + (Names.Pre -> (pre :+ scriptBits))
       } else {
         scripts
       }
     },
-    rpmScripts := RpmScripts.fromMaintainerScripts(
-      (maintainerScripts in Rpm).value,
-      (linuxScriptReplacements in Rpm).value),
+    rpmScripts := RpmScripts
+      .fromMaintainerScripts((maintainerScripts in Rpm).value, (linuxScriptReplacements in Rpm).value),
     rpmSpecConfig <<=
       (rpmMetadata,
        rpmDescription,
@@ -152,10 +140,9 @@ object RpmPlugin extends AutoPlugin {
        linuxPackageMappings in Rpm,
        linuxPackageSymlinks in Rpm,
        defaultLinuxInstallLocation in Rpm) map RpmSpec,
-    packageBin in Rpm <<= (rpmSpecConfig, target in Rpm, streams) map {
-      (spec, dir, s) =>
-        spec.validate(s.log)
-        RpmHelper.buildRpm(spec, dir, s.log)
+    packageBin in Rpm <<= (rpmSpecConfig, target in Rpm, streams) map { (spec, dir, s) =>
+      spec.validate(s.log)
+      RpmHelper.buildRpm(spec, dir, s.log)
     },
     rpmLint <<= (packageBin in Rpm, streams) map { (rpm, s) =>
       (Process(Seq("rpmlint", "-v", rpm.getAbsolutePath)) ! s.log) match {

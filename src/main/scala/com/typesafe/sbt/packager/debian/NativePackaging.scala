@@ -3,7 +3,7 @@ package packager
 package debian
 
 import sbt._
-import sbt.Keys.{packageBin, target, name, version, streams}
+import sbt.Keys.{name, packageBin, streams, target, version}
 import packager.Hashing
 import packager.archetypes.TemplateWriter
 import linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink}
@@ -46,12 +46,7 @@ trait DebianNativePackaging extends DebianPluginLike {
     inConfig(Debian)(
       Seq(
         debianNativeBuildOptions += "-Znone", // packages are largely JARs, which are already compressed
-        genChanges <<= (packageBin,
-                        target,
-                        debianChangelog,
-                        name,
-                        version,
-                        debianPackageMetadata) map {
+        genChanges <<= (packageBin, target, debianChangelog, name, version, debianPackageMetadata) map {
           (pkg, tdir, changelog, name, version, data) =>
             changelog match {
               case None =>
@@ -60,45 +55,35 @@ trait DebianNativePackaging extends DebianPluginLike {
                 // dpkg-genchanges needs a debian "source" directory, different from the DEBIAN "binary" directory
                 val debSrc = tdir / "../tmp" / Names.DebianSource
                 debSrc.mkdirs()
-                copyAndFixPerms(chlog,
-                                debSrc / Names.Changelog,
-                                LinuxFileMetaData("0644"))
-                IO.writeLines(
-                  debSrc / Names.Files,
-                  List(pkg.getName + " " + data.section + " " + data.priority))
+                copyAndFixPerms(chlog, debSrc / Names.Changelog, LinuxFileMetaData("0644"))
+                IO.writeLines(debSrc / Names.Files, List(pkg.getName + " " + data.section + " " + data.priority))
                 // dpkg-genchanges needs a "source" control file, located in a "debian" directory
-                IO.writeLines(debSrc / Names.Control,
-                              List(data.makeSourceControl()))
+                IO.writeLines(debSrc / Names.Control, List(data.makeSourceControl()))
                 val changesFileName = name + "_" + version + "_" + data.architecture + ".changes"
                 val changesFile: File = tdir / ".." / changesFileName
                 try {
-                  val changes = Process(Seq("dpkg-genchanges", "-b"),
-                                        Some(tdir / "../tmp")) !!
+                  val changes = Process(Seq("dpkg-genchanges", "-b"), Some(tdir / "../tmp")) !!
                   val allChanges = List(changes)
                   IO.writeLines(changesFile, allChanges)
                 } catch {
                   case e: Exception =>
-                    sys.error(
-                      "Failure generating changes file." + e.getStackTraceString)
+                    sys.error("Failure generating changes file." + e.getStackTraceString)
                 }
                 changesFile
               }
             }
 
         },
-        debianSign <<= (packageBin, debianSignRole, streams) map {
-          (deb, role, s) =>
-            Process(Seq("dpkg-sig", "-s", role, deb.getAbsolutePath),
-                    Some(deb.getParentFile())) ! s.log match {
-              case 0 => ()
-              case x =>
-                sys.error("Failed to sign debian package! exit code: " + x)
-            }
-            deb
+        debianSign <<= (packageBin, debianSignRole, streams) map { (deb, role, s) =>
+          Process(Seq("dpkg-sig", "-s", role, deb.getAbsolutePath), Some(deb.getParentFile())) ! s.log match {
+            case 0 => ()
+            case x =>
+              sys.error("Failed to sign debian package! exit code: " + x)
+          }
+          deb
         },
         lintian <<= packageBin map { file =>
-          Process(Seq("lintian", "-c", "-v", file.getName),
-                  Some(file.getParentFile)).!
+          Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
         },
         /** Implementation of the actual packaging  */
         packageBin <<= (debianExplodedPackage,
@@ -110,24 +95,22 @@ trait DebianNativePackaging extends DebianPluginLike {
                         packageArchitecture,
                         debianNativeBuildOptions,
                         target,
-                        streams) map {
-          (pkgdir, _, section, priority, name, version, arch, options, tdir,
-           s) =>
-            s.log.info("Building debian package with native implementation")
-            // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
-            val archive = archiveFilename(name, version, arch)
-            Process(
-              Seq("fakeroot", "--", "dpkg-deb", "--build") ++ options ++ Seq(
-                pkgdir.getAbsolutePath,
-                "../" + archive),
-              Some(tdir)) ! s.log match {
-              case 0 => ()
-              case x =>
-                sys.error("Failure packaging debian file.  Exit code: " + x)
-            }
-            tdir / ".." / archive
+                        streams) map { (pkgdir, _, section, priority, name, version, arch, options, tdir, s) =>
+          s.log.info("Building debian package with native implementation")
+          // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
+          val archive = archiveFilename(name, version, arch)
+          Process(
+            Seq("fakeroot", "--", "dpkg-deb", "--build") ++ options ++ Seq(pkgdir.getAbsolutePath, "../" + archive),
+            Some(tdir)
+          ) ! s.log match {
+            case 0 => ()
+            case x =>
+              sys.error("Failure packaging debian file.  Exit code: " + x)
+          }
+          tdir / ".." / archive
         }
-      ))
+      )
+    )
 
 }
 

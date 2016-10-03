@@ -11,8 +11,7 @@ trait LinuxMappingDSL {
     * @param dir - use some directory, e.g. target.value
     * @param files
     */
-  def packageTemplateMapping(files: String*)(dir: File = new File(
-                                               sys.props("java.io.tmpdir"))) =
+  def packageTemplateMapping(files: String*)(dir: File = new File(sys.props("java.io.tmpdir"))) =
     LinuxPackageMapping(files map ((dir, _)))
 
   // TODO can the packager.MappingsHelper be used here?

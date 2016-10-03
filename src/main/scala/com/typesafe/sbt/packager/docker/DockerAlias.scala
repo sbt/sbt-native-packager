@@ -9,13 +9,8 @@ package com.typesafe.sbt.packager.docker
   * @param name Name of the image, e.g. the artifact name
   * @param tag Optional tag for the image, e.g. the version
   */
-case class DockerAlias(registryHost: Option[String],
-                       username: Option[String],
-                       name: String,
-                       tag: Option[String]) {
-  protected val untagged = registryHost.map(_ + "/").getOrElse("") + username
-      .map(_ + "/")
-      .getOrElse("") + name
+case class DockerAlias(registryHost: Option[String], username: Option[String], name: String, tag: Option[String]) {
+  protected val untagged = registryHost.map(_ + "/").getOrElse("") + username.map(_ + "/").getOrElse("") + name
 
   /** Tag with (optional) given version */
   val versioned = untagged + tag.map(":" + _).getOrElse("")

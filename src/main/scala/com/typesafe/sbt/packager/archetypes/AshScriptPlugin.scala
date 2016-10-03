@@ -3,22 +3,11 @@ package packager
 package archetypes
 
 import sbt._
-import sbt.Keys.{
-  mappings,
-  target,
-  name,
-  mainClass,
-  sourceDirectory,
-  javaOptions,
-  streams
-}
-import packager.Keys.{packageName, executableScriptName}
+import sbt.Keys.{javaOptions, mainClass, mappings, name, sourceDirectory, streams, target}
+import packager.Keys.{executableScriptName, packageName}
 import linux.{LinuxFileMetaData, LinuxPackageMapping}
-import linux.LinuxPlugin.autoImport.{
-  linuxPackageMappings,
-  defaultLinuxInstallLocation
-}
-import SbtNativePackager.{Universal, Debian}
+import linux.LinuxPlugin.autoImport.{defaultLinuxInstallLocation, linuxPackageMappings}
+import SbtNativePackager.{Debian, Universal}
 
 /**
   * == Java Application ==
@@ -100,17 +89,12 @@ object AshScriptPlugin extends AutoPlugin {
     bashScriptDefines <<= (Keys.mainClass in (Compile, bashScriptDefines),
                            scriptClasspath in bashScriptDefines,
                            bashScriptExtraDefines,
-                           bashScriptConfigLocation) map {
-      (mainClass, cp, extras, config) =>
-        val hasMain =
-          for {
-            cn <- mainClass
-          } yield
-            JavaAppAshScript.makeDefines(cn,
-                                         appClasspath = cp,
-                                         extras = extras,
-                                         configFile = config)
-        hasMain getOrElse Nil
+                           bashScriptConfigLocation) map { (mainClass, cp, extras, config) =>
+      val hasMain =
+        for {
+          cn <- mainClass
+        } yield JavaAppAshScript.makeDefines(cn, appClasspath = cp, extras = extras, configFile = config)
+      hasMain getOrElse Nil
     }
   )
 
@@ -130,10 +114,9 @@ object AshScriptPlugin extends AutoPlugin {
       Some(script)
     }
 
-  private def resolveTemplate(defaultTemplateLocation: File): URL = {
+  private def resolveTemplate(defaultTemplateLocation: File): URL =
     if (defaultTemplateLocation.exists)
       defaultTemplateLocation.toURI.toURL
     else
       getClass.getResource(defaultTemplateLocation.getName)
-  }
 }

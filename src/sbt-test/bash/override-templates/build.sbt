@@ -16,8 +16,10 @@ TaskKey[Unit]("run-check-bash") := {
     scala.io.Source.fromFile((cwd / "bin" / packageName.value).getAbsolutePath)
   val contents = try source.getLines mkString "\n"
   finally source.close()
-  assert(contents contains "this is the custom bash template",
-         "Bash template didn't contain the right text: \n" + contents)
+  assert(
+    contents contains "this is the custom bash template",
+    "Bash template didn't contain the right text: \n" + contents
+  )
 }
 
 TaskKey[Unit]("run-check-bat") := {
@@ -27,6 +29,8 @@ TaskKey[Unit]("run-check-bat") := {
     scala.io.Source.fromFile((cwd / "bin" / batFilename).getAbsolutePath)
   val contents = try source.getLines mkString "\n"
   finally source.close()
-  assert(contents contains "this is the custom bat template",
-         "Bat template didn't contain the right text: \n" + contents)
+  assert(
+    contents contains "this is the custom bat template",
+    "Bat template didn't contain the right text: \n" + contents
+  )
 }

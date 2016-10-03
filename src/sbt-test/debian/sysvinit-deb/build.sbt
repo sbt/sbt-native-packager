@@ -21,63 +21,55 @@ requiredStartFacilities in Debian := Some("$test-deb-service")
 
 daemonStdoutLogFile := Some("test.log")
 
-TaskKey[Unit]("check-control-files") <<= (target, streams) map {
-  (target, out) =>
-    val header = "#!/bin/sh"
-    val debian = target / "debian-test-0.1.0" / "DEBIAN"
-    val postinst = IO.read(debian / "postinst")
-    val postrm = IO.read(debian / "postrm")
-    Seq(postinst, postrm) foreach { script =>
-      assert(script.startsWith(header),
-             "script doesn't start with #!/bin/sh header:\n" + script)
-      assert(header.r.findAllIn(script).length == 1,
-             "script contains more than one header line:\n" + script)
-    }
-    out.log.success("Successfully tested systemV control files")
-    ()
+TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =>
+  val header = "#!/bin/sh"
+  val debian = target / "debian-test-0.1.0" / "DEBIAN"
+  val postinst = IO.read(debian / "postinst")
+  val postrm = IO.read(debian / "postrm")
+  Seq(postinst, postrm) foreach { script =>
+    assert(script.startsWith(header), "script doesn't start with #!/bin/sh header:\n" + script)
+    assert(header.r.findAllIn(script).length == 1, "script contains more than one header line:\n" + script)
+  }
+  out.log.success("Successfully tested systemV control files")
+  ()
 }
 
-TaskKey[Unit]("check-startup-script") <<= (target, streams) map {
-  (target, out) =>
-    val script =
-      IO.read(target / "debian-test-0.1.0" / "etc" / "init.d" / "debian-test")
-    assert(script.contains("# Default-Start: 2 3 4 5"),
-           "script doesn't contain Default-Start header\n" + script)
-    assert(script.contains("# Default-Stop: 0 1 6"),
-           "script doesn't contain Default-Stop header\n" + script)
-    assert(script.contains("# Required-Start: $test-deb-service"),
-           "script doesn't contain Required-Start header\n" + script)
-    assert(script.contains("# Required-Stop: $remote_fs $syslog"),
-           "script doesn't contain Required-Stop header\n" + script)
-    assert(
-      script.contains(
-        """start-stop-daemon --background --chdir /usr/share/debian-test --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --startas "$RUN_CMD" --start -- $RUN_OPTS "$stdout_redirect"""),
-      "script has wrong startup line\n" + script)
-    assert(script.contains("""logfile="test.log""""),
-           "script contains wrong log file for stdout\n" + script)
+TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) =>
+  val script =
+    IO.read(target / "debian-test-0.1.0" / "etc" / "init.d" / "debian-test")
+  assert(script.contains("# Default-Start: 2 3 4 5"), "script doesn't contain Default-Start header\n" + script)
+  assert(script.contains("# Default-Stop: 0 1 6"), "script doesn't contain Default-Stop header\n" + script)
+  assert(
+    script.contains("# Required-Start: $test-deb-service"),
+    "script doesn't contain Required-Start header\n" + script
+  )
+  assert(
+    script.contains("# Required-Stop: $remote_fs $syslog"),
+    "script doesn't contain Required-Stop header\n" + script
+  )
+  assert(
+    script.contains(
+      """start-stop-daemon --background --chdir /usr/share/debian-test --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --startas "$RUN_CMD" --start -- $RUN_OPTS "$stdout_redirect"""
+    ),
+    "script has wrong startup line\n" + script
+  )
+  assert(script.contains("""logfile="test.log""""), "script contains wrong log file for stdout\n" + script)
 
-    out.log.success("Successfully tested systemV start up script")
-    ()
+  out.log.success("Successfully tested systemV start up script")
+  ()
 }
 
 TaskKey[Unit]("check-autostart") <<= (target, streams) map { (target, out) =>
   val script = IO.read(target / "debian-test-0.1.0" / "DEBIAN" / "postinst")
-  assert(
-    script.contains(
-      """addService debian-test || echo "debian-test could not be registered"
+  assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
       |startService debian-test || echo "debian-test could not be started"
-      |""".stripMargin),
-    "addService, startService post install commands missing or incorrect")
+      |""".stripMargin), "addService, startService post install commands missing or incorrect")
   ()
 }
 
-TaskKey[Unit]("check-no-autostart") <<= (target, streams) map {
-  (target, out) =>
-    val script = IO.read(target / "debian-test-0.1.0" / "DEBIAN" / "postinst")
-    assert(
-      script.contains(
-        """addService debian-test || echo "debian-test could not be registered"
-      |""".stripMargin),
-      "addService post install commands missing or incorrect")
-    ()
+TaskKey[Unit]("check-no-autostart") <<= (target, streams) map { (target, out) =>
+  val script = IO.read(target / "debian-test-0.1.0" / "DEBIAN" / "postinst")
+  assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
+      |""".stripMargin), "addService post install commands missing or incorrect")
+  ()
 }

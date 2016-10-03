@@ -4,9 +4,7 @@ version := "0.1.2"
 
 organization := "com.foo.bar"
 
-libraryDependencies ++= Seq(
-  "com.typesafe" % "config" % "1.2.1"
-)
+libraryDependencies ++= Seq("com.typesafe" % "config" % "1.2.1")
 
 mainClass in Compile := Some("ExampleApp")
 
@@ -33,19 +31,13 @@ jdkPackagerToolkit := JavaFXToolkit
 
 jdkPackagerJVMArgs := Seq("-Xmx1g", "-Xdiag")
 
-jdkPackagerProperties := Map("app.name" -> name.value,
-                             "app.version" -> version.value)
+jdkPackagerProperties := Map("app.name" -> name.value, "app.version" -> version.value)
 
-jdkPackagerAppArgs := Seq(maintainer.value,
-                          packageSummary.value,
-                          packageDescription.value)
+jdkPackagerAppArgs := Seq(maintainer.value, packageSummary.value, packageDescription.value)
 
 jdkPackagerAssociations := Seq(
   FileAssociation("foobar", "application/foobar", "Foobar file type"),
-  FileAssociation("barbaz",
-                  "application/barbaz",
-                  "Barbaz file type",
-                  jdkAppIcon.value)
+  FileAssociation("barbaz", "application/barbaz", "Barbaz file type", jdkAppIcon.value)
 )
 
 // Example of specifying a fallback location of `ant-javafx.jar` if plugin can't find it.

@@ -3,50 +3,39 @@ package packager
 package rpm
 
 import sbt._
-import com.typesafe.sbt.packager.linux.{
-  LinuxPlugin,
-  LinuxPackageMapping,
-  LinuxFileMetaData,
-  LinuxSymlink
-}
+import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxPlugin, LinuxSymlink}
 import com.typesafe.sbt.packager.rpm.RpmPlugin.Names._
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import java.io.File
 
-case class RpmMetadata(
-    name: String,
-    version: String,
-    release: String,
-    prefix: Option[String] = None,
-    arch: String,
-    vendor: String,
-    os: String,
-    summary: String,
-    description: String,
-    autoprov: String,
-    autoreq: String
-)
+case class RpmMetadata(name: String,
+                       version: String,
+                       release: String,
+                       prefix: Option[String] = None,
+                       arch: String,
+                       vendor: String,
+                       os: String,
+                       summary: String,
+                       description: String,
+                       autoprov: String,
+                       autoreq: String)
 
 /**
   * The Description used to generate an RPM
   */
-case class RpmDescription(
-    license: Option[String] = None,
-    distribution: Option[String] = None,
-    url: Option[String] = None,
-    group: Option[String] = None,
-    packager: Option[String] = None,
-    icon: Option[String] = None,
-    changelogFile: Option[String] = None
-)
+case class RpmDescription(license: Option[String] = None,
+                          distribution: Option[String] = None,
+                          url: Option[String] = None,
+                          group: Option[String] = None,
+                          packager: Option[String] = None,
+                          icon: Option[String] = None,
+                          changelogFile: Option[String] = None)
 
-case class RpmDependencies(
-    provides: Seq[String] = Seq.empty,
-    requirements: Seq[String] = Seq.empty,
-    prereq: Seq[String] = Seq.empty,
-    obsoletes: Seq[String] = Seq.empty,
-    conflicts: Seq[String] = Seq.empty
-) {
+case class RpmDependencies(provides: Seq[String] = Seq.empty,
+                           requirements: Seq[String] = Seq.empty,
+                           prereq: Seq[String] = Seq.empty,
+                           obsoletes: Seq[String] = Seq.empty,
+                           conflicts: Seq[String] = Seq.empty) {
   def contents: String = {
     val sb = new StringBuilder
     def appendSetting(prefix: String, values: Seq[String]) =
@@ -63,15 +52,13 @@ case class RpmDependencies(
 /**
   * Parameters stay because of binary compatibility.
   */
-case class RpmScripts(
-    pretrans: Option[String] = None,
-    pre: Option[String] = None,
-    post: Option[String] = None,
-    verifyscript: Option[String] = None,
-    posttrans: Option[String] = None,
-    preun: Option[String] = None,
-    postun: Option[String] = None
-) {
+case class RpmScripts(pretrans: Option[String] = None,
+                      pre: Option[String] = None,
+                      post: Option[String] = None,
+                      verifyscript: Option[String] = None,
+                      posttrans: Option[String] = None,
+                      preun: Option[String] = None,
+                      postun: Option[String] = None) {
 
   def pretransContent(): String =
     pretrans.fold("")("\n%pretrans\n" + _ + "\n\n")
@@ -108,29 +95,20 @@ case class RpmScripts(
     "Call individual scriptlet content method instead, e.g. pretransContent(). This is to allow managing symlink during %post and %postun so it can be relocated",
     since = "1.0.5-M4"
   )
-  @deprecated("Use contents(maintainerScripts) until next major release",
-              "1.1.x")
+  @deprecated("Use contents(maintainerScripts) until next major release", "1.1.x")
   def contents(): String = {
-    val labelledScripts = Seq("%pretrans",
-                              "%pre",
-                              "%post",
-                              "%verifyscript",
-                              "%posttrans",
-                              "%preun",
-                              "%postun").zip(
-      Seq(pretrans, pre, post, verifyscript, posttrans, preun, postun))
-    labelledScripts.collect { case (a, Some(b)) => a + "\n" + b }
-      .mkString("\n\n")
+    val labelledScripts = Seq("%pretrans", "%pre", "%post", "%verifyscript", "%posttrans", "%preun", "%postun").zip(
+      Seq(pretrans, pre, post, verifyscript, posttrans, preun, postun)
+    )
+    labelledScripts.collect { case (a, Some(b)) => a + "\n" + b }.mkString("\n\n")
   }
 
 }
 
 object RpmScripts {
 
-  def fromMaintainerScripts(
-      maintainerScripts: Map[String, Seq[String]],
-      replacements: Seq[(String, String)]
-  ): RpmScripts = {
+  def fromMaintainerScripts(maintainerScripts: Map[String, Seq[String]],
+                            replacements: Seq[(String, String)]): RpmScripts = {
     val toContent = toContentWith(replacements) _
     RpmScripts(
       pretrans = maintainerScripts.get(Pretrans).map(toContent),
@@ -144,22 +122,19 @@ object RpmScripts {
   }
 
   // insert replacements
-  private def toContentWith(replacements: Seq[(String, String)])(
-      lines: Seq[String]): String =
+  private def toContentWith(replacements: Seq[(String, String)])(lines: Seq[String]): String =
     TemplateWriter.generateScriptFromLines(lines, replacements).mkString("\n")
 
 }
 
-case class RpmSpec(
-    meta: RpmMetadata,
-    desc: RpmDescription = RpmDescription(),
-    deps: RpmDependencies = RpmDependencies(),
-    setarch: Option[String],
-    scriptlets: RpmScripts = RpmScripts(),
-    mappings: Seq[LinuxPackageMapping] = Seq.empty,
-    symlinks: Seq[LinuxSymlink] = Seq.empty,
-    installLocation: String
-) {
+case class RpmSpec(meta: RpmMetadata,
+                   desc: RpmDescription = RpmDescription(),
+                   deps: RpmDependencies = RpmDependencies(),
+                   setarch: Option[String],
+                   scriptlets: RpmScripts = RpmScripts(),
+                   mappings: Seq[LinuxPackageMapping] = Seq.empty,
+                   symlinks: Seq[LinuxSymlink] = Seq.empty,
+                   installLocation: String) {
 
   def installDir: String =
     LinuxPlugin.chdir(installLocation, meta.name)
@@ -168,13 +143,12 @@ case class RpmSpec(
   // in the RPM.  e.g. the Description/vendor etc. must meet specific requirements.
   // For now we just check existence.
   def validate(log: Logger): Unit = {
-    def ensureOr[T](value: T, msg: String, validator: T => Boolean): Boolean = {
+    def ensureOr[T](value: T, msg: String, validator: T => Boolean): Boolean =
       if (validator(value)) true
       else {
         log.error(msg)
         false
       }
-    }
     def isNonEmpty(s: String): Boolean = !s.isEmpty
     // format: off
     val emptyValidators =
@@ -202,9 +176,7 @@ case class RpmSpec(
     else tmp
   }
 
-  private[this] def makeFilesLine(target: String,
-                                  meta: LinuxFileMetaData,
-                                  isDir: Boolean): String = {
+  private[this] def makeFilesLine(target: String, meta: LinuxFileMetaData, isDir: Boolean): String = {
 
     val sb = new StringBuilder
     meta.config.toLowerCase match {
@@ -304,13 +276,11 @@ case class RpmSpec(
     // write scriptlets
     sb append scriptlets.pretransContent()
     sb append scriptlets.preContent()
-    sb append scriptlets.postContent(
-      buildSymlinkScript(meta.name, installDir, symlinks))
+    sb append scriptlets.postContent(buildSymlinkScript(meta.name, installDir, symlinks))
     sb append scriptlets.verifyscriptContent()
     sb append scriptlets.posttransContent()
     sb append scriptlets.preunContent()
-    sb append scriptlets.postunContent(
-      teardownSymlinkScript(meta.name, installDir, symlinks))
+    sb append scriptlets.postunContent(teardownSymlinkScript(meta.name, installDir, symlinks))
 
     // Write file mappings
     sb append fileSection
@@ -327,9 +297,7 @@ case class RpmSpec(
     sb.toString
   }
 
-  private def buildSymlinkScript(appName: String,
-                                 installDir: String,
-                                 symlinks: Seq[LinuxSymlink]): Option[String] =
+  private def buildSymlinkScript(appName: String, installDir: String, symlinks: Seq[LinuxSymlink]): Option[String] =
     if (symlinks.isEmpty)
       None
     else {
@@ -340,10 +308,7 @@ case class RpmSpec(
       Some(relocateLinkFunction + "\n" + relocateLinks)
     }
 
-  private def teardownSymlinkScript(
-      appName: String,
-      installDir: String,
-      symlinks: Seq[LinuxSymlink]): Option[String] =
+  private def teardownSymlinkScript(appName: String, installDir: String, symlinks: Seq[LinuxSymlink]): Option[String] =
     if (symlinks.isEmpty)
       None
     else {

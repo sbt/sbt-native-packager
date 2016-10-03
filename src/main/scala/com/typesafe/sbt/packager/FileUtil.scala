@@ -34,8 +34,7 @@ object chmod {
     // propagate error
     if (result.isFailure) {
       val e = result.failed.get
-      sys.error(
-        "Error setting permissions " + perms + " on " + file.getAbsolutePath + ": " + e.getMessage)
+      sys.error("Error setting permissions " + perms + " on " + file.getAbsolutePath + ": " + e.getMessage)
     }
   }
 }
@@ -54,8 +53,7 @@ object permissions {
     PosixFilePermissions fromString convert(perms)
 
   def convert(perms: String): String = {
-    require(perms.length == 4 || perms.length == 3,
-            s"Permissions must have 3 or 4 digits, got [$perms]")
+    require(perms.length == 4 || perms.length == 3, s"Permissions must have 3 or 4 digits, got [$perms]")
     // ignore setuid/setguid/sticky bit
     val i = if (perms.length == 3) 0 else 1
     val user = Character getNumericValue (perms charAt i)

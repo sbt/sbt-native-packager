@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.linux
 
 import sbt._
-import sbt.Keys.{name, normalizedName, mappings, sourceDirectory}
+import sbt.Keys.{mappings, name, normalizedName, sourceDirectory}
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.MappingsHelper
 import com.typesafe.sbt.packager.Keys._
@@ -49,13 +49,12 @@ object LinuxPlugin extends AutoPlugin {
     linuxPackageMappings := Seq.empty,
     linuxPackageSymlinks := Seq.empty,
     sourceDirectory in Linux <<= sourceDirectory apply (_ / "linux"),
-    generateManPages <<= (sourceDirectory in Linux, sbt.Keys.streams) map {
-      (dir, s) =>
-        for (file <- (dir / "usr/share/man/man1" ** "*.1").get) {
-          val man = makeMan(file)
-          s.log.info("Generated man page for[" + file + "] =")
-          s.log.info(man)
-        }
+    generateManPages <<= (sourceDirectory in Linux, sbt.Keys.streams) map { (dir, s) =>
+      for (file <- (dir / "usr/share/man/man1" ** "*.1").get) {
+        val man = makeMan(file)
+        s.log.info("Generated man page for[" + file + "] =")
+        s.log.info(man)
+      }
     },
     packageSummary in Linux <<= packageSummary,
     packageDescription in Linux <<= packageDescription,
@@ -82,8 +81,7 @@ object LinuxPlugin extends AutoPlugin {
       author = (maintainer in Linux).value,
       description = (packageSummary in Linux).value,
       execScript = (executableScriptName in Linux).value,
-      chdir =
-        chdir(defaultLinuxInstallLocation.value, (packageName in Linux).value),
+      chdir = chdir(defaultLinuxInstallLocation.value, (packageName in Linux).value),
       logdir = defaultLinuxLogsLocation.value,
       appName = (packageName in Linux).value,
       version = sbt.Keys.version.value,
@@ -105,38 +103,28 @@ object LinuxPlugin extends AutoPlugin {
   def mapGenericFilesToLinux: Seq[Setting[_]] = Seq(
     // First we look at the src/linux files
     linuxPackageMappings <++= (sourceDirectory in Linux) map { dir =>
-      mapGenericMappingsToLinux(MappingsHelper contentOf dir,
-                                Users.Root,
-                                Users.Root)(identity)
+      mapGenericMappingsToLinux(MappingsHelper contentOf dir, Users.Root, Users.Root)(identity)
     },
     // Now we look at the src/universal files.
-    linuxPackageMappings <++= (packageName in Linux,
-                               mappings in Universal,
-                               defaultLinuxInstallLocation) map {
+    linuxPackageMappings <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation) map {
       (pkg, mappings, installLocation) =>
         // TODO - More windows filters...
         def isWindowsFile(f: (File, String)): Boolean =
           f._2 endsWith ".bat"
 
-        mapGenericMappingsToLinux(mappings filterNot isWindowsFile,
-                                  Users.Root,
-                                  Users.Root) { name =>
+        mapGenericMappingsToLinux(mappings filterNot isWindowsFile, Users.Root, Users.Root) { name =>
           installLocation + "/" + pkg + "/" + name
         }
     },
     // Now we generate symlinks.
-    linuxPackageSymlinks <++= (packageName in Linux,
-                               mappings in Universal,
-                               defaultLinuxInstallLocation) map {
+    linuxPackageSymlinks <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation) map {
       (pkg, mappings, installLocation) =>
         for {
           (file, name) <- mappings
           if !file.isDirectory
           if name startsWith "bin/"
           if !(name endsWith ".bat") // IGNORE windows-y things.
-        } yield
-          LinuxSymlink("/usr/" + name,
-                       installLocation + "/" + pkg + "/" + name)
+        } yield LinuxSymlink("/usr/" + name, installLocation + "/" + pkg + "/" + name)
     },
     // Map configuration files
     linuxPackageSymlinks <++= (packageName in Linux,
@@ -150,29 +138,23 @@ object LinuxPlugin extends AutoPlugin {
               (name startsWith "conf/") && !file.isDirectory
           }
         if (needsConfLink)
-          Seq(
-            LinuxSymlink(
-              link = configLocation + "/" + pkg,
-              destination = installLocation + "/" + pkg + "/conf"
-            ))
+          Seq(LinuxSymlink(link = configLocation + "/" + pkg, destination = installLocation + "/" + pkg + "/conf"))
         else Seq.empty
       }
   )
 
-  def makeReplacements(
-      author: String,
-      description: String,
-      execScript: String,
-      chdir: String,
-      logdir: String,
-      appName: String,
-      version: String,
-      daemonUser: String,
-      daemonUserUid: Option[String],
-      daemonGroup: String,
-      daemonGroupGid: Option[String],
-      daemonShell: String
-  ): Seq[(String, String)] =
+  def makeReplacements(author: String,
+                       description: String,
+                       execScript: String,
+                       chdir: String,
+                       logdir: String,
+                       appName: String,
+                       version: String,
+                       daemonUser: String,
+                       daemonUserUid: Option[String],
+                       daemonGroup: String,
+                       daemonGroupGid: Option[String],
+                       daemonShell: String): Seq[(String, String)] =
     Seq(
       "author" -> author,
       "descr" -> description,
@@ -194,11 +176,9 @@ object LinuxPlugin extends AutoPlugin {
     *
     * @return placeholder->content
     */
-  def controlScriptFunctionsReplacement(
-      template: Option[URL] = None): (String, String) = {
+  def controlScriptFunctionsReplacement(template: Option[URL] = None): (String, String) = {
     val url = template getOrElse LinuxPlugin.controlFunctions
-    LinuxPlugin.CONTROL_FUNCTIONS -> TemplateWriter
-      .generateScript(source = url, replacements = Nil)
+    LinuxPlugin.CONTROL_FUNCTIONS -> TemplateWriter.generateScript(source = url, replacements = Nil)
   }
 
   // TODO - we'd like a set of conventions to take universal mappings and create linux package mappings.
@@ -224,10 +204,9 @@ object LinuxPlugin extends AutoPlugin {
     * `../man/...1` files are automatically compressed into .gz files.
     *
     */
-  def mapGenericMappingsToLinux(
-      mappings: Seq[(File, String)],
-      user: String,
-      group: String)(rename: String => String): Seq[LinuxPackageMapping] = {
+  def mapGenericMappingsToLinux(mappings: Seq[(File, String)], user: String, group: String)(
+    rename: String => String
+  ): Seq[LinuxPackageMapping] = {
     val (directories, nondirectories) = mappings.partition(_._1.isDirectory)
     val (binaries, nonbinaries) = nondirectories.partition(_._1.canExecute)
     val (manPages, nonManPages) = nonbinaries partition {
@@ -239,8 +218,7 @@ object LinuxPlugin extends AutoPlugin {
     val (configFiles, remaining) = nonManPages partition {
       case (file, name) => (name contains "etc/") || (name contains "conf/")
     }
-    def packageMappingWithRename(
-        mappings: (File, String)*): LinuxPackageMapping = {
+    def packageMappingWithRename(mappings: (File, String)*): LinuxPackageMapping = {
       val renamed =
         for ((file, name) <- mappings)
           yield file -> rename(name)

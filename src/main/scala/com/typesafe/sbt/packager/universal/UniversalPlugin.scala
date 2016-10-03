@@ -5,16 +5,16 @@ package universal
 import sbt._
 import sbt.Keys.{
   cacheDirectory,
+  mappings,
   name,
   normalizedName,
-  version,
-  mappings,
   packageBin,
-  packageSrc,
   packageDoc,
-  target,
+  packageSrc,
   sourceDirectory,
-  streams
+  streams,
+  target,
+  version
 }
 import packager.Keys._
 import Archives._
@@ -77,8 +77,7 @@ object UniversalPlugin extends AutoPlugin {
       defaultUniversalArchiveOptions
 
   /** Creates all package types for a given configuration */
-  private[this] def makePackageSettingsForConfig(
-      config: Configuration): Seq[Setting[_]] =
+  private[this] def makePackageSettingsForConfig(config: Configuration): Seq[Setting[_]] =
     makePackageSettings(packageBin, config)(makeZip) ++
       makePackageSettings(packageOsxDmg, config)(makeDmg) ++
       makePackageSettings(packageZipTarball, config)(makeTgz) ++
@@ -89,9 +88,9 @@ object UniversalPlugin extends AutoPlugin {
           mappings <<= sourceDirectory map findSources,
           dist <<= (packageBin, streams) map printDist,
           stagingDirectory <<= target apply (_ / "stage"),
-          stage <<= (streams, stagingDirectory, mappings) map Stager.stage(
-            config.name)
-        )) ++ Seq(
+          stage <<= (streams, stagingDirectory, mappings) map Stager.stage(config.name)
+        )
+      ) ++ Seq(
       sourceDirectory in config <<= sourceDirectory apply (_ / config.name),
       target in config <<= target apply (_ / config.name)
     )
@@ -99,12 +98,9 @@ object UniversalPlugin extends AutoPlugin {
   private[this] def defaultUniversalArchiveOptions: Seq[Setting[_]] = Seq(
     universalArchiveOptions in (Universal, packageZipTarball) := Seq("-pcvf"),
     universalArchiveOptions in (Universal, packageXzTarball) := Seq("-pcvf"),
-    universalArchiveOptions in (UniversalDocs, packageXzTarball) := Seq(
-      "-pcvf"),
-    universalArchiveOptions in (UniversalDocs, packageXzTarball) := Seq(
-      "-pcvf"),
-    universalArchiveOptions in (UniversalSrc, packageXzTarball) := Seq(
-      "-pcvf"),
+    universalArchiveOptions in (UniversalDocs, packageXzTarball) := Seq("-pcvf"),
+    universalArchiveOptions in (UniversalDocs, packageXzTarball) := Seq("-pcvf"),
+    universalArchiveOptions in (UniversalSrc, packageXzTarball) := Seq("-pcvf"),
     universalArchiveOptions in (UniversalSrc, packageXzTarball) := Seq("-pcvf")
   )
 
@@ -115,13 +111,11 @@ object UniversalPlugin extends AutoPlugin {
     dist
   }
 
-  private type Packager = (File, String, Seq[(File, String)], Option[String],
-                           Seq[String]) => File
+  private type Packager = (File, String, Seq[(File, String)], Option[String], Seq[String]) => File
 
   /** Creates packaging settings for a given package key, configuration + archive type. */
-  private[this] def makePackageSettings(
-      packageKey: TaskKey[File],
-      config: Configuration)(packager: Packager): Seq[Setting[_]] =
+  private[this] def makePackageSettings(packageKey: TaskKey[File],
+                                        config: Configuration)(packager: Packager): Seq[Setting[_]] =
     inConfig(config)(
       Seq(
         universalArchiveOptions in packageKey := Nil,
@@ -131,17 +125,16 @@ object UniversalPlugin extends AutoPlugin {
                         mappings in packageKey,
                         topLevelDirectory,
                         universalArchiveOptions in packageKey) map packager
-      ))
+      )
+    )
 
   /** check that all mapped files actually exist */
-  private[this] def checkMappings(
-      mappings: Seq[(File, String)]): Seq[(File, String)] = {
+  private[this] def checkMappings(mappings: Seq[(File, String)]): Seq[(File, String)] =
     mappings collect {
       case (f, p) =>
         if (f.exists) (f, p)
         else sys.error("Mapped file " + f + " does not exist.")
     }
-  }
 
   /** Finds all sources in a source directory. */
   private[this] def findSources(sourceDir: File): Seq[(File, String)] =
@@ -156,15 +149,8 @@ object UniversalDeployPlugin extends AutoPlugin {
   override def requires = UniversalPlugin
 
   override def projectSettings =
-    SettingsHelper.makeDeploymentSettings(Universal,
-                                          packageBin in Universal,
-                                          "zip") ++
-      SettingsHelper.addPackage(Universal,
-                                packageZipTarball in Universal,
-                                "tgz") ++
-      SettingsHelper.makeDeploymentSettings(UniversalDocs,
-                                            packageBin in UniversalDocs,
-                                            "zip") ++
-      SettingsHelper
-        .addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz")
+    SettingsHelper.makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
+      SettingsHelper.addPackage(Universal, packageZipTarball in Universal, "tgz") ++
+      SettingsHelper.makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
+      SettingsHelper.addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz")
 }

@@ -3,22 +3,8 @@ package packager
 package windows
 
 import sbt._
-import sbt.Keys.{
-  normalizedName,
-  name,
-  version,
-  sourceDirectory,
-  target,
-  mappings,
-  packageBin,
-  streams
-}
-import packager.Keys.{
-  packageName,
-  maintainer,
-  packageSummary,
-  packageDescription
-}
+import sbt.Keys.{mappings, name, normalizedName, packageBin, sourceDirectory, streams, target, version}
+import packager.Keys.{maintainer, packageDescription, packageName, packageSummary}
 import SbtNativePackager.Universal
 
 /**
@@ -158,9 +144,7 @@ object WindowsPlugin extends AutoPlugin {
     * @param mappings - use to generate different features
     * @return windows features
     */
-  def makeWindowsFeatures(
-      name: String,
-      mappings: Seq[(File, String)]): Seq[windows.WindowsFeature] = {
+  def makeWindowsFeatures(name: String, mappings: Seq[(File, String)]): Seq[windows.WindowsFeature] = {
     // TODO select main script!  Filter Config links!
     import windows._
 
@@ -210,6 +194,5 @@ object WindowsDeployPlugin extends AutoPlugin {
   override def requires = WindowsPlugin
 
   override def projectSettings =
-    SettingsHelper
-      .makeDeploymentSettings(Windows, packageBin in Windows, "msi")
+    SettingsHelper.makeDeploymentSettings(Windows, packageBin in Windows, "msi")
 }

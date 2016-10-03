@@ -4,24 +4,24 @@ import sbt._
 import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm}
 import com.typesafe.sbt.packager.Keys.{
-  packageName,
-  maintainerScripts,
   defaultLinuxStartScriptLocation,
+  killTimeout,
   linuxMakeStartScript,
-  linuxStartScriptTemplate,
+  linuxPackageMappings,
   linuxScriptReplacements,
   linuxStartScriptName,
-  linuxPackageMappings,
-  serverLoading,
-  serviceAutostart,
+  linuxStartScriptTemplate,
+  maintainerScripts,
+  packageName,
   requiredStartFacilities,
   requiredStopFacilities,
+  retries,
+  retryTimeout,
+  serverLoading,
+  serviceAutostart,
   startRunlevels,
   stopRunlevels,
-  termTimeout,
-  killTimeout,
-  retryTimeout,
-  retries
+  termTimeout
 }
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
@@ -57,9 +57,7 @@ object SystemloaderPlugin extends AutoPlugin {
     killTimeout := 5,
     termTimeout := 5,
     // add loader-functions to script replacements
-    linuxScriptReplacements += loaderFunctionsReplacement(
-      sourceDirectory.value,
-      serverLoading.value),
+    linuxScriptReplacements += loaderFunctionsReplacement(sourceDirectory.value, serverLoading.value),
     linuxScriptReplacements ++= makeStartScriptReplacements(
       requiredStartFacilities = requiredStartFacilities.value,
       requiredStopFacilities = requiredStopFacilities.value,
@@ -72,16 +70,14 @@ object SystemloaderPlugin extends AutoPlugin {
       loader = serverLoading.value
     ),
     // set the template
-    linuxStartScriptTemplate := linuxStartScriptUrl(sourceDirectory.value,
-                                                    serverLoading.value),
+    linuxStartScriptTemplate := linuxStartScriptUrl(sourceDirectory.value, serverLoading.value),
     // define task to generate the systemloader script
     linuxMakeStartScript := makeStartScript(
       linuxStartScriptTemplate.value,
       linuxScriptReplacements.value,
       (target in Universal).value,
       defaultLinuxStartScriptLocation.value,
-      linuxStartScriptName.value.getOrElse(
-        sys.error("`linuxStartScriptName` is not defined"))
+      linuxStartScriptName.value.getOrElse(sys.error("`linuxStartScriptName` is not defined"))
     )
   )
 
@@ -97,74 +93,64 @@ object SystemloaderPlugin extends AutoPlugin {
     inConfig(Debian)(
       Seq(
         // add automatic service start/stop
-        maintainerScripts := maintainerScriptsAppend(
-          maintainerScripts.value,
-          linuxScriptReplacements.value
-        )(
-          DebianConstants.Postinst -> s"""|# ${getOrUnsupported(
-                                           serverLoading.value)} support
+        maintainerScripts := maintainerScriptsAppend(maintainerScripts.value, linuxScriptReplacements.value)(
+          DebianConstants.Postinst -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                         |$${{loader-functions}}
-                                        |${addAndStartService(
-                                           serviceAutostart.value)}
+                                        |${addAndStartService(serviceAutostart.value)}
                                         |""".stripMargin,
-          DebianConstants.Prerm -> s"""|# ${getOrUnsupported(
-                                        serverLoading.value)} support
+          DebianConstants.Prerm -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                      |$${{loader-functions}}
                                      |stopService $${{app_name}} || echo "$${{app_name}} wasn't even running!"
                                      |""".stripMargin
         )
-      ))
+      )
+    )
 
   def rpmSettings: Seq[Setting[_]] =
-    inConfig(Rpm)(Seq(
-      // add automatic service start/stop
-      maintainerScripts in Rpm := maintainerScriptsAppend(
-        maintainerScripts.value,
-        linuxScriptReplacements.value
-      )(
-        RpmConstants.Post -> s"""|# ${getOrUnsupported(serverLoading.value)} support
+    inConfig(Rpm)(
+      Seq(
+        // add automatic service start/stop
+        maintainerScripts in Rpm := maintainerScriptsAppend(maintainerScripts.value, linuxScriptReplacements.value)(
+          RpmConstants.Post -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                  |$${{loader-functions}}
                                  |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
                                  |# $$1 == 1 is first installation and $$1 == 2 is upgrade
                                  |if [ $$1 -eq 1 ] ;
                                  |then
-                                 |${addAndStartService(serviceAutostart.value,
-                                                       "  ")}
+                                 |${addAndStartService(serviceAutostart.value, "  ")}
                                  |fi
                                  |""".stripMargin,
-        RpmConstants.Postun -> s"""|# ${getOrUnsupported(serverLoading.value)} support
+          RpmConstants.Postun -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                    |if [ $$1 -ge 1 ] ;
                                    |then
                                    |  restartService $${{app_name}} || echo "Failed to try-restart $${{app_name}}"
                                    |fi
                                    |""".stripMargin,
-        RpmConstants.Preun -> s"""|# ${getOrUnsupported(serverLoading.value)} support
+          RpmConstants.Preun -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                   |$${{loader-functions}}
                                   |if [ $$1 -eq 0 ] ;
                                   |then
                                   |  stopService $${{app_name}} || echo "Could not stop $${{app_name}}"
                                   |fi
                                   |""".stripMargin
+        )
       )
-    ))
+    )
 
-  private[this] def makeStartScriptReplacements(
-      requiredStartFacilities: Option[String],
-      requiredStopFacilities: Option[String],
-      startRunlevels: Option[String],
-      stopRunlevels: Option[String],
-      termTimeout: Int,
-      killTimeout: Int,
-      retries: Int,
-      retryTimeout: Int,
-      loader: Option[ServerLoader]
-  ): Seq[(String, String)] = {
+  private[this] def makeStartScriptReplacements(requiredStartFacilities: Option[String],
+                                                requiredStopFacilities: Option[String],
+                                                startRunlevels: Option[String],
+                                                stopRunlevels: Option[String],
+                                                termTimeout: Int,
+                                                killTimeout: Int,
+                                                retries: Int,
+                                                retryTimeout: Int,
+                                                loader: Option[ServerLoader]): Seq[(String, String)] = {
 
     // Upstart cannot handle empty values
     val (startOn, stopOn) = loader match {
       case Some(Upstart) =>
-        (requiredStartFacilities.map("start on started " + _),
-         requiredStopFacilities.map("stop on stopping " + _))
+        (requiredStartFacilities.map("start on started " + _), requiredStopFacilities.map("stop on stopping " + _))
       case _ => (requiredStartFacilities, requiredStopFacilities)
     }
     Seq(

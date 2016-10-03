@@ -15,10 +15,7 @@ debianPackageProvides in Debian := Seq("debian-test-package")
 
 TaskKey[Unit]("check-provides") <<= (target, streams) map { (target, out) =>
   val extracted = target / "extracted"
-  Seq("dpkg-deb",
-      "-R",
-      (target / "debian-test_0.1.0_all.deb").absolutePath,
-      extracted.absolutePath).!
+  Seq("dpkg-deb", "-R", (target / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
 
   val control = IO.read(extracted / "DEBIAN" / "control")
   assert(control.contains("Provides:"))

@@ -23,10 +23,7 @@ object JDKPackagerPlugin extends AutoPlugin {
     case object SwingToolkit extends JDKPackagerToolkit { val arg = "swing" }
     case object JavaFXToolkit extends JDKPackagerToolkit { val arg = "fx" }
 
-    case class FileAssociation(extension: String,
-                               mimetype: String,
-                               description: String,
-                               icon: Option[File] = None)
+    case class FileAssociation(extension: String, mimetype: String, description: String, icon: Option[File] = None)
   }
 
   import autoImport._
@@ -63,10 +60,7 @@ object JDKPackagerPlugin extends AutoPlugin {
           name.value,
           (stage in Universal).value,
           mappings.value,
-          platformDOM(
-            jdkPackagerJVMArgs.value,
-            jdkPackagerProperties.value
-          ),
+          platformDOM(jdkPackagerJVMArgs.value, jdkPackagerProperties.value),
           applicationDOM(
             name.value,
             version.value,
@@ -88,16 +82,8 @@ object JDKPackagerPlugin extends AutoPlugin {
             )
           )
         ),
-        writeAntBuild := writeAntFile(
-          target.value,
-          antBuildDefn.value,
-          streams.value
-        ),
-        packageBin := buildPackageWithAnt(
-          writeAntBuild.value,
-          target.value,
-          streams.value
-        )
+        writeAntBuild := writeAntFile(target.value, antBuildDefn.value, streams.value),
+        packageBin := buildPackageWithAnt(writeAntBuild.value, target.value, streams.value)
       )
     )
 
@@ -109,7 +95,5 @@ object JDKPackagerDeployPlugin extends AutoPlugin {
   override def requires = JDKPackagerPlugin
 
   override def projectSettings =
-    SettingsHelper.makeDeploymentSettings(JDKPackager,
-                                          packageBin in JDKPackager,
-                                          "jdkPackager")
+    SettingsHelper.makeDeploymentSettings(JDKPackager, packageBin in JDKPackager, "jdkPackager")
 }

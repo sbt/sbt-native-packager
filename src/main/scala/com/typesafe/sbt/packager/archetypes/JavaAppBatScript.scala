@@ -23,49 +23,30 @@ object JavaAppBatScript {
     } mkString ";") + "\""
   }
 
-  def makeMainClassDefine(mainClass: String) = {
+  def makeMainClassDefine(mainClass: String) =
     "set \"APP_MAIN_CLASS=" + mainClass + "\""
-  }
 
-  def makeDefines(defines: Seq[String],
-                  replacements: Seq[(String, String)]): String = {
+  def makeDefines(defines: Seq[String], replacements: Seq[(String, String)]): String =
     defines.map(replace(_, replacements)).mkString("\r\n")
-  }
 
-  def makeReplacements(
-      name: String,
-      mainClass: String,
-      appClasspath: Seq[String] = Seq("*"),
-      extras: Seq[String] = Nil
-  ): Seq[(String, String)] = {
-    val replacements = Seq(
-      "APP_NAME" -> name,
-      "APP_ENV_NAME" -> makeEnvFriendlyName(name)
-    )
-    val defines = Seq(
-        makeWindowsRelativeClasspathDefine(appClasspath),
-        makeMainClassDefine(mainClass)
-      ) ++ extras
+  def makeReplacements(name: String,
+                       mainClass: String,
+                       appClasspath: Seq[String] = Seq("*"),
+                       extras: Seq[String] = Nil): Seq[(String, String)] = {
+    val replacements = Seq("APP_NAME" -> name, "APP_ENV_NAME" -> makeEnvFriendlyName(name))
+    val defines = Seq(makeWindowsRelativeClasspathDefine(appClasspath), makeMainClassDefine(mainClass)) ++ extras
 
     replacements :+ "APP_DEFINES" -> makeDefines(defines, replacements)
   }
 
   // TODO - use more of the template writer for this...
-  def replace(line: String, replacements: Seq[(String, String)]): String = {
+  def replace(line: String, replacements: Seq[(String, String)]): String =
     replacements.foldLeft(line) {
       case (line, (key, value)) =>
-        line.replaceAll("@@" + key + "@@",
-                        java.util.regex.Matcher.quoteReplacement(value))
+        line.replaceAll("@@" + key + "@@", java.util.regex.Matcher.quoteReplacement(value))
     }
-  }
 
-  def generateScript(
-      replacements: Seq[(String, String)],
-      template: java.net.URL = bashTemplateSource
-  ): String =
-    TemplateWriter.generateScript(template,
-                                  replacements,
-                                  "\r\n",
-                                  TemplateWriter.batFriendlyKeySurround)
+  def generateScript(replacements: Seq[(String, String)], template: java.net.URL = bashTemplateSource): String =
+    TemplateWriter.generateScript(template, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
 
 }

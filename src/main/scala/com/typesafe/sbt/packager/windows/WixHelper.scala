@@ -7,54 +7,41 @@ import sbt._
 
 import collection.mutable.ArrayBuffer
 
-case class WindowsProductInfo(
-    id: String, // UUID of the package
-    title: String, // Human readable name of the package
-    version: String, // Windows version
-    maintainer: String,
-    description: String,
-    upgradeId: String, // UUID for upgrading
-    comments: String = "",
-    installScope: String = "perMachine",
-    installerVersion: String = "200",
-    compressed: Boolean = true
-)
+case class WindowsProductInfo(id: String, // UUID of the package
+                              title: String, // Human readable name of the package
+                              version: String, // Windows version
+                              maintainer: String,
+                              description: String,
+                              upgradeId: String, // UUID for upgrading
+                              comments: String = "",
+                              installScope: String = "perMachine",
+                              installerVersion: String = "200",
+                              compressed: Boolean = true)
 
 sealed trait FeatureComponent
 
 /** Define a new feature, that will be selectable in the default MSI. */
-case class WindowsFeature(
-    id: String,
-    title: String,
-    desc: String,
-    absent: String = "allow",
-    level: String = "1",
-    display: String = "collapse",
-    components: Seq[FeatureComponent] = Seq.empty
-) extends FeatureComponent
+case class WindowsFeature(id: String,
+                          title: String,
+                          desc: String,
+                          absent: String = "allow",
+                          level: String = "1",
+                          display: String = "collapse",
+                          components: Seq[FeatureComponent] = Seq.empty)
+    extends FeatureComponent
 
 /** Adds a file into a given windows feature. */
-case class ComponentFile(
-    source: String,
-    editable: Boolean = false
-) extends FeatureComponent
+case class ComponentFile(source: String, editable: Boolean = false) extends FeatureComponent
 
 /** Define wix namespace definitions, that depend on the major version of Wix tools **/
-case class NamespaceDefinitions(
-    majorVersionNumber: Int,
-    namespace: String,
-    utilExtension: String
-)
+case class NamespaceDefinitions(majorVersionNumber: Int, namespace: String, utilExtension: String)
 
 /**
   * Will add the directory to the windows path.  NOTE: Only one of these
   * per MSI.
   */
 case class AddDirectoryToPath(dir: String = "") extends FeatureComponent
-case class AddShortCuts(
-    target: Seq[String],
-    workingDir: String = "INSTALLDIR"
-) extends FeatureComponent
+case class AddShortCuts(target: Seq[String], workingDir: String = "INSTALLDIR") extends FeatureComponent
 
 // TODO - Shortcut as a component element.
 
@@ -79,13 +66,10 @@ object WixHelper {
         f <- features
         ComponentFile(name, _) <- f.components
       } yield allParentDirs(file(name))
-    val filenames = filenamesPrep.flatten
-      .map(_.toString.replaceAll("\\\\", "/"))
-      .filter(_ != "")
+    val filenames = filenamesPrep.flatten.map(_.toString.replaceAll("\\\\", "/")).filter(_ != "")
     // Now for directories...
-    def parentDir(filename: String) = {
+    def parentDir(filename: String) =
       filename take (filename lastIndexOf '/')
-    }
     def simpleName(filename: String) = {
       val lastSlash =
         if (filename contains '/') filename lastIndexOf '/'
@@ -112,8 +96,7 @@ object WixHelper {
         sys.error("Nested windows features currently unsupported!")
       case AddDirectoryToPath(dir) =>
         val dirRef = if (dir.isEmpty) "INSTALLDIR" else cleanStringForId(dir)
-        val homeEnvVar = archetypes.JavaAppBatScript
-            .makeEnvFriendlyName(name) + "_HOME"
+        val homeEnvVar = archetypes.JavaAppBatScript.makeEnvFriendlyName(name) + "_HOME"
         val pathAddition =
           if (dir.isEmpty) "%" + homeEnvVar + "%"
           else "[INSTALLDIR]" + dir.replaceAll("\\/", "\\\\")
@@ -130,10 +113,7 @@ object WixHelper {
         ComponentInfo(id, xml)
       case ComponentFile(name, editable) =>
         val uname = name.replaceAll("\\\\", "/")
-        val dir = parentDir(uname)
-          .replaceAll("//", "/")
-          .stripSuffix("/")
-          .stripSuffix("/")
+        val dir = parentDir(uname).replaceAll("//", "/").stripSuffix("/").stripSuffix("/")
         val dirRef = if (dir.isEmpty) "INSTALLDIR" else cleanStringForId(dir)
         val fname = simpleName(uname)
         val id = cleanStringForId(uname).takeRight(67) // Room for "fl_"
@@ -160,8 +140,7 @@ object WixHelper {
       // that we remove all menu items.
       case AddShortCuts(targets, workingDir) =>
         val targetSize = targets.size.toString.size
-        val id = cleanStringForId("shortcut_" + makeGUID)
-          .takeRight(67 - targetSize) // Room for "_SC"+incremental number
+        val id = cleanStringForId("shortcut_" + makeGUID).takeRight(67 - targetSize) // Room for "_SC"+incremental number
         val xml =
           <DirectoryRef Id="ApplicationProgramsFolder">
             <Component Id={ id } Guid={ makeGUID }>
@@ -242,12 +221,10 @@ object WixHelper {
     </xml:group>
   }
 
-  def makeWixConfig(
-      name: String, // package name
-      product: WindowsProductInfo,
-      namespaceDefinitions: NamespaceDefinitions,
-      rest: xml.Node
-  ): xml.Node = {
+  def makeWixConfig(name: String, // package name
+                    product: WindowsProductInfo,
+                    namespaceDefinitions: NamespaceDefinitions,
+                    rest: xml.Node): xml.Node =
     <Wix xmlns={ namespaceDefinitions.namespace } xmlns:util={ namespaceDefinitions.utilExtension }>
       <Product Id={ product.id } Name={ product.title } Language='1033' Version={ product.version } Manufacturer={ product.maintainer } UpgradeCode={ product.upgradeId }>
         <Package Description={ product.description } Comments={ product.comments } Manufacturer={ product.maintainer } InstallScope={ product.installScope } InstallerVersion={ product.installerVersion } Compressed={ if (product.compressed) "yes" else "no" }/>
@@ -255,13 +232,12 @@ object WixHelper {
         { rest }
       </Product>
     </Wix>
-  }
 
   /**
     * Wix namespace changed from major version 3 to 4.
     * TODO: Not sure if schema of 2006 is compatible with major versions < 3
     */
-  def getNameSpaceDefinitions(majorVersion: Int): NamespaceDefinitions = {
+  def getNameSpaceDefinitions(majorVersion: Int): NamespaceDefinitions =
     if (majorVersion <= 3)
       NamespaceDefinitions(
         majorVersion,
@@ -274,23 +250,18 @@ object WixHelper {
         namespace = "http://wixtoolset.org/schemas/v4/wxs",
         utilExtension = "http://wixtoolset.org/schemas/v4/wxs/util"
       )
-  }
 
   /**
     * Modifies a string to be Wix ID friendly by removing all the bad
     * characters and replacing with _.  Also limits the width to 70 (rather than
     * 72) so we can safely add a few later.
     */
-  def cleanStringForId(n: String) = {
-    n.replaceAll("[^0-9a-zA-Z_]", "_")
-      .takeRight(60) + (math.abs(n.hashCode).toString + "xxxxxxxxx")
-      .substring(0, 9)
-  }
+  def cleanStringForId(n: String) =
+    n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(60) + (math.abs(n.hashCode).toString + "xxxxxxxxx").substring(0, 9)
 
   /** Cleans a file name for the Wix pre-processor.  Every $ should be doubled. */
-  def cleanFileName(n: String) = {
+  def cleanFileName(n: String) =
     n.replaceAll("\\$", "\\$\\$").replaceAll("\\/", "\\\\")
-  }
 
   /** Takes a file and generates an ID for it. */
   def makeIdFromFile(f: File) = cleanStringForId(f.getName)
@@ -303,12 +274,9 @@ object WixHelper {
     *         and the second is the Directory/File/Component XML.
     */
   @deprecated("Use higher level abstraction", "6/28/13")
-  def generateComponentsAndDirectoryXml(
-      dir: File,
-      id_prefix: String = ""): (Seq[String], scala.xml.Node) = {
+  def generateComponentsAndDirectoryXml(dir: File, id_prefix: String = ""): (Seq[String], scala.xml.Node) = {
     def makeId(f: File) =
-      cleanStringForId(IO
-        .relativize(dir, f) map (id_prefix +) getOrElse (id_prefix + f.getName))
+      cleanStringForId(IO.relativize(dir, f) map (id_prefix +) getOrElse (id_prefix + f.getName))
     def handleFile(f: File): (Seq[String], scala.xml.Node) = {
       val id = makeId(f)
       val xml = (

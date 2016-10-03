@@ -32,31 +32,28 @@ lazy val iconGlob = sys.props("os.name").toLowerCase match {
 jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob).getPaths.headOption
   .map(file)
 
-TaskKey[Unit]("checkImage") <<= (target in JDKPackager, name, streams) map {
-  (base, name, streams) ⇒
-    val (extension, os) = sys.props("os.name").toLowerCase match {
-      case osys if osys.contains("mac") ⇒ (".app", 'mac)
-      case osys if osys.contains("win") ⇒ (".exe", 'windows)
-      case _ ⇒ ("", 'linux)
-    }
-    val expectedImage = base / "bundles" / (name + extension)
-    println(s"Checking for '${expectedImage.getAbsolutePath}'")
-    assert(expectedImage.exists,
-           s"Expected image file to be found at '$expectedImage'")
+TaskKey[Unit]("checkImage") <<= (target in JDKPackager, name, streams) map { (base, name, streams) ⇒
+  val (extension, os) = sys.props("os.name").toLowerCase match {
+    case osys if osys.contains("mac") ⇒ (".app", 'mac)
+    case osys if osys.contains("win") ⇒ (".exe", 'windows)
+    case _ ⇒ ("", 'linux)
+  }
+  val expectedImage = base / "bundles" / (name + extension)
+  println(s"Checking for '${expectedImage.getAbsolutePath}'")
+  assert(expectedImage.exists, s"Expected image file to be found at '$expectedImage'")
 
-    val files = os match {
-      case 'mac ⇒
-        Seq(
-          expectedImage / "Contents" / "Java" / "README.md",
-          expectedImage / "Contents" / "Java" / "stuff" / "something-1.md",
-          expectedImage / "Contents" / "Java" / "stuff" / "something-2.md"
-        )
-      case _ ⇒
-        streams.log.warn(
-          "Test needs to be implemented for " + sys.props("os.name"))
-        Seq.empty
-    }
+  val files = os match {
+    case 'mac ⇒
+      Seq(
+        expectedImage / "Contents" / "Java" / "README.md",
+        expectedImage / "Contents" / "Java" / "stuff" / "something-1.md",
+        expectedImage / "Contents" / "Java" / "stuff" / "something-2.md"
+      )
+    case _ ⇒
+      streams.log.warn("Test needs to be implemented for " + sys.props("os.name"))
+      Seq.empty
+  }
 
-    println(s"Checking for ${files.map(_.getName).mkString(", ")}")
-    files.foreach(f ⇒ assert(f.exists, "Expected to find " + f))
+  println(s"Checking for ${files.map(_.getName).mkString(", ")}")
+  files.foreach(f ⇒ assert(f.exists, "Expected to find " + f))
 }

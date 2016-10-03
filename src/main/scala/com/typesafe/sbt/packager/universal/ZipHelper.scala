@@ -21,9 +21,7 @@ import scala.collection.JavaConverters._
   * @see http://docs.oracle.com/javase/7/docs/technotes/guides/io/fsp/zipfilesystemprovider.html
   */
 object ZipHelper {
-  case class FileMapping(file: File,
-                         name: String,
-                         unixMode: Option[Int] = None)
+  case class FileMapping(file: File, name: String, unixMode: Option[Int] = None)
 
   /**
     * Creates a zip file attempting to give files the appropriate unix permissions using Java 6 APIs.
@@ -42,8 +40,7 @@ object ZipHelper {
         (src, target) <- files
         if src.canExecute
       } target.setExecutable(true, true)
-      val dirFileNames = Option(zipDir.listFiles) getOrElse Array
-          .empty[java.io.File] map (_.getName)
+      val dirFileNames = Option(zipDir.listFiles) getOrElse Array.empty[java.io.File] map (_.getName)
       Process(Seq("zip", "-r", name) ++ dirFileNames, zipDir).! match {
         case 0 => ()
         case n => sys.error("Failed to run native zip application!")
@@ -81,8 +78,7 @@ object ZipHelper {
     * @param outputZip The location of the output file.
     */
   def zipNIO(sources: Traversable[(File, String)], outputZip: File): Unit = {
-    require(!outputZip.isDirectory,
-            "Specified output file " + outputZip + " is a directory.")
+    require(!outputZip.isDirectory, "Specified output file " + outputZip + " is a directory.")
     val mappings = sources.toSeq.map {
       case (file, name) => FileMapping(file, name)
     }
@@ -105,7 +101,7 @@ object ZipHelper {
     }
   }
 
-  private def archive(sources: Seq[FileMapping], outputFile: File): Unit = {
+  private def archive(sources: Seq[FileMapping], outputFile: File): Unit =
     if (outputFile.isDirectory)
       sys.error("Specified output file " + outputFile + " is a directory.")
     else {
@@ -123,13 +119,11 @@ object ZipHelper {
         }
       }
     }
-  }
 
   /**
     * using apache commons compress
     */
-  private def withZipOutput(file: File)(
-      f: ZipArchiveOutputStream => Unit): Unit = {
+  private def withZipOutput(file: File)(f: ZipArchiveOutputStream => Unit): Unit = {
     val zipOut = new ZipArchiveOutputStream(file)
     zipOut setLevel Deflater.BEST_COMPRESSION
     try { f(zipOut) } finally {
@@ -159,8 +153,7 @@ object ZipHelper {
     * @param f: FileSystem => Unit, logic working in the filesystem
     * @see http://stackoverflow.com/questions/9873845/java-7-zip-file-system-provider-doesnt-seem-to-accept-spaces-in-uri
     */
-  def withZipFilesystem(zipFile: File, overwrite: Boolean = true)(
-      f: FileSystem => Unit) {
+  def withZipFilesystem(zipFile: File, overwrite: Boolean = true)(f: FileSystem => Unit) {
     if (overwrite) Files deleteIfExists zipFile.toPath
     val env = Map("create" -> "true").asJava
     val uri = new URI("jar", zipFile.toPath.toUri().toString(), null)

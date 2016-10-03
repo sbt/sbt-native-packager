@@ -12,9 +12,7 @@ libraryDependencies ++= Seq(
   "org.apache.ant" % "ant" % "1.9.6",
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "3.5.13" % "provided",
-  "org.vafer" % "jdeb" % "1.3" % "provided" artifacts (Artifact("jdeb",
-                                                                "jar",
-                                                                "jar")),
+  "org.vafer" % "jdeb" % "1.3" % "provided" artifacts (Artifact("jdeb", "jar", "jar")),
   "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 )
 
@@ -39,9 +37,7 @@ releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
   runTest,
-  releaseStepInputTask(
-    scripted,
-    " universal/* debian/* rpm/* docker/* ash/* jar/* bash/* jdkpackager/*"),
+  releaseStepInputTask(scripted, " universal/* debian/* rpm/* docker/* ash/* jar/* bash/* jdkpackager/*"),
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
@@ -57,24 +53,4 @@ bintrayOrganization := Some("sbt")
 bintrayRepository := "sbt-plugin-releases"
 
 // scalafmt
-
-//ScalariformKeys.preferences := ScalariformKeys.preferences.value
-//  .setPreference(AlignParameters, false)
-//  .setPreference(FormatXml, true)
-//  .setPreference(SpaceInsideBrackets, false)
-//  .setPreference(IndentWithTabs, false)
-//  .setPreference(SpaceInsideParentheses, false)
-//  .setPreference(MultilineScaladocCommentsStartOnFirstLine, false)
-//  .setPreference(AlignSingleLineCaseStatements, true)
-//  .setPreference(CompactStringConcatenation, false)
-//  .setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, false)
-//  .setPreference(IndentPackageBlocks, true)
-//  .setPreference(CompactControlReadability, false)
-//  .setPreference(SpacesWithinPatternBinders, true)
-//  .setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, 40)
-//  .setPreference(DoubleIndentClassDeclaration, false)
-//  .setPreference(PreserveSpaceBeforeArguments, false)
-//  .setPreference(SpaceBeforeColon, false)
-//  .setPreference(RewriteArrowSymbols, false)
-//  .setPreference(IndentLocalDefs, false)
-//  .setPreference(IndentSpaces, 2)
+scalafmtConfig := Some(file(".scalafmt.conf"))

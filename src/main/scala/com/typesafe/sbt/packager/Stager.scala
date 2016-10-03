@@ -18,9 +18,7 @@ object Stager {
     *
     * }}}
     */
-  def stageFiles(config: String)(cacheDirectory: File,
-                                 stageDirectory: File,
-                                 mappings: Seq[(File, String)]): File = {
+  def stageFiles(config: String)(cacheDirectory: File, stageDirectory: File, mappings: Seq[(File, String)]): File = {
     val cache = cacheDirectory / ("packager-mappings-" + config)
     val copies = mappings map {
       case (file, path) => file -> (stageDirectory / path)
@@ -38,10 +36,7 @@ object Stager {
   /**
     * @see stageFiles
     */
-  def stage(config: String)(streams: TaskStreams,
-                            stageDirectory: File,
-                            mappings: Seq[(File, String)]): File = {
+  def stage(config: String)(streams: TaskStreams, stageDirectory: File, mappings: Seq[(File, String)]): File =
     stageFiles(config)(streams.cacheDirectory, stageDirectory, mappings)
-  }
 
 }

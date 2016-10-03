@@ -5,23 +5,16 @@ package debian
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import com.typesafe.sbt.packager.universal.Archives
 import sbt._
-import sbt.Keys.{
-  target,
-  normalizedName,
-  version,
-  streams,
-  mappings,
-  packageBin
-}
-import linux.{LinuxSymlink, LinuxPackageMapping, LinuxFileMetaData}
+import sbt.Keys.{mappings, normalizedName, packageBin, streams, target, version}
+import linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink}
 import linux.LinuxPlugin.autoImport.{
   linuxPackageMappings,
   linuxPackageSymlinks,
-  packageArchitecture,
-  linuxScriptReplacements
+  linuxScriptReplacements,
+  packageArchitecture
 }
 import scala.collection.JavaConversions._
-import org.vafer.jdeb.{DebMaker, DataProducer}
+import org.vafer.jdeb.{DataProducer, DebMaker}
 import org.vafer.jdeb.mapping._
 import org.vafer.jdeb.producers._
 import DebianPlugin.{Names}
@@ -53,19 +46,13 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       target.value / Names.DebianMaintainerScripts / Names.Conffiles
     },
     // FIXME copied from the debian plugin. Java7 posix needed
-    debianControlFile <<= (debianPackageMetadata,
-                           debianPackageInstallSize,
-                           target) map { (data, size, dir) =>
+    debianControlFile <<= (debianPackageMetadata, debianPackageInstallSize, target) map { (data, size, dir) =>
       if (data.info.description == null || data.info.description.isEmpty) {
-        sys.error(
-          """packageDescription in Debian cannot be empty. Use
-                 packageDescription in Debian := "My package Description""""
-        )
+        sys.error("""packageDescription in Debian cannot be empty. Use
+                 packageDescription in Debian := "My package Description"""")
       }
       val cfile = dir / Names.DebianMaintainerScripts / Names.Control
-      IO.write(cfile,
-               data.makeContent(size),
-               java.nio.charset.Charset.defaultCharset)
+      IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
       cfile
     },
     /**
@@ -93,14 +80,11 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
       log.info("Building debian package with java based implementation 'jdeb'")
       val console = new JDebConsole(log)
-      val archive = archiveFilename(normalizedName.value,
-                                    version.value,
-                                    packageArchitecture.value)
+      val archive = archiveFilename(normalizedName.value, version.value, packageArchitecture.value)
       val debianFile = targetDir.getParentFile / archive
       val debMaker = new DebMaker(
         console,
-        fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(
-          symlinks),
+        fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks),
         conffileProducers(mappings, targetDir)
       )
       debMaker setDepends ""
@@ -119,10 +103,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     * The same as [[DebianPluginLike.copyAndFixPerms]] except chmod invocation (for windows compatibility).
     * Permissions will be handled by jDeb packager itself.
     */
-  private[this] def copyFiles(from: File,
-                              to: File,
-                              perms: LinuxFileMetaData,
-                              zipped: Boolean = false): Unit = {
+  private[this] def copyFiles(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit =
     if (zipped) {
       IO.withTemporaryDirectory { dir =>
         val tmp = dir / from.getName
@@ -131,7 +112,6 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         IO.copyFile(zipped, to, true)
       }
     } else IO.copyFile(from, to, true)
-  }
 
   /**
     * The same as [[DebianPluginLike.filterAndFixPerms]] except chmod invocation (for windows compatibility).
@@ -154,43 +134,26 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     * May create duplicates together with the conffileProducers.
     * This will be an performance improvement (reducing IO)
     */
-  private[debian] def fileAndDirectoryProducers(
-      mappings: Seq[LinuxPackageMapping],
-      target: File): Seq[DataProducer] =
+  private[debian] def fileAndDirectoryProducers(mappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] =
     mappings.map {
       case LinuxPackageMapping(paths, perms, zipped) =>
         paths map {
           // Directories need to be created so jdeb can pick them up
           case (path, name) if path.isDirectory =>
-            val permMapper = new PermMapper(-1,
-                                            -1,
-                                            perms.user,
-                                            perms.group,
-                                            null,
-                                            perms.permissions,
-                                            -1,
-                                            null)
+            val permMapper = new PermMapper(-1, -1, perms.user, perms.group, null, perms.permissions, -1, null)
             (target / cleanPath(name)) mkdirs ()
-            new DataProducerDirectory(target,
-                                      Array(cleanPath(name)),
-                                      null,
-                                      Array(permMapper))
+            new DataProducerDirectory(target, Array(cleanPath(name)), null, Array(permMapper))
 
           // Files are just referenced
           case (path, name) =>
-            new DataProducerFile(path,
-                                 cleanPath(name),
-                                 null,
-                                 null,
-                                 Array(filePermissions(perms)))
+            new DataProducerFile(path, cleanPath(name), null, null, Array(filePermissions(perms)))
         }
     }.flatten
 
   /**
     * Creating link producers for symlinks.
     */
-  private[debian] def linkProducers(
-      symlinks: Seq[LinuxSymlink]): Seq[DataProducer] = symlinks map {
+  private[debian] def linkProducers(symlinks: Seq[LinuxSymlink]): Seq[DataProducer] = symlinks map {
     case LinuxSymlink(link, destination) =>
       new DataProducerLink(link, destination, true, null, null, null)
   }
@@ -198,21 +161,14 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
   /**
     * Creating the files which should be added as conffiles.
     */
-  private[debian] def conffileProducers(
-      linuxMappings: Seq[LinuxPackageMapping],
-      target: File): Seq[DataProducer] = {
+  private[debian] def conffileProducers(linuxMappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] = {
 
     val producers = linuxMappings map {
-      case mapping @ LinuxPackageMapping(mappings, perms, _)
-          if perms.config == "true" =>
+      case mapping @ LinuxPackageMapping(mappings, perms, _) if perms.config == "true" =>
         mappings collect {
           case (path, name) if path.isFile =>
             val permMapper = filePermissions(perms.withPerms("0644"))
-            new DataProducerFile(path,
-                                 cleanPath(name),
-                                 null,
-                                 null,
-                                 Array(permMapper))
+            new DataProducerFile(path, cleanPath(name), null, null, Array(permMapper))
         }
       case _ => Seq.empty
     }
@@ -224,14 +180,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     if (path startsWith "/") path drop 1 else path
 
   private[this] def filePermissions(perms: LinuxFileMetaData): PermMapper =
-    new PermMapper(-1,
-                   -1,
-                   perms.user,
-                   perms.group,
-                   perms.permissions,
-                   null,
-                   -1,
-                   null)
+    new PermMapper(-1, -1, perms.user, perms.group, perms.permissions, null, -1, null)
 
 }
 

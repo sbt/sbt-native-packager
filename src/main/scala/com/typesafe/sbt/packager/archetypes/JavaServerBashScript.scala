@@ -35,17 +35,14 @@ object JavaServerBashScript {
     * @param replacements - default replacements
     * @param template - if specified, it will override the default one
     */
-  def apply(
-      script: String,
-      archetype: String,
-      config: Configuration,
-      replacements: Seq[(String, String)],
-      template: Option[URL] = None
-  ): Option[String] = {
+  def apply(script: String,
+            archetype: String,
+            config: Configuration,
+            replacements: Seq[(String, String)],
+            template: Option[URL] = None): Option[String] = {
     // use template or else search for a default
     val url = template orElse {
-      Option(
-        getClass getResource s"$archetype/${config.name}/$script-template")
+      Option(getClass getResource s"$archetype/${config.name}/$script-template")
     }
     // if an url was found, create the script
     url map {
@@ -59,17 +56,12 @@ object JavaServerLoaderScript {
 
   val LOADER_FUNCTIONS = "loader-functions"
 
-  def apply(script: String,
-            archetype: String,
-            loader: ServerLoader,
-            template: Option[File]): URL = {
+  def apply(script: String, archetype: String, loader: ServerLoader, template: Option[File]): URL =
     template flatMap {
       case file if file.exists => Some(file.toURI.toURL)
       case _ =>
         Option(getClass getResource templatePath(script, loader, archetype))
-    } getOrElse (sys.error(
-      s"Could not find init [$script] for system [$loader] in archetype [$archetype]"))
-  }
+    } getOrElse (sys.error(s"Could not find init [$script] for system [$loader] in archetype [$archetype]"))
 
   /**
     * Loads the [[com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader]] specific "functions" resource,
@@ -82,16 +74,13 @@ object JavaServerLoaderScript {
     * @param script - default is "functions"
     * @return functions - addService/stopService with resolved variables
     */
-  def loaderFunctionsReplacement(
-      loader: ServerLoader,
-      archetype: String,
-      script: String = LOADER_FUNCTIONS): (String, String) = {
+  def loaderFunctionsReplacement(loader: ServerLoader,
+                                 archetype: String,
+                                 script: String = LOADER_FUNCTIONS): (String, String) = {
     val source = getClass.getResource(templatePath(script, loader, archetype))
     LOADER_FUNCTIONS -> TemplateWriter.generateScript(source, Nil)
   }
 
-  def templatePath(script: String,
-                   loader: ServerLoader,
-                   archetype: String): String =
+  def templatePath(script: String, loader: ServerLoader, archetype: String): String =
     archetype + "/systemloader/" + loader.toString + "/" + script
 }

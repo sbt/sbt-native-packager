@@ -4,11 +4,7 @@ name := "simple-test"
 
 version := "0.1.0"
 
-javaOptions in Universal ++= Seq(
-  "-J-Xmx64m",
-  "-J-Xms64m",
-  "-Dproperty=true"
-)
+javaOptions in Universal ++= Seq("-J-Xmx64m", "-J-Xms64m", "-Dproperty=true")
 
 TaskKey[Unit]("check") := {
   val application = (target in Universal).value / "tmp" / "conf" / "application.ini"

@@ -17,8 +17,7 @@ import scala.xml.Elem
 object JDKPackagerAntHelper {
 
   /** Attempts to compute the path to the `javapackager` tool. */
-  private[jdkpackager] def locateAntTasks(javaHome: Option[File],
-                                          logger: Logger): Option[File] = {
+  private[jdkpackager] def locateAntTasks(javaHome: Option[File], logger: Logger): Option[File] = {
     val jarname = "ant-javafx.jar"
 
     // This approach to getting JDK bits is borrowed from: http://stackoverflow.com/a/25163628/296509
@@ -64,9 +63,7 @@ object JDKPackagerAntHelper {
   type PlatformDOM = Elem
 
   /** Creates the `<fx:platform>` definition. */
-  private[jdkpackager] def platformDOM(
-      jvmArgs: Seq[String],
-      properties: Map[String, String]): PlatformDOM =
+  private[jdkpackager] def platformDOM(jvmArgs: Seq[String], properties: Map[String, String]): PlatformDOM =
     // format: OFF
     <fx:platform id="platform" javafx="8+" j2se="8+">
     {
@@ -85,13 +82,11 @@ object JDKPackagerAntHelper {
   type ApplicationDOM = Elem
 
   /** Create the `<fx:application>` definition. */
-  private[jdkpackager] def applicationDOM(
-      name: String,
-      version: String,
-      mainClass: Option[String],
-      toolkit: JDKPackagerToolkit,
-      appArgs: Seq[String]
-  ): ApplicationDOM =
+  private[jdkpackager] def applicationDOM(name: String,
+                                          version: String,
+                                          mainClass: Option[String],
+                                          toolkit: JDKPackagerToolkit,
+                                          appArgs: Seq[String]): ApplicationDOM =
     // format: OFF
     <fx:application id="app"
                     name={name}
@@ -109,13 +104,11 @@ object JDKPackagerAntHelper {
   type InfoDOM = Elem
 
   /** Create the `<fx:info>` definition. */
-  private[jdkpackager] def infoDOM(
-      name: String,
-      description: String,
-      maintainer: String,
-      iconPath: Option[File],
-      associations: Seq[FileAssociation]
-  ): InfoDOM =
+  private[jdkpackager] def infoDOM(name: String,
+                                   description: String,
+                                   maintainer: String,
+                                   iconPath: Option[File],
+                                   associations: Seq[FileAssociation]): InfoDOM =
     // format: OFF
     <fx:info id="info" title={name} description={description} vendor={maintainer}>
       {
@@ -134,13 +127,11 @@ object JDKPackagerAntHelper {
   type DeployDOM = Elem
 
   /** Create the `<fx:deploy>` definition. */
-  private[jdkpackager] def deployDOM(
-      basename: String,
-      packageType: String,
-      mainJar: File,
-      outputDir: File,
-      infoDOM: InfoDOM
-  ): DeployDOM =
+  private[jdkpackager] def deployDOM(basename: String,
+                                     packageType: String,
+                                     mainJar: File,
+                                     outputDir: File,
+                                     infoDOM: InfoDOM): DeployDOM =
     // format: OFF
     <fx:deploy outdir={outputDir.getAbsolutePath}
                outfile={basename}
@@ -173,16 +164,14 @@ object JDKPackagerAntHelper {
     *
     * see: https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html
     */
-  private[jdkpackager] def makeAntBuild(
-      antTaskLib: Option[File],
-      antExtraClasspath: Seq[File],
-      name: String,
-      sourceDir: File,
-      mappings: Seq[(File, String)],
-      platformDOM: PlatformDOM,
-      applicationDOM: ApplicationDOM,
-      deployDOM: DeployDOM
-  ): BuildDOM = {
+  private[jdkpackager] def makeAntBuild(antTaskLib: Option[File],
+                                        antExtraClasspath: Seq[File],
+                                        name: String,
+                                        sourceDir: File,
+                                        mappings: Seq[(File, String)],
+                                        platformDOM: PlatformDOM,
+                                        applicationDOM: ApplicationDOM,
+                                        deployDOM: DeployDOM): BuildDOM = {
 
     if (antTaskLib.isEmpty) {
       sys.error(
@@ -229,8 +218,7 @@ object JDKPackagerAntHelper {
     * @param output output directory
     * @return generated file location
     */
-  private[jdkpackager] def findResult(output: File,
-                                      s: TaskStreams): Option[File] = {
+  private[jdkpackager] def findResult(output: File, s: TaskStreams): Option[File] = {
     // Oooof. Need to do better than this to determine what was generated.
     val globs =
       Seq("*.dmg", "*.pkg", "*.app", "*.msi", "*.exe", "*.deb", "*.rpm")
@@ -241,9 +229,7 @@ object JDKPackagerAntHelper {
   }
 
   /** Serialize the Ant DOM to `build.xml`. */
-  private[jdkpackager] def writeAntFile(outdir: File,
-                                        dom: xml.Node,
-                                        s: TaskStreams) = {
+  private[jdkpackager] def writeAntFile(outdir: File, dom: xml.Node, s: TaskStreams) = {
     if (!outdir.exists()) IO.createDirectory(outdir)
     val out = outdir / "build.xml"
     scala.xml.XML.save(out.getAbsolutePath, dom, "UTF-8", xmlDecl = true)
@@ -252,11 +238,7 @@ object JDKPackagerAntHelper {
   }
 
   /** Build package via Ant build.xml definition. */
-  private[jdkpackager] def buildPackageWithAnt(
-      buildXML: File,
-      target: File,
-      s: TaskStreams
-  ): File = {
+  private[jdkpackager] def buildPackageWithAnt(buildXML: File, target: File, s: TaskStreams): File = {
     import org.apache.tools.ant.{Project ⇒ AntProject}
 
     val ap = new AntProject

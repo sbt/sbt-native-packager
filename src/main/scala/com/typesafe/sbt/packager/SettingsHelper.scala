@@ -12,19 +12,20 @@ object SettingsHelper {
                  classifier: Option[String] = None): Seq[Setting[_]] =
     inConfig(config)(
       addArtifact(
-        name apply (Artifact(_,
-                             extension,
-                             extension,
-                             classifier = classifier,
-                             configurations = Iterable.empty,
-                             url = None,
-                             extraAttributes = Map.empty)),
+        name apply (Artifact(
+          _,
+          extension,
+          extension,
+          classifier = classifier,
+          configurations = Iterable.empty,
+          url = None,
+          extraAttributes = Map.empty
+        )),
         packageTask
-      ))
+      )
+    )
 
-  def makeDeploymentSettings(config: Configuration,
-                             packageTask: TaskKey[File],
-                             extension: String): Seq[Setting[_]] =
+  def makeDeploymentSettings(config: Configuration, packageTask: TaskKey[File], extension: String): Seq[Setting[_]] =
     (inConfig(config)(Classpaths.publishSettings)) ++ inConfig(config)(
       Seq(
         artifacts := Seq.empty,
@@ -38,15 +39,11 @@ object SettingsHelper {
         ivyModule <<= (ivySbt, moduleSettings) map { (i, s) =>
           new i.Module(s)
         },
-        deliverLocalConfiguration <<= (crossTarget, ivyLoggingLevel) map {
-          (outDir, level) =>
-            Classpaths.deliverConfig(outDir, logging = level)
+        deliverLocalConfiguration <<= (crossTarget, ivyLoggingLevel) map { (outDir, level) =>
+          Classpaths.deliverConfig(outDir, logging = level)
         },
         deliverConfiguration <<= deliverLocalConfiguration,
-        publishConfiguration <<= (packagedArtifacts,
-                                  checksums,
-                                  publishTo,
-                                  isSnapshot) map {
+        publishConfiguration <<= (packagedArtifacts, checksums, publishTo, isSnapshot) map {
           (as, checks, publishTo, isSnap) =>
             new PublishConfiguration(
               ivyFile = None,
@@ -57,18 +54,16 @@ object SettingsHelper {
               overwrite = isSnap
             )
         },
-        publishLocalConfiguration <<= (packagedArtifacts,
-                                       checksums,
-                                       isSnapshot) map {
-          (as, checks, isSnap) =>
-            new PublishConfiguration(
-              ivyFile = None,
-              resolverName = "local",
-              artifacts = as,
-              checksums = checks,
-              logging = UpdateLogging.DownloadOnly,
-              overwrite = isSnap
-            )
+        publishLocalConfiguration <<= (packagedArtifacts, checksums, isSnapshot) map { (as, checks, isSnap) =>
+          new PublishConfiguration(
+            ivyFile = None,
+            resolverName = "local",
+            artifacts = as,
+            checksums = checks,
+            logging = UpdateLogging.DownloadOnly,
+            overwrite = isSnap
+          )
         }
-      )) ++ addPackage(config, packageTask, extension)
+      )
+    ) ++ addPackage(config, packageTask, extension)
 }

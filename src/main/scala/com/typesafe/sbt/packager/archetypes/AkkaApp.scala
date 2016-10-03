@@ -3,7 +3,7 @@ package packager
 package archetypes
 
 import sbt._
-import sbt.Keys.{target, sourceDirectory}
+import sbt.Keys.{sourceDirectory, target}
 
 import packager.Keys.{executableScriptName}
 import SbtNativePackager.Universal
@@ -48,15 +48,12 @@ object AkkaAppPackaging extends AutoPlugin with JavaAppStartScript {
   import JavaAppPackaging.autoImport._
 
   private def settings: Seq[Setting[_]] = Seq(
-    makeBashScript <<= (bashScriptDefines,
-                        target in Universal,
-                        executableScriptName,
-                        sourceDirectory) map makeUniversalBinScript(
-      bashTemplate),
-    makeBatScript <<= (batScriptReplacements,
-                       target in Universal,
-                       executableScriptName,
-                       sourceDirectory) map makeUniversalBatScript(batTemplate)
+    makeBashScript <<= (bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBinScript(
+      bashTemplate
+    ),
+    makeBatScript <<= (batScriptReplacements, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBatScript(
+      batTemplate
+    )
   )
 
 }

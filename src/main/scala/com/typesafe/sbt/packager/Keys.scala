@@ -8,25 +8,16 @@ import sbt._
   */
 trait NativePackagerKeys {
 
-  val packageName = SettingKey[String](
-    "packageName",
-    "Name of the created output package. Used for dirs/scripts.")
-  val packageSummary = SettingKey[String](
-    "package-summary",
-    "Summary of the contents of a linux package.")
-  val packageDescription = SettingKey[String](
-    "package-description",
-    "The description of the package.  Used when searching.")
-  val maintainer = SettingKey[String](
-    "maintainer",
-    "The name/email address of a maintainer for the native package.")
+  val packageName = SettingKey[String]("packageName", "Name of the created output package. Used for dirs/scripts.")
+  val packageSummary = SettingKey[String]("package-summary", "Summary of the contents of a linux package.")
+  val packageDescription =
+    SettingKey[String]("package-description", "The description of the package.  Used when searching.")
+  val maintainer = SettingKey[String]("maintainer", "The name/email address of a maintainer for the native package.")
 
   val executableScriptName =
     SettingKey[String]("executableScriptName", "Name of the executing script.")
 
-  val maintainerScripts = TaskKey[Map[String, Seq[String]]](
-    "maintainerScripts",
-    "Scriptname to content lines")
+  val maintainerScripts = TaskKey[Map[String, Seq[String]]]("maintainerScripts", "Scriptname to content lines")
 
 }
 

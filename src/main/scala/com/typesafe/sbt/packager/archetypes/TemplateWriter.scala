@@ -33,24 +33,16 @@ object TemplateWriter {
   def batFriendlyKeySurround(key: String) =
     "@@" + key + "@@"
 
-  private def replace(
-      line: String,
-      replacements: Seq[(String, String)],
-      keySurround: String => String
-  ): String = {
+  private def replace(line: String, replacements: Seq[(String, String)], keySurround: String => String): String =
     replacements.foldLeft(line) {
       case (line, (key, value)) =>
-        keySurround(key).r
-          .replaceAllIn(line, java.util.regex.Matcher.quoteReplacement(value))
+        keySurround(key).r.replaceAllIn(line, java.util.regex.Matcher.quoteReplacement(value))
     }
-  }
 
-  private def replaceValues(
-      lines: Seq[String],
-      replacements: Seq[(String, String)],
-      eol: String,
-      keySurround: String => String
-  ): String = {
+  private def replaceValues(lines: Seq[String],
+                            replacements: Seq[(String, String)],
+                            eol: String,
+                            keySurround: String => String): String = {
     val sb = new StringBuilder
     for (line <- lines) {
       sb append replace(line, replacements, keySurround)
@@ -59,33 +51,26 @@ object TemplateWriter {
     sb toString
   }
 
-  private[this] def replaceValues(
-      lines: Seq[String],
-      replacements: Seq[(String, String)],
-      keySurround: String => String): Seq[String] = {
+  private[this] def replaceValues(lines: Seq[String],
+                                  replacements: Seq[(String, String)],
+                                  keySurround: String => String): Seq[String] =
     lines.map(line => replace(line, replacements, keySurround))
-  }
 
-  def generateScript(
-      source: java.net.URL,
-      replacements: Seq[(String, String)],
-      eol: String = "\n",
-      keySurround: String => String = bashFriendlyKeySurround,
-      charset: java.nio.charset.Charset = defaultCharset
-  ): String = {
+  def generateScript(source: java.net.URL,
+                     replacements: Seq[(String, String)],
+                     eol: String = "\n",
+                     keySurround: String => String = bashFriendlyKeySurround,
+                     charset: java.nio.charset.Charset = defaultCharset): String = {
     val lines = sbt.IO.readLinesURL(source, charset)
     replaceValues(lines, replacements, eol, keySurround)
   }
 
-  def generateScriptFromString(
-      source: String,
-      replacements: Seq[(String, String)],
-      eol: String = "\n",
-      keySurround: String => String = bashFriendlyKeySurround,
-      charset: java.nio.charset.Charset = defaultCharset
-  ): String = {
+  def generateScriptFromString(source: String,
+                               replacements: Seq[(String, String)],
+                               eol: String = "\n",
+                               keySurround: String => String = bashFriendlyKeySurround,
+                               charset: java.nio.charset.Charset = defaultCharset): String =
     replaceValues(source split eol, replacements, eol, keySurround)
-  }
 
   /**
     * @param lines
@@ -93,12 +78,9 @@ object TemplateWriter {
     * @param keySurround defaults to bashFriendlyKeySurround
     * @param charset defaults to UTF-8
     */
-  def generateScriptFromLines(
-      lines: Seq[String],
-      replacements: Seq[(String, String)],
-      keySurround: String => String = bashFriendlyKeySurround,
-      charset: java.nio.charset.Charset = defaultCharset
-  ): Seq[String] = {
+  def generateScriptFromLines(lines: Seq[String],
+                              replacements: Seq[(String, String)],
+                              keySurround: String => String = bashFriendlyKeySurround,
+                              charset: java.nio.charset.Charset = defaultCharset): Seq[String] =
     replaceValues(lines, replacements, keySurround)
-  }
 }

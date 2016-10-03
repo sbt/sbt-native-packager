@@ -1,20 +1,20 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
 import sbt._
-import sbt.Keys.{target, sourceDirectory}
+import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm}
 import com.typesafe.sbt.packager.Keys.{
-  serverLoading,
-  linuxStartScriptTemplate,
+  defaultLinuxStartScriptLocation,
+  killTimeout,
   linuxMakeStartScript,
   linuxPackageMappings,
   linuxStartScriptName,
-  defaultLinuxStartScriptLocation,
+  linuxStartScriptTemplate,
   requiredStartFacilities,
   requiredStopFacilities,
+  serverLoading,
   startRunlevels,
   stopRunlevels,
-  killTimeout,
   termTimeout
 }
 import com.typesafe.sbt.packager.debian.DebianPlugin
@@ -57,7 +57,8 @@ object SystemVPlugin extends AutoPlugin {
           serverLoading.value,
           "start-debian-template"
         )
-      ))
+      )
+    )
 
   def rpmSettings: Seq[Setting[_]] =
     inConfig(Rpm)(
@@ -68,6 +69,7 @@ object SystemVPlugin extends AutoPlugin {
           serverLoading.value,
           "start-rpm-template"
         )
-      ))
+      )
+    )
 
 }

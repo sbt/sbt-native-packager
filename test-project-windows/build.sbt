@@ -1,15 +1,10 @@
 name := "test-project-windows"
 version := "0.2.0"
-libraryDependencies ++= Seq(
-  "com.typesafe" % "config" % "1.2.1"
-)
+libraryDependencies ++= Seq("com.typesafe" % "config" % "1.2.1")
 
 mainClass in Compile := Some("ExampleApp")
 
-enablePlugins(JavaServerAppPackaging,
-              WindowsPlugin,
-              SystemdPlugin,
-              UniversalPlugin)
+enablePlugins(JavaServerAppPackaging, WindowsPlugin, SystemdPlugin, UniversalPlugin)
 
 // import com.typesafe.sbt.packager.Keys._
 // import com.typesafe.sbt.packager.windows.WindowsPlugin
@@ -31,10 +26,6 @@ version := "0.0.0.0"
 packageDescription := """ Some useful description here """
 
 // these settings are conflicting
-javaOptions in Universal ++= Seq(
-  "-J-Xmx64m",
-  "-J-Xms64m",
-  "-jvm-debug 12345"
-)
+javaOptions in Universal ++= Seq("-J-Xmx64m", "-J-Xms64m", "-jvm-debug 12345")
 
 //bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts")
