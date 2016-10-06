@@ -215,7 +215,7 @@ object DockerPlugin extends AutoPlugin {
     * @return if ports are exposed the EXPOSE command
     */
   private final def makeExposePorts(exposedPorts: Seq[Int], exposedUdpPorts: Seq[Int]): Option[CmdLike] =
-    if (exposedPorts.isEmpty) None
+    if (exposedPorts.isEmpty && exposedUdpPorts.isEmpty) None
     else
       Some(
         Cmd("EXPOSE", (exposedPorts.map(_.toString) ++ exposedUdpPorts.map(_.toString).map(_ + "/udp")) mkString " ")
