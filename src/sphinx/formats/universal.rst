@@ -158,6 +158,12 @@ If you want to force local for the `tgz` output add this line:
   universalArchiveOptions in (Universal, packageZipTarball) := Seq("--force-local", "-pcvf")
 
 This will set the cli options for the `packageZipTarball` task in the `Universal` plugin to use the options ``--force-local`` and ``pcvf``.
+Be aware that the above line will overwrite the default options.  You may want to prepend your options, doing something like:
+
+.. code-block:: scala
+
+  universalArchiveOptions in (Universal, packageZipTarball) :=
+    (Seq("--exclude", "*~") ++ (universalArchiveOptions in (Universal, packageZipTarball)).value)
 
 Currently, these task can be customized:
 
