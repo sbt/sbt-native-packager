@@ -65,7 +65,7 @@ object SystemVPlugin extends AutoPlugin {
       Seq(
         // set the template
         linuxStartScriptTemplate := linuxStartScriptUrl(
-          (sourceDirectory in Compile).value,
+          sourceDirectory.value,
           serverLoading.value,
           "start-rpm-template"
         )
