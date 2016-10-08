@@ -65,13 +65,16 @@ Core Concepts
 Native packager is based on a few simple concepts. If you understand these, you will be able to customize your build,
 create own packaging formats and deploy more effectively.
 
-The first concept is the separation of concerns in two plugin kinds.
+1. **Separation of concerns** of the two plugin kinds
 
-- :ref:`format plugins <packaging-formats>` define **how** a package is created
-- :ref:`archetype plugins <archetypes>` define **what** a package should contain
+    - :ref:`format plugins <packaging-formats>` define **how** a package is created
+    - :ref:`archetype plugins <archetypes>` define **what** a package should contain
 
-The second concept are ``mappings``. Mappings are a ``Seq[(File, String)]``, which translates to "a list of tuples,
-where each tuple defines a source file that gets mapped to a path on the target system".
+
+2. **Mappings** define how your build files should be organized on the target system.
+
+    ``Mappings`` are a ``Seq[(File, String)]``, which translates to "a list of tuples,  where each tuple defines a source file that gets mapped to a path on the target system".
+
 
 The following sections describe these concepts in more detail.
 
@@ -92,25 +95,29 @@ Format plugins provide the implementation to create package, the **how** a packa
 3. Implement package task
     The ``packageBin`` or ``publishLocal`` ( docker ) task provides the actual action to create a package.
 
-By enabling only a format plugin with
+By enabling a format plugin only with
 
 .. code-block:: scala
 
     enablePlugins(SomePackageFormatPlugin)
 
-the resulting package will be empty as a format plugin doesn't provide any configuration other than the default settings
+the resulting package will be empty because a format plugin doesn't provide any configuration other than the default settings
 for the format plugin's specific settings.
 
 
 Archetype Plugins
 ~~~~~~~~~~~~~~~~~
 
-While format plugins provide the **how**, archetypes provide the **what** gets packaged. They don't add configuration
-scopes, but change the configuration in all supported package format scopes. A full list of archetypes can be found
-:ref:`here <archetypes>`. An archetype may provide the following:
+While format plugins provide the **how**, archetypes provide the **what** gets packaged. An archetype changes the configuration in all supported package format scopes; they don't add configuration
+scopes.
 
-1. New, archetype related settings and tasks
-2. New files in your package
+A full list of archetypes can be found
+:ref:`here <archetypes>`.
+
+
+An archetype may provide the following:
+    1. New, archetype related settings and tasks
+    2. New files in your package
 
 By enabling an archetype plugin with
 
@@ -142,7 +149,7 @@ mappings <universal-plugin-getting-started-with-packaging>`.
 Architecture
 ~~~~~~~~~~~~
 
-Native packagers architecture can be summarized with this diagram
+The architecture can be summarized with this diagram
 
 .. image:: /static/sbt-native-packager-design.svg
     :alt: Architecture diagram.

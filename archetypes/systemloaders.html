@@ -165,6 +165,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -213,7 +215,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#customize">Customize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-image-name-and-version">Docker Image Name and Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-base-image">Docker Base Image</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-repository">Docker Repository</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-image-customization">Docker Image Customization</a></li>
@@ -453,7 +455,7 @@ you should require the <code class="docutils literal"><span class="pre">Systemlo
 <dt><code class="docutils literal"><span class="pre">serverLoading</span></code></dt>
 <dd>Loading system to be used for application start script (SystemV, Upstart, Systemd).
 This setting can be used to trigger systemloader specific behaviour in your build.</dd>
-<dt><code class="docutils literal"><span class="pre">serverAutostart</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">serviceAutostart</span></code></dt>
 <dd>Determines if service will be automatically started after installation.  The default value is true.</dd>
 <dt><code class="docutils literal"><span class="pre">startRunlevels</span></code></dt>
 <dd>Sequence of runlevels on which application will start up</dd>

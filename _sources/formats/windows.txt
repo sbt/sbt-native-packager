@@ -3,12 +3,12 @@
 Windows Plugin
 ==============
 
-The windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package,
+Windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package,
 it's important to understand how WIX works.  http://wix.tramontana.co.hu/ is an excellent tutorial
 to how to create packages using wix.
 
 However, the native-packager provides a simple layer on top of wix that *may* be enough for most projects.
-If it is not, just override ``wixConfig`` or ``wixFile`` settings.  Let's look at the layer above direct
+If it is not enough, just override ``wixConfig`` or ``wixFile`` settings.  Let's look at the layer above direct
 xml configuration.
 
 .. note:: The windows plugin depends on the :ref:`universal-plugin`.
@@ -58,9 +58,9 @@ Enables the windows plugin
 0.8 or lower
 ~~~~~~~~~~~~
 
-For this versions windows packaging is automatically activated.
+For these versions windows packaging is automatically activated.
 See the :doc:`Getting Started </gettingstarted>` page for information
-on how to enable sbt native packager.
+on how to enable sbt-native-packager.
 
 Configuration
 -------------
@@ -92,13 +92,15 @@ Settings
     The GUID to use to identify the windows package/product.
 
   ``wixProductUpgradeId``
-    The GUID to use to identify the windows package/product *upgrade* identifier (see wix docs).
+    The GUID to use to identify the windows package/product *upgrade* identifier (`See the wix docs on upgrades`_).
+
+.. _See the wix docs on upgrades: http://wixtoolset.org/documentation/manual/v3/howtos/updates/major_upgrade.html
 
   ``wixPackageInfo``
     The information used to autoconstruct the ``<Product><Package/>`` portion of the wix xml.  **Note: unused if ``wixConfig`` is overridden**
 
   ``wixProductLicense``
-    An (optional) ``rtf`` file to display as the product license during installation.  Default to looking for ``src/windows/License.rtf``
+    An (optional) ``rtf`` file to display as the product license during installation.  Defaults to ``src/windows/License.rtf``
 
   ``wixFeatures``
     A set of windows features that users can install with this package.  **Note: unused if ``wixConfig`` is overridden**
@@ -114,7 +116,7 @@ Settings
 
   ``mappings in packageMsi in Windows``
     A list of file->location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a ``cab`` or embedded ``cab`` for the ``msi``.
-    The WIX xml should use the relative locations in this mappings when references files for the package.
+    The WIX xml should use the relative locations in this mappings when referencing files for the package.
 
 Tasks
 -----
@@ -159,7 +161,7 @@ like a set of files or menu links. The currently supported components of feature
 
 To create a new feature, simple instantiate the ``WindowsFeature`` class with the desired feature components that are included.
 
-Here's an example feature that installs a binary and a script, as well as path settings:
+Here's an example feature that installs a binary file (`cool.jar`) and a script (`cool.bat`), and adds a directory to the PATH:
 
 .. code-block:: scala
 
@@ -173,7 +175,7 @@ Here's an example feature that installs a binary and a script, as well as path s
           AddDirectoryToPath("bin"))
     )
 
-All file references should line up exactly with those found in the ``mappings in Windows`` configuration.   When generating an MSI, the plugin will first create
+All file references should line up exactly with those found in the ``mappings in Windows`` configuration.   When generating a MSI, the plugin will first create
 a directory using all the ``mappings in Windows`` and configure this for inclusion in a ``cab`` file.  If you'd like to add files to include, these must *first*
 be added to the mappings, and then to a feature.   For example, if we complete the above setting to include file mappings, we'd have the following:
 
@@ -194,4 +196,4 @@ be added to the mappings, and then to a feature.   For example, if we complete t
     )
 
 Right now this layer is *very* limited in what it can accomplish, and hasn't been heavily debugged.  If you're interested in helping contribute, please
-do so!   However, for most command line tools, it should be sufficient for generating a basic ``msi`` that windows users can install.
+do so!   However, for most command line tools, it should be sufficient for generating a basic ``msi`` that Windows users can install.

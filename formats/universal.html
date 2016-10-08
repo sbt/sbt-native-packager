@@ -165,6 +165,8 @@
 <li class="toctree-l3"><a class="reference internal" href="debian.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debian.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -213,7 +215,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="docker.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docker.html#customize">Customize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name-and-version">Docker Image Name and Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-base-image">Docker Base Image</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-repository">Docker Repository</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-customization">Docker Image Customization</a></li>
@@ -435,9 +437,9 @@
             
   <div class="section" id="universal-plugin">
 <span id="id1"></span><h1>Universal Plugin<a class="headerlink" href="#universal-plugin" title="Permalink to this headline">¶</a></h1>
-<p>Universal packaging just takes a plain <code class="docutils literal"><span class="pre">mappings</span></code> configuration and generates various
-package files for distribution.  It allows you to provide your users a distribution
-that is not tied to any particular platform, but may require manual labor to set up.</p>
+<p>The Universal Plugin creates a generic, or &#8220;universal&#8221; distribution package.  This is called &#8220;universal packaging.&#8221;  Universal packaging just takes a plain <code class="docutils literal"><span class="pre">mappings</span></code> configuration and generates various
+package files in the output format specified.  Because it creates a distribution
+that is not tied to any particular platform it may require manual labor (more work from your users) to correctly install and set up.</p>
 <div class="section" id="related-plugins">
 <h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -448,7 +450,7 @@ that is not tied to any particular platform, but may require manual labor to set
 </div>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<p>Depending on what package format you want to use, you need one of the following applications installed</p>
+<p>Depending on what output format you want to use, you need one of the following applications installed</p>
 <ul class="simple">
 <li>zip (if native)</li>
 <li>gzip</li>
@@ -480,7 +482,7 @@ that is not tied to any particular platform, but may require manual labor to set
 </div></blockquote>
 <div class="section" id="required-settings">
 <h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
-<p>A universal has no mandatory fields.</p>
+<p>The Universal Plugin has no mandatory fields.</p>
 <p>Enable the universal plugin</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">UniversalPlugin</span><span class="o">)</span>
 </pre></div>
@@ -501,6 +503,7 @@ that is not tied to any particular platform, but may require manual labor to set
 <dd>For creating bundles of source.</dd>
 </dl>
 </div></blockquote>
+<p>Here is how the values for <code class="docutils literal"><span class="pre">name</span></code> and <code class="docutils literal"><span class="pre">packageName</span></code> are used by the three configurations:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="n">name</span><span class="o">.</span><span class="n">value</span>
 
 <span class="n">name</span> <span class="n">in</span> <span class="nc">UniversalDocs</span> <span class="o">&lt;&lt;=</span> <span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span>
@@ -513,8 +516,8 @@ that is not tied to any particular platform, but may require manual labor to set
 </div>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<p>As we showed before, the Universal packages are completely configured through the use of the mappings key.  Simply
-specify the desired mappings for a given configuration.  For Example:</p>
+<p>As we showed before, the universal packages are completely configured through the use of mappings.  Simply
+specify the desired mappings for a given configuration.  For example:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;+=</span> <span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="n">map</span> <span class="o">{</span> <span class="n">p</span> <span class="k">=&gt;</span> <span class="n">p</span> <span class="o">-&gt;</span> <span class="s">&quot;lib/foo.jar&quot;</span> <span class="o">}</span>
 </pre></div>
 </div>
@@ -560,8 +563,13 @@ If you want to force local for the <cite>tgz</cite> output add this line:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">universalArchiveOptions</span> <span class="n">in</span> <span class="o">(</span><span class="nc">Universal</span><span class="o">,</span> <span class="n">packageZipTarball</span><span class="o">)</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;--force-local&quot;</span><span class="o">,</span> <span class="s">&quot;-pcvf&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>This will set the cli options for the <cite>packageZipTarball</cite> task in the <cite>Universal</cite> plugin to the following sequence.
-Currently these task can be customized</p>
+<p>This will set the cli options for the <cite>packageZipTarball</cite> task in the <cite>Universal</cite> plugin to use the options <code class="docutils literal"><span class="pre">--force-local</span></code> and <code class="docutils literal"><span class="pre">pcvf</span></code>.
+Be aware that the above line will overwrite the default options.  You may want to prepend your options, doing something like:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">universalArchiveOptions</span> <span class="n">in</span> <span class="o">(</span><span class="nc">Universal</span><span class="o">,</span> <span class="n">packageZipTarball</span><span class="o">)</span> <span class="o">:=</span>
+  <span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;--exclude&quot;</span><span class="o">,</span> <span class="s">&quot;*~&quot;</span><span class="o">)</span> <span class="o">++</span> <span class="o">(</span><span class="n">universalArchiveOptions</span> <span class="n">in</span> <span class="o">(</span><span class="nc">Universal</span><span class="o">,</span> <span class="n">packageZipTarball</span><span class="o">)).</span><span class="n">value</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Currently, these task can be customized:</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">universal:package-zip-tarball</span></code></dt>
@@ -574,8 +582,9 @@ Currently these task can be customized</p>
 <div class="section" id="getting-started-with-universal-packaging">
 <span id="universal-plugin-getting-started-with-packaging"></span><h3>Getting Started with Universal Packaging<a class="headerlink" href="#getting-started-with-universal-packaging" title="Permalink to this headline">¶</a></h3>
 <p>By default, all files found in the <code class="docutils literal"><span class="pre">src/universal</span></code> directory are included in the distribution.  So, the first step
-in creating a a distribution is to place files in this directory in the layout you would like in the distributed zip file.</p>
-<p>To add build generated files to the distribution, simple add a <em>mapping</em> to the <code class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span></code> setting.  Let&#8217;s
+in creating a a distribution is to place files in this directory and organize them as you&#8217;d like in them to be in the distributed package.
+If your output format is a zip file, for example, although the distribution will consist of just one zip file, the files and directories within that zip file will reflect the same organization and structure as <code class="docutils literal"><span class="pre">src/universal</span></code>.</p>
+<p>To add files generated by the build task to a distribution, simply add a <em>mapping</em> to the <code class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span></code> setting.  Let&#8217;s
 look at an example where we add the packaged jar of a project to the lib folder of a distribution:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;+=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="n">jar</span> <span class="k">=&gt;</span>
   <span class="n">jar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">jar</span><span class="o">.</span><span class="n">getName</span><span class="o">)</span>
@@ -587,7 +596,7 @@ look at an example where we add the packaged jar of a project to the lib folder 
 <li>It depends on <code class="docutils literal"><span class="pre">packageBin</span> <span class="pre">in</span> <span class="pre">Compile</span></code> which will generate a jar file form the project.</li>
 <li>It creates a <em>mapping</em> (a <code class="docutils literal"><span class="pre">Tuple2[File,</span> <span class="pre">String]</span></code>) which denotes the file and the location in the distribution as a string.</li>
 </ol>
-<p>You can use this to add anything you desire to the package.</p>
+<p>You can use this to pattern to add anything you desire to the package.</p>
 <p><strong>Note</strong></p>
 <blockquote>
 <div>If you are using an <code class="docutils literal"><span class="pre">application</span> <span class="pre">archetype</span></code> or the <code class="docutils literal"><span class="pre">playframework</span></code>, the jar mapping is already defined and
@@ -638,7 +647,8 @@ conf/
 </pre></div>
 </div>
 <p>The <code class="docutils literal"><span class="pre">mapGenericFilesToWindows</span></code> will construct an MSI that installs the application in <code class="docutils literal"><span class="pre">&lt;Platform</span> <span class="pre">Program</span> <span class="pre">Files&gt;\&lt;Package</span> <span class="pre">Name&gt;</span></code> and include
-the <code class="docutils literal"><span class="pre">bin</span></code> directory on Windows <code class="docutils literal"><span class="pre">PATH</span></code> environment variable (optionally disabled).  While these mappings provide a great start to nice packaging, it still
+the <code class="docutils literal"><span class="pre">bin</span></code> directory on Windows <code class="docutils literal"><span class="pre">PATH</span></code> environment variable (optionally disabled).</p>
+<p>While these mappings provide a great start to nice packaging, it still
 may be necessary to customize the native packaging for each platform.   This can be done by configuring those settings directly.</p>
 <p>For example, even using generic mapping, debian has a requirement for changelog files to be fully formed.  Using the above generic mapping, we can configure just this
 changelog in addition to the generic packaging by first defining a changelog in <code class="docutils literal"><span class="pre">src/debian/changelog</span></code> and then adding the following setting:</p>
@@ -649,7 +659,8 @@ changelog in addition to the generic packaging by first defining a changelog in 
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Notice how we&#8217;re <em>only</em> modifying the package mappings for Debian linux packages.  For more information on the
+<p>Notice how we&#8217;re <em>only</em> modifying the package mappings for Debian linux packages.</p>
+<p>For more information on the
 underlying packaging settings, see <a class="reference internal" href="windows.html#windows-plugin"><span>Windows Plugin</span></a> and <a class="reference internal" href="linux.html#linux-plugin"><span>Linux Plugin</span></a> documentation.</p>
 </div>
 <div class="section" id="change-remove-top-level-directory-in-output">
@@ -672,7 +683,7 @@ top level directory completely use the <cite>topLevelDirectory</cite> setting.</
 </div>
 <div class="section" id="skip-packagedoc-task-on-stage">
 <h3>Skip packageDoc task on stage<a class="headerlink" href="#skip-packagedoc-task-on-stage" title="Permalink to this headline">¶</a></h3>
-<p>The stage task forces <em>javadoc.jar</em> build, which could slow down <code class="docutils literal"><span class="pre">stage</span></code> tasks performance. In order to deactivate
+<p>The <code class="docutils literal"><span class="pre">stage</span></code> task forces a <em>javadoc.jar</em> build, which could slow down <code class="docutils literal"><span class="pre">stage</span></code> tasks performance. In order to deactivate
 this behaviour, add this to your <code class="docutils literal"><span class="pre">build.sbt</span></code></p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="o">(</span><span class="nc">Compile</span><span class="o">,</span> <span class="n">packageDoc</span><span class="o">)</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">()</span>
 </pre></div>
@@ -706,37 +717,61 @@ this behaviour, add this to your <code class="docutils literal"><span class="pre
 </div>
 <div class="section" id="mapping-examples">
 <h3>Mapping Examples<a class="headerlink" href="#mapping-examples" title="Permalink to this headline">¶</a></h3>
-<p>SBT provides and IO and <a class="reference external" href="http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html">Path</a> API, which
-lets you define custom mappings easily. The files will appear in the generate universal zip, but also in your
+<p>SBT provides the <a class="reference external" href="http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html">IO</a> and <a class="reference external" href="http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html">Path</a> APIs, which
+help make defining custom mappings easy. The files will appear in the generate universal zip, but also in your
 debian/rpm/msi/dmg builds as described above in the conventions.</p>
-<p>The <code class="docutils literal"><span class="pre">packageBin</span> <span class="pre">in</span> <span class="pre">Compile</span></code> dependency is only needed, if your files get generated
+<p>The <code class="docutils literal"><span class="pre">packageBin</span> <span class="pre">in</span> <span class="pre">Compile</span></code> dependency is only needed if your files get generated
 during the <code class="docutils literal"><span class="pre">packageBin</span></code> command or before. For static files you can remove it.</p>
 <div class="section" id="mapping-a-complete-directory">
 <h4>Mapping a complete directory<a class="headerlink" href="#mapping-a-complete-directory" title="Permalink to this headline">¶</a></h4>
+<p>There are some helper methods so you can create a mapping for a complete directory:</p>
+<p>For static content, you can just add the directory to the mapping:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">directory</span><span class="o">(</span><span class="s">&quot;SomeDirectoryNameToInclude&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>If you want to add everything in a directory where the path for the directory is dynamic, e.g. the <code class="docutils literal"><span class="pre">scala-2.10/api</span></code> directory that is nested under in the <code class="docutils literal"><span class="pre">target</span></code> directory, and <code class="docutils literal"><span class="pre">target</span></code> is defined in a task:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span> <span class="o">++</span> <span class="n">directory</span><span class="o">(</span><span class="n">target</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>You can also use the following approach if, for example, you need more flexibility:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">target</span> <span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">target</span><span class="o">)</span> <span class="k">=&gt;</span>
     <span class="k">val</span> <span class="n">dir</span> <span class="k">=</span> <span class="n">target</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span>
     <span class="o">(</span><span class="n">dir</span><span class="o">.***)</span> <span class="n">pair</span> <span class="n">relativeTo</span><span class="o">(</span><span class="n">dir</span><span class="o">.</span><span class="n">getParentFile</span><span class="o">)</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>This maps the <code class="docutils literal"><span class="pre">api</span></code> folder directly to the generate universal zip. <code class="docutils literal"><span class="pre">dir.***</span></code> is a short way for
-<code class="docutils literal"><span class="pre">dir</span> <span class="pre">**</span> <span class="pre">&quot;*&quot;</span></code>, which means _select all files including <em>dir</em>. <code class="docutils literal"><span class="pre">relativeTo(dir.getParentFile)</span></code>
-generates a function with a <code class="docutils literal"><span class="pre">file</span> <span class="pre">-&gt;</span> <span class="pre">Option[String]</span></code> mapping, which tries to generate a relative
-string path from <code class="docutils literal"><span class="pre">dir.getParentFile</span></code> to the passed in file. <code class="docutils literal"><span class="pre">pair</span></code> uses the <code class="docutils literal"><span class="pre">relativeTo</span></code>
-function to generate a mapping <code class="docutils literal"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">String</span></code>, which is <em>your file</em> to <em>relative destination</em>.</p>
-<p>It exists some helper methods to map a complete directory in more human readable way.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">//For dynamic content, e.g. something in the target directory which depends on a Task</span>
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">target</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">target</span><span class="o">)</span> <span class="k">=&gt;</span>
-  <span class="n">directory</span><span class="o">(</span><span class="n">target</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span><span class="o">)</span>
-<span class="o">}</span>
-
-<span class="c1">//For static content it can be added to mappings directly</span>
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">directory</span><span class="o">(</span><span class="s">&quot;SomeResourcesToInclude&quot;</span><span class="o">)</span>
+<p>Here is what happens in this code:</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">dir.***</span></code> is a <a class="reference external" href="http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html#path-finders">PathFinder</a> method that creates a sequence of every file under a directory, <em>including the directory itself.</em></p>
+<p><code class="docutils literal"><span class="pre">relativeTo()</span></code>  returns a String that is the path relative to whatever you pass to it.</p>
+<p><code class="docutils literal"><span class="pre">dir.getParentFile</span></code>  returns the parent of <code class="docutils literal"><span class="pre">dir</span></code>.  In this example, it&#8217;s the parent directory of whatever <code class="docutils literal"><span class="pre">target</span></code> is.</p>
+<p><code class="docutils literal"><span class="pre">pair</span></code> is a <a class="reference external" href="http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html#path-finders">PathFinder</a> method that takes a function and applies it to every file (in the sequence), and returns a <em>(file, function-result)</em> tuple.</p>
+</div></blockquote>
+<p>Putting it all together, this creates a map of every file under <code class="docutils literal"><span class="pre">target/scala-2.10/api</span></code> (including the directory <code class="docutils literal"><span class="pre">target/scala-2.10/api</span></code> itself)
+with a string that is the path to the parent of <code class="docutils literal"><span class="pre">target</span></code>.  This is a mapping for every file and a string that tells the universal packager where it is located.</p>
+<p>For example:</p>
+<p>if target = <code class="docutils literal"><span class="pre">/Users/you/dev/fantasticApp/src/scala/fantasticApp-0.1-HOTFIX01</span></code></p>
+<p>and
+<code class="docutils literal"><span class="pre">fantasticApp-0.1-HOTFIX01/scala-2.10/api/</span></code> contains the files</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>somedata.csv
+README
 </pre></div>
 </div>
+<p>Then the code above will produce this mapping:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>((/Users/you/dev/fantasticApp/src/scala/fantasticApp-0.1-HOTFIX01,fantasticApp-0.1-HOTFIX01),
+
+(/Users/you/dev/fantasticApp/src/scala/fantasticApp-0.1-HOTFIX01/README,fantasticApp-0.1-HOTFIX01/README),
+
+(//Users/you/dev/fantasticApp/src/scala/fantasticApp-0.1-HOTFIX01/somedata.csv,fantasticApp-0.1-HOTFIX01/somedata.csv))
+</pre></div>
 </div>
-<div class="section" id="mapping-the-content-of-a-directory">
-<h4>Mapping the content of a directory<a class="headerlink" href="#mapping-the-content-of-a-directory" title="Permalink to this headline">¶</a></h4>
+<p>Note that the first item of each pair is the full path to where the file exists on the system <code class="docutils literal"><span class="pre">/Users/you.....</span></code>, and the
+second part is the just the path starting after <code class="docutils literal"><span class="pre">.../scala</span></code>.  That second part is what is returned from
+<code class="docutils literal"><span class="pre">&lt;each</span> <span class="pre">file&gt;.relativeTo(dir.getParentFile)</span></code>.</p>
+</div>
+<div class="section" id="mapping-the-content-of-a-directory-excluding-the-directory-itself">
+<h4>Mapping the content of a directory (excluding the directory itself)<a class="headerlink" href="#mapping-the-content-of-a-directory-excluding-the-directory-itself" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">target</span> <span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">target</span><span class="o">)</span> <span class="k">=&gt;</span>
     <span class="k">val</span> <span class="n">dir</span> <span class="k">=</span> <span class="n">target</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span>
     <span class="o">(</span><span class="n">dir</span><span class="o">.***</span> <span class="o">---</span> <span class="n">dir</span><span class="o">)</span> <span class="n">pair</span> <span class="n">relativeTo</span><span class="o">(</span><span class="n">dir</span><span class="o">)</span>
@@ -747,7 +782,7 @@ function to generate a mapping <code class="docutils literal"><span class="pre">
 </div>
 <div class="section" id="filter-remove-mappings">
 <h4>Filter/Remove mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this headline">¶</a></h4>
-<p>If you want to remove mappings, you have to filter the current list of mappings.
+<p>If you want to remove mappings, you have to <a class="reference external" href="https://twitter.github.io/scala_school/collections.html#filter">filter</a> the current list of mappings.
 This example demonstrates how to build a fat jar with sbt-assembly, but using all
 the convenience of the sbt native packager archetypes.</p>
 <p>tl;dr how to remove stuff</p>
@@ -756,11 +791,14 @@ the convenience of the sbt native packager archetypes.</p>
     <span class="c1">// universalMappings: Seq[(File,String)]</span>
     <span class="k">val</span> <span class="n">universalMappings</span> <span class="k">=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
     <span class="k">val</span> <span class="n">fatJar</span> <span class="k">=</span> <span class="o">(</span><span class="n">assembly</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span>
+
     <span class="c1">// removing means filtering</span>
+    <span class="c1">// notice the &quot;!&quot; - it means NOT, so only keep those that do NOT have a name ending with &quot;jar&quot;</span>
     <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">universalMappings</span> <span class="n">filter</span> <span class="o">{</span>
         <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="o">!</span> <span class="n">name</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;.jar&quot;</span><span class="o">)</span>
     <span class="o">}</span>
-    <span class="c1">// add the fat jar</span>
+
+    <span class="c1">// add the fat jar to our sequence of things that we&#39;ve filtered</span>
     <span class="n">filtered</span> <span class="o">:+</span> <span class="o">(</span><span class="n">fatJar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">fatJar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
 <span class="o">}</span>
 

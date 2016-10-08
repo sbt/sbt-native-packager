@@ -164,6 +164,8 @@
 <li class="toctree-l3"><a class="reference internal" href="debian.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debian.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -212,7 +214,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="docker.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docker.html#customize">Customize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name-and-version">Docker Image Name and Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-base-image">Docker Base Image</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-repository">Docker Repository</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-customization">Docker Image Customization</a></li>
@@ -432,7 +434,7 @@
             
   <div class="section" id="packaging-formats">
 <span id="id1"></span><h1>Packaging Formats<a class="headerlink" href="#packaging-formats" title="Permalink to this headline">¶</a></h1>
-<p>There is a plugin for each packaging format, native-packager supports. These plugins can rely on each other to reuse
+<p>There is a plugin for each packaging format that native-packager supports. These plugins can rely on each other to reuse
 existing functionality. Currently the autoplugin hierarchy looks like this</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>          SbtNativePackager
                 +
@@ -450,8 +452,9 @@ Docker    +-+ Linux +-+       Windows     JDKPackager
         Debian       RPM
 </pre></div>
 </div>
-<p>If you enable the <code class="docutils literal"><span class="pre">DebianPlugin</span></code> all dependend plugins will be enabled as well (<code class="docutils literal"><span class="pre">LinuxPlugin</span></code>, <code class="docutils literal"><span class="pre">UniversalPlugin</span></code>
-and <code class="docutils literal"><span class="pre">SbtNativePackager</span></code>). Each packaging format defines its own scope for settings and tasks, so you can customize
+<p>If you enable the <code class="docutils literal"><span class="pre">DebianPlugin</span></code> all plugins that depend on the <code class="docutils literal"><span class="pre">DebianPlugin</span></code> will be enabled as well (<code class="docutils literal"><span class="pre">LinuxPlugin</span></code>, <code class="docutils literal"><span class="pre">UniversalPlugin</span></code>
+and <code class="docutils literal"><span class="pre">SbtNativePackager</span></code>).</p>
+<p>Each packaging format defines its own scope for settings and tasks, so you can customize
 your build on a packaging level. The settings and tasks must be explicitly inherited. For the <code class="docutils literal"><span class="pre">mappings</span></code> task this
 looks like this</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
@@ -460,8 +463,8 @@ looks like this</p>
 <p>To learn more about a specific plugin, read the appropriate doc.</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last">You may also need to read the docs of the dependent plugins. We recommend always to read the
-<a class="reference internal" href="universal.html#universal-plugin"><span>Universal Plugin</span></a> documentation as all plugins rely on this one.</p>
+<p class="last">You may also need to read the docs of the dependent plugins. We recommend always that you read the
+<a class="reference internal" href="universal.html#universal-plugin"><span>Universal Plugin</span></a> documentation because all plugins rely on this one.</p>
 </div>
 <div class="toctree-wrapper compound">
 <ul>

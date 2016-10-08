@@ -4,11 +4,17 @@ Debian Plugin
 =============
 
 The debian package specification is very robust and powerful.  If you wish to do any advanced features, it's best to understand how
-the underlying packaging system works.  http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/ is an excellent tutorial.
+the underlying packaging system works.  `Debian Binary Package Building HOWTO`_ by Chr. Clemens Lee is an excellent tutorial.
 
-SBT Native Packager provides two ways to build debian packages. A native one, where you need ``dpkg-deb`` installed
-or a java, platform independent approach with `jdeb <https://github.com/tcurdt/jdeb>`_. By default the *native* implementation
-is activated.
+.. _Debian Binary Package Building HOWTO: http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/
+
+
+SBT Native Packager provides two ways to build debian packages:
+
+1.  A native implementation, where you need ``dpkg-deb`` installed, or
+2.  A java, platform independent approach with `jdeb <https://github.com/tcurdt/jdeb>`_.
+
+By default the *native* implementation is activated.
 
 .. note:: The debian plugin depends on the :ref:`linux-plugin`.
 
@@ -79,7 +85,7 @@ installation of the generated debian package in the following configuration:
 
 - installation using python-apt module, used by Ansible and SaltStack for
   example,
-- being on python-apt 8.8 series, that's on Debian Wheezy and perhaps older
+- being on python-apt 8.8 series that's on Debian Wheezy and perhaps older
 
 It will fail with an error message like::
 
@@ -95,21 +101,20 @@ Solutions include:
 Java based packaging
 ~~~~~~~~~~~~~~~~~~~~
 
-If you want to use the java based implementation, enable the following plugin.
+If you want to use the java based implementation, enable the following plugin:
 
 .. code-block:: scala
 
   enablePlugins(JDebPackaging)
 
-and this to your ``plugins.sbt``
+and this to your ``plugins.sbt``:
 
 .. code-block:: scala
 
   libraryDependencies += "org.vafer" % "jdeb" % "1.3" artifacts (Artifact("jdeb", "jar", "jar"))
 
-JDeb is a provided dependency so you have to add it on your own. It brings a lot of dependencies
+JDeb is a provided dependency. You have to explicitly add it on your own. It brings a lot of dependencies
 that could slow your build times. This is the reason the dependency is marked as provided.
-
 
 
 Configurations
@@ -180,13 +185,13 @@ The Debian support grants the following commands:
 Customize
 ---------------
 
-This section contains example on how you can customize your debian build.
+This section contains examples of how you can customize your debian build.
 
 Customizing Debian Metadata
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A Debian package provides metadata, which includes **dependencies** and **recommendations**.
-A basic example to depend on java and recommend a git installation.
+This example adds a dependency on java and recommends a git installation.
 
 .. code-block:: scala
 
@@ -194,9 +199,12 @@ A basic example to depend on java and recommend a git installation.
 
     debianPackageRecommends in Debian += "git"
 
+Hook Actions into the Debian Package Lifecycle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 To hook into the debian package lifecycle (https://wiki.debian.org/MaintainerScripts) you
 can add ``preinst`` , ``postinst`` , ``prerm`` and/or ``postrm`` scripts. Just place them into
-``src/debian/DEBIAN``. Or you can do it programmatically in your ``build.sbt``
+``src/debian/DEBIAN``. Or you can do it programmatically in your ``build.sbt``.  This example adds actions to ``preinst`` and ``postinst``:
 
 .. code-block:: scala
 
@@ -210,7 +218,10 @@ The helper methods can be found in `MaintainerScriptHelper Scaladocs`_.
 
 If you use the ``JavaServerAppPackaging`` there are predefined ``postinst`` and
 ``preinst`` files, which start/stop the application on install/remove calls. Existing
-maintainer scripts will be extended not overridden.
+maintainer scripts will be *extended* not overridden.
+
+Use a Different Castle Directory for your Control Scripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Your control scripts are in a different castle.. directory? No problem.
 
