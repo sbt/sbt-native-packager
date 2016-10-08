@@ -1,5 +1,37 @@
 # Change Log
 
+## [v1.2.0-M6](https://github.com/sbt/sbt-native-packager/tree/v1.2.0-M6) (2016-10-08)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M5...v1.2.0-M6)
+
+**Closed issues:**
+
+- UNRESOLVED DEPENDENCIES - org.scala-sbt\#sbt;0.13.12 not found [\#887](https://github.com/sbt/sbt-native-packager/issues/887)
+- universalArchiveOptions setting tar CLI command arguments: incorrect order \(maybe\) [\#886](https://github.com/sbt/sbt-native-packager/issues/886)
+- Add all jars in lib directory to classpath [\#885](https://github.com/sbt/sbt-native-packager/issues/885)
+- Dockerfile/java and Dockerfile/openjdk do not exist [\#879](https://github.com/sbt/sbt-native-packager/issues/879)
+- Use a Dockerfile rather than Scala? [\#875](https://github.com/sbt/sbt-native-packager/issues/875)
+- Documentation of dockerUpdateLatest needs updated [\#871](https://github.com/sbt/sbt-native-packager/issues/871)
+- Is there a way to retrieve the path/filename of the generated rpm? [\#870](https://github.com/sbt/sbt-native-packager/issues/870)
+- System Loader scripts are not being generated [\#869](https://github.com/sbt/sbt-native-packager/issues/869)
+- Support UDP ports for dockerExposedPorts [\#843](https://github.com/sbt/sbt-native-packager/issues/843)
+- JAVA\_OPTS support for ash-template [\#738](https://github.com/sbt/sbt-native-packager/issues/738)
+
+**Merged pull requests:**
+
+- Adding rpm override script tests [\#891](https://github.com/sbt/sbt-native-packager/pull/891) ([mitch-seymour](https://github.com/mitch-seymour))
+- Updated cheatsheet with the correct file path for overriding service manager scripts [\#890](https://github.com/sbt/sbt-native-packager/pull/890) ([mitch-seymour](https://github.com/mitch-seymour))
+- Update documentation with warning about overriding default tar options. [\#889](https://github.com/sbt/sbt-native-packager/pull/889) ([mackler](https://github.com/mackler))
+- Generate EXPOSE when only UDP ports are exposed [\#888](https://github.com/sbt/sbt-native-packager/pull/888) ([lustefaniak](https://github.com/lustefaniak))
+- Support for absolute paths in classpath [\#882](https://github.com/sbt/sbt-native-packager/pull/882) ([hayssams](https://github.com/hayssams))
+- Add ability to expose UDP ports [\#881](https://github.com/sbt/sbt-native-packager/pull/881) ([NeQuissimus](https://github.com/NeQuissimus))
+- Remove dockerfile/ prefix from openjdk images [\#880](https://github.com/sbt/sbt-native-packager/pull/880) ([NeQuissimus](https://github.com/NeQuissimus))
+- Replace deprecated java Docker image with openjdk [\#877](https://github.com/sbt/sbt-native-packager/pull/877) ([NeQuissimus](https://github.com/NeQuissimus))
+- Fixed wrong description of daemonGroup [\#876](https://github.com/sbt/sbt-native-packager/pull/876) ([PavelPenkov](https://github.com/PavelPenkov))
+- Updated dockerUpdateLatest documentation to indicate minimum docker v… [\#874](https://github.com/sbt/sbt-native-packager/pull/874) ([thrykol](https://github.com/thrykol))
+- Clarify and fix grammar for Formats docs [\#867](https://github.com/sbt/sbt-native-packager/pull/867) ([weedySeaDragon](https://github.com/weedySeaDragon))
+- Updated systemloaders.rst [\#865](https://github.com/sbt/sbt-native-packager/pull/865) ([martinstuder](https://github.com/martinstuder))
+- Introduction:  clarify and fix grammar [\#863](https://github.com/sbt/sbt-native-packager/pull/863) ([weedySeaDragon](https://github.com/weedySeaDragon))
+
 ## [v1.2.0-M5](https://github.com/sbt/sbt-native-packager/tree/v1.2.0-M5) (2016-08-07)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M4...v1.2.0-M5)
 
