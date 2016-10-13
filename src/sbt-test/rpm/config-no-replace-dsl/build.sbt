@@ -1,4 +1,4 @@
-enablePlugins(RpmNoReplaceConfigPlugin)
+enablePlugins(RpmPlugin)
 
 name := "rpm-test"
 
@@ -21,6 +21,8 @@ rpmLicense := Some("BSD")
 
 packageArchitecture in Rpm := "x86_64"
 
+linuxPackageMappings := configWithNoReplace(linuxPackageMappings.value)
+
 TaskKey[Unit]("unzip") <<= (packageBin in Rpm, streams) map { (rpmFile, streams) =>
   val rpmPath = Seq(rpmFile.getAbsolutePath)
   Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.log
@@ -39,12 +41,6 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
     spec contains
       "%config(noreplace) %attr(0644,root,root) /usr/share/rpm-test/conf/test",
     "Sets custom config to 'noreplace'"
-  )
-
-  assert(
-    spec contains
-      "%config(noreplace) %attr(644,root,root) /etc/default/rpm-test",
-    "Sets /etc/default/rpm-test to 'noreplace'"
   )
 
   out.log.success("Successfully tested rpm test file")
