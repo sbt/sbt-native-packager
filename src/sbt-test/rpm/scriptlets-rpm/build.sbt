@@ -34,53 +34,10 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
   val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
   assert(spec contains "%pre\necho \"pre-install\"", "Spec doesn't contain %pre scriptlet")
   assert(spec contains "%post\necho \"post-install\"", "Spec doesn't contain %post scriptlet")
-  assert(
-    spec contains
-      """
-      |%post
-      |echo "post-install"
-      |
-      |relocateLink() {
-      |  if [ -n "$4" ] ;
-      |  then
-      |    RELOCATED_INSTALL_DIR="$4/$3"
-      |    echo "${1/$2/$RELOCATED_INSTALL_DIR}"
-      |  else
-      |    echo "$1"
-      |  fi
-      |}
-      |rm -rf $(relocateLink /etc/rpm-test /usr/share/rpm-test rpm-test $RPM_INSTALL_PREFIX) && ln -s $(relocateLink /usr/share/rpm-test/conf /usr/share/rpm-test rpm-test $RPM_INSTALL_PREFIX) $(relocateLink /etc/rpm-test /usr/share/rpm-test rpm-test $RPM_INSTALL_PREFIX)
-      |""".stripMargin,
-    "%post scriptlet does not contain relocateLink"
-  )
-
   assert(spec contains "%pretrans\necho \"pretrans\"", "Spec doesn't contain %pretrans scriptlet")
   assert(spec contains "%posttrans\necho \"posttrans\"", "Spec doesn't contain %posttrans scriptlet")
   assert(spec contains "%preun\necho \"pre-uninstall\"", "Spec doesn't contain %preun scriptlet")
   assert(spec contains "%postun\necho \"post-uninstall\"", "Spec doesn't contain %postun scriptlet")
-  assert(
-    spec contains
-      """
-      |%postun
-      |echo "post-uninstall"
-      |
-      |relocateLink() {
-      |  if [ -n "$4" ] ;
-      |  then
-      |    RELOCATED_INSTALL_DIR="$4/$3"
-      |    echo "${1/$2/$RELOCATED_INSTALL_DIR}"
-      |  else
-      |    echo "$1"
-      |  fi
-      |}
-      |if [ $1 -eq 0 ] ;
-      |then
-      |  [ -e /etc/sysconfig/rpm-test ] && . /etc/sysconfig/rpm-test
-      |  rm -rf $(relocateLink /etc/rpm-test /usr/share/rpm-test rpm-test $PACKAGE_PREFIX)
-      |fi
-      |""".stripMargin,
-    "%postun scriptlet does not contain relocate link"
-  )
   out.log.success("Successfully tested rpm test file")
   ()
 }
