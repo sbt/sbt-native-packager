@@ -74,8 +74,8 @@ case class RpmScripts(
   def preContent(): String =
     pre.fold("")("\n%pre\n" + _ + "\n\n")
 
-  def postContent(buildSymlinkScript: Option[String]): String = {
-    val scripts = Seq(post, buildSymlinkScript).flatten
+  def postContent(): String = {
+    val scripts = Seq(post).flatten
     if (scripts.isEmpty)
       ""
     else
@@ -91,8 +91,8 @@ case class RpmScripts(
   def preunContent(): String =
     preun.fold("")("\n%preun\n" + _ + "\n\n")
 
-  def postunContent(tearDownSymlinkScript: Option[String]): String = {
-    val scripts = Seq(postun, tearDownSymlinkScript).flatten
+  def postunContent(): String = {
+    val scripts = Seq(postun).flatten
     if (scripts.isEmpty)
       ""
     else
@@ -216,6 +216,9 @@ case class RpmSpec(
       mapping <- mappings
       (file, dest) <- mapping.mappings
     } sb append makeFilesLine(dest, mapping.fileData, file.isDirectory)
+
+    for (LinuxSymlink(link, dest) <- symlinks) sb.append(s"$link\n")
+
     sb.toString
   }
 
@@ -273,11 +276,11 @@ case class RpmSpec(
     // write scriptlets
     sb append scriptlets.pretransContent()
     sb append scriptlets.preContent()
-    sb append scriptlets.postContent(buildSymlinkScript(meta.name, installDir, symlinks))
+    sb append scriptlets.postContent()
     sb append scriptlets.verifyscriptContent()
     sb append scriptlets.posttransContent()
     sb append scriptlets.preunContent()
-    sb append scriptlets.postunContent(teardownSymlinkScript(meta.name, installDir, symlinks))
+    sb append scriptlets.postunContent()
 
     // Write file mappings
     sb append fileSection
@@ -293,43 +296,4 @@ case class RpmSpec(
     }
     sb.toString
   }
-
-  private def buildSymlinkScript(appName: String, installDir: String, symlinks: Seq[LinuxSymlink]): Option[String] =
-    if (symlinks.isEmpty)
-      None
-    else {
-      val relocateLinks = symlinks
-        .map { symlink =>
-          s"""rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$RPM_INSTALL_PREFIX) && ln -s $$(relocateLink ${symlink.destination} $installDir $appName $$RPM_INSTALL_PREFIX) $$(relocateLink ${symlink.link} $installDir $appName $$RPM_INSTALL_PREFIX)"""
-        }
-        .mkString("\n")
-
-      Some(relocateLinkFunction + "\n" + relocateLinks)
-    }
-
-  private def teardownSymlinkScript(appName: String, installDir: String, symlinks: Seq[LinuxSymlink]): Option[String] =
-    if (symlinks.isEmpty)
-      None
-    else {
-      val sourceAppConfig = s"""[ -e /etc/sysconfig/$appName ] && . /etc/sysconfig/$appName"""
-      val cleanupLinks = symlinks
-        .map { symlink =>
-          s"""rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$PACKAGE_PREFIX)"""
-        }
-        .mkString("\n")
-
-      Some(relocateLinkFunction + "\n" + sourceAppConfig + "\n" + cleanupLinks)
-    }
-
-  private def relocateLinkFunction: String =
-    """
-      |relocateLink() {
-      |  if [ -n "$4" ] ;
-      |  then
-      |    RELOCATED_INSTALL_DIR="$4/$3"
-      |    echo "${1/$2/$RELOCATED_INSTALL_DIR}"
-      |  else
-      |    echo "$1"
-      |  fi
-      |}""".stripMargin
 }
