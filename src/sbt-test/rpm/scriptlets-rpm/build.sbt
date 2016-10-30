@@ -73,8 +73,11 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
       |    echo "$1"
       |  fi
       |}
-      |[ -e /etc/sysconfig/rpm-test ] && . /etc/sysconfig/rpm-test
-      |rm -rf $(relocateLink /etc/rpm-test /usr/share/rpm-test rpm-test $PACKAGE_PREFIX)
+      |if [ $1 -eq 0 ] ;
+      |then
+      |  [ -e /etc/sysconfig/rpm-test ] && . /etc/sysconfig/rpm-test
+      |  rm -rf $(relocateLink /etc/rpm-test /usr/share/rpm-test rpm-test $PACKAGE_PREFIX)
+      |fi
       |""".stripMargin,
     "%postun scriptlet does not contain relocate link"
   )
