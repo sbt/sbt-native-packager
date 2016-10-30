@@ -16,7 +16,7 @@ realpath () {
       COUNT=$(($COUNT + 1))
   done
 
-  if [ "$TARGET_FILE" == "." -o "$TARGET_FILE" == ".." ]; then
+  if [ "$TARGET_FILE" = "." -o "$TARGET_FILE" = ".." ]; then
     cd "$TARGET_FILE"
     TARGET_FILEPATH=
   else
