@@ -312,13 +312,14 @@ case class RpmSpec(meta: RpmMetadata,
     if (symlinks.isEmpty)
       None
     else {
+      val checkUninstall = "if [ $1 -eq 0 ] ;\nthen"
       val sourceAppConfig =
-        s"""[ -e /etc/sysconfig/$appName ] && . /etc/sysconfig/$appName"""
+        s"""  [ -e /etc/sysconfig/$appName ] && . /etc/sysconfig/$appName"""
       val cleanupLinks = symlinks.map { symlink =>
-        s"""rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$PACKAGE_PREFIX)"""
+        s"""  rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$PACKAGE_PREFIX)"""
       }.mkString("\n")
 
-      Some(relocateLinkFunction + "\n" + sourceAppConfig + "\n" + cleanupLinks)
+      Some(relocateLinkFunction + "\n" + checkUninstall + "\n" + sourceAppConfig + "\n" + cleanupLinks + "\nfi")
     }
 
   private def relocateLinkFunction: String =
