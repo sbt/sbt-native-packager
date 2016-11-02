@@ -32,6 +32,22 @@ trait LinuxMappingDSL {
       (src, dest) <- dirs
       path <- (src ***).get
     } yield path -> path.toString.replaceFirst(src.toString, dest)
+
+  /**
+    * This method sets the config attribute of all files that are marked as configuration files to "noreplace". This is
+    * relevant for RPM packages as it controls the behaviour of RPM updates.
+    *
+    * See: http://www-uxsup.csx.cam.ac.uk/~jw35/docs/rpm_config.html
+    *
+    * @param mappings list of mappings to update
+    * @return updated list of mappings
+    */
+  def configWithNoReplace(mappings: Seq[LinuxPackageMapping]): Seq[LinuxPackageMapping] = {
+    mappings.map {
+      case mapping if mapping.fileData.config != "false" => mapping.withConfig("noreplace")
+      case mapping => mapping
+    }
+  }
 }
 
 object Mapper extends LinuxMappingDSL

@@ -359,3 +359,18 @@ For more information on this topic follow these links:
   .. _OpenSuse issue: https://github.com/sbt/sbt-native-packager/issues/215
   .. _RPM Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.rpm.RpmPlugin$$Names$
   .. _MaintainerScriptHelper Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$
+
+
+Marking config files as ``noreplace``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, rpm replaces config files on disk when the content has changed between two version. Often, this is not desirable
+as configurations are often customized and should not change during updates. rpm provides a means to turn of the default behaviour
+by marking config files as ``noreplace`` in the spec file. In order to enable this for the build, we provide a helper method that
+can be used to modify all config file mappings:
+
+.. code-block:: scala
+
+    linuxPackageMappings := configWithNoReplace(linuxPackageMappings.value)
+
+This will mark all config files as ``noreplace`` and prevent them from being changed during updates.
