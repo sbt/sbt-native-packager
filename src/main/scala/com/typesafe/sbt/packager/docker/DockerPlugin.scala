@@ -73,6 +73,7 @@ object DockerPlugin extends AutoPlugin {
 
   // format: off
   override lazy val projectSettings = Seq(
+    dockerUseSudo := false,
     dockerBaseImage := "openjdk:latest",
     dockerExposedPorts := Seq(),
     dockerExposedUdpPorts := Seq(),
@@ -88,7 +89,12 @@ object DockerPlugin extends AutoPlugin {
       else
         Seq()
     ),
-    dockerBuildCommand := Seq("docker", "build") ++ dockerBuildOptions.value ++ Seq("."),
+    dockerBuildCommand := (
+        if (dockerUseSudo.value)
+          Seq("sudo")
+        else
+          Seq()
+      ) ++ Seq("docker", "build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerCommands := {
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
       val user = (daemonUser in Docker).value
@@ -122,11 +128,11 @@ object DockerPlugin extends AutoPlugin {
           publishLocalDocker(context, buildCommand, s.log)
           s.log.info(s"Built image $alias")
       },
-      publish <<= (publishLocal, dockerAlias, dockerUpdateLatest, streams) map {
-        (_, alias, updateLatest, s) =>
-          publishDocker(alias.versioned, s.log)
+      publish <<= (publishLocal, dockerAlias, dockerUpdateLatest, dockerUseSudo, streams) map {
+        (_, alias, updateLatest, useSudo, s) =>
+          publishDocker(useSudo, alias.versioned, s.log)
           if (updateLatest) {
-            publishDocker(alias.latest, s.log)
+            publishDocker(useSudo, alias.latest, s.log)
           }
       },
       sourceDirectory := sourceDirectory.value / "docker",
@@ -310,7 +316,7 @@ object DockerPlugin extends AutoPlugin {
       throw new RuntimeException("Nonzero exit value: " + ret)
   }
 
-  def publishDocker(tag: String, log: Logger): Unit = {
+  def publishDocker(useSudo: Boolean, tag: String, log: Logger): Unit = {
     val loginRequired = new AtomicBoolean(false)
 
     def publishLogger(log: Logger) =
@@ -332,7 +338,12 @@ object DockerPlugin extends AutoPlugin {
         def buffer[T](f: => T) = f
       }
 
-    val cmd = Seq("docker", "push", tag)
+    val cmd = (
+        if (useSudo)
+          Seq("sudo")
+        else
+          Seq()
+      ) ++ Seq("docker", "push", tag)
 
     log.debug("Executing " + cmd.mkString(" "))
 
