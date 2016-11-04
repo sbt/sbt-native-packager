@@ -74,10 +74,15 @@ Settings and Tasks inherited from parent plugins can be scoped with ``Docker``.
 Settings
 --------
 
+Invocation Settings
+-------------------
+
+  ``dockerUseSudo``
+    Prefix all docker command line invocations with 'sudo'. When building on CentOS, Fedory or RHEL, this may be necessary
+    for security purposes. See http://www.projectatomic.io/blog/2015/08/why-we-dont-let-non-root-users-run-docker-in-centos-fedora-or-rhel/
 
 Informational Settings
 ~~~~~~~~~~~~~~~~~~~~~~
-
 
   ``packageName in Docker``
     The name of the package for Docker (if different from general name).

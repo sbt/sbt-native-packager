@@ -12,6 +12,7 @@ trait DockerKeys {
   val dockerPackageMappings =
     TaskKey[Seq[(File, String)]]("docker-package-mappings", "Generates location mappings for Docker build.")
 
+  val dockerUseSudo = SettingKey[Boolean]("dockerUseSudo", "Prefix all docker commands with 'sudo'")
   val dockerBaseImage =
     SettingKey[String]("dockerBaseImage", "Base image for Dockerfile.")
   val dockerExposedPorts = SettingKey[Seq[Int]]("dockerExposedPorts", "TCP Ports exposed by Docker image")
