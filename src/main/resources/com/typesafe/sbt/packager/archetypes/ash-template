@@ -1,4 +1,6 @@
 #!/bin/sh
+java_args=""
+app_commands=""
 
 realpath () {
 (
@@ -27,11 +29,20 @@ realpath () {
 )
 }
 
+addJava() {
+  echo "[addJava] arg = '$1'"
+  java_args="$java_args $1"
+}
+
+addApp() {
+  echo "[addApp] arg = '$1'"
+  app_commands="$app_commands $1"
+}
+
 # Loads a configuration file full of default command line options for this script.
 loadConfigFile() {
   cat "$1" | sed '/^\#/d' | sed 's/^-J-X/-X/' | tr '\r\n' ' '
 }
-
 
 real_script_path="$(realpath "$0")"
 app_home="$(realpath "$(dirname "$real_script_path")")"
@@ -42,4 +53,4 @@ ${{template_declares}}
 # If a configuration file exist, read the contents to $opts
 [ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
 
-exec java -classpath $app_classpath $opts $app_mainclass $@
+exec java -classpath $app_classpath $opts $java_args $app_mainclass $app_commands $@
