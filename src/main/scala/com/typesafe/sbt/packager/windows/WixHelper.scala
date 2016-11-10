@@ -273,7 +273,8 @@ object WixHelper {
     * @return A tuple where the first item is all the Component Ids created,
     *         and the second is the Directory/File/Component XML.
     */
-  @deprecated("Use higher level abstraction", "6/28/13")
+  // TODO @deprecated("Use higher level abstraction", "6/28/13")
+  // reference: https://github.com/sbt/sbt-native-packager/issues/726
   def generateComponentsAndDirectoryXml(dir: File, id_prefix: String = ""): (Seq[String], scala.xml.Node) = {
     def makeId(f: File) =
       cleanStringForId(IO.relativize(dir, f) map (id_prefix +) getOrElse (id_prefix + f.getName))
