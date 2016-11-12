@@ -1,5 +1,27 @@
 # Change Log
 
+## [v1.1.5](https://github.com/sbt/sbt-native-packager/tree/v1.1.5) (2016-11-12)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M6...v1.1.5)
+
+**Closed issues:**
+
+- install rpm get some error [\#907](https://github.com/sbt/sbt-native-packager/issues/907)
+- Ability to combine multiple commands in one RUN statement? [\#904](https://github.com/sbt/sbt-native-packager/issues/904)
+- Universal App - Can't find resources [\#899](https://github.com/sbt/sbt-native-packager/issues/899)
+- During RPM \(yum\) upgrade, config gets removed \(1.2.0-M6\) [\#894](https://github.com/sbt/sbt-native-packager/issues/894)
+- dist at windows bat file exec error [\#872](https://github.com/sbt/sbt-native-packager/issues/872)
+- Fix deprecation warnings in windows WixHelper [\#726](https://github.com/sbt/sbt-native-packager/issues/726)
+- Marking default config files as noreplace in RPMs [\#572](https://github.com/sbt/sbt-native-packager/issues/572)
+
+**Merged pull requests:**
+
+- undeprecate generateComponentsAndDirectoryXml in WixHelper [\#909](https://github.com/sbt/sbt-native-packager/pull/909) ([SethTisue](https://github.com/SethTisue))
+- DockerAlias should have version scoped to Docker [\#905](https://github.com/sbt/sbt-native-packager/pull/905) ([rbellamy](https://github.com/rbellamy))
+- fix a bug in the ash-template [\#897](https://github.com/sbt/sbt-native-packager/pull/897) ([stew](https://github.com/stew))
+- RpmNoReplaceplugin and LinuxMappingDSL for "noreplace" configs [\#896](https://github.com/sbt/sbt-native-packager/pull/896) ([kodemaniak](https://github.com/kodemaniak))
+- \[rpm\] Fixes \#894. Symlinks only removed during uninstall, not during update of RPM. [\#895](https://github.com/sbt/sbt-native-packager/pull/895) ([kodemaniak](https://github.com/kodemaniak))
+- Fixed SystemVPlugin override start script behavior for debian [\#893](https://github.com/sbt/sbt-native-packager/pull/893) ([mitch-seymour](https://github.com/mitch-seymour))
+
 ## [v1.2.0-M6](https://github.com/sbt/sbt-native-packager/tree/v1.2.0-M6) (2016-10-08)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M5...v1.2.0-M6)
 
@@ -305,7 +327,7 @@
 
 - Add Proguard example to Custom Package Format documentation [\#721](https://github.com/sbt/sbt-native-packager/pull/721) ([mikebridge](https://github.com/mikebridge))
 - Mark docker and jdeb as provided dependencies [\#719](https://github.com/sbt/sbt-native-packager/pull/719) ([muuki88](https://github.com/muuki88))
-- Fix typo in archetype documentation [\#717](https://github.com/sbt/sbt-native-packager/pull/717) ([simplyianm](https://github.com/simplyianm))
+- Fix typo in archetype documentation [\#717](https://github.com/sbt/sbt-native-packager/pull/717) ([macalinao](https://github.com/macalinao))
 
 ## [v1.1.0-M1](https://github.com/sbt/sbt-native-packager/tree/v1.1.0-M1) (2015-12-13)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.0.6...v1.1.0-M1)
