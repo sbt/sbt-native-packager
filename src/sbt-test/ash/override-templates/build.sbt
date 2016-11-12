@@ -18,6 +18,6 @@ TaskKey[Unit]("run-check-ash") := {
     contents contains "this is the custom bash template",
     "Bash template didn't contain the right text: \n" + contents
   )
-  assert(contents contains "app_mainclass=", "Template didn't contain the right text: \n" + contents)
-  assert(!(contents contains "declare"), "Template didn't contain the right text: \n" + contents)
+  assert(contents contains "app_mainclass=", "Template didn't contain app_mainclass: \n" + contents)
+  assert(!(contents contains "declare"), "Template didn't contains declare: \n" + contents)
 }
