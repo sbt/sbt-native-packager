@@ -122,16 +122,20 @@ Publishing Settings
 
   ``dockerAlias``
     The alias to be used for tagging the resulting image of the Docker build.
-    The type of the setting key is ``DockerAlias`.
+    The type of the setting key is ``DockerAlias``.
     Defaults to ``[dockerRepository/][name]:[version]``.
 
   ``dockerBuildOptions``
     Overrides the default Docker build options.
     Defaults to ``Seq("--force-rm", "-t", "[dockerAlias]")``. This default is expanded if ``dockerUpdateLatest`` is set to true.
 
+  ``dockerExecCommand``
+    Overrides the default Docker exec command.
+    Defaults to ``Seq("docker")``
+
   ``dockerBuildCommand``
-    Overrides the default Docker build command.
-    Defaults to ``Seq("docker", "build", "[dockerBuildOptions]", ".")``.
+    Overrides the default Docker build command. The reason for this is that many systems restrict docker execution to root, and while the accepted guidance is to alias the docker command ``alias docker='/usr/bin/docker'``, neither Java nor Scala support passing aliases to sub-processes, and most build systems run builds using a non-login, non-interactive shell, which also have limited support for aliases, which means that the only viable option is to use ``sudo docker`` directly.
+    Defaults to ``Seq("[dockerExecCommand]", "build", "[dockerBuildOptions]", ".")``.
 
 Tasks
 -----

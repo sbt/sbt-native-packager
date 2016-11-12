@@ -1,6 +1,6 @@
 enablePlugins(JavaAppPackaging)
 
-name := "docker-test"
+name := "simple-docker"
 
 version := "0.1.0"
 

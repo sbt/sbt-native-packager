@@ -82,13 +82,14 @@ object DockerPlugin extends AutoPlugin {
     dockerUpdateLatest := false,
     dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
     dockerCmd := Seq(),
+    dockerExecCommand := Seq("docker"),
     dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
       if (dockerUpdateLatest.value)
         Seq("-t", dockerAlias.value.latest)
       else
         Seq()
     ),
-    dockerBuildCommand := Seq("docker", "build") ++ dockerBuildOptions.value ++ Seq("."),
+    dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerCommands := {
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
       val user = (daemonUser in Docker).value
@@ -122,11 +123,11 @@ object DockerPlugin extends AutoPlugin {
           publishLocalDocker(context, buildCommand, s.log)
           s.log.info(s"Built image $alias")
       },
-      publish <<= (publishLocal, dockerAlias, dockerUpdateLatest, streams) map {
-        (_, alias, updateLatest, s) =>
-          publishDocker(alias.versioned, s.log)
+      publish <<= (publishLocal, dockerAlias, dockerUpdateLatest, dockerExecCommand, streams) map {
+        (_, alias, updateLatest, dockerExecCommand, s) =>
+          publishDocker(dockerExecCommand ,alias.versioned, s.log)
           if (updateLatest) {
-            publishDocker(alias.latest, s.log)
+            publishDocker(dockerExecCommand, alias.latest, s.log)
           }
       },
       sourceDirectory := sourceDirectory.value / "docker",
@@ -310,7 +311,7 @@ object DockerPlugin extends AutoPlugin {
       throw new RuntimeException("Nonzero exit value: " + ret)
   }
 
-  def publishDocker(tag: String, log: Logger): Unit = {
+  def publishDocker(execCommand: Seq[String], tag: String, log: Logger): Unit = {
     val loginRequired = new AtomicBoolean(false)
 
     def publishLogger(log: Logger) =
