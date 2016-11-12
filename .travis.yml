@@ -10,7 +10,7 @@ before_install:
     fi
 script:
   - ./sbt ++$SCALA_VERSION --warn update compile test:compile
-  - ./sbt ++$SCALA_VERSION test "scripted universal/* jar/* bash/*"
+  - ./sbt ++$SCALA_VERSION test "scripted universal/* jar/* bash/* ash/*"
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
       ./sbt ++$SCALA_VERSION "scripted rpm/* debian/* docker/staging docker/entrypoint docker/ports docker/volumes";
     fi
