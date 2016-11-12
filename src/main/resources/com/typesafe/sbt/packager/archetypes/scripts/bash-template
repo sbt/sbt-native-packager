@@ -97,7 +97,7 @@ fix_classpath() {
   cp="$1"
   if is_cygwin; then
     echo "$(fixCygwinClasspath "$cp")"
-  else 
+  else
     echo "$cp"
   fi
 }
@@ -124,9 +124,9 @@ execRunner () {
   [[ $verbose || $debug ]] && echo "# Executing command line:" && {
     for arg; do
       if printf "%s\n" "$arg" | grep -q ' '; then
-        printf "\"%s\"\n" "$arg"
+	printf "\"%s\"\n" "$arg"
       else
-        printf "%s\n" "$arg"
+	printf "%s\n" "$arg"
       fi
     done
     echo ""
@@ -180,23 +180,23 @@ process_args () {
   local no_more_snp_opts=0
   while [[ $# -gt 0 ]]; do
     case "$1" in
-             --) shift && no_more_snp_opts=1 && break ;;
+	     --) shift && no_more_snp_opts=1 && break ;;
        -h|-help) usage; exit 1 ;;
     -v|-verbose) verbose=1 && shift ;;
       -d|-debug) debug=1 && shift ;;
 
     -no-version-check) no_version_check=1 && shift ;;
 
-           -mem) echo "!! WARNING !! -mem option is ignored. Please use -J-Xmx and -J-Xms" && shift 2 ;;
+	   -mem) echo "!! WARNING !! -mem option is ignored. Please use -J-Xmx and -J-Xms" && shift 2 ;;
      -jvm-debug) require_arg port "$1" "$2" && addDebugger $2 && shift 2 ;;
 
-          -main) custom_mainclass="$2" && shift 2 ;;
+	  -main) custom_mainclass="$2" && shift 2 ;;
 
      -java-home) require_arg path "$1" "$2" && jre=`eval echo $2` && java_cmd="$jre/bin/java" && shift 2 ;;
 
  -D*|-agentlib*) addJava "$1" && shift ;;
-            -J*) addJava "${1:2}" && shift ;;
-              *) addResidual "$1" && shift ;;
+	    -J*) addJava "${1:2}" && shift ;;
+	      *) addResidual "$1" && shift ;;
     esac
   done
 
@@ -228,12 +228,12 @@ run() {
     addJava "-Djline.terminal=jline.UnixTerminal"
     addJava "-Dsbt.cygwin=true"
   fi
-  
+
   # check java version
   if [[ ! $no_version_check ]]; then
     java_version_check
   fi
-  
+
   if [ -n "$custom_mainclass" ]; then
     mainclass=("$custom_mainclass")
   else
@@ -253,7 +253,7 @@ run() {
     "${mainclass[@]}" \
     "${app_commands[@]}" \
     "${residual_args[@]}"
-    
+
   local exit_code=$?
   if is_cygwin; then
     stty icanon echo > /dev/null 2>&1
@@ -268,7 +268,7 @@ loadConfigFile() {
 
 # Now check to see if it's a good enough version
 # TODO - Check to see if we have a configured default java version, otherwise use 1.6
-java_version_check() { 
+java_version_check() {
   readonly java_version=$("$java_cmd" -version 2>&1 | awk -F '"' '/version/ {print $2}')
   if [[ "$java_version" == "" ]]; then
     echo
@@ -310,12 +310,12 @@ Usage: $script_name [options]
   JAVA_OPTS          environment variable, if unset uses "$java_opts"
   -Dkey=val          pass -Dkey=val directly to the java runtime
   -J-X               pass option -X directly to the java runtime
-                     (-J is stripped)
+		     (-J is stripped)
 
   # special option
   --                 To stop parsing built-in commands from the rest of the command-line.
-                     e.g.) enabling debug and sending -d as app argument
-                     \$ ./start-script -d -- -d
+		     e.g.) enabling debug and sending -d as app argument
+		     \$ ./start-script -d -- -d
 
 In the case of duplicated or conflicting options, basically the order above
 shows precedence: JAVA_OPTS lowest, command line options highest except "--".

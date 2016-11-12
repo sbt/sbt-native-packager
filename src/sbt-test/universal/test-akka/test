@@ -1,3 +1,0 @@
-# generate Akka startup script
-> stage
-$ exists target/universal/stage/bin/test-akka

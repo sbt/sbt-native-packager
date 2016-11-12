@@ -1,0 +1,11 @@
+# Run the staging and check the script.
+> stage
+$ exists target/universal/stage/bin/main-app
+$ exists target/universal/stage/bin/second-app
+> check-no-explicit-main
+> clean
+> set mainClass in Compile := Some("com.example.MainApp")
+> stage
+$ exists target/universal/stage/bin/test-project
+$ exists target/universal/stage/bin/second-app
+> check-explicit-main

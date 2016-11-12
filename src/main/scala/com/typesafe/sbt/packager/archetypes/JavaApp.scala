@@ -27,22 +27,12 @@ import SbtNativePackager.{Debian, Universal}
   *  enablePlugins(JavaAppPackaging)
   * }}}
   */
-object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
-
-  /**
-    * Name of the bash template if user wants to provide custom one
-    */
-  val bashTemplate = "bash-template"
+object JavaAppPackaging extends AutoPlugin {
 
   /**
     * Name of the bat template if user wants to provide custom one
     */
   val batTemplate = "bat-template"
-
-  /**
-    * Location for the application.ini file used by the bash script to load initialization parameters for jvm and app
-    */
-  val appIniLocation = "${app_home}/../conf/application.ini"
 
   object autoImport extends JavaAppKeys with MaintainerScriptHelper
 
@@ -65,67 +55,9 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     },
     projectDependencyArtifacts <<= findProjectDependencyArtifacts,
     scriptClasspathOrdering <++= (Keys.dependencyClasspath in Runtime, projectDependencyArtifacts) map universalDepMappings,
-    scriptClasspathOrdering <<= (scriptClasspathOrdering) map { _.distinct },
+    scriptClasspathOrdering <<= scriptClasspathOrdering map { _.distinct },
     mappings in Universal <++= scriptClasspathOrdering,
     scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames,
-    bashScriptExtraDefines := Nil,
-    // Create a bashConfigLocation if options are set in build.sbt
-    bashScriptConfigLocation <<= bashScriptConfigLocation ?? Some(appIniLocation),
-    bashScriptEnvConfigLocation <<= bashScriptEnvConfigLocation ?? None,
-    mappings in Universal := {
-      val log = streams.value.log
-      val universalMappings = (mappings in Universal).value
-      val dir = (target in Universal).value
-      val options = (javaOptions in Universal).value
-
-      bashScriptConfigLocation.value.collect {
-        case location if options.nonEmpty =>
-          val configFile = dir / "tmp" / "conf" / "application.ini"
-          //Do not use writeLines here because of issue #637
-          IO.write(configFile, ("# options from build" +: options).mkString("\n"))
-          val filteredMappings = universalMappings.filter {
-            case (file, path) => path != appIniLocation
-          }
-          // Warn the user if he tries to specify options
-          if (filteredMappings.size < universalMappings.size) {
-            log.warn("--------!!! JVM Options are defined twice !!!-----------")
-            log.warn("application.ini is already present in output package. Will be overriden by 'javaOptions in Universal'")
-          }
-          (configFile -> cleanApplicationIniPath(location)) +: filteredMappings
-
-      }.getOrElse(universalMappings)
-
-    },
-
-    // ---
-    bashScriptDefines <<= (Keys.mainClass in (Compile, bashScriptDefines), scriptClasspath in bashScriptDefines, bashScriptExtraDefines, bashScriptConfigLocation) map { (mainClass, cp, extras, config) =>
-      val hasMain =
-        for {
-          cn <- mainClass
-        } yield JavaAppBashScript.makeDefines(cn, appClasspath = cp, extras = extras, configFile = config)
-      hasMain getOrElse Nil
-    },
-    bashScriptTemplateLocation := (sourceDirectory.value / "templates" / bashTemplate),
-    makeBashScript <<= (bashScriptTemplateLocation, bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBinScript,
-    batScriptExtraDefines := Nil,
-    batScriptReplacements <<= (packageName, Keys.mainClass in (Compile, batScriptReplacements), scriptClasspath in batScriptReplacements, batScriptExtraDefines) map { (name, mainClass, cp, extras) =>
-      mainClass map { mc =>
-        JavaAppBatScript.makeReplacements(name = name, mainClass = mc, appClasspath = cp, extras = extras)
-      } getOrElse Nil
-
-    },
-    batScriptTemplateLocation := (sourceDirectory.value / "templates" / batTemplate),
-    makeBatScript <<= (batScriptTemplateLocation, batScriptReplacements, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBatScript,
-    mappings in Universal <++= (makeBashScript, executableScriptName) map { (script, name) =>
-      for {
-        s <- script.toSeq
-      } yield s -> ("bin/" + name)
-    },
-    mappings in Universal <++= (makeBatScript, executableScriptName) map { (script, name) =>
-      for {
-        s <- script.toSeq
-      } yield s -> ("bin/" + name + ".bat")
-    },
     linuxPackageMappings in Debian <+= (packageName in Debian, defaultLinuxInstallLocation, target in Debian) map {
       (name, installLocation, target) =>
         // create empty var/log directory
@@ -173,7 +105,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
 
   // Here we grab the dependencies...
   private def dependencyProjectRefs(build: sbt.BuildDependencies, thisProject: ProjectRef): Seq[ProjectRef] =
-    build.classpathTransitive.get(thisProject).getOrElse(Nil)
+    build.classpathTransitive.getOrElse(thisProject, Nil)
 
   private def filterArtifacts(artifacts: Seq[(Artifact, File)], config: Option[String]): Seq[(Artifact, File)] =
     for {
@@ -210,7 +142,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
     (sbt.Keys.buildDependencies, sbt.Keys.thisProjectRef, sbt.Keys.state) apply { (build, thisProject, stateTask) =>
       val refs = thisProject +: dependencyProjectRefs(build, thisProject)
       // Dynamic lookup of dependencies...
-      val artTasks = (refs) map { ref =>
+      val artTasks = refs map { ref =>
         extractArtifacts(stateTask, ref)
       }
       val allArtifactsTask: Task[Seq[Attributed[File]]] =
@@ -218,7 +150,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
           for {
             p <- previous
             n <- next
-          } yield (p ++ n.filter(isRuntimeArtifact))
+          } yield p ++ n.filter(isRuntimeArtifact)
         }
       allArtifactsTask
     }
@@ -229,7 +161,7 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
       projectArts.find { art =>
         // TODO - Why is the module not showing up for project deps?
         //(art.get(sbt.Keys.moduleID.key) ==  dep.get(sbt.Keys.moduleID.key)) &&
-        ((art.get(sbt.Keys.artifact.key), dep.get(sbt.Keys.artifact.key))) match {
+        (art.get(sbt.Keys.artifact.key), dep.get(sbt.Keys.artifact.key)) match {
           case (Some(l), Some(r)) =>
             // TODO - extra attributes and stuff for comparison?
             // seems to break stuff if we do...
@@ -246,94 +178,4 @@ object JavaAppPackaging extends AutoPlugin with JavaAppStartScript {
       dep <- deps
       realDep <- findRealDep(dep, projectArts)
     } yield realDep.data -> ("lib/" + getJarFullFilename(realDep))
-
-  /**
-    * Currently unused.
-    * TODO figure out a proper way to ship default `application.ini` if necessary
-    */
-  protected def applicationIniTemplateSource: java.net.URL =
-    getClass.getResource("application.ini-template")
-
-  /**
-    * @param path that could be relative to app_home
-    * @return path relative to app_home
-    */
-  private def cleanApplicationIniPath(path: String): String =
-    path.replaceFirst("\\$\\{app_home\\}/../", "")
-}
-
-/**
-  * Mixin this trait to generate startup scripts provided in the classpath of native packager.
-  *
-  * @example A simple plugin definition could look like this
-  *
-  * {{{
-  * object AkkaAppPackaging extends AutoPlugin with JavaAppStartScript {
-  *   // templates have to be placed inside the com/typesafe/sbt.packager/archetypes/ resource folder
-  *   // the name is also used to find user-defined scripts
-  *   val bashTemplate = "your-bash-template"
-  *   val batTemplate = "your-bat-template"
-  *
-  *   override def requires = JavaAppPackaging
-  *
-  *   override def projectSettings = settings
-  *
-  *   import JavaAppPackaging.autoImport._
-  *
-  *   private def settings: Seq[Setting[_]] = Seq(
-  *     makeBashScript <<= (bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBinScript(bashTemplate),
-  *     makeBatScript <<= (batScriptReplacements, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBatScript(batTemplate)
-  *   )
-  * }
-  *
-  * }}}
-  */
-trait JavaAppStartScript {
-
-  def makeUniversalBinScript(defaultTemplateLocation: File,
-                             defines: Seq[String],
-                             tmpDir: File,
-                             name: String,
-                             sourceDir: File): Option[File] =
-    if (defines.isEmpty) None
-    else {
-      val template = resolveTemplate(defaultTemplateLocation)
-      val scriptBits = JavaAppBashScript.generateScript(defines, template)
-      val script = tmpDir / "tmp" / "bin" / name
-      IO.write(script, scriptBits)
-      // TODO - Better control over this!
-      script.setExecutable(true)
-      Some(script)
-    }
-
-  def makeUniversalBinScript(
-    bashTemplate: String
-  )(defines: Seq[String], tmpDir: File, name: String, sourceDir: File): Option[File] =
-    makeUniversalBinScript(sourceDir / "templates" / bashTemplate, defines, tmpDir, name, sourceDir)
-
-  def makeUniversalBatScript(
-    batTemplate: String
-  )(replacements: Seq[(String, String)], tmpDir: File, name: String, sourceDir: File): Option[File] =
-    makeUniversalBatScript(sourceDir / "templates" / batTemplate, replacements, tmpDir, name, sourceDir)
-
-  def makeUniversalBatScript(defaultTemplateLocation: File,
-                             replacements: Seq[(String, String)],
-                             tmpDir: File,
-                             name: String,
-                             sourceDir: File): Option[File] =
-    if (replacements.isEmpty) None
-    else {
-      val template = resolveTemplate(defaultTemplateLocation)
-      val scriptBits = JavaAppBatScript.generateScript(replacements, template)
-      val script = tmpDir / "tmp" / "bin" / (name + ".bat")
-      IO.write(script, scriptBits)
-      Some(script)
-    }
-
-  private def resolveTemplate(defaultTemplateLocation: File): URL =
-    if (defaultTemplateLocation.exists)
-      defaultTemplateLocation.toURI.toURL
-    else
-      getClass.getResource(defaultTemplateLocation.getName)
-
 }

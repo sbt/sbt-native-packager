@@ -124,15 +124,6 @@ object SbtNativePackager extends AutoPlugin {
 
     /**
       * {{{
-      * enablePlugins(AkkaAppPackaging)
-      * }}}
-      */
-    @deprecated("Use enablePlugins(AkkaAppPackaging)", "1.x")
-    def akka_application: Seq[Setting[_]] =
-      java_application ++ archetypes.AkkaAppPackaging.projectSettings
-
-    /**
-      * {{{
       * enablePlugins(JavaServerAppPackaging)
       * }}}
       */
