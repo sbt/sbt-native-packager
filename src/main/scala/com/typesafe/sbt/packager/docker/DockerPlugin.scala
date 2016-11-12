@@ -78,7 +78,7 @@ object DockerPlugin extends AutoPlugin {
     dockerExposedUdpPorts := Seq(),
     dockerExposedVolumes := Seq(),
     dockerRepository := None,
-    dockerAlias := DockerAlias(dockerRepository.value, None, packageName.value, Some(version.value)),
+    dockerAlias := DockerAlias(dockerRepository.value, None, packageName.value, Some((version in Docker).value)),
     dockerUpdateLatest := false,
     dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
     dockerCmd := Seq(),
