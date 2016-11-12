@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Java Application Archetype &mdash; sbt-native-packager 1.1.6-SNAPSHOT documentation</title>
+  <title>Java Application Archetype &mdash; sbt-native-packager 1.2.0-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.6-SNAPSHOT documentation" href="../../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.2.0-SNAPSHOT documentation" href="../../index.html"/>
         <link rel="up" title="Project Archetypes" href="../index.html"/>
         <link rel="next" title="Application and runtime configuration" href="customize.html"/>
         <link rel="prev" title="Project Archetypes" href="../index.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1
+                1.2.0-SNAPSHOT
               </div>
             
           
@@ -165,6 +165,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../formats/debian.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/debian.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -193,6 +195,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#jar-repackaging">Jar Repackaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -213,7 +216,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/docker.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/docker.html#customize">Customize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#docker-image-name-and-version">Docker Image Name and Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#docker-base-image">Docker Base Image</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#docker-repository">Docker Repository</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#docker-image-customization">Docker Image Customization</a></li>
@@ -261,6 +264,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#start-script-options">Start script options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-applications">Multiple Applications</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#multiple-start-scripts">Multiple start scripts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="customize.html">Application and runtime configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="customize.html#start-script-customizations">Start script customizations</a></li>
@@ -274,17 +282,34 @@
 <li class="toctree-l3"><a class="reference internal" href="../java_server/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../java_server/index.html#default-mappings">Default Mappings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../java_server/index.html#service-managers">Service Managers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../java_server/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../java_server/customize.html">Application Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../java_server/customize.html#systemloader-configuration">Systemloader Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../java_server/customize.html#example-configurations">Example Configurations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../systemloaders.html">Systemloaders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#general-settings">General Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#systemv">SystemV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#systemd">Systemd</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#upstart">Upstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#customization">Customization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#start-script-location">Start Script Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#customize-start-script">Customize Start Script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#override-start-script">Override Start Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
@@ -361,6 +386,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-sub-modules">SBT sub modules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-parameters-and-build-environment">SBT parameters and Build Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -503,6 +533,9 @@ have sensible defaults.</p>
 <dd>Don&#8217;t run the java version check</dd>
 <dt><code class="docutils literal"><span class="pre">-jvm-debug</span> <span class="pre">&lt;port&gt;</span></code></dt>
 <dd>Turn on JVM debugging, open at the given port</dd>
+<dt><code class="docutils literal"><span class="pre">-java-home</span> <span class="pre">&lt;java</span> <span class="pre">home&gt;</span></code></dt>
+<dd>Override the default JVM home, it accept variable expansions, e.g.
+<code class="docutils literal"><span class="pre">-java-home</span> <span class="pre">${app_home}/../jre</span></code></dd>
 <dt><code class="docutils literal"><span class="pre">-main</span></code></dt>
 <dd>Define a custom main class</dd>
 </dl>
@@ -523,6 +556,59 @@ E.g. <code class="docutils literal"><span class="pre">-J-Xmx1024</span></code></
 application arguments with <code class="docutils literal"><span class="pre">--</span></code>. For example</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>./bin/my-app -Dconfig.resource<span class="o">=</span>prod.conf -- -appParam1 -appParam2
 </pre></div>
+</div>
+</div>
+<div class="section" id="multiple-applications">
+<h2>Multiple Applications<a class="headerlink" href="#multiple-applications" title="Permalink to this headline">¶</a></h2>
+<p>If you have multiple main classes then the <code class="docutils literal"><span class="pre">JavaAppPackaging</span></code> archetype provides you with two different ways of
+generating start scripts.</p>
+<ol class="arabic simple">
+<li>A start script for each entry point. This is the default behaviour, when no <code class="docutils literal"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> is set</li>
+<li>One start script for the defined <code class="docutils literal"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> and forwarding scripts for all other main classes.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>What does <em>&#8216;forwarder script&#8217;</em> mean?</p>
+<p>Native-packager&#8217;s start script provides a <cite>-main</cite> option to override the main class that should be executed.
+A <em>forwarder script</em> only overrides this attribute and forwards all other parameters to the normal start script.</p>
+<p class="last">All customization you implemented for the main script will also apply for the forwarder scripts.</p>
+</div>
+<div class="section" id="multiple-start-scripts">
+<h3>Multiple start scripts<a class="headerlink" href="#multiple-start-scripts" title="Permalink to this headline">¶</a></h3>
+<p>No configuration is needed. SBT sets <code class="docutils literal"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> automatically to <code class="docutils literal"><span class="pre">None</span></code> if multiple main classes are
+discovered.</p>
+<p><strong>Example:</strong></p>
+<p>For two main classes <code class="docutils literal"><span class="pre">com.example.FooMain</span></code> and <code class="docutils literal"><span class="pre">com.example.BarMain</span></code> <code class="docutils literal"><span class="pre">sbt</span> <span class="pre">stage</span></code> will generate these scripts:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>bin/
+  bar-main
+  bar-main.bat
+  foo-main
+  foo-main.bat
+</pre></div>
+</div>
+</div>
+<div class="section" id="single-start-script-with-forwarders">
+<h3>Single start script with forwarders<a class="headerlink" href="#single-start-script-with-forwarders" title="Permalink to this headline">¶</a></h3>
+<p>Generates a single start script for the defined main class in <code class="docutils literal"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> and forwarding scripts for all
+other <code class="docutils literal"><span class="pre">discoveredMainClasses</span> <span class="pre">in</span> <span class="pre">Compile</span></code>. The forwarder scripts call the defined start script and set the <code class="docutils literal"><span class="pre">-main</span></code>
+parameter to the concrete main class.</p>
+<p>The start script name uses the <code class="docutils literal"><span class="pre">executableScriptName</span></code> setting for its name. The forwarder scripts use a simplified
+version of the class name.</p>
+<p><strong>Example:</strong></p>
+<p>The <code class="docutils literal"><span class="pre">build.sbt</span></code> has an explicit main class set.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;my-project&quot;</span>
+<span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;com.example.FooMain&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>For two main classes <code class="docutils literal"><span class="pre">com.example.FooMain</span></code> and <code class="docutils literal"><span class="pre">com.example.BarMain</span></code> <code class="docutils literal"><span class="pre">sbt</span> <span class="pre">stage</span></code> will generate these scripts:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>bin/
+  bar-main
+  bar-main.bat
+  my-project
+  my-project.bat
+</pre></div>
+</div>
+<p>Now you can package your application as usual, but with multiple start scripts.</p>
 </div>
 </div>
 <div class="section" id="customize">
@@ -587,7 +673,7 @@ application arguments with <code class="docutils literal"><span class="pre">--</
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.1.6-SNAPSHOT',
+            VERSION:'1.2.0-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

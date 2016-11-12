@@ -119,6 +119,10 @@ The start script provides a few standard options you can pass:
   ``-jvm-debug <port>``
     Turn on JVM debugging, open at the given port
 
+  ``-java-home <java home>``
+    Override the default JVM home, it accept variable expansions, e.g.
+    ``-java-home ${app_home}/../jre``
+
   ``-main``
     Define a custom main class
 
@@ -142,6 +146,74 @@ application arguments with ``--``. For example
 
     ./bin/my-app -Dconfig.resource=prod.conf -- -appParam1 -appParam2
 
+
+Multiple Applications
+=====================
+
+If you have multiple main classes then the ``JavaAppPackaging`` archetype provides you with two different ways of
+generating start scripts.
+
+1. A start script for each entry point. This is the default behaviour, when no ``mainClass in Compile`` is set
+2. One start script for the defined ``mainClass in Compile`` and forwarding scripts for all other main classes.
+
+.. note:: What does *'forwarder script'* mean?
+
+   Native-packager's start script provides a `-main` option to override the main class that should be executed.
+   A *forwarder script* only overrides this attribute and forwards all other parameters to the normal start script.
+
+   All customization you implemented for the main script will also apply for the forwarder scripts.
+
+Multiple start scripts
+----------------------
+
+No configuration is needed. SBT sets ``mainClass in Compile`` automatically to ``None`` if multiple main classes are
+discovered.
+
+**Example:**
+
+For two main classes ``com.example.FooMain`` and ``com.example.BarMain`` ``sbt stage`` will generate these scripts:
+
+.. code-block:: none
+
+   bin/
+     bar-main
+     bar-main.bat
+     foo-main
+     foo-main.bat
+
+
+Single start script with forwarders
+-----------------------------------
+
+Generates a single start script for the defined main class in ``mainClass in Compile`` and forwarding scripts for all
+other ``discoveredMainClasses in Compile``. The forwarder scripts call the defined start script and set the ``-main``
+parameter to the concrete main class.
+
+The start script name uses the ``executableScriptName`` setting for its name. The forwarder scripts use a simplified
+version of the class name.
+
+
+**Example:**
+
+The ``build.sbt`` has an explicit main class set.
+
+.. code-block:: scala
+
+    name := "my-project"
+    mainClass in Compile := Some("com.example.FooMain")
+
+For two main classes ``com.example.FooMain`` and ``com.example.BarMain`` ``sbt stage`` will generate these scripts:
+
+.. code-block:: none
+
+   bin/
+     bar-main
+     bar-main.bat
+     my-project
+     my-project.bat
+
+
+Now you can package your application as usual, but with multiple start scripts.
 
 Customize
 =========
