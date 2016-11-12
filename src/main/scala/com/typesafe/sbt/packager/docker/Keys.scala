@@ -27,6 +27,7 @@ trait DockerKeys {
     "dockerCmd",
     "Docker CMD. Used together with dockerEntrypoint. Arguments passed in exec form"
   )
+  val dockerExecCommand = SettingKey[Seq[String]]("dockerExecCommand", "The shell command used to exec Docker")
   val dockerBuildOptions = SettingKey[Seq[String]]("dockerBuildOptions", "Options used for the Docker build")
   val dockerBuildCommand = SettingKey[Seq[String]]("dockerBuildCommand", "Command for building the Docker image")
 
