@@ -11,6 +11,15 @@ trait BashStartScriptKeys {
   val makeBashScripts = TaskKey[Seq[(File, String)]]("makeBashScripts", "Creates start scripts for this project.")
   val bashScriptTemplateLocation =
     TaskKey[File]("bashScriptTemplateLocation", "The location of the bash script template.")
+
+  val bashScriptReplacements = TaskKey[Seq[(String, String)]](
+    "bashScriptReplacements",
+    """|Replacements of template parameters used in the bash script.
+       |  Default supported templates:
+       |  app_mainclass - the main class that should be executed
+       |""".stripMargin
+  )
+
   val bashScriptDefines = TaskKey[Seq[String]](
     "bashScriptDefines",
     "A list of definitions that should be written to the bash file template."

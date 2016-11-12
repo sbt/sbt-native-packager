@@ -37,6 +37,8 @@ real_script_path="$(realpath "$0")"
 app_home="$(realpath "$(dirname "$real_script_path")")"
 lib_dir="$(realpath "${app_home}/../lib")"
 
+app_mainclass=${{app_mainclass}}
+
 ${{template_declares}}
 
 # If a configuration file exist, read the contents to $opts

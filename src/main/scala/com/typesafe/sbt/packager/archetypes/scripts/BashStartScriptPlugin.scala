@@ -45,7 +45,7 @@ object BashStartScriptPlugin extends AutoPlugin {
 
   private[this] case class BashScriptConfig(executableScriptName: String,
                                             scriptClasspath: Seq[String],
-                                            bashDefines: Seq[String],
+                                            bashScriptReplacements: Seq[(String, String)],
                                             bashScriptTemplateLocation: File)
 
   override def projectSettings: Seq[Setting[_]] = Seq(
@@ -53,6 +53,7 @@ object BashStartScriptPlugin extends AutoPlugin {
     bashScriptExtraDefines := Nil,
     bashScriptDefines := Defines((scriptClasspath in bashScriptDefines).value, bashScriptConfigLocation.value),
     bashScriptDefines ++= bashScriptExtraDefines.value,
+    bashScriptReplacements := generateScriptReplacements(bashScriptDefines.value),
     // Create a bashConfigLocation if options are set in build.sbt
     bashScriptConfigLocation <<= bashScriptConfigLocation ?? Some(appIniLocation),
     bashScriptEnvConfigLocation <<= bashScriptEnvConfigLocation ?? None,
@@ -68,7 +69,7 @@ object BashStartScriptPlugin extends AutoPlugin {
       BashScriptConfig(
         executableScriptName = executableScriptName.value,
         scriptClasspath = (scriptClasspath in bashScriptDefines).value,
-        bashDefines = bashScriptDefines.value ++ bashScriptExtraDefines.value,
+        bashScriptReplacements = bashScriptReplacements.value,
         bashScriptTemplateLocation = bashScriptTemplateLocation.value
       ),
       (mainClass in (Compile, bashScriptDefines)).value,
@@ -78,6 +79,11 @@ object BashStartScriptPlugin extends AutoPlugin {
     ),
     mappings in Universal ++= makeBashScripts.value
   )
+
+  private[this] def generateScriptReplacements(defines: Seq[String]): Seq[(String, String)] = {
+    val defineString = defines mkString "\n"
+    Seq("template_declares" -> defineString)
+  }
 
   private[this] def generateApplicationIni(universalMappings: Seq[(File, String)],
                                            javaOptions: Seq[String],
@@ -163,17 +169,6 @@ object BashStartScriptPlugin extends AutoPlugin {
     def apply(appClasspath: Seq[String], configFile: Option[String]): Seq[String] =
       (configFile map configFileDefine).toSeq ++ Seq(makeClasspathDefine(appClasspath))
 
-    def mainClass(mainClass: String) = {
-      val jarPrefixed = """^\-jar (.*)""".r
-      val args = mainClass match {
-        case jarPrefixed(jarName) => Seq("-jar", jarName)
-        case className => Seq(className)
-      }
-      val quotedArgsSpaceSeparated =
-        args.map(s => "\"" + s + "\"").mkString(" ")
-      "declare -a app_mainclass=(%s)\n" format quotedArgsSpaceSeparated
-    }
-
     private[this] def makeClasspathDefine(cp: Seq[String]): String = {
       val fullString = cp map (n =>
                                  if (n.startsWith(File.separator)) n
@@ -196,8 +191,9 @@ object BashStartScriptPlugin extends AutoPlugin {
       */
     def apply(mainClass: String, config: BashScriptConfig, targetDir: File): File = {
       val template = resolveTemplate(config.bashScriptTemplateLocation)
-      val defines = Defines.mainClass(mainClass) +: config.bashDefines
-      val scriptContent = generateScript(defines, template)
+      val replacements = Seq("app_mainclass" -> mainClassReplacement(mainClass)) ++ config.bashScriptReplacements
+
+      val scriptContent = TemplateWriter.generateScript(template, replacements)
       val script = targetDir / "scripts" / config.executableScriptName
       IO.write(script, scriptContent)
       // TODO - Better control over this!
@@ -205,15 +201,18 @@ object BashStartScriptPlugin extends AutoPlugin {
       script
     }
 
+    private[this] def mainClassReplacement(mainClass: String): String = {
+      val jarPrefixed = """^\-jar (.*)""".r
+      val args = mainClass match {
+        case jarPrefixed(jarName) => Seq("-jar", jarName)
+        case className => Seq(className)
+      }
+      args.map(s => "\"" + s + "\"").mkString(" ")
+    }
+
     private[this] def resolveTemplate(defaultTemplateLocation: File): URL =
       if (defaultTemplateLocation.exists) defaultTemplateLocation.toURI.toURL
       else getClass.getResource(defaultTemplateLocation.getName)
-
-    private[this] def generateScript(defines: Seq[String], template: URL): String = {
-      val defineString = defines mkString "\n"
-      val replacements = Seq("template_declares" -> defineString)
-      TemplateWriter.generateScript(template, replacements)
-    }
   }
 
   object ForwarderScripts {

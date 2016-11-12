@@ -1,6 +1,8 @@
 package com.typesafe.sbt.packager.archetypes.scripts
 
-import com.typesafe.sbt.packager.Keys.bashScriptTemplateLocation
+import java.io.File
+
+import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import sbt.Keys.sourceDirectory
 import sbt._
@@ -73,5 +75,34 @@ object AshScriptPlugin extends AutoPlugin {
 
   val ashTemplate = "ash-template"
 
-  override def projectSettings = Seq(bashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashTemplate))
+  override def projectSettings = Seq(
+    bashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashTemplate),
+    bashScriptDefines := Defines((scriptClasspath in bashScriptDefines).value, bashScriptConfigLocation.value)
+  )
+
+  /**
+    * Ash defines
+    */
+  object Defines {
+
+    /**
+      * Creates the block of defines for a script.
+      *
+      * @param appClasspath A sequence of relative-locations (to the lib/ folder) of jars
+      *                     to include on the classpath.
+      * @param configFile An (optional) filename from which the script will read arguments.
+      */
+    def apply(appClasspath: Seq[String], configFile: Option[String]): Seq[String] =
+      (configFile map configFileDefine).toSeq ++ Seq(makeClasspathDefine(appClasspath))
+
+    private[this] def makeClasspathDefine(cp: Seq[String]): String = {
+      val fullString = cp map (n =>
+                                 if (n.startsWith(File.separator)) n
+                                 else "$lib_dir/" + n) mkString ":"
+      "app_classpath=\"" + fullString + "\"\n"
+    }
+
+    private[this] def configFileDefine(configFile: String) =
+      "script_conf_file=\"%s\"" format (configFile)
+  }
 }
