@@ -189,10 +189,11 @@ Service Manager
 -----------------------------------------
 
 It's also possible to override the entire script/configuration for your service manager.
-Create a file ``src/templates/systemloader/$loader`` and it will be used instead.
+Create a file ``src/templates/$format/$loader`` and it will be used instead.
 
 Possible values:
 
+* ``$format`` - ``debian`` or ``rpm``
 * ``$loader`` - ``upstart``, ``systemv`` or ``systemd``
 
 **Syntax**

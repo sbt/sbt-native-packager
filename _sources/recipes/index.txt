@@ -16,6 +16,7 @@ This section provides recipes for common configurations. If you can't find what 
    deployment
    scalajs
    package_configuration
-   embedded-jvm
+
+
 
 .. _sbt-native-packager examples: https://github.com/muuki88/sbt-native-packager-examples

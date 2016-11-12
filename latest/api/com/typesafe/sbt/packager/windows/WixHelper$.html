@@ -257,6 +257,24 @@ characters and replacing with _.  Also limits the width to 70 (rather than
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.windows.WixHelper#generateComponentsAndDirectoryXml" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="generateComponentsAndDirectoryXml(dir:sbt.File,id_prefix:String):(Seq[String],scala.xml.Node)"></a>
+      <a id="generateComponentsAndDirectoryXml(File,String):(Seq[String],Node)"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateComponentsAndDirectoryXml</span><span class="params">(<span name="dir">dir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="id_prefix">id_prefix: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>)</span><span class="result">: (<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="scala.xml.Node">Node</span>)</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Constructs a set of componentRefs and the directory/file WIX for
+all files in a given directory.</p><div class="fullcomment"><div class="comment cmt"><p>Constructs a set of componentRefs and the directory/file WIX for
+all files in a given directory.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>A tuple where the first item is all the Component Ids created,
+        and the second is the Directory/File/Component XML.
+</p></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -270,21 +288,6 @@ characters and replacing with _.  Also limits the width to 70 (rather than
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.windows.WixHelper#getNameSpaceDefinitions" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getNameSpaceDefinitions(majorVersion:Int):com.typesafe.sbt.packager.windows.NamespaceDefinitions"></a>
-      <a id="getNameSpaceDefinitions(Int):NamespaceDefinitions"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getNameSpaceDefinitions</span><span class="params">(<span name="majorVersion">majorVersion: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="NamespaceDefinitions.html" class="extype" name="com.typesafe.sbt.packager.windows.NamespaceDefinitions">NamespaceDefinitions</a></span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Wix namespace changed from major version 3 to 4.</p><div class="fullcomment"><div class="comment cmt"><p>Wix namespace changed from major version 3 to 4.
-TODO: Not sure if schema of 2006 is compatible with major versions &lt; 3
-</p></div></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -338,15 +341,15 @@ TODO: Not sure if schema of 2006 is compatible with major versions &lt; 3
       </h4>
       <p class="shortcomment cmt">Takes a file and generates an ID for it.</p>
     </li><li name="com.typesafe.sbt.packager.windows.WixHelper#makeWixConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="makeWixConfig(name:String,product:com.typesafe.sbt.packager.windows.WindowsProductInfo,namespaceDefinitions:com.typesafe.sbt.packager.windows.NamespaceDefinitions,rest:scala.xml.Node):scala.xml.Node"></a>
-      <a id="makeWixConfig(String,WindowsProductInfo,NamespaceDefinitions,Node):Node"></a>
+      <a id="makeWixConfig(name:String,product:com.typesafe.sbt.packager.windows.WindowsProductInfo,rest:scala.xml.Node):scala.xml.Node"></a>
+      <a id="makeWixConfig(String,WindowsProductInfo,Node):Node"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">makeWixConfig</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="product">product: <a href="WindowsProductInfo.html" class="extype" name="com.typesafe.sbt.packager.windows.WindowsProductInfo">WindowsProductInfo</a></span>, <span name="namespaceDefinitions">namespaceDefinitions: <a href="NamespaceDefinitions.html" class="extype" name="com.typesafe.sbt.packager.windows.NamespaceDefinitions">NamespaceDefinitions</a></span>, <span name="rest">rest: <span class="extype" name="scala.xml.Node">Node</span></span>)</span><span class="result">: <span class="extype" name="scala.xml.Node">Node</span></span>
+        <span class="name">makeWixConfig</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="product">product: <a href="WindowsProductInfo.html" class="extype" name="com.typesafe.sbt.packager.windows.WindowsProductInfo">WindowsProductInfo</a></span>, <span name="rest">rest: <span class="extype" name="scala.xml.Node">Node</span></span>)</span><span class="result">: <span class="extype" name="scala.xml.Node">Node</span></span>
       </span>
       </h4>
       
@@ -490,31 +493,7 @@ TODO: Not sure if schema of 2006 is compatible with major versions &lt; 3
 
         
 
-        <div id="values" class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="com.typesafe.sbt.packager.windows.WixHelper#generateComponentsAndDirectoryXml" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="generateComponentsAndDirectoryXml(dir:sbt.File,id_prefix:String):(Seq[String],scala.xml.Node)"></a>
-      <a id="generateComponentsAndDirectoryXml(File,String):(Seq[String],Node)"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: (Since version 6/28/13) Use higher level abstraction">generateComponentsAndDirectoryXml</span><span class="params">(<span name="dir">dir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="id_prefix">id_prefix: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>)</span><span class="result">: (<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="scala.xml.Node">Node</span>)</span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Constructs a set of componentRefs and the directory/file WIX for
-all files in a given directory.</p><div class="fullcomment"><div class="comment cmt"><p>Constructs a set of componentRefs and the directory/file WIX for
-all files in a given directory.
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>A tuple where the first item is all the Component Ids created,
-        and the second is the Directory/File/Component XML.
-</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
-                <span class="name">@deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 6/28/13)</i> Use higher level abstraction</p></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

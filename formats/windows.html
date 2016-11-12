@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Windows Plugin &mdash; sbt-native-packager 1.2.0-SNAPSHOT documentation</title>
+  <title>Windows Plugin &mdash; sbt-native-packager 1.1.6-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.2.0-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.1.6-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Packaging Formats" href="index.html"/>
         <link rel="next" title="JDKPackager Plugin" href="jdkpackager.html"/>
         <link rel="prev" title="Docker Plugin" href="docker.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.2.0-SNAPSHOT
+                1.1
               </div>
             
           
@@ -165,8 +165,6 @@
 <li class="toctree-l3"><a class="reference internal" href="debian.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debian.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
-<li class="toctree-l4"><a class="reference internal" href="debian.html#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="debian.html#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -215,7 +213,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="docker.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docker.html#customize">Customize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name-and-version">Docker Image Name and Version</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name">Docker Image Name</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-base-image">Docker Base Image</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-repository">Docker Repository</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-customization">Docker Image Customization</a></li>
@@ -276,34 +274,17 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#systemloader-configuration">Systemloader Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../archetypes/systemloaders.html">Systemloaders</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#overview">Overview</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#general-settings">General Settings</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemv">SystemV</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemd">Systemd</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#settings">Settings</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#upstart">Upstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#customization">Customization</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#start-script-location">Start Script Location</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#customize-start-script">Customize Start Script</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#override-start-script">Override Start Script</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
@@ -382,11 +363,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -437,11 +413,11 @@
             
   <div class="section" id="windows-plugin">
 <span id="id1"></span><h1>Windows Plugin<a class="headerlink" href="#windows-plugin" title="Permalink to this headline">¶</a></h1>
-<p>Windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package,
+<p>The windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package,
 it&#8217;s important to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial
 to how to create packages using wix.</p>
 <p>However, the native-packager provides a simple layer on top of wix that <em>may</em> be enough for most projects.
-If it is not enough, just override <code class="docutils literal"><span class="pre">wixConfig</span></code> or <code class="docutils literal"><span class="pre">wixFile</span></code> settings.  Let&#8217;s look at the layer above direct
+If it is not, just override <code class="docutils literal"><span class="pre">wixConfig</span></code> or <code class="docutils literal"><span class="pre">wixFile</span></code> settings.  Let&#8217;s look at the layer above direct
 xml configuration.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -483,9 +459,9 @@ you have these settings in your build:</p>
 </div>
 <div class="section" id="or-lower">
 <h3>0.8 or lower<a class="headerlink" href="#or-lower" title="Permalink to this headline">¶</a></h3>
-<p>For these versions windows packaging is automatically activated.
+<p>For this versions windows packaging is automatically activated.
 See the <a class="reference internal" href="../gettingstarted.html"><em>Getting Started</em></a> page for information
-on how to enable sbt-native-packager.</p>
+on how to enable sbt native packager.</p>
 </div>
 </div>
 <div class="section" id="configuration">
@@ -506,20 +482,14 @@ on how to enable sbt-native-packager.</p>
 <dd>the list of options to pass to the <code class="docutils literal"><span class="pre">candle.exe</span></code> command.</dd>
 <dt><code class="docutils literal"><span class="pre">lightOptions</span></code></dt>
 <dd>the list of options to pass to the <code class="docutils literal"><span class="pre">light.exe</span></code> command.  Most likely setting is: <code class="docutils literal"><span class="pre">Seq(&quot;-ext&quot;,</span> <span class="pre">&quot;WixUIExtension&quot;,</span> <span class="pre">&quot;-cultures:en-us&quot;)</span></code> for UI.</dd>
-<dt><code class="docutils literal"><span class="pre">wixMajorVersion</span></code></dt>
-<dd>the major version of the Wix tool-set (e.g. when using Wix 4.0.1, major version is 4). Default is 3.</dd>
 <dt><code class="docutils literal"><span class="pre">wixProductId</span></code></dt>
 <dd>The GUID to use to identify the windows package/product.</dd>
 <dt><code class="docutils literal"><span class="pre">wixProductUpgradeId</span></code></dt>
-<dd>The GUID to use to identify the windows package/product <em>upgrade</em> identifier (<a class="reference external" href="http://wixtoolset.org/documentation/manual/v3/howtos/updates/major_upgrade.html">See the wix docs on upgrades</a>).</dd>
-</dl>
-</div></blockquote>
-<blockquote>
-<div><dl class="docutils">
+<dd>The GUID to use to identify the windows package/product <em>upgrade</em> identifier (see wix docs).</dd>
 <dt><code class="docutils literal"><span class="pre">wixPackageInfo</span></code></dt>
 <dd>The information used to autoconstruct the <code class="docutils literal"><span class="pre">&lt;Product&gt;&lt;Package/&gt;</span></code> portion of the wix xml.  <strong>Note: unused if ``wixConfig`` is overridden</strong></dd>
 <dt><code class="docutils literal"><span class="pre">wixProductLicense</span></code></dt>
-<dd>An (optional) <code class="docutils literal"><span class="pre">rtf</span></code> file to display as the product license during installation.  Defaults to <code class="docutils literal"><span class="pre">src/windows/License.rtf</span></code></dd>
+<dd>An (optional) <code class="docutils literal"><span class="pre">rtf</span></code> file to display as the product license during installation.  Default to looking for <code class="docutils literal"><span class="pre">src/windows/License.rtf</span></code></dd>
 <dt><code class="docutils literal"><span class="pre">wixFeatures</span></code></dt>
 <dd>A set of windows features that users can install with this package.  <strong>Note: unused if ``wixConfig`` is overridden</strong></dd>
 <dt><code class="docutils literal"><span class="pre">wixProductConfig</span></code></dt>
@@ -530,7 +500,7 @@ on how to enable sbt-native-packager.</p>
 <dd>The file containing WIX xml that defines the build.</dd>
 <dt><code class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">packageMsi</span> <span class="pre">in</span> <span class="pre">Windows</span></code></dt>
 <dd>A list of file-&gt;location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a <code class="docutils literal"><span class="pre">cab</span></code> or embedded <code class="docutils literal"><span class="pre">cab</span></code> for the <code class="docutils literal"><span class="pre">msi</span></code>.
-The WIX xml should use the relative locations in this mappings when referencing files for the package.</dd>
+The WIX xml should use the relative locations in this mappings when references files for the package.</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -573,7 +543,7 @@ like a set of files or menu links. The currently supported components of feature
 <li>Menu Shortcuts (<code class="docutils literal"><span class="pre">AddShortCuts</span></code>)</li>
 </ol>
 <p>To create a new feature, simple instantiate the <code class="docutils literal"><span class="pre">WindowsFeature</span></code> class with the desired feature components that are included.</p>
-<p>Here&#8217;s an example feature that installs a binary file (<cite>cool.jar</cite>) and a script (<cite>cool.bat</cite>), and adds a directory to the PATH:</p>
+<p>Here&#8217;s an example feature that installs a binary and a script, as well as path settings:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">wixFeatures</span> <span class="o">+=</span> <span class="nc">WindowsFeature</span><span class="o">(</span>
     <span class="n">id</span><span class="o">=</span><span class="s">&quot;BinaryAndPath&quot;</span><span class="o">,</span>
     <span class="n">title</span><span class="o">=</span><span class="s">&quot;My Project&#39;s Binaries and updated PATH settings&quot;</span><span class="o">,</span>
@@ -585,7 +555,7 @@ like a set of files or menu links. The currently supported components of feature
 <span class="o">)</span>
 </pre></div>
 </div>
-<p>All file references should line up exactly with those found in the <code class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></code> configuration.   When generating a MSI, the plugin will first create
+<p>All file references should line up exactly with those found in the <code class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></code> configuration.   When generating an MSI, the plugin will first create
 a directory using all the <code class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></code> and configure this for inclusion in a <code class="docutils literal"><span class="pre">cab</span></code> file.  If you&#8217;d like to add files to include, these must <em>first</em>
 be added to the mappings, and then to a feature.   For example, if we complete the above setting to include file mappings, we&#8217;d have the following:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">sourceDirectory</span> <span class="n">in</span> <span class="nc">Windows</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="n">jar</span><span class="o">,</span> <span class="n">dir</span><span class="o">)</span> <span class="k">=&gt;</span>
@@ -604,7 +574,7 @@ be added to the mappings, and then to a feature.   For example, if we complete t
 </pre></div>
 </div>
 <p>Right now this layer is <em>very</em> limited in what it can accomplish, and hasn&#8217;t been heavily debugged.  If you&#8217;re interested in helping contribute, please
-do so!   However, for most command line tools, it should be sufficient for generating a basic <code class="docutils literal"><span class="pre">msi</span></code> that Windows users can install.</p>
+do so!   However, for most command line tools, it should be sufficient for generating a basic <code class="docutils literal"><span class="pre">msi</span></code> that windows users can install.</p>
 </div>
 </div>
 </div>
@@ -650,7 +620,7 @@ do so!   However, for most command line tools, it should be sufficient for gener
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.2.0-SNAPSHOT',
+            VERSION:'1.1.6-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -3,14 +3,14 @@
 Rpm Plugin
 ==========
 
-RedHat ``rpm`` files support a number of very advanced features.  To take full advantage of this environment,
-it's best to understand how the ``rpm`` package system works. `How to create an RPM package`_ on the fedorda project wiki
-is a good tutorial, but it focuses on building packages from *source.*  The sbt-native-packager assumes that SBT has built your source and generated
-*binary* packages.
+RedHat ``rpm`` files support a very advanced number of features.  To take full advantage of this environment,
+it's best to understand how the ``rpm`` package system works.
+http://fedoraproject.org/wiki/How_to_create_an_RPM_package is a good tutorial, but it focuses on building
+packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated
+'binary' packages.
 
 .. note:: The rpm plugin depends on the :ref:`linux-plugin`.
 
-.. _How to create an RPM package: http://fedoraproject.org/wiki/How_to_create_an_RPM_package
 
 Requirements
 ------------
@@ -105,7 +105,7 @@ Informational Settings
 
   ``packageSummary in Rpm``
     A brief, one-line summary of the package.
-    Note: the summary **must not** contain line separators or end in a period.
+    Note, the summary **must not** contain line separators or end in a period.
     Its value defines the ``Summary:`` tag in the spec file, and its default
     value is drawn from ``packageSummary in Linux``.
 
@@ -168,7 +168,7 @@ Scriptlet Settings
 ~~~~~~~~~~~~~~~~~~
 
   ``maintainerScripts in Rpm``
-    Contains the scriptlets being injected into the specs file. Currently supports all
+    Contains the scriptles being injected into the specs file. Currently supports all
     previous scriptlets: ``%pretrans``, ``%pre``, ``%verifyscript%``, ``%post``, ``%posttrans``,
     ``%preun`` and  ``%postun``
 
@@ -186,7 +186,7 @@ SystemV Start Script Settings
 Tasks
 -----
 
-The Rpm plugin support grants the following commands:
+The Rpm support grants the following commands:
 
   ``rpm:package-bin``
     Generates the ``.rpm`` package for this project.
@@ -220,8 +220,8 @@ rpmChangelogFile
 ~~~~~~~~~~~~~~~~
 
 The rpmChangelogFile property allows you to set a source that will be imported and used on the RPM generation.
-So if you use rpm commands to see the changelog it brings that information. You have to create the content in
-the changelog file using the RPM conventions that are available here http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs.
+So if you use rpm commands to see the changelog it brings that information. You have to create the content on
+that file following the RPM conventions that are available here http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs.
 
 Example Settings:
 
@@ -244,16 +244,7 @@ Example Settings:
 Scriptlet Changes
 ~~~~~~~~~~~~~~~~~
 
-Changing scriptlets can be done in two ways:
-
-1. Override the ``maintainerScripts in Rpm``, or
-
-2. Place new scripts in the ``src/rpm/scriptlets``
-
-To **override the ``maintainerScripts in Rpm``** you can override the command string explicitly,
-create a command string using appends and/or replacements,
-or even get a command string from a file source.
-
+Changing the scripts can be done in two ways. Override the ``maintainerScripts in Rpm``.
 For example:
 
 .. code-block:: scala
@@ -285,8 +276,7 @@ For example:
 
 The helper methods can be found in `MaintainerScriptHelper Scaladocs`_.
 
-To **place new scripts in the src/rpm/scriptlets folder**  you simply put the commands into the appropriate scriptlet file.
-(The scriptlet file names can be found in the `RPM Scaladocs`_.)
+You also can place new scripts in the ``src/rpm/scriptlets`` folder. For example:
 
 
 ``src/rpm/scriptlets/preinst``
@@ -305,7 +295,8 @@ To **place new scripts in the src/rpm/scriptlets folder**  you simply put the co
     rm /etc/sysconfig/${{app_name}}
     ...
 
-Using scriptlet files like this *will override all previous contents.*
+Using files will override all previous contents. The names used can be found in
+the `RPM Scaladocs`_.
 
 Scriptlet Migration from 1.0.x
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -340,13 +331,13 @@ Jar Repackaging
 ~~~~~~~~~~~~~~~
 
 rpm repackages jars by default (described in this `blog post`_) in order to optimize jars.
-This behaviour is turned off by default with this setting:
+This behaviour is turned off by default with this setting.
 
 .. code-block:: scala
 
     rpmBrpJavaRepackJars := false
 
-Note that this *appends* content to your ``Pre`` definition, so make sure not to override it.
+Note that this appends content to your ``Pre`` definition, so make sure not to override it.
 For more information on this topic follow these links:
 
 * `issue #195`_

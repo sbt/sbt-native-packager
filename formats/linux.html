@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Linux Plugin &mdash; sbt-native-packager 1.2.0-SNAPSHOT documentation</title>
+  <title>Linux Plugin &mdash; sbt-native-packager 1.1.6-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.2.0-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.1.6-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Packaging Formats" href="index.html"/>
         <link rel="next" title="Debian Plugin" href="debian.html"/>
         <link rel="prev" title="Universal Plugin" href="universal.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.2.0-SNAPSHOT
+                1.1
               </div>
             
           
@@ -165,8 +165,6 @@
 <li class="toctree-l3"><a class="reference internal" href="debian.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debian.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
-<li class="toctree-l4"><a class="reference internal" href="debian.html#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="debian.html#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -215,7 +213,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="docker.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docker.html#customize">Customize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name-and-version">Docker Image Name and Version</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name">Docker Image Name</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-base-image">Docker Base Image</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-repository">Docker Repository</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-customization">Docker Image Customization</a></li>
@@ -276,34 +274,17 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#systemloader-configuration">Systemloader Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../archetypes/systemloaders.html">Systemloaders</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#overview">Overview</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#general-settings">General Settings</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemv">SystemV</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemd">Systemd</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#settings">Settings</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#upstart">Upstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#customization">Customization</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#start-script-location">Start Script Location</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#customize-start-script">Customize Start Script</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#override-start-script">Override Start Script</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
@@ -382,11 +363,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -437,7 +413,7 @@
             
   <div class="section" id="linux-plugin">
 <span id="id1"></span><h1>Linux Plugin<a class="headerlink" href="#linux-plugin" title="Permalink to this headline">¶</a></h1>
-<p>The native packager plugin is designed so that linux packages look similar but can contain distribution specific information.</p>
+<p>The native packager plugin is designed so that linux packages look similar, but can contain distribution specific information.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The linux plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span>Universal Plugin</span></a>.</p>
@@ -473,7 +449,7 @@ you have these settings in your build:</p>
 <span class="s">  with multiple lines.&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-<p>Enable the linux plugin to activate the native package implementation.</p>
+<p>Enable the debian plugin to activate the native package implementation.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">LinuxPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
@@ -534,7 +510,7 @@ and the <code class="docutils literal"><span class="pre">String</span></code> is
 <dd>This denotes that the mapped files are documentation files.  <em>Note: I believe these are only used for ``RPM``s.</em></dd>
 <dt><code class="docutils literal"><span class="pre">withConfig(value:String=&quot;true&quot;)</span></code></dt>
 <dd>This denotes whether or not a <code class="docutils literal"><span class="pre">%config</span></code> attribute is attached to the given files in the generated rpm SPEC.  Any value other than <code class="docutils literal"><span class="pre">&quot;true&quot;</span></code> will be
-placed inside the <code class="docutils literal"><span class="pre">%config()</span></code> definition.  For example <code class="docutils literal"><span class="pre">withConfig(&quot;noreplace&quot;)</span></code> results in <code class="docutils literal"><span class="pre">%config(noreplace)</span></code> attribute in the rpm spec.</dd>
+placed inside the <code class="docutils literal"><span class="pre">%config()`</span> <span class="pre">definition,</span> <span class="pre">for</span> <span class="pre">example</span> <span class="pre">``withConfig(&quot;noreplace&quot;)</span></code> results in <code class="docutils literal"><span class="pre">%config(noreplace)</span></code> attribute in the rpm spec.</dd>
 <dt><code class="docutils literal"><span class="pre">withUser(user:String)</span></code></dt>
 <dd>This denotes which user should be the owner of the given files in the resulting package.</dd>
 <dt><code class="docutils literal"><span class="pre">withGroup(group:String)</span></code></dt>
@@ -552,12 +528,12 @@ instances yourself you have to add <code class="docutils literal"><span class="p
 <dt><code class="docutils literal"><span class="pre">mappings:</span> <span class="pre">Traversable[(File,</span> <span class="pre">String)]</span></code></dt>
 <dd>A list of mappings aggregated by this LinuxPackageMapping</dd>
 <dt><code class="docutils literal"><span class="pre">fileData:</span> <span class="pre">LinuxFileMetaData</span></code></dt>
-<dd>Permissions for all the defined mappings. Default = &#8220;root:root 755&#8221;</dd>
+<dd>Permissions for all the defined mappings. Default to &#8220;root:root 755&#8221;</dd>
 <dt><code class="docutils literal"><span class="pre">zipped:</span> <span class="pre">Boolean</span></code></dt>
-<dd>Are the mappings zipped? Default = false</dd>
+<dd>Are the mappings zipped. Default to false</dd>
 </dl>
 </div></blockquote>
-<p>All mappings are stored in the task <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> which returns a <code class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></code>. To display the contents (value),
+<p>All mappings are stored in the task <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> which returns a <code class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></code>. To display the contents
 open the sbt console and call</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>show linuxPackageMappings
 </pre></div>
@@ -566,15 +542,15 @@ open the sbt console and call</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">user:</span> <span class="pre">String</span></code></dt>
-<dd>The user owning all the mappings. Default = &#8220;root&#8221;</dd>
+<dd>The user owning all the mappings. Default &#8220;root&#8221;</dd>
 <dt><code class="docutils literal"><span class="pre">group:</span> <span class="pre">String</span></code></dt>
-<dd>The group owning all the mappings. Default = &#8220;root&#8221;</dd>
+<dd>The group owning all the mappings. Default &#8220;root&#8221;</dd>
 <dt><code class="docutils literal"><span class="pre">permissions:</span> <span class="pre">String</span></code></dt>
-<dd>Access permissions for all the mappings. Default = &#8220;755&#8221;</dd>
+<dd>Access permissions for all the mappings. Default &#8220;755&#8221;</dd>
 <dt><code class="docutils literal"><span class="pre">config:</span> <span class="pre">String</span></code></dt>
-<dd>Are the mappings config files. Default = &#8220;false&#8221;</dd>
+<dd>Are the mappings config files. Default &#8220;false&#8221;</dd>
 <dt><code class="docutils literal"><span class="pre">docs:</span> <span class="pre">Boolean</span></code></dt>
-<dd>Are the mappings docs. Default = false</dd>
+<dd>Are the mappings docs. Default to false</dd>
 </dl>
 </div></blockquote>
 <p>Last but not least there are the <code class="docutils literal"><span class="pre">linuxPackageSymlinks</span></code>, which encapsulate symlinks on your
@@ -595,9 +571,8 @@ destination system. A <code class="docutils literal"><span class="pre">LinuxSyml
 </div>
 <div class="section" id="modifying-mappings-in-general">
 <h3>Modifying Mappings in General<a class="headerlink" href="#modifying-mappings-in-general" title="Permalink to this headline">¶</a></h3>
-<p>Adding, filtering and altering mappings are always simple methods on a <code class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></code> sequence.
-This section shows you the general way to add, modify, or filter mappings.  The following sections have specific examples.</p>
-<p>The basic construct for <strong>adding</strong> a mapping is</p>
+<p>Adding, filtering and altering mappings are always simple methods on a sequence: <code class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></code>.
+The basic construct for adding looks like this</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// simple</span>
 <span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">theFile</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
 
@@ -605,25 +580,21 @@ This section shows you the general way to add, modify, or filter mappings.  The 
 <span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">theFile</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span> <span class="n">withPerms</span><span class="o">(</span><span class="s">&quot;644&quot;</span><span class="o">)</span> <span class="n">asDocs</span><span class="o">()</span>
 </pre></div>
 </div>
-<p>To <strong>filter</strong> or <strong>modify</strong> a mapping, you generally create a new mapping by copying an existing one (or occasionally by creating a new blank one),
-then filter or modify it, and then return that filtered or modified mapping.  Here&#8217;s an example that shows a number of things you can <em>possibly</em> do.  See the next section for specifc examples.
-(Basic scala collections operations are used in the code. <a class="reference external" href="https://twitter.github.io/scala_school/collections.html#filter">Here is an explanation of the filter method</a>.)</p>
+<p>If you want to filter or alter things. The example has a lot of things you can _possibly_ do. Just pick
+what you need. After this section there are smaller examples, showing how you can implement certain functions.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// sbt 0.13.0 syntax</span>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="c1">// mappings: Seq[LinuxPackageMapping]</span>
     <span class="k">val</span> <span class="n">mappings</span> <span class="k">=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
-
     <span class="c1">// this process will must return another Seq[LinuxPackageMapping]</span>
     <span class="n">mappings</span> <span class="n">map</span> <span class="o">{</span>  <span class="n">linuxPackage</span> <span class="k">=&gt;</span>
-
-        <span class="c1">// each mapping element is a Seq[(java.io.File, String)]</span>
+        <span class="c1">// basic scala collections operations. Seq[(java.io.File, String)]</span>
         <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">linuxPackage</span><span class="o">.</span><span class="n">mappings</span> <span class="n">map</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">file</span> <span class="o">-&gt;</span> <span class="n">name</span> <span class="c1">// alter stuff here</span>
+            <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">file</span> <span class="o">-&gt;</span> <span class="n">name</span> <span class="c1">// altering stuff here</span>
         <span class="o">}</span> <span class="n">filter</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="kc">true</span> <span class="c1">// filter anything from the mapping where the case (file, name) =&gt; true  pattern is satisfied</span>
+            <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="kc">true</span> <span class="c1">// remove stuff from mappings</span>
         <span class="o">}</span>
-
-        <span class="c1">// Copy values from the mapping: (Include only what you need)</span>
+        <span class="c1">// case class copy method. Specify only what you need</span>
         <span class="k">val</span> <span class="n">fileData</span> <span class="k">=</span> <span class="n">linuxPackage</span><span class="o">.</span><span class="n">fileData</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span>
             <span class="n">user</span> <span class="k">=</span> <span class="s">&quot;new user&quot;</span><span class="o">,</span>
             <span class="n">group</span> <span class="k">=</span> <span class="s">&quot;another group&quot;</span><span class="o">,</span>
@@ -631,14 +602,14 @@ then filter or modify it, and then return that filtered or modified mapping.  He
             <span class="n">config</span> <span class="k">=</span> <span class="s">&quot;false&quot;</span><span class="o">,</span>
             <span class="n">docs</span> <span class="k">=</span> <span class="kc">false</span>
         <span class="o">)</span>
-
-        <span class="c1">// returns a fresh LinuxPackageMapping based on the above</span>
+        <span class="c1">// case class copy method. Specify only what you need.</span>
+        <span class="c1">// returns a fresh LinuxPackageMapping</span>
         <span class="n">linuxPackage</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span>
             <span class="n">mappings</span> <span class="k">=</span> <span class="n">filtered</span><span class="o">,</span>
             <span class="n">fileData</span> <span class="k">=</span> <span class="n">fileData</span>
         <span class="o">)</span>
     <span class="o">}</span> <span class="n">filter</span> <span class="o">{</span>
-        <span class="n">linuxPackage</span> <span class="k">=&gt;</span> <span class="n">linuxPackage</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">nonEmpty</span> <span class="c1">// return all mappings that are nonEmpty (this effectively removes all empty linuxPackageMappings)</span>
+        <span class="n">linuxPackage</span> <span class="k">=&gt;</span> <span class="n">linuxPackage</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">nonEmpty</span> <span class="c1">// remove stuff. Here all empty linuxPackageMappings</span>
     <span class="o">}</span>
 <span class="o">}</span>
 
@@ -660,7 +631,7 @@ then filter or modify it, and then return that filtered or modified mapping.  He
 <span class="o">}</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> can be scoped to <code class="docutils literal"><span class="pre">Rpm</span></code> or <code class="docutils literal"><span class="pre">Debian</span></code> if you want to add mappings only for a single packaging type.</p>
+<p><code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> can be scoped to <code class="docutils literal"><span class="pre">Rpm`</span> <span class="pre">or</span> <span class="pre">``Debian</span></code> if you want to add mappings only for a single packaging type.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;debian-somefile.txt&quot;</span>
   <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
@@ -675,7 +646,7 @@ then filter or modify it, and then return that filtered or modified mapping.  He
 </div>
 <div class="section" id="filter-remove-mappings">
 <h3>Filter/Remove Mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this headline">¶</a></h3>
-<p>If you want to remove some mappings you have to <strong>filter</strong> the current list of <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code>.
+<p>If you want to remove some mappings you have to filter the current list of <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code>.
 As <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> is a task, the order of your settings is important. Here are some examples
 on how to filter mappings.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// this is equal to</span>
@@ -683,20 +654,16 @@ on how to filter mappings.</p>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="c1">// first get the current mappings. mapping is of type Seq[LinuxPackageMapping]</span>
     <span class="k">val</span> <span class="n">mappings</span> <span class="k">=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
-
     <span class="c1">// map over the mappings if you want to change them</span>
     <span class="n">mappings</span> <span class="n">map</span> <span class="o">{</span> <span class="n">mapping</span> <span class="k">=&gt;</span>
-
         <span class="c1">// we remove everything besides files that end with &quot;.conf&quot;</span>
         <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">mappings</span> <span class="n">filter</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">name</span> <span class="n">endsWith</span> <span class="s">&quot;.conf&quot;</span>  <span class="c1">// only elements where this is true are kept</span>
+            <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">name</span> <span class="n">endsWith</span> <span class="s">&quot;.conf&quot;</span>
         <span class="o">}</span>
-
         <span class="c1">// now we copy the mapping but replace the mappings</span>
         <span class="n">mapping</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">mappings</span> <span class="k">=</span> <span class="n">filtered</span><span class="o">)</span>
-
     <span class="o">}</span> <span class="n">filter</span> <span class="o">{</span>
-        <span class="c1">// only keep those mappings that are nonEmpty (_.mappings.nonEmpty == true)</span>
+        <span class="c1">// remove all LinuxPackageMapping instances that have to file mappings</span>
         <span class="k">_</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">nonEmpty</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -705,7 +672,7 @@ on how to filter mappings.</p>
 </div>
 <div class="section" id="alter-linuxpackagemapping">
 <h3>Alter LinuxPackageMapping<a class="headerlink" href="#alter-linuxpackagemapping" title="Permalink to this headline">¶</a></h3>
-<p>To alter the permissions for all <code class="docutils literal"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria:</p>
+<p>First we alter the permissions for all <code class="docutils literal"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// Altering permissions for configs</span>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">mappings</span> <span class="k">=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
@@ -728,7 +695,7 @@ on how to filter mappings.</p>
 </div>
 <div class="section" id="alter-linuxsymlinks">
 <h3>Alter LinuxSymlinks<a class="headerlink" href="#alter-linuxsymlinks" title="Permalink to this headline">¶</a></h3>
-<p>To alter the permissions for all <code class="docutils literal"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria:</p>
+<p>First we alter the permissions for all <code class="docutils literal"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// The same as linuxPackageMappings</span>
 <span class="n">linuxPackageSymlinks</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">links</span> <span class="k">=</span> <span class="n">linuxPackageSymlinks</span><span class="o">.</span><span class="n">value</span>
@@ -819,7 +786,7 @@ for the distribution.  The resulting man page is stored in <code class="docutils
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.2.0-SNAPSHOT',
+            VERSION:'1.1.6-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
