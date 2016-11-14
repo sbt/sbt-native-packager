@@ -333,7 +333,7 @@ object DockerPlugin extends AutoPlugin {
         def buffer[T](f: => T) = f
       }
 
-    val cmd = Seq("docker", "push", tag)
+    val cmd = execCommand ++ Seq("push", tag)
 
     log.debug("Executing " + cmd.mkString(" "))
 
