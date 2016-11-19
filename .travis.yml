@@ -1,8 +1,6 @@
 language: java
-os:
-  - osx
 env:
-  - SCALA_VERSION=2.10.5
+  - SCALA_VERSION=2.10.6
 before_install:
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       brew update;
@@ -17,6 +15,9 @@ script:
   - if [[ "$TRAVIS_JDK_VERSION" = "oraclejdk8" ]]; then
       ./sbt ++$SCALA_VERSION "scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings";
     fi
+  - if [[ "$TEST_ENV" = "docker" ]]; then
+       ./sbt ++$SCALA_VERSION "scripted docker/*";
+    fi
 notifications:
   email:
     - qbranch@typesafe.com
@@ -28,10 +29,18 @@ matrix:
   include:
     - os: linux
       jdk: openjdk7
+      sudo: false
     - os: linux
       jdk: oraclejdk8
-
-sudo: false
+      sudo: false
+    - os: linux
+      jdk: oraclejdk8
+      sudo: required
+      services: docker
+      env:
+        - TEST_ENV=docker
+        - SCALA_VERSION=2.10.6
+    - os: osx
 cache:
  apt: true
  directories:
