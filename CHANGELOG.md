@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.2.0-M7](https://github.com/sbt/sbt-native-packager/tree/v1.2.0-M7) (2016-11-12)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.1.5...v1.2.0-M7)
+
+**Merged pull requests:**
+
+- WIP 633 Add prototype for multiple apps in single project [\#839](https://github.com/sbt/sbt-native-packager/pull/839) ([muuki88](https://github.com/muuki88))
+
 ## [v1.1.5](https://github.com/sbt/sbt-native-packager/tree/v1.1.5) (2016-11-12)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M6...v1.1.5)
 
