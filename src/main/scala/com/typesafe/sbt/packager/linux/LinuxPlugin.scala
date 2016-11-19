@@ -102,20 +102,17 @@ object LinuxPlugin extends AutoPlugin {
     */
   def mapGenericFilesToLinux: Seq[Setting[_]] = Seq(
     // First we look at the src/linux files
-    linuxPackageMappings <++= (sourceDirectory in Linux) map { dir =>
-      mapGenericMappingsToLinux(MappingsHelper contentOf dir, Users.Root, Users.Root)(identity)
+    linuxPackageMappings ++= {
+      val linuxContent = MappingsHelper.contentOf((sourceDirectory in Linux).value)
+      if (linuxContent.isEmpty) Seq.empty
+      else mapGenericMappingsToLinux(linuxContent, Users.Root, Users.Root)(identity)
     },
     // Now we look at the src/universal files.
-    linuxPackageMappings <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation) map {
-      (pkg, mappings, installLocation) =>
-        // TODO - More windows filters...
-        def isWindowsFile(f: (File, String)): Boolean =
-          f._2 endsWith ".bat"
-
-        mapGenericMappingsToLinux(mappings filterNot isWindowsFile, Users.Root, Users.Root) { name =>
-          installLocation + "/" + pkg + "/" + name
-        }
-    },
+    linuxPackageMappings ++= getUniversalFolderMappings(
+      (packageName in Linux).value,
+      defaultLinuxInstallLocation.value,
+      (mappings in Universal).value
+    ),
     // Now we generate symlinks.
     linuxPackageSymlinks <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation) map {
       (pkg, mappings, installLocation) =>
@@ -236,4 +233,19 @@ object LinuxPlugin extends AutoPlugin {
   final def chdir(installLocation: String, packageName: String): String =
     s"$installLocation/$packageName"
 
+  private[this] def getUniversalFolderMappings(pkg: String,
+                                               installLocation: String,
+                                               mappings: Seq[(File, String)]): Seq[LinuxPackageMapping] = {
+    // TODO - More windows filters...
+    def isWindowsFile(f: (File, String)): Boolean =
+      f._2 endsWith ".bat"
+
+    val filtered = mappings.filterNot(isWindowsFile)
+
+    if (filtered.isEmpty) Seq.empty
+    else
+      mapGenericMappingsToLinux(filtered, Users.Root, Users.Root) { name =>
+        installLocation + "/" + pkg + "/" + name
+      }
+  }
 }
