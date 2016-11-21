@@ -371,6 +371,6 @@ can be used to modify all config file mappings:
 
 .. code-block:: scala
 
-    linuxPackageMappings := configWithNoReplace(linuxPackageMappings.value)
+    linuxPackageMappings in Rpm := configWithNoReplace((linuxPackageMappings in Rpm).value)
 
-This will mark all config files as ``noreplace`` and prevent them from being changed during updates.
+This will mark all config files as ``noreplace`` and prevent them from being changed during updates. Please note that the ``linuxPackageMappings`` are scoped to the ``Rpm`` plugin. This is necessary in order to catch all config files relevant to the rpm package and mark them correctly.
