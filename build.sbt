@@ -30,7 +30,7 @@ scriptedLaunchOpts <+= version apply { v =>
 
 // Release configuration
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
-publishMavenStyle := false
+publishMavenStyle := true
 
 import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
@@ -54,3 +54,15 @@ bintrayRepository := "sbt-plugin-releases"
 
 // scalafmt
 scalafmtConfig := Some(file(".scalafmt.conf"))
+
+licenses := Seq("BSD-style" -> url("https://github.com/sbt/sbt-native-packager/blob/master/LICENSE.md"))
+
+developers := List(
+  Developer("muuki88", "Nepomuk Seiler", "nepomuk.seiler@gmail.com", url("https://github.com/muuki88"))
+)
+
+homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
+
+scmInfo := homepage.value.map(ScmInfo(_, "scm:git:git@github.com:sbt/sbt-native-packager.git"))
+
+startYear := Some(2012)
