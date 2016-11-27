@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Absolute path to this script
 # OS X doesn't support "readlink -f"
