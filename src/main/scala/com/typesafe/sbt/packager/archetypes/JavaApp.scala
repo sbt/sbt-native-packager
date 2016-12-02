@@ -39,7 +39,7 @@ object JavaAppPackaging extends AutoPlugin {
   import JavaAppPackaging.autoImport._
 
   override def requires =
-    debian.DebianPlugin && rpm.RpmPlugin && docker.DockerPlugin && windows.WindowsPlugin
+    debian.DebianPlugin && rpm.RpmPlugin && windows.WindowsPlugin
 
   // format: off
   override def projectSettings = Seq(
