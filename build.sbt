@@ -54,3 +54,6 @@ bintrayRepository := "sbt-plugin-releases"
 
 // scalafmt
 scalafmtConfig := Some(file(".scalafmt.conf"))
+
+// ci commands
+addCommandAlias("validateWindows", ";test-only * -- -n windows;scripted universal/dist universal/stage windows/*")
