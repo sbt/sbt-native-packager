@@ -226,7 +226,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     } yield file.length).sum / 1024
 
   private[this] def createConfFile(meta: PackageMetaData, size: Long, targetDir: File): File = {
-    if (meta.info.description == null || meta.info.description.isEmpty) {
+    val description = Option(meta.info.description).filterNot(_.isEmpty)
+    if (description.isEmpty) {
       sys.error("""packageDescription in Debian cannot be empty. Use
                  packageDescription in Debian := "My package Description"""")
     }
