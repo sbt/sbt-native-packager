@@ -1,6 +1,4 @@
-package com.typesafe.sbt
-package packager
-package debian
+package com.typesafe.sbt.packager.debian
 
 case class PackageInfo(name: String, version: String, maintainer: String, summary: String, description: String)
 
@@ -33,7 +31,7 @@ case class PackageMetaData(info: PackageInfo,
       sb append ("Conflicts: %s\n" format (conflicts mkString ", "))
     sb append ("Maintainer: %s\n" format info.maintainer)
     sb append ("Description: %s\n %s\n" format (info.summary, info.description))
-    sb toString
+    sb.toString
   }
 
   def makeSourceControl(): String = {
@@ -56,7 +54,7 @@ case class PackageMetaData(info: PackageInfo,
     if (conflicts.nonEmpty)
       sb append ("Conflicts: %s\n" format (conflicts mkString ", "))
     sb append ("Description: %s\n %s\n" format (info.summary, info.description))
-    sb toString
+    sb.toString
   }
 }
 
