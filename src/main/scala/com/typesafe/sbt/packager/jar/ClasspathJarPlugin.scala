@@ -1,5 +1,4 @@
-package com.typesafe.sbt.packager
-package archetypes.jar
+package com.typesafe.sbt.packager.archetypes.jar
 
 import java.io.File
 import java.util.jar.Attributes
@@ -9,20 +8,21 @@ import sbt._
 import sbt.Keys._
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.SbtNativePackager.Universal
+import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 
 object ClasspathJarPlugin extends AutoPlugin {
 
   object autoImport {
-    val packageJavaClasspathJar = TaskKey[File](
+    val packageJavaClasspathJar: TaskKey[File] = TaskKey[File](
       "packageJavaClasspathJar",
       "Creates a Java classpath jar that specifies the classpath in its manifest"
     )
   }
   import autoImport._
 
-  override def requires = archetypes.JavaAppPackaging
+  override def requires = JavaAppPackaging
 
-  override lazy val projectSettings = Defaults
+  override lazy val projectSettings: Seq[Setting[_]] = Defaults
       .packageTaskSettings(packageJavaClasspathJar, mappings in packageJavaClasspathJar) ++ Seq(
       mappings in packageJavaClasspathJar := Nil,
       artifactClassifier in packageJavaClasspathJar := Option("classpath"),

@@ -1,5 +1,4 @@
-package com.typesafe.sbt.packager
-package archetypes.jar
+package com.typesafe.sbt.packager.archetypes.jar
 
 import java.io.File
 import java.util.jar.Attributes
@@ -9,11 +8,12 @@ import sbt._
 import sbt.Keys._
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.SbtNativePackager.Universal
+import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 
 object LauncherJarPlugin extends AutoPlugin {
 
   object autoImport {
-    val packageJavaLauncherJar = TaskKey[File](
+    val packageJavaLauncherJar: TaskKey[File] = TaskKey[File](
       "packageJavaLauncherJar",
       "Creates a Java launcher jar that specifies the main class and classpath in its manifest"
     )
@@ -21,9 +21,9 @@ object LauncherJarPlugin extends AutoPlugin {
 
   import autoImport._
 
-  override def requires = archetypes.JavaAppPackaging
+  override def requires = JavaAppPackaging
 
-  override lazy val projectSettings = Defaults
+  override lazy val projectSettings: Seq[Setting[_]] = Defaults
       .packageTaskSettings(packageJavaLauncherJar, mappings in packageJavaLauncherJar) ++ Seq(
       mappings in packageJavaLauncherJar := Nil,
       artifactClassifier in packageJavaLauncherJar := Option("launcher"),
