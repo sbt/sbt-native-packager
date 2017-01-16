@@ -22,7 +22,7 @@ object RpmPlugin extends AutoPlugin {
   override def requires = LinuxPlugin
 
   object autoImport extends RpmKeys {
-    val Rpm = config("rpm") extend Linux
+    val Rpm: Configuration = config("rpm") extend Linux
     val RpmConstants = Names
   }
 
@@ -89,36 +89,49 @@ object RpmPlugin extends AutoPlugin {
     rpmPosttrans := None,
     rpmPreun := None,
     rpmPostun := None,
-    rpmScriptsDirectory <<= sourceDirectory apply (_ / "rpm" / Names.Scriptlets),
+    rpmScriptsDirectory := sourceDirectory.value / "rpm" / Names.Scriptlets,
     // Explicitly defer  default settings to generic Linux Settings.
-    maintainerScripts in Rpm <<= maintainerScripts in Linux,
-    packageSummary in Rpm <<= packageSummary in Linux,
-    packageDescription in Rpm <<= packageDescription in Linux,
-    target in Rpm <<= target(_ / "rpm"),
-    name in Rpm <<= name in Linux,
-    packageName in Rpm <<= packageName in Linux,
-    executableScriptName in Rpm <<= executableScriptName in Linux,
+    maintainerScripts in Rpm := (maintainerScripts in Linux).value,
+    packageSummary in Rpm := (packageSummary in Linux).value,
+    packageDescription in Rpm := (packageDescription in Linux).value,
+    target in Rpm := target.value / "rpm",
+    name in Rpm := (name in Linux).value,
+    packageName in Rpm := (packageName in Linux).value,
+    executableScriptName in Rpm := (executableScriptName in Linux).value,
     rpmDaemonLogFile := s"${(packageName in Linux).value}.log",
-    daemonStdoutLogFile in Rpm := Some((rpmDaemonLogFile).value),
+    daemonStdoutLogFile in Rpm := Some(rpmDaemonLogFile.value),
     // override the linux sourceDirectory setting
-    sourceDirectory in Rpm <<= sourceDirectory,
+    sourceDirectory in Rpm := sourceDirectory.value,
     packageArchitecture in Rpm := "noarch",
-    rpmMetadata <<=
-      (packageName in Rpm,
-       version in Rpm,
-       rpmRelease,
-       rpmPrefix,
-       packageArchitecture in Rpm,
-       rpmVendor,
-       rpmOs,
-       packageSummary in Rpm,
-       packageDescription in Rpm,
-       rpmAutoprov,
-       rpmAutoreq) apply RpmMetadata,
-    rpmDescription <<=
-      (rpmLicense, rpmDistribution, rpmUrl, rpmGroup, rpmPackager, rpmIcon, rpmChangelogFile) apply RpmDescription,
-    rpmDependencies <<=
-      (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
+    rpmMetadata := RpmMetadata(
+      (packageName in Rpm).value,
+      (version in Rpm).value,
+      rpmRelease.value,
+      rpmPrefix.value,
+      (packageArchitecture in Rpm).value,
+      rpmVendor.value,
+      rpmOs.value,
+      (packageSummary in Rpm).value,
+      (packageDescription in Rpm).value,
+      rpmAutoprov.value,
+      rpmAutoreq.value
+    ),
+    rpmDescription := RpmDescription(
+      rpmLicense.value,
+      rpmDistribution.value,
+      rpmUrl.value,
+      rpmGroup.value,
+      rpmPackager.value,
+      rpmIcon.value,
+      rpmChangelogFile.value
+    ),
+    rpmDependencies := RpmDependencies(
+      rpmProvides.value,
+      rpmRequirements.value,
+      rpmPrerequisites.value,
+      rpmObsoletes.value,
+      rpmConflicts.value
+    ),
     maintainerScripts in Rpm := {
       val scripts = (maintainerScripts in Rpm).value
       if (rpmBrpJavaRepackJars.value) {
@@ -131,21 +144,24 @@ object RpmPlugin extends AutoPlugin {
     },
     rpmScripts := RpmScripts
       .fromMaintainerScripts((maintainerScripts in Rpm).value, (linuxScriptReplacements in Rpm).value),
-    rpmSpecConfig <<=
-      (rpmMetadata,
-       rpmDescription,
-       rpmDependencies,
-       rpmSetarch,
-       rpmScripts,
-       linuxPackageMappings in Rpm,
-       linuxPackageSymlinks in Rpm,
-       defaultLinuxInstallLocation in Rpm) map RpmSpec,
-    packageBin in Rpm <<= (rpmSpecConfig, target in Rpm, streams) map { (spec, dir, s) =>
-      spec.validate(s.log)
-      RpmHelper.buildRpm(spec, dir, s.log)
+    rpmSpecConfig := RpmSpec(
+      rpmMetadata.value,
+      rpmDescription.value,
+      rpmDependencies.value,
+      rpmSetarch.value,
+      rpmScripts.value,
+      (linuxPackageMappings in Rpm).value,
+      (linuxPackageSymlinks in Rpm).value,
+      (defaultLinuxInstallLocation in Rpm).value
+    ),
+    packageBin in Rpm := {
+      val log = streams.value.log
+      val spec = rpmSpecConfig.value
+      spec.validate(log)
+      RpmHelper.buildRpm(spec, (target in Rpm).value, log)
     },
-    rpmLint <<= (packageBin in Rpm, streams) map { (rpm, s) =>
-      (Process(Seq("rpmlint", "-v", rpm.getAbsolutePath)) ! s.log) match {
+    rpmLint := {
+      Process(Seq("rpmlint", "-v", (packageBin in Rpm).value.getAbsolutePath)) ! streams.value.log match {
         case 0 => ()
         case x => sys.error("Failed to run rpmlint, exit status: " + x)
       }
@@ -159,6 +175,6 @@ object RpmDeployPlugin extends AutoPlugin {
 
   override def requires = RpmPlugin
 
-  override def projectSettings =
+  override def projectSettings: Seq[Setting[_]] =
     SettingsHelper.makeDeploymentSettings(Rpm, packageBin in Rpm, "rpm")
 }
