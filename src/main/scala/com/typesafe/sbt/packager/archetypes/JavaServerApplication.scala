@@ -48,17 +48,20 @@ object JavaServerAppPackaging extends AutoPlugin {
     * - config directory
     */
   def linuxSettings: Seq[Setting[_]] = Seq(
-    javaOptions in Linux <<= javaOptions in Universal,
+    javaOptions in Linux := (javaOptions in Universal).value,
     // === logging directory mapping ===
-    linuxPackageMappings <+= (packageName in Linux,
-                              defaultLinuxLogsLocation,
-                              daemonUser in Linux,
-                              daemonGroup in Linux) map { (name, logsDir, user, group) =>
-      packageTemplateMapping(logsDir + "/" + name)() withUser user withGroup group withPerms "755"
+    linuxPackageMappings += {
+      packageTemplateMapping(defaultLinuxLogsLocation.value + "/" + (packageName in Linux).value)()
+        .withUser((daemonUser in Linux).value)
+        .withGroup((daemonGroup in Linux).value)
+        .withPerms("755")
     },
-    linuxPackageSymlinks <+= (packageName in Linux, defaultLinuxInstallLocation, defaultLinuxLogsLocation) map {
-      (name, install, logsDir) =>
-        LinuxSymlink(install + "/" + name + "/logs", logsDir + "/" + name)
+    linuxPackageSymlinks += {
+      val name = (packageName in Linux).value
+      LinuxSymlink(
+        defaultLinuxInstallLocation.value + "/" + name + "/logs",
+        defaultLinuxLogsLocation.value + "/" + name
+      )
     },
     // === etc config mapping ===
     bashScriptEnvConfigLocation := Some("/etc/default/" + (packageName in Linux).value),
@@ -111,8 +114,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     )
   }
 
-  def rpmSettings: Seq[Setting[_]] = {
-    import RpmPlugin.Names.{Post, Postun, Pre, Preun}
+  def rpmSettings: Seq[Setting[_]] =
     inConfig(Rpm)(etcDefaultConfig) ++
       inConfig(Rpm)(
         Seq(
@@ -126,10 +128,10 @@ object JavaServerAppPackaging extends AutoPlugin {
         )
       ) ++ Seq(
       // === Daemon User and Group ===
-      daemonUser in Rpm <<= daemonUser in Linux,
-      daemonUserUid in Rpm <<= daemonUserUid in Linux,
-      daemonGroup in Rpm <<= daemonGroup in Linux,
-      daemonGroupGid in Rpm <<= daemonGroupGid in Linux,
+      daemonUser in Rpm := (daemonUser in Linux).value,
+      daemonUserUid in Rpm := (daemonUserUid in Linux).value,
+      daemonGroup in Rpm := (daemonGroup in Linux).value,
+      daemonGroupGid in Rpm := (daemonGroupGid in Linux).value,
       // == Maintainer scripts ===
       maintainerScripts in Rpm := rpmScriptletContents(
         rpmScriptsDirectory.value,
@@ -137,7 +139,6 @@ object JavaServerAppPackaging extends AutoPlugin {
         (linuxScriptReplacements in Rpm).value
       )
     )
-  }
 
   /* ==========================================  */
   /* ============ Helper Methods ==============  */
@@ -154,12 +155,14 @@ object JavaServerAppPackaging extends AutoPlugin {
    */
   private[this] def getEtcTemplateSource(sourceDirectory: File, loader: Option[ServerLoader]): java.net.URL = {
     val defaultTemplate = getClass.getResource(ETC_DEFAULT + "-template")
-    val (suffix, default) = loader.map {
-      case Upstart => ("-upstart", defaultTemplate)
-      case SystemV => ("-systemv", defaultTemplate)
-      case Systemd =>
-        ("-systemd", getClass.getResource(ETC_DEFAULT + "-systemd-template"))
-    }.getOrElse(("", defaultTemplate))
+    val (suffix, default) = loader
+      .map {
+        case Upstart => ("-upstart", defaultTemplate)
+        case SystemV => ("-systemv", defaultTemplate)
+        case Systemd =>
+          ("-systemd", getClass.getResource(ETC_DEFAULT + "-systemd-template"))
+      }
+      .getOrElse(("", defaultTemplate))
 
     val overrides =
       List[File](sourceDirectory / "templates" / (ETC_DEFAULT + suffix), sourceDirectory / "templates" / ETC_DEFAULT)
