@@ -113,7 +113,7 @@ object DockerPlugin extends AutoPlugin {
         mappings ++= Seq(dockerGenerateConfig.value) pair relativeTo(target.value),
         name := name.value,
         packageName := packageName.value,
-        publishLocal {
+        publishLocal := {
         val log = streams.value.log
         publishLocalDocker(stage.value, dockerBuildCommand.value, log)
         log.info(s"Built image ${dockerAlias.value}")

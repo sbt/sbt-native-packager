@@ -144,9 +144,10 @@ object JavaAppPackaging extends AutoPlugin {
       val artifactTask = extracted.get(packagedArtifacts in ref)
       for {
         arts <- artifactTask
-        (art, file) <- arts.toSeq // TODO -Filter!
       } yield {
-        Attributed.blank(file).put(moduleID.key, module).put(artifact.key, art)
+        for {
+          (art, file) <- arts.toSeq // TODO -Filter!
+        } yield Attributed.blank(file).put(moduleID.key, module).put(artifact.key, art)
       }
     }
 

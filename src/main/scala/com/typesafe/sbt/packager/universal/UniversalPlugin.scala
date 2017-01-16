@@ -1,23 +1,11 @@
-package com.typesafe.sbt
-package packager
-package universal
+package com.typesafe.sbt.packager.universal
 
 import sbt._
-import sbt.Keys.{
-  cacheDirectory,
-  mappings,
-  name,
-  normalizedName,
-  packageBin,
-  packageDoc,
-  packageSrc,
-  sourceDirectory,
-  streams,
-  target,
-  version
-}
-import packager.Keys._
+import sbt.Keys._
 import Archives._
+import com.typesafe.sbt.SbtNativePackager
+import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.{SettingsHelper, Stager}
 import sbt.Keys.TaskStreams
 
 /**
@@ -37,9 +25,9 @@ import sbt.Keys.TaskStreams
 object UniversalPlugin extends AutoPlugin {
 
   object autoImport extends UniversalKeys {
-    val Universal = config("universal")
-    val UniversalDocs = config("universal-docs")
-    val UniversalSrc = config("universal-src")
+    val Universal: Configuration = config("universal")
+    val UniversalDocs: Configuration = config("universal-docs")
+    val UniversalSrc: Configuration = config("universal-src")
 
     /**
       * Use native zipping instead of java based zipping
@@ -58,18 +46,18 @@ object UniversalPlugin extends AutoPlugin {
     Seq(Universal, UniversalDocs, UniversalSrc)
 
   /** The basic settings for the various packaging types. */
-  override lazy val projectSettings = Seq[Setting[_]](
+  override lazy val projectSettings: Seq[Setting[_]] = Seq[Setting[_]](
       // For now, we provide delegates from dist/stage to universal...
       dist <<= dist in Universal,
       stage <<= stage in Universal,
       // TODO - New default to naming, is this right?
       // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
-      name in Universal <<= name,
-      name in UniversalDocs <<= name in Universal,
+      name in Universal := name.value,
+      name in UniversalDocs := (name in Universal).value,
       name in UniversalSrc <<= name in Universal,
       packageName in Universal <<= packageName,
       topLevelDirectory := Some((packageName in Universal).value),
-      executableScriptName in Universal <<= executableScriptName
+      executableScriptName in Universal := executableScriptName.value
     ) ++
       makePackageSettingsForConfig(Universal) ++
       makePackageSettingsForConfig(UniversalDocs) ++
@@ -84,15 +72,15 @@ object UniversalPlugin extends AutoPlugin {
       makePackageSettings(packageXzTarball, config)(makeTxz) ++
       inConfig(config)(
         Seq(
-          packageName <<= (packageName, version) apply (_ + "-" + _),
-          mappings <<= sourceDirectory map findSources,
-          dist <<= (packageBin, streams) map printDist,
-          stagingDirectory <<= target apply (_ / "stage"),
-          stage <<= (streams, stagingDirectory, mappings) map Stager.stage(config.name)
+          packageName := (packageName.value + "-" + version.value),
+          mappings := findSources(sourceDirectory.value),
+          dist := printDist(packageBin.value, streams.value),
+          stagingDirectory := target.value / "stage",
+          stage := Stager.stage(config.name)(streams.value, stagingDirectory.value, mappings.value)
         )
       ) ++ Seq(
-      sourceDirectory in config <<= sourceDirectory apply (_ / config.name),
-      target in config <<= target apply (_ / config.name)
+      sourceDirectory in config := sourceDirectory.value / config.name,
+      target in config := target.value / config.name
     )
 
   private[this] def defaultUniversalArchiveOptions: Seq[Setting[_]] = Seq(
@@ -119,12 +107,14 @@ object UniversalPlugin extends AutoPlugin {
     inConfig(config)(
       Seq(
         universalArchiveOptions in packageKey := Nil,
-        mappings in packageKey <<= mappings map checkMappings,
-        packageKey <<= (target,
-                        packageName,
-                        mappings in packageKey,
-                        topLevelDirectory,
-                        universalArchiveOptions in packageKey) map packager
+        mappings in packageKey := checkMappings(mappings.value),
+        packageKey := packager(
+          target.value,
+          packageName.value,
+          (mappings in packageKey).value,
+          topLevelDirectory.value,
+          (universalArchiveOptions in packageKey).value
+        )
       )
     )
 
@@ -148,7 +138,7 @@ object UniversalDeployPlugin extends AutoPlugin {
 
   override def requires = UniversalPlugin
 
-  override def projectSettings =
+  override def projectSettings: Seq[Setting[_]] =
     SettingsHelper.makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
       SettingsHelper.addPackage(Universal, packageZipTarball in Universal, "tgz") ++
       SettingsHelper.makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
