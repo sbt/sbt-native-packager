@@ -114,30 +114,35 @@ object LinuxPlugin extends AutoPlugin {
       (mappings in Universal).value
     ),
     // Now we generate symlinks.
-    linuxPackageSymlinks <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation) map {
-      (pkg, mappings, installLocation) =>
-        for {
-          (file, name) <- mappings
-          if !file.isDirectory
-          if name startsWith "bin/"
-          if !(name endsWith ".bat") // IGNORE windows-y things.
-        } yield LinuxSymlink("/usr/" + name, installLocation + "/" + pkg + "/" + name)
+    linuxPackageSymlinks ++= {
+      val installLocation = defaultLinuxInstallLocation.value
+      val linuxPackageName = (packageName in Linux).value
+      for {
+        (file, name) <- (mappings in Universal).value
+        if !file.isDirectory
+        if name startsWith "bin/"
+        if !(name endsWith ".bat") // IGNORE windows-y things.
+      } yield LinuxSymlink("/usr/" + name, installLocation + "/" + linuxPackageName + "/" + name)
     },
     // Map configuration files
-    linuxPackageSymlinks <++= (packageName in Linux,
-                               mappings in Universal,
-                               defaultLinuxInstallLocation,
-                               defaultLinuxConfigLocation)
-      map { (pkg, mappings, installLocation, configLocation) =>
-        val needsConfLink =
-          mappings exists {
-            case (file, name) =>
-              (name startsWith "conf/") && !file.isDirectory
-          }
-        if (needsConfLink)
-          Seq(LinuxSymlink(link = configLocation + "/" + pkg, destination = installLocation + "/" + pkg + "/conf"))
-        else Seq.empty
-      }
+    linuxPackageSymlinks ++= {
+      val linuxPackageName = (packageName in Linux).value
+      val installLocation = defaultLinuxInstallLocation.value
+      val configLocation = defaultLinuxConfigLocation.value
+      val needsConfLink =
+        (mappings in Universal).value exists {
+          case (file, name) =>
+            (name startsWith "conf/") && !file.isDirectory
+        }
+      if (needsConfLink)
+        Seq(
+          LinuxSymlink(
+            link = configLocation + "/" + linuxPackageName,
+            destination = installLocation + "/" + linuxPackageName + "/conf"
+          )
+        )
+      else Seq.empty
+    }
   )
 
   def makeReplacements(author: String,
@@ -207,13 +212,13 @@ object LinuxPlugin extends AutoPlugin {
     val (directories, nondirectories) = mappings.partition(_._1.isDirectory)
     val (binaries, nonbinaries) = nondirectories.partition(_._1.canExecute)
     val (manPages, nonManPages) = nonbinaries partition {
-      case (file, name) => (name contains "man/") && (name endsWith ".1")
+      case (file, destination) => (destination contains "man/") && (destination endsWith ".1")
     }
     val compressedManPages =
       for ((file, name) <- manPages)
         yield file -> (name + ".gz")
     val (configFiles, remaining) = nonManPages partition {
-      case (file, name) => (name contains "etc/") || (name contains "conf/")
+      case (file, destination) => (destination contains "etc/") || (destination contains "conf/")
     }
     def packageMappingWithRename(mappings: (File, String)*): LinuxPackageMapping = {
       val renamed =
@@ -223,7 +228,7 @@ object LinuxPlugin extends AutoPlugin {
     }
 
     Seq(
-      packageMappingWithRename((binaries ++ directories): _*) withUser user withGroup group withPerms "0755",
+      packageMappingWithRename(binaries ++ directories: _*) withUser user withGroup group withPerms "0755",
       packageMappingWithRename(compressedManPages: _*).gzipped withUser user withGroup group withPerms "0644",
       packageMappingWithRename(configFiles: _*) withConfig () withUser user withGroup group withPerms "0644",
       packageMappingWithRename(remaining: _*) withUser user withGroup group withPerms "0644"
