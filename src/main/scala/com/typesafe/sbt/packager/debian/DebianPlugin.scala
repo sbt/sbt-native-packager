@@ -33,7 +33,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   override def requires = LinuxPlugin
 
   object autoImport extends DebianKeys {
-    val Debian = config("debian") extend Linux
+    val Debian: Configuration = config("debian") extend Linux
     val DebianConstants = Names
   }
 
@@ -65,7 +65,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   /**
     * Enables native packaging by default
     */
-  override lazy val projectSettings = settings ++ debianSettings ++ debianNativeSettings
+  override lazy val projectSettings: Seq[Setting[_]] = settings ++ debianSettings ++ debianNativeSettings
 
   /**
     * the default debian settings for the debian namespaced settings
@@ -79,21 +79,20 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     debianPackageProvides := Seq.empty,
     debianPackageRecommends := Seq.empty,
     debianSignRole := "builder",
-    target in Debian <<= (target, name in Debian, version in Debian) apply ((t, n, v) => t / (n + "-" + v)),
-    name in Debian <<= (name in Linux),
-    // TODO maybe we can remove this, with the projectConfigurations
-    maintainerScripts in Debian <<= (maintainerScripts in Linux),
-    packageName in Debian <<= (packageName in Linux),
-    executableScriptName in Debian <<= (executableScriptName in Linux),
-    version in Debian <<= (version in Linux),
-    linuxPackageMappings in Debian <<= linuxPackageMappings,
-    packageDescription in Debian <<= packageDescription in Linux,
-    packageSummary in Debian <<= packageSummary in Linux,
-    maintainer in Debian <<= maintainer in Linux,
+    target in Debian := target.value / ((name in Debian).value + "-" + (version in Debian).value),
+    name in Debian := (name in Linux).value,
+    maintainerScripts in Debian := (maintainerScripts in Linux).value,
+    packageName in Debian := (packageName in Linux).value,
+    executableScriptName in Debian := (executableScriptName in Linux).value,
+    version in Debian := (version in Linux).value,
+    linuxPackageMappings in Debian := linuxPackageMappings.value,
+    packageDescription in Debian := (packageDescription in Linux).value,
+    packageSummary in Debian := (packageSummary in Linux).value,
+    maintainer in Debian := (maintainer in Linux).value,
     // override the linux sourceDirectory setting
-    sourceDirectory in Debian <<= sourceDirectory,
+    sourceDirectory in Debian := sourceDirectory.value,
     /* ==== Debian configuration settings ==== */
-    debianControlScriptsDirectory <<= (sourceDirectory) apply (_ / "debian" / Names.DebianMaintainerScripts),
+    debianControlScriptsDirectory := (sourceDirectory.value / "debian" / Names.DebianMaintainerScripts),
     debianMaintainerScripts := Seq.empty,
     debianMakePreinstScript := None,
     debianMakePrermScript := None,
@@ -240,7 +239,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   private[this] def createMD5SumFile(stageDir: File): File = {
     val md5file = stageDir / Names.DebianMaintainerScripts / "md5sums"
     val md5sums = for {
-      (file, name) <- (stageDir.*** --- stageDir pair relativeTo(stageDir))
+      (file, name) <- stageDir.*** --- stageDir pair relativeTo(stageDir)
       if file.isFile
       if !(name startsWith Names.DebianMaintainerScripts)
       if !(name contains "debian-binary")
@@ -271,17 +270,17 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       case LinuxPackageMapping(paths, perms, zipped) =>
         val (dirs, files) = paths.partition(_._1.isDirectory)
         dirs map {
-          case (_, name) => targetDir / name
+          case (_, dirName) => targetDir / dirName
         } foreach { targetDir =>
           targetDir mkdirs ()
           chmod(targetDir, perms.permissions)
         }
 
         files map {
-          case (file, name) => (file, targetDir / name)
+          case (file, fileName) => (file, targetDir / fileName)
         } foreach {
-          case (source, target) =>
-            copyAndFixPerms(source, target, perms, zipped)
+          case (source, destination) =>
+            copyAndFixPerms(source, destination, perms, zipped)
         }
     }
 
@@ -443,7 +442,7 @@ trait DebianPluginLike {
         validateUserGroupNames(group, streams)
         val chown = chownCmd(user, group) _
         // remove key, flatten it and then use mapping path (_.2) to create chown command
-        pathList.map(_._2).flatten map (m => chown(m._2))
+        pathList.flatMap(_._2).map(m => chown(m._2))
     }
     val replacement = header :: chowns.flatten.toList mkString "\n"
     DebianPlugin.CHOWN_REPLACEMENT -> replacement

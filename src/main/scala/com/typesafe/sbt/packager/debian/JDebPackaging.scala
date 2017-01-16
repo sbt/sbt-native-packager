@@ -38,7 +38,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
   override def requires = DebianPlugin
 
-  override lazy val projectSettings = inConfig(Debian)(jdebSettings)
+  override lazy val projectSettings: Seq[Setting[_]] = inConfig(Debian)(jdebSettings)
 
   def jdebSettings = Seq(
     // FIXME do nothing. Java7 posix needed
@@ -46,12 +46,14 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       target.value / Names.DebianMaintainerScripts / Names.Conffiles
     },
     // FIXME copied from the debian plugin. Java7 posix needed
-    debianControlFile <<= (debianPackageMetadata, debianPackageInstallSize, target) map { (data, size, dir) =>
+    debianControlFile := {
+      val data = debianPackageMetadata.value
+      val size = debianPackageInstallSize.value
       if (data.info.description == null || data.info.description.isEmpty) {
         sys.error("""packageDescription in Debian cannot be empty. Use
                  packageDescription in Debian := "My package Description"""")
       }
-      val cfile = dir / Names.DebianMaintainerScripts / Names.Control
+      val cfile = target.value / Names.DebianMaintainerScripts / Names.Control
       IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
       cfile
     },
@@ -67,7 +69,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
       // unused, but needed as dependency
       val controlDir = targetDir / Names.DebianMaintainerScripts
-      val control = debianControlFile.value
+      val _ = debianControlFile.value
       val conffile = debianConffilesFile.value
       val replacements = debianMakeChownReplacements.value +: linuxScriptReplacements.value
 
@@ -109,9 +111,9 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         val tmp = dir / from.getName
         IO.copyFile(from, tmp)
         val zipped = Archives.gzip(tmp)
-        IO.copyFile(zipped, to, true)
+        IO.copyFile(zipped, to, preserveLastModified = true)
       }
-    } else IO.copyFile(from, to, true)
+    } else IO.copyFile(from, to, preserveLastModified = true)
 
   /**
     * The same as [[DebianPluginLike.filterAndFixPerms]] except chmod invocation (for windows compatibility).
@@ -135,9 +137,9 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     * This will be an performance improvement (reducing IO)
     */
   private[debian] def fileAndDirectoryProducers(mappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] =
-    mappings.map {
+    mappings.flatMap {
       case LinuxPackageMapping(paths, perms, zipped) =>
-        paths map {
+        paths.map {
           // Directories need to be created so jdeb can pick them up
           case (path, name) if path.isDirectory =>
             val permMapper = new PermMapper(-1, -1, perms.user, perms.group, null, perms.permissions, -1, null)
@@ -148,7 +150,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
           case (path, name) =>
             new DataProducerFile(path, cleanPath(name), null, null, Array(filePermissions(perms)))
         }
-    }.flatten
+    }
 
   /**
     * Creating link producers for symlinks.
@@ -164,8 +166,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
   private[debian] def conffileProducers(linuxMappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] = {
 
     val producers = linuxMappings map {
-      case mapping @ LinuxPackageMapping(mappings, perms, _) if perms.config == "true" =>
-        mappings collect {
+      case LinuxPackageMapping(concretMappings, perms, _) if perms.config == "true" =>
+        concretMappings collect {
           case (path, name) if path.isFile =>
             val permMapper = filePermissions(perms.withPerms("0644"))
             new DataProducerFile(path, cleanPath(name), null, null, Array(permMapper))
@@ -190,9 +192,9 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
   */
 class JDebConsole(log: Logger) extends org.vafer.jdeb.Console {
 
-  def debug(message: String) = log debug message
+  def debug(message: String): Unit = log debug message
 
-  def info(message: String) = log info message
+  def info(message: String): Unit = log info message
 
-  def warn(message: String) = log warn message
+  def warn(message: String): Unit = log warn message
 }
