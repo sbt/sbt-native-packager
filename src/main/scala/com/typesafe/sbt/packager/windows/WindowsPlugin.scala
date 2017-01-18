@@ -128,8 +128,8 @@ object WindowsPlugin extends AutoPlugin {
     * set the `mappings in Windows` and the `wixFeatures`
     */
   def mapGenericFilesToWindows: Seq[Setting[_]] = Seq(
-    mappings in Windows := (mappings in Universal).values,
-    wixFeatures := makeWindowsFeatures((packageName in Windows).value, (mappings in Windows).values)
+    mappings in Windows := (mappings in Universal).value,
+    wixFeatures := makeWindowsFeatures((packageName in Windows).value, (mappings in Windows).value)
   )
 
   /**
