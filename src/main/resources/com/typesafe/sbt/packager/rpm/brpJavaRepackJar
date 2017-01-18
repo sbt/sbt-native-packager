@@ -1,6 +1,1 @@
-%define __os_install_post \
-%{_rpmconfigdir}/brp-compress \
-%{!?__debug_package:%{_rpmconfigdir}/brp-strip %{__strip}} \
-%{_rpmconfigdir}/brp-strip-static-archive %{__strip} \
-%{_rpmconfigdir}/brp-strip-comment-note %{__strip} %{__objdump} \
-%{nil}
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-java-repack-jars[[:space:]].*$!!g')

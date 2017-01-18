@@ -6,5 +6,5 @@ $ exists target/rpm/SPECS/rpm-test.spec
 # Check files for defaults
 > check-spec-file
 > check-rpm-version
-> set NativePackagerKeys.rpmBrpJavaRepackJars := true
+> set NativePackagerKeys.rpmBrpJavaRepackJars := false
 > check-spec-file

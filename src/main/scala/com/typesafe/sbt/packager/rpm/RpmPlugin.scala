@@ -81,7 +81,7 @@ object RpmPlugin extends AutoPlugin {
     rpmConflicts := Seq.empty,
     rpmSetarch := None,
     rpmChangelogFile := None,
-    rpmBrpJavaRepackJars := false,
+    rpmBrpJavaRepackJars := true,
     rpmPretrans := None,
     rpmPre := None,
     rpmPost := None,
@@ -121,7 +121,7 @@ object RpmPlugin extends AutoPlugin {
       (rpmProvides, rpmRequirements, rpmPrerequisites, rpmObsoletes, rpmConflicts) apply RpmDependencies,
     maintainerScripts in Rpm := {
       val scripts = (maintainerScripts in Rpm).value
-      if (rpmBrpJavaRepackJars.value) {
+      if (!rpmBrpJavaRepackJars.value) {
         val pre = scripts.getOrElse(Names.Pre, Nil)
         val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
         scripts + (Names.Pre -> (pre :+ scriptBits))
