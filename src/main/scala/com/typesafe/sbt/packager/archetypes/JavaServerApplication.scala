@@ -107,10 +107,10 @@ object JavaServerAppPackaging extends AutoPlugin {
         )
       ) ++ Seq(
       // === Daemon User and Group ===
-      daemonUser in Debian <<= daemonUser in Linux,
-      daemonUserUid in Debian <<= daemonUserUid in Linux,
-      daemonGroup in Debian <<= daemonGroup in Linux,
-      daemonGroupGid in Debian <<= daemonGroupGid in Linux
+      daemonUser in Debian := (daemonUser in Linux).value,
+      daemonUserUid in Debian := (daemonUserUid in Linux).value,
+      daemonGroup in Debian := (daemonGroup in Linux).value,
+      daemonGroupGid in Debian := (daemonGroupGid in Linux).value
     )
   }
 
@@ -122,8 +122,11 @@ object JavaServerAppPackaging extends AutoPlugin {
           linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
           linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
           // === /var/run/app pid folder ===
-          linuxPackageMappings <+= (packageName, daemonUser, daemonGroup) map { (name, user, group) =>
-            packageTemplateMapping("/var/run/" + name)() withUser user withGroup group withPerms "755"
+          linuxPackageMappings += {
+            packageTemplateMapping("/var/run/" + packageName.value)()
+              .withUser(daemonUser.value)
+              .withGroup(daemonGroup.value)
+              .withPerms("755")
           }
         )
       ) ++ Seq(

@@ -269,9 +269,7 @@ object DockerPlugin extends AutoPlugin {
         newPath = "%s/%s" format (dest, path)
       } yield (f, newPath)
 
-    inConfig(Docker)(Seq(mappings <<= (mappings in Universal, defaultLinuxInstallLocation) map { (mappings, dest) =>
-      renameDests(mappings, dest)
-    }))
+    inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
   }
 
   private[docker] def publishLocalLogger(log: Logger) =

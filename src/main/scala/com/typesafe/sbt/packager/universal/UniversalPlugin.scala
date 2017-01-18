@@ -48,14 +48,14 @@ object UniversalPlugin extends AutoPlugin {
   /** The basic settings for the various packaging types. */
   override lazy val projectSettings: Seq[Setting[_]] = Seq[Setting[_]](
       // For now, we provide delegates from dist/stage to universal...
-      dist <<= dist in Universal,
-      stage <<= stage in Universal,
+      dist := (dist in Universal).value,
+      stage := (stage in Universal).value,
       // TODO - New default to naming, is this right?
       // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
       name in Universal := name.value,
       name in UniversalDocs := (name in Universal).value,
-      name in UniversalSrc <<= name in Universal,
-      packageName in Universal <<= packageName,
+      name in UniversalSrc := (name in Universal).value,
+      packageName in Universal := packageName.value,
       topLevelDirectory := Some((packageName in Universal).value),
       executableScriptName in Universal := executableScriptName.value
     ) ++

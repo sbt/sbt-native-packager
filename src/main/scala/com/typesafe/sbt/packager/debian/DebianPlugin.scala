@@ -429,21 +429,25 @@ trait DebianPluginLike {
     val header = "# Chown definitions created by SBT Native Packager\n"
     // Check for non root user/group and create chown commands
     // filter all root mappings, map to (user,group) key, group by, append everything
-    val chowns = mappings filter {
-      case LinuxPackageMapping(_, LinuxFileMetaData(Users.Root, Users.Root, _, _, _), _) =>
-        false
-      case _ => true
-    } map {
-      case LinuxPackageMapping(paths, meta, _) =>
-        (meta.user, meta.group) -> paths
-    } groupBy (_._1) map {
-      case ((user, group), pathList) =>
-        validateUserGroupNames(user, streams)
-        validateUserGroupNames(group, streams)
-        val chown = chownCmd(user, group) _
-        // remove key, flatten it and then use mapping path (_.2) to create chown command
-        pathList.flatMap(_._2).map(m => chown(m._2))
-    }
+    val chowns = mappings
+      .filter {
+        case LinuxPackageMapping(_, LinuxFileMetaData(Users.Root, Users.Root, _, _, _), _) =>
+          false
+        case _ => true
+      }
+      .map {
+        case LinuxPackageMapping(paths, meta, _) =>
+          (meta.user, meta.group) -> paths
+      }
+      .groupBy(_._1)
+      .map {
+        case ((user, group), pathList) =>
+          validateUserGroupNames(user, streams)
+          validateUserGroupNames(group, streams)
+          val chown = chownCmd(user, group) _
+          // remove key, flatten it and then use mapping path (_.2) to create chown command
+          pathList.flatMap(_._2).map(m => chown(m._2))
+      }
     val replacement = header :: chowns.flatten.toList mkString "\n"
     DebianPlugin.CHOWN_REPLACEMENT -> replacement
   }

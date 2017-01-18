@@ -55,8 +55,8 @@ object BashStartScriptPlugin extends AutoPlugin {
     bashScriptDefines ++= bashScriptExtraDefines.value,
     bashScriptReplacements := generateScriptReplacements(bashScriptDefines.value),
     // Create a bashConfigLocation if options are set in build.sbt
-    bashScriptConfigLocation <<= bashScriptConfigLocation ?? Some(appIniLocation),
-    bashScriptEnvConfigLocation <<= bashScriptEnvConfigLocation ?? None,
+    bashScriptConfigLocation := Some(appIniLocation),
+    bashScriptEnvConfigLocation := None,
     // Generating the application configuration
     mappings in Universal := generateApplicationIni(
       (mappings in Universal).value,
@@ -90,24 +90,26 @@ object BashStartScriptPlugin extends AutoPlugin {
                                            bashScriptConfigLocation: Option[String],
                                            tmpDir: File,
                                            log: Logger): Seq[(File, String)] =
-    bashScriptConfigLocation.collect {
-      case location if javaOptions.nonEmpty =>
-        val configFile = tmpDir / "tmp" / "conf" / "application.ini"
-        //Do not use writeLines here because of issue #637
-        IO.write(configFile, ("# options from build" +: javaOptions).mkString("\n"))
-        val filteredMappings = universalMappings.filter {
-          case (file, path) => path != appIniLocation
-        }
-        // Warn the user if he tries to specify options
-        if (filteredMappings.size < universalMappings.size) {
-          log.warn("--------!!! JVM Options are defined twice !!!-----------")
-          log.warn(
-            "application.ini is already present in output package. Will be overridden by 'javaOptions in Universal'"
-          )
-        }
-        (configFile -> cleanApplicationIniPath(location)) +: filteredMappings
+    bashScriptConfigLocation
+      .collect {
+        case location if javaOptions.nonEmpty =>
+          val configFile = tmpDir / "tmp" / "conf" / "application.ini"
+          //Do not use writeLines here because of issue #637
+          IO.write(configFile, ("# options from build" +: javaOptions).mkString("\n"))
+          val filteredMappings = universalMappings.filter {
+            case (file, path) => path != appIniLocation
+          }
+          // Warn the user if he tries to specify options
+          if (filteredMappings.size < universalMappings.size) {
+            log.warn("--------!!! JVM Options are defined twice !!!-----------")
+            log.warn(
+              "application.ini is already present in output package. Will be overridden by 'javaOptions in Universal'"
+            )
+          }
+          (configFile -> cleanApplicationIniPath(location)) +: filteredMappings
 
-    }.getOrElse(universalMappings)
+      }
+      .getOrElse(universalMappings)
 
   private[this] def generateStartScripts(config: BashScriptConfig,
                                          mainClass: Option[String],

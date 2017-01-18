@@ -31,110 +31,105 @@ import SbtNativePackager.Universal
 object WindowsPlugin extends AutoPlugin {
 
   object autoImport extends WindowsKeys {
-    val Windows = config("windows")
+    val Windows: Configuration = config("windows")
   }
 
   import autoImport._
 
-  override lazy val projectSettings = windowsSettings ++ mapGenericFilesToWindows
+  override lazy val projectSettings: Seq[Setting[_]] = windowsSettings ++ mapGenericFilesToWindows
   override def requires = universal.UniversalPlugin
 
   override def projectConfigurations: Seq[Configuration] = Seq(Windows)
 
-  // format: off
   /**
     * default windows settings
     */
-  def windowsSettings: Seq[Setting[_]] = Seq(
-    sourceDirectory in Windows <<= sourceDirectory(_ / "windows"),
-    target in Windows <<= target apply (_ / "windows"),
-    // TODO - Should this use normalized name like the linux guys?
-    name in Windows <<= name,
-    packageName in Windows <<= packageName,
-    // Defaults so that our simplified building works
-    candleOptions := Seq("-ext", "WixUtilExtension"),
-    lightOptions := Seq("-ext", "WixUIExtension",
-      "-ext", "WixUtilExtension",
-      "-cultures:en-us"),
-    wixProductId := WixHelper.makeGUID,
-    wixProductUpgradeId := WixHelper.makeGUID,
-    wixMajorVersion := 3,
-    maintainer in Windows <<= maintainer,
-    packageSummary in Windows <<= packageSummary,
-    packageDescription in Windows <<= packageDescription,
-    wixProductLicense <<= (sourceDirectory in Windows) map { dir =>
-      // TODO - document this default.
-      val default = dir / "License.rtf"
-      if (default.exists) Some(default)
-      else None
-    },
-    wixPackageInfo <<= (
-      wixProductId,
-      wixProductUpgradeId,
-      version in Windows,
-      maintainer in Windows,
-      packageSummary in Windows,
-      packageDescription in Windows
-    ) apply { (id, uid, version, mtr, title, desc) =>
-        WindowsProductInfo(
-          id = id,
-          title = title,
-          version = version,
-          maintainer = mtr,
-          description = desc,
-          upgradeId = uid,
-          comments = "TODO - we need comments." // TODO - allow comments
-        )
+  def windowsSettings: Seq[Setting[_]] =
+    Seq(
+      sourceDirectory in Windows := sourceDirectory.value / "windows",
+      target in Windows := target.value / "windows",
+      // TODO - Should this use normalized name like the linux guys?
+      name in Windows := name.value,
+      packageName in Windows := packageName.value,
+      // Defaults so that our simplified building works
+      candleOptions := Seq("-ext", "WixUtilExtension"),
+      lightOptions := Seq("-ext", "WixUIExtension", "-ext", "WixUtilExtension", "-cultures:en-us"),
+      wixProductId := WixHelper.makeGUID,
+      wixProductUpgradeId := WixHelper.makeGUID,
+      wixMajorVersion := 3,
+      maintainer in Windows := maintainer.value,
+      packageSummary in Windows := packageSummary.value,
+      packageDescription in Windows := packageDescription.value,
+      wixProductLicense := {
+        // TODO - document this default.
+        val default = (sourceDirectory in Windows).value / "License.rtf"
+        if (default.exists) Some(default)
+        else None
       },
-    wixFeatures := Seq.empty,
-    wixProductConfig <<= (name in Windows, wixPackageInfo, wixFeatures, wixProductLicense) map { (name, product, features, license) =>
-      WixHelper.makeWixProductConfig(name, product, features, license)
-    },
-    wixConfig <<= (name in Windows, wixPackageInfo, wixMajorVersion, wixProductConfig) map { (name, product, wmv, nested) =>
-      val namespaceDefinitions = WixHelper.getNameSpaceDefinitions(wmv)
-      WixHelper.makeWixConfig(name, product, namespaceDefinitions, nested)
-    },
-    wixConfig in Windows <<= wixConfig,
-    wixProductConfig in Windows <<= wixProductConfig,
-    wixFile <<= (wixConfig in Windows, name in Windows, target in Windows) map { (c, n, t) =>
-      val f = t / (n + ".wxs")
-      IO.write(f, c.toString)
-      f
-    }
-  ) ++ inConfig(Windows)(Seq(
-      packageBin <<= (mappings, wixFile, name, target, candleOptions, lightOptions, streams) map { (m, f, n, t, co, lo, s) =>
-        val msi = t / (n + ".msi")
-        // First we have to move everything (including the wix file) to our target directory.
-        val wix = t / (n + ".wix")
-        if (f.getAbsolutePath != wix.getAbsolutePath) IO.copyFile(f, wix)
-        IO.copy(for ((f, to) <- m) yield (f, t / to))
-        // Now compile WIX
-        val wixdir = Option(System.getenv("WIX")) getOrElse sys.error("WIX environment not found.  Please ensure WIX is installed on this computer.")
-        val candleCmd = Seq(wixdir + "\\bin\\candle.exe", wix.getAbsolutePath) ++ co
-        s.log.debug(candleCmd mkString " ")
-        Process(candleCmd, Some(t)) ! s.log match {
-          case 0 => ()
-          case x => sys.error("Unable to run WIX compilation to wixobj...")
-        }
-        // Now create MSI
-        val wixobj = t / (n + ".wixobj")
-        val lightCmd = Seq(wixdir + "\\bin\\light.exe", wixobj.getAbsolutePath) ++ lo
-        s.log.debug(lightCmd mkString " ")
-        Process(lightCmd, Some(t)) ! s.log match {
-          case 0 => ()
-          case x => sys.error("Unable to run build msi...")
-        }
-        msi
+      wixPackageInfo := WindowsProductInfo(
+        id = wixProductId.value,
+        title = (packageSummary in Windows).value,
+        version = wixProductUpgradeId.value,
+        maintainer = (maintainer in Windows).value,
+        description = (packageDescription in Windows).value,
+        upgradeId = wixProductUpgradeId.value,
+        comments = "TODO - we need comments." // TODO - allow comments
+      ),
+      wixFeatures := Seq.empty,
+      wixProductConfig := WixHelper.makeWixProductConfig(
+        (name in Windows).value,
+        wixPackageInfo.value,
+        wixFeatures.value,
+        wixProductLicense.value
+      ),
+      wixConfig := WixHelper.makeWixConfig(
+        (name in Windows).value,
+        wixPackageInfo.value,
+        WixHelper.getNameSpaceDefinitions(wixMajorVersion.value),
+        wixProductConfig.value
+      ),
+      wixConfig in Windows := wixConfig.value,
+      wixProductConfig in Windows := wixProductConfig.value,
+      wixFile := {
+        val config = (wixConfig in Windows).value
+        val wixConfigFile = (target in Windows).value / ((name in Windows).value + ".wxs")
+        IO.write(wixConfigFile, config.toString)
+        wixConfigFile
       }
-    ))
-  // format: on
+    ) ++ inConfig(Windows)(Seq(packageBin := {
+      val wixFileValue = wixFile.value
+      val msi = target.value / (name.value + ".msi")
+      // First we have to move everything (including the wix file) to our target directory.
+      val wix = target.value / (name.value + ".wix")
+      if (wixFileValue.getAbsolutePath != wix.getAbsolutePath) IO.copyFile(wixFileValue, wix)
+      IO.copy(for ((f, to) <- mappings.value) yield (f, target.value / to))
+      // Now compile WIX
+      val wixdir = Option(System.getenv("WIX")) getOrElse sys.error(
+          "WIX environment not found.  Please ensure WIX is installed on this computer."
+        )
+      val candleCmd = Seq(wixdir + "\\bin\\candle.exe", wix.getAbsolutePath) ++ candleOptions.value
+      streams.value.log.debug(candleCmd mkString " ")
+      Process(candleCmd, Some(target.value)) ! streams.value.log match {
+        case 0 => ()
+        case exitCode => sys.error(s"Unable to run WIX compilation to wixobj. Exited with ${exitCode}")
+      }
+      // Now create MSI
+      val wixobj = target.value / (name.value + ".wixobj")
+      val lightCmd = Seq(wixdir + "\\bin\\light.exe", wixobj.getAbsolutePath) ++ lightOptions.value
+      streams.value.log.debug(lightCmd mkString " ")
+      Process(lightCmd, Some(target.value)) ! streams.value.log match {
+        case 0 => ()
+        case exitCode => sys.error(s"Unable to run build msi. Exited with ${exitCode}")
+      }
+      msi
+    }))
 
   /**
     * set the `mappings in Windows` and the `wixFeatures`
     */
   def mapGenericFilesToWindows: Seq[Setting[_]] = Seq(
-    mappings in Windows <<= mappings in Universal,
-    wixFeatures <<= (packageName in Windows, mappings in Windows) map makeWindowsFeatures
+    mappings in Windows := (mappings in Universal).values,
+    wixFeatures := makeWindowsFeatures((packageName in Windows).value, (mappings in Windows).values)
   )
 
   /**
@@ -146,13 +141,12 @@ object WindowsPlugin extends AutoPlugin {
     */
   def makeWindowsFeatures(name: String, mappings: Seq[(File, String)]): Seq[windows.WindowsFeature] = {
     // TODO select main script!  Filter Config links!
-    import windows._
 
     val files =
       for {
         (file, name) <- mappings
         if !file.isDirectory
-      } yield ComponentFile(name, editable = (name startsWith "conf"))
+      } yield ComponentFile(name, editable = name startsWith "conf")
     val corePackage =
       WindowsFeature(
         id = WixHelper.cleanStringForId(name + "_core").takeRight(38), // Must be no longer
@@ -193,6 +187,6 @@ object WindowsDeployPlugin extends AutoPlugin {
 
   override def requires = WindowsPlugin
 
-  override def projectSettings =
+  override def projectSettings: Seq[Setting[_]] =
     SettingsHelper.makeDeploymentSettings(Windows, packageBin in Windows, "msi")
 }
