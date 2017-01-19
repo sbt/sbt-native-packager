@@ -81,7 +81,7 @@ object RpmPlugin extends AutoPlugin {
     rpmConflicts := Seq.empty,
     rpmSetarch := None,
     rpmChangelogFile := None,
-    rpmBrpJavaRepackJars := true,
+    rpmBrpJavaRepackJars := false,
     rpmPretrans := None,
     rpmPre := None,
     rpmPost := None,

@@ -28,7 +28,7 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
   out.log.info(spec)
   assert(
     spec contains
-      """sed -e 's!/usr/lib[^[:space:]]*/brp-java-repack-jars[[:space:]].*$!!g'""",
+      """%define __jar_repack %nil""",
     "Missing java repack disabling in %pre")
   out.log.success("Successfully tested rpm test file")
   ()
