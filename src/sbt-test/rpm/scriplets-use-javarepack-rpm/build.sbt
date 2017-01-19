@@ -1,7 +1,7 @@
 
 enablePlugins(JavaServerAppPackaging)
 
-name := "rpm-test"
+name := "rpm-test-with-repack"
 
 version := "0.1.0"
 
