@@ -13,7 +13,7 @@ packageDescription :=
   """A fun package description of our software,
   with multiple lines."""
 
-rpmRelease := "1"
+rpmRelease := "2"
 
 rpmVendor := "typesafe"
 
