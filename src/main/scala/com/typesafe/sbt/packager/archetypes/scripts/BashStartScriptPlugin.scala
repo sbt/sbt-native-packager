@@ -55,8 +55,8 @@ object BashStartScriptPlugin extends AutoPlugin {
     bashScriptDefines ++= bashScriptExtraDefines.value,
     bashScriptReplacements := generateScriptReplacements(bashScriptDefines.value),
     // Create a bashConfigLocation if options are set in build.sbt
-    bashScriptConfigLocation := Some(appIniLocation),
-    bashScriptEnvConfigLocation := None,
+    bashScriptConfigLocation := (bashScriptConfigLocation ?? Some(appIniLocation)).value,
+    bashScriptEnvConfigLocation := (bashScriptEnvConfigLocation ?? None).value,
     // Generating the application configuration
     mappings in Universal := generateApplicationIni(
       (mappings in Universal).value,
