@@ -69,7 +69,7 @@ object WindowsPlugin extends AutoPlugin {
       wixPackageInfo := WindowsProductInfo(
         id = wixProductId.value,
         title = (packageSummary in Windows).value,
-        version = wixProductUpgradeId.value,
+        version = (version in Windows).value,
         maintainer = (maintainer in Windows).value,
         description = (packageDescription in Windows).value,
         upgradeId = wixProductUpgradeId.value,
