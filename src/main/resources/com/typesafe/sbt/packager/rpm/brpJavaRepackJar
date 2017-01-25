@@ -1,6 +1,1 @@
-%define __os_install_post \
-%{_rpmconfigdir}/brp-compress \
-%{!?__debug_package:%{_rpmconfigdir}/brp-strip %{__strip}} \
-%{_rpmconfigdir}/brp-strip-static-archive %{__strip} \
-%{_rpmconfigdir}/brp-strip-comment-note %{__strip} %{__objdump} \
-%{nil}
+%define __jar_repack %nil

@@ -23,7 +23,7 @@ $ exists var/run/rpm-test
 
 # TODO symlinks aren't checked
 
-> set NativePackagerKeys.rpmBrpJavaRepackJars := true
+> set NativePackagerKeys.rpmBrpJavaRepackJars := false
 > check-spec-file
 > check-spec-autostart
 

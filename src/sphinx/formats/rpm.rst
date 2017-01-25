@@ -339,12 +339,12 @@ After
 Jar Repackaging
 ~~~~~~~~~~~~~~~
 
-rpm repackages jars by default (described in this `blog post`_) in order to optimize jars.
-This behaviour is turned off by default with this setting:
+RPM repackages jars by default in order to optimize jars.
+Repacking is turned off by default. In order to enable it, set:
 
 .. code-block:: scala
 
-    rpmBrpJavaRepackJars := false
+    rpmBrpJavaRepackJars := true
 
 Note that this *appends* content to your ``Pre`` definition, so make sure not to override it.
 For more information on this topic follow these links:
@@ -353,7 +353,6 @@ For more information on this topic follow these links:
 * `pullrequest #199`_
 * `OpenSuse issue`_
 
-  .. _blog post: http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build
   .. _issue #195: https://github.com/sbt/sbt-native-packager/issues/195
   .. _pullrequest #199: https://github.com/sbt/sbt-native-packager/pull/199
   .. _OpenSuse issue: https://github.com/sbt/sbt-native-packager/issues/215
