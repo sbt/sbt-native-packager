@@ -1,6 +1,4 @@
-package com.typesafe.sbt
-package packager
-package docker
+package com.typesafe.sbt.packager.docker
 
 import java.nio.file.Paths
 
@@ -9,8 +7,7 @@ import com.spotify.docker.client.{DefaultDockerClient, DockerClient, ProgressHan
 import com.spotify.docker.client.DockerClient.BuildParam
 import sbt._
 import sbt.Keys._
-import packager.Keys._
-import universal.UniversalPlugin.autoImport.stage
+import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stage
 
 /**
   * == DockerSpotifyClientPlugin Plugin ==
@@ -51,15 +48,15 @@ import universal.UniversalPlugin.autoImport.stage
   */
 object DockerSpotifyClientPlugin extends AutoPlugin {
 
-  override def requires = DockerPlugin
+  override def requires: Plugins = DockerPlugin
 
   import DockerPlugin.autoImport._
 
-  override lazy val projectSettings = inConfig(Docker)(clientSettings)
+  override lazy val projectSettings: Seq[Setting[_]] = inConfig(Docker)(clientSettings)
 
   def clientSettings = Seq(publishLocal := publishLocalDocker.value)
 
-  def publishLocalDocker = Def.task {
+  def publishLocalDocker: Def.Initialize[Task[Unit]] = Def.task {
     val context = stage.value
     val tag = dockerAlias.value.versioned
     val latest = dockerUpdateLatest.value
@@ -70,14 +67,13 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
     log.info(s"PublishLocal using Docker API ${docker.version().apiVersion()}")
 
-    val id =
-      docker.build(Paths.get(dockerDirectory), tag, new ProgressHandler() {
-        def progress(message: ProgressMessage) =
-          Option(message.error()) match {
-            case Some(error) if error.nonEmpty => log.error(message.error())
-            case _ => Option(message.stream()) foreach (v => log.info(v))
-          }
-      }, BuildParam.forceRm())
+    docker.build(Paths.get(dockerDirectory), tag, new ProgressHandler() {
+      def progress(message: ProgressMessage): Unit =
+        Option(message.error()) match {
+          case Some(error) if error.nonEmpty => log.error(message.error())
+          case _ => Option(message.stream()) foreach (v => log.info(v))
+        }
+    }, BuildParam.forceRm())
 
     if (latest) {
       val name = tag.substring(0, tag.lastIndexOf(":")) + ":latest"

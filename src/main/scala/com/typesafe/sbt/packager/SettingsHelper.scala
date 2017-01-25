@@ -26,44 +26,34 @@ object SettingsHelper {
     )
 
   def makeDeploymentSettings(config: Configuration, packageTask: TaskKey[File], extension: String): Seq[Setting[_]] =
-    (inConfig(config)(Classpaths.publishSettings)) ++ inConfig(config)(
+    inConfig(config)(Classpaths.publishSettings) ++ inConfig(config)(
       Seq(
         artifacts := Seq.empty,
         packagedArtifacts := Map.empty,
-        projectID <<= (organization, name, version) apply { (o, n, v) =>
-          ModuleID(o, n, v)
+        projectID := ModuleID(organization.value, name.value, version.value),
+        moduleSettings := InlineConfiguration(projectID.value, projectInfo.value, Seq.empty),
+        ivyModule := {
+          val ivy = ivySbt.value
+          new ivy.Module(moduleSettings.value)
         },
-        moduleSettings <<= (projectID, projectInfo) map { (pid, pinfo) =>
-          InlineConfiguration(pid, pinfo, Seq.empty)
-        },
-        ivyModule <<= (ivySbt, moduleSettings) map { (i, s) =>
-          new i.Module(s)
-        },
-        deliverLocalConfiguration <<= (crossTarget, ivyLoggingLevel) map { (outDir, level) =>
-          Classpaths.deliverConfig(outDir, logging = level)
-        },
-        deliverConfiguration <<= deliverLocalConfiguration,
-        publishConfiguration <<= (packagedArtifacts, checksums, publishTo, isSnapshot) map {
-          (as, checks, publishTo, isSnap) =>
-            new PublishConfiguration(
-              ivyFile = None,
-              resolverName = Classpaths.getPublishTo(publishTo).name,
-              artifacts = as,
-              checksums = checks,
-              logging = UpdateLogging.DownloadOnly,
-              overwrite = isSnap
-            )
-        },
-        publishLocalConfiguration <<= (packagedArtifacts, checksums, isSnapshot) map { (as, checks, isSnap) =>
-          new PublishConfiguration(
-            ivyFile = None,
-            resolverName = "local",
-            artifacts = as,
-            checksums = checks,
-            logging = UpdateLogging.DownloadOnly,
-            overwrite = isSnap
-          )
-        }
+        deliverLocalConfiguration := Classpaths.deliverConfig(crossTarget.value, logging = ivyLoggingLevel.value),
+        deliverConfiguration := deliverLocalConfiguration.value,
+        publishConfiguration := new PublishConfiguration(
+          ivyFile = None,
+          resolverName = Classpaths.getPublishTo(publishTo.value).name,
+          artifacts = packagedArtifacts.value,
+          checksums = checksums.value,
+          logging = UpdateLogging.DownloadOnly,
+          overwrite = isSnapshot.value
+        ),
+        publishLocalConfiguration := new PublishConfiguration(
+          ivyFile = None,
+          resolverName = "local",
+          artifacts = packagedArtifacts.value,
+          checksums = checksums.value,
+          logging = UpdateLogging.DownloadOnly,
+          overwrite = isSnapshot.value
+        )
       )
     ) ++ addPackage(config, packageTask, extension)
 }

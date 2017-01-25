@@ -1,13 +1,12 @@
-package com.typesafe.sbt
-package packager
-package archetypes
+package com.typesafe.sbt.packager.archetypes
 
 import sbt._
-import sbt.Keys.{javaOptions, mainClass, mappings, name, sourceDirectory, streams, target}
-import packager.Keys.{executableScriptName, packageName}
-import linux.{LinuxFileMetaData, LinuxPackageMapping}
-import linux.LinuxPlugin.autoImport.{defaultLinuxInstallLocation, linuxPackageMappings}
-import SbtNativePackager.{Debian, Universal}
+import sbt.Keys._
+import com.typesafe.sbt.SbtNativePackager.{Debian, Universal}
+import com.typesafe.sbt.packager._
+import com.typesafe.sbt.packager.Keys.packageName
+import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping}
+import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{defaultLinuxInstallLocation, linuxPackageMappings}
 
 /**
   * == Java Application ==
@@ -38,39 +37,45 @@ object JavaAppPackaging extends AutoPlugin {
 
   import JavaAppPackaging.autoImport._
 
-  override def requires =
+  override def requires: Plugins =
     debian.DebianPlugin && rpm.RpmPlugin && docker.DockerPlugin && windows.WindowsPlugin
 
-  // format: off
   override def projectSettings = Seq(
     javaOptions in Universal := Nil,
     // Here we record the classpath as it's added to the mappings separately, so
     // we can use its order to generate the bash/bat scripts.
     scriptClasspathOrdering := Nil,
     // Note: This is sometimes on the classpath via dependencyClasspath in Runtime.
-    // We need to figure out why sometimes the Attributed[File] is corrrectly configured
+    // We need to figure out why sometimes the Attributed[File] is correctly configured
     // and sometimes not.
-    scriptClasspathOrdering <+= (Keys.packageBin in Compile, Keys.projectID, Keys.artifact in Compile in Keys.packageBin) map { (jar, id, art) =>
+    scriptClasspathOrdering += {
+      val jar = (packageBin in Compile).value
+      val id = projectID.value
+      val art = (artifact in Compile in packageBin).value
       jar -> ("lib/" + makeJarName(id.organization, id.name, id.revision, art.name, art.classifier))
     },
-    projectDependencyArtifacts <<= findProjectDependencyArtifacts,
-    scriptClasspathOrdering <++= (Keys.dependencyClasspath in Runtime, projectDependencyArtifacts) map universalDepMappings,
-    scriptClasspathOrdering <<= scriptClasspathOrdering map { _.distinct },
-    mappings in Universal <++= scriptClasspathOrdering,
-    scriptClasspath <<= scriptClasspathOrdering map makeRelativeClasspathNames,
-    linuxPackageMappings in Debian <+= (packageName in Debian, defaultLinuxInstallLocation, target in Debian) map {
-      (name, installLocation, target) =>
-        // create empty var/log directory
-        val d = target / installLocation
-        d.mkdirs()
-        LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData())
+    projectDependencyArtifacts := findProjectDependencyArtifacts.value,
+    scriptClasspathOrdering ++= universalDepMappings(
+      (dependencyClasspath in Runtime).value,
+      projectDependencyArtifacts.value
+    ),
+    scriptClasspathOrdering := scriptClasspathOrdering.value.distinct,
+    mappings in Universal ++= scriptClasspathOrdering.value,
+    scriptClasspath := makeRelativeClasspathNames(scriptClasspathOrdering.value),
+    linuxPackageMappings in Debian += {
+      val name = (packageName in Debian).value
+      val installLocation = defaultLinuxInstallLocation.value
+      val targetDir = (target in Debian).value
+      // create empty var/log directory
+      val d = targetDir / installLocation
+      d.mkdirs()
+      LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData())
     }
   )
-  // format: on
 
   private def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =
     for {
-      (file, name) <- mappings
+      (_, name) <- mappings
     } yield {
       // Here we want the name relative to the lib/ folder...
       // For now we just cheat...
@@ -107,30 +112,6 @@ object JavaAppPackaging extends AutoPlugin {
   private def dependencyProjectRefs(build: sbt.BuildDependencies, thisProject: ProjectRef): Seq[ProjectRef] =
     build.classpathTransitive.getOrElse(thisProject, Nil)
 
-  private def filterArtifacts(artifacts: Seq[(Artifact, File)], config: Option[String]): Seq[(Artifact, File)] =
-    for {
-      (art, file) <- artifacts
-      // TODO - Default to compile or default?
-      if art.configurations.exists(_.name == config.getOrElse("default"))
-    } yield art -> file
-
-  private def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[File]]] =
-    stateTask flatMap { state =>
-      val extracted = Project extract state
-      // TODO - Is this correct?
-      val module = extracted.get(sbt.Keys.projectID in ref)
-      val artifactTask = extracted get (sbt.Keys.packagedArtifacts in ref)
-      for {
-        arts <- artifactTask
-      } yield {
-        for {
-          (art, file) <- arts.toSeq // TODO -Filter!
-        } yield {
-          sbt.Attributed.blank(file).put(sbt.Keys.moduleID.key, module).put(sbt.Keys.artifact.key, art)
-        }
-      }
-    }
-
   // TODO - Should we pull in more than just JARs?  How do native packages come in?
   private def isRuntimeArtifact(dep: Attributed[File]): Boolean =
     dep.get(sbt.Keys.artifact.key).map(_.`type` == "jar").getOrElse {
@@ -139,7 +120,7 @@ object JavaAppPackaging extends AutoPlugin {
     }
 
   private def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[File]]]] =
-    (sbt.Keys.buildDependencies, sbt.Keys.thisProjectRef, sbt.Keys.state) apply { (build, thisProject, stateTask) =>
+    (buildDependencies, thisProjectRef, state).apply { (build, thisProject, stateTask) =>
       val refs = thisProject +: dependencyProjectRefs(build, thisProject)
       // Dynamic lookup of dependencies...
       val artTasks = refs map { ref =>
@@ -153,6 +134,21 @@ object JavaAppPackaging extends AutoPlugin {
           } yield p ++ n.filter(isRuntimeArtifact)
         }
       allArtifactsTask
+    }
+
+  private def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[File]]] =
+    stateTask.flatMap { state =>
+      val extracted = Project.extract(state)
+      // TODO - Is this correct?
+      val module = extracted.get(projectID in ref)
+      val artifactTask = extracted.get(packagedArtifacts in ref)
+      for {
+        arts <- artifactTask
+      } yield {
+        for {
+          (art, file) <- arts.toSeq // TODO -Filter!
+        } yield Attributed.blank(file).put(moduleID.key, module).put(artifact.key, art)
+      }
     }
 
   private def findRealDep(dep: Attributed[File], projectArts: Seq[Attributed[File]]): Option[Attributed[File]] =

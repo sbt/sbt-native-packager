@@ -1,14 +1,12 @@
 package com.typesafe.sbt.packager.linux
 
 import sbt._
-import sbt.Keys.{mappings, name, normalizedName, sourceDirectory}
+import sbt.Keys.{mappings, name, sourceDirectory, streams}
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.MappingsHelper
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.universal.UniversalPlugin
-import com.typesafe.sbt.packager.archetypes.{TemplateWriter}
-import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
-import LinuxPlugin.Users
+import com.typesafe.sbt.packager.archetypes.TemplateWriter
 
 /**
   * Plugin containing all the generic values used for
@@ -48,22 +46,23 @@ object LinuxPlugin extends AutoPlugin {
   def linuxSettings: Seq[Setting[_]] = Seq(
     linuxPackageMappings := Seq.empty,
     linuxPackageSymlinks := Seq.empty,
-    sourceDirectory in Linux <<= sourceDirectory apply (_ / "linux"),
-    generateManPages <<= (sourceDirectory in Linux, sbt.Keys.streams) map { (dir, s) =>
-      for (file <- (dir / "usr/share/man/man1" ** "*.1").get) {
+    sourceDirectory in Linux := sourceDirectory.value / "linux",
+    generateManPages := {
+      val log = streams.value.log
+      for (file <- ((sourceDirectory in Linux).value / "usr/share/man/man1" ** "*.1").get) {
         val man = makeMan(file)
-        s.log.info("Generated man page for[" + file + "] =")
-        s.log.info(man)
+        log.info("Generated man page for[" + file + "] =")
+        log.info(man)
       }
     },
-    packageSummary in Linux <<= packageSummary,
-    packageDescription in Linux <<= packageDescription,
-    name in Linux <<= name,
-    packageName in Linux <<= packageName,
-    executableScriptName in Linux <<= executableScriptName,
-    daemonUser in Linux <<= packageName in Linux,
+    packageSummary in Linux := packageSummary.value,
+    packageDescription in Linux := packageDescription.value,
+    name in Linux := name.value,
+    packageName in Linux := packageName.value,
+    executableScriptName in Linux := executableScriptName.value,
+    daemonUser in Linux := (packageName in Linux).value,
     daemonUserUid in Linux := None,
-    daemonGroup in Linux <<= daemonUser in Linux,
+    daemonGroup in Linux := (daemonUser in Linux).value,
     daemonGroupGid in Linux := None,
     daemonShell in Linux := "/bin/false",
     defaultLinuxInstallLocation := "/usr/share",
@@ -114,30 +113,35 @@ object LinuxPlugin extends AutoPlugin {
       (mappings in Universal).value
     ),
     // Now we generate symlinks.
-    linuxPackageSymlinks <++= (packageName in Linux, mappings in Universal, defaultLinuxInstallLocation) map {
-      (pkg, mappings, installLocation) =>
-        for {
-          (file, name) <- mappings
-          if !file.isDirectory
-          if name startsWith "bin/"
-          if !(name endsWith ".bat") // IGNORE windows-y things.
-        } yield LinuxSymlink("/usr/" + name, installLocation + "/" + pkg + "/" + name)
+    linuxPackageSymlinks ++= {
+      val installLocation = defaultLinuxInstallLocation.value
+      val linuxPackageName = (packageName in Linux).value
+      for {
+        (file, name) <- (mappings in Universal).value
+        if !file.isDirectory
+        if name startsWith "bin/"
+        if !(name endsWith ".bat") // IGNORE windows-y things.
+      } yield LinuxSymlink("/usr/" + name, installLocation + "/" + linuxPackageName + "/" + name)
     },
     // Map configuration files
-    linuxPackageSymlinks <++= (packageName in Linux,
-                               mappings in Universal,
-                               defaultLinuxInstallLocation,
-                               defaultLinuxConfigLocation)
-      map { (pkg, mappings, installLocation, configLocation) =>
-        val needsConfLink =
-          mappings exists {
-            case (file, name) =>
-              (name startsWith "conf/") && !file.isDirectory
-          }
-        if (needsConfLink)
-          Seq(LinuxSymlink(link = configLocation + "/" + pkg, destination = installLocation + "/" + pkg + "/conf"))
-        else Seq.empty
-      }
+    linuxPackageSymlinks ++= {
+      val linuxPackageName = (packageName in Linux).value
+      val installLocation = defaultLinuxInstallLocation.value
+      val configLocation = defaultLinuxConfigLocation.value
+      val needsConfLink =
+        (mappings in Universal).value exists {
+          case (file, destination) =>
+            (destination startsWith "conf/") && !file.isDirectory
+        }
+      if (needsConfLink)
+        Seq(
+          LinuxSymlink(
+            link = configLocation + "/" + linuxPackageName,
+            destination = installLocation + "/" + linuxPackageName + "/conf"
+          )
+        )
+      else Seq.empty
+    }
   )
 
   def makeReplacements(author: String,
@@ -207,13 +211,13 @@ object LinuxPlugin extends AutoPlugin {
     val (directories, nondirectories) = mappings.partition(_._1.isDirectory)
     val (binaries, nonbinaries) = nondirectories.partition(_._1.canExecute)
     val (manPages, nonManPages) = nonbinaries partition {
-      case (file, name) => (name contains "man/") && (name endsWith ".1")
+      case (_, destination) => (destination contains "man/") && (destination endsWith ".1")
     }
     val compressedManPages =
       for ((file, name) <- manPages)
         yield file -> (name + ".gz")
     val (configFiles, remaining) = nonManPages partition {
-      case (file, name) => (name contains "etc/") || (name contains "conf/")
+      case (_, destination) => (destination contains "etc/") || (destination contains "conf/")
     }
     def packageMappingWithRename(mappings: (File, String)*): LinuxPackageMapping = {
       val renamed =
@@ -223,7 +227,7 @@ object LinuxPlugin extends AutoPlugin {
     }
 
     Seq(
-      packageMappingWithRename((binaries ++ directories): _*) withUser user withGroup group withPerms "0755",
+      packageMappingWithRename(binaries ++ directories: _*) withUser user withGroup group withPerms "0755",
       packageMappingWithRename(compressedManPages: _*).gzipped withUser user withGroup group withPerms "0644",
       packageMappingWithRename(configFiles: _*) withConfig () withUser user withGroup group withPerms "0644",
       packageMappingWithRename(remaining: _*) withUser user withGroup group withPerms "0644"

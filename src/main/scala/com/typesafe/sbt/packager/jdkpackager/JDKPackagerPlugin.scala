@@ -27,12 +27,12 @@ object JDKPackagerPlugin extends AutoPlugin {
   }
 
   import autoImport._
-  override def requires = JavaAppPackaging && LauncherJarPlugin
+  override def requires: Plugins = JavaAppPackaging && LauncherJarPlugin
   private val dirname = JDKPackager.name.toLowerCase
 
   override def projectConfigurations: Seq[Configuration] = Seq(JDKPackager)
 
-  override lazy val projectSettings = Seq(
+  override lazy val projectSettings: Seq[Setting[_]] = Seq(
       jdkAppIcon := None,
       jdkPackagerType := "installer",
       jdkPackagerBasename := packageName.value + "-pkg",
@@ -94,6 +94,6 @@ object JDKPackagerDeployPlugin extends AutoPlugin {
   import JDKPackagerPlugin.autoImport._
   override def requires = JDKPackagerPlugin
 
-  override def projectSettings =
+  override def projectSettings: Seq[Setting[_]] =
     SettingsHelper.makeDeploymentSettings(JDKPackager, packageBin in JDKPackager, "jdkPackager")
 }

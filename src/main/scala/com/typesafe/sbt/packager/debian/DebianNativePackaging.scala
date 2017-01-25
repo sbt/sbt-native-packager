@@ -45,15 +45,19 @@ trait DebianNativePackaging extends DebianPluginLike {
           debianPackageMetadata.value,
           target.value
         ),
-        debianSign <<= (packageBin, debianSignRole, streams) map { (deb, role, s) =>
-          Process(Seq("dpkg-sig", "-s", role, deb.getAbsolutePath), Some(deb.getParentFile())) ! s.log match {
+        debianSign := {
+          val deb = packageBin.value
+          val role = debianSignRole.value
+          val log = streams.value.log
+          Process(Seq("dpkg-sig", "-s", role, deb.getAbsolutePath), Some(deb.getParentFile)) ! log match {
             case 0 => ()
             case x =>
               sys.error("Failed to sign debian package! exit code: " + x)
           }
           deb
         },
-        lintian <<= packageBin map { file =>
+        lintian := {
+          val file = packageBin.value
           Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
         },
         /** Implementation of the actual packaging  */
@@ -73,7 +77,7 @@ trait DebianNativePackaging extends DebianPluginLike {
     changelog match {
       case None =>
         sys.error("Cannot generate .changes file without a changelog")
-      case Some(chlog) => {
+      case Some(chlog) =>
         // dpkg-genchanges needs a debian "source" directory, different from the DEBIAN "binary" directory
         val debSrc = targetDir / "../tmp" / Names.DebianSource
         debSrc.mkdirs()
@@ -92,7 +96,6 @@ trait DebianNativePackaging extends DebianPluginLike {
             sys.error("Failure generating changes file." + e.getStackTraceString)
         }
         changesFile
-      }
     }
   }
 

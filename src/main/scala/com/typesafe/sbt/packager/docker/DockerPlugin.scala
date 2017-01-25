@@ -54,7 +54,7 @@ import SbtNativePackager.{Linux, Universal}
 object DockerPlugin extends AutoPlugin {
 
   object autoImport extends DockerKeys {
-    val Docker = config("docker")
+    val Docker: Configuration = config("docker")
 
     val DockerAlias = com.typesafe.sbt.packager.docker.DockerAlias
   }
@@ -71,26 +71,25 @@ object DockerPlugin extends AutoPlugin {
 
   override def projectConfigurations: Seq[Configuration] = Seq(Docker)
 
-  // format: off
-  override lazy val projectSettings = Seq(
-    dockerBaseImage := "openjdk:latest",
-    dockerExposedPorts := Seq(),
-    dockerExposedUdpPorts := Seq(),
-    dockerExposedVolumes := Seq(),
-    dockerRepository := None,
-    dockerAlias := DockerAlias(dockerRepository.value, None, packageName.value, Some((version in Docker).value)),
-    dockerUpdateLatest := false,
-    dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
-    dockerCmd := Seq(),
-    dockerExecCommand := Seq("docker"),
-    dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
-      if (dockerUpdateLatest.value)
-        Seq("-t", dockerAlias.value.latest)
-      else
-        Seq()
-    ),
-    dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
-    dockerCommands := {
+  override lazy val projectSettings: Seq[Setting[_]] = Seq(
+      dockerBaseImage := "openjdk:latest",
+      dockerExposedPorts := Seq(),
+      dockerExposedUdpPorts := Seq(),
+      dockerExposedVolumes := Seq(),
+      dockerRepository := None,
+      dockerAlias := DockerAlias(dockerRepository.value, None, packageName.value, Some((version in Docker).value)),
+      dockerUpdateLatest := false,
+      dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
+      dockerCmd := Seq(),
+      dockerExecCommand := Seq("docker"),
+      dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
+        if (dockerUpdateLatest.value)
+          Seq("-t", dockerAlias.value.latest)
+        else
+          Seq()
+      ),
+      dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
+      dockerCommands := {
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
       val user = (daemonUser in Docker).value
       val group = (daemonGroup in Docker).value
@@ -104,47 +103,41 @@ object DockerPlugin extends AutoPlugin {
       ) ++
         makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
         makeVolumes(dockerExposedVolumes.value, user, group) ++
-        Seq(
-          makeUser(user),
-          makeEntrypoint(dockerEntrypoint.value),
-          makeCmd(dockerCmd.value)
-        )
+        Seq(makeUser(user), makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
 
     }
-
-  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(Seq(
-      executableScriptName := executableScriptName.value,
-      mappings ++= dockerPackageMappings.value,
-      mappings ++= Seq(dockerGenerateConfig.value) pair relativeTo(target.value),
-      name := name.value,
-      packageName := packageName.value,
-      publishLocal <<= (stage, dockerAlias, dockerBuildCommand, streams) map {
-        (context, alias, buildCommand, s) =>
-          publishLocalDocker(context, buildCommand, s.log)
-          s.log.info(s"Built image $alias")
+    ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
+      Seq(
+        executableScriptName := executableScriptName.value,
+        mappings ++= dockerPackageMappings.value,
+        mappings ++= Seq(dockerGenerateConfig.value) pair relativeTo(target.value),
+        name := name.value,
+        packageName := packageName.value,
+        publishLocal := {
+        val log = streams.value.log
+        publishLocalDocker(stage.value, dockerBuildCommand.value, log)
+        log.info(s"Built image ${dockerAlias.value}")
       },
-      publish <<= (publishLocal, dockerAlias, dockerUpdateLatest, dockerExecCommand, streams) map {
-        (_, alias, updateLatest, dockerExecCommand, s) =>
-          publishDocker(dockerExecCommand ,alias.versioned, s.log)
-          if (updateLatest) {
-            publishDocker(dockerExecCommand, alias.latest, s.log)
-          }
+        publish := {
+        val _ = publishLocal.value
+        val alias = dockerAlias.value
+        val log = streams.value.log
+        publishDocker(dockerExecCommand.value, alias.versioned, log)
+        if (dockerUpdateLatest.value) {
+          publishDocker(dockerExecCommand.value, alias.latest, log)
+        }
       },
-      sourceDirectory := sourceDirectory.value / "docker",
-      stage <<= (streams, stagingDirectory, mappings) map Stager.stage(Docker.name),
-      stagingDirectory := (target in Docker).value / "stage",
-      target := target.value / "docker",
-
-      daemonUser := "daemon",
-      daemonGroup := daemonUser.value,
-      defaultLinuxInstallLocation := "/opt/docker",
-
-      dockerPackageMappings <<= sourceDirectory map { dir =>
-        MappingsHelper contentOf dir
-      },
-      dockerGenerateConfig <<= (dockerCommands, target) map generateDockerConfig
-    ))
-  // format: on
+        sourceDirectory := sourceDirectory.value / "docker",
+        stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
+        stagingDirectory := (target in Docker).value / "stage",
+        target := target.value / "docker",
+        daemonUser := "daemon",
+        daemonGroup := daemonUser.value,
+        defaultLinuxInstallLocation := "/opt/docker",
+        dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
+        dockerGenerateConfig := generateDockerConfig(dockerCommands.value, target.value)
+      )
+    )
 
   /**
     * @param maintainer (optional)
@@ -276,14 +269,12 @@ object DockerPlugin extends AutoPlugin {
         newPath = "%s/%s" format (dest, path)
       } yield (f, newPath)
 
-    inConfig(Docker)(Seq(mappings <<= (mappings in Universal, defaultLinuxInstallLocation) map { (mappings, dest) =>
-      renameDests(mappings, dest)
-    }))
+    inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
   }
 
   private[docker] def publishLocalLogger(log: Logger) =
     new ProcessLogger {
-      def error(err: => String) =
+      def error(err: => String): Unit =
         err match {
           case s if s.startsWith("Uploading context") =>
             log.debug(s) // pre-1.0
@@ -293,12 +284,12 @@ object DockerPlugin extends AutoPlugin {
           case s =>
         }
 
-      def info(inf: => String) = inf match {
+      def info(inf: => String): Unit = inf match {
         case s if !s.trim.isEmpty => log.info(s)
         case s =>
       }
 
-      def buffer[T](f: => T) = f
+      def buffer[T](f: => T): T = f
     }
 
   def publishLocalDocker(context: File, buildCommand: Seq[String], log: Logger): Unit = {
@@ -317,12 +308,12 @@ object DockerPlugin extends AutoPlugin {
     def publishLogger(log: Logger) =
       new ProcessLogger {
 
-        def error(err: => String) = err match {
+        def error(err: => String): Unit = err match {
           case s if !s.trim.isEmpty => log.error(s)
           case s =>
         }
 
-        def info(inf: => String) =
+        def info(inf: => String): Unit =
           inf match {
             case s if s.startsWith("Please login") =>
               loginRequired.compareAndSet(false, true)
@@ -330,7 +321,7 @@ object DockerPlugin extends AutoPlugin {
             case s =>
           }
 
-        def buffer[T](f: => T) = f
+        def buffer[T](f: => T): T = f
       }
 
     val cmd = execCommand ++ Seq("push", tag)

@@ -4,6 +4,8 @@ import com.typesafe.sbt.SbtNativePackager
 import com.typesafe.sbt.packager.jdkpackager.JDKPackagerPlugin.autoImport._
 import sbt._
 
+import scala.xml.Node
+
 /**
   * Keys specific to deployment via the `javapackger` tool.
   *
@@ -12,9 +14,10 @@ import sbt._
   */
 trait JDKPackagerKeys {
 
-  val jdkPackagerBasename = settingKey[String]("Filename sans extension for generated installer package.")
+  val jdkPackagerBasename: SettingKey[String] =
+    settingKey[String]("Filename sans extension for generated installer package.")
 
-  val jdkPackagerType = settingKey[String](
+  val jdkPackagerType: SettingKey[String] = settingKey[String](
     """Value passed as the `native` attribute to `fx:deploy` task.
       |Per `javapackager` documentation, this may be one of the following:
       |
@@ -37,10 +40,10 @@ trait JDKPackagerKeys {
     """.stripMargin
   )
 
-  val jdkPackagerToolkit =
+  val jdkPackagerToolkit: SettingKey[JDKPackagerToolkit] =
     settingKey[JDKPackagerToolkit]("GUI toolkit used in app. Either `JavaFXToolkit` (default) or `SwingToolkit`")
 
-  val jdkPackagerJVMArgs = settingKey[Seq[String]](
+  val jdkPackagerJVMArgs: SettingKey[Seq[String]] = settingKey[Seq[String]](
     """Sequence of arguments to pass to the JVM.
       |Default: `Seq("-Xmx768m")`.
       |Details:
@@ -48,7 +51,7 @@ trait JDKPackagerKeys {
     """.stripMargin
   )
 
-  val jdkPackagerAppArgs = settingKey[Seq[String]](
+  val jdkPackagerAppArgs: SettingKey[Seq[String]] = settingKey[Seq[String]](
     """List of command line arguments to pass to the application on launch.
       |Default: `Seq.empty`
       |Details:
@@ -57,7 +60,7 @@ trait JDKPackagerKeys {
     """.stripMargin
   )
 
-  val jdkPackagerProperties = settingKey[Map[String, String]](
+  val jdkPackagerProperties: SettingKey[Map[String, String]] = settingKey[Map[String, String]](
     """Map of `System` properties to define in application.
       |Default: `Map.empty`
       |Details:
@@ -65,7 +68,7 @@ trait JDKPackagerKeys {
     """.stripMargin
   )
 
-  val jdkAppIcon = settingKey[Option[File]]("""Path to platform-specific application icon:
+  val jdkAppIcon: SettingKey[Option[File]] = settingKey[Option[File]]("""Path to platform-specific application icon:
       |    * `icns`: MacOS
       |    * `ico`: Windows
       |    * `png`: Linux
@@ -73,7 +76,7 @@ trait JDKPackagerKeys {
       | Defaults to generic Java icon.
     """.stripMargin)
 
-  val jdkPackagerAssociations = settingKey[Seq[FileAssociation]](
+  val jdkPackagerAssociations: SettingKey[Seq[FileAssociation]] = settingKey[Seq[FileAssociation]](
     """Set of application file associations to register for the application.
       |Example: `jdkPackagerAssociations := Seq(FileAssociation("foo", "application/x-foo", Foo Data File", iconPath))
       |Default: `Seq.empty`
@@ -84,21 +87,22 @@ trait JDKPackagerKeys {
   )
 
   /** Config for scoping keys outside of Global . */
-  val JDKPackager = config("jdkPackager") extend SbtNativePackager.Universal
+  val JDKPackager: Configuration = config("jdkPackager") extend SbtNativePackager.Universal
 
   // ------------------------------------------
   // Keys to be defined in JDKPackager config.
   // ------------------------------------------
 
-  val antPackagerTasks = settingKey[Option[File]](
+  val antPackagerTasks: SettingKey[Option[File]] = settingKey[Option[File]](
     "Path to `ant-javafx.jar` library in JDK. By plugin attempts to find location based on `java.home` property. Specifying `JAVA_HOME` or `JDK_HOME` can help."
   )
 
-  val antBuildDefn =
+  val antBuildDefn: TaskKey[Node] =
     taskKey[xml.Node]("Generates a Ant XML DOM defining package generating build for JDK provided Ant task.")
 
-  val writeAntBuild = taskKey[File]("Write the Ant `build.xml` file to the jdkpackager target directory")
+  val writeAntBuild: TaskKey[File] =
+    taskKey[File]("Write the Ant `build.xml` file to the jdkpackager target directory")
 
-  val antExtraClasspath =
+  val antExtraClasspath: SettingKey[Seq[File]] =
     settingKey[Seq[File]]("Additional classpath entries for the JavaFX Ant task beyond `antPackagerTasks`")
 }

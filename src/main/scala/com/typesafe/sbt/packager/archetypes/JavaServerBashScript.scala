@@ -61,7 +61,7 @@ object JavaServerLoaderScript {
       case file if file.exists => Some(file.toURI.toURL)
       case _ =>
         Option(getClass getResource templatePath(script, loader, archetype))
-    } getOrElse (sys.error(s"Could not find init [$script] for system [$loader] in archetype [$archetype]"))
+    } getOrElse sys.error(s"Could not find init [$script] for system [$loader] in archetype [$archetype]")
 
   /**
     * Loads the [[com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader]] specific "functions" resource,
@@ -70,7 +70,6 @@ object JavaServerLoaderScript {
     * The functions script resides in "[archetype]/[loader]/functions"
     *
     * @param loader - Upstart, SystemV, SystemD
-    * @param replacements - tuple of name->replacement
     * @param script - default is "functions"
     * @return functions - addService/stopService with resolved variables
     */
