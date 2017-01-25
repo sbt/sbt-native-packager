@@ -1,5 +1,36 @@
 # Change Log
 
+## [v1.2.0-M8](https://github.com/sbt/sbt-native-packager/tree/v1.2.0-M8) (2017-01-25)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M7...v1.2.0-M8)
+
+**Fixed bugs:**
+
+- bash-forwarder-template should define the same header as bash-template [\#921](https://github.com/sbt/sbt-native-packager/issues/921)
+- universal:packageBin not working with spaces in path \(windows / play application\) [\#913](https://github.com/sbt/sbt-native-packager/issues/913)
+- brp-java-repack-jars still running despite setting rpmBrpJavaRepackJars to false [\#789](https://github.com/sbt/sbt-native-packager/issues/789)
+
+**Closed issues:**
+
+- Docker base image is deprecated [\#928](https://github.com/sbt/sbt-native-packager/issues/928)
+- dockerEntrypoint has no effect in 1.1.4 and 1.1.5 [\#927](https://github.com/sbt/sbt-native-packager/issues/927)
+- Native package heavily uses and recommends `\<+=`, which is deprecated [\#919](https://github.com/sbt/sbt-native-packager/issues/919)
+- s [\#915](https://github.com/sbt/sbt-native-packager/issues/915)
+- Multi-project build not working [\#914](https://github.com/sbt/sbt-native-packager/issues/914)
+- rpm help show summary of linux default config [\#912](https://github.com/sbt/sbt-native-packager/issues/912)
+- please publish to sonatype or somehow sync with maven central [\#906](https://github.com/sbt/sbt-native-packager/issues/906)
+
+**Merged pull requests:**
+
+- Fixes issue \#789 where brpJavaRepack was negated [\#932](https://github.com/sbt/sbt-native-packager/pull/932) ([YuvalItzchakov](https://github.com/YuvalItzchakov))
+- Wip/remove symbolic operators [\#931](https://github.com/sbt/sbt-native-packager/pull/931) ([muuki88](https://github.com/muuki88))
+- Fix appveyor build [\#930](https://github.com/sbt/sbt-native-packager/pull/930) ([muuki88](https://github.com/muuki88))
+- Use stage  task instead of debianExplodedPackage [\#925](https://github.com/sbt/sbt-native-packager/pull/925) ([muuki88](https://github.com/muuki88))
+- Change shebang in bash-forwarder-template to `\#!/usr/bin/env bash`. [\#923](https://github.com/sbt/sbt-native-packager/pull/923) ([jan0sch](https://github.com/jan0sch))
+- \[rpm\] Fix configWithNoReplace docs [\#920](https://github.com/sbt/sbt-native-packager/pull/920) ([kodemaniak](https://github.com/kodemaniak))
+- If mappings are empty don't add them to the linuxPackageMappings [\#917](https://github.com/sbt/sbt-native-packager/pull/917) ([muuki88](https://github.com/muuki88))
+- "docker push" should support dockerExecCommand [\#911](https://github.com/sbt/sbt-native-packager/pull/911) ([rbellamy](https://github.com/rbellamy))
+- Add dockerExecCommand setting [\#910](https://github.com/sbt/sbt-native-packager/pull/910) ([rbellamy](https://github.com/rbellamy))
+
 ## [v1.2.0-M7](https://github.com/sbt/sbt-native-packager/tree/v1.2.0-M7) (2016-11-12)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.1.5...v1.2.0-M7)
 
