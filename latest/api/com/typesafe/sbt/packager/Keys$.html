@@ -457,19 +457,6 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="debian/DebianKeys.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianKeys">DebianKeys</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianExplodedPackage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="debianExplodedPackage:sbt.TaskKey[sbt.File]"></a>
-      <a id="debianExplodedPackage:TaskKey[File]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">debianExplodedPackage</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<a href="../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="debian/DebianKeys.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianKeys">DebianKeys</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianLinksfile" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="debianLinksfile:sbt.TaskKey[sbt.File]"></a>
       <a id="debianLinksfile:TaskKey[File]"></a>
@@ -844,6 +831,19 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
       </span>
       <span class="symbol">
         <span class="name">dockerEntrypoint</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="docker/DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">DockerKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerKeys#dockerExecCommand" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dockerExecCommand:sbt.SettingKey[Seq[String]]"></a>
+      <a id="dockerExecCommand:SettingKey[Seq[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dockerExecCommand</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="docker/DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">DockerKeys</a></dd></dl></div>
@@ -2152,7 +2152,23 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
 
         <div id="values" class="values members">
               <h3>Deprecated Value Members</h3>
-              <ol><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianMaintainerScripts" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+              <ol><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianExplodedPackage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="debianExplodedPackage:sbt.TaskKey[sbt.File]"></a>
+      <a id="debianExplodedPackage:TaskKey[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 1.2.0) Use debian:stage instead">debianExplodedPackage</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<a href="../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="debian/DebianKeys.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianKeys">DebianKeys</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 1.2.0)</i> Use debian:stage instead</p></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianMaintainerScripts" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="debianMaintainerScripts:sbt.TaskKey[Seq[(sbt.File,String)]]"></a>
       <a id="debianMaintainerScripts:TaskKey[Seq[(File,String)]]"></a>
       <h4 class="signature">

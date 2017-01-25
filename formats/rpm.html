@@ -733,9 +733,9 @@ rm /etc/sysconfig/<span class="si">${</span><span class="p">{app_name</span><spa
 </div>
 <div class="section" id="jar-repackaging">
 <h3>Jar Repackaging<a class="headerlink" href="#jar-repackaging" title="Permalink to this headline">¶</a></h3>
-<p>rpm repackages jars by default (described in this <a class="reference external" href="http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build">blog post</a>) in order to optimize jars.
-This behaviour is turned off by default with this setting:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">rpmBrpJavaRepackJars</span> <span class="o">:=</span> <span class="kc">false</span>
+<p>RPM repackages jars by default in order to optimize jars.
+Repacking is turned off by default. In order to enable it, set:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">rpmBrpJavaRepackJars</span> <span class="o">:=</span> <span class="kc">true</span>
 </pre></div>
 </div>
 <p>Note that this <em>appends</em> content to your <code class="docutils literal"><span class="pre">Pre</span></code> definition, so make sure not to override it.
@@ -752,10 +752,10 @@ For more information on this topic follow these links:</p>
 as configurations are often customized and should not change during updates. rpm provides a means to turn of the default behaviour
 by marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code> in the spec file. In order to enable this for the build, we provide a helper method that
 can be used to modify all config file mappings:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="n">configWithNoReplace</span><span class="o">(</span><span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="n">configWithNoReplace</span><span class="o">((</span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Rpm</span><span class="o">).</span><span class="n">value</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>This will mark all config files as <code class="docutils literal"><span class="pre">noreplace</span></code> and prevent them from being changed during updates.</p>
+<p>This will mark all config files as <code class="docutils literal"><span class="pre">noreplace</span></code> and prevent them from being changed during updates. Please note that the <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> are scoped to the <code class="docutils literal"><span class="pre">Rpm</span></code> plugin. This is necessary in order to catch all config files relevant to the rpm package and mark them correctly.</p>
 </div>
 </div>
 </div>
