@@ -28,5 +28,6 @@ TaskKey[Unit]("check-loader-script") <<= (target, streams) map { (target, out) =
   val scripts = s"rpm -qp --scripts ${path.absolutePath}".!!
 
   assert(scripts.contains("# right systemd template"), s"override script wasn't picked, scripts are\n$scripts")
+  assert(!scripts.contains("wrong start template"), s"scripts contained wrong template, scripts are\n$scripts")
   ()
 }

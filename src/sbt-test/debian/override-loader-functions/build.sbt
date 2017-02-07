@@ -22,5 +22,6 @@ TaskKey[Unit]("check-loader-functions") <<= (target, streams) map { (target, out
   val script = IO.read(extracted / "postinst")
   
   assert(script.contains("# right systemd template"), s"override script wasn't picked, script is\n$script")
+  assert(!script.contains("wrong systemd start template"), s"script contained wrong template, script is\n$script")
   ()
 }
