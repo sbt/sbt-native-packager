@@ -71,5 +71,5 @@ package object systemloader {
     loader.toString + "/" + name
 
   private def overrideFromFile(sourceDirectory: File, loader: ServerLoader, name: String): Option[URL] =
-    Option(sourceDirectory / "templates" / "systemloader" / loader.toString).filter(_.exists).map(_.toURI.toURL)
+    Option(sourceDirectory / "templates" / "systemloader" / loader.toString / name).filter(_.exists).map(_.toURI.toURL)
 }
