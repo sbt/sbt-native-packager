@@ -77,7 +77,8 @@ object AshScriptPlugin extends AutoPlugin {
 
   override def projectSettings = Seq(
     bashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashTemplate),
-    bashScriptDefines := Defines((scriptClasspath in bashScriptDefines).value, bashScriptConfigLocation.value)
+    bashScriptDefines := Defines((scriptClasspath in bashScriptDefines).value, bashScriptConfigLocation.value),
+    bashScriptDefines ++= bashScriptExtraDefines.value
   )
 
   /**
