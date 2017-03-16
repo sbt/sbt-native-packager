@@ -27,6 +27,17 @@ realpath () {
 )
 }
 
+# Allow user and template_declares (see below) to add java options.
+addJava () {
+  java_opts="$java_opts $1"
+}
+
+# Allow user to specify java options. These get listed first per bash-template.
+if [ -n "$JAVA_OPTS" ]
+then
+  addJava "$JAVA_OPTS"
+fi
+
 # Loads a configuration file full of default command line options for this script.
 loadConfigFile() {
   cat "$1" | sed '/^\#/d' | sed 's/^-J-X/-X/' | tr '\r\n' ' '
@@ -44,4 +55,4 @@ ${{template_declares}}
 # If a configuration file exist, read the contents to $opts
 [ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
 
-exec java -classpath $app_classpath $opts $app_mainclass $@
+exec java $java_opts -classpath $app_classpath $opts $app_mainclass $@
