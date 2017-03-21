@@ -124,9 +124,9 @@ execRunner () {
   [[ $verbose || $debug ]] && echo "# Executing command line:" && {
     for arg; do
       if printf "%s\n" "$arg" | grep -q ' '; then
-	printf "\"%s\"\n" "$arg"
+        printf "\"%s\"\n" "$arg"
       else
-	printf "%s\n" "$arg"
+        printf "%s\n" "$arg"
       fi
     done
     echo ""
@@ -180,23 +180,23 @@ process_args () {
   local no_more_snp_opts=0
   while [[ $# -gt 0 ]]; do
     case "$1" in
-	     --) shift && no_more_snp_opts=1 && break ;;
+             --) shift && no_more_snp_opts=1 && break ;;
        -h|-help) usage; exit 1 ;;
     -v|-verbose) verbose=1 && shift ;;
       -d|-debug) debug=1 && shift ;;
 
     -no-version-check) no_version_check=1 && shift ;;
 
-	   -mem) echo "!! WARNING !! -mem option is ignored. Please use -J-Xmx and -J-Xms" && shift 2 ;;
+           -mem) echo "!! WARNING !! -mem option is ignored. Please use -J-Xmx and -J-Xms" && shift 2 ;;
      -jvm-debug) require_arg port "$1" "$2" && addDebugger $2 && shift 2 ;;
 
-	  -main) custom_mainclass="$2" && shift 2 ;;
+          -main) custom_mainclass="$2" && shift 2 ;;
 
      -java-home) require_arg path "$1" "$2" && jre=`eval echo $2` && java_cmd="$jre/bin/java" && shift 2 ;;
 
  -D*|-agentlib*) addJava "$1" && shift ;;
-	    -J*) addJava "${1:2}" && shift ;;
-	      *) addResidual "$1" && shift ;;
+            -J*) addJava "${1:2}" && shift ;;
+              *) addResidual "$1" && shift ;;
     esac
   done
 
@@ -310,12 +310,12 @@ Usage: $script_name [options]
   JAVA_OPTS          environment variable, if unset uses "$java_opts"
   -Dkey=val          pass -Dkey=val directly to the java runtime
   -J-X               pass option -X directly to the java runtime
-		     (-J is stripped)
+                     (-J is stripped)
 
   # special option
   --                 To stop parsing built-in commands from the rest of the command-line.
-		     e.g.) enabling debug and sending -d as app argument
-		     \$ ./start-script -d -- -d
+                     e.g.) enabling debug and sending -d as app argument
+                     \$ ./start-script -d -- -d
 
 In the case of duplicated or conflicting options, basically the order above
 shows precedence: JAVA_OPTS lowest, command line options highest except "--".
