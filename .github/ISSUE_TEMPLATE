@@ -1,0 +1,16 @@
+## Expected behaviour
+
+E.g. "`sbt stage` generates a zip file"
+
+## Actual behaviour
+
+E.g. "`sbt stage` generates a tar.gz file"
+
+## Information
+
+- What sbt-native-packager are you using
+- What sbt version
+- What is your build system (e.g. Ubuntu, MacOS, Windows, Debian )
+- What package are you building (e.g. docker, rpm, ...)
+- What version has your build tool (find out with e.g. `rpm --version`)
+- What is your target system (e.g. Ubuntu 16.04, CentOS 7)
