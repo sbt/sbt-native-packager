@@ -39,7 +39,6 @@ object UpstartPlugin extends AutoPlugin {
     stopRunlevels := Some("[016]"),
     requiredStartFacilities := None,
     requiredStopFacilities := None,
-    fileDescriptorLimit := Some("1024"),
     defaultLinuxStartScriptLocation := "/etc/init",
     killTimeout := 5,
     linuxStartScriptName := Some(packageName.value + ".conf"),

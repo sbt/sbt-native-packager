@@ -37,7 +37,6 @@ object SystemVPlugin extends AutoPlugin {
     stopRunlevels := Some("0 1 6"),
     requiredStartFacilities := Some("$remote_fs $syslog"),
     requiredStopFacilities := Some("$remote_fs $syslog"),
-    fileDescriptorLimit := None,
     defaultLinuxStartScriptLocation := "/etc/init.d",
     termTimeout := 60,
     killTimeout := 30,

@@ -51,6 +51,7 @@ object SystemloaderPlugin extends AutoPlugin {
   def systemloaderSettings: Seq[Setting[_]] = Seq(
     serverLoading := None,
     serviceAutostart := true,
+    fileDescriptorLimit := Some("1024"),
     linuxStartScriptName := Some(packageName.value),
     // defaults, may be override by concrete systemloader
     retries := 0,
