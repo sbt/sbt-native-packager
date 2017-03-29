@@ -5,6 +5,7 @@ import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
+  fileDescriptorLimit,
   killTimeout,
   linuxMakeStartScript,
   linuxPackageMappings,
@@ -63,6 +64,7 @@ object SystemloaderPlugin extends AutoPlugin {
       requiredStopFacilities = requiredStopFacilities.value,
       startRunlevels = startRunlevels.value,
       stopRunlevels = stopRunlevels.value,
+      fileDescriptorLimit = fileDescriptorLimit.value,
       termTimeout = termTimeout.value,
       killTimeout = killTimeout.value,
       retries = retries.value,
@@ -141,6 +143,7 @@ object SystemloaderPlugin extends AutoPlugin {
                                                 requiredStopFacilities: Option[String],
                                                 startRunlevels: Option[String],
                                                 stopRunlevels: Option[String],
+                                                fileDescriptorLimit: Option[String],
                                                 termTimeout: Int,
                                                 killTimeout: Int,
                                                 retries: Int,
@@ -158,6 +161,7 @@ object SystemloaderPlugin extends AutoPlugin {
       "stop_runlevels" -> stopRunlevels.getOrElse(""),
       "start_facilities" -> startOn.getOrElse(""),
       "stop_facilities" -> stopOn.getOrElse(""),
+      "file_descriptor_limit" -> fileDescriptorLimit.getOrElse(""),
       "term_timeout" -> termTimeout.toString,
       "kill_timeout" -> killTimeout.toString,
       "retries" -> retries.toString,

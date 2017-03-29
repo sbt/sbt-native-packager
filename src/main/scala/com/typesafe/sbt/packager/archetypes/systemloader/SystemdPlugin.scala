@@ -4,6 +4,7 @@ import sbt._
 import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
+  fileDescriptorLimit,
   linuxMakeStartScript,
   linuxPackageMappings,
   linuxScriptReplacements,
@@ -48,6 +49,7 @@ object SystemdPlugin extends AutoPlugin {
     stopRunlevels := None,
     requiredStartFacilities := Some("network.target"),
     requiredStopFacilities := Some("network.target"),
+    fileDescriptorLimit := None,
     systemdSuccessExitStatus := Seq.empty,
     linuxStartScriptName := Some(packageName.value + ".service"),
     // add systemloader to mappings

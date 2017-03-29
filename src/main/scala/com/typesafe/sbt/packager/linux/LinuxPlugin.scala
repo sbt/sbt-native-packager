@@ -73,6 +73,7 @@ object LinuxPlugin extends AutoPlugin {
     stopRunlevels := None,
     requiredStartFacilities := None,
     requiredStopFacilities := None,
+    fileDescriptorLimit := None,
     termTimeout := 10,
     killTimeout := 10,
     // Default linux bashscript replacements

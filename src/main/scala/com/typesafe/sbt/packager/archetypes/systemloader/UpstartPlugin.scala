@@ -4,6 +4,7 @@ import sbt._
 import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
+  fileDescriptorLimit,
   killTimeout,
   linuxMakeStartScript,
   linuxPackageMappings,
@@ -38,6 +39,7 @@ object UpstartPlugin extends AutoPlugin {
     stopRunlevels := Some("[016]"),
     requiredStartFacilities := None,
     requiredStopFacilities := None,
+    fileDescriptorLimit := Some("1024"),
     defaultLinuxStartScriptLocation := "/etc/init",
     killTimeout := 5,
     linuxStartScriptName := Some(packageName.value + ".conf"),
