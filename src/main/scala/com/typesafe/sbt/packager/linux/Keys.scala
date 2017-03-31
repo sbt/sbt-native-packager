@@ -18,6 +18,10 @@ trait LinuxKeys {
     SettingKey[Option[String]]("daemon-group-gid", "GID of daemonGroup")
   val daemonShell =
     SettingKey[String]("daemon-shell", "Shell provided for the daemon user")
+  val fileDescriptorLimit = SettingKey[Option[String]](
+    "file-descriptor-limit",
+    "Maximum number of open file descriptors for the spawned application"
+  )
 
   val linuxPackageMappings = TaskKey[Seq[LinuxPackageMapping]](
     "linux-package-mappings",

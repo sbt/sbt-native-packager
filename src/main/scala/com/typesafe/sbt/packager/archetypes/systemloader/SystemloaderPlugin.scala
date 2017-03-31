@@ -51,7 +51,6 @@ object SystemloaderPlugin extends AutoPlugin {
   def systemloaderSettings: Seq[Setting[_]] = Seq(
     serverLoading := None,
     serviceAutostart := true,
-    fileDescriptorLimit := Some("1024"),
     linuxStartScriptName := Some(packageName.value),
     // defaults, may be override by concrete systemloader
     retries := 0,
@@ -65,7 +64,6 @@ object SystemloaderPlugin extends AutoPlugin {
       requiredStopFacilities = requiredStopFacilities.value,
       startRunlevels = startRunlevels.value,
       stopRunlevels = stopRunlevels.value,
-      fileDescriptorLimit = fileDescriptorLimit.value,
       termTimeout = termTimeout.value,
       killTimeout = killTimeout.value,
       retries = retries.value,
@@ -144,7 +142,6 @@ object SystemloaderPlugin extends AutoPlugin {
                                                 requiredStopFacilities: Option[String],
                                                 startRunlevels: Option[String],
                                                 stopRunlevels: Option[String],
-                                                fileDescriptorLimit: Option[String],
                                                 termTimeout: Int,
                                                 killTimeout: Int,
                                                 retries: Int,
@@ -162,7 +159,6 @@ object SystemloaderPlugin extends AutoPlugin {
       "stop_runlevels" -> stopRunlevels.getOrElse(""),
       "start_facilities" -> startOn.getOrElse(""),
       "stop_facilities" -> stopOn.getOrElse(""),
-      "file_descriptor_limit" -> fileDescriptorLimit.getOrElse(""),
       "term_timeout" -> termTimeout.toString,
       "kill_timeout" -> killTimeout.toString,
       "retries" -> retries.toString,

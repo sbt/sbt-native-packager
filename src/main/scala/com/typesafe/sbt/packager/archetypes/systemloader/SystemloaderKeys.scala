@@ -18,10 +18,6 @@ trait SystemloaderKeys {
   )
   val requiredStopFacilities =
     SettingKey[Option[String]]("required-stop-facilities", "Names of system services that should be provided at")
-  val fileDescriptorLimit = SettingKey[Option[String]](
-    "file-descriptor-limit",
-    "Maximum number of open file descriptors for the spawned application"
-  )
   val termTimeout =
     SettingKey[Int]("term-timeout", "Timeout before sigterm on stop")
   val killTimeout = SettingKey[Int]("kill-timeout", "Timeout before sigkill on stop (after term)")
