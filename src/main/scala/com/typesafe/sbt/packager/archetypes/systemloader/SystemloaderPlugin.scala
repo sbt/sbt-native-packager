@@ -5,7 +5,6 @@ import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
-  fileDescriptorLimit,
   killTimeout,
   linuxMakeStartScript,
   linuxPackageMappings,
