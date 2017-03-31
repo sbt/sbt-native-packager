@@ -16,6 +16,7 @@ ExecStartPre=/bin/mkdir -p /run/${{app_name}}
 ExecStartPre=/bin/chown ${{daemon_user}}:${{daemon_group}} /run/${{app_name}}
 ExecStartPre=/bin/chmod 755 /run/${{app_name}}
 PermissionsStartOnly=true
+LimitNOFILE=${{file_descriptor_limit}}
 
 [Install]
 WantedBy=multi-user.target

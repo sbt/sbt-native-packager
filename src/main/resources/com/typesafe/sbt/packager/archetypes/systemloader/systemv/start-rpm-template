@@ -72,6 +72,11 @@ fi
 
 start() {
     [ -x $exec ] || exit 5
+    # Set the file descriptor limit
+    ulimit -n ${{file_descriptor_limit}} ${{file_descriptor_limit}}
+    if [ $? -ne 0 ]; then
+        echo -n $"Failed to set file descriptor limit: ${{file_descriptor_limit}}"
+    fi
     echo -n $"Starting $prog: "
     daemon --check $prog --user $DAEMON_USER --pidfile $PIDFILE "$RUN_CMD"
     retval=$?

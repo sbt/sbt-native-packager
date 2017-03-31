@@ -73,6 +73,7 @@ object LinuxPlugin extends AutoPlugin {
     stopRunlevels := None,
     requiredStartFacilities := None,
     requiredStopFacilities := None,
+    fileDescriptorLimit := Some("1024"),
     termTimeout := 10,
     killTimeout := 10,
     // Default linux bashscript replacements
@@ -88,7 +89,8 @@ object LinuxPlugin extends AutoPlugin {
       daemonUserUid = (daemonUserUid in Linux).value,
       daemonGroup = (daemonGroup in Linux).value,
       daemonGroupGid = (daemonGroupGid in Linux).value,
-      daemonShell = (daemonShell in Linux).value
+      daemonShell = (daemonShell in Linux).value,
+      fileDescriptorLimit = (fileDescriptorLimit in Linux).value
     ),
     linuxScriptReplacements += controlScriptFunctionsReplacement(
     /* Add key for control-functions */ ),
@@ -155,7 +157,8 @@ object LinuxPlugin extends AutoPlugin {
                        daemonUserUid: Option[String],
                        daemonGroup: String,
                        daemonGroupGid: Option[String],
-                       daemonShell: String): Seq[(String, String)] =
+                       daemonShell: String,
+                       fileDescriptorLimit: Option[String]): Seq[(String, String)] =
     Seq(
       "author" -> author,
       "descr" -> description,
@@ -168,7 +171,8 @@ object LinuxPlugin extends AutoPlugin {
       "daemon_user_uid" -> daemonUserUid.getOrElse(""),
       "daemon_group" -> daemonGroup,
       "daemon_group_gid" -> daemonGroupGid.getOrElse(""),
-      "daemon_shell" -> daemonShell
+      "daemon_shell" -> daemonShell,
+      "file_descriptor_limit" -> fileDescriptorLimit.getOrElse("")
     )
 
   /**

@@ -23,6 +23,9 @@ ${{stop_facilities}}
 respawn
 respawn limit ${{retries}} ${{retryTimeout}}
 
+# Set maximum number of open file descriptors
+limit nofile ${{file_descriptor_limit}} ${{file_descriptor_limit}}
+
 pre-start script
 	[ -d /var/run/${{app_name}} ] || install -m 755 -o ${{daemon_user}} -g ${{daemon_group}} -d /var/run/${{app_name}}
 end script
