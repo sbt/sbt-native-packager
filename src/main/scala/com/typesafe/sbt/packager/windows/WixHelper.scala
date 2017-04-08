@@ -100,7 +100,7 @@ object WixHelper {
         val pathAddition =
           if (dir.isEmpty) "%" + homeEnvVar + "%"
           else "[INSTALLDIR]" + dir.replaceAll("\\/", "\\\\")
-        val id = cleanStringForId(dir).takeRight(65) + "PathC"
+        val id = cleanStringWithPostfix(dir, 64, "PathC")
         val guid = makeGUID
         val xml =
           <DirectoryRef Id={ dirRef }>
@@ -116,7 +116,7 @@ object WixHelper {
         val dir = parentDir(uname).replaceAll("//", "/").stripSuffix("/").stripSuffix("/")
         val dirRef = if (dir.isEmpty) "INSTALLDIR" else cleanStringForId(dir)
         val fname = simpleName(uname)
-        val id = cleanStringForId(uname).takeRight(67) // Room for "fl_"
+        val id = cleanStringWithPostfix(uname, 66, "") // Room for "fl_"
         val xml =
           <DirectoryRef Id={ dirRef }>
             <Component Id={ id } Guid={ makeGUID }>
@@ -140,7 +140,7 @@ object WixHelper {
       // that we remove all menu items.
       case AddShortCuts(targets, workingDir) =>
         val targetSize = targets.size.toString.size
-        val id = cleanStringForId("shortcut_" + makeGUID).takeRight(67 - targetSize) // Room for "_SC"+incremental number
+        val id = cleanStringWithPostfix("shortcut_" + makeGUID, 67 - targetSize, "") // Room for "_SC"+incremental number
         val xml =
           <DirectoryRef Id="ApplicationProgramsFolder">
             <Component Id={ id } Guid={ makeGUID }>
@@ -167,7 +167,7 @@ object WixHelper {
       }).toMap
 
     val removeId =
-      cleanStringForId("ApplicationProgramsFolderRemove").takeRight(67)
+      cleanStringWithPostfix("ApplicationProgramsFolderRemove", 67, "")
     <xml:group>
       <!-- Define the directories we use -->
       <Directory Id='TARGETDIR' Name='SourceDir'>
@@ -228,7 +228,7 @@ object WixHelper {
     <Wix xmlns={ namespaceDefinitions.namespace } xmlns:util={ namespaceDefinitions.utilExtension }>
       <Product Id={ product.id } Name={ product.title } Language='1033' Version={ product.version } Manufacturer={ product.maintainer } UpgradeCode={ product.upgradeId }>
         <Package Description={ product.description } Comments={ product.comments } Manufacturer={ product.maintainer } InstallScope={ product.installScope } InstallerVersion={ product.installerVersion } Compressed={ if (product.compressed) "yes" else "no" }/>
-        <Media Id='1' Cabinet={ cleanStringForId(name.toLowerCase).takeRight(66) + ".cab" } EmbedCab='yes'/>
+        <Media Id='1' Cabinet={ cleanStringWithPostfix(name.toLowerCase, 65, ".cab") } EmbedCab='yes'/>
         { rest }
       </Product>
     </Wix>
@@ -256,8 +256,17 @@ object WixHelper {
     * characters and replacing with _.  Also limits the width to 70 (rather than
     * 72) so we can safely add a few later.
     */
-  def cleanStringForId(n: String) =
-    n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(60) + (math.abs(n.hashCode).toString + "xxxxxxxxx").substring(0, 9)
+  def cleanStringForId(n: String) = {
+    val x = n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(59) + (math.abs(n.hashCode).toString + "xxxxxxxxx").substring(0, 9)
+    if (x startsWith "_") x
+    else "_" + x
+  }
+
+  def cleanStringWithPostfix(n: String, num: Int, postfix: String): String = {
+    val x = cleanStringForId(n).takeRight(num) + postfix
+    if (x startsWith "_") x
+    else "_" + x
+  }
 
   /** Cleans a file name for the Wix pre-processor.  Every $ should be doubled. */
   def cleanFileName(n: String) =
