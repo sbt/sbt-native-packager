@@ -6,8 +6,8 @@ case "$1" in
    remove|failed-upgrade|abort-upgrade|abort-install|disappear)
    ;;
    purge)
-	deleteUser ${{daemon_user}}
-	deleteGroup ${{daemon_group}}
+   deleteUser ${{daemon_user}}
+   deleteGroup ${{daemon_group}}
    ;;
    upgrade)
    ;;

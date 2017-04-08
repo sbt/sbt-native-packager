@@ -10,12 +10,12 @@ then
     echo "Try deleting system user and group [${{daemon_user}}:${{daemon_group}}]"
     if getent passwd | grep -q "^${{daemon_user}}:";
     then
-	    echo "Deleting system user: ${{daemon_user}}"
-	    deleteUser ${{daemon_user}}
+        echo "Deleting system user: ${{daemon_user}}"
+        deleteUser ${{daemon_user}}
     fi
     if getent group | grep -q "^${{daemon_group}}:" ;
     then
-	    echo "Deleting system group: ${{daemon_group}}"
-	    deleteGroup ${{daemon_group}}
+        echo "Deleting system group: ${{daemon_group}}"
+        deleteGroup ${{daemon_group}}
     fi
 fi

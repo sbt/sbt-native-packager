@@ -70,11 +70,11 @@ case "$1" in
   start)
     start_daemon
     exit $?
-	  ;;
+    ;;
   stop)
     stop_daemon
     exit $?
-	  ;;
+    ;;
   restart|force-reload)
     stop_daemon
     start_daemon

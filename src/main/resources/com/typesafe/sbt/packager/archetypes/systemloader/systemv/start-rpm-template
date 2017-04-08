@@ -117,32 +117,32 @@ rh_status_q() {
 
 case "$1" in
     start)
-	rh_status_q && exit 0
-	$1
-	;;
+    rh_status_q && exit 0
+    $1
+    ;;
     stop)
-	rh_status_q || exit 0
-	$1
-	;;
+    rh_status_q || exit 0
+    $1
+    ;;
     restart)
-	$1
-	;;
+    $1
+    ;;
     reload)
-	rh_status || exit 7
-	$1
-	;;
+    rh_status || exit 7
+    $1
+    ;;
     force-reload)
-	force_reload
-	;;
+    force_reload
+    ;;
     status)
-	rh_status
-	;;
+    rh_status
+    ;;
     condrestart|try-restart)
-	rh_status || exit 0
-	restart
-	;;
+    rh_status || exit 0
+    restart
+    ;;
     *)
-	echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
-	exit 2
+    echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
+    exit 2
 esac
 exit $?
