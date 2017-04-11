@@ -12,6 +12,7 @@ rpmRelease := "1"
 rpmVendor := "typesafe"
 rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 rpmLicense := Some("BSD")
+rpmGroup := Some("test-group")
 
 requiredStartFacilities in Rpm := Some("serviceA.service")
 
