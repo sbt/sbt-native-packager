@@ -75,14 +75,14 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
         |addService() {
         |    app_name=$1
         |    if hash update-rc.d >/dev/null 2>&1; then
-        |		echo "Adding $app_name to service management using update-rc.d"
-        |		update-rc.d $app_name defaults
+        |        echo "Adding $app_name to service management using update-rc.d"
+        |        update-rc.d $app_name defaults
         |    elif hash chkconfig >/dev/null 2>&1; then
-        |		echo "Adding $app_name to service management using chkconfig"
-        |		chkconfig --add rpm-test
-        |		chkconfig $app_name on
+        |        echo "Adding $app_name to service management using chkconfig"
+        |        chkconfig --add rpm-test
+        |        chkconfig $app_name on
         |    else
-        |		echo "WARNING: Could not add $app_name to autostart: neither update-rc nor chkconfig found!"
+        |        echo "WARNING: Could not add $app_name to autostart: neither update-rc nor chkconfig found!"
         |    fi
         |}
         |""".stripMargin,
@@ -112,16 +112,16 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
         |stopService() {
         |    app_name=$1
         |    if hash update-rc.d >/dev/null 2>&1; then
-        |	echo "Removing $app_name from autostart using update-rc.d"
-        |	update-rc.d -f $app_name remove
-        |	service $app_name stop
+        |        echo "Removing $app_name from autostart using update-rc.d"
+        |        update-rc.d -f $app_name remove
+        |        service $app_name stop
         |    elif hash chkconfig >/dev/null 2>&1; then
-        |	echo "Removing $app_name from autostart using chkconfig"
-        |	chkconfig $app_name off
-        |	chkconfig --del $app_name
-        |	service $app_name stop
+        |        echo "Removing $app_name from autostart using chkconfig"
+        |        chkconfig $app_name off
+        |        chkconfig --del $app_name
+        |        service $app_name stop
         |    else
-        |	echo "WARNING: Could not remove $app_name from autostart: neither update-rc nor chkconfig found!"
+        |        echo "WARNING: Could not remove $app_name from autostart: neither update-rc nor chkconfig found!"
         |    fi
         |}
         |""".stripMargin,
@@ -135,8 +135,8 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
         |# $1 = service name
         |#
         |restartService() {
-        |	app_name=$1
-        |	service $app_name restart
+        |    app_name=$1
+        |    service $app_name restart
         |}
         |""".stripMargin,
     "rpm restartService() scriptlet is missing or incorrect"

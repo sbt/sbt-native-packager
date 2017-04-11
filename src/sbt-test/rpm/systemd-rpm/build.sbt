@@ -100,10 +100,10 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
       |# $1 = service name
       |#
       |restartService() {
-      |   app_name=$1
+      |    app_name=$1
       |
-      |   systemctl daemon-reload
-      |   systemctl try-restart "$app_name.service"
+      |    systemctl daemon-reload
+      |    systemctl try-restart "$app_name.service"
       |}
       |""".stripMargin,
     "rpm restartService() scriptlet is missing or incorrect"
