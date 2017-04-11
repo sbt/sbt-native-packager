@@ -12,6 +12,7 @@ rpmRelease := "1"
 rpmVendor := "typesafe"
 rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 rpmLicense := Some("BSD")
+rpmGroup := Some("test-group")
 
 requiredStartFacilities in Rpm := Some("serviceA.service")
 
@@ -47,10 +48,10 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
       |    [ -e "${app_sys_config}" ] && . "${app_sys_config}"
       |    if [ -n "${PACKAGE_PREFIX}" ] ;
       |    then
-      |      default_install_location="/usr/share/rpm-test"
-      |      actual_install_location="${PACKAGE_PREFIX}/${app_name}"
+      |        default_install_location="/usr/share/rpm-test"
+      |        actual_install_location="${PACKAGE_PREFIX}/${app_name}"
       |
-      |      sed -i "s|$default_install_location|$actual_install_location|g" "/usr/lib/systemd/system/${app_name}.service"
+      |        sed -i "s|$default_install_location|$actual_install_location|g" "/usr/lib/systemd/system/${app_name}.service"
       |    fi
       |
       |    systemctl enable "$app_name.service"
@@ -100,10 +101,10 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
       |# $1 = service name
       |#
       |restartService() {
-      |   app_name=$1
+      |    app_name=$1
       |
-      |   systemctl daemon-reload
-      |   systemctl try-restart "$app_name.service"
+      |    systemctl daemon-reload
+      |    systemctl try-restart "$app_name.service"
       |}
       |""".stripMargin,
     "rpm restartService() scriptlet is missing or incorrect"

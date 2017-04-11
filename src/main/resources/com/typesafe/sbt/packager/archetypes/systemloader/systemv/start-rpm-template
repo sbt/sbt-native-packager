@@ -86,7 +86,7 @@ start() {
 
 stop() {
     echo -n $"Stopping $prog: "
-    killproc -p $PIDFILE $prog
+    killproc -p $PIDFILE -d ${{kill_timeout}} $prog
     retval=$?
     echo
     [ $retval -eq 0 ] && rm -f $lockfile
