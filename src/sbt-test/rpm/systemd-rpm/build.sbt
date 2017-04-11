@@ -47,10 +47,10 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
       |    [ -e "${app_sys_config}" ] && . "${app_sys_config}"
       |    if [ -n "${PACKAGE_PREFIX}" ] ;
       |    then
-      |      default_install_location="/usr/share/rpm-test"
-      |      actual_install_location="${PACKAGE_PREFIX}/${app_name}"
+      |        default_install_location="/usr/share/rpm-test"
+      |        actual_install_location="${PACKAGE_PREFIX}/${app_name}"
       |
-      |      sed -i "s|$default_install_location|$actual_install_location|g" "/usr/lib/systemd/system/${app_name}.service"
+      |        sed -i "s|$default_install_location|$actual_install_location|g" "/usr/lib/systemd/system/${app_name}.service"
       |    fi
       |
       |    systemctl enable "$app_name.service"
