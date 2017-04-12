@@ -76,6 +76,7 @@ object DockerPlugin extends AutoPlugin {
       dockerExposedPorts := Seq(),
       dockerExposedUdpPorts := Seq(),
       dockerExposedVolumes := Seq(),
+      dockerLabels := Map(),
       dockerRepository := None,
       dockerAlias := DockerAlias(dockerRepository.value, None, (packageName in Docker).value, Some((version in Docker).value)),
       dockerUpdateLatest := false,
@@ -90,22 +91,23 @@ object DockerPlugin extends AutoPlugin {
       ),
       dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
       dockerCommands := {
-      val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
-      val user = (daemonUser in Docker).value
-      val group = (daemonGroup in Docker).value
+        val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
+        val user = (daemonUser in Docker).value
+        val group = (daemonGroup in Docker).value
 
-      val generalCommands = makeFrom(dockerBaseImage.value) +: makeMaintainer((maintainer in Docker).value).toSeq
+        val generalCommands = makeFrom(dockerBaseImage.value) +: makeMaintainer((maintainer in Docker).value).toSeq
 
-      generalCommands ++ Seq(
-        makeWorkdir(dockerBaseDirectory),
-        makeAdd(dockerBaseDirectory),
-        makeChown(user, group, "." :: Nil)
-      ) ++
-        makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
-        makeVolumes(dockerExposedVolumes.value, user, group) ++
-        Seq(makeUser(user), makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
-
-    }
+        generalCommands ++
+          Seq(
+            makeWorkdir(dockerBaseDirectory),
+            makeAdd(dockerBaseDirectory),
+            makeChown(user, group, "." :: Nil)
+          ) ++
+          dockerLabels.value.map(makeLabel) ++
+          makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
+          makeVolumes(dockerExposedVolumes.value, user, group) ++
+          Seq(makeUser(user), makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
+      }
     ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
       Seq(
         executableScriptName := executableScriptName.value,
@@ -152,6 +154,16 @@ object DockerPlugin extends AutoPlugin {
     */
   private final def makeFrom(dockerBaseImage: String): CmdLike =
     Cmd("FROM", dockerBaseImage)
+
+  /**
+    * @param label
+    * @return LABEL command
+    */
+  private final def makeLabel(label: Tuple2[String, String]): CmdLike = {
+    val variable = label._1
+    val value = label._2
+    Cmd("LABEL", s"${variable}=${value}")
+  }
 
   /**
     * @param dockerBaseDirectory, the installation directory
