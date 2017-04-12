@@ -330,7 +330,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
@@ -521,9 +521,9 @@ This will only affect the image name.</dd>
 <dd>A list of TCP ports to expose from the Docker image.</dd>
 <dt><code class="docutils literal"><span class="pre">dockerExposedUdpPorts</span></code></dt>
 <dd>A list of UDP ports to expose from the Docker image.</dd>
-<dt><code class="docutils literal"><span class="pre">dockerExposedVolumes</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">dockerExposedVolumes</span></code></dt>
 <dd>A list of data volumes to make available in the Docker image.</dd>
-<dt><code class="docutils literal"><span class="pre">dockerEntrypoint</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt>
+<dt><code class="docutils literal"><span class="pre">dockerEntrypoint</span></code></dt>
 <dd>Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
 Defaults to the bash executable script, available at <code class="docutils literal"><span class="pre">bin/&lt;script</span> <span class="pre">name&gt;</span></code> in the current <code class="docutils literal"><span class="pre">WORKDIR</span></code> of <code class="docutils literal"><span class="pre">/opt/docker</span></code>.</dd>
 </dl>

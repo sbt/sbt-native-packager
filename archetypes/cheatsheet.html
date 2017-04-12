@@ -330,7 +330,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#overriding-templates">Overriding Templates</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#service-manager-templates">Service Manager Templates</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
@@ -725,13 +725,18 @@ the <code class="docutils literal"><span class="pre">bashScriptExtraDefines</spa
 <li><code class="docutils literal"><span class="pre">app_classpath</span></code> - The complete classpath for the application (in order).</li>
 </ul>
 </div>
-<div class="section" id="service-manager">
-<h3>Service Manager<a class="headerlink" href="#service-manager" title="Permalink to this headline">¶</a></h3>
-<p>It&#8217;s also possible to override the entire script/configuration for your service manager.
-Create a file <code class="docutils literal"><span class="pre">src/templates/systemloader/$loader</span></code> and it will be used instead.</p>
+<div class="section" id="service-manager-templates">
+<h3>Service Manager Templates<a class="headerlink" href="#service-manager-templates" title="Permalink to this headline">¶</a></h3>
+<p>It&#8217;s also possible to override the entire script/configuration templates for your service manager.
+These templates vary by loader type. Create a file <code class="docutils literal"><span class="pre">src/templates/systemloader/$loader/$template</span></code>
+and it will be used instead.</p>
 <p>Possible values:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">$loader</span></code> - <code class="docutils literal"><span class="pre">upstart</span></code>, <code class="docutils literal"><span class="pre">systemv</span></code> or <code class="docutils literal"><span class="pre">systemd</span></code></li>
+<li><code class="docutils literal"><span class="pre">$template</span></code> -
+* <code class="docutils literal"><span class="pre">systemv</span></code> - <code class="docutils literal"><span class="pre">loader-functions</span></code>, <code class="docutils literal"><span class="pre">start-debian-template</span></code>, or <code class="docutils literal"><span class="pre">start-rpm-template</span></code>
+* <code class="docutils literal"><span class="pre">systemd</span></code> - <code class="docutils literal"><span class="pre">loader-functions</span></code> or <code class="docutils literal"><span class="pre">start-template</span></code>
+* <code class="docutils literal"><span class="pre">upstart</span></code> - <code class="docutils literal"><span class="pre">loader-functions</span></code> or <code class="docutils literal"><span class="pre">start-template</span></code></li>
 </ul>
 <p><strong>Syntax</strong></p>
 <p>You can use <code class="docutils literal"><span class="pre">${{variable_name}}</span></code> to reference variables when writing your script.  The default set of variables is:</p>

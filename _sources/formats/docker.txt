@@ -104,10 +104,10 @@ Environment Settings
   ``dockerExposedUdpPorts``
     A list of UDP ports to expose from the Docker image.
 
-  ``dockerExposedVolumes in Docker``
+  ``dockerExposedVolumes``
     A list of data volumes to make available in the Docker image.
 
-  ``dockerEntrypoint in Docker``
+  ``dockerEntrypoint``
     Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
     Defaults to the bash executable script, available at ``bin/<script name>`` in the current ``WORKDIR`` of ``/opt/docker``.
 

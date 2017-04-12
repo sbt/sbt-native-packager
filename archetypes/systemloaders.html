@@ -330,7 +330,7 @@
 <li class="toctree-l3"><a class="reference internal" href="cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
 <li class="toctree-l4"><a class="reference internal" href="cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
@@ -479,6 +479,8 @@ This setting can be used to trigger systemloader specific behaviour in your buil
 <dd>Number of retries to start service&#8221;</dd>
 <dt><code class="docutils literal"><span class="pre">retryTimeout</span></code></dt>
 <dd>Timeout between retries in seconds</dd>
+<dt><code class="docutils literal"><span class="pre">fileDescriptorLimit</span></code></dt>
+<dd>Maximum number of open file descriptors for the spawned application. The default value is 1024.</dd>
 </dl>
 </div></blockquote>
 </div>
