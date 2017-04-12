@@ -467,5 +467,5 @@ object DebianDeployPlugin extends AutoPlugin {
 
   override def projectSettings: Seq[Setting[_]] =
     SettingsHelper.makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
-      SettingsHelper.makeDeploymentSettings(Debian, genChanges in Debian, "changes")
+      SettingsHelper.addPackage(Debian, genChanges in Debian, "changes")
 }
