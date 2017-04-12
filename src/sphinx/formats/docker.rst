@@ -107,6 +107,9 @@ Environment Settings
   ``dockerExposedVolumes``
     A list of data volumes to make available in the Docker image.
 
+  ``dockerLabels``
+    A map of labels that will be applied to the Docker image.
+
   ``dockerEntrypoint``
     Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
     Defaults to the bash executable script, available at ``bin/<script name>`` in the current ``WORKDIR`` of ``/opt/docker``.
@@ -313,5 +316,3 @@ Just like for :ref:`java-app-plugin`, you have the option of overriding the defa
 your own ``src/templates/ash-template`` file.  When overriding the file don't forget to include
 ``${{template_declares}}`` somewhere to populate ``$app_classpath $app_mainclass`` from your sbt project.
 You'll likely need these to launch your program.
-
-
