@@ -1,5 +1,37 @@
 # Change Log
 
+## [v1.2.0-M9](https://github.com/sbt/sbt-native-packager/tree/v1.2.0-M9) (2017-04-12)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M8...v1.2.0-M9)
+
+**Fixed bugs:**
+
+- packageName in Docker has no effect [\#947](https://github.com/sbt/sbt-native-packager/issues/947)
+- Windows: error CNDL0014 $number is not a legal identifier [\#946](https://github.com/sbt/sbt-native-packager/issues/946)
+- DebianDeployPlugin publishes only changes [\#587](https://github.com/sbt/sbt-native-packager/issues/587)
+
+**Closed issues:**
+
+- Multiple rpm/deb packages with package dependency based on project dependency [\#956](https://github.com/sbt/sbt-native-packager/issues/956)
+- Add support for HEALTHCHECK in DockerPlugin [\#949](https://github.com/sbt/sbt-native-packager/issues/949)
+- `rpm:packageBin` reports "`rpmVendor in Rpm` is empty" despite a value being set [\#943](https://github.com/sbt/sbt-native-packager/issues/943)
+- Support JAVA\_OPTS for Ash template, similar to bash [\#940](https://github.com/sbt/sbt-native-packager/issues/940)
+- 1.2.0-M8 adds an ADD opt command to the Dockerfile - why? [\#936](https://github.com/sbt/sbt-native-packager/issues/936)
+- Image is not tagged when using dockerBuildOptions [\#935](https://github.com/sbt/sbt-native-packager/issues/935)
+- How would one use this in a maven project [\#934](https://github.com/sbt/sbt-native-packager/issues/934)
+- Don't override packageName in UniversalPlugin [\#902](https://github.com/sbt/sbt-native-packager/issues/902)
+
+**Merged pull requests:**
+
+- Fix DebianDeployPlugin not publishing deb file [\#961](https://github.com/sbt/sbt-native-packager/pull/961) ([eed3si9n](https://github.com/eed3si9n))
+- \#957 RPM with `killTimeout` [\#960](https://github.com/sbt/sbt-native-packager/pull/960) ([mr-git](https://github.com/mr-git))
+- Fixes handling of directories with numbers. [\#958](https://github.com/sbt/sbt-native-packager/pull/958) ([eed3si9n](https://github.com/eed3si9n))
+- Add new system loader setting for file descriptor limit [\#954](https://github.com/sbt/sbt-native-packager/pull/954) ([levinson](https://github.com/levinson))
+- Some trivial formatting fix \(tabs -\> spaces\) [\#951](https://github.com/sbt/sbt-native-packager/pull/951) ([GreyCat](https://github.com/GreyCat))
+- Fix \#947 Correct scope for packageName in DockerPlugin [\#948](https://github.com/sbt/sbt-native-packager/pull/948) ([muuki88](https://github.com/muuki88))
+- Define addJava in ash-template [\#944](https://github.com/sbt/sbt-native-packager/pull/944) ([muuki88](https://github.com/muuki88))
+- Drop "in Docker" in some docker keys [\#939](https://github.com/sbt/sbt-native-packager/pull/939) ([dwijnand](https://github.com/dwijnand))
+- Allow custom templates to be provided separately for each template [\#938](https://github.com/sbt/sbt-native-packager/pull/938) ([ANorwell](https://github.com/ANorwell))
+
 ## [v1.2.0-M8](https://github.com/sbt/sbt-native-packager/tree/v1.2.0-M8) (2017-01-25)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M7...v1.2.0-M8)
 
