@@ -257,7 +257,8 @@ object WixHelper {
     * 72) so we can safely add a few later.
     */
   def cleanStringForId(n: String) = {
-    val x = n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(59) + (math.abs(n.hashCode).toString + "xxxxxxxxx").substring(0, 9)
+    val x = n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(59) + (math.abs(n.hashCode).toString + "xxxxxxxxx")
+        .substring(0, 9)
     if (x startsWith "_") x
     else "_" + x
   }
