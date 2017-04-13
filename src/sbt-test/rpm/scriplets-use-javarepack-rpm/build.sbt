@@ -1,4 +1,3 @@
-
 enablePlugins(JavaServerAppPackaging)
 
 name := "rpm-test-with-repack"

@@ -4,10 +4,7 @@ name := "simple-app"
 
 version := "0.1.0"
 
-bashScriptExtraDefines ++= Seq(
-  """addJava "-Xms64m"""",
-  """addJava "-Xmx64m""""
-)
+bashScriptExtraDefines ++= Seq("""addJava "-Xms64m"""", """addJava "-Xmx64m"""")
 
 TaskKey[Unit]("script-check") := {
   val startScript = (stagingDirectory in Universal).value / "bin" / executableScriptName.value

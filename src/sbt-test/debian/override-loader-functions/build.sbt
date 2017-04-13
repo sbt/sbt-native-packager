@@ -20,7 +20,7 @@ TaskKey[Unit]("check-loader-functions") <<= (target, streams) map { (target, out
   Seq("dpkg-deb", "-e", (target / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
 
   val script = IO.read(extracted / "postinst")
-  
+
   assert(script.contains("# right systemd template"), s"override script wasn't picked, script is\n$script")
   assert(!script.contains("wrong systemd start template"), s"script contained wrong template, script is\n$script")
   ()
