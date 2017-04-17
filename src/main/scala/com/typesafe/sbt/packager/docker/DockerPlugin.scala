@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import sbt._
 import sbt.Keys.{
   cacheDirectory,
+  clean,
   mappings,
   name,
   publish,
@@ -94,6 +95,7 @@ object DockerPlugin extends AutoPlugin {
         else
           Seq()
       ),
+      dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
       dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
       dockerCommands := {
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
@@ -128,6 +130,14 @@ object DockerPlugin extends AutoPlugin {
         publishDocker(dockerExecCommand.value, alias.versioned, log)
         if (dockerUpdateLatest.value) {
           publishDocker(dockerExecCommand.value, alias.latest, log)
+        }
+      },
+        clean := {
+        val alias = dockerAlias.value
+        val log = streams.value.log
+        rmiDocker(dockerRmiCommand.value, alias.versioned, log)
+        if (dockerUpdateLatest.value) {
+          rmiDocker(dockerRmiCommand.value, alias.latest, log)
         }
       },
         sourceDirectory := sourceDirectory.value / "docker",
@@ -312,6 +322,29 @@ object DockerPlugin extends AutoPlugin {
 
     if (ret != 0)
       throw new RuntimeException("Nonzero exit value: " + ret)
+  }
+
+  def rmiDocker(execCommand: Seq[String], tag: String, log: Logger): Unit = {
+    def rmiDockerLogger(log: Logger) = new ProcessLogger {
+      def error(err: => String): Unit = err match {
+        case s if !s.trim.isEmpty => log.error(s)
+        case s =>
+      }
+
+      def info(inf: => String): Unit = log.info(inf)
+
+      def buffer[T](f: => T): T = f
+    }
+
+    log.debug(s"Removing ${tag}")
+
+    val cmd = execCommand :+ tag
+    val ret = Process(cmd) ! rmiDockerLogger(log)
+
+    if (ret != 0)
+      sys.error(s"Nonzero exit value: ${ret}")
+    else
+      log.info(s"Removed image ${tag}")
   }
 
   def publishDocker(execCommand: Seq[String], tag: String, log: Logger): Unit = {

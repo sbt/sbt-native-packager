@@ -1,0 +1,5 @@
+# Generate the Docker image locally
+> docker:publishLocal
+$ exec bash -c 'docker images | grep rmi'
+> docker:clean
+$ exec bash -c '[[ $(docker images) != *"rmi"* ]]'
