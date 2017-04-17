@@ -31,6 +31,8 @@ trait DockerKeys {
   val dockerBuildOptions = SettingKey[Seq[String]]("dockerBuildOptions", "Options used for the Docker build")
   val dockerBuildCommand = SettingKey[Seq[String]]("dockerBuildCommand", "Command for building the Docker image")
   val dockerLabels = SettingKey[Map[String, String]]("dockerLabels", "Labels applied to the Docker image")
+  val dockerRmiCommand =
+    SettingKey[Seq[String]]("dockerRmiCommand", "Command for removing the Docker image from the local registry")
 
   val dockerCommands = TaskKey[Seq[CmdLike]]("dockerCommands", "List of docker commands that form the Dockerfile")
 }

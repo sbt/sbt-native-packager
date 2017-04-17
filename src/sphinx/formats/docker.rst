@@ -140,6 +140,10 @@ Publishing Settings
     Overrides the default Docker build command. The reason for this is that many systems restrict docker execution to root, and while the accepted guidance is to alias the docker command ``alias docker='/usr/bin/docker'``, neither Java nor Scala support passing aliases to sub-processes, and most build systems run builds using a non-login, non-interactive shell, which also have limited support for aliases, which means that the only viable option is to use ``sudo docker`` directly.
     Defaults to ``Seq("[dockerExecCommand]", "build", "[dockerBuildOptions]", ".")``.
 
+  ``dockerRmiCommand``
+    Overrides the default Docker rmi command. This may be used if force flags or other options need to be passed to the command ``docker rmi``.
+    Defaults to ``Seq("[dockerExecCommand]", "rmi")`` and will be directly appended with the image name and tag.
+
 Tasks
 -----
 The Docker plugin provides the following commands:
@@ -152,6 +156,9 @@ The Docker plugin provides the following commands:
 
   ``docker:publish``
     Builds an image using the local Docker server, and pushes it to the configured remote repository.
+
+  ``docker:clean``
+    Removes the built image from the local Docker server.
 
 
 Customize
