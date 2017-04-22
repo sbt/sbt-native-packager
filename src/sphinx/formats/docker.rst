@@ -258,7 +258,7 @@ Since ``dockerCommands`` is just a ``Sequence``, adding commands is straightforw
   import com.typesafe.sbt.packager.docker._
 
   // use += to add an item to a Sequence
-  dockerCommands += Cmd("USER", daemonUser.value)
+  dockerCommands += Cmd("USER", (daemonUser in Docker).value)
 
   // use ++= to merge a sequence with an existing sequence
   dockerCommands ++= Seq(
