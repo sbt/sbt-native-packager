@@ -82,6 +82,10 @@ The required fields for any linux distribution are:
   ``linuxPackageMappings``
     A list of files and their desired installation locations for the package, as well as other metainformation.
 
+  ``fileDescriptorLimit``
+    Maximum number of open file descriptors for the spawned application. The default value is 1024.
+
+
 
 Customize
 ---------

@@ -46,7 +46,7 @@ have sensible defaults.
     UID of daemonUser
 
   ``daemonGroup``
-    Group to place daemonUser to.
+    Group to place daemonUser to
 
   ``daemonGroupGid``
     GID of daemonGroup

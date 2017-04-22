@@ -49,9 +49,6 @@ General Settings
   ``retryTimeout``
     Timeout between retries in seconds
 
-  ``fileDescriptorLimit``
-    Maximum number of open file descriptors for the spawned application. The default value is 1024.
-
 
 SystemV
 -------
