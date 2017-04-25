@@ -2,21 +2,30 @@
 # ##### Environment Configuration #####
 # #####################################
 
+# To use your own template create
+#   src/templates/etc-default-systemv
+# see http://www.scala-sbt.org/sbt-native-packager/archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd
+
 # This file gets sourced before the actual startscript
 # gets executed. You can use this file to provide
 # environment variables
 
-# Available replacements 
-# ------------------------------------------------
-# ${{author}}           debian author
-# ${{descr}}            debian package description
-# ${{exec}}             startup script name
-# ${{chdir}}            app directory
-# ${{retries}}          retries for startup
-# ${{retryTimeout}}     retry timeout
-# ${{app_name}}         normalized app name
-# ${{daemon_user}}      daemon user
-# -------------------------------------------------
+# Available replacements
+# see http://www.scala-sbt.org/sbt-native-packager/archetypes/systemloaders.html#override-start-script
+# --------------------------------------------------------------------
+# Name                   Contains                     Current value
+# (remove space)
+# $ {{author}}           debian author                ${{author}}
+# $ {{descr}}            debian package description   ${{descr}}
+# $ {{exec}}             startup script name          ${{exec}}
+# $ {{chdir}}            app directory                ${{chdir}}
+# $ {{retries}}          retries for startup          ${{retries}}
+# $ {{retryTimeout}}     retry timeout                ${{retryTimeout}}
+# $ {{app_name}}         normalized app name          ${{app_name}}
+# $ {{app_main_class}}   main class/entry point       ${{app_main_class}}
+# $ {{daemon_user}}      daemon user                  ${{daemon_user}}
+# $ {{daemon_group}}     daemon group                 ${{daemon_group}}
+# --------------------------------------------------------------------
 
 # Setting JAVA_OPTS
 # -----------------
