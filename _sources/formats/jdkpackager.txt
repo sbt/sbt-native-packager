@@ -3,19 +3,17 @@
 JDKPackager Plugin
 ==================
 
-This plugin builds on Oracle's `javapackager`_ tool to generate  native application
-launchers and installers for MacOS X, Windows, and Linux. This plugin takes the settings and staged output from
-:ref:`java-app-plugin` and passes them through ``javapackager``
+JDK 8 from Oracle includes the tool ``javapackager`` (née ``javafxpackager``), which generates native application
+launchers and installers for MacOS X, Windows, and Linux. This plugin complements the existing `sbt-native-packager`
+formats by taking the settings and staged output from ``JavaAppPackaging`` and passing them through ``javapackager``
 to create native formats per Oracle's provided features.
-
-.. _javapackager: https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/packager.html#CCHIHIIJ
 
 The actual mechanism used by this plugin is the support provided by the ``lib/ant-javafx.jar`` Ant task library,
 which provides more capabilities than the ``javapackager`` command line version, but the idea is the same.
 
 This plugin's most relevant addition to the core `sbt-native-packager` capabilities is the generation of MacOS X App
-bundles and associated ``.dmg`` and ``.pkg`` package formats.  With this plugin complete drag-and-drop installable
-application bundles are possible, including the embedding of the JRE.  It can also generate Windows ``.exe`` and ``.msi``
+bundles, and associated ``.dmg`` and ``.pkg`` package formats. With this plugin complete drag-and-drop installable
+application bundles are possible, including the embedding of the JRE. It can also generate Windows ``.exe`` and ``.msi``
 installers provided the requisite tools are available on the Windows build platform (see below). While Linux package
 formats are also possible via this plugin, it is likely the native `sbt-native-packager` support for ``.deb`` and
 ``.rpm`` formats will provide more configurability.
@@ -26,13 +24,9 @@ formats are also possible via this plugin, it is likely the native `sbt-native-p
 Requirements
 ------------
 
-The ``ant-javafx.jar`` library comes with *Oracle* JDK 8, found in the ``lib`` directory along with ``tools.jar``
-and friends. If `sbt` is running under the JVM in Oracle JDK 8, then the plugin should be able to find the path to
-``ant-javafx.jar``. If `sbt` is running under a different JVM, then the path to the tool will have to be specified
-via the ``jdkPackager:antPackagerTasks`` setting.
+The ``ant-javafx.jar`` library comes with *Oracle* JDK 8, found in the ``lib`` directory along with ``tools.jar`` and friends. If `sbt` is running under the JVM in Oracle JDK 8, then the plugin should be able to find the path to ``ant-javafx.jar``. If `sbt` is running under a different JVM, then the path to the tool will have to be specified via the ``jdkPackager:antPackagerTasks`` setting.
 
-This plugin must be run on the platform of the target installer. The Oracle tooling does *not* provide a means of
-creating, say, Windows installers on MacOS, or MacOS on Linux, etc.
+This plugin must be run on the platform of the target installer. The Oracle tooling does *not* provide a means of creating, say, Windows installers on MacOS, or MacOS on Linux, etc.
 
 To use create Windows launchers & installers, the either the WIX Toolset (``msi``) or Inno Setup (``exe``) is required:
 
@@ -40,7 +34,7 @@ To use create Windows launchers & installers, the either the WIX Toolset (``msi`
 * `Inno Setup <http://www.jrsoftware.org/isinfo.php>`_
 
 For further details on the capabilities of `javapackager`, see the
-`Windows <http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html>`_ and
+`windows <http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javapackager.html>`_ and
 `Unix <http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html>`_ references.
 (Note: only a few of the possible settings are exposed through this plugin. Please submit a
 `Github <https://github.com/sbt/sbt-native-packager/issues>`_ issue or pull request if something specific is desired.)
@@ -58,13 +52,13 @@ The plugin is enabled via the ``AutoPlugins`` facility:
 Build
 -----
 
-To use, first get your application working per :ref:`java-app-plugin` instructions (including the ``mainClass`` setting). Once that is working, run
+To use, first get your application working per ``JavaAppPackaging`` instructions (including the ``mainClass`` setting). Once that is working, run
 
 .. code-block:: scala
 
   sbt jdkPackager:packageBin
 
-By default, the plugin makes the installer type that is native to the current build platform.  The installer is put in the directory
+By default, the plugin makes the installer type that is native to the current build platform in the directory
 ``target/jdkpackager/bundles``. The key ``jdkPackageType`` can be used to modify this behavior. Run
 ``help jdkPackageType`` in `sbt` for details. The most popular setting is likely to be ``jdkAppIcon``.
 
@@ -74,12 +68,11 @@ Settings
 *For the latest documentation reference the key descriptions in sbt.*
 
 ``jdkPackagerBasename``
-  Filename without the extension for the generated installer package.
+  Filename sans extension for generated installer package.
 
 ``jdkPackagerType``
   Value passed as the `native` attribute to `fx:deploy` task.
-
-  Per `javapackager`_ documentation, this may be one of the following:
+  Per `javapackager` documentation, this may be one of the following:
 
   * ``all``: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.
   * ``installer``: Runs all of the installers for the platform on which it is running.
@@ -92,8 +85,8 @@ Settings
   * ``exe``: Generates a Windows .exe package.
   * ``msi``: Generates a Windows Installer package.
 
-.. note:: Because only a subset of the possible settings are exposed through the plugin, updates are likely required to fully
-    make use of all formats. ``dmg`` is currently the most tested type.
+.. note:: Because only a subset of the possible settings are exposed through he plugin, updates are likely required to fully
+    make use of all formats. ``dmg`` currently the most tested type.
 
 
 ``jdkAppIcon``
@@ -103,41 +96,31 @@ Settings
   * `ico`: Windows
   * `png`: Linux
 
-  Defaults to a generically bland Java icon. `Oracle javafx ant task reference <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACFJBFJ>`_
+  Defaults a generically bland Java icon.
 
 ``jdkPackagerToolkit``
   GUI toolkit used in app. Either ``JavaFXToolkit`` (default) or ``SwingToolkit``
 
 ``jdkPackagerJVMArgs``
   Sequence of arguments to pass to the JVM.
-
   Default: ``Seq("-Xmx768m")``.
-
   `Oracle JVM argument docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHJIJG>`_
 
 ``jdkPackagerAppArgs``
   List of command line arguments to pass to the application on launch.
-
   Default: ``Seq.empty``
-
   `Oracle arguments docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACIJFHB>`_
 
 ``jdkPackagerProperties``
   Map of `System` properties to define in application.
-
   Default: ``Map.empty``
-
   `Oracle properties docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHCIFJ>`_
 
 ``jdkPackagerAssociations``
   Set of application file associations to register for the application.
-
-  Example: ``jdkPackagerAssociations := Seq(FileAssociation("foo", "application/x-foo", Foo Data File", iconPath))``
-
+  Example: `jdkPackagerAssociations := Seq(FileAssociation("foo", "application/x-foo", Foo Data File", iconPath))
   Default: `Seq.empty`
-
   Note: Requires JDK >= 8 build 40.
-
   `Oracle associations docs <http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAIDHBJ>`_
 
 Example

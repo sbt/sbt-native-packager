@@ -195,22 +195,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.linux.LinuxMappingDSL#configWithNoReplace" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="configWithNoReplace(mappings:Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]):Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]"></a>
-      <a id="configWithNoReplace(Seq[LinuxPackageMapping]):Seq[LinuxPackageMapping]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">configWithNoReplace</span><span class="params">(<span name="mappings">mappings: <span class="extype" name="scala.Seq">Seq</span>[<a href="LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>]</span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">This method sets the config attribute of all files that are marked as configuration files to &quot;noreplace&quot;.</p><div class="fullcomment"><div class="comment cmt"><p>This method sets the config attribute of all files that are marked as configuration files to &quot;noreplace&quot;. This is
-relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See: http://www-uxsup.csx.cam.ac.uk/~jw35/docs/rpm_config.html
-</p></div><dl class="paramcmts block"><dt class="param">mappings</dt><dd class="cmt"><p>list of mappings to update</p></dd><dt>returns</dt><dd class="cmt"><p>updated list of mappings
-</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxMappingDSL.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxMappingDSL">LinuxMappingDSL</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#daemonGroup" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="daemonGroup:sbt.SettingKey[String]"></a>
       <a id="daemonGroup:SettingKey[String]"></a>
@@ -354,19 +338,6 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#fileDescriptorLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fileDescriptorLimit:sbt.SettingKey[Option[String]]"></a>
-      <a id="fileDescriptorLimit:SettingKey[Option[String]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">fileDescriptorLimit</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -438,6 +409,19 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#killTimeout" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="killTimeout:sbt.SettingKey[Int]"></a>
+      <a id="killTimeout:SettingKey[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">killTimeout</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#linuxEtcDefaultTemplate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="linuxEtcDefaultTemplate:sbt.TaskKey[sbt.URL]"></a>
       <a id="linuxEtcDefaultTemplate:TaskKey[URL]"></a>
@@ -650,6 +634,71 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       </h4>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">files</dt><dd class="cmt"><p>
 </p></dd><dt class="param">dir</dt><dd class="cmt"><p>- use some directory, e.g. target.value</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxMappingDSL.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxMappingDSL">LinuxMappingDSL</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#requiredStartFacilities" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="requiredStartFacilities:sbt.SettingKey[Option[String]]"></a>
+      <a id="requiredStartFacilities:SettingKey[Option[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">requiredStartFacilities</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#requiredStopFacilities" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="requiredStopFacilities:sbt.SettingKey[Option[String]]"></a>
+      <a id="requiredStopFacilities:SettingKey[Option[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">requiredStopFacilities</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#serverLoading" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="serverLoading:sbt.SettingKey[com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader]"></a>
+      <a id="serverLoading:SettingKey[ServerLoader]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">serverLoading</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<a href="../archetypes/ServerLoader$.html#ServerLoader=com.typesafe.sbt.packager.archetypes.ServerLoader.Value" class="extmbr" name="com.typesafe.sbt.packager.archetypes.ServerLoader.ServerLoader">ServerLoader</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#startRunlevels" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="startRunlevels:sbt.SettingKey[Option[String]]"></a>
+      <a id="startRunlevels:SettingKey[Option[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">startRunlevels</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#stopRunlevels" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="stopRunlevels:sbt.SettingKey[Option[String]]"></a>
+      <a id="stopRunlevels:SettingKey[Option[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stopRunlevels</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -663,6 +712,19 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#termTimeout" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="termTimeout:sbt.SettingKey[Int]"></a>
+      <a id="termTimeout:SettingKey[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">termTimeout</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>

@@ -2,17 +2,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>MainScript - com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.MainScript</title>
-          <meta name="description" content="MainScript - com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.MainScript" />
-          <meta name="keywords" content="MainScript com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.MainScript" />
+          <title>JavaAppStartScript - com.typesafe.sbt.packager.archetypes.JavaAppStartScript</title>
+          <meta name="description" content="JavaAppStartScript - com.typesafe.sbt.packager.archetypes.JavaAppStartScript" />
+          <meta name="keywords" content="JavaAppStartScript com.typesafe.sbt.packager.archetypes.JavaAppStartScript" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
-      <link href="../../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
       <script type="text/javascript">
          if(top === self) {
-            var url = '../../../../../../index.html';
-            var hash = 'com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin$$MainScript$';
+            var url = '../../../../../index.html';
+            var hash = 'com.typesafe.sbt.packager.archetypes.JavaAppStartScript';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -22,26 +22,48 @@
    	  </script>
     
         </head>
-        <body class="value">
+        <body class="type">
       <div id="definition">
-        <img src="../../../../../../lib/object_big.png" />
-        <p id="owner"><a href="../../../../../package.html" class="extype" name="com">com</a>.<a href="../../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager.archetypes">archetypes</a>.<a href="package.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts">scripts</a>.<a href="BashStartScriptPlugin$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin">BashStartScriptPlugin</a></p>
-        <h1>MainScript</h1>
+        <img src="../../../../../lib/trait_big.png" />
+        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="package.html" class="extype" name="com.typesafe.sbt.packager.archetypes">archetypes</a></p>
+        <h1>JavaAppStartScript</h1>
       </div>
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">MainScript</span>
+        <span class="name">JavaAppStartScript</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Mixin this trait to generate startup scripts provided in the classpath of native packager.
+</p></div><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p>A simple plugin definition could look like this</p><pre><span class="kw">object</span> AkkaAppPackaging <span class="kw">extends</span> AutoPlugin <span class="kw">with</span> JavaAppStartScript {
+<span class="cmt">// templates have to be placed inside the com/typesafe/sbt.packager/archetypes/ resource folder</span>
+<span class="cmt">// the name is also used to find user-defined scripts</span>
+<span class="kw">val</span> bashTemplate = <span class="lit">"your-bash-template"</span>
+<span class="kw">val</span> batTemplate = <span class="lit">"your-bat-template"</span>
+
+<span class="kw">override</span> <span class="kw">def</span> requires = JavaAppPackaging
+
+<span class="kw">override</span> <span class="kw">def</span> projectSettings = settings
+
+<span class="kw">import</span> JavaAppPackaging.autoImport._
+
+<span class="kw">private</span> <span class="kw">def</span> settings: <span class="std">Seq</span>[Setting[_]] = <span class="std">Seq</span>(
+  makeBashScript &lt;&lt;= (bashScriptDefines, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBinScript(bashTemplate),
+  makeBatScript &lt;&lt;= (batScriptReplacements, target in Universal, executableScriptName, sourceDirectory) map makeUniversalBatScript(batTemplate)
+)
+}</pre></li></ol>
+            </div></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+          <span class="toggle">Known Subclasses</span>
+          <div class="subClasses hiddenContent"><a href="AkkaAppPackaging$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.AkkaAppPackaging">AkkaAppPackaging</a>, <a href="JavaAppPackaging$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging">JavaAppPackaging</a></div>
         </div></div>
         
 
@@ -59,7 +81,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.MainScript"><span>MainScript</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript"><span>JavaAppStartScript</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -150,20 +172,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.MainScript#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(mainClass:String,config:com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.BashScriptConfig,targetDir:java.io.File):java.io.File"></a>
-      <a id="apply(String,BashScriptConfig,File):File"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="mainClass">mainClass: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="config">config: <span class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.BashScriptConfig">BashScriptConfig</span></span>, <span name="targetDir">targetDir: <span class="extype" name="java.io.File">File</span></span>)</span><span class="result">: <span class="extype" name="java.io.File">File</span></span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">mainClass</dt><dd class="cmt"><p>- Main class added to the java command</p></dd><dt class="param">config</dt><dd class="cmt"><p>- Config data for this script</p></dd><dt class="param">targetDir</dt><dd class="cmt"><p>- Target directory for this script</p></dd><dt>returns</dt><dd class="cmt"><p>File pointing to the created main script
-</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -189,7 +197,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
@@ -234,7 +242,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="symbol">classOf[java.lang.Throwable]</span>
@@ -280,6 +288,58 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBatScript" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="makeUniversalBatScript(defaultTemplateLocation:sbt.File,replacements:Seq[(String,String)],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
+      <a id="makeUniversalBatScript(File,Seq[(String,String)],File,String,File):Option[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">makeUniversalBatScript</span><span class="params">(<span name="defaultTemplateLocation">defaultTemplateLocation: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBatScript" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="makeUniversalBatScript(batTemplate:String)(replacements:Seq[(String,String)],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
+      <a id="makeUniversalBatScript(String)(Seq[(String,String)],File,String,File):Option[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">makeUniversalBatScript</span><span class="params">(<span name="batTemplate">batTemplate: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBinScript" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="makeUniversalBinScript(bashTemplate:String)(defines:Seq[String],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
+      <a id="makeUniversalBinScript(String)(Seq[String],File,String,File):Option[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">makeUniversalBinScript</span><span class="params">(<span name="bashTemplate">bashTemplate: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="defines">defines: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBinScript" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="makeUniversalBinScript(defaultTemplateLocation:sbt.File,defines:Seq[String],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
+      <a id="makeUniversalBinScript(File,Seq[String],File,String,File):Option[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">makeUniversalBinScript</span><span class="params">(<span name="defaultTemplateLocation">defaultTemplateLocation: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="defines">defines: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -431,6 +491,6 @@
       <div id="tooltip"></div>
 
       <div id="footer">  </div>
-      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../../../lib/template.js"></script>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../../lib/template.js"></script>
     </body>
       </html>

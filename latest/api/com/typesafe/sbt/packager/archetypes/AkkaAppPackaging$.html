@@ -2,17 +2,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>SystemVPlugin - com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin</title>
-          <meta name="description" content="SystemVPlugin - com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin" />
-          <meta name="keywords" content="SystemVPlugin com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin" />
+          <title>AkkaAppPackaging - com.typesafe.sbt.packager.archetypes.AkkaAppPackaging</title>
+          <meta name="description" content="AkkaAppPackaging - com.typesafe.sbt.packager.archetypes.AkkaAppPackaging" />
+          <meta name="keywords" content="AkkaAppPackaging com.typesafe.sbt.packager.archetypes.AkkaAppPackaging" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
-      <link href="../../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
       <script type="text/javascript">
          if(top === self) {
-            var url = '../../../../../../index.html';
-            var hash = 'com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin$';
+            var url = '../../../../../index.html';
+            var hash = 'com.typesafe.sbt.packager.archetypes.AkkaAppPackaging$';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -24,9 +24,9 @@
         </head>
         <body class="value">
       <div id="definition">
-        <img src="../../../../../../lib/object_big.png" />
-        <p id="owner"><a href="../../../../../package.html" class="extype" name="com">com</a>.<a href="../../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager.archetypes">archetypes</a>.<a href="package.html" class="extype" name="com.typesafe.sbt.packager.archetypes.systemloader">systemloader</a></p>
-        <h1>SystemVPlugin</h1>
+        <img src="../../../../../lib/object_big.png" />
+        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../package.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../package.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="package.html" class="extype" name="com.typesafe.sbt.packager.archetypes">archetypes</a></p>
+        <h1>AkkaAppPackaging</h1>
       </div>
 
       <h4 id="signature" class="signature">
@@ -35,13 +35,22 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">SystemVPlugin</span><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
+        <span class="name deprecated" title="Deprecated: (Since version 1.0.0) Use JavaAppPackaging instead">AkkaAppPackaging</span><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4> Deprecated </h4><p>Use <code>JavaAppPackaging</code> instead. Akka Microkernel will be removed soon.</p><p>Provides a new default script for akka-micro-kernel applications.
+This plugin requires the <a href="JavaAppPackaging$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging">com.typesafe.sbt.packager.archetypes.JavaAppPackaging</a>,
+which will be automatically enabled.
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 1.0.0)</i> Use JavaAppPackaging instead</p></dd><div class="block">Example:
+               <ol><li class="cmt"><p>Enable this plugin in your <code>build.sbt</code> with</p><pre>enablePlugins(AkkaAppPackaging)</pre></li></ol>
+            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://github.com/sbt/sbt-native-packager/pull/363" target="_blank">https://github.com/sbt/sbt-native-packager/pull/363</a>
+</p></span><span class="cmt"><p><a href="http://doc.akka.io/docs/akka/snapshot/scala/microkernel.html" target="_blank">http://doc.akka.io/docs/akka/snapshot/scala/microkernel.html</a></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="sbt.AutoPlugin">AutoPlugin</span>, <span class="extype" name="sbt.PluginsFunctions">PluginsFunctions</span>, <span class="extype" name="sbt.Plugins.Basic">Basic</span>, <span class="extype" name="sbt.Plugins">Plugins</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a>, <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span>, <span class="extype" name="sbt.PluginsFunctions">PluginsFunctions</span>, <span class="extype" name="sbt.Plugins.Basic">Basic</span>, <span class="extype" name="sbt.Plugins">Plugins</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -59,7 +68,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin"><span>SystemVPlugin</span></li><li class="in" name="sbt.AutoPlugin"><span>AutoPlugin</span></li><li class="in" name="sbt.PluginsFunctions"><span>PluginsFunctions</span></li><li class="in" name="sbt.Plugins.Basic"><span>Basic</span></li><li class="in" name="sbt.Plugins"><span>Plugins</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.typesafe.sbt.packager.archetypes.AkkaAppPackaging"><span>AkkaAppPackaging</span></li><li class="in" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript"><span>JavaAppStartScript</span></li><li class="in" name="sbt.AutoPlugin"><span>AutoPlugin</span></li><li class="in" name="sbt.PluginsFunctions"><span>PluginsFunctions</span></li><li class="in" name="sbt.Plugins.Basic"><span>Basic</span></li><li class="in" name="sbt.Plugins"><span>Plugins</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -189,6 +198,34 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.AkkaAppPackaging#bashTemplate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="bashTemplate:String"></a>
+      <a id="bashTemplate:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">bashTemplate</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Name of the bash template if user wants to provide custom one
+</p>
+    </li><li name="com.typesafe.sbt.packager.archetypes.AkkaAppPackaging#batTemplate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="batTemplate:String"></a>
+      <a id="batTemplate:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">batTemplate</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Name of the bat template if user wants to provide custom one
+</p>
     </li><li name="sbt.AutoPlugin#buildSettings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="buildSettings:Seq[sbt.Def.Setting[_]]"></a>
       <a id="buildSettings:Seq[sbt.Def.Setting[_]]"></a>
@@ -214,26 +251,13 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin#debianSettings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="debianSettings:Seq[sbt.Setting[_]]"></a>
-      <a id="debianSettings:Seq[Setting[_]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">debianSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../../../sbt/package.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">Setting</a>[_]]</span>
-      </span>
-      </h4>
-      
     </li><li name="sbt.PluginsFunctions#empty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="empty:sbt.Plugins"></a>
       <a id="empty:Plugins"></a>
@@ -285,7 +309,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="symbol">classOf[java.lang.Throwable]</span>
@@ -357,6 +381,58 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBatScript" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="makeUniversalBatScript(defaultTemplateLocation:sbt.File,replacements:Seq[(String,String)],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
+      <a id="makeUniversalBatScript(File,Seq[(String,String)],File,String,File):Option[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">makeUniversalBatScript</span><span class="params">(<span name="defaultTemplateLocation">defaultTemplateLocation: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBatScript" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="makeUniversalBatScript(batTemplate:String)(replacements:Seq[(String,String)],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
+      <a id="makeUniversalBatScript(String)(Seq[(String,String)],File,String,File):Option[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">makeUniversalBatScript</span><span class="params">(<span name="batTemplate">batTemplate: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBinScript" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="makeUniversalBinScript(bashTemplate:String)(defines:Seq[String],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
+      <a id="makeUniversalBinScript(String)(Seq[String],File,String,File):Option[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">makeUniversalBinScript</span><span class="params">(<span name="bashTemplate">bashTemplate: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="defines">defines: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBinScript" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="makeUniversalBinScript(defaultTemplateLocation:sbt.File,defines:Seq[String],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
+      <a id="makeUniversalBinScript(File,Seq[String],File,String,File):Option[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">makeUniversalBinScript</span><span class="params">(<span name="defaultTemplateLocation">defaultTemplateLocation: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="defines">defines: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -422,7 +498,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin#projectSettings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.typesafe.sbt.packager.archetypes.AkkaAppPackaging#projectSettings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="projectSettings:Seq[sbt.Setting[_]]"></a>
       <a id="projectSettings:Seq[Setting[_]]"></a>
       <h4 class="signature">
@@ -431,36 +507,23 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../../../sbt/package.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">Setting</a>[_]]</span>
+        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../../sbt/package.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">Setting</a>[_]]</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin">SystemVPlugin</a> → AutoPlugin</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin#requires" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="requires:com.typesafe.sbt.packager.archetypes.systemloader.SystemloaderPlugin.type"></a>
-      <a id="requires:SystemloaderPlugin.type"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.archetypes.AkkaAppPackaging">AkkaAppPackaging</a> → AutoPlugin</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.AkkaAppPackaging#requires" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="requires:com.typesafe.sbt.packager.archetypes.JavaAppPackaging.type"></a>
+      <a id="requires:JavaAppPackaging.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">requires</span><span class="result">: <a href="SystemloaderPlugin$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.systemloader.SystemloaderPlugin">SystemloaderPlugin</a>.type</span>
+        <span class="name">requires</span><span class="result">: <a href="JavaAppPackaging$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging">JavaAppPackaging</a>.type</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin">SystemVPlugin</a> → AutoPlugin</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin#rpmSettings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="rpmSettings:Seq[sbt.Setting[_]]"></a>
-      <a id="rpmSettings:Seq[Setting[_]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">rpmSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../../../sbt/package.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">Setting</a>[_]]</span>
-      </span>
-      </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.archetypes.AkkaAppPackaging">AkkaAppPackaging</a> → AutoPlugin</dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -474,19 +537,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin#systemVSettings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="systemVSettings:Seq[sbt.Setting[_]]"></a>
-      <a id="systemVSettings:Seq[Setting[_]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">systemVSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../../../sbt/package.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">Setting</a>[_]]</span>
-      </span>
-      </h4>
-      
     </li><li name="sbt.AutoPlugin#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -579,7 +629,9 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="sbt.AutoPlugin">
+        <div class="parent" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">
+              <h3>Inherited from <a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></h3>
+            </div><div class="parent" name="sbt.AutoPlugin">
               <h3>Inherited from <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></h3>
             </div><div class="parent" name="sbt.PluginsFunctions">
               <h3>Inherited from <span class="extype" name="sbt.PluginsFunctions">PluginsFunctions</span></h3>
@@ -607,6 +659,6 @@
       <div id="tooltip"></div>
 
       <div id="footer">  </div>
-      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../../../lib/template.js"></script>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../../lib/template.js"></script>
     </body>
       </html>
