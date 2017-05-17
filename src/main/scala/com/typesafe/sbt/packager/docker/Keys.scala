@@ -18,6 +18,7 @@ trait DockerKeys {
   val dockerExposedUdpPorts = SettingKey[Seq[Int]]("dockerExposedUdpPorts", "UDP Ports exposed by Docker image")
   val dockerExposedVolumes = SettingKey[Seq[String]]("dockerExposedVolumes", "Volumes exposed by Docker image")
   val dockerRepository = SettingKey[Option[String]]("dockerRepository", "Repository for published Docker image")
+  val dockerUsername = SettingKey[Option[String]]("dockerUsername", "Username for published Docker image")
   val dockerAlias =
     SettingKey[DockerAlias]("dockerAlias", "Docker alias for the built image")
   val dockerUpdateLatest =

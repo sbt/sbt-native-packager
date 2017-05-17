@@ -118,7 +118,10 @@ Publishing Settings
 ~~~~~~~~~~~~~~~~~~~
 
   ``dockerRepository``
-    The repository to which the image is pushed when the ``docker:publish`` task is run. This should be of the form ``[username]`` (assumes use of the ``index.docker.io`` repository) or ``[repository.host]/[username]``.
+    The repository to which the image is pushed when the ``docker:publish`` task is run. This should be of the form  ``[repository.host[:repository.port]]`` (assumes use of the ``index.docker.io`` repository) or ``[repository.host[:repository.port]][/username]`` (discouraged, but available for backwards compatibilty.).
+
+  ``dockerUsername``
+    The username or orgranization to which the image is pushed when the ``docker:publish`` task is run. This should be of the form ``[username]`` or ``[organization]``.
 
   ``dockerUpdateLatest``
     The flag to automatic update the latest tag when the ``docker:publish`` task is run. Default value is ``FALSE``.  In order to use this setting, the minimum docker console version required is 1.10. See https://github.com/sbt/sbt-native-packager/issues/871 for a detailed explanation.
@@ -126,7 +129,7 @@ Publishing Settings
   ``dockerAlias``
     The alias to be used for tagging the resulting image of the Docker build.
     The type of the setting key is ``DockerAlias``.
-    Defaults to ``[dockerRepository/][name]:[version]``.
+    Defaults to ``[dockerRepository/][dockerUsername/][packageName]:[version]``.
 
   ``dockerBuildOptions``
     Overrides the default Docker build options.

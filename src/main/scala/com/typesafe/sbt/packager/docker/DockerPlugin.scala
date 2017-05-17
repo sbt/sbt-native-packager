@@ -79,9 +79,10 @@ object DockerPlugin extends AutoPlugin {
       dockerExposedVolumes := Seq(),
       dockerLabels := Map(),
       dockerRepository := None,
+      dockerUsername := None,
       dockerAlias := DockerAlias(
         dockerRepository.value,
-        None,
+        dockerUsername.value,
         (packageName in Docker).value,
         Some((version in Docker).value)
       ),
