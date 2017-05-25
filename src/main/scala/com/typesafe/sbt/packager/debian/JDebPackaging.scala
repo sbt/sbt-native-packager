@@ -1,13 +1,11 @@
-package com.typesafe.sbt
-package packager
-package debian
+package com.typesafe.sbt.packager.debian
 
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import com.typesafe.sbt.packager.universal.Archives
 import sbt._
-import sbt.Keys.{mappings, normalizedName, packageBin, streams, target, version}
-import linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink}
-import linux.LinuxPlugin.autoImport.{
+import sbt.Keys.{normalizedName, packageBin, streams, target, version}
+import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink}
+import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{
   linuxPackageMappings,
   linuxPackageSymlinks,
   linuxScriptReplacements,
@@ -17,7 +15,7 @@ import scala.collection.JavaConversions._
 import org.vafer.jdeb.{DataProducer, DebMaker}
 import org.vafer.jdeb.mapping._
 import org.vafer.jdeb.producers._
-import DebianPlugin.{Names}
+import DebianPlugin.Names
 import DebianPlugin.autoImport._
 
 /**
