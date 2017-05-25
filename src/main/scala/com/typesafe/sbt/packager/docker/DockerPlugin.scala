@@ -122,7 +122,7 @@ object DockerPlugin extends AutoPlugin {
         publishLocal := {
         val log = streams.value.log
         publishLocalDocker(stage.value, dockerBuildCommand.value, log)
-        log.info(s"Built image ${dockerAlias.value}")
+        log.info(s"Built image ${dockerAlias.value.versioned}")
       },
         publish := {
         val _ = publishLocal.value
