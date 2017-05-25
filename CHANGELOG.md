@@ -1,5 +1,28 @@
 # Change Log
 
+## [v1.1.6](https://github.com/sbt/sbt-native-packager/tree/v1.1.6) (2017-04-30)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M9...v1.1.6)
+
+**Fixed bugs:**
+
+- Trouble using \*daemonUser\* and \*daemonGroup\* settings for RPM  [\#856](https://github.com/sbt/sbt-native-packager/issues/856)
+- application does not receive SIGINT signal when using ash. [\#707](https://github.com/sbt/sbt-native-packager/issues/707)
+
+**Closed issues:**
+
+- Forbidden access on bintray [\#966](https://github.com/sbt/sbt-native-packager/issues/966)
+- Versioned docs [\#963](https://github.com/sbt/sbt-native-packager/issues/963)
+- docker:publishLocal does not override latest tag [\#857](https://github.com/sbt/sbt-native-packager/issues/857)
+- Adding support for docker build args [\#844](https://github.com/sbt/sbt-native-packager/issues/844)
+- Clean image after publishing [\#501](https://github.com/sbt/sbt-native-packager/issues/501)
+
+**Merged pull requests:**
+
+- Improve comments in etc-default files [\#969](https://github.com/sbt/sbt-native-packager/pull/969) ([ennru](https://github.com/ennru))
+- FIX \#856 Add documentation for daemonUser/Group settings [\#967](https://github.com/sbt/sbt-native-packager/pull/967) ([muuki88](https://github.com/muuki88))
+- Add docker:clean task [\#965](https://github.com/sbt/sbt-native-packager/pull/965) ([NeQuissimus](https://github.com/NeQuissimus))
+- Add Docker labels easily [\#962](https://github.com/sbt/sbt-native-packager/pull/962) ([NeQuissimus](https://github.com/NeQuissimus))
+
 ## [v1.2.0-M9](https://github.com/sbt/sbt-native-packager/tree/v1.2.0-M9) (2017-04-12)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M8...v1.2.0-M9)
 
@@ -110,6 +133,7 @@
 
 **Merged pull requests:**
 
+- Replace deprecated java Docker container with openjdk \(\#877\) [\#970](https://github.com/sbt/sbt-native-packager/pull/970) ([edouardKaiser](https://github.com/edouardKaiser))
 - Adding rpm override script tests [\#891](https://github.com/sbt/sbt-native-packager/pull/891) ([mitch-seymour](https://github.com/mitch-seymour))
 - Updated cheatsheet with the correct file path for overriding service manager scripts [\#890](https://github.com/sbt/sbt-native-packager/pull/890) ([mitch-seymour](https://github.com/mitch-seymour))
 - Update documentation with warning about overriding default tar options. [\#889](https://github.com/sbt/sbt-native-packager/pull/889) ([mackler](https://github.com/mackler))
