@@ -67,8 +67,6 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
       // unused, but needed as dependency
       val controlDir = targetDir / Names.DebianMaintainerScripts
-      val _ = debianControlFile.value
-      val conffile = debianConffilesFile.value
       val replacements = debianMakeChownReplacements.value +: linuxScriptReplacements.value
 
       val controlScripts = debianMaintainerScripts.value
@@ -96,7 +94,9 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       debMaker validate ()
       debMaker makeDeb ()
       debianFile
-    }
+    },
+    packageBin := (packageBin dependsOn debianControlFile).value,
+    packageBin := (packageBin dependsOn debianConffilesFile).value
   )
 
   /**

@@ -190,9 +190,6 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       debianMD5sumsFile := createMD5SumFile(stage.value),
       debianMakeChownReplacements := makeChownReplacements(linuxPackageMappings.value, streams.value),
       stage := {
-        // depend on both tasks
-        debianControlFile.value
-        debianChangelog.value
         val debianTarget = target.value
 
         stageMappings(linuxPackageMappings.value, debianTarget)
@@ -210,9 +207,9 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       // TODO remove in next major release
       debianExplodedPackage := stage.value,
       // Replacement for ${{header}} as debian control scripts are bash scripts
-      linuxScriptReplacements += ("header" -> "#!/bin/sh\nset -e")
-
-      // Adding package specific implementation settings
+      linuxScriptReplacements += ("header" -> "#!/bin/sh\nset -e"),
+      stage := (stage dependsOn debianControlFile).value,
+      stage := (stage dependsOn debianConffilesFile).value
     )
   )
 
