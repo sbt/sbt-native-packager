@@ -3,13 +3,13 @@ package com.typesafe.sbt.packager.debian
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import com.typesafe.sbt.packager.universal.Archives
 import sbt._
-import sbt.Keys.{normalizedName, packageBin, streams, target, version}
+import sbt.Keys.{classpathTypes, normalizedName, packageBin, streams, target, version}
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{
-  linuxPackageMappings,
-  linuxPackageSymlinks,
-  linuxScriptReplacements,
-  packageArchitecture
+linuxPackageMappings,
+linuxPackageSymlinks,
+linuxScriptReplacements,
+packageArchitecture
 }
 import scala.collection.JavaConversions._
 import org.vafer.jdeb.{DataProducer, DebMaker}
@@ -67,6 +67,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
       // unused, but needed as dependency
       val controlDir = targetDir / Names.DebianMaintainerScripts
+      val _ = debianControlFile.value
+      val conffile = debianConffilesFile.value
       val replacements = debianMakeChownReplacements.value +: linuxScriptReplacements.value
 
       val controlScripts = debianMaintainerScripts.value
@@ -96,7 +98,9 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       debianFile
     },
     packageBin := (packageBin dependsOn debianControlFile).value,
-    packageBin := (packageBin dependsOn debianConffilesFile).value
+    packageBin := (packageBin dependsOn debianConffilesFile).value,
+    // workaround for sbt-coursier
+    classpathTypes += "maven-plugin"
   )
 
   /**
