@@ -11,16 +11,35 @@ object RpmHelper {
   def hostVendor =
     Process(Seq("rpm", "-E", "%{_host_vendor}")) !!
 
-  def buildRpm(spec: RpmSpec, workArea: File, log: sbt.Logger): File = {
-    // TODO - check the spec for errors.
+  /**
+    * Prepares the staging directory for the rpm build command.
+    *
+    * @param spec The RpmSpec
+    * @param workArea The target
+    * @param log Logger
+    * @return the `workArea`
+    */
+  def stage(spec: RpmSpec, workArea: File, log: sbt.Logger): File = {
     buildWorkArea(workArea)
     copyFiles(spec, workArea, log)
     writeSpecFile(spec, workArea, log)
+    spec.validate(log)
+    workArea
+  }
 
-    buildPackage(workArea, spec, log)
+  /**
+    * Build the rpm package
+    *
+    * @param spec The RpmSpec
+    * @param stagingArea Prepared staging area
+    * @param log Logger
+    * @return The rpm package
+    */
+  def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger): File = {
+    buildPackage(stagingArea, spec, log)
     // We should probably return the File that was created.
     val rpmname = "%s-%s-%s.%s.rpm" format (spec.meta.name, spec.meta.version, spec.meta.release, spec.meta.arch)
-    workArea / "RPMS" / spec.meta.arch / rpmname
+    stagingArea / "RPMS" / spec.meta.arch / rpmname
   }
 
   private[this] def copyFiles(spec: RpmSpec, workArea: File, log: sbt.Logger): Unit = {
@@ -70,20 +89,20 @@ object RpmHelper {
         case Some(arch) => Seq("setarch", arch)
         case None => Seq()
       }) ++ Seq(
-          "rpmbuild",
-          "-bb",
-          "--target",
-          spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os,
-          "--buildroot",
-          buildRoot.getAbsolutePath,
-          "--define",
-          "_topdir " + workArea.getAbsolutePath,
-          "--define",
-          "_tmppath " + tmpRpmBuildDir.getAbsolutePath
-        ) ++ (
-          if (gpg) Seq("--define", "_gpg_name " + "<insert keyname>", "--sign")
-          else Seq.empty
-        ) ++ Seq(spec.meta.name + ".spec")
+        "rpmbuild",
+        "-bb",
+        "--target",
+        spec.meta.arch + '-' + spec.meta.vendor + '-' + spec.meta.os,
+        "--buildroot",
+        buildRoot.getAbsolutePath,
+        "--define",
+        "_topdir " + workArea.getAbsolutePath,
+        "--define",
+        "_tmppath " + tmpRpmBuildDir.getAbsolutePath
+      ) ++ (
+        if (gpg) Seq("--define", "_gpg_name " + "<insert keyname>", "--sign")
+        else Seq.empty
+      ) ++ Seq(spec.meta.name + ".spec")
       log.debug("Executing rpmbuild with: " + args.mkString(" "))
       (Process(args, Some(specsDir)) ! log) match {
         case 0 => ()

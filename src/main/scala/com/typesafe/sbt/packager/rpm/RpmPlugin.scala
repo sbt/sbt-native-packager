@@ -154,12 +154,8 @@ object RpmPlugin extends AutoPlugin {
       (linuxPackageSymlinks in Rpm).value,
       (defaultLinuxInstallLocation in Rpm).value
     ),
-    packageBin in Rpm := {
-      val log = streams.value.log
-      val spec = rpmSpecConfig.value
-      spec.validate(log)
-      RpmHelper.buildRpm(spec, (target in Rpm).value, log)
-    },
+    stage in Rpm := RpmHelper.stage(rpmSpecConfig.value, (target in Rpm).value, streams.value.log),
+    packageBin in Rpm := RpmHelper.buildRpm(rpmSpecConfig.value, (stage in Rpm).value, streams.value.log),
     rpmLint := {
       Process(Seq("rpmlint", "-v", (packageBin in Rpm).value.getAbsolutePath)) ! streams.value.log match {
         case 0 => ()
