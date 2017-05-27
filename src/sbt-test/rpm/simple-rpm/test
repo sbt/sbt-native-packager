@@ -1,7 +1,6 @@
-# Run the debian packaging.
+> rpm:stage
+$ exists target/rpm
+> checkSpecFile
+# Run the rpm packaging.
 > rpm:package-bin
 $ exists target/rpm/RPMS/x86_64/rpm-test-0.1.0-1.x86_64.rpm
-
-> unzip
-
-> checkSpecFile
