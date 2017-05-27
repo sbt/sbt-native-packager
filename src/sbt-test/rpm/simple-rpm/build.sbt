@@ -33,11 +33,6 @@ linuxPackageSymlinks in Rpm := Seq(LinuxSymlink("/etc/link1", "destination1"), L
 
 defaultLinuxInstallLocation in Rpm := "/opt/foo"
 
-TaskKey[Unit]("unzip") <<= (packageBin in Rpm, streams) map { (rpmFile, streams) =>
-  val rpmPath = Seq(rpmFile.getAbsolutePath)
-  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.log
-}
-
 TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
   val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
   assert(spec contains "Name: rpm-test", "Contains project name")
