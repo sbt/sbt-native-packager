@@ -1,0 +1,3 @@
+# Package deb and publish
+> debian:publish
+$ exec curl -s http://localhost:8081/artifactory/api/search/artifact?name=debian-test&repos=apt
