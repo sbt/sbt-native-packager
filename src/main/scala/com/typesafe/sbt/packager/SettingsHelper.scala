@@ -25,7 +25,10 @@ object SettingsHelper {
       )
     )
 
-  def makeDeploymentSettings(config: Configuration, packageTask: TaskKey[File], extension: String): Seq[Setting[_]] =
+  def makeDeploymentSettings(config: Configuration,
+                             packageTask: TaskKey[File],
+                             extension: String,
+                             classifier: Option[String] = None): Seq[Setting[_]] =
     inConfig(config)(Classpaths.publishSettings) ++ inConfig(config)(
       Seq(
         artifacts := Seq.empty,
@@ -55,5 +58,5 @@ object SettingsHelper {
           overwrite = isSnapshot.value
         )
       )
-    ) ++ addPackage(config, packageTask, extension)
+    ) ++ addPackage(config, packageTask, extension, classifier)
 }
