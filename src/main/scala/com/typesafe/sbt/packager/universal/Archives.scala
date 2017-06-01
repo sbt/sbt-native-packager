@@ -240,10 +240,9 @@ object Archives {
 
       IO.copy(m2)
       // TODO - Is this enough?
-      for (f <- (m2 map { case (_, f) => f });
-           if f.getAbsolutePath contains "/bin/") {
-        println("Making " + f.getAbsolutePath + " executable")
-        f.setExecutable(true, false)
+      for ( (from, to) <- m2 if (to.getAbsolutePath contains "/bin/") || from.canExecute ) {
+        println("Making " + to.getAbsolutePath + " executable")
+        to.setExecutable(true, false)
       }
 
       IO.createDirectory(tarball.getParentFile)
