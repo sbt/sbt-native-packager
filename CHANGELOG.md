@@ -1,5 +1,46 @@
 # Change Log
 
+## [v1.2.0](https://github.com/sbt/sbt-native-packager/tree/v1.2.0) (2017-06-07)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.1.6...v1.2.0)
+
+**Fixed bugs:**
+
+- Packaging deb package with 1.2.0-M9 doesn't generate `conffiles` file [\#984](https://github.com/sbt/sbt-native-packager/issues/984)
+- SystemVPlugin on Debian not working [\#955](https://github.com/sbt/sbt-native-packager/issues/955)
+
+**Closed issues:**
+
+- You probably access the destination server through a proxy server that is not well configured. [\#988](https://github.com/sbt/sbt-native-packager/issues/988)
+- Add maven-plugin to classpathTypes when using the JDebPlugin [\#982](https://github.com/sbt/sbt-native-packager/issues/982)
+- Documentation incorrect -- Docker v1.10 or higher required [\#981](https://github.com/sbt/sbt-native-packager/issues/981)
+- Publish Arbitrary Docker Tags [\#979](https://github.com/sbt/sbt-native-packager/issues/979)
+- way to skip pom generation? [\#975](https://github.com/sbt/sbt-native-packager/issues/975)
+- An equivalent to --no-cache [\#973](https://github.com/sbt/sbt-native-packager/issues/973)
+- Override DockerAlias toString method [\#972](https://github.com/sbt/sbt-native-packager/issues/972)
+- Support -SNAPSHOT versions when generating RPMs by default [\#971](https://github.com/sbt/sbt-native-packager/issues/971)
+- RPM with `killtimeout` [\#957](https://github.com/sbt/sbt-native-packager/issues/957)
+- Docker authentication fails with latest milestone [\#892](https://github.com/sbt/sbt-native-packager/issues/892)
+- Environment Variables in Command Not Handled [\#868](https://github.com/sbt/sbt-native-packager/issues/868)
+- Set entrypoint script exection bit when generating Dockerfile [\#861](https://github.com/sbt/sbt-native-packager/issues/861)
+- add rpmExplodedPackage command [\#848](https://github.com/sbt/sbt-native-packager/issues/848)
+- Evaluate LGTM service [\#833](https://github.com/sbt/sbt-native-packager/issues/833)
+- Java Options with space in them cannot be added [\#681](https://github.com/sbt/sbt-native-packager/issues/681)
+
+**Merged pull requests:**
+
+- Use SNAPSHOT for release when snapshot version [\#995](https://github.com/sbt/sbt-native-packager/pull/995) ([keirlawson](https://github.com/keirlawson))
+- Preserve executable permissions when creating a tarball [\#993](https://github.com/sbt/sbt-native-packager/pull/993) ([Krever](https://github.com/Krever))
+- Allow specifying classifier for default package in deployment settings [\#992](https://github.com/sbt/sbt-native-packager/pull/992) ([Krever](https://github.com/Krever))
+- FIX \#981 Documentation incorrect -- Docker v1.10 or higher required [\#990](https://github.com/sbt/sbt-native-packager/pull/990) ([muuki88](https://github.com/muuki88))
+- Implement stage command for rpm [\#989](https://github.com/sbt/sbt-native-packager/pull/989) ([muuki88](https://github.com/muuki88))
+- Issue 972 pretty print docker alias [\#987](https://github.com/sbt/sbt-native-packager/pull/987) ([muuki88](https://github.com/muuki88))
+- Issue 984 depend on conffiles [\#986](https://github.com/sbt/sbt-native-packager/pull/986) ([muuki88](https://github.com/muuki88))
+- Add maven-plugin to classpathTypes when using JDebPlugin [\#985](https://github.com/sbt/sbt-native-packager/pull/985) ([muuki88](https://github.com/muuki88))
+- Adjust mixed indenting in start-debian-template. [\#983](https://github.com/sbt/sbt-native-packager/pull/983) ([jan0sch](https://github.com/jan0sch))
+- Add Setting for Docker User [\#980](https://github.com/sbt/sbt-native-packager/pull/980) ([apeschel](https://github.com/apeschel))
+- Prevent empty double quotes in start daemon line. [\#977](https://github.com/sbt/sbt-native-packager/pull/977) ([jan0sch](https://github.com/jan0sch))
+- update README [\#976](https://github.com/sbt/sbt-native-packager/pull/976) ([eduedix](https://github.com/eduedix))
+
 ## [v1.1.6](https://github.com/sbt/sbt-native-packager/tree/v1.1.6) (2017-04-30)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0-M9...v1.1.6)
 
