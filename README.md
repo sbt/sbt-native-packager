@@ -6,8 +6,7 @@
 [ ![Download](https://api.bintray.com/packages/sbt/sbt-plugin-releases/sbt-native-packager/images/download.svg) ](https://bintray.com/sbt/sbt-plugin-releases/sbt-native-packager/_latestVersion)
 [![Join the chat at https://gitter.im/sbt/sbt-native-packager](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sbt/sbt-native-packager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Documentation Status](https://readthedocs.org/projects/sbt-native-packager/badge/?version=latest)](http://sbt-native-packager.readthedocs.org/en/latest/?badge=latest)
-[![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/pr?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager)
-[![Issue Stats](http://www.issuestats.com/github/sbt/sbt-native-packager/badge/issue?style=flat)](http://www.issuestats.com/github/sbt/sbt-native-packager)
+
 
 ![Native Packager Logo](src/sphinx/static/np_logo_full_horizontal_transparent.png)
 
