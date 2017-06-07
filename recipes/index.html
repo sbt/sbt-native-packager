@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Recipes &mdash; sbt-native-packager 1.1.7-SNAPSHOT documentation</title>
+  <title>Recipes &mdash; sbt-native-packager 1.2.1-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.7-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.2.1-SNAPSHOT documentation" href="../index.html"/>
         <link rel="next" title="Custom Package Formats" href="custom.html"/>
         <link rel="prev" title="Archetype Cheatsheet" href="../archetypes/cheatsheet.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.1
+                1.2
               </div>
             
           
@@ -164,6 +164,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -192,6 +194,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#jar-repackaging">Jar Repackaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -212,7 +215,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/docker.html#customize">Customize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-image-name-and-version">Docker Image Name and Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-base-image">Docker Base Image</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-repository">Docker Repository</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#docker-image-customization">Docker Image Customization</a></li>
@@ -260,6 +263,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#start-script-options">Start script options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#multiple-applications">Multiple Applications</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#multiple-start-scripts">Multiple start scripts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html">Application and runtime configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#start-script-customizations">Start script customizations</a></li>
@@ -273,17 +281,34 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#systemloader-configuration">Systemloader Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/systemloaders.html">Systemloaders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#general-settings">General Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemv">SystemV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemd">Systemd</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#upstart">Upstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#customization">Customization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#start-script-location">Start Script Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#customize-start-script">Customize Start Script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#override-start-script">Override Start Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
@@ -304,7 +329,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
@@ -360,6 +385,11 @@
 <li class="toctree-l3"><a class="reference internal" href="package_configuration.html#sbt-sub-modules">SBT sub modules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="package_configuration.html#sbt-parameters-and-build-environment">SBT parameters and Build Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="embedded-jvm.html">Embedding JVM in Universal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="embedded-jvm.html#application-configuration">Application Configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -420,6 +450,7 @@
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scalajs.html">Scala JS packaging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="package_configuration.html">Build the same package with different configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embedded-jvm.html">Embedding JVM in Universal</a></li>
 </ul>
 </div>
 </div>
@@ -465,7 +496,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.1.7-SNAPSHOT',
+            VERSION:'1.2.1-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

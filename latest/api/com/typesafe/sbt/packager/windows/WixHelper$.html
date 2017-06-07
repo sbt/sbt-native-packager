@@ -193,6 +193,19 @@ characters and replacing with _.</p><div class="fullcomment"><div class="comment
 characters and replacing with _.  Also limits the width to 70 (rather than
 72) so we can safely add a few later.
 </p></div></div>
+    </li><li name="com.typesafe.sbt.packager.windows.WixHelper#cleanStringWithPostfix" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="cleanStringWithPostfix(n:String,num:Int,postfix:String):String"></a>
+      <a id="cleanStringWithPostfix(String,Int,String):String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">cleanStringWithPostfix</span><span class="params">(<span name="n">n: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="num">num: <span class="extype" name="scala.Int">Int</span></span>, <span name="postfix">postfix: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4>
+      
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -288,6 +301,21 @@ all files in a given directory.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.windows.WixHelper#getNameSpaceDefinitions" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getNameSpaceDefinitions(majorVersion:Int):com.typesafe.sbt.packager.windows.NamespaceDefinitions"></a>
+      <a id="getNameSpaceDefinitions(Int):NamespaceDefinitions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getNameSpaceDefinitions</span><span class="params">(<span name="majorVersion">majorVersion: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="NamespaceDefinitions.html" class="extype" name="com.typesafe.sbt.packager.windows.NamespaceDefinitions">NamespaceDefinitions</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Wix namespace changed from major version 3 to 4.</p><div class="fullcomment"><div class="comment cmt"><p>Wix namespace changed from major version 3 to 4.
+TODO: Not sure if schema of 2006 is compatible with major versions &lt; 3
+</p></div></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -341,15 +369,15 @@ all files in a given directory.
       </h4>
       <p class="shortcomment cmt">Takes a file and generates an ID for it.</p>
     </li><li name="com.typesafe.sbt.packager.windows.WixHelper#makeWixConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="makeWixConfig(name:String,product:com.typesafe.sbt.packager.windows.WindowsProductInfo,rest:scala.xml.Node):scala.xml.Node"></a>
-      <a id="makeWixConfig(String,WindowsProductInfo,Node):Node"></a>
+      <a id="makeWixConfig(name:String,product:com.typesafe.sbt.packager.windows.WindowsProductInfo,namespaceDefinitions:com.typesafe.sbt.packager.windows.NamespaceDefinitions,rest:scala.xml.Node):scala.xml.Node"></a>
+      <a id="makeWixConfig(String,WindowsProductInfo,NamespaceDefinitions,Node):Node"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">makeWixConfig</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="product">product: <a href="WindowsProductInfo.html" class="extype" name="com.typesafe.sbt.packager.windows.WindowsProductInfo">WindowsProductInfo</a></span>, <span name="rest">rest: <span class="extype" name="scala.xml.Node">Node</span></span>)</span><span class="result">: <span class="extype" name="scala.xml.Node">Node</span></span>
+        <span class="name">makeWixConfig</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="product">product: <a href="WindowsProductInfo.html" class="extype" name="com.typesafe.sbt.packager.windows.WindowsProductInfo">WindowsProductInfo</a></span>, <span name="namespaceDefinitions">namespaceDefinitions: <a href="NamespaceDefinitions.html" class="extype" name="com.typesafe.sbt.packager.windows.NamespaceDefinitions">NamespaceDefinitions</a></span>, <span name="rest">rest: <span class="extype" name="scala.xml.Node">Node</span></span>)</span><span class="result">: <span class="extype" name="scala.xml.Node">Node</span></span>
       </span>
       </h4>
       

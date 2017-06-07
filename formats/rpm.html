@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Rpm Plugin &mdash; sbt-native-packager 1.1.7-SNAPSHOT documentation</title>
+  <title>Rpm Plugin &mdash; sbt-native-packager 1.2.1-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.7-SNAPSHOT documentation" href="../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.2.1-SNAPSHOT documentation" href="../index.html"/>
         <link rel="up" title="Packaging Formats" href="index.html"/>
         <link rel="next" title="Docker Plugin" href="docker.html"/>
         <link rel="prev" title="Debian Plugin" href="debian.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1
+                1.2
               </div>
             
           
@@ -165,6 +165,8 @@
 <li class="toctree-l3"><a class="reference internal" href="debian.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debian.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -193,6 +195,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#jar-repackaging">Jar Repackaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -213,7 +216,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="docker.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docker.html#customize">Customize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-name-and-version">Docker Image Name and Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-base-image">Docker Base Image</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-repository">Docker Repository</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#docker-image-customization">Docker Image Customization</a></li>
@@ -261,6 +264,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#start-script-options">Start script options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#multiple-applications">Multiple Applications</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#multiple-start-scripts">Multiple start scripts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html">Application and runtime configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/customize.html#start-script-customizations">Start script customizations</a></li>
@@ -274,17 +282,34 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#default-mappings">Default Mappings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#service-managers">Service Managers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_server/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html">Application Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#systemloader-configuration">Systemloader Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_server/customize.html#example-configurations">Example Configurations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../archetypes/akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/systemloaders.html">Systemloaders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#general-settings">General Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemv">SystemV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#systemd">Systemd</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#upstart">Upstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/systemloaders.html#customization">Customization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#start-script-location">Start Script Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#customize-start-script">Customize Start Script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/systemloaders.html#override-start-script">Override Start Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
@@ -305,7 +330,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
@@ -363,6 +388,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -413,11 +443,10 @@
             
   <div class="section" id="rpm-plugin">
 <span id="id1"></span><h1>Rpm Plugin<a class="headerlink" href="#rpm-plugin" title="Permalink to this headline">¶</a></h1>
-<p>RedHat <code class="docutils literal"><span class="pre">rpm</span></code> files support a very advanced number of features.  To take full advantage of this environment,
-it&#8217;s best to understand how the <code class="docutils literal"><span class="pre">rpm</span></code> package system works.
-<a class="reference external" href="http://fedoraproject.org/wiki/How_to_create_an_RPM_package">http://fedoraproject.org/wiki/How_to_create_an_RPM_package</a> is a good tutorial, but it focuses on building
-packages from source.   The sbt-native-packager takes the approach that SBT has built your source and generated
-&#8216;binary&#8217; packages.</p>
+<p>RedHat <code class="docutils literal"><span class="pre">rpm</span></code> files support a number of very advanced features.  To take full advantage of this environment,
+it&#8217;s best to understand how the <code class="docutils literal"><span class="pre">rpm</span></code> package system works. <a class="reference external" href="http://fedoraproject.org/wiki/How_to_create_an_RPM_package">How to create an RPM package</a> on the fedorda project wiki
+is a good tutorial, but it focuses on building packages from <em>source.</em>  The sbt-native-packager assumes that SBT has built your source and generated
+<em>binary</em> packages.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The rpm plugin depends on the <a class="reference internal" href="linux.html#linux-plugin"><span>Linux Plugin</span></a>.</p>
@@ -500,7 +529,7 @@ tag in the spec file.
 Its default value is <code class="docutils literal"><span class="pre">&quot;noarch&quot;</span></code>.</dd>
 <dt><code class="docutils literal"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
 <dd>A brief, one-line summary of the package.
-Note, the summary <strong>must not</strong> contain line separators or end in a period.
+Note: the summary <strong>must not</strong> contain line separators or end in a period.
 Its value defines the <code class="docutils literal"><span class="pre">Summary:</span></code> tag in the spec file, and its default
 value is drawn from <code class="docutils literal"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</dd>
 <dt><code class="docutils literal"><span class="pre">packageDescription</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
@@ -559,7 +588,7 @@ Defines the <code class="docutils literal"><span class="pre">AutoProv:</span></c
 <blockquote>
 <div><dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
-<dd>Contains the scriptles being injected into the specs file. Currently supports all
+<dd>Contains the scriptlets being injected into the specs file. Currently supports all
 previous scriptlets: <code class="docutils literal"><span class="pre">%pretrans</span></code>, <code class="docutils literal"><span class="pre">%pre</span></code>, <code class="docutils literal"><span class="pre">%verifyscript%</span></code>, <code class="docutils literal"><span class="pre">%post</span></code>, <code class="docutils literal"><span class="pre">%posttrans</span></code>,
 <code class="docutils literal"><span class="pre">%preun</span></code> and  <code class="docutils literal"><span class="pre">%postun</span></code></dd>
 <dt><code class="docutils literal"><span class="pre">rpmBrpJavaRepackJars</span></code></dt>
@@ -579,7 +608,7 @@ previous scriptlets: <code class="docutils literal"><span class="pre">%pretrans<
 </div>
 <div class="section" id="tasks">
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
-<p>The Rpm support grants the following commands:</p>
+<p>The Rpm plugin support grants the following commands:</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">rpm:package-bin</span></code></dt>
@@ -607,8 +636,8 @@ archetype that can be relocated in the file system.</p>
 <div class="section" id="rpmchangelogfile">
 <h3>rpmChangelogFile<a class="headerlink" href="#rpmchangelogfile" title="Permalink to this headline">¶</a></h3>
 <p>The rpmChangelogFile property allows you to set a source that will be imported and used on the RPM generation.
-So if you use rpm commands to see the changelog it brings that information. You have to create the content on
-that file following the RPM conventions that are available here <a class="reference external" href="http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs">http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs</a>.</p>
+So if you use rpm commands to see the changelog it brings that information. You have to create the content in
+the changelog file using the RPM conventions that are available here <a class="reference external" href="http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs">http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs</a>.</p>
 <p>Example Settings:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">changelog</span> <span class="o">:=</span> <span class="s">&quot;changelog.txt&quot;</span>
 
@@ -626,8 +655,15 @@ that file following the RPM conventions that are available here <a class="refere
 </div>
 <div class="section" id="scriptlet-changes">
 <h3>Scriptlet Changes<a class="headerlink" href="#scriptlet-changes" title="Permalink to this headline">¶</a></h3>
-<p>Changing the scripts can be done in two ways. Override the <code class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code>.
-For example:</p>
+<p>Changing scriptlets can be done in two ways:</p>
+<ol class="arabic simple">
+<li>Override the <code class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code>, or</li>
+<li>Place new scripts in the <code class="docutils literal"><span class="pre">src/rpm/scriptlets</span></code></li>
+</ol>
+<p>To <strong>override the ``maintainerScripts in Rpm``</strong> you can override the command string explicitly,
+create a command string using appends and/or replacements,
+or even get a command string from a file source.</p>
+<p>For example:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// overriding</span>
 <span class="k">import</span> <span class="nn">RpmConstants._</span>
 <span class="n">maintainerScripts</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="nc">Map</span><span class="o">(</span>
@@ -655,7 +691,8 @@ For example:</p>
 </pre></div>
 </div>
 <p>The helper methods can be found in <a class="reference external" href="http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$">MaintainerScriptHelper Scaladocs</a>.</p>
-<p>You also can place new scripts in the <code class="docutils literal"><span class="pre">src/rpm/scriptlets</span></code> folder. For example:</p>
+<p>To <strong>place new scripts in the src/rpm/scriptlets folder</strong>  you simply put the commands into the appropriate scriptlet file.
+(The scriptlet file names can be found in the <a class="reference external" href="http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.rpm.RpmPlugin$$Names$">RPM Scaladocs</a>.)</p>
 <p><code class="docutils literal"><span class="pre">src/rpm/scriptlets/preinst</span></code></p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>...
 <span class="nb">echo</span> <span class="s2">&quot;PACKAGE_PREFIX=</span><span class="si">${</span><span class="nv">RPM_INSTALL_PREFIX</span><span class="si">}</span><span class="s2">&quot;</span> &gt; /etc/sysconfig/<span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span>
@@ -668,8 +705,7 @@ rm /etc/sysconfig/<span class="si">${</span><span class="p">{app_name</span><spa
 ...
 </pre></div>
 </div>
-<p>Using files will override all previous contents. The names used can be found in
-the <a class="reference external" href="http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.rpm.RpmPlugin$$Names$">RPM Scaladocs</a>.</p>
+<p>Using scriptlet files like this <em>will override all previous contents.</em></p>
 </div>
 <div class="section" id="scriptlet-migration-from-1-0-x">
 <h3>Scriptlet Migration from 1.0.x<a class="headerlink" href="#scriptlet-migration-from-1-0-x" title="Permalink to this headline">¶</a></h3>
@@ -697,18 +733,29 @@ the <a class="reference external" href="http://www.scala-sbt.org/sbt-native-pack
 </div>
 <div class="section" id="jar-repackaging">
 <h3>Jar Repackaging<a class="headerlink" href="#jar-repackaging" title="Permalink to this headline">¶</a></h3>
-<p>rpm repackages jars by default (described in this <a class="reference external" href="http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build">blog post</a>) in order to optimize jars.
-This behaviour is turned off by default with this setting.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">rpmBrpJavaRepackJars</span> <span class="o">:=</span> <span class="kc">false</span>
+<p>RPM repackages jars by default in order to optimize jars.
+Repacking is turned off by default. In order to enable it, set:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">rpmBrpJavaRepackJars</span> <span class="o">:=</span> <span class="kc">true</span>
 </pre></div>
 </div>
-<p>Note that this appends content to your <code class="docutils literal"><span class="pre">Pre</span></code> definition, so make sure not to override it.
+<p>Note that this <em>appends</em> content to your <code class="docutils literal"><span class="pre">Pre</span></code> definition, so make sure not to override it.
 For more information on this topic follow these links:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/195">issue #195</a></li>
 <li><a class="reference external" href="https://github.com/sbt/sbt-native-packager/pull/199">pullrequest #199</a></li>
 <li><a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/215">OpenSuse issue</a></li>
 </ul>
+</div>
+<div class="section" id="marking-config-files-as-noreplace">
+<h3>Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code><a class="headerlink" href="#marking-config-files-as-noreplace" title="Permalink to this headline">¶</a></h3>
+<p>By default, rpm replaces config files on disk when the content has changed between two version. Often, this is not desirable
+as configurations are often customized and should not change during updates. rpm provides a means to turn of the default behaviour
+by marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code> in the spec file. In order to enable this for the build, we provide a helper method that
+can be used to modify all config file mappings:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">:=</span> <span class="n">configWithNoReplace</span><span class="o">((</span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Rpm</span><span class="o">).</span><span class="n">value</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>This will mark all config files as <code class="docutils literal"><span class="pre">noreplace</span></code> and prevent them from being changed during updates. Please note that the <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> are scoped to the <code class="docutils literal"><span class="pre">Rpm</span></code> plugin. This is necessary in order to catch all config files relevant to the rpm package and mark them correctly.</p>
 </div>
 </div>
 </div>
@@ -754,7 +801,7 @@ For more information on this topic follow these links:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.1.7-SNAPSHOT',
+            VERSION:'1.2.1-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

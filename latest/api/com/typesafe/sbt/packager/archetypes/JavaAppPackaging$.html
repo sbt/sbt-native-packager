@@ -35,7 +35,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">JavaAppPackaging</span><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></span>
+        <span class="name">JavaAppPackaging</span><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
       </span>
       </h4>
       
@@ -47,7 +47,7 @@ The keys are defined in <a href="JavaAppKeys.html" class="extype" name="com.type
                <ol><li class="cmt"><p>Enable this plugin in your <code>build.sbt</code> with</p><pre>enablePlugins(JavaAppPackaging)</pre></li></ol>
             </div></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a>, <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span>, <span class="extype" name="sbt.PluginsFunctions">PluginsFunctions</span>, <span class="extype" name="sbt.Plugins.Basic">Basic</span>, <span class="extype" name="sbt.Plugins">Plugins</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="sbt.AutoPlugin">AutoPlugin</span>, <span class="extype" name="sbt.PluginsFunctions">PluginsFunctions</span>, <span class="extype" name="sbt.Plugins.Basic">Basic</span>, <span class="extype" name="sbt.Plugins">Plugins</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -65,7 +65,7 @@ The keys are defined in <a href="JavaAppKeys.html" class="extype" name="com.type
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging"><span>JavaAppPackaging</span></li><li class="in" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript"><span>JavaAppStartScript</span></li><li class="in" name="sbt.AutoPlugin"><span>AutoPlugin</span></li><li class="in" name="sbt.PluginsFunctions"><span>PluginsFunctions</span></li><li class="in" name="sbt.Plugins.Basic"><span>Basic</span></li><li class="in" name="sbt.Plugins"><span>Plugins</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging"><span>JavaAppPackaging</span></li><li class="in" name="sbt.AutoPlugin"><span>AutoPlugin</span></li><li class="in" name="sbt.PluginsFunctions"><span>PluginsFunctions</span></li><li class="in" name="sbt.Plugins.Basic"><span>Basic</span></li><li class="in" name="sbt.Plugins"><span>Plugins</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -182,35 +182,6 @@ The keys are defined in <a href="JavaAppKeys.html" class="extype" name="com.type
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PluginsFunctions</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging#appIniLocation" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="appIniLocation:String"></a>
-      <a id="appIniLocation:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">appIniLocation</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Location for the application.</p><div class="fullcomment"><div class="comment cmt"><p>Location for the application.ini file used by the bash script to load initialization parameters for jvm and app
-</p></div></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging#applicationIniTemplateSource" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="applicationIniTemplateSource:java.net.URL"></a>
-      <a id="applicationIniTemplateSource:URL"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">applicationIniTemplateSource</span><span class="result">: <span class="extype" name="java.net.URL">URL</span></span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Currently unused.</p><div class="fullcomment"><div class="comment cmt"><p>Currently unused.
-TODO figure out a proper way to ship default <code>application.ini</code> if necessary
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -237,20 +208,6 @@ TODO figure out a proper way to ship default <code>application.ini</code> if nec
       </span>
       </h4>
       
-    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging#bashTemplate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bashTemplate:String"></a>
-      <a id="bashTemplate:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">bashTemplate</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Name of the bash template if user wants to provide custom one
-</p>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging#batTemplate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="batTemplate:String"></a>
       <a id="batTemplate:String"></a>
@@ -434,58 +391,6 @@ TODO figure out a proper way to ship default <code>application.ini</code> if nec
       </h4>
       <p class="shortcomment cmt">Constructs a jar name from components.</p><div class="fullcomment"><div class="comment cmt"><p>Constructs a jar name from components...(ModuleID/Artifact)
 </p></div></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBatScript" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="makeUniversalBatScript(defaultTemplateLocation:sbt.File,replacements:Seq[(String,String)],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
-      <a id="makeUniversalBatScript(File,Seq[(String,String)],File,String,File):Option[File]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">makeUniversalBatScript</span><span class="params">(<span name="defaultTemplateLocation">defaultTemplateLocation: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBatScript" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="makeUniversalBatScript(batTemplate:String)(replacements:Seq[(String,String)],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
-      <a id="makeUniversalBatScript(String)(Seq[(String,String)],File,String,File):Option[File]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">makeUniversalBatScript</span><span class="params">(<span name="batTemplate">batTemplate: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBinScript" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="makeUniversalBinScript(bashTemplate:String)(defines:Seq[String],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
-      <a id="makeUniversalBinScript(String)(Seq[String],File,String,File):Option[File]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">makeUniversalBinScript</span><span class="params">(<span name="bashTemplate">bashTemplate: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="defines">defines: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript#makeUniversalBinScript" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="makeUniversalBinScript(defaultTemplateLocation:sbt.File,defines:Seq[String],tmpDir:sbt.File,name:String,sourceDir:sbt.File):Option[sbt.File]"></a>
-      <a id="makeUniversalBinScript(File,Seq[String],File,String,File):Option[File]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">makeUniversalBinScript</span><span class="params">(<span name="defaultTemplateLocation">defaultTemplateLocation: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="defines">defines: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceDir">sourceDir: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -552,15 +457,15 @@ TODO figure out a proper way to ship default <code>application.ini</code> if nec
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging#projectSettings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:sbt.Task[Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]]withsbt.Task[Seq[(String,String)]]withsbt.Task[Option[java.io.File]]withsbt.Task[java.io.File]withOption[String]withsbt.Task[Option[String]]withsbt.Task[Seq[(java.io.File,String)]]withsbt.Task[Seq[sbt.Attributed[java.io.File]]]withsbt.Task[Seq[String]]&lt;:ProductwithSerializable]]"></a>
-      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:Task[Seq[LinuxPackageMapping]]withTask[Seq[(String,String)]]withTask[Option[File]]withTask[File]withOption[String]withTask[Option[String]]withTask[Seq[(File,String)]]withTask[Seq[Attributed[File]]]withTask[Seq[String]]&lt;:ProductwithSerializable]]"></a>
+      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:sbt.Task[Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]]withsbt.Task[Seq[(java.io.File,String)]]withsbt.Task[Seq[sbt.Attributed[java.io.File]]]withsbt.Task[Seq[String]]&lt;:sbt.Task[_&gt;:Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]withSeq[(java.io.File,String)]withSeq[sbt.Attributed[java.io.File]]withSeq[String]&lt;:Seq[java.io.Serializable]]]]"></a>
+      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:Task[Seq[LinuxPackageMapping]]withTask[Seq[(File,String)]]withTask[Seq[Attributed[File]]]withTask[Seq[String]]&lt;:Task[_&gt;:Seq[LinuxPackageMapping]withSeq[(File,String)]withSeq[Attributed[File]]withSeq[String]&lt;:Seq[Serializable]]]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Init.Setting">sbt.Def.Setting</span>[_ &gt;: <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<a href="../linux/LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[(<span class="extype" name="java.lang.String">String</span>, <span class="extype" name="java.lang.String">String</span>)]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="java.io.File">File</span>] with <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.lang.String">String</span>] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.lang.String">String</span>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="java.lang.String">String</span>)]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Attributed">Attributed</span>[<span class="extype" name="java.io.File">File</span>]]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>]] &lt;: <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span>]]</span>
+        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Init.Setting">sbt.Def.Setting</span>[_ &gt;: <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<a href="../linux/LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="java.lang.String">String</span>)]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Attributed">Attributed</span>[<span class="extype" name="java.io.File">File</span>]]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>]] &lt;: <span class="extype" name="sbt.Task">Task</span>[_ &gt;: <span class="extype" name="scala.collection.Seq">Seq</span>[<a href="../linux/LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>] with <span class="extype" name="scala.collection.Seq">Seq</span>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="java.lang.String">String</span>)] with <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.Attributed">Attributed</span>[<span class="extype" name="java.io.File">File</span>]] with <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>] &lt;: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.io.Serializable">Serializable</span>]]]]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging">JavaAppPackaging</a> → AutoPlugin</dd></dl></div>
@@ -682,9 +587,7 @@ TODO figure out a proper way to ship default <code>application.ini</code> if nec
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">
-              <h3>Inherited from <a href="JavaAppStartScript.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppStartScript">JavaAppStartScript</a></h3>
-            </div><div class="parent" name="sbt.AutoPlugin">
+        <div class="parent" name="sbt.AutoPlugin">
               <h3>Inherited from <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></h3>
             </div><div class="parent" name="sbt.PluginsFunctions">
               <h3>Inherited from <span class="extype" name="sbt.PluginsFunctions">PluginsFunctions</span></h3>

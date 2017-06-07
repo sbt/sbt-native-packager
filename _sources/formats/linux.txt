@@ -3,7 +3,7 @@
 Linux Plugin
 ============
 
-The native packager plugin is designed so that linux packages look similar, but can contain distribution specific information.
+The native packager plugin is designed so that linux packages look similar but can contain distribution specific information.
 
 .. note:: The linux plugin depends on the :ref:`universal-plugin`.
 
@@ -46,7 +46,7 @@ you have these settings in your build:
       with multiple lines."""
 
 
-Enable the debian plugin to activate the native package implementation.
+Enable the linux plugin to activate the native package implementation.
 
 .. code-block:: scala
 
@@ -81,6 +81,10 @@ The required fields for any linux distribution are:
 
   ``linuxPackageMappings``
     A list of files and their desired installation locations for the package, as well as other metainformation.
+
+  ``fileDescriptorLimit``
+    Maximum number of open file descriptors for the spawned application. The default value is 1024.
+
 
 
 Customize
@@ -124,7 +128,7 @@ Let's look at each of the methods supported in the packageMapping 'library'.
 
   ``withConfig(value:String="true")``
     This denotes whether or not a ``%config`` attribute is attached to the given files in the generated rpm SPEC.  Any value other than ``"true"`` will be
-    placed inside the ``%config()` definition, for example ``withConfig("noreplace")`` results in ``%config(noreplace)`` attribute in the rpm spec.
+    placed inside the ``%config()`` definition.  For example ``withConfig("noreplace")`` results in ``%config(noreplace)`` attribute in the rpm spec.
 
   ``withUser(user:String)``
     This denotes which user should be the owner of the given files in the resulting package.
@@ -146,12 +150,12 @@ A ``LinuxPackageMapping`` contains the following fields:
     A list of mappings aggregated by this LinuxPackageMapping
 
   ``fileData: LinuxFileMetaData``
-    Permissions for all the defined mappings. Default to "root:root 755"
+    Permissions for all the defined mappings. Default = "root:root 755"
 
   ``zipped: Boolean``
-    Are the mappings zipped. Default to false
+    Are the mappings zipped? Default = false
 
-All mappings are stored in the task ``linuxPackageMappings`` which returns a ``Seq[LinuxPackageMapping]``. To display the contents
+All mappings are stored in the task ``linuxPackageMappings`` which returns a ``Seq[LinuxPackageMapping]``. To display the contents (value),
 open the sbt console and call
 
 .. code-block:: bash
@@ -162,19 +166,19 @@ open the sbt console and call
 The ``LinuxFileMetaData`` has the following fields
 
   ``user: String``
-    The user owning all the mappings. Default "root"
+    The user owning all the mappings. Default = "root"
 
   ``group: String``
-    The group owning all the mappings. Default "root"
+    The group owning all the mappings. Default = "root"
 
   ``permissions: String``
-    Access permissions for all the mappings. Default "755"
+    Access permissions for all the mappings. Default = "755"
 
   ``config: String``
-    Are the mappings config files. Default "false"
+    Are the mappings config files. Default = "false"
 
   ``docs: Boolean``
-    Are the mappings docs. Default to false
+    Are the mappings docs. Default = false
 
 Last but not least there are the ``linuxPackageSymlinks``, which encapsulate symlinks on your
 destination system. A ``LinuxSymlink`` contains only  two fields
@@ -196,8 +200,10 @@ You can see all currently configured symlinks with this simple command.
 Modifying Mappings in General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Adding, filtering and altering mappings are always simple methods on a sequence: ``Seq[LinuxPackageMapping]``.
-The basic construct for adding looks like this
+Adding, filtering and altering mappings are always simple methods on a ``Seq[LinuxPackageMapping]`` sequence.
+This section shows you the general way to add, modify, or filter mappings.  The following sections have specific examples.
+
+The basic construct for **adding** a mapping is
 
 .. code-block:: scala
 
@@ -207,8 +213,9 @@ The basic construct for adding looks like this
     // specialized
     linuxPackageMappings += packageMapping( (theFile, "/absolute/path/somefile.txt") ) withPerms("644") asDocs()
 
-If you want to filter or alter things. The example has a lot of things you can _possibly_ do. Just pick
-what you need. After this section there are smaller examples, showing how you can implement certain functions.
+To **filter** or **modify** a mapping, you generally create a new mapping by copying an existing one (or occasionally by creating a new blank one),
+then filter or modify it, and then return that filtered or modified mapping.  Here's an example that shows a number of things you can *possibly* do.  See the next section for specifc examples.
+(Basic scala collections operations are used in the code. `Here is an explanation of the filter method`_.)
 
 .. code-block:: scala
 
@@ -216,15 +223,18 @@ what you need. After this section there are smaller examples, showing how you ca
     linuxPackageMappings := {
         // mappings: Seq[LinuxPackageMapping]
         val mappings = linuxPackageMappings.value
+
         // this process will must return another Seq[LinuxPackageMapping]
         mappings map {  linuxPackage =>
-            // basic scala collections operations. Seq[(java.io.File, String)]
+
+            // each mapping element is a Seq[(java.io.File, String)]
             val filtered = linuxPackage.mappings map {
-                case (file, name) => file -> name // altering stuff here
+                case (file, name) => file -> name // alter stuff here
             } filter {
-                case (file, name) => true // remove stuff from mappings
+                case (file, name) => true // filter anything from the mapping where the case (file, name) => true  pattern is satisfied
             }
-            // case class copy method. Specify only what you need
+
+            // Copy values from the mapping: (Include only what you need)
             val fileData = linuxPackage.fileData.copy(
                 user = "new user",
                 group = "another group",
@@ -232,14 +242,14 @@ what you need. After this section there are smaller examples, showing how you ca
                 config = "false",
                 docs = false
             )
-            // case class copy method. Specify only what you need.
-            // returns a fresh LinuxPackageMapping
+
+            // returns a fresh LinuxPackageMapping based on the above
             linuxPackage.copy(
                 mappings = filtered,
                 fileData = fileData
             )
         } filter {
-            linuxPackage => linuxPackage.mappings.nonEmpty // remove stuff. Here all empty linuxPackageMappings
+            linuxPackage => linuxPackage.mappings.nonEmpty // return all mappings that are nonEmpty (this effectively removes all empty linuxPackageMappings)
         }
     }
 
@@ -250,6 +260,8 @@ what you need. After this section there are smaller examples, showing how you ca
     }
 
 The ordering in which you apply the tasks is important.
+
+.. _Here is an explanation of the filter method: https://twitter.github.io/scala_school/collections.html#filter
 
 Add Mappings
 ~~~~~~~~~~~~
@@ -263,7 +275,7 @@ To add an arbitrary file in your build path
       packageMapping( (file, "/absolute/path/somefile.txt") )
     }
 
-``linuxPackageMappings`` can be scoped to ``Rpm` or ``Debian`` if you want to add mappings only for a single packaging type.
+``linuxPackageMappings`` can be scoped to ``Rpm`` or ``Debian`` if you want to add mappings only for a single packaging type.
 
 .. code-block:: scala
 
@@ -281,7 +293,7 @@ To add an arbitrary file in your build path
 Filter/Remove Mappings
 ~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to remove some mappings you have to filter the current list of ``linuxPackageMappings``.
+If you want to remove some mappings you have to **filter** the current list of ``linuxPackageMappings``.
 As ``linuxPackageMappings`` is a task, the order of your settings is important. Here are some examples
 on how to filter mappings.
 
@@ -292,16 +304,20 @@ on how to filter mappings.
     linuxPackageMappings := {
         // first get the current mappings. mapping is of type Seq[LinuxPackageMapping]
         val mappings = linuxPackageMappings.value
+
         // map over the mappings if you want to change them
         mappings map { mapping =>
+
             // we remove everything besides files that end with ".conf"
             val filtered = mapping.mappings filter {
-                case (file, name) => name endsWith ".conf"
+                case (file, name) => name endsWith ".conf"  // only elements where this is true are kept
             }
+
             // now we copy the mapping but replace the mappings
             mapping.copy(mappings = filtered)
+
         } filter {
-            // remove all LinuxPackageMapping instances that have to file mappings
+            // only keep those mappings that are nonEmpty (_.mappings.nonEmpty == true)
             _.mappings.nonEmpty
         }
     }
@@ -309,7 +325,7 @@ on how to filter mappings.
 Alter LinuxPackageMapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-First we alter the permissions for all ``LinuxPackageMapping`` s that match a specific criteria.
+To alter the permissions for all ``LinuxPackageMapping`` s that match a specific criteria:
 
 .. code-block:: scala
 
@@ -334,7 +350,7 @@ First we alter the permissions for all ``LinuxPackageMapping`` s that match a sp
 Alter LinuxSymlinks
 ~~~~~~~~~~~~~~~~~~~
 
-First we alter the permissions for all ``LinuxPackageMapping`` s that match a specific criteria.
+To alter the permissions for all ``LinuxPackageMapping`` s that match a specific criteria:
 
 .. code-block:: scala
 

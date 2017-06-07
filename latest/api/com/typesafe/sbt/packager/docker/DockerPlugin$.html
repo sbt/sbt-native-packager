@@ -467,33 +467,33 @@ The separator doesn't depend on the OS where Dockerfile is being built.
         <span class="kind">lazy val</span>
       </span>
       <span class="symbol">
-        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.collection.Seq">Seq</span>[<a href="../../../../../sbt/package.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">Setting</a>[_]]</span>
+        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../../sbt/package.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">Setting</a>[_]]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.docker.DockerPlugin">DockerPlugin</a> → AutoPlugin</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerPlugin#publishDocker" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="publishDocker(tag:String,log:sbt.Logger):Unit"></a>
-      <a id="publishDocker(String,Logger):Unit"></a>
+      <a id="publishDocker(execCommand:Seq[String],tag:String,log:sbt.Logger):Unit"></a>
+      <a id="publishDocker(Seq[String],String,Logger):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">publishDocker</span><span class="params">(<span name="tag">tag: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="log">log: <span class="extype" name="sbt.Logger">Logger</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">publishDocker</span><span class="params">(<span name="execCommand">execCommand: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="tag">tag: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="log">log: <span class="extype" name="sbt.Logger">Logger</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       
     </li><li name="com.typesafe.sbt.packager.docker.DockerPlugin#publishLocalDocker" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="publishLocalDocker(context:java.io.File,tag:String,latest:Boolean,log:sbt.Logger):Unit"></a>
-      <a id="publishLocalDocker(File,String,Boolean,Logger):Unit"></a>
+      <a id="publishLocalDocker(context:java.io.File,buildCommand:Seq[String],log:sbt.Logger):Unit"></a>
+      <a id="publishLocalDocker(File,Seq[String],Logger):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">publishLocalDocker</span><span class="params">(<span name="context">context: <span class="extype" name="java.io.File">File</span></span>, <span name="tag">tag: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="latest">latest: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="log">log: <span class="extype" name="sbt.Logger">Logger</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">publishLocalDocker</span><span class="params">(<span name="context">context: <span class="extype" name="java.io.File">File</span></span>, <span name="buildCommand">buildCommand: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="log">log: <span class="extype" name="sbt.Logger">Logger</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       
@@ -510,6 +510,19 @@ The separator doesn't depend on the OS where Dockerfile is being built.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.docker.DockerPlugin">DockerPlugin</a> → AutoPlugin</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerPlugin#rmiDocker" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rmiDocker(execCommand:Seq[String],tag:String,log:sbt.Logger):Unit"></a>
+      <a id="rmiDocker(Seq[String],String,Logger):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rmiDocker</span><span class="params">(<span name="execCommand">execCommand: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="tag">tag: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="log">log: <span class="extype" name="sbt.Logger">Logger</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

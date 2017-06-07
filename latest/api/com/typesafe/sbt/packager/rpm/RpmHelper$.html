@@ -163,8 +163,8 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.rpm.RpmHelper#buildRpm" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="buildRpm(spec:com.typesafe.sbt.packager.rpm.RpmSpec,workArea:sbt.File,log:sbt.Logger):sbt.File"></a>
+    </li><li name="com.typesafe.sbt.packager.rpm.RpmHelper#buildRpm" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="buildRpm(spec:com.typesafe.sbt.packager.rpm.RpmSpec,stagingArea:sbt.File,log:sbt.Logger):sbt.File"></a>
       <a id="buildRpm(RpmSpec,File,Logger):File"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -172,10 +172,13 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">buildRpm</span><span class="params">(<span name="spec">spec: <a href="RpmSpec.html" class="extype" name="com.typesafe.sbt.packager.rpm.RpmSpec">RpmSpec</a></span>, <span name="workArea">workArea: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="log">log: <span class="extype" name="sbt.Logger">Logger</span></span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
+        <span class="name">buildRpm</span><span class="params">(<span name="spec">spec: <a href="RpmSpec.html" class="extype" name="com.typesafe.sbt.packager.rpm.RpmSpec">RpmSpec</a></span>, <span name="stagingArea">stagingArea: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="log">log: <span class="extype" name="sbt.Logger">Logger</span></span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Build the rpm package
+</p><div class="fullcomment"><div class="comment cmt"><p>Build the rpm package
+</p></div><dl class="paramcmts block"><dt class="param">spec</dt><dd class="cmt"><p>The RpmSpec</p></dd><dt class="param">stagingArea</dt><dd class="cmt"><p>Prepared staging area</p></dd><dt class="param">log</dt><dd class="cmt"><p>Logger</p></dd><dt>returns</dt><dd class="cmt"><p>The rpm package
+</p></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -344,6 +347,21 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.rpm.RpmHelper#stage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="stage(spec:com.typesafe.sbt.packager.rpm.RpmSpec,workArea:sbt.File,log:sbt.Logger):sbt.File"></a>
+      <a id="stage(RpmSpec,File,Logger):File"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stage</span><span class="params">(<span name="spec">spec: <a href="RpmSpec.html" class="extype" name="com.typesafe.sbt.packager.rpm.RpmSpec">RpmSpec</a></span>, <span name="workArea">workArea: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>, <span name="log">log: <span class="extype" name="sbt.Logger">Logger</span></span>)</span><span class="result">: <a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Prepares the staging directory for the rpm build command.</p><div class="fullcomment"><div class="comment cmt"><p>Prepares the staging directory for the rpm build command.
+</p></div><dl class="paramcmts block"><dt class="param">spec</dt><dd class="cmt"><p>The RpmSpec</p></dd><dt class="param">workArea</dt><dd class="cmt"><p>The target</p></dd><dt class="param">log</dt><dd class="cmt"><p>Logger</p></dd><dt>returns</dt><dd class="cmt"><p>the <code>workArea</code>
+</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

@@ -250,19 +250,6 @@
       </span>
       </h4>
       
-    </li><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianExplodedPackage" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="debianExplodedPackage:sbt.TaskKey[sbt.File]"></a>
-      <a id="debianExplodedPackage:TaskKey[File]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">debianExplodedPackage</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
-      </span>
-      </h4>
-      
     </li><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianLinksfile" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="debianLinksfile:sbt.TaskKey[sbt.File]"></a>
       <a id="debianLinksfile:TaskKey[File]"></a>
@@ -315,6 +302,19 @@
       </span>
       </h4>
       
+    </li><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianPackageConflicts" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="debianPackageConflicts:sbt.SettingKey[Seq[String]]"></a>
+      <a id="debianPackageConflicts:SettingKey[Seq[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">debianPackageConflicts</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4>
+      
     </li><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianPackageDependencies" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="debianPackageDependencies:sbt.SettingKey[Seq[String]]"></a>
       <a id="debianPackageDependencies:SettingKey[Seq[String]]"></a>
@@ -364,6 +364,19 @@
       </span>
       <span class="symbol">
         <span class="name">debianPackageMetadata</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<a href="PackageMetaData.html" class="extype" name="com.typesafe.sbt.packager.debian.PackageMetaData">PackageMetaData</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianPackageProvides" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="debianPackageProvides:sbt.SettingKey[Seq[String]]"></a>
+      <a id="debianPackageProvides:SettingKey[Seq[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">debianPackageProvides</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       </h4>
       
@@ -697,7 +710,23 @@
 
         <div id="values" class="values members">
               <h3>Deprecated Value Members</h3>
-              <ol><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianMaintainerScripts" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+              <ol><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianExplodedPackage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="debianExplodedPackage:sbt.TaskKey[sbt.File]"></a>
+      <a id="debianExplodedPackage:TaskKey[File]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 1.2.0) Use debian:stage instead">debianExplodedPackage</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<a href="../../../../../sbt/package.html#File=java.io.File" class="extmbr" name="sbt.File">File</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 1.2.0)</i> Use debian:stage instead</p></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.debian.DebianKeys#debianMaintainerScripts" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="debianMaintainerScripts:sbt.TaskKey[Seq[(sbt.File,String)]]"></a>
       <a id="debianMaintainerScripts:TaskKey[Seq[(File,String)]]"></a>
       <h4 class="signature">

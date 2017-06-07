@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Java Server Application Archetype &mdash; sbt-native-packager 1.1.7-SNAPSHOT documentation</title>
+  <title>Java Server Application Archetype &mdash; sbt-native-packager 1.2.1-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.1.7-SNAPSHOT documentation" href="../../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.2.1-SNAPSHOT documentation" href="../../index.html"/>
         <link rel="up" title="Project Archetypes" href="../index.html"/>
         <link rel="next" title="Application Configuration" href="customize.html"/>
         <link rel="prev" title="Application and runtime configuration" href="../java_app/customize.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1
+                1.2
               </div>
             
           
@@ -165,6 +165,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../formats/debian.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/debian.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -193,6 +195,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#jar-repackaging">Jar Repackaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -213,7 +216,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/docker.html#tasks">Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/docker.html#customize">Customize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#docker-image-name">Docker Image Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#docker-image-name-and-version">Docker Image Name and Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#docker-base-image">Docker Base Image</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#docker-repository">Docker Repository</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#docker-image-customization">Docker Image Customization</a></li>
@@ -261,6 +264,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../java_app/index.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../java_app/index.html#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../java_app/index.html#start-script-options">Start script options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../java_app/index.html#multiple-applications">Multiple Applications</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../java_app/index.html#multiple-start-scripts">Multiple start scripts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../java_app/index.html#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../java_app/index.html#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../java_app/customize.html">Application and runtime configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../java_app/customize.html#start-script-customizations">Start script customizations</a></li>
@@ -274,17 +282,34 @@
 <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#settings-tasks">Settings &amp; Tasks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#default-mappings">Default Mappings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#service-managers">Service Managers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#customize">Customize</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="customize.html">Application Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="customize.html#systemloader-configuration">Systemloader Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="customize.html#example-configurations">Example Configurations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../akka_app.html">Akka App [DEPRECATED]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../systemloaders.html">Systemloaders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#general-settings">General Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#systemv">SystemV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#systemd">Systemd</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#upstart">Upstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../systemloaders.html#customization">Customization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#start-script-location">Start Script Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#customize-start-script">Customize Start Script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../systemloaders.html#override-start-script">Override Start Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
@@ -305,7 +330,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#service-manager">Service Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
@@ -361,6 +386,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-sub-modules">SBT sub modules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-parameters-and-build-environment">SBT parameters and Build Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../recipes/embedded-jvm.html">Embedding JVM in Universal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#adding-the-jvm">Adding the JVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -425,11 +455,11 @@ managers.</p>
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <p>The <em>JavaServerAppPackaging</em> archetype depends on the <a class="reference internal" href="../java_app/index.html#java-app-plugin"><span>Java Application Archetype</span></a> and adds the following features</p>
 <ul class="simple">
-<li>install/uninstall services</li>
+<li>daemon user/group support</li>
 <li>default mappings for server applications
 * <code class="docutils literal"><span class="pre">/var/log/&lt;pkg&gt;</span></code> is symlinked from <code class="docutils literal"><span class="pre">&lt;install&gt;/logs</span></code>
 * <code class="docutils literal"><span class="pre">/var/run/&lt;pkg&gt;</span></code> owned by <code class="docutils literal"><span class="pre">daemonUser</span></code></li>
-<li>Creates a start script in for the configured system loader (SystemV, Upstart or SystemD)</li>
+<li><code class="docutils literal"><span class="pre">etc-default</span></code> support</li>
 </ul>
 </div>
 <div class="section" id="usage">
@@ -438,6 +468,10 @@ managers.</p>
 </pre></div>
 </div>
 <p>Everything else works the same way as the <a class="reference internal" href="../java_app/index.html#java-app-plugin"><span>Java Application Archetype</span></a>.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">If you want your application to be registered as a service enable a <a class="reference internal" href="../systemloaders.html#systemloaders"><span>Systemloaders</span></a> plugin.</p>
+</div>
 </div>
 <div class="section" id="settings-tasks">
 <h2>Settings &amp; Tasks<a class="headerlink" href="#settings-tasks" title="Permalink to this headline">¶</a></h2>
@@ -450,21 +484,11 @@ have sensible defaults.</p>
 <dt><code class="docutils literal"><span class="pre">daemonUserUid</span></code></dt>
 <dd>UID of daemonUser</dd>
 <dt><code class="docutils literal"><span class="pre">daemonGroup</span></code></dt>
-<dd>Creates or discovers the bat script used by this project.</dd>
+<dd>Group to place daemonUser to</dd>
 <dt><code class="docutils literal"><span class="pre">daemonGroupGid</span></code></dt>
 <dd>GID of daemonGroup</dd>
 <dt><code class="docutils literal"><span class="pre">daemonShell</span></code></dt>
 <dd>Shell provided for the daemon user</dd>
-<dt><code class="docutils literal"><span class="pre">serverLoading</span></code></dt>
-<dd>Loading system to be used for application start script (SystemV, Upstart, Systemd)</dd>
-<dt><code class="docutils literal"><span class="pre">startRunlevels</span></code></dt>
-<dd>Sequence of runlevels on which application will start up</dd>
-<dt><code class="docutils literal"><span class="pre">stopRunlevels</span></code></dt>
-<dd>Sequence of runlevels on which application will stop</dd>
-<dt><code class="docutils literal"><span class="pre">requiredStartFacilities</span></code></dt>
-<dd>Names of system services that should be provided at application start</dd>
-<dt><code class="docutils literal"><span class="pre">requiredStopFacilities</span></code></dt>
-<dd>Names of system services that should be provided at application stop</dd>
 <dt><code class="docutils literal"><span class="pre">daemonStdoutLogFile</span></code></dt>
 <dd>Filename stdout/stderr of application daemon. Now it&#8217;s supported only in SystemV</dd>
 </dl>
@@ -521,37 +545,12 @@ this <a class="reference external" href="https://github.com/sbt/sbt-native-packa
 <p>If you want to change something in this predefined structure read more about it in
 the <a class="reference internal" href="../../formats/linux.html"><em>linux section</em></a>.</p>
 </div>
-<div class="section" id="service-managers">
-<h2>Service Managers<a class="headerlink" href="#service-managers" title="Permalink to this headline">¶</a></h2>
-<p>Platforms are tied to both package managers (Rpm, Debian) and Service Managers (System V, Upstart, SystemD). By
-default the native packager will configure a service manager to run the daemon process. The default configurations are:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="43%" />
-<col width="57%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Package Format</th>
-<th class="head">Service Manager</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>Debian</td>
-<td>Upstart (Default)</td>
-</tr>
-<tr class="row-odd"><td>Rpm</td>
-<td>SystemV (Default)</td>
-</tr>
-</tbody>
-</table>
-<p>See the <a class="reference internal" href="#server-app-customize"><span>Customize</span></a> section on how to change these.</p>
-</div>
 <div class="section" id="customize">
 <span id="server-app-customize"></span><h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="customize.html">Application Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="customize.html#service-manager-configuration">Service Manager Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize.html#systemloader-configuration">Systemloader Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customize.html#package-lifecycle-configuration">Package Lifecycle Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customize.html#example-configurations">Example Configurations</a></li>
 </ul>
@@ -600,7 +599,7 @@ default the native packager will configure a service manager to run the daemon p
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.1.7-SNAPSHOT',
+            VERSION:'1.2.1-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
