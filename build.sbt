@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "3.5.13" % "provided",
   "org.vafer" % "jdeb" % "1.3" % "provided" artifacts (Artifact("jdeb", "jar", "jar")),
-  "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.3" % "test"
 )
 
 // configure github page
