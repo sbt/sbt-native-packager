@@ -13,13 +13,13 @@ packageDescription := """A fun package description of our software,
 
 debianPackageConflicts in Debian := Seq("debian-test-package")
 
-TaskKey[Unit]("check-conflicts") <<= (target, streams) map { (target, out) =>
-  val extracted = target / "extracted"
-  Seq("dpkg-deb", "-R", (target / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+TaskKey[Unit]("check-conflicts") := {
+  val extracted = target.value / "extracted"
+  Seq("dpkg-deb", "-R", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
 
   val control = IO.read(extracted / "DEBIAN" / "control")
   assert(control.contains("Conflicts:"))
 
-  out.log.success("Successfully tested systemV control files")
+  streams.value.log.success("Successfully tested systemV control files")
   ()
 }

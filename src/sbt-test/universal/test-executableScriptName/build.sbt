@@ -6,7 +6,7 @@ executableScriptName := "simple-exec"
 
 version := "0.1.0"
 
-TaskKey[Unit]("unzip") <<= (packageBin in Universal, streams) map { (zipFile, streams) =>
-  val args = Seq(zipFile.getAbsolutePath)
-  Process("unzip", args) ! streams.log
+TaskKey[Unit]("unzip") := {
+  val args = Seq((packageBin in Universal).value.getAbsolutePath)
+  Process("unzip", args) ! streams.value.log
 }

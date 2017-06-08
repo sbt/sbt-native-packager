@@ -33,10 +33,11 @@ batScriptExtraDefines += "exit /B"
 
 batScriptExtraDefines += ":print_args_end"
 
-TaskKey[Unit]("check-script") <<= (stagingDirectory in Universal, name, streams) map { (dir, name, streams) =>
+TaskKey[Unit]("check-script") := {
+  val dir = (stagingDirectory in Universal).value
   import scala.sys.process._
   val fails = new StringBuilder()
-  val script = dir / "bin" / (name + ".bat")
+  val script = dir / "bin" / (name.value + ".bat")
   val detailScript: File = {
     val d = dir / "bin" / "detail.bat"
     val out = new java.io.PrintWriter(d, "UTF-8")

@@ -29,7 +29,7 @@ object SettingsHelper {
                              packageTask: TaskKey[File],
                              extension: String,
                              classifier: Option[String] = None): Seq[Setting[_]] =
-    inConfig(config)(Classpaths.publishSettings) ++ inConfig(config)(
+    inConfig(config)(Classpaths.ivyPublishSettings ++ Classpaths.jvmPublishSettings) ++ inConfig(config)(
       Seq(
         artifacts := Seq.empty,
         packagedArtifacts := Map.empty,

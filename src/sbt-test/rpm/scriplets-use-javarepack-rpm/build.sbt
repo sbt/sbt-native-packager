@@ -22,9 +22,9 @@ rpmLicense := Some("BSD")
 
 rpmBrpJavaRepackJars := true
 
-TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test-with-repack.spec")
+TaskKey[Unit]("check-spec-file") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test-with-repack.spec")
   assert(!spec.contains("""%define __jar_repack %nil"""), "%pre should not contain jar repack when set to true")
-  out.log.success("Successfully tested rpm test file")
+  streams.value.log.success("Successfully tested rpm test file")
   ()
 }

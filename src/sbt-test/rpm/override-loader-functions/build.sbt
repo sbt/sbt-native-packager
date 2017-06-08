@@ -23,8 +23,8 @@ rpmLicense := Some("BSD")
 
 rpmGroup := Some("test-group")
 
-TaskKey[Unit]("check-loader-script") <<= (target, streams) map { (target, out) =>
-  val path = target / "rpm" / "RPMS" / "noarch" / "rpm-test-0.1.0-1.noarch.rpm"
+TaskKey[Unit]("check-loader-script") := {
+  val path = target.value / "rpm" / "RPMS" / "noarch" / "rpm-test-0.1.0-1.noarch.rpm"
   val scripts = s"rpm -qp --scripts ${path.absolutePath}".!!
 
   assert(scripts.contains("# right systemd template"), s"override script wasn't picked, scripts are\n$scripts")

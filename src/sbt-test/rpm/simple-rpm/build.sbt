@@ -33,8 +33,8 @@ linuxPackageSymlinks in Rpm := Seq(LinuxSymlink("/etc/link1", "destination1"), L
 
 defaultLinuxInstallLocation in Rpm := "/opt/foo"
 
-TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+TaskKey[Unit]("checkSpecFile") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(spec contains "Name: rpm-test", "Contains project name")
   assert(spec contains "Version: 0.1.0", "Contains project version")
   assert(spec contains "Release: 1", "Contains project release")
@@ -68,6 +68,6 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
     "Contains package symlink link (2)"
   )
 
-  out.log.success("Successfully tested rpm test file")
+  streams.value.log.success("Successfully tested rpm test file")
   ()
 }

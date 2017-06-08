@@ -18,8 +18,8 @@ jdkPackagerType := "image"
 
 mappings in Universal += baseDirectory.value / "src" / "deploy" / "README.md" -> "README.md"
 
-mappings in Universal <++= (baseDirectory) map { base ⇒
-  val dir = base / "src" / "deploy" / "stuff"
+mappings in Universal ++= {
+  val dir = baseDirectory.value / "src" / "deploy" / "stuff"
   (dir.*** --- dir) pair relativeTo(dir.getParentFile)
 }
 
@@ -32,13 +32,13 @@ lazy val iconGlob = sys.props("os.name").toLowerCase match {
 jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob).getPaths.headOption
   .map(file)
 
-TaskKey[Unit]("checkImage") <<= (target in JDKPackager, name, streams) map { (base, name, streams) ⇒
+TaskKey[Unit]("checkImage") := {
   val (extension, os) = sys.props("os.name").toLowerCase match {
     case osys if osys.contains("mac") ⇒ (".app", 'mac)
     case osys if osys.contains("win") ⇒ (".exe", 'windows)
     case _ ⇒ ("", 'linux)
   }
-  val expectedImage = base / "bundles" / (name + extension)
+  val expectedImage = (target in JDKPackager).value / "bundles" / (name.value + extension)
   println(s"Checking for '${expectedImage.getAbsolutePath}'")
   assert(expectedImage.exists, s"Expected image file to be found at '$expectedImage'")
 
@@ -50,7 +50,7 @@ TaskKey[Unit]("checkImage") <<= (target in JDKPackager, name, streams) map { (ba
         expectedImage / "Contents" / "Java" / "stuff" / "something-2.md"
       )
     case _ ⇒
-      streams.log.warn("Test needs to be implemented for " + sys.props("os.name"))
+      streams.value.log.warn("Test needs to be implemented for " + sys.props("os.name"))
       Seq.empty
   }
 

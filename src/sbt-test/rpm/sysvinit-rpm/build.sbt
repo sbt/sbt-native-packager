@@ -16,16 +16,16 @@ rpmDaemonLogFile := "test.log"
 
 mainClass in (Compile, run) := Some("com.example.MainApp")
 
-TaskKey[Unit]("unzipAndCheck") <<= (baseDirectory, packageBin in Rpm, streams) map { (baseDir, rpmFile, streams) =>
-  val rpmPath = Seq(rpmFile.getAbsolutePath)
-  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.log
-  val scriptlets = Process("rpm -qp --scripts " + rpmFile.getAbsolutePath) !! streams.log
+TaskKey[Unit]("unzipAndCheck") := {
+  val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
+  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.value.log
+  val scriptlets = Process("rpm -qp --scripts " + (packageBin in Rpm).value.getAbsolutePath) !! streams.value.log
   assert(scriptlets contains "addGroup rpm-test", "addGroup not present in \n" + scriptlets)
   assert(scriptlets contains "addUser rpm-test", "Incorrect useradd command in \n" + scriptlets)
   assert(scriptlets contains "deleteGroup rpm-test", "deleteGroup not present in \n" + scriptlets)
   assert(scriptlets contains "deleteUser rpm-test", "deleteUser rpm not present in \n" + scriptlets)
 
-  val startupScript = IO.read(baseDir / "etc" / "init.d" / "rpm-test")
+  val startupScript = IO.read(baseDirectory.value / "etc" / "init.d" / "rpm-test")
   assert(
     startupScript contains
       """
@@ -44,8 +44,8 @@ TaskKey[Unit]("unzipAndCheck") <<= (baseDirectory, packageBin in Rpm, streams) m
   ()
 }
 
-TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+TaskKey[Unit]("check-spec-file") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(spec contains "addGroup rpm-test", "addGroup not present in \n" + spec)
   assert(spec contains "addUser rpm-test", "Incorrect useradd command in \n" + spec)
   assert(spec contains "deleteGroup rpm-test", "deleteGroup not present in \n" + spec)
@@ -144,8 +144,8 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
   ()
 }
 
-TaskKey[Unit]("check-spec-autostart") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+TaskKey[Unit]("check-spec-autostart") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(
     spec contains
       """

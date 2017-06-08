@@ -23,13 +23,13 @@ packageArchitecture in Rpm := "x86_64"
 
 linuxPackageMappings := configWithNoReplace(linuxPackageMappings.value)
 
-TaskKey[Unit]("unzip") <<= (packageBin in Rpm, streams) map { (rpmFile, streams) =>
-  val rpmPath = Seq(rpmFile.getAbsolutePath)
-  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.log
+TaskKey[Unit]("unzip") := {
+  val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
+  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.value.log
 }
 
-TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+TaskKey[Unit]("checkSpecFile") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
 
   assert(
     spec contains
@@ -43,6 +43,6 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
     "Sets custom config to 'noreplace'"
   )
 
-  out.log.success("Successfully tested rpm test file")
+  streams.value.log.success("Successfully tested rpm test file")
   ()
 }

@@ -24,9 +24,7 @@ git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 
 // scripted test settings
 scriptedSettings
-scriptedLaunchOpts <+= version apply { v =>
-  "-Dproject.version=" + v
-}
+scriptedLaunchOpts += "-Dproject.version=" + version.value
 
 // Release configuration
 releasePublishArtifactsAction := PgpKeys.publishSigned.value

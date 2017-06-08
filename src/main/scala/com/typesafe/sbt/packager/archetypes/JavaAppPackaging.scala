@@ -120,8 +120,9 @@ object JavaAppPackaging extends AutoPlugin {
     }
 
   private def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[File]]]] =
-    (buildDependencies, thisProjectRef, state).apply { (build, thisProject, stateTask) =>
-      val refs = thisProject +: dependencyProjectRefs(build, thisProject)
+    Def.task {
+      val stateTask = state.taskValue
+      val refs = thisProjectRef.value +: dependencyProjectRefs(buildDependencies.value, thisProjectRef.value)
       // Dynamic lookup of dependencies...
       val artTasks = refs map { ref =>
         extractArtifacts(stateTask, ref)
@@ -134,7 +135,7 @@ object JavaAppPackaging extends AutoPlugin {
           } yield p ++ n.filter(isRuntimeArtifact)
         }
       allArtifactsTask
-    }
+    }.flatMap(identity)
 
   private def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[File]]] =
     stateTask.flatMap { state =>

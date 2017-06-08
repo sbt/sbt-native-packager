@@ -29,8 +29,8 @@ maintainerScripts in Rpm := Map(
   Postun -> Seq("""echo "post-uninstall"""")
 )
 
-TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+TaskKey[Unit]("check-spec-file") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(spec contains "%pre\necho \"pre-install\"", "Spec doesn't contain %pre scriptlet")
   assert(spec contains "%post\necho \"post-install\"", "Spec doesn't contain %post scriptlet")
   assert(spec contains "%pretrans\necho \"pretrans\"", "Spec doesn't contain %pretrans scriptlet")
@@ -45,6 +45,6 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
   )
   assert(!(spec contains "groupdel rpm-test"), "Groupdel should be overridden \n" + spec)
   assert(!(spec contains "userdel rpm-test"), "Userdel should be overridden in \n" + spec)
-  out.log.success("Successfully tested rpm test file")
+  streams.value.log.success("Successfully tested rpm test file")
   ()
 }

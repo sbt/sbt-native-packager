@@ -23,22 +23,22 @@ termTimeout in Debian := 10
 
 killTimeout in Debian := 20
 
-TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =>
+TaskKey[Unit]("check-control-files") := {
   val header = "#!/bin/sh"
-  val debian = target / "debian-test-0.1.0" / "DEBIAN"
+  val debian = target.value / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
   val postrm = IO.read(debian / "postrm")
   Seq(postinst, postrm) foreach { script =>
     assert(script.startsWith(header), "script doesn't start with #!/bin/sh header:\n" + script)
     assert(header.r.findAllIn(script).length == 1, "script contains more than one header line:\n" + script)
   }
-  out.log.success("Successfully tested systemV control files")
+  streams.value.log.success("Successfully tested systemV control files")
   ()
 }
 
-TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) =>
+TaskKey[Unit]("check-startup-script") := {
   val script =
-    IO.read(target / "debian-test-0.1.0" / "etc" / "init.d" / "debian-test")
+    IO.read(target.value / "debian-test-0.1.0" / "etc" / "init.d" / "debian-test")
   assert(script.contains("# Default-Start: 2 3 4 5"), "script doesn't contain Default-Start header\n" + script)
   assert(script.contains("# Default-Stop: 0 1 6"), "script doesn't contain Default-Stop header\n" + script)
   assert(
@@ -50,6 +50,6 @@ TaskKey[Unit]("check-startup-script") <<= (target, streams) map { (target, out) 
     "script doesn't contain Required-Stop header\n" + script
   )
   assert(script.contains("--retry=TERM/10/KILL/20"), "script doesn't contains stop timeouts\n" + script)
-  out.log.success("Successfully tested systemV start up script")
+  streams.value.log.success("Successfully tested systemV start up script")
   ()
 }

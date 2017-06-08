@@ -13,8 +13,8 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =>
-  val debian = target / "debian-test-0.1.0" / "DEBIAN"
+TaskKey[Unit]("check-control-files") := {
+  val debian = target.value / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
   val postrm = IO.read(debian / "postrm")
   assert(postinst contains """addGroup daemongroup """"", "postinst misses addgroup for daemongroup: " + postinst)
@@ -40,6 +40,6 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
     !(postinst contains "chown daemonuser:daemongroup /usr/share/debian-test"),
     "postinst contains chown /usr/share/app_name:  \n" + postinst
   )
-  out.log.success("Successfully tested upstart control files")
+  streams.value.log.success("Successfully tested upstart control files")
   ()
 }
