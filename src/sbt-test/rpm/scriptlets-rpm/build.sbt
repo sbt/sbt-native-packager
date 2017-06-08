@@ -30,8 +30,8 @@ maintainerScripts in Rpm := Map(
   Postun -> Seq("""echo "post-uninstall"""")
 )
 
-TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+TaskKey[Unit]("check-spec-file") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(spec contains "%pre\necho \"pre-install\"", "Spec doesn't contain %pre scriptlet")
   assert(spec contains "%post\necho \"post-install\"", "Spec doesn't contain %post scriptlet")
   assert(
@@ -81,15 +81,15 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
       |""".stripMargin,
     "%postun scriptlet does not contain relocate link"
   )
-  out.log.success("Successfully tested rpm test file")
+  streams.value.log.success("Successfully tested rpm test file")
   ()
 }
 
-TaskKey[Unit]("check-rpm-version") <<= (target, streams) map { (target, out) =>
+TaskKey[Unit]("check-rpm-version") := {
   val fullRpmVersion = Process("rpm", Seq("--version")) !!
   val firstDigit = fullRpmVersion indexWhere Character.isDigit
   val rpmVersion = fullRpmVersion substring firstDigit
-  out.log.info("Found rpmVersion: " + rpmVersion)
+  streams.value.log.info("Found rpmVersion: " + rpmVersion)
   val (major, minor, patch) = rpmVersion.trim.split("\\.").map(_.toInt) match {
     case Array(major) => (major, 0, 0)
     case Array(major, minor) => (major, minor, 0)

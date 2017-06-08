@@ -6,7 +6,8 @@ version := "0.1.0"
 
 mainClass in Compile := Some("Main")
 
-TaskKey[Unit]("check-app-main") <<= (packageBin in Universal, streams) map { (zipFile, streams) =>
+TaskKey[Unit]("check-app-main") := {
+  val zipFile = (packageBin in Universal).value
   val process =
     sbt.Process("target/universal/stage/bin/test-custom-main.bat")
   val out = (process !!)
@@ -14,7 +15,8 @@ TaskKey[Unit]("check-app-main") <<= (packageBin in Universal, streams) map { (zi
   ()
 }
 
-TaskKey[Unit]("check-custom-main") <<= (packageBin in Universal, streams) map { (zipFile, streams) =>
+TaskKey[Unit]("check-custom-main") := {
+  val zipFile = (packageBin in Universal).value
   val process =
     sbt.Process("target/universal/stage/bin/test-custom-main.bat", Seq("-main", "CustomMain"))
   val out = (process !!)

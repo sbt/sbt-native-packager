@@ -16,23 +16,23 @@ rpmGroup := Some("test-group")
 
 requiredStartFacilities in Rpm := Some("serviceA.service")
 
-TaskKey[Unit]("unzip") <<= (packageBin in Rpm, streams) map { (rpmFile, streams) =>
-  val rpmPath = Seq(rpmFile.getAbsolutePath)
-  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.log
+TaskKey[Unit]("unzip") := {
+  val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
+  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.value.log
   ()
 }
 
-TaskKey[Unit]("checkStartupScript") <<= (target, streams) map { (target, out) =>
+TaskKey[Unit]("checkStartupScript") := {
   val script = IO.read(file("usr/lib/systemd/system/rpm-test.service"))
   val runScript = file("usr/share/rpm-test/bin/rpm-test")
   assert(script.contains("Requires=serviceA.service"), "script doesn't contain Default-Start header\n" + script)
   assert(script.contains("SuccessExitStatus="), "script doesn't contain SuccessExitStatus header\n" + script)
-  out.log.success("Successfully tested systemd start up script")
+  streams.value.log.success("Successfully tested systemd start up script")
   ()
 }
 
-TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+TaskKey[Unit]("checkSpecFile") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   println(spec)
   assert(
     spec contains
@@ -110,12 +110,12 @@ TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>
     "rpm restartService() scriptlet is missing or incorrect"
   )
 
-  out.log.success("Successfully tested rpm test file")
+  streams.value.log.success("Successfully tested rpm test file")
   ()
 }
 
-TaskKey[Unit]("check-spec-autostart") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+TaskKey[Unit]("check-spec-autostart") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   println(spec)
 
   assert(
@@ -134,8 +134,8 @@ TaskKey[Unit]("check-spec-autostart") <<= (target, streams) map { (target, out) 
   ()
 }
 
-TaskKey[Unit]("check-spec-no-autostart") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-test.spec")
+TaskKey[Unit]("check-spec-no-autostart") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   println(spec)
 
   assert(

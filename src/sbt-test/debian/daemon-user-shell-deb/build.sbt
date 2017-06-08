@@ -14,8 +14,8 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =>
-  val debian = target / "debian-test-0.1.0" / "DEBIAN"
+TaskKey[Unit]("check-control-files") := {
+  val debian = target.value / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
   val postrm = IO.read(debian / "postrm")
   assert(

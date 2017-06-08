@@ -15,11 +15,11 @@ debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)
 
 debianPackageRecommends in Debian += "git"
 
-TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =>
+TaskKey[Unit]("check-control-files") := {
   val header = "#!/bin/sh"
-  val extracted = target / "extracted"
+  val extracted = target.value / "extracted"
   println(extracted.getAbsolutePath)
-  Seq("dpkg-deb", "-R", (target / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+  Seq("dpkg-deb", "-R", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
   val preinst = extracted / "DEBIAN/preinst"
   val postinst = extracted / "DEBIAN/postinst"
   val prerm = extracted / "DEBIAN/prerm"
@@ -32,6 +32,6 @@ TaskKey[Unit]("check-control-files") <<= (target, streams) map { (target, out) =
       "script contains more than one header line:\n" + script + "\n" + content
     )
   }
-  out.log.success("Successfully tested systemV control files")
+  streams.value.log.success("Successfully tested systemV control files")
   ()
 }

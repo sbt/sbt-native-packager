@@ -15,8 +15,9 @@ debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)
 
 debianPackageRecommends in Debian += "git"
 
-TaskKey[Unit]("check-script") <<= (stagingDirectory in Universal, name, streams) map { (dir, name, streams) =>
-  val script = dir / "bin" / name
+TaskKey[Unit]("check-script") := {
+  val dir = (stagingDirectory in Universal).value
+  val script = dir / "bin" / name.value
   System.out.synchronized {
     System.err.println("---SCRIPT---")
     val scriptContents = IO.read(script)
@@ -27,7 +28,7 @@ TaskKey[Unit]("check-script") <<= (stagingDirectory in Universal, name, streams)
   }
   val cmd = "bash " + script.getAbsolutePath + " -d"
   val result =
-    Process(cmd) ! streams.log match {
+    Process(cmd) ! streams.value.log match {
       case 0 => ()
       case n =>
         sys.error("Failed to run script: " + script.getAbsolutePath + " error code: " + n)

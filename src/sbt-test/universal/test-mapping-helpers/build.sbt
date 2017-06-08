@@ -12,14 +12,15 @@ mappings in Universal ++= directory("src/main/resources/cache")
 // or just place your cache folder in /src/universal/
 mappings in Universal ++= contentOf("src/main/resources/docs")
 
-mappings in Universal <+= (packageBin in Compile, sourceDirectory) map { (_, src) =>
+mappings in Universal += {
+  (packageBin in Compile).value
   // we are using the reference.conf as default application.conf
   // the user can override settings here
-  val conf = src / "main" / "resources" / "reference.conf"
+  val conf = sourceDirectory.value / "main" / "resources" / "reference.conf"
   conf -> "conf/application.conf"
 }
 
-TaskKey[Unit]("unzip") <<= (packageBin in Universal, streams) map { (zipFile, streams) =>
-  val args = Seq(zipFile.getAbsolutePath)
-  Process("unzip", args) ! streams.log
+TaskKey[Unit]("unzip") := {
+  val args = Seq((packageBin in Universal).value.getAbsolutePath)
+  Process("unzip", args) ! streams.value.log
 }

@@ -17,8 +17,8 @@ packageDescription := """A fun package description of our software,
 // linuxPackageMappings in Debian += packageTemplateMapping("/var/run/debian")() // not work
 linuxPackageMappings in Debian += packageTemplateMapping(Seq("/opt/test/other"): _*)()
 
-linuxPackageMappings in Debian <+= (Keys.normalizedName, target) map { (name, tmp) =>
-  packageTemplateMapping("/opt/test/" + name)(tmp)
+linuxPackageMappings in Debian += {
+  packageTemplateMapping("/opt/test/" + Keys.normalizedName.value)(target.value)
 }
 
 // Consider using mappings in Universal

@@ -21,9 +21,9 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
-TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
-  val spec = IO.read(target / "rpm" / "SPECS" / "rpm-package.spec")
-  out.log.success(spec)
+TaskKey[Unit]("check-spec-file") := {
+  val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-package.spec")
+  streams.value.log.success(spec)
   assert(
     spec contains "%attr(0644,root,root) /usr/share/rpm-package/lib/rpm-test.rpm-test-0.1.0.jar",
     "Wrong installation path\n" + spec
@@ -38,6 +38,6 @@ TaskKey[Unit]("check-spec-file") <<= (target, streams) map { (target, out) =>
     spec contains "%dir %attr(755,rpm-package,rpm-package) /var/run/rpm-package",
     "Wrong /var/run dir path\n" + spec
   )
-  out.log.success("Successfully tested rpm-package file")
+  streams.value.log.success("Successfully tested rpm-package file")
   ()
 }

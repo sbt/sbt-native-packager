@@ -23,14 +23,14 @@ linuxPackageMappings in Debian += packageDirectoryAndContentsMapping(
   (baseDirectory.value / "src" / "resources" / "empty") -> "/var/empty"
 )
 
-TaskKey[Unit]("check-dir-mappings") <<= (target, streams) map { (target, out) =>
+TaskKey[Unit]("check-dir-mappings") := {
 //  val tmpDir = java.nio.file.Files.createTempDirectory("jdeb")
   val extracted = file("/tmp/jdeb" + System.currentTimeMillis().toString)
-  Seq("dpkg-deb", "-R", (target / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+  Seq("dpkg-deb", "-R", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
   assert((extracted / "usr/share/conf/application.conf").exists(), "File application.conf not exists")
   assert((extracted / "usr/share/conf/log4j.properties").exists(), "File log4j.properties not exists")
   assert((extracted / "var/empty").exists(), "Empty dir not exists")
   extracted.delete()
-  out.log.success("Successfully tested control script")
+  streams.value.log.success("Successfully tested control script")
   ()
 }
