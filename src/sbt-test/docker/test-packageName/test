@@ -3,4 +3,4 @@
 $ exists target/docker/stage/Dockerfile
 $ exists target/docker/stage/opt/docker/bin/docker-test
 > check-dockerfile
-$ exec bash -c 'docker run docker-package:0.1.0 | grep -q "Hello world"'
+$ exec bash -c 'docker run docker-package-name:0.1.0 | grep -q "Hello world"'
