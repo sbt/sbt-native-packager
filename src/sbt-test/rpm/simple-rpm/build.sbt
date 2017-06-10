@@ -29,8 +29,6 @@ linuxPackageMappings in Rpm := {
   Seq(LinuxPackageMapping(Seq(mapping1, mapping2)))
 }
 
-linuxPackageSymlinks in Rpm := Seq(LinuxSymlink("/etc/link1", "destination1"), LinuxSymlink("link2", "destination2"))
-
 defaultLinuxInstallLocation in Rpm := "/opt/foo"
 
 TaskKey[Unit]("checkSpecFile") <<= (target, streams) map { (target, out) =>

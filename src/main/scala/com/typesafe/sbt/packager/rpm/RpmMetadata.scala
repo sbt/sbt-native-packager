@@ -66,8 +66,8 @@ case class RpmScripts(pretrans: Option[String] = None,
   def preContent(): String =
     pre.fold("")("\n%pre\n" + _ + "\n\n")
 
-  def postContent(buildSymlinkScript: Option[String]): String = {
-    val scripts = Seq(post, buildSymlinkScript).flatten
+  def postContent(): String = {
+    val scripts = Seq(post).flatten
     if (scripts.isEmpty)
       ""
     else
@@ -83,8 +83,8 @@ case class RpmScripts(pretrans: Option[String] = None,
   def preunContent(): String =
     preun.fold("")("\n%preun\n" + _ + "\n\n")
 
-  def postunContent(tearDownSymlinkScript: Option[String]): String = {
-    val scripts = Seq(postun, tearDownSymlinkScript).flatten
+  def postunContent(): String = {
+    val scripts = Seq(postun).flatten
     if (scripts.isEmpty)
       ""
     else
@@ -150,22 +150,43 @@ case class RpmSpec(meta: RpmMetadata,
         false
       }
     def isNonEmpty(s: String): Boolean = !s.isEmpty
-    // format: off
     val emptyValidators =
       Seq(
         ensureOr(meta.name, "`name in Rpm` is empty.  Please provide one.", isNonEmpty),
-        ensureOr(meta.version, "`version in Rpm` is empty.  Please provide a vaid version for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.release, "`rpmRelease in Rpm` is empty.  Please provide a valid release number for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.arch, "`packageArchitecture in Rpm` is empty.  Please provide a valid archiecture for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.vendor, "`rpmVendor in Rpm` is empty.  Please provide a valid vendor for the rpm SPEC.", isNonEmpty),
+        ensureOr(
+          meta.version,
+          "`version in Rpm` is empty.  Please provide a vaid version for the rpm SPEC.",
+          isNonEmpty
+        ),
+        ensureOr(
+          meta.release,
+          "`rpmRelease in Rpm` is empty.  Please provide a valid release number for the rpm SPEC.",
+          isNonEmpty
+        ),
+        ensureOr(
+          meta.arch,
+          "`packageArchitecture in Rpm` is empty.  Please provide a valid archiecture for the rpm SPEC.",
+          isNonEmpty
+        ),
+        ensureOr(
+          meta.vendor,
+          "`rpmVendor in Rpm` is empty.  Please provide a valid vendor for the rpm SPEC.",
+          isNonEmpty
+        ),
         ensureOr(meta.os, "`rpmOs in Rpm` is empty.  Please provide a valid os vaue for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.summary, "`packageSummary in Rpm` is empty.  Please provide a valid summary for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.description, "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty)
+        ensureOr(
+          meta.summary,
+          "`packageSummary in Rpm` is empty.  Please provide a valid summary for the rpm SPEC.",
+          isNonEmpty
+        ),
+        ensureOr(
+          meta.description,
+          "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.",
+          isNonEmpty
+        )
       )
-    // format: on
     // TODO - Continue validating after this point?
-    if (!emptyValidators.forall(identity))
-      sys.error("There are issues with the rpm spec data.")
+    if (!emptyValidators.forall(identity)) sys.error("There are issues with the rpm spec data.")
   }
 
   private[this] def fixFilename(n: String): String = {
@@ -207,6 +228,9 @@ case class RpmSpec(meta: RpmMetadata,
       mapping <- mappings
       (file, dest) <- mapping.mappings
     } sb append makeFilesLine(dest, mapping.fileData, file.isDirectory)
+
+    for (LinuxSymlink(link, dest) <- symlinks) sb.append(s"$link\n")
+
     sb.toString
   }
 
@@ -276,11 +300,11 @@ case class RpmSpec(meta: RpmMetadata,
     // write scriptlets
     sb append scriptlets.pretransContent()
     sb append scriptlets.preContent()
-    sb append scriptlets.postContent(buildSymlinkScript(meta.name, installDir, symlinks))
+    sb append scriptlets.postContent()
     sb append scriptlets.verifyscriptContent()
     sb append scriptlets.posttransContent()
     sb append scriptlets.preunContent()
-    sb append scriptlets.postunContent(teardownSymlinkScript(meta.name, installDir, symlinks))
+    sb append scriptlets.postunContent()
 
     // Write file mappings
     sb append fileSection
@@ -296,41 +320,4 @@ case class RpmSpec(meta: RpmMetadata,
     }
     sb.toString
   }
-
-  private def buildSymlinkScript(appName: String, installDir: String, symlinks: Seq[LinuxSymlink]): Option[String] =
-    if (symlinks.isEmpty)
-      None
-    else {
-      val relocateLinks = symlinks.map { symlink =>
-        s"""rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$RPM_INSTALL_PREFIX) && ln -s $$(relocateLink ${symlink.destination} $installDir $appName $$RPM_INSTALL_PREFIX) $$(relocateLink ${symlink.link} $installDir $appName $$RPM_INSTALL_PREFIX)"""
-      }.mkString("\n")
-
-      Some(relocateLinkFunction + "\n" + relocateLinks)
-    }
-
-  private def teardownSymlinkScript(appName: String, installDir: String, symlinks: Seq[LinuxSymlink]): Option[String] =
-    if (symlinks.isEmpty)
-      None
-    else {
-      val checkUninstall = "if [ $1 -eq 0 ] ;\nthen"
-      val sourceAppConfig =
-        s"""  [ -e /etc/sysconfig/$appName ] && . /etc/sysconfig/$appName"""
-      val cleanupLinks = symlinks.map { symlink =>
-        s"""  rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$PACKAGE_PREFIX)"""
-      }.mkString("\n")
-
-      Some(relocateLinkFunction + "\n" + checkUninstall + "\n" + sourceAppConfig + "\n" + cleanupLinks + "\nfi")
-    }
-
-  private def relocateLinkFunction: String =
-    """
-      |relocateLink() {
-      |  if [ -n "$4" ] ;
-      |  then
-      |    RELOCATED_INSTALL_DIR="$4/$3"
-      |    echo "${1/$2/$RELOCATED_INSTALL_DIR}"
-      |  else
-      |    echo "$1"
-      |  fi
-      |}""".stripMargin
 }

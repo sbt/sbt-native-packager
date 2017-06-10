@@ -67,6 +67,15 @@ object RpmHelper {
       if file.exists && !file.isDirectory()
       target = buildroot / dest
     } copyWithZip(file, target, mapping.zipped)
+
+    for (LinuxSymlink(link, dest) <- spec.symlinks) {
+      val linkPath = file(link).toPath
+      val relativeLink = if (linkPath.isAbsolute) linkPath.getRoot.relativize(linkPath) else linkPath
+      val relocatedLink = buildroot / relativeLink.toString
+      val linkDir = if (relocatedLink.isDirectory) relocatedLink else file(relocatedLink.getParent)
+      IO.createDirectory(linkDir)
+      s"ln -s $dest $relocatedLink".!
+    }
   }
 
   private[this] def writeSpecFile(spec: RpmSpec, workArea: File, log: sbt.Logger): File = {
