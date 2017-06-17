@@ -1,13 +1,14 @@
 package com.typesafe.sbt.packager.rpm
 
 import sbt._
-import sbt.Keys.{name, packageBin, sourceDirectory, streams, target, version, isSnapshot}
+import sbt.Keys.{isSnapshot, name, packageBin, sourceDirectory, streams, target, version}
 import java.nio.charset.Charset
 
 import com.typesafe.sbt.SbtNativePackager.Linux
 import com.typesafe.sbt.packager.SettingsHelper
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.linux._
+import com.typesafe.sbt.packager.Compat._
 
 /**
   * Plugin containing all generic values used for packaging rpms.
@@ -157,7 +158,7 @@ object RpmPlugin extends AutoPlugin {
     stage in Rpm := RpmHelper.stage(rpmSpecConfig.value, (target in Rpm).value, streams.value.log),
     packageBin in Rpm := RpmHelper.buildRpm(rpmSpecConfig.value, (stage in Rpm).value, streams.value.log),
     rpmLint := {
-      Process(Seq("rpmlint", "-v", (packageBin in Rpm).value.getAbsolutePath)) ! streams.value.log match {
+      sys.process.Process(Seq("rpmlint", "-v", (packageBin in Rpm).value.getAbsolutePath)) ! streams.value.log match {
         case 0 => ()
         case x => sys.error("Failed to run rpmlint, exit status: " + x)
       }

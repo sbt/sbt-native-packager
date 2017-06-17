@@ -30,7 +30,7 @@ trait LinuxMappingDSL {
   def mapDirectoryAndContents(dirs: (File, String)*): Seq[(File, String)] =
     for {
       (src, dest) <- dirs
-      path <- (src ***).get
+      path <- (src ** AllPassFilter).get
     } yield path -> path.toString.replaceFirst(src.toString, dest)
 
   /**
@@ -45,7 +45,7 @@ trait LinuxMappingDSL {
   def configWithNoReplace(mappings: Seq[LinuxPackageMapping]): Seq[LinuxPackageMapping] =
     mappings.map {
       case mapping if mapping.fileData.config != "false" => mapping.withConfig("noreplace")
-      case mapping => mapping
+      case mapping                                       => mapping
     }
 }
 

@@ -44,9 +44,9 @@ object LinuxSymlink {
     val partsTo: Seq[String] = to split "/" filterNot (_.isEmpty)
 
     val prefixAndOne = (1 to partsFrom.length)
-        .map(partsFrom.take)
-        .dropWhile(seq => partsTo.startsWith(seq))
-        .headOption getOrElse sys.error("Cannot symlink to yourself!")
+      .map(partsFrom.take)
+      .dropWhile(seq => partsTo.startsWith(seq))
+      .headOption getOrElse sys.error("Cannot symlink to yourself!")
     val prefix = prefixAndOne dropRight 1
     if (prefix.length > 0) {
       val escapeCount = (partsTo.length - 1) - prefix.length
@@ -77,7 +77,7 @@ object LinuxSymlink {
       // from ln man page
       // -f --force remove existing destination files
       if (!to.exists)
-        Process(Seq("ln", "-sf", linkFinal, name), linkDir).! match {
+	sys.process.Process(Seq("ln", "-sf", linkFinal, name), linkDir).! match {
           case 0 => ()
           case n =>
             sys.error("Failed to symlink " + link.destination + " to " + to)

@@ -41,7 +41,7 @@ object ZipHelper {
         if src.canExecute
       } target.setExecutable(true, true)
       val dirFileNames = Option(zipDir.listFiles) getOrElse Array.empty[java.io.File] map (_.getName)
-      Process(Seq("zip", "-r", name) ++ dirFileNames, zipDir).! match {
+      sys.process.Process(Seq("zip", "-r", name) ++ dirFileNames, zipDir).! match {
         case 0 => ()
         case n => sys.error("Failed to run native zip application!")
       }

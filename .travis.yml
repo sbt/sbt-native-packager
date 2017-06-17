@@ -1,35 +1,28 @@
 language: java
 os:
+  - linux
   - osx
 env:
-  - SCALA_VERSION=2.10.5
+  - SBT_VERSION_CMD="++2.10.6"
+  - SBT_VERSION_CMD="++2.12.2 ^^1.0.0-M6"
+jdk: oraclejdk8
 before_install:
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       brew update;
       brew install xz;
     fi
 script:
-  - ./sbt ++$SCALA_VERSION --warn update compile test:compile
-  - ./sbt ++$SCALA_VERSION test "scripted universal/* jar/* bash/* ash/*"
+  - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+      ./sbt "SBT_VERSION_CMD validateOSX" ;
+    fi
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
-      ./sbt ++$SCALA_VERSION "scripted rpm/* debian/* docker/staging docker/entrypoint docker/ports docker/volumes";
+      ./sbt "SBT_VERSION_CMD validateLinux" ;
     fi
-  - if [[ "$TRAVIS_JDK_VERSION" = "oraclejdk8" ]]; then
-      ./sbt ++$SCALA_VERSION "scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings";
-    fi
-notifications:
-  email:
-    - qbranch@typesafe.com
+
 addons:
   apt:
     packages:
     - rpm
-matrix:
-  include:
-    - os: linux
-      jdk: openjdk7
-    - os: linux
-      jdk: oraclejdk8
 
 sudo: false
 cache:

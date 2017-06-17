@@ -1,27 +1,10 @@
-package com.typesafe.sbt
-package packager
+package com.typesafe.sbt.packager
 
 import sbt._
-import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
+import sbt.io._
 
 /** A set of helper methods to simplify the writing of mappings */
-object MappingsHelper {
-
-  /**
-    * return a Seq of mappings which effect is to add a whole directory in the generated package
-    *
-    * @example
-    * {{{
-    * mappings in Universal ++= directory(baseDirectory.value / "extra")
-    * }}}
-    *
-    * @param sourceDir
-    * @return mappings
-    */
-  def directory(sourceDir: File): Seq[(File, String)] =
-    Option(sourceDir.getParentFile)
-      .map(parent => sourceDir.*** pair relativeTo(parent))
-      .getOrElse(sourceDir.*** pair basic)
+object MappingsHelper extends Mapper {
 
   /**
     * It lightens the build file if one wants to give a string instead of file.
@@ -36,21 +19,6 @@ object MappingsHelper {
     */
   def directory(sourceDir: String): Seq[(File, String)] =
     directory(file(sourceDir))
-
-  /**
-    * return a Seq of mappings which effect is to add the content of directory in the generated package,
-    * excluding the directory itself.
-    *
-    * @example
-    * {{{
-    * mappings in Universal ++= sourceDir(baseDirectory.value / "extra")
-    * }}}
-    *
-    * @param sourceDir
-    * @return mappings
-    */
-  def contentOf(sourceDir: File): Seq[(File, String)] =
-    (sourceDir.*** --- sourceDir) pair relativeTo(sourceDir)
 
   /**
     * It lightens the build file if one wants to give a string instead of file.
@@ -104,13 +72,13 @@ object MappingsHelper {
     * @param includeOnNoArtifact default is false. When there's no Artifact meta data remove it
     */
   def fromClasspath(entries: Seq[Attributed[File]],
-                    target: String,
-                    includeArtifact: Artifact => Boolean,
-                    includeOnNoArtifact: Boolean = false): Seq[(File, String)] =
+		    target: String,
+		    includeArtifact: Artifact => Boolean,
+		    includeOnNoArtifact: Boolean = false): Seq[(File, String)] =
     entries.filter(attr => attr.get(sbt.Keys.artifact.key) map includeArtifact getOrElse includeOnNoArtifact).map {
       attribute =>
-        val file = attribute.data
-        file -> s"$target/${file.getName}"
+	val file = attribute.data
+	file -> s"$target/${file.getName}"
     }
 
 }

@@ -1,11 +1,12 @@
-package com.typesafe.sbt
-package packager
-package windows
+package com.typesafe.sbt.packager.windows
 
 import sbt._
-import sbt.Keys.{mappings, name, normalizedName, packageBin, sourceDirectory, streams, target, version}
-import packager.Keys.{maintainer, packageDescription, packageName, packageSummary}
-import SbtNativePackager.Universal
+import sbt.Keys.{mappings, name, packageBin, sourceDirectory, streams, target, version}
+import com.typesafe.sbt.SbtNativePackager.Universal
+import com.typesafe.sbt.packager.Keys.{maintainer, packageDescription, packageName, packageSummary}
+import com.typesafe.sbt.packager.universal.UniversalPlugin
+import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.SettingsHelper
 
 /**
   * == Windows Plugin ==
@@ -37,7 +38,7 @@ object WindowsPlugin extends AutoPlugin {
   import autoImport._
 
   override lazy val projectSettings: Seq[Setting[_]] = windowsSettings ++ mapGenericFilesToWindows
-  override def requires = universal.UniversalPlugin
+  override def requires = UniversalPlugin
 
   override def projectConfigurations: Seq[Configuration] = Seq(Windows)
 
@@ -105,20 +106,20 @@ object WindowsPlugin extends AutoPlugin {
       IO.copy(for ((f, to) <- mappings.value) yield (f, target.value / to))
       // Now compile WIX
       val wixdir = Option(System.getenv("WIX")) getOrElse sys.error(
-          "WIX environment not found.  Please ensure WIX is installed on this computer."
-        )
+	"WIX environment not found.  Please ensure WIX is installed on this computer."
+      )
       val candleCmd = Seq(wixdir + "\\bin\\candle.exe", wix.getAbsolutePath) ++ candleOptions.value
       streams.value.log.debug(candleCmd mkString " ")
-      Process(candleCmd, Some(target.value)) ! streams.value.log match {
-        case 0 => ()
+      sys.process.Process(candleCmd, Some(target.value)) ! streams.value.log match {
+	case 0        => ()
         case exitCode => sys.error(s"Unable to run WIX compilation to wixobj. Exited with ${exitCode}")
       }
       // Now create MSI
       val wixobj = target.value / (name.value + ".wixobj")
       val lightCmd = Seq(wixdir + "\\bin\\light.exe", wixobj.getAbsolutePath) ++ lightOptions.value
       streams.value.log.debug(lightCmd mkString " ")
-      Process(lightCmd, Some(target.value)) ! streams.value.log match {
-        case 0 => ()
+      sys.process.Process(lightCmd, Some(target.value)) ! streams.value.log match {
+	case 0        => ()
         case exitCode => sys.error(s"Unable to run build msi. Exited with ${exitCode}")
       }
       msi
@@ -139,7 +140,7 @@ object WindowsPlugin extends AutoPlugin {
     * @param mappings - use to generate different features
     * @return windows features
     */
-  def makeWindowsFeatures(name: String, mappings: Seq[(File, String)]): Seq[windows.WindowsFeature] = {
+  def makeWindowsFeatures(name: String, mappings: Seq[(File, String)]): Seq[WindowsFeature] = {
     // TODO select main script!  Filter Config links!
 
     val files =

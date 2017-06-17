@@ -1,15 +1,13 @@
-package com.typesafe.sbt
-package packager
-package rpm
+package com.typesafe.sbt.packager.rpm
 
 import sbt._
-import com.typesafe.sbt.packager.linux.LinuxSymlink
+import com.typesafe.sbt.packager.Compat._
 
 object RpmHelper {
 
   /** Returns the host vendor for an rpm. */
   def hostVendor =
-    Process(Seq("rpm", "-E", "%{_host_vendor}")) !!
+    sys.process.Process(Seq("rpm", "-E", "%{_host_vendor}")) !!
 
   /**
     * Prepares the staging directory for the rpm build command.
@@ -87,7 +85,7 @@ object RpmHelper {
     IO.withTemporaryDirectory { tmpRpmBuildDir =>
       val args: Seq[String] = (spec.setarch match {
         case Some(arch) => Seq("setarch", arch)
-        case None => Seq()
+	case None       => Seq()
       }) ++ Seq(
         "rpmbuild",
         "-bb",
@@ -104,7 +102,7 @@ object RpmHelper {
         else Seq.empty
       ) ++ Seq(spec.meta.name + ".spec")
       log.debug("Executing rpmbuild with: " + args.mkString(" "))
-      (Process(args, Some(specsDir)) ! log) match {
+      (sys.process.Process(args, Some(specsDir)) ! log) match {
         case 0 => ()
         case code =>
           sys.error("Unable to run rpmbuild, check output for details. Errorcode " + code)
@@ -126,5 +124,5 @@ object RpmHelper {
   }
 
   def evalMacro(mcro: String): String =
-    Process(Seq("rpm", "--eval", '%' + mcro)).!!
+    sys.process.Process(Seq("rpm", "--eval", '%' + mcro)).!!
 }
