@@ -121,6 +121,7 @@ object SystemloaderPlugin extends AutoPlugin {
                                  |fi
                                  |""".stripMargin,
           RpmConstants.Postun -> s"""|# ${getOrUnsupported(serverLoading.value)} support
+                                   |$${{loader-functions}}
                                    |if [ $$1 -ge 1 ] ;
                                    |then
                                    |  restartService $${{app_name}} || echo "Failed to try-restart $${{app_name}}"
