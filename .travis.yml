@@ -13,10 +13,10 @@ before_install:
     fi
 script:
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
-      ./sbt "SBT_VERSION_CMD validateOSX" ;
+      ./sbt "$SBT_VERSION_CMD validateOSX" ;
     fi
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
-      ./sbt "SBT_VERSION_CMD validateLinux" ;
+      ./sbt "$SBT_VERSION_CMD validateLinux" ;
     fi
 
 addons:
