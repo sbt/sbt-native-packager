@@ -1,5 +1,5 @@
 # Stage the distribution and ensure main class can be run.
-> show universal:package-bin
+> show universal:packageBin
 $ exists target/universal/stage-custom-main-0.1.0.zip
 > unzip
 $ exists stage-custom-main-0.1.0/bin/

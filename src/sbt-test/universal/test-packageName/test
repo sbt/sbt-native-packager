@@ -1,5 +1,5 @@
 # Run the zip packaging.
-> show universal:package-bin
+> show universal:packageBin
 $ exists target/universal/simple-package.zip
 
 # Run the tgz packaging.

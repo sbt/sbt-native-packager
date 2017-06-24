@@ -1,9 +1,9 @@
 # Run the zip packaging.
-> show universal:package-bin
+> show universal:packageBin
 $ exists target/universal/simple-test-0.1.0.zip
-> universal-docs:package-bin
+> universal-docs:packageBin
 $ exists target/universal-docs/simple-test-0.1.0.zip
-> universal-src:package-bin
+> universal-src:packageBin
 $ exists target/universal-src/simple-test-0.1.0.zip
 
 # Run the tgz packaging.

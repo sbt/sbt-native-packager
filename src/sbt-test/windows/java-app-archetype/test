@@ -1,5 +1,5 @@
 # Run the windows packaging.
-> windows:package-bin
+> windows:packageBin
 $ exists target/windows/windows-test.msi
 > stage
 $ exists target/universal/stage/bin/windows-test.bat

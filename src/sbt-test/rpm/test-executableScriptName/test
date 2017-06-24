@@ -1,5 +1,5 @@
 # Run the debian packaging.
-> rpm:package-bin
+> rpm:packageBin
 $ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 $ exists target/rpm/SPECS/rpm-test.spec
 

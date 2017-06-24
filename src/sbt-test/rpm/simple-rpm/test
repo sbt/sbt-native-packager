@@ -2,5 +2,5 @@
 $ exists target/rpm
 > checkSpecFile
 # Run the rpm packaging.
-> rpm:package-bin
+> rpm:packageBin
 $ exists target/rpm/RPMS/x86_64/rpm-test-0.1.0-1.x86_64.rpm
