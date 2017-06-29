@@ -105,7 +105,7 @@ object RpmPlugin extends AutoPlugin {
     packageArchitecture in Rpm := "noarch",
     rpmMetadata := RpmMetadata(
       (packageName in Rpm).value,
-      if (isSnapshot.value) stripSnapshot((version in Rpm).value) else (version in Rpm).value,
+      (version in Rpm).value.stripSuffix("-SNAPSHOT"),
       rpmRelease.value,
       rpmPrefix.value,
       (packageArchitecture in Rpm).value,
@@ -163,11 +163,6 @@ object RpmPlugin extends AutoPlugin {
       }
     }
   )
-
-  def stripSnapshot(version: String): String = {
-    val suffixPosition = version.indexOf("-SNAPSHOT")
-    version.slice(0, suffixPosition)
-  }
 }
 
 object RpmDeployPlugin extends AutoPlugin {

@@ -1,0 +1,6 @@
+# Run the debian packaging.
+> rpm:package-bin
+$ exists target/rpm/RPMS/noarch/rpm-test-1-SNAPSHOT.noarch.rpm
+
+#Check release and version configured correctly
+> check-snapshot
