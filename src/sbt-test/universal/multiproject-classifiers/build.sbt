@@ -1,10 +1,10 @@
 lazy val appVersion = "1.0"
 
 lazy val mySettings: Seq[Setting[_]] =
-  Seq(organization := "org.test", version := appVersion, TaskKey[Unit]("show-files") := {
+  Seq(organization := "org.test", version := appVersion, TaskKey[Unit]("showFiles") := {
     System.out.synchronized {
       println("Files in [" + name.value + "]")
-      val files = (target.value / "universal/stage").***.get
+      val files = (target.value / "universal/stage").**(AllPassFilter).get
       files foreach println
     }
   })
@@ -17,11 +17,11 @@ lazy val sub = project
   .settings(mySettings)
   .settings(
     ivyConfigurations += assets,
-    artifact in assets := artifact.value.copy(classifier = Some("assets")),
+    artifact in assets := artifact.value.withClassifier(classifier = Some("assets")),
     packagedArtifacts += {
       val file = target.value / "assets.jar"
       val assetsDir = baseDirectory.value / "src" / "main" / "assets"
-      val sources = assetsDir.***.filter(_.isFile) pair relativeTo(assetsDir)
+      val sources = assetsDir.**(AllPassFilter).filter(_.isFile) pair (file => IO.relativize(assetsDir, file))
       IO.zip(sources, file)
       (artifact in assets).value -> file
     },
