@@ -5,7 +5,7 @@ lazy val mySettings: Seq[Setting[_]] =
   Seq(organization := "org.test", version := appVersion, TaskKey[Unit]("showFiles") := {
     System.out.synchronized {
       println("Files in [" + name.value + "]")
-      val files = (target.value / "universal/stage").***.get
+      val files = (target.value / "universal/stage").**(AllPassFilter).get
       files foreach println
     }
   })
