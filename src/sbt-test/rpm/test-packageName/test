@@ -4,4 +4,4 @@ $ exists target/rpm/RPMS/noarch/rpm-package-0.1.0-1.noarch.rpm
 $ exists target/rpm/SPECS/rpm-package.spec
 
 # Check files for defaults
-> check-spec-file
+> checkSpecFile

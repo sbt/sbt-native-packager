@@ -21,7 +21,7 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
-TaskKey[Unit]("check-spec-file") := {
+TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-package.spec")
   streams.value.log.success(spec)
   assert(

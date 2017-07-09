@@ -21,12 +21,12 @@ rpmSetarch := Some("i386")
 
 linuxPackageMappings := {
   val helloMapping = LinuxPackageMapping(
-      Seq(((resourceDirectory in Compile).value / "hello-32bit", "/usr/share/rpm-package/libexec/hello-32bit"))
-    ) withPerms "0755"
+    Seq(((resourceDirectory in Compile).value / "hello-32bit", "/usr/share/rpm-package/libexec/hello-32bit"))
+  ) withPerms "0755"
   linuxPackageMappings.value :+ helloMapping
 }
 
-TaskKey[Unit]("check-spec-file") := {
+TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-package.spec")
   streams.value.log.success(spec)
   assert(

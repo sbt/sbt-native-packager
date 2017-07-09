@@ -8,7 +8,7 @@ version := "0.1.0"
 
 bashScriptTemplateLocation := baseDirectory.value / "custom-templates" / "custom-ash-template"
 
-TaskKey[Unit]("run-check-ash") := {
+TaskKey[Unit]("runCheckAsh") := {
   val cwd = (stagingDirectory in Universal).value
   val source =
     scala.io.Source.fromFile((cwd / "bin" / packageName.value).getAbsolutePath)

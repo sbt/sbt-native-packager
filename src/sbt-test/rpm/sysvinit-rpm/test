@@ -2,8 +2,8 @@
 > rpm:packageBin
 $ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 
-> check-spec-file
-> check-spec-autostart
+> checkSpecFile
+> checkSpecAutostart
 
 # Check rpm contents
 > unzipAndCheck
@@ -24,12 +24,12 @@ $ exists var/run/rpm-test
 # TODO symlinks aren't checked
 
 > set NativePackagerKeys.rpmBrpJavaRepackJars := false
-> check-spec-file
-> check-spec-autostart
+> checkSpecFile
+> checkSpecAutostart
 
 # Test that serviceAutostart can be disabled
 
 > set every NativePackagerKeys.serviceAutostart := false
 > rpm:packageBin
-> check-spec-file
-> check-spec-no-autostart 
+> checkSpecFile
+> checkSpecNoAutostart

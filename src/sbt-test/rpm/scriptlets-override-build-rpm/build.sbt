@@ -29,7 +29,7 @@ maintainerScripts in Rpm := Map(
   Postun -> Seq("""echo "post-uninstall"""")
 )
 
-TaskKey[Unit]("check-spec-file") := {
+TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(spec contains "%pre\necho \"pre-install\"", "Spec doesn't contain %pre scriptlet")
   assert(spec contains "%post\necho \"post-install\"", "Spec doesn't contain %post scriptlet")

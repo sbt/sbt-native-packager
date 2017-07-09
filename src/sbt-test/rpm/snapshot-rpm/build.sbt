@@ -17,8 +17,7 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
-TaskKey[Unit]("check-snapshot") := {
+TaskKey[Unit]("checkSnapshot") := {
   assert(rpmRelease.value == "SNAPSHOT", s"RPM has incorrect value ${rpmRelease.value}")
   assert(rpmMetadata.value.version == "0.1.0", s"RPM has incorrect value ${rpmMetadata.value.version}")
 }
-

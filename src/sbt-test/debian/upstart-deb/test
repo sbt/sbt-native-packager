@@ -11,14 +11,14 @@ $ exists target/debian-test-0.1.0/DEBIAN/prerm
 $ exists target/debian-test-0.1.0/DEBIAN/postinst
 
 # Check files for defaults
-> check-control-files
-> check-softlink target/debian-test-0.1.0/usr/bin/debian-test points to /usr/share/debian-test/bin/debian-test
-> check-startup-script
-> check-autostart
+> checkControlFiles
+> checkSoftlink target/debian-test-0.1.0/usr/bin/debian-test points to /usr/share/debian-test/bin/debian-test
+> checkStartupScript
+> checkAutostart
 
 
 # Test that serviceAutostart can be disabled
 
 > set every NativePackagerKeys.serviceAutostart := false
 > debian:packageBin
-> check-no-autostart
+> checkNoAutostart

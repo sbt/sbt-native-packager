@@ -6,5 +6,5 @@ $ exists target/debian-test-0.1.0/etc
 $ exists target/debian-test-0.1.0/etc/default/debian-test
 $ exists target/debian-test-0.1.0/etc/init.d/debian-test
 
-> check-control-files
-> check-startup-script
+> checkControlFiles
+> checkStartupScript

@@ -2,4 +2,4 @@
 $ mkdir src/resources/empty
 > debian:packageBin
 $ exists target/debian-test_0.1.0_all.deb
-> check-dir-mappings
+> checkDirMappings

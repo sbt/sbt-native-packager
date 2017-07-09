@@ -24,11 +24,11 @@ defaultLinuxLogsLocation := "/opt/test/log"
 
 TaskKey[Unit]("unzip") := {
   val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
-  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.value.log
+  sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
   ()
 }
 
-TaskKey[Unit]("check-init-file") := {
+TaskKey[Unit]("checkInitFile") := {
   val initd = IO.read(baseDirectory.value / "etc" / "init.d" / "rpm-test")
   assert(initd contains "/opt/test/rpm-test", "defaultLinuxInstallLocation not overriden in init.d\n" + initd)
   assert(

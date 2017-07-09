@@ -10,7 +10,7 @@ bashScriptTemplateLocation := baseDirectory.value / "custom-templates" / "custom
 
 batScriptTemplateLocation := baseDirectory.value / "custom-templates" / "custom-bat-template"
 
-TaskKey[Unit]("run-check-bash") := {
+TaskKey[Unit]("runCheckBash") := {
   val cwd = (stagingDirectory in Universal).value
   val source =
     scala.io.Source.fromFile((cwd / "bin" / packageName.value).getAbsolutePath)
@@ -22,7 +22,7 @@ TaskKey[Unit]("run-check-bash") := {
   )
 }
 
-TaskKey[Unit]("run-check-bat") := {
+TaskKey[Unit]("runCheckBat") := {
   val cwd = (stagingDirectory in Universal).value
   val batFilename = packageName.value + ".bat"
   val source =

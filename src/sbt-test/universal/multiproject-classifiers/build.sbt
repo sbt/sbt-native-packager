@@ -17,7 +17,7 @@ lazy val sub = project
   .settings(mySettings)
   .settings(
     ivyConfigurations += assets,
-    artifact in assets := artifact.value.withClassifier(classifier = Some("assets")),
+    artifact in assets := artifact.value.copy(classifier = Some("assets")),
     packagedArtifacts += {
       val file = target.value / "assets.jar"
       val assetsDir = baseDirectory.value / "src" / "main" / "assets"

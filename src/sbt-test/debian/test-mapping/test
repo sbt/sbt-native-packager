@@ -4,7 +4,7 @@ $ exists target/debian-test-override_0.1.0_all.deb
 # Testing the packageName configuration
 $ exists target/debian-test-override-0.1.0/DEBIAN
 $ exists target/debian-test-override-0.1.0/DEBIAN/control
-> check-control-script
+> checkControlScript
 $ exists target/debian-test-override-0.1.0/usr/
 $ exists target/debian-test-override-0.1.0/usr/share/
 $ exists target/debian-test-override-0.1.0/usr/share/debian-test-package/

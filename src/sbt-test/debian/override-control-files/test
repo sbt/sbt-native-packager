@@ -13,4 +13,4 @@ $ exists target/debian-test-0.1.0/DEBIAN/postrm
 $ exists target/debian-test-0.1.0/DEBIAN/prerm
 
 # Check files for defaults
-> check-control-files
+> checkControlFiles

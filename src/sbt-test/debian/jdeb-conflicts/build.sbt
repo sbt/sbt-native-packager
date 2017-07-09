@@ -13,9 +13,11 @@ packageDescription := """A fun package description of our software,
 
 debianPackageConflicts in Debian := Seq("debian-test-package")
 
-TaskKey[Unit]("check-conflicts") := {
+TaskKey[Unit]("checkConflicts") := {
   val extracted = target.value / "extracted"
-  Seq("dpkg-deb", "-R", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+  sys.process
+    .Process(Seq("dpkg-deb", "-R", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath))
+    .!
 
   val control = IO.read(extracted / "DEBIAN" / "control")
   assert(control.contains("Conflicts:"))

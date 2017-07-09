@@ -3,4 +3,4 @@
 $ exists target/windows/windows-test.msi
 > stage
 $ exists target/universal/stage/bin/windows-test.bat
-> check-script
+> checkScript

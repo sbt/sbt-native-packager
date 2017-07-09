@@ -22,7 +22,7 @@ rpmLicense := Some("BSD")
 
 rpmBrpJavaRepackJars := false
 
-TaskKey[Unit]("check-spec-file") := {
+TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test-no-repack.spec")
   assert(spec.contains("""%define __jar_repack %nil"""), "Missing java repack disabling in %pre")
   streams.value.log.success("Successfully tested rpm test file")

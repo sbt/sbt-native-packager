@@ -21,7 +21,7 @@ requiredStopFacilities in Debian := Some("[networking]")
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-TaskKey[Unit]("check-startup-script") := {
+TaskKey[Unit]("checkStartupScript") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "etc" / "init" / "debian-test.conf")
   assert(script.contains("start on runlevel [2345]"), "script doesn't contain start on runlevel header\n" + script)
   assert(script.contains("stop on runlevel [016]"), "script doesn't contain stop on runlevel header\n" + script)

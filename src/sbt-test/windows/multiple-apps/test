@@ -2,10 +2,10 @@
 > stage
 $ exists target/universal/stage/bin/main-app.bat
 $ exists target/universal/stage/bin/second-app.bat
-> check-no-explicit-main
+> checkNoExplicitMain
 > clean
 > set mainClass in Compile := Some("com.example.MainApp")
 > stage
 $ exists target/universal/stage/bin/test-project.bat
 $ exists target/universal/stage/bin/second-app.bat
-> check-explicit-main
+> checkExplicitMain

@@ -9,7 +9,7 @@ version := "0.1.0"
 // test dependencies sample
 libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-kernel" % "2.3.4")
 
-TaskKey[Unit]("check-classspath") := {
+TaskKey[Unit]("checkClasspath") := {
   val dir = (stagingDirectory in Universal).value
   val bat = IO.read(dir / "bin" / "classpath-jar-test.bat")
   assert(bat contains "set \"APP_CLASSPATH=%APP_LIB_DIR%\\classpath-jar-test.classpath-jar-test-0.1.0-classpath.jar\"")
@@ -20,12 +20,12 @@ TaskKey[Unit]("check-classspath") := {
   jar close
 }
 
-TaskKey[Unit]("run-check") := {
+TaskKey[Unit]("runCheck") := {
   val dir = (stagingDirectory in Universal).value
   val cmd = if (System.getProperty("os.name").contains("Windows")) {
     Seq("cmd", "/c", (dir / "bin" / "classpath-jar-test.bat").getAbsolutePath)
   } else {
     Seq((dir / "bin" / "classpath-jar-test").getAbsolutePath)
   }
-  assert(Process(cmd).!! contains "SUCCESS!")
+  assert(sys.process.Process(cmd).!! contains "SUCCESS!")
 }

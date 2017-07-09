@@ -3,9 +3,9 @@
 $ exists target/universal/simple-package.zip
 
 # Run the tgz packaging.
-> universal:package-zip-tarball
+> universal:packageZipTarball
 $ exists target/universal/simple-package.tgz
 
 # Run the txz packaging.
-> universal:package-xz-tarball
+> universal:packageXzTarball
 $ exists target/universal/simple-package.txz

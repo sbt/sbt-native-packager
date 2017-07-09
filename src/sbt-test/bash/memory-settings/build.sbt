@@ -15,9 +15,9 @@ TaskKey[Unit]("jvmopts-check") := {
   assert(options contains "-J-Xms64m", "Options don't contain xms setting:\n" + options)
 }
 
-TaskKey[Unit]("run-check") := {
+TaskKey[Unit]("runCheck") := {
   val cwd = (stagingDirectory in Universal).value
   val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath)
-  val memory = (Process(cmd, cwd).!!).replaceAll("\n", "")
+  val memory = (sys.process.Process(cmd, cwd).!!).replaceAll("\n", "")
   assert(memory.toLong <= 64, "Runtime memory is bigger then 64m < " + memory + "m")
 }

@@ -6,5 +6,5 @@ $ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 $ exists opt/test/rpm-test
 
 $ exists etc/init.d/rpm-test
-> check-init-file
+> checkInitFile
 

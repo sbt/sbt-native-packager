@@ -8,7 +8,7 @@ $ exists usr/lib/systemd/system/rpm-test.service
 > checkStartupScript
 
 > checkSpecFile
-> check-spec-autostart
+> checkSpecAutostart
 
 
 # test that autostart can be disabled
@@ -16,4 +16,4 @@ $ exists usr/lib/systemd/system/rpm-test.service
 > set every NativePackagerKeys.serviceAutostart := false
 > rpm:packageBin
 > checkSpecFile
-> check-spec-no-autostart
+> checkSpecNoAutostart

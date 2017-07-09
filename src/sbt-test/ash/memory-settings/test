@@ -2,4 +2,4 @@
 > stage
 $ exists target/universal/stage/bin/simple-app
 > script-check
-> run-check
+> runCheck

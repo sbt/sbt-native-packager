@@ -1,5 +1,5 @@
 # Run the staging and check the script.
 > stage
 $ exists target/universal/stage/lib/launcher-jar-test.launcher-jar-test-0.1.0-launcher.jar
-> check-classpath
-> run-check
+> checkClasspath
+> runCheck

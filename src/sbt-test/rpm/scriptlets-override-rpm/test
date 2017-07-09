@@ -19,8 +19,8 @@ $ exists var/run/rpm-test
 
 # TODO symlinks aren't checked
 
-> check-spec-file
+> checkSpecFile
 > set NativePackagerKeys.rpmBrpJavaRepackJars := false
-> check-spec-file
+> checkSpecFile
 
 > unique-scripts-in-spec-file

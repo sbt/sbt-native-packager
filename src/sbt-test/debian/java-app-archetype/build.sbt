@@ -17,7 +17,7 @@ debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)
 
 debianPackageRecommends in Debian += "git"
 
-TaskKey[Unit]("check-script") := {
+TaskKey[Unit]("checkScript") := {
   val dir = (stagingDirectory in Universal).value
   val script = dir / "bin" / name.value
   System.out.synchronized {
@@ -30,19 +30,19 @@ TaskKey[Unit]("check-script") := {
   }
   val cmd = "bash " + script.getAbsolutePath + " -d"
   val result =
-    Process(cmd) ! streams.value.log match {
+    sys.process.Process(cmd) ! streams.value.log match {
       case 0 => ()
       case n =>
         sys.error("Failed to run script: " + script.getAbsolutePath + " error code: " + n)
     }
-  val output = Process("bash " + script.getAbsolutePath).!!
+  val output = sys.process.Process("bash " + script.getAbsolutePath).!!
   val expected = "SUCCESS!"
   assert(
     output contains expected,
     "Failed to correctly run the main script!.  Found [" + output + "] wanted [" + expected + "]"
   )
   val expected2 = "Something with spaces"
-  val output2 = Process(Seq("bash", script.getAbsolutePath, "-Dresult.string=" + expected2)).!!
+  val output2 = sys.process.Process(Seq("bash", script.getAbsolutePath, "-Dresult.string=" + expected2)).!!
   assert(
     output2 contains expected2,
     "Failed to correctly run the main script with spaced java args!.  Found [" + output2 + "] wanted [" + expected2 + "]"

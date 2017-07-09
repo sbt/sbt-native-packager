@@ -8,4 +8,4 @@ $ exists target/debian-test-0.1.0/DEBIAN/postinst
 
 # Check that the non-standard log directory was used
 $ exists target/debian-test-0.1.0/non-standard/log/debian-test
-> check-softlink target/debian-test-0.1.0/usr/share/debian-test/logs points to /non-standard/log/debian-test
+> checkSoftlink target/debian-test-0.1.0/usr/share/debian-test/logs points to /non-standard/log/debian-test

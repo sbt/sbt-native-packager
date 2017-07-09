@@ -5,7 +5,6 @@ import sbt.{BufferedLogger, FullLogger, Logger}
 import scala.sys.process.ProcessLogger
 
 object Compat {
-  object io
 
   /**
     * Used in:
