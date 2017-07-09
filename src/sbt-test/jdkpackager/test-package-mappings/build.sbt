@@ -20,7 +20,7 @@ mappings in Universal += baseDirectory.value / "src" / "deploy" / "README.md" ->
 
 mappings in Universal ++= {
   val dir = baseDirectory.value / "src" / "deploy" / "stuff"
-  (dir.**(AllPassFilter) --- dir) pair relativeTo(dir.getParentFile)
+  (dir.**(AllPassFilter) --- dir) pair (file => IO.relativize(dir.getParentFile, file))
 }
 
 lazy val iconGlob = sys.props("os.name").toLowerCase match {
