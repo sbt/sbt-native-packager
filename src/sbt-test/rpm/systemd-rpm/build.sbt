@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(JavaServerAppPackaging, SystemdPlugin)
 
 name := "rpm-test"

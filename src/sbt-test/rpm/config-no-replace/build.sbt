@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(RpmPlugin)
 
 name := "rpm-test"

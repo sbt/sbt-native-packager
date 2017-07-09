@@ -13,6 +13,8 @@ object Compat {
   type InlineConfiguration = ilm.InlineConfiguration
   val InlineConfiguration = ilm.InlineConfiguration
 
+  object io {}
+
   /**
     * Used in
     * - [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]]

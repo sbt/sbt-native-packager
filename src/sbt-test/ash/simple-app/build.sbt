@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(AshScriptPlugin)
 
 name := "simple-app"

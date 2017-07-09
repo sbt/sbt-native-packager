@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
 name := "rpm-test"
@@ -18,7 +20,7 @@ TaskKey[Unit]("unzipAndCheck") := {
   val rpmFile = (packageBin in Rpm).value
   val rpmPath = Seq(rpmFile.getAbsolutePath)
   Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.value.log
-  val scriptlets = Process("rpm -qp --scripts " + rpmFile.getAbsolutePath) !! streams.value.log
+  val scriptlets = sys.process.Process("rpm -qp --scripts " + rpmFile.getAbsolutePath) !! streams.value.log
   assert(scriptlets contains "echo postinst", "'echo 'postinst' not present in \n" + scriptlets)
   assert(scriptlets contains "echo preinst", "'echo 'preinst' not present in \n" + scriptlets)
   assert(scriptlets contains "echo postun", "'echo 'postun' not present in \n" + scriptlets)

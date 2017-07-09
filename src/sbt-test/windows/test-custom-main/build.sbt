@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(JavaAppPackaging)
 
 name := "test-custom-main"
@@ -18,7 +20,7 @@ TaskKey[Unit]("check-app-main") := {
 TaskKey[Unit]("check-custom-main") := {
   val zipFile = (packageBin in Universal).value
   val process =
-    sbt.Process("target/universal/stage/bin/test-custom-main.bat", Seq("-main", "CustomMain"))
+    Process("target/universal/stage/bin/test-custom-main.bat", Seq("-main", "CustomMain"))
   val out = (process !!)
   if (out.trim != "Custom Main Method") error("unexpected output: " + out)
   ()

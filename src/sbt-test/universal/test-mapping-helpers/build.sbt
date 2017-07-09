@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 import com.typesafe.sbt.packager.MappingsHelper._
 
 enablePlugins(JavaAppPackaging)

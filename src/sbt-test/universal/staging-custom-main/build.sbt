@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(JavaAppPackaging)
 
 name := "stage-custom-main"
@@ -13,7 +15,7 @@ TaskKey[Unit]("unzip") := {
 
 TaskKey[Unit]("check") := {
   val zipFile = (packageBin in Universal).value
-  val process = sbt.Process("stage-custom-main-0.1.0/bin/stage-custom-main", Seq("-main", "CustomMain"))
+  val process = Process("stage-custom-main-0.1.0/bin/stage-custom-main", Seq("-main", "CustomMain"))
   val out = (process !!)
   if (out.trim != "A custom main method") sys.error("unexpected output: " + out)
   ()
