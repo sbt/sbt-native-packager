@@ -7,7 +7,7 @@ name := "launcher-jar-test"
 version := "0.1.0"
 
 // test dependencies sample
-libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-kernel" % "2.3.4")
+libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-actor" % "2.5.3")
 
 TaskKey[Unit]("checkClasspath") := {
   val dir = (stagingDirectory in Universal).value
