@@ -1,7 +1,4 @@
 language: java
-os:
-  - linux
-  - osx
 env:
   - SBT_VERSION_CMD="++2.10.6"
   - SBT_VERSION_CMD="++2.12.2 ^^1.0.0-M6"
