@@ -7,7 +7,7 @@ name := "launcher-jar-test"
 version := "0.1.0"
 
 // test dependencies sample
-libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-actor" % "2.5.3")
+libraryDependencies += "com.typesafe" % "config" % "1.3.1"
 
 TaskKey[Unit]("checkClasspath") := {
   val dir = (stagingDirectory in Universal).value
@@ -26,7 +26,7 @@ TaskKey[Unit]("checkClasspath") := {
   val jar = new java.util.jar.JarFile(dir / "lib" / "launcher-jar-test.launcher-jar-test-0.1.0-launcher.jar")
   val attributes = jar.getManifest().getMainAttributes()
   assert(
-    attributes.getValue("Class-Path").toString() contains "com.typesafe.akka.akka-actor",
+    attributes.getValue("Class-Path").toString() contains "com.typesafe.config",
     "MANIFEST Class-Path should contain akka-actor:\n" + attributes.getValue("Class-Path").toString()
   )
   assert(
