@@ -131,7 +131,7 @@ scalafmtConfig := Some(file(".scalafmt.conf"))
 // ci commands
 addCommandAlias(
   "validate",
-  "; update ; test ; scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings"
+  "; update ; test ; set scriptedBufferLog := false ; scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings"
 )
 addCommandAlias("validateUnix", "scripted universal/* jar/* bash/* ash/*")
 
