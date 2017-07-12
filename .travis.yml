@@ -2,7 +2,6 @@ language: java
 env:
   - SBT_VERSION_CMD="++2.10.6"
   - SBT_VERSION_CMD="++2.12.2 ^^1.0.0-M6"
-jdk: oraclejdk8
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
