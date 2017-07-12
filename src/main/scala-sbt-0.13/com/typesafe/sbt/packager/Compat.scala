@@ -1,6 +1,6 @@
 package com.typesafe.sbt.packager
 
-import sbt.{BufferedLogger, FullLogger, Logger}
+import sbt.{Artifact, BufferedLogger, FullLogger, Logger}
 
 import scala.sys.process.ProcessLogger
 
@@ -34,4 +34,13 @@ object Compat {
     */
   implicit def sbtProcessLogger2ScalaProcessLogger(logger: sbt.ProcessLogger): sys.process.ProcessLogger =
     ProcessLogger(msg => logger.info(msg), err => logger.error(err))
+
+  /**
+    * Use in the scripted `universal/multiproject-classifiers` test.
+    * @param artifact polyfill new methods
+    */
+  implicit class CompatArtifact(artifact: Artifact) {
+    def withClassifier(classifier: Option[String]): Artifact =
+      artifact.copy(classifier = classifier)
+  }
 }
