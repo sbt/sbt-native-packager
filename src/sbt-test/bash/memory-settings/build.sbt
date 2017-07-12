@@ -8,7 +8,7 @@ version := "0.1.0"
 
 javaOptions in Universal ++= Seq("-J-Xmx64m", "-J-Xms64m")
 
-TaskKey[Unit]("jvmopts-check") := {
+TaskKey[Unit]("jvmoptsCheck") := {
   val jvmopts = (stagingDirectory in Universal).value / "conf" / "application.ini"
   val options = IO.read(jvmopts)
   assert(options contains "-J-Xmx64m", "Options don't contain xmx setting:\n" + options)

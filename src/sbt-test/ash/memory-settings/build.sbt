@@ -6,7 +6,7 @@ version := "0.1.0"
 
 bashScriptExtraDefines ++= Seq("""addJava "-Xms64m"""", """addJava "-Xmx64m"""")
 
-TaskKey[Unit]("script-check") := {
+TaskKey[Unit]("scriptCheck") := {
   val startScript = (stagingDirectory in Universal).value / "bin" / executableScriptName.value
   val options = IO.read(startScript)
   assert(options contains """addJava "-Xms64m"""", "Script doesn't contain xmx setting:\n" + options)
