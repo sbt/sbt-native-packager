@@ -1,26 +1,36 @@
 language: java
+os: linux
+jdk: oraclejdk8
+
+env:
+  - SBT_TEST_CMD="validate"
+  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validate"
+  - SBT_TEST_CMD="validateUniversal"
+  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateUniversal"
+  - SBT_TEST_CMD="validateJar"
+  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateJar"
+  - SBT_TEST_CMD="validateBash"
+  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateBash"
+  - SBT_TEST_CMD="validateAsh"
+  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateAsh"
+  - SBT_TEST_CMD="validateRpm"
+  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateRpm"
+  - SBT_TEST_CMD="validateDebian"
+  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateDebian"
+  - SBT_TEST_CMD="validateDocker"
+  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateDocker"
+  - SBT_TEST_CMD="validateJdkPackager"
+  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateJdkPackager"
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       brew update;
       brew install xz;
     fi
-script:
-  - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
-      ./sbt "$SBT_VERSION_CMD validateOSX" ;
-    fi
-  - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
-      ./sbt "$SBT_VERSION_CMD validateLinux" ;
-    fi
+script: ./sbt "$SBT_TEST_CMD" ;
 
 matrix:
   include:
-    - os: linux
-      env: SBT_VERSION_CMD="++2.10.6"
-      jdk: oraclejdk8
-    - os: linux
-      env: SBT_VERSION_CMD="++2.12.2 ^^1.0.0-M6"
-      jdk: oraclejdk8
       # oraclejdk8 is not yet available.
       # see https://github.com/travis-ci/travis-ci/issues/2316
     - os: osx

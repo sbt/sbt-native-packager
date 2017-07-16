@@ -129,15 +129,20 @@ bintrayRepository := "sbt-plugin-releases"
 scalafmtConfig := Some(file(".scalafmt.conf"))
 
 // ci commands
-addCommandAlias(
-  "validate",
-  "; update ; test ; set scriptedBufferLog := false ; scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings"
-)
-addCommandAlias("validateUnix", "scripted universal/* jar/* bash/* ash/*")
+addCommandAlias("validate", "; clean ; update ; test")
 
-addCommandAlias("validateOSX", "; validate ; validateUnix")
-addCommandAlias(
-  "validateLinux",
-  "; validate ; validateUnix ; scripted rpm/* debian/* docker/staging docker/entrypoint docker/ports docker/volumes"
-)
-addCommandAlias("validateWindows", ";test-only * -- -n windows;scripted universal/dist universal/stage windows/*")
+// List all scripted test separately to schedule them in different travis-ci jobs.
+// Travis-CI has hard timeouts for jobs, so we run them in smaller jobs as the scripted
+// tests take quite some time to run.
+// Ultimatley we should run only those tests that are necessary for a change
+addCommandAlias("validateUniversal", "scripted universal/*")
+addCommandAlias("validateJar", "scripted jar/*")
+addCommandAlias("validateBash", "scripted bash/*")
+addCommandAlias("validateAsh", "scripted ash/*")
+addCommandAlias("validateRpm", "scripted rpm/*")
+addCommandAlias("validateDebian", "scripted debian/*")
+addCommandAlias("validateDocker", "scripted docker/*")
+addCommandAlias("validateJdkPackager", "scripted docker/*")
+
+// TODO check the cygwin scripted tests and run them on appveyor
+addCommandAlias("validateWindows", "; test-only * -- -n windows;scripted universal/dist universal/stage windows/*")
