@@ -17,8 +17,10 @@ env:
   - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateRpm"
   - SBT_TEST_CMD="validateDebian"
   - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateDebian"
-  - SBT_TEST_CMD="validateDocker"
-  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateDocker"
+  # for now we can't test the docker image generation on travis
+  - SBT_TEST_CMD="validateDockerUnit"
+  - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateDockerUnit"
+  # jdk packaging is only available on jdk8+
   - SBT_TEST_CMD="validateJdkPackager"
   - SBT_TEST_CMD="++2.12.2 ^^1.0.0-M6 validateJdkPackager"
 

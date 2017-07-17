@@ -142,6 +142,7 @@ addCommandAlias("validateAsh", "scripted ash/*")
 addCommandAlias("validateRpm", "scripted rpm/*")
 addCommandAlias("validateDebian", "scripted debian/*")
 addCommandAlias("validateDocker", "scripted docker/*")
+addCommandAlias("validateDockerUnit", "scripted docker/staging docker/entrypoint docker/ports docker/volumes")
 addCommandAlias("validateJdkPackager", "scripted docker/*")
 
 // TODO check the cygwin scripted tests and run them on appveyor
