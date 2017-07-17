@@ -23,4 +23,4 @@ $ exists var/run/rpm-test
 > set NativePackagerKeys.rpmBrpJavaRepackJars := false
 > checkSpecFile
 
-> unique-scripts-in-spec-file
+> uniqueSccriptsInSpecFile

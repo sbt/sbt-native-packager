@@ -43,7 +43,7 @@ def countSubstring(str: String, substr: String): Int =
 def isUnique(str: String, searchstr: String): Boolean =
   countSubstring(str, searchstr) == 1
 
-TaskKey[Unit]("unique-scripts-in-spec-file") := {
+TaskKey[Unit]("uniqueSccriptsInSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(isUnique(spec, "echo postinst"), "'echo 'postinst' not unique in \n" + spec)
   assert(isUnique(spec, "echo preinst"), "'echo 'preinst' not unique in \n" + spec)
