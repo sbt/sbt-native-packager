@@ -17,7 +17,9 @@ packageDescription := """A fun package description of our software,
 TaskKey[Unit]("checkLoaderFunctions") := {
   val extracted = target.value / "tmp" / "extracted-package"
   extracted.mkdirs()
-  Seq("dpkg-deb", "-e", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+  sys.process
+    .Process(Seq("dpkg-deb", "-e", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath))
+    .!
 
   val script = IO.read(extracted / "postinst")
 
