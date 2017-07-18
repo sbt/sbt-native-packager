@@ -144,6 +144,12 @@ addCommandAlias("validateDebian", "scripted debian/*")
 addCommandAlias("validateDocker", "scripted docker/*")
 addCommandAlias("validateDockerUnit", "scripted docker/staging docker/entrypoint docker/ports docker/volumes")
 addCommandAlias("validateJdkPackager", "scripted jdkpackager/*")
+// travis ci's jdk8 version doesn't support nested association elements.
+// error: Caused by: class com.sun.javafx.tools.ant.Info doesn't support the nested "association" element.
+addCommandAlias(
+  "validateJdkPackagerTravis",
+  "scripted jdkpackager/test-package-minimal jdkPackager/test-package-mappings"
+)
 
 // TODO check the cygwin scripted tests and run them on appveyor
 addCommandAlias("validateWindows", "; test-only * -- -n windows;scripted universal/dist universal/stage windows/*")
