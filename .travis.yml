@@ -34,7 +34,7 @@ matrix:
       # oraclejdk8 is not yet available.
       # see https://github.com/travis-ci/travis-ci/issues/2316
     - os: osx
-      env: SBT_VERSION_CMD="++2.12.2 ^^1.0.0-M6"
+      env: SBT_VERSION_CMD="^validate ^validateUniversal"
       osx_image: xcode8
 
 addons:
