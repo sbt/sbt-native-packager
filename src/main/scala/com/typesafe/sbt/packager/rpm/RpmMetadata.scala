@@ -154,7 +154,7 @@ case class RpmSpec(meta: RpmMetadata,
     val emptyValidators =
       Seq(
         ensureOr(meta.name, "`name in Rpm` is empty.  Please provide one.", isNonEmpty),
-        ensureOr(meta.version, "`version in Rpm` is empty.  Please provide a vaid version for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.version, "`version in Rpm` is empty.  Please provide a valid version for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.release, "`rpmRelease in Rpm` is empty.  Please provide a valid release number for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.arch, "`packageArchitecture in Rpm` is empty.  Please provide a valid archiecture for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.vendor, "`rpmVendor in Rpm` is empty.  Please provide a valid vendor for the rpm SPEC.", isNonEmpty),
