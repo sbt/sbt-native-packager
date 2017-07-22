@@ -155,7 +155,7 @@ addCommandAlias("validateJdkPackager", "scripted jdkpackager/*")
 // error: Caused by: class com.sun.javafx.tools.ant.Info doesn't support the nested "association" element.
 addCommandAlias(
   "validateJdkPackagerTravis",
-  "scripted jdkpackager/test-package-minimal jdkPackager/test-package-mappings"
+  "scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings"
 )
 
 // TODO check the cygwin scripted tests and run them on appveyor
