@@ -6,7 +6,7 @@ organization := "com.typesafe.sbt"
 scalaVersion in Global := "2.10.6"
 
 // crossBuildingSettings
-crossSbtVersions := Vector("0.13.15", "1.0.0-M6")
+crossSbtVersions := Vector("0.13.15", "1.0.0-RC2")
 
 scalacOptions in Compile ++= Seq("-deprecation")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
@@ -62,51 +62,6 @@ git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 // scripted test settings
 scriptedSettings
 scriptedLaunchOpts += "-Dproject.version=" + version.value
-
-// Temporary fix for issue sbt/sbt/issues/3245
-scripted := {
-  val args = ScriptedPlugin
-    .asInstanceOf[{
-	def scriptedParser(f: File): complete.Parser[Seq[String]]
-      }
-    ]
-    .scriptedParser(sbtTestDirectory.value)
-    .parsed
-  val prereq: Unit = scriptedDependencies.value
-  try {
-    if ((sbtVersion in pluginCrossBuild).value == "1.0.0-M6") {
-      ScriptedPlugin.scriptedTests.value
-	.asInstanceOf[{
-	    def run(x1: File, x2: Boolean, x3: Array[String], x4: File, x5: Array[String], x6: java.util.List[File])
-	      : Unit
-	  }
-	]
-	.run(
-	  sbtTestDirectory.value,
-	  scriptedBufferLog.value,
-	  args.toArray,
-	  sbtLauncher.value,
-	  scriptedLaunchOpts.value.toArray,
-	  new java.util.ArrayList()
-	)
-    } else {
-      ScriptedPlugin.scriptedTests.value
-	.asInstanceOf[{
-	    def run(x1: File, x2: Boolean, x3: Array[String], x4: File, x5: Array[String]): Unit
-	  }
-	]
-	.run(
-	  sbtTestDirectory.value,
-	  scriptedBufferLog.value,
-	  args.toArray,
-	  sbtLauncher.value,
-	  scriptedLaunchOpts.value.toArray
-	)
-    }
-  } catch {
-    case e: java.lang.reflect.InvocationTargetException => throw e.getCause
-  }
-}
 
 // Release configurationr
 releasePublishArtifactsAction := PgpKeys.publishSigned.value

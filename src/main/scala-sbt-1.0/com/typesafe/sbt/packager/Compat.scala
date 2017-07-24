@@ -6,12 +6,11 @@ import sbt.util.CacheStore
 
 object Compat {
   val IvyActions = ilm.IvyActions
-  type PublishConfiguration = ilm.PublishConfiguration
   type IvySbt = ilm.IvySbt
-  type IvyScala = lm.IvyScala
+  type IvyScala = sbt.librarymanagement.ScalaModuleInfo
+  val IvyScala = sbt.librarymanagement.ScalaModuleInfo
+
   type UpdateConfiguration = lm.UpdateConfiguration
-  type InlineConfiguration = ilm.InlineConfiguration
-  val InlineConfiguration = ilm.InlineConfiguration
 
   /**
     * Used in
