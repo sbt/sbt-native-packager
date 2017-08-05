@@ -103,7 +103,11 @@ object JavaAppPackaging extends AutoPlugin {
   // ivy metadata if available.
   private def getJarFullFilename(dep: Attributed[File]): String = {
     val filename: Option[String] = for {
-      module <- dep.metadata.get(AttributeKey[ModuleID]("module-id"))
+      module <- dep.metadata
+      // sbt 0.13.x key
+	.get(AttributeKey[ModuleID]("module-id"))
+	// sbt 1.x key
+	.orElse(dep.metadata.get(AttributeKey[ModuleID]("moduleID")))
       artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
     } yield makeJarName(module.organization, module.name, module.revision, artifact.name, artifact.classifier)
     filename.getOrElse(dep.data.getName)

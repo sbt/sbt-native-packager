@@ -26,12 +26,12 @@ TaskKey[Unit]("checkClasspath") := {
   val jar = new java.util.jar.JarFile(dir / "lib" / "launcher-jar-test.launcher-jar-test-0.1.0-launcher.jar")
   val attributes = jar.getManifest().getMainAttributes()
   assert(
-    attributes.getValue("Class-Path").toString() contains "com.typesafe.config",
-    "MANIFEST Class-Path should contain akka-actor:\n" + attributes.getValue("Class-Path").toString()
+    attributes.getValue("Class-Path") contains "com.typesafe.config",
+    "MANIFEST Class-Path should contain 'com.typesafe.config':\n" + attributes.getValue("Class-Path")
   )
   assert(
-    attributes.getValue("Main-Class").toString() contains "test.Test",
-    "MANIFEST Main-Class should contain test.Test:\n" + attributes.getValue("Main-Class").toString()
+    attributes.getValue("Main-Class") contains "test.Test",
+    "MANIFEST Main-Class should contain test.Test:\n" + attributes.getValue("Main-Class")
   )
   jar close
 }

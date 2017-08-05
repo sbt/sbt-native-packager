@@ -25,7 +25,7 @@ TaskKey[Unit]("checkClasspath") := {
   val attributes = jar.getManifest().getMainAttributes()
   assert(
     attributes.getValue("Class-Path").toString() contains "com.typesafe.config",
-    "MANIFEST Class-Path should contain akka-actor:\n" + attributes.getValue("Class-Path").toString()
+    "MANIFEST Class-Path should contain com.typesafe.config:\n" + attributes.getValue("Class-Path").toString()
   )
   assert(
     attributes.getValue("Main-Class").toString() contains "test.Test",

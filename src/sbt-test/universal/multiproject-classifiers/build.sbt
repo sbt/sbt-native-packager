@@ -11,7 +11,7 @@ lazy val mySettings: Seq[Setting[_]] =
     }
   })
 
-lazy val Assets = config("Assets")
+lazy val Assets = config("assets")
 
 lazy val sub = project
   .in(file("sub"))

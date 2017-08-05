@@ -14,7 +14,7 @@ TaskKey[Unit]("checkClasspath") := {
   val bat = IO.read(dir / "bin" / "classpath-jar-test.bat")
   assert(bat contains "set \"APP_CLASSPATH=%APP_LIB_DIR%\\classpath-jar-test.classpath-jar-test-0.1.0-classpath.jar\"")
   val jar = new java.util.jar.JarFile(dir / "lib" / "classpath-jar-test.classpath-jar-test-0.1.0-classpath.jar")
-  assert(jar.getManifest().getMainAttributes().getValue("Class-Path").toString() contains "com.typesafe.config")
+  assert(jar.getManifest().getMainAttributes().getValue("Class-Path") contains "com.typesafe.config")
   jar close
 }
 
