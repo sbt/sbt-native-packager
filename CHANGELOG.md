@@ -1,5 +1,33 @@
 # Change Log
 
+## [v1.2.1](https://github.com/sbt/sbt-native-packager/tree/v1.2.1) (2017-08-05)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0...v1.2.1)
+
+**Fixed bugs:**
+
+- restartService error during yum update of RPM package [\#1001](https://github.com/sbt/sbt-native-packager/issues/1001)
+- \[Debian\] Broken CHOWN\_REPLACEMENT when built on Windows [\#600](https://github.com/sbt/sbt-native-packager/issues/600)
+- JDebPackaging forces .deb dependencies as default [\#567](https://github.com/sbt/sbt-native-packager/issues/567)
+
+**Closed issues:**
+
+- Recipe for including logging config or similar [\#1010](https://github.com/sbt/sbt-native-packager/issues/1010)
+- Add option for appending timestamps to RPM snapshots [\#1008](https://github.com/sbt/sbt-native-packager/issues/1008)
+- how to insert a custom command into start script [\#1007](https://github.com/sbt/sbt-native-packager/issues/1007)
+- 2.11 and 2.12 have no deploy at bintray [\#1002](https://github.com/sbt/sbt-native-packager/issues/1002)
+- Chown: invalid group after setting daemonGroup [\#999](https://github.com/sbt/sbt-native-packager/issues/999)
+- rpmBrpJavaRepackJars issue [\#964](https://github.com/sbt/sbt-native-packager/issues/964)
+- Does docker:publishLocal support multiple modules? [\#941](https://github.com/sbt/sbt-native-packager/issues/941)
+
+**Merged pull requests:**
+
+- Rpm Metadata Small Typo Fix "vaid" changed back to "valid" [\#1009](https://github.com/sbt/sbt-native-packager/pull/1009) ([ChristopherDavenport](https://github.com/ChristopherDavenport))
+- strip snapshot suffix safely \(\#1004\) [\#1005](https://github.com/sbt/sbt-native-packager/pull/1005) ([colin-passiv](https://github.com/colin-passiv))
+- Fix a bug which cause upgrade failing because of no restartService [\#1003](https://github.com/sbt/sbt-native-packager/pull/1003) ([buster84](https://github.com/buster84))
+- sbt 0.13.15. fix warnings [\#998](https://github.com/sbt/sbt-native-packager/pull/998) ([xuwei-k](https://github.com/xuwei-k))
+- update scalatest 3.0.3 [\#997](https://github.com/sbt/sbt-native-packager/pull/997) ([xuwei-k](https://github.com/xuwei-k))
+- delete unnecessary file [\#996](https://github.com/sbt/sbt-native-packager/pull/996) ([xuwei-k](https://github.com/xuwei-k))
+
 ## [v1.2.0](https://github.com/sbt/sbt-native-packager/tree/v1.2.0) (2017-06-07)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.1.6...v1.2.0)
 
