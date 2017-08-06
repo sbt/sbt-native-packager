@@ -39,14 +39,9 @@ object SettingsHelper {
 	artifacts := Seq.empty,
 	packagedArtifacts := Map.empty,
 	projectID := ModuleID(organization.value, name.value, version.value),
-	// Why do we need a custom ModuleConfiguration for a package type?
-	moduleSettings := IvyFileConfiguration(
-	  validate = true,
-	  scalaModuleInfo = scalaModuleInfo.value,
-	  file = packageTask.value,
-	  autoScalaTools = false
-	),
-	// Why do we have change the ivyModule?
+	// Custom module settings to skip the ivy XmlModuleDescriptorParser
+	moduleSettings := ModuleDescriptorConfiguration(projectID.value, projectInfo.value)
+	  .withScalaModuleInfo(scalaModuleInfo.value),
 	ivyModule := {
 	  val ivy = ivySbt.value
 	  new ivy.Module(moduleSettings.value)
