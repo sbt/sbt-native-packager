@@ -543,6 +543,19 @@
       </span>
       </h4>
       
+    </li><li name="sbt.package#Zero" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Zero:sbt.Global.type"></a>
+      <a id="Zero:Global.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Zero</span><span class="result">: <span class="extype" name="sbt.Global">Global</span>.type</span>
+      </span>
+      </h4>
+      
     </li><li name="sbt.Mapper#abs" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="abs:java.io.File=&gt;Option[java.io.File]"></a>
       <a id="abs:(java.io.File)⇒Option[java.io.File]"></a>
@@ -2140,19 +2153,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>TaskExtra</dd></dl></div>
-    </li><li name="sbt.BuildCommon#toError" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toError(o:&lt;?&gt;):Unit"></a>
-      <a id="toError(Option[String]):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toError</span><span class="params">(<span name="o">o: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>BuildCommon</dd></dl></div>
     </li><li name="sbt.TypeFunctions#toFn1" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toFn1[A,B](f:A=&gt;B):sbt.Fn1[A,B]"></a>
       <a id="toFn1[A,B]((A)⇒B):Fn1[A,B]"></a>
@@ -2361,6 +2361,22 @@
                 <span class="name">@deprecated</span>
               
         </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.13.0)</i> In build.sbt files, this call can be removed.  In other cases, this can usually be replaced by Seq.</p></dd></dl></div>
+    </li><li name="sbt.BuildCommon#toError" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toError(o:&lt;?&gt;):Unit"></a>
+      <a id="toError(Option[String]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.13.16) use 'opt foreach sys.error' instead">toError</span><span class="params">(<span name="o">o: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>BuildCommon</dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.13.16)</i> use 'opt foreach sys.error' instead</p></dd></dl></div>
     </li><li name="sbt.ProcessExtra#xmlToProcess" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="xmlToProcess(command:scala.xml.Elem):sbt.ProcessBuilder"></a>
       <a id="xmlToProcess(Elem):ProcessBuilder"></a>
