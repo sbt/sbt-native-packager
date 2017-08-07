@@ -63,7 +63,7 @@ git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 scriptedSettings
 scriptedLaunchOpts += "-Dproject.version=" + version.value
 
-// Release configurationr
+// Release configuration
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 publishMavenStyle := false
 
@@ -71,12 +71,12 @@ import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
-  runTest,
-  releaseStepInputTask(scripted, " universal/* debian/* rpm/* docker/* ash/* jar/* bash/* jdkpackager/*"),
+  releaseStepCommandAndRemaining("^ test"),
+  releaseStepCommandAndRemaining("^ scripted universal/* debian/* rpm/* docker/* ash/* jar/* bash/* jdkpackager/*"),
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  publishArtifacts,
+  releaseStepCommandAndRemaining("^ publishSigned"),
   setNextVersion,
   commitNextVersion,
   pushChanges,
