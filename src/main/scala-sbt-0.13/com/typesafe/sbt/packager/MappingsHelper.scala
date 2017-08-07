@@ -102,13 +102,13 @@ object MappingsHelper {
     * @param includeOnNoArtifact default is false. When there's no Artifact meta data remove it
     */
   def fromClasspath(entries: Seq[Attributed[File]],
-		    target: String,
-		    includeArtifact: Artifact => Boolean,
-		    includeOnNoArtifact: Boolean = false): Seq[(File, String)] =
+                    target: String,
+                    includeArtifact: Artifact => Boolean,
+                    includeOnNoArtifact: Boolean = false): Seq[(File, String)] =
     entries.filter(attr => attr.get(sbt.Keys.artifact.key) map includeArtifact getOrElse includeOnNoArtifact).map {
       attribute =>
-	val file = attribute.data
-	file -> s"$target/${file.getName}"
+        val file = attribute.data
+        file -> s"$target/${file.getName}"
     }
 
 }

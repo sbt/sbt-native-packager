@@ -134,12 +134,12 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       // override and merge with the user defined scripts. Will change in the future
       val controlScriptsDir = debianControlScriptsDirectory.value
       val overridenScripts = scripts ++ readContent(
-	Seq(
-	  scriptMapping(Names.Prerm, debianMakePrermScript.value, controlScriptsDir),
-	  scriptMapping(Names.Preinst, debianMakePreinstScript.value, controlScriptsDir),
-	  scriptMapping(Names.Postinst, debianMakePostinstScript.value, controlScriptsDir),
-	  scriptMapping(Names.Postrm, debianMakePostrmScript.value, controlScriptsDir)
-	).flatten
+        Seq(
+          scriptMapping(Names.Prerm, debianMakePrermScript.value, controlScriptsDir),
+          scriptMapping(Names.Preinst, debianMakePreinstScript.value, controlScriptsDir),
+          scriptMapping(Names.Postinst, debianMakePostinstScript.value, controlScriptsDir),
+          scriptMapping(Names.Postrm, debianMakePostrmScript.value, controlScriptsDir)
+        ).flatten
       )
       // --- legacy ends
 
@@ -428,22 +428,22 @@ trait DebianPluginLike {
     // filter all root mappings, map to (user,group) key, group by, append everything
     val chowns = mappings
       .filter {
-	case LinuxPackageMapping(_, LinuxFileMetaData(Users.Root, Users.Root, _, _, _), _) =>
-	  false
-	case _ => true
+        case LinuxPackageMapping(_, LinuxFileMetaData(Users.Root, Users.Root, _, _, _), _) =>
+          false
+        case _ => true
       }
       .map {
-	case LinuxPackageMapping(paths, meta, _) =>
-	  (meta.user, meta.group) -> paths
+        case LinuxPackageMapping(paths, meta, _) =>
+          (meta.user, meta.group) -> paths
       }
       .groupBy(_._1)
       .map {
-	case ((user, group), pathList) =>
-	  validateUserGroupNames(user, streams)
-	  validateUserGroupNames(group, streams)
-	  val chown = chownCmd(user, group) _
-	  // remove key, flatten it and then use mapping path (_.2) to create chown command
-	  pathList.flatMap(_._2).map(m => chown(m._2))
+        case ((user, group), pathList) =>
+          validateUserGroupNames(user, streams)
+          validateUserGroupNames(group, streams)
+          val chown = chownCmd(user, group) _
+          // remove key, flatten it and then use mapping path (_.2) to create chown command
+          pathList.flatMap(_._2).map(m => chown(m._2))
       }
     val replacement = header :: chowns.flatten.toList mkString "\n"
     DebianPlugin.CHOWN_REPLACEMENT -> replacement

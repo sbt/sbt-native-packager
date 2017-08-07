@@ -136,8 +136,8 @@ object Archives {
     // Create the DMG file:
     sys.process
       .Process(
-	Seq("hdiutil", "create", "-megabytes", "%d" format neededMegabytes, "-fs", "HFS+", "-volname", name, name),
-	Some(target)
+        Seq("hdiutil", "create", "-megabytes", "%d" format neededMegabytes, "-fs", "HFS+", "-volname", name, name),
+        Some(target)
       )
       .! match {
       case 0 => ()

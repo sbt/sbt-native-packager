@@ -13,56 +13,56 @@ import com.typesafe.sbt.packager.Compat._
 object SettingsHelper {
 
   def addPackage(config: Configuration,
-		 packageTask: TaskKey[File],
-		 extension: String,
-		 classifier: Option[String] = None): Seq[Setting[_]] = inConfig(config)(
+                 packageTask: TaskKey[File],
+                 extension: String,
+                 classifier: Option[String] = None): Seq[Setting[_]] = inConfig(config)(
     addArtifact(
       name apply (Artifact(
-	_,
-	extension,
-	extension,
-	classifier = classifier,
-	configurations = Vector.empty,
-	url = None
+        _,
+        extension,
+        extension,
+        classifier = classifier,
+        configurations = Vector.empty,
+        url = None
       )),
       packageTask
     )
   )
 
   def makeDeploymentSettings(config: Configuration,
-			     packageTask: TaskKey[File],
-			     extension: String,
-			     classifier: Option[String] = None): Seq[Setting[_]] =
+                             packageTask: TaskKey[File],
+                             extension: String,
+                             classifier: Option[String] = None): Seq[Setting[_]] =
     // Why do we need the ivyPublishSettings and jvmPublishSettings ?
     inConfig(config)(Classpaths.ivyPublishSettings ++ Classpaths.jvmPublishSettings) ++ inConfig(config)(
       Seq(
-	artifacts := Seq.empty,
-	packagedArtifacts := Map.empty,
-	projectID := ModuleID(organization.value, name.value, version.value),
-	// Custom module settings to skip the ivy XmlModuleDescriptorParser
-	moduleSettings := ModuleDescriptorConfiguration(projectID.value, projectInfo.value)
-	  .withScalaModuleInfo(scalaModuleInfo.value),
-	ivyModule := {
-	  val ivy = ivySbt.value
-	  new ivy.Module(moduleSettings.value)
-	},
-	// Where have these settings gone?
-	// -------------------------------
-	// deliverLocalConfiguration := Classpaths.deliverConfig(crossTarget.value, logging = ivyLoggingLevel.value)
-	// deliverConfiguration := deliverLocalConfiguration.value,
-	// -------------------------------
-	publishConfiguration := PublishConfiguration()
-	  .withResolverName(Classpaths.getPublishTo(publishTo.value).name)
-	  .withArtifacts(packagedArtifacts.value.toVector)
-	  .withChecksums(checksums.value.toVector)
-	  .withOverwrite(isSnapshot.value)
-	  .withLogging(UpdateLogging.DownloadOnly),
-	publishLocalConfiguration := PublishConfiguration()
-	  .withResolverName("local")
-	  .withArtifacts(packagedArtifacts.value.toVector)
-	  .withChecksums(checksums.value.toVector)
-	  .withOverwrite(isSnapshot.value)
-	  .withLogging(UpdateLogging.DownloadOnly)
+        artifacts := Seq.empty,
+        packagedArtifacts := Map.empty,
+        projectID := ModuleID(organization.value, name.value, version.value),
+        // Custom module settings to skip the ivy XmlModuleDescriptorParser
+        moduleSettings := ModuleDescriptorConfiguration(projectID.value, projectInfo.value)
+          .withScalaModuleInfo(scalaModuleInfo.value),
+        ivyModule := {
+          val ivy = ivySbt.value
+          new ivy.Module(moduleSettings.value)
+        },
+        // Where have these settings gone?
+        // -------------------------------
+        // deliverLocalConfiguration := Classpaths.deliverConfig(crossTarget.value, logging = ivyLoggingLevel.value)
+        // deliverConfiguration := deliverLocalConfiguration.value,
+        // -------------------------------
+        publishConfiguration := PublishConfiguration()
+          .withResolverName(Classpaths.getPublishTo(publishTo.value).name)
+          .withArtifacts(packagedArtifacts.value.toVector)
+          .withChecksums(checksums.value.toVector)
+          .withOverwrite(isSnapshot.value)
+          .withLogging(UpdateLogging.DownloadOnly),
+        publishLocalConfiguration := PublishConfiguration()
+          .withResolverName("local")
+          .withArtifacts(packagedArtifacts.value.toVector)
+          .withChecksums(checksums.value.toVector)
+          .withOverwrite(isSnapshot.value)
+          .withLogging(UpdateLogging.DownloadOnly)
       )
     ) ++ addPackage(config, packageTask, extension, classifier)
 

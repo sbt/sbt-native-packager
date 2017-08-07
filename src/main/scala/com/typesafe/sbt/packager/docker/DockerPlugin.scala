@@ -82,9 +82,9 @@ object DockerPlugin extends AutoPlugin {
     dockerExecCommand := Seq("docker"),
     dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
       if (dockerUpdateLatest.value)
-	Seq("-t", dockerAlias.value.latest)
+        Seq("-t", dockerAlias.value.latest)
       else
-	Seq()
+        Seq()
     ),
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
@@ -107,8 +107,8 @@ object DockerPlugin extends AutoPlugin {
       executableScriptName := executableScriptName.value,
       mappings ++= dockerPackageMappings.value,
       mappings ++= {
-	val baseDir = target.value
-	Seq(dockerGenerateConfig.value) pair (file => IO.relativize(baseDir, file))
+        val baseDir = target.value
+        Seq(dockerGenerateConfig.value) pair (file => IO.relativize(baseDir, file))
       },
       name := name.value,
       packageName := packageName.value,
@@ -121,20 +121,20 @@ object DockerPlugin extends AutoPlugin {
         val _ = publishLocal.value
         val alias = dockerAlias.value
         val log = streams.value.log
-	val execCommand = dockerExecCommand.value
-	publishDocker(execCommand, alias.versioned, log)
+        val execCommand = dockerExecCommand.value
+        publishDocker(execCommand, alias.versioned, log)
         if (dockerUpdateLatest.value) {
-	  publishDocker(execCommand, alias.latest, log)
+          publishDocker(execCommand, alias.latest, log)
         }
       },
       clean := {
         val alias = dockerAlias.value
         val log = streams.value.log
-	val rmiCommand = dockerRmiCommand.value
-	// clean up images
-	rmiDocker(rmiCommand, alias.versioned, log)
+        val rmiCommand = dockerRmiCommand.value
+        // clean up images
+        rmiDocker(rmiCommand, alias.versioned, log)
         if (dockerUpdateLatest.value) {
-	  rmiDocker(rmiCommand, alias.latest, log)
+          rmiDocker(rmiCommand, alias.latest, log)
         }
       },
       sourceDirectory := sourceDirectory.value / "docker",
@@ -300,12 +300,12 @@ object DockerPlugin extends AutoPlugin {
           case s if s.startsWith("Sending build context") =>
             log.debug(s) // 1.0
           case s if !s.trim.isEmpty => log.error(s)
-	  case s                    =>
+          case s =>
         }
 
       override def out(inf: => String): Unit = inf match {
         case s if !s.trim.isEmpty => log.info(s)
-	case s                    =>
+        case s =>
       }
 
       override def buffer[T](f: => T): T = f
@@ -325,7 +325,7 @@ object DockerPlugin extends AutoPlugin {
     def rmiDockerLogger(log: Logger) = new sys.process.ProcessLogger {
       override def err(err: => String): Unit = err match {
         case s if !s.trim.isEmpty => log.error(s)
-	case s                    =>
+        case s =>
       }
 
       override def out(inf: => String): Unit = log.info(inf)
@@ -350,20 +350,20 @@ object DockerPlugin extends AutoPlugin {
     def publishLogger(log: Logger) =
       new sys.process.ProcessLogger {
 
-	override def err(err: => String): Unit = err match {
+        override def err(err: => String): Unit = err match {
           case s if !s.trim.isEmpty => log.error(s)
-	  case s                    =>
+          case s =>
         }
 
-	override def out(inf: => String): Unit =
+        override def out(inf: => String): Unit =
           inf match {
             case s if s.startsWith("Please login") =>
               loginRequired.compareAndSet(false, true)
             case s if !loginRequired.get && !s.trim.isEmpty => log.info(s)
-	    case s                                          =>
+            case s =>
           }
 
-	override def buffer[T](f: => T): T = f
+        override def buffer[T](f: => T): T = f
       }
 
     val cmd = execCommand ++ Seq("push", tag)

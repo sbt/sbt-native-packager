@@ -106,12 +106,12 @@ object WindowsPlugin extends AutoPlugin {
       IO.copy(for ((f, to) <- mappings.value) yield (f, target.value / to))
       // Now compile WIX
       val wixdir = Option(System.getenv("WIX")) getOrElse sys.error(
-	"WIX environment not found.  Please ensure WIX is installed on this computer."
+        "WIX environment not found.  Please ensure WIX is installed on this computer."
       )
       val candleCmd = Seq(wixdir + "\\bin\\candle.exe", wix.getAbsolutePath) ++ candleOptions.value
       streams.value.log.debug(candleCmd mkString " ")
       sys.process.Process(candleCmd, Some(target.value)) ! streams.value.log match {
-	case 0        => ()
+        case 0 => ()
         case exitCode => sys.error(s"Unable to run WIX compilation to wixobj. Exited with ${exitCode}")
       }
       // Now create MSI
@@ -119,7 +119,7 @@ object WindowsPlugin extends AutoPlugin {
       val lightCmd = Seq(wixdir + "\\bin\\light.exe", wixobj.getAbsolutePath) ++ lightOptions.value
       streams.value.log.debug(lightCmd mkString " ")
       sys.process.Process(lightCmd, Some(target.value)) ! streams.value.log match {
-	case 0        => ()
+        case 0 => ()
         case exitCode => sys.error(s"Unable to run build msi. Exited with ${exitCode}")
       }
       msi

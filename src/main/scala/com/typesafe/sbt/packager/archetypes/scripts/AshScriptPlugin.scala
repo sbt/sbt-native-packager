@@ -97,9 +97,11 @@ object AshScriptPlugin extends AutoPlugin {
       (configFile map configFileDefine).toSeq ++ Seq(makeClasspathDefine(appClasspath))
 
     private[this] def makeClasspathDefine(cp: Seq[String]): String = {
-      val fullString = cp map (n =>
-                                 if (n.startsWith(File.separator)) n
-                                 else "$lib_dir/" + n) mkString ":"
+      val fullString = cp map (
+        n =>
+          if (n.startsWith(File.separator)) n
+          else "$lib_dir/" + n
+      ) mkString ":"
       "app_classpath=\"" + fullString + "\"\n"
     }
 

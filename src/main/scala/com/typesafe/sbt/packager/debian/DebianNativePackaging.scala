@@ -50,7 +50,7 @@ trait DebianNativePackaging extends DebianPluginLike {
           val deb = packageBin.value
           val role = debianSignRole.value
           val log = streams.value.log
-	  sys.process.Process(Seq("dpkg-sig", "-s", role, deb.getAbsolutePath), Some(deb.getParentFile)) ! log match {
+          sys.process.Process(Seq("dpkg-sig", "-s", role, deb.getAbsolutePath), Some(deb.getParentFile)) ! log match {
             case 0 => ()
             case x =>
               sys.error("Failed to sign debian package! exit code: " + x)
@@ -59,7 +59,7 @@ trait DebianNativePackaging extends DebianPluginLike {
         },
         lintian := {
           val file = packageBin.value
-	  sys.process.Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
+          sys.process.Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
         },
         /** Implementation of the actual packaging  */
         packageBin := buildPackage(
@@ -89,7 +89,7 @@ trait DebianNativePackaging extends DebianPluginLike {
         val changesFileName = debFile.getName.replaceAll("deb$", "changes")
         val changesFile: File = targetDir / ".." / changesFileName
         try {
-	  val changes = sys.process.Process(Seq("dpkg-genchanges", "-b"), Some(targetDir / "../tmp")).!!
+          val changes = sys.process.Process(Seq("dpkg-genchanges", "-b"), Some(targetDir / "../tmp")).!!
           val allChanges = List(changes)
           IO.writeLines(changesFile, allChanges)
         } catch {

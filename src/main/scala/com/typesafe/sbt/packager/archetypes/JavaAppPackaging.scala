@@ -105,9 +105,9 @@ object JavaAppPackaging extends AutoPlugin {
     val filename: Option[String] = for {
       module <- dep.metadata
       // sbt 0.13.x key
-	.get(AttributeKey[ModuleID]("module-id"))
-	// sbt 1.x key
-	.orElse(dep.metadata.get(AttributeKey[ModuleID]("moduleID")))
+        .get(AttributeKey[ModuleID]("module-id"))
+        // sbt 1.x key
+        .orElse(dep.metadata.get(AttributeKey[ModuleID]("moduleID")))
       artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
     } yield makeJarName(module.organization, module.name, module.revision, artifact.name, artifact.classifier)
     filename.getOrElse(dep.data.getName)
@@ -127,20 +127,20 @@ object JavaAppPackaging extends AutoPlugin {
   private def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[File]]]] =
     Def
       .task {
-	val stateTask = state.taskValue
-	val refs = thisProjectRef.value +: dependencyProjectRefs(buildDependencies.value, thisProjectRef.value)
-	// Dynamic lookup of dependencies...
-	val artTasks = refs map { ref =>
-	  extractArtifacts(stateTask, ref)
+        val stateTask = state.taskValue
+        val refs = thisProjectRef.value +: dependencyProjectRefs(buildDependencies.value, thisProjectRef.value)
+        // Dynamic lookup of dependencies...
+        val artTasks = refs map { ref =>
+          extractArtifacts(stateTask, ref)
         }
-	val allArtifactsTask: Task[Seq[Attributed[File]]] =
-	  artTasks.fold[Task[Seq[Attributed[File]]]](task(Nil)) { (previous, next) =>
-	    for {
-	      p <- previous
-	      n <- next
-	    } yield p ++ n.filter(isRuntimeArtifact)
-	  }
-	allArtifactsTask
+        val allArtifactsTask: Task[Seq[Attributed[File]]] =
+          artTasks.fold[Task[Seq[Attributed[File]]]](task(Nil)) { (previous, next) =>
+            for {
+              p <- previous
+              n <- next
+            } yield p ++ n.filter(isRuntimeArtifact)
+          }
+        allArtifactsTask
       }
       .flatMap(identity)
 

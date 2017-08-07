@@ -25,17 +25,17 @@ libraryDependencies ++= {
   (sbtVersion in pluginCrossBuild).value match {
     case v if v.startsWith("1.") =>
       Seq(
-	"org.scala-sbt" %% "io" % "1.0.0-M13",
-	// these dependencies have to be explicitly added by the user
-	// FIXME temporary remove the 'provided' scope. SBT 1.0.0-M6 changed the resolving somehow
-	"com.spotify" % "docker-client" % "3.5.13" /* % "provided" */,
-	"org.vafer" % "jdeb" % "1.3" /*% "provided"*/ artifacts Artifact("jdeb", "jar", "jar")
+        "org.scala-sbt" %% "io" % "1.0.0-M13",
+        // these dependencies have to be explicitly added by the user
+        // FIXME temporary remove the 'provided' scope. SBT 1.0.0-M6 changed the resolving somehow
+        "com.spotify" % "docker-client" % "3.5.13" /* % "provided" */,
+        "org.vafer" % "jdeb" % "1.3" /*% "provided"*/ artifacts Artifact("jdeb", "jar", "jar")
       )
     case _ =>
       Seq(
-	// these dependencies have to be explicitly added by the user
-	"com.spotify" % "docker-client" % "3.5.13" % "provided",
-	"org.vafer" % "jdeb" % "1.3" % "provided" artifacts Artifact("jdeb", "jar", "jar")
+        // these dependencies have to be explicitly added by the user
+        "com.spotify" % "docker-client" % "3.5.13" % "provided",
+        "org.vafer" % "jdeb" % "1.3" % "provided" artifacts Artifact("jdeb", "jar", "jar")
       )
   }
 }
@@ -46,8 +46,8 @@ libraryDependencies ++= {
     case "2.10" => Nil
     case _ =>
       Seq(
-	"org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.6",
-	"org.scala-lang.modules" %% "scala-xml" % "1.0.6"
+        "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.6",
+        "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
       )
   }
 
@@ -87,10 +87,8 @@ releaseProcess := Seq[ReleaseStep](
 bintrayOrganization := Some("sbt")
 bintrayRepository := "sbt-plugin-releases"
 
-// scalafmt
-scalafmtConfig := Some(file(".scalafmt.conf"))
-
 // ci commands
+addCommandAlias("validateFormatting", "; scalafmt::test ; test:scalafmt::test ; sbt:scalafmt::test")
 addCommandAlias("validate", "; clean ; update ; test")
 
 // List all scripted test separately to schedule them in different travis-ci jobs.

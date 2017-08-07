@@ -77,7 +77,7 @@ object LinuxSymlink {
       // from ln man page
       // -f --force remove existing destination files
       if (!to.exists)
-	sys.process.Process(Seq("ln", "-sf", linkFinal, name), linkDir).! match {
+        sys.process.Process(Seq("ln", "-sf", linkFinal, name), linkDir).! match {
           case 0 => ()
           case n =>
             sys.error("Failed to symlink " + link.destination + " to " + to)

@@ -29,10 +29,10 @@ lazy val sub = project
     },
     exportedProducts in Assets := {
       Seq(
-	Attributed
-	  .blank(baseDirectory.value / "src" / "main" / "assets")
-	  .put(artifact.key, (artifact in Assets).value)
-	  .put(AttributeKey[ModuleID]("module-id"), projectID.value)
+        Attributed
+          .blank(baseDirectory.value / "src" / "main" / "assets")
+          .put(artifact.key, (artifact in Assets).value)
+          .put(AttributeKey[ModuleID]("module-id"), projectID.value)
       )
     }
   )
