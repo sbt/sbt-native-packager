@@ -1,8 +1,6 @@
-package com.typesafe.sbt
-package packager
+package com.typesafe.sbt.packager
 
 import sbt._
-import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 
 /** A set of helper methods to simplify the writing of mappings */
 object MappingsHelper {

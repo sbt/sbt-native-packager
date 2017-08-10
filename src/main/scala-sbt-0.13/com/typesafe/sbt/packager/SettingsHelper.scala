@@ -1,8 +1,7 @@
-package com.typesafe.sbt
-package packager
+package com.typesafe.sbt.packager
 
-import sbt._
 import sbt.Keys._
+import sbt._
 
 object SettingsHelper {
 

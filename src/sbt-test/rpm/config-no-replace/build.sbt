@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(RpmPlugin)
 
 name := "rpm-test"
@@ -25,7 +27,7 @@ linuxPackageMappings := configWithNoReplace(linuxPackageMappings.value)
 
 TaskKey[Unit]("unzip") := {
   val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
-  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.value.log
+  sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
 }
 
 TaskKey[Unit]("checkSpecFile") := {

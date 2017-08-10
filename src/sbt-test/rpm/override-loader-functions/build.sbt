@@ -23,9 +23,9 @@ rpmLicense := Some("BSD")
 
 rpmGroup := Some("test-group")
 
-TaskKey[Unit]("check-loader-script") := {
+TaskKey[Unit]("checkLoaderScript") := {
   val path = target.value / "rpm" / "RPMS" / "noarch" / "rpm-test-0.1.0-1.noarch.rpm"
-  val scripts = s"rpm -qp --scripts ${path.absolutePath}".!!
+  val scripts = sys.process.Process(s"rpm -qp --scripts ${path.absolutePath}").!!
 
   assert(scripts.contains("# right systemd template"), s"override script wasn't picked, scripts are\n$scripts")
   assert(!scripts.contains("wrong start template"), s"scripts contained wrong template, scripts are\n$scripts")

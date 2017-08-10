@@ -192,7 +192,7 @@ object LinuxPlugin extends AutoPlugin {
 
   /** Create a ascii friendly string for a man page. */
   final def makeMan(file: File): String =
-    Process("groff -man -Tascii " + file.getAbsolutePath).!!
+    sys.process.Process("groff -man -Tascii " + file.getAbsolutePath).!!
 
   // This method wires a lot of hand-coded generalities about how to map directories
   // into linux, and the conventions we expect.

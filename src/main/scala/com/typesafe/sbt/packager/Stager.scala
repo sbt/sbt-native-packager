@@ -4,6 +4,8 @@ import sbt._
 import sbt.Keys.TaskStreams
 import java.io.File
 
+import com.typesafe.sbt.packager.Compat._
+
 object Stager {
 
   /**

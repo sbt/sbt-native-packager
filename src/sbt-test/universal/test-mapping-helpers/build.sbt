@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 import com.typesafe.sbt.packager.MappingsHelper._
 
 enablePlugins(JavaAppPackaging)
@@ -22,5 +24,5 @@ mappings in Universal += {
 
 TaskKey[Unit]("unzip") := {
   val args = Seq((packageBin in Universal).value.getAbsolutePath)
-  Process("unzip", args) ! streams.value.log
+  sys.process.Process("unzip", args) ! streams.value.log
 }

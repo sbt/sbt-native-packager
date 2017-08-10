@@ -6,7 +6,7 @@ version := "0.1.0"
 
 scriptClasspath in bashScriptDefines ++= Seq("/dummy/absolute/path", "relative/path")
 
-TaskKey[Unit]("run-check") := {
+TaskKey[Unit]("runCheck") := {
   val dir = (stagingDirectory in Universal).value
 
   val bash = IO.read(dir / "bin" / "absolute-path-in-bash")

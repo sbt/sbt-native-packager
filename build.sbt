@@ -3,18 +3,55 @@ sbtPlugin := true
 name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 
-scalaVersion in Global := "2.10.5"
-scalacOptions in Compile ++= Seq("-deprecation", "-target:jvm-1.7")
+scalaVersion in Global := "2.10.6"
 
+// crossBuildingSettings
+crossSbtVersions := Vector("0.13.16", "1.0.0-RC3")
+
+scalacOptions in Compile ++= Seq("-deprecation")
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
+
+// put jdeb on the classpath for scripted tests
+classpathTypes += "maven-plugin"
 libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-compress" % "1.4.1",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.9.6",
-  // these dependencies have to be explicitly added by the user
-  "com.spotify" % "docker-client" % "3.5.13" % "provided",
-  "org.vafer" % "jdeb" % "1.3" % "provided" artifacts (Artifact("jdeb", "jar", "jar")),
   "org.scalatest" %% "scalatest" % "3.0.3" % "test"
 )
+
+// sbt dependend libraries
+libraryDependencies ++= {
+  (sbtVersion in pluginCrossBuild).value match {
+    case v if v.startsWith("1.") =>
+      Seq(
+        "org.scala-sbt" %% "io" % "1.0.0-M13",
+        // these dependencies have to be explicitly added by the user
+        // FIXME temporary remove the 'provided' scope. SBT 1.0.0-M6 changed the resolving somehow
+        "com.spotify" % "docker-client" % "3.5.13" /* % "provided" */,
+        "org.vafer" % "jdeb" % "1.3" /*% "provided"*/ artifacts Artifact("jdeb", "jar", "jar")
+      )
+    case _ =>
+      Seq(
+        // these dependencies have to be explicitly added by the user
+        "com.spotify" % "docker-client" % "3.5.13" % "provided",
+        "org.vafer" % "jdeb" % "1.3" % "provided" artifacts Artifact("jdeb", "jar", "jar")
+      )
+  }
+}
+
+// scala version depended libraries
+libraryDependencies ++= {
+  scalaBinaryVersion.value match {
+    case "2.10" => Nil
+    case _ =>
+      Seq(
+        "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.6",
+        "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
+      )
+  }
+
+}
 
 // configure github page
 enablePlugins(SphinxPlugin, SiteScaladocPlugin)
@@ -34,12 +71,12 @@ import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
-  runTest,
-  releaseStepInputTask(scripted, " universal/* debian/* rpm/* docker/* ash/* jar/* bash/* jdkpackager/*"),
+  releaseStepCommandAndRemaining("^ test"),
+  releaseStepCommandAndRemaining("^ scripted universal/* debian/* rpm/* docker/* ash/* jar/* bash/* jdkpackager/*"),
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  publishArtifacts,
+  releaseStepCommandAndRemaining("^ publishSigned"),
   setNextVersion,
   commitNextVersion,
   pushChanges,
@@ -50,8 +87,29 @@ releaseProcess := Seq[ReleaseStep](
 bintrayOrganization := Some("sbt")
 bintrayRepository := "sbt-plugin-releases"
 
-// scalafmt
-scalafmtConfig := Some(file(".scalafmt.conf"))
-
 // ci commands
-addCommandAlias("validateWindows", ";test-only * -- -n windows;scripted universal/dist universal/stage windows/*")
+addCommandAlias("validateFormatting", "; scalafmt::test ; test:scalafmt::test ; sbt:scalafmt::test")
+addCommandAlias("validate", "; clean ; update ; test")
+
+// List all scripted test separately to schedule them in different travis-ci jobs.
+// Travis-CI has hard timeouts for jobs, so we run them in smaller jobs as the scripted
+// tests take quite some time to run.
+// Ultimatley we should run only those tests that are necessary for a change
+addCommandAlias("validateUniversal", "scripted universal/*")
+addCommandAlias("validateJar", "scripted jar/*")
+addCommandAlias("validateBash", "scripted bash/*")
+addCommandAlias("validateAsh", "scripted ash/*")
+addCommandAlias("validateRpm", "scripted rpm/*")
+addCommandAlias("validateDebian", "scripted debian/*")
+addCommandAlias("validateDocker", "scripted docker/*")
+addCommandAlias("validateDockerUnit", "scripted docker/staging docker/entrypoint docker/ports docker/volumes")
+addCommandAlias("validateJdkPackager", "scripted jdkpackager/*")
+// travis ci's jdk8 version doesn't support nested association elements.
+// error: Caused by: class com.sun.javafx.tools.ant.Info doesn't support the nested "association" element.
+addCommandAlias(
+  "validateJdkPackagerTravis",
+  "scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings"
+)
+
+// TODO check the cygwin scripted tests and run them on appveyor
+addCommandAlias("validateWindows", "; test-only * -- -n windows;scripted universal/dist universal/stage windows/*")

@@ -26,7 +26,7 @@ linuxPackageMappings := {
   linuxPackageMappings.value :+ helloMapping
 }
 
-TaskKey[Unit]("check-spec-file") := {
+TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-package.spec")
   streams.value.log.success(spec)
   assert(

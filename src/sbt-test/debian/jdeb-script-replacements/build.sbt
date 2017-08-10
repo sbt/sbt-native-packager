@@ -15,11 +15,13 @@ debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)
 
 debianPackageRecommends in Debian += "git"
 
-TaskKey[Unit]("check-control-files") := {
+TaskKey[Unit]("checkControlFiles") := {
   val header = "#!/bin/sh"
   val extracted = target.value / "extracted"
   println(extracted.getAbsolutePath)
-  Seq("dpkg-deb", "-R", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+  sys.process
+    .Process(Seq("dpkg-deb", "-R", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath))
+    .!
   val preinst = extracted / "DEBIAN/preinst"
   val postinst = extracted / "DEBIAN/postinst"
   val prerm = extracted / "DEBIAN/prerm"

@@ -1,10 +1,10 @@
 # Run the rpm packaging.
-> rpm:package-bin
+> rpm:packageBin
 $ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 
 > unzip
 $ exists opt/test/rpm-test
 
 $ exists etc/init.d/rpm-test
-> check-init-file
+> checkInitFile
 

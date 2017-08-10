@@ -13,9 +13,11 @@ packageDescription := """A fun package description of our software,
 
 debianPackageDependencies in Debian := Seq()
 
-TaskKey[Unit]("check-dependencies") := {
+TaskKey[Unit]("checkDependencies") := {
   val extracted = target.value / "extracted"
-  Seq("dpkg-deb", "-R", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+  sys.process
+    .Process(Seq("dpkg-deb", "-R", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath))
+    .!
 
   val control = IO.read(extracted / "DEBIAN" / "control")
   assert(!control.contains("Depends:"))

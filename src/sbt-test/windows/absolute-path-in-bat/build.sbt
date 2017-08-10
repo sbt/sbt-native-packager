@@ -6,7 +6,7 @@ version := "0.1.0"
 
 scriptClasspath in batScriptReplacements ++= Seq("x:\\dummy\\absolute\\path", "relative\\path")
 
-TaskKey[Unit]("run-check") := {
+TaskKey[Unit]("runCheck") := {
   val dir = (stagingDirectory in Universal).value
 
   val bat = IO.read(dir / "bin" / "absolute-path-in-bat.bat")

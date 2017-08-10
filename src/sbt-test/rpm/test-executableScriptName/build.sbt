@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
 name := "rpm-test"
@@ -23,7 +25,7 @@ rpmLicense := Some("BSD")
 
 rpmGroup := Some("test-group")
 
-TaskKey[Unit]("check-spec-file") := {
+TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(
     spec contains "%attr(0644,root,root) /usr/share/rpm-test/lib/rpm-test.rpm-test-0.1.0.jar",
@@ -39,7 +41,7 @@ TaskKey[Unit]("check-spec-file") := {
 
 TaskKey[Unit]("unzip") := {
   val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
-  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.value.log
+  sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
   ()
 }
 

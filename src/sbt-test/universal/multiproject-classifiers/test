@@ -1,5 +1,5 @@
 # Run the staging and check the script.
 > stage
-> show-files
+> showFiles
 $ exists target/universal/stage/lib/org.test.sub-1.0.jar
 $ exists target/universal/stage/lib/org.test.sub-1.0-assets.jar

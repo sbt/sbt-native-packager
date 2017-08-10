@@ -1,6 +1,6 @@
 # Run the debian packaging.
-> debian:package-bin
+> debian:packageBin
 $ exists target/debian-test_0.1.0_all.deb
 > stage
 $ exists target/universal/stage/bin/debian-test
-> check-script
+> checkScript

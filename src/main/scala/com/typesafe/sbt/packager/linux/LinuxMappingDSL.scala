@@ -30,7 +30,7 @@ trait LinuxMappingDSL {
   def mapDirectoryAndContents(dirs: (File, String)*): Seq[(File, String)] =
     for {
       (src, dest) <- dirs
-      path <- (src ***).get
+      path <- (src ** AllPassFilter).get
     } yield path -> path.toString.replaceFirst(src.toString, dest)
 
   /**

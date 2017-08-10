@@ -6,10 +6,10 @@ import sbt._
 import sbt.Keys.{classpathTypes, normalizedName, packageBin, streams, target, version}
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{
-linuxPackageMappings,
-linuxPackageSymlinks,
-linuxScriptReplacements,
-packageArchitecture
+  linuxPackageMappings,
+  linuxPackageSymlinks,
+  linuxScriptReplacements,
+  packageArchitecture
 }
 import scala.collection.JavaConversions._
 import org.vafer.jdeb.{DataProducer, DebMaker}

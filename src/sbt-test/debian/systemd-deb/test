@@ -1,5 +1,5 @@
 # Run the debian packaging.
-> debian:package-bin
+> debian:packageBin
 $ exists target/debian-test_0.1.0_all.deb
 
 $ exists target/debian-test-0.1.0/lib/systemd/system/debian-test.service
@@ -7,13 +7,13 @@ $ exists target/debian-test-0.1.0/lib/systemd/system/debian-test.service
 > show debian:linuxStartScriptTemplate
 > plugins
 
-> check-startup-script
-> check-etc-default
-> check-autostart
+> checkStartupScript
+> checkEtcDefault
+> checkAutostart
 
 
 # Test that serviceAutostart can be disabled
 
 > set every NativePackagerKeys.serviceAutostart := false
-> debian:package-bin
-> check-no-autostart
+> debian:packageBin
+> checkNoAutostart

@@ -21,7 +21,7 @@ requiredStartFacilities in Debian := Some("$test-deb-service")
 
 daemonStdoutLogFile := Some("test.log")
 
-TaskKey[Unit]("check-control-files") := {
+TaskKey[Unit]("checkControlFiles") := {
   val header = "#!/bin/sh"
   val debian = target.value / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
@@ -34,7 +34,7 @@ TaskKey[Unit]("check-control-files") := {
   ()
 }
 
-TaskKey[Unit]("check-startup-script") := {
+TaskKey[Unit]("checkStartupScript") := {
   val script =
     IO.read(target.value / "debian-test-0.1.0" / "etc" / "init.d" / "debian-test")
   assert(script.contains("# Default-Start: 2 3 4 5"), "script doesn't contain Default-Start header\n" + script)
@@ -59,7 +59,7 @@ TaskKey[Unit]("check-startup-script") := {
   ()
 }
 
-TaskKey[Unit]("check-autostart") := {
+TaskKey[Unit]("checkAutostart") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "DEBIAN" / "postinst")
   assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
       |startService debian-test || echo "debian-test could not be started"
@@ -67,7 +67,7 @@ TaskKey[Unit]("check-autostart") := {
   ()
 }
 
-TaskKey[Unit]("check-no-autostart") := {
+TaskKey[Unit]("checkNoAutostart") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "DEBIAN" / "postinst")
   assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
       |""".stripMargin), "addService post install commands missing or incorrect")

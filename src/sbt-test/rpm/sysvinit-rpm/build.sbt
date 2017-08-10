@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
 name := "rpm-test"
@@ -18,8 +20,8 @@ mainClass in (Compile, run) := Some("com.example.MainApp")
 
 TaskKey[Unit]("unzipAndCheck") := {
   val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
-  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.value.log
-  val scriptlets = Process("rpm -qp --scripts " + (packageBin in Rpm).value.getAbsolutePath) !! streams.value.log
+  sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
+  val scriptlets = sys.process.Process("rpm -qp --scripts " + (packageBin in Rpm).value.getAbsolutePath) !! streams.value.log
   assert(scriptlets contains "addGroup rpm-test", "addGroup not present in \n" + scriptlets)
   assert(scriptlets contains "addUser rpm-test", "Incorrect useradd command in \n" + scriptlets)
   assert(scriptlets contains "deleteGroup rpm-test", "deleteGroup not present in \n" + scriptlets)
@@ -44,7 +46,7 @@ TaskKey[Unit]("unzipAndCheck") := {
   ()
 }
 
-TaskKey[Unit]("check-spec-file") := {
+TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(spec contains "addGroup rpm-test", "addGroup not present in \n" + spec)
   assert(spec contains "addUser rpm-test", "Incorrect useradd command in \n" + spec)
@@ -144,7 +146,7 @@ TaskKey[Unit]("check-spec-file") := {
   ()
 }
 
-TaskKey[Unit]("check-spec-autostart") := {
+TaskKey[Unit]("checkSpecAutostart") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(
     spec contains
@@ -163,7 +165,7 @@ TaskKey[Unit]("check-spec-autostart") := {
   ()
 }
 
-TaskKey[Unit]("check-spec-no-autostart") := {
+TaskKey[Unit]("checkSpecNoAutostart") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(
     spec contains

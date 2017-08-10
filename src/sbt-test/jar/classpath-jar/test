@@ -2,5 +2,5 @@
 > stage
 $ exists target/universal/stage/lib/classpath-jar-test.classpath-jar-test-0.1.0-classpath.jar
 $ exists target/universal/stage/bin/classpath-jar-test.bat
-> check-classspath
-> run-check
+> checkClasspath
+> runCheck

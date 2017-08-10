@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(JavaServerAppPackaging, SystemdPlugin)
 
 name := "rpm-test"
@@ -18,7 +20,7 @@ requiredStartFacilities in Rpm := Some("serviceA.service")
 
 TaskKey[Unit]("unzip") := {
   val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
-  Process("rpm2cpio", rpmPath) #| Process("cpio -i --make-directories") ! streams.value.log
+  sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
   ()
 }
 
@@ -114,7 +116,7 @@ TaskKey[Unit]("checkSpecFile") := {
   ()
 }
 
-TaskKey[Unit]("check-spec-autostart") := {
+TaskKey[Unit]("checkSpecAutostart") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   println(spec)
 
@@ -134,7 +136,7 @@ TaskKey[Unit]("check-spec-autostart") := {
   ()
 }
 
-TaskKey[Unit]("check-spec-no-autostart") := {
+TaskKey[Unit]("checkSpecNoAutostart") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   println(spec)
 

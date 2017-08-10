@@ -1,4 +1,4 @@
 # Run the staging and check the script.
 > stage
-> run-check-bash
-> run-check-bat
+> runCheckBash
+> runCheckBat

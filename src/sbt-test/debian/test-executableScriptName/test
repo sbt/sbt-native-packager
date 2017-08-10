@@ -1,5 +1,5 @@
 # Run the debian packaging.
-> debian:package-bin
+> debian:packageBin
 $ exists target/debian-test_0.1.0_all.deb
 # Testing the packageName configuration
 $ exists target/debian-test-0.1.0/DEBIAN
@@ -14,4 +14,4 @@ $ exists target/debian-test-0.1.0/var/log/debian-test/
 $ exists target/debian-test-0.1.0/etc/default/debian-test/
 # --------------------------------------------
 $ exists target/debian-test-0.1.0/etc/init/debian-test.conf
-> check-upstart-script
+> checkUpstartScript

@@ -158,12 +158,14 @@ object JavaServerAppPackaging extends AutoPlugin {
    */
   private[this] def getEtcTemplateSource(sourceDirectory: File, loader: Option[ServerLoader]): java.net.URL = {
     val defaultTemplate = getClass.getResource(ETC_DEFAULT + "-template")
-    val (suffix, default) = loader.map {
-      case Upstart => ("-upstart", defaultTemplate)
-      case SystemV => ("-systemv", defaultTemplate)
-      case Systemd =>
-        ("-systemd", getClass.getResource(ETC_DEFAULT + "-systemd-template"))
-    }.getOrElse(("", defaultTemplate))
+    val (suffix, default) = loader
+      .map {
+        case Upstart => ("-upstart", defaultTemplate)
+        case SystemV => ("-systemv", defaultTemplate)
+        case Systemd =>
+          ("-systemd", getClass.getResource(ETC_DEFAULT + "-systemd-template"))
+      }
+      .getOrElse(("", defaultTemplate))
 
     val overrides =
       List[File](sourceDirectory / "templates" / (ETC_DEFAULT + suffix), sourceDirectory / "templates" / ETC_DEFAULT)

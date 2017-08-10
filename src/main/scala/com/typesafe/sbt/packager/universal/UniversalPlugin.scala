@@ -47,22 +47,22 @@ object UniversalPlugin extends AutoPlugin {
 
   /** The basic settings for the various packaging types. */
   override lazy val projectSettings: Seq[Setting[_]] = Seq[Setting[_]](
-      // For now, we provide delegates from dist/stage to universal...
-      dist := (dist in Universal).value,
-      stage := (stage in Universal).value,
-      // TODO - New default to naming, is this right?
-      // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
-      name in Universal := name.value,
-      name in UniversalDocs := (name in Universal).value,
-      name in UniversalSrc := (name in Universal).value,
-      packageName in Universal := packageName.value,
-      topLevelDirectory := Some((packageName in Universal).value),
-      executableScriptName in Universal := executableScriptName.value
-    ) ++
-      makePackageSettingsForConfig(Universal) ++
-      makePackageSettingsForConfig(UniversalDocs) ++
-      makePackageSettingsForConfig(UniversalSrc) ++
-      defaultUniversalArchiveOptions
+    // For now, we provide delegates from dist/stage to universal...
+    dist := (dist in Universal).value,
+    stage := (stage in Universal).value,
+    // TODO - New default to naming, is this right?
+    // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
+    name in Universal := name.value,
+    name in UniversalDocs := (name in Universal).value,
+    name in UniversalSrc := (name in Universal).value,
+    packageName in Universal := packageName.value,
+    topLevelDirectory := Some((packageName in Universal).value),
+    executableScriptName in Universal := executableScriptName.value
+  ) ++
+    makePackageSettingsForConfig(Universal) ++
+    makePackageSettingsForConfig(UniversalDocs) ++
+    makePackageSettingsForConfig(UniversalSrc) ++
+    defaultUniversalArchiveOptions
 
   /** Creates all package types for a given configuration */
   private[this] def makePackageSettingsForConfig(config: Configuration): Seq[Setting[_]] =
@@ -128,7 +128,7 @@ object UniversalPlugin extends AutoPlugin {
 
   /** Finds all sources in a source directory. */
   private[this] def findSources(sourceDir: File): Seq[(File, String)] =
-    sourceDir.*** --- sourceDir pair relativeTo(sourceDir)
+    ((PathFinder(sourceDir) ** AllPassFilter) --- sourceDir).pair(file => IO.relativize(sourceDir, file))
 
 }
 

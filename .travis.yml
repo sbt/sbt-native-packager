@@ -1,35 +1,46 @@
 language: java
-os:
-  - osx
-env:
-  - SCALA_VERSION=2.10.5
+os: linux
+
 before_install:
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       brew update;
       brew install xz;
     fi
-script:
-  - ./sbt ++$SCALA_VERSION --warn update compile test:compile
-  - ./sbt ++$SCALA_VERSION test "scripted universal/* jar/* bash/* ash/*"
-  - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
-      ./sbt ++$SCALA_VERSION "scripted rpm/* debian/* docker/staging docker/entrypoint docker/ports docker/volumes";
-    fi
-  - if [[ "$TRAVIS_JDK_VERSION" = "oraclejdk8" ]]; then
-      ./sbt ++$SCALA_VERSION "scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings";
-    fi
-notifications:
-  email:
-    - qbranch@typesafe.com
+script: ./sbt "$SBT_TEST_CMD";
+
+# We explicitly set the matrix to include oraclejdk8 because MacOS X has issues. See comment below
+matrix:
+  include:
+    - jdk: oraclejdk8
+      env: SBT_TEST_CMD="^validate"
+    - jdk: oraclejdk8
+      env: SBT_TEST_CMD="^validateUniversal"
+    - jdk: oraclejdk8
+      env: SBT_TEST_CMD="^validateJar"
+    - jdk: oraclejdk8
+      env: SBT_TEST_CMD="^validateBash"
+    - jdk: oraclejdk8
+      env: SBT_TEST_CMD="^validateAsh"
+    - jdk: oraclejdk8
+      env: SBT_TEST_CMD="^validateRpm"
+    - jdk: oraclejdk8
+      env: SBT_TEST_CMD="^validateDebian"
+      # for now we can't test the docker image generation on travis
+    - jdk: oraclejdk8
+      env: SBT_TEST_CMD="^validateDockerUnit"
+      # jdk packaging is only available on jdk8+
+    - jdk: oraclejdk8
+      env: SBT_TEST_CMD="^validateJdkPackagerTravis"
+      # oraclejdk8 is not yet available.
+      # see https://github.com/travis-ci/travis-ci/issues/2316
+    - os: osx
+      env: SBT_VERSION_CMD="^validate ^validateUniversal"
+      osx_image: xcode8
+
 addons:
   apt:
     packages:
     - rpm
-matrix:
-  include:
-    - os: linux
-      jdk: openjdk7
-    - os: linux
-      jdk: oraclejdk8
 
 sudo: false
 cache:

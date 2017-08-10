@@ -7,6 +7,7 @@ import com.typesafe.sbt.packager._
 import com.typesafe.sbt.packager.Keys.packageName
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{defaultLinuxInstallLocation, linuxPackageMappings}
+import com.typesafe.sbt.packager.Compat._
 
 /**
   * == Java Application ==
@@ -102,14 +103,18 @@ object JavaAppPackaging extends AutoPlugin {
   // ivy metadata if available.
   private def getJarFullFilename(dep: Attributed[File]): String = {
     val filename: Option[String] = for {
-      module <- dep.metadata.get(AttributeKey[ModuleID]("module-id"))
+      module <- dep.metadata
+      // sbt 0.13.x key
+        .get(AttributeKey[ModuleID]("module-id"))
+        // sbt 1.x key
+        .orElse(dep.metadata.get(AttributeKey[ModuleID]("moduleID")))
       artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
     } yield makeJarName(module.organization, module.name, module.revision, artifact.name, artifact.classifier)
     filename.getOrElse(dep.data.getName)
   }
 
   // Here we grab the dependencies...
-  private def dependencyProjectRefs(build: sbt.BuildDependencies, thisProject: ProjectRef): Seq[ProjectRef] =
+  private def dependencyProjectRefs(build: BuildDependencies, thisProject: ProjectRef): Seq[ProjectRef] =
     build.classpathTransitive.getOrElse(thisProject, Nil)
 
   // TODO - Should we pull in more than just JARs?  How do native packages come in?
@@ -120,22 +125,24 @@ object JavaAppPackaging extends AutoPlugin {
     }
 
   private def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[File]]]] =
-    Def.task {
-      val stateTask = state.taskValue
-      val refs = thisProjectRef.value +: dependencyProjectRefs(buildDependencies.value, thisProjectRef.value)
-      // Dynamic lookup of dependencies...
-      val artTasks = refs map { ref =>
-        extractArtifacts(stateTask, ref)
-      }
-      val allArtifactsTask: Task[Seq[Attributed[File]]] =
-        artTasks.fold[Task[Seq[Attributed[File]]]](task(Nil)) { (previous, next) =>
-          for {
-            p <- previous
-            n <- next
-          } yield p ++ n.filter(isRuntimeArtifact)
+    Def
+      .task {
+        val stateTask = state.taskValue
+        val refs = thisProjectRef.value +: dependencyProjectRefs(buildDependencies.value, thisProjectRef.value)
+        // Dynamic lookup of dependencies...
+        val artTasks = refs map { ref =>
+          extractArtifacts(stateTask, ref)
         }
-      allArtifactsTask
-    }.flatMap(identity)
+        val allArtifactsTask: Task[Seq[Attributed[File]]] =
+          artTasks.fold[Task[Seq[Attributed[File]]]](task(Nil)) { (previous, next) =>
+            for {
+              p <- previous
+              n <- next
+            } yield p ++ n.filter(isRuntimeArtifact)
+          }
+        allArtifactsTask
+      }
+      .flatMap(identity)
 
   private def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[File]]] =
     stateTask.flatMap { state =>

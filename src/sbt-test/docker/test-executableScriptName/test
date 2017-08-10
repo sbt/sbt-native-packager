@@ -2,5 +2,5 @@
 > docker:publishLocal
 $ exists target/docker/stage/Dockerfile
 $ exists target/docker/stage/opt/docker/bin/docker-exec
-> check-dockerfile
+> checkDockerfile
 $ exec bash -c 'docker run docker-package:0.1.0 | grep -q "Hello world"'

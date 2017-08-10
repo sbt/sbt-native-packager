@@ -17,13 +17,13 @@ packageDescription := """A fun package description of our software,
 
 defaultLinuxLogsLocation := "/non-standard/log"
 
-InputKey[Unit]("check-softlink") := {
+InputKey[Unit]("checkSoftlink") := {
   import complete.DefaultParsers._
   val args = spaceDelimited("<args>").parsed
   assert(args.size >= 2, "Usage: check-softlink link to target")
   val link = args(0)
   val target = args(args.size - 1)
-  val absolutePath = ("readlink -m " + link).!!.trim
+  val absolutePath = sys.process.Process("readlink -m " + link).!!.trim
   assert(link != absolutePath, "Expected symbolic link '" + link + "' does not exist")
   assert(
     target == absolutePath,

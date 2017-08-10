@@ -14,7 +14,7 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-TaskKey[Unit]("check-control-files") := {
+TaskKey[Unit]("checkControlFiles") := {
   val debian = target.value / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
   val prerm = IO.read(debian / "prerm")
@@ -25,13 +25,13 @@ TaskKey[Unit]("check-control-files") := {
   ()
 }
 
-InputKey[Unit]("check-softlink") := {
+InputKey[Unit]("checkSoftlink") := {
   import complete.DefaultParsers._
   val args = spaceDelimited("<args>").parsed
   assert(args.size >= 2, "Usage: check-softlink link to target")
   val link = args(0)
   val target = args(args.size - 1)
-  val absolutePath = ("readlink -m " + link).!!.trim
+  val absolutePath = sys.process.Process("readlink -m " + link).!!.trim
   assert(link != absolutePath, "Expected symbolic link '" + link + "' does not exist")
   assert(
     target == absolutePath,
@@ -39,7 +39,7 @@ InputKey[Unit]("check-softlink") := {
   )
 }
 
-TaskKey[Unit]("check-startup-script") := {
+TaskKey[Unit]("checkStartupScript") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "etc" / "init" / "debian-test.conf")
   assert(script.contains("start on runlevel [2345]"), "script doesn't contain start on runlevel header\n" + script)
   assert(script.contains("stop on runlevel [016]"), "script doesn't contain stop on runlevel header\n" + script)
@@ -53,7 +53,7 @@ TaskKey[Unit]("check-startup-script") := {
   ()
 }
 
-TaskKey[Unit]("check-autostart") := {
+TaskKey[Unit]("checkAutostart") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "DEBIAN" / "postinst")
   assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
       |startService debian-test || echo "debian-test could not be started"
@@ -61,7 +61,7 @@ TaskKey[Unit]("check-autostart") := {
   ()
 }
 
-TaskKey[Unit]("check-no-autostart") := {
+TaskKey[Unit]("checkNoAutostart") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "DEBIAN" / "postinst")
   assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
       |""".stripMargin), "addService post install commands missing or incorrect")

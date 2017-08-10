@@ -19,7 +19,7 @@ debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)
 
 debianPackageRecommends in Debian += "git"
 
-TaskKey[Unit]("check-control-script") := {
+TaskKey[Unit]("checkControlScript") := {
   val script =
     IO.read(target.value / "debian-test-override-0.1.0" / "DEBIAN" / "control")
   assert(script.contains("Package: debian-test-package\n"), "script doesn't [Package: debian-test-package]\n" + script)

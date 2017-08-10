@@ -134,10 +134,12 @@ object Archives {
     val neededMegabytes = math.ceil((sizeBytes * 1.05) / (1024 * 1024)).toLong
 
     // Create the DMG file:
-    Process(
-      Seq("hdiutil", "create", "-megabytes", "%d" format neededMegabytes, "-fs", "HFS+", "-volname", name, name),
-      Some(target)
-    ).! match {
+    sys.process
+      .Process(
+        Seq("hdiutil", "create", "-megabytes", "%d" format neededMegabytes, "-fs", "HFS+", "-volname", name, name),
+        Some(target)
+      )
+      .! match {
       case 0 => ()
       case n => sys.error("Error creating dmg: " + dmg + ". Exit code " + n)
     }
@@ -146,7 +148,9 @@ object Archives {
     val mountPoint = (t / name)
     if (!mountPoint.isDirectory) IO.createDirectory(mountPoint)
     val mountedPath = mountPoint.getAbsolutePath
-    Process(Seq("hdiutil", "attach", dmg.getAbsolutePath, "-readwrite", "-mountpoint", mountedPath), Some(target)).! match {
+    sys.process
+      .Process(Seq("hdiutil", "attach", dmg.getAbsolutePath, "-readwrite", "-mountpoint", mountedPath), Some(target))
+      .! match {
       case 0 => ()
       case n => sys.error("Unable to mount dmg: " + dmg + ". Exit code " + n)
     }
@@ -161,7 +165,7 @@ object Archives {
     } to.setExecutable(true, true)
 
     // Now unmount
-    Process(Seq("hdiutil", "detach", mountedPath), Some(target)).! match {
+    sys.process.Process(Seq("hdiutil", "detach", mountedPath), Some(target)).! match {
       case 0 => ()
       case n =>
         sys.error("Unable to dismount dmg: " + dmg + ". Exit code " + n)
@@ -177,7 +181,7 @@ object Archives {
     */
   def gzip(f: File): File = {
     val par = f.getParentFile
-    Process(Seq("gzip", "-9", f.getAbsolutePath), Some(par)).! match {
+    sys.process.Process(Seq("gzip", "-9", f.getAbsolutePath), Some(par)).! match {
       case 0 => ()
       case n => sys.error("Error gziping " + f + ". Exit code: " + n)
     }
@@ -190,7 +194,7 @@ object Archives {
     */
   def xz(f: File): File = {
     val par = f.getParentFile
-    Process(Seq("xz", "-9e", "-S", ".xz", f.getAbsolutePath), Some(par)).! match {
+    sys.process.Process(Seq("xz", "-9e", "-S", ".xz", f.getAbsolutePath), Some(par)).! match {
       case 0 => ()
       case n => sys.error("Error xz-ing " + f + ". Exit code: " + n)
     }
@@ -240,7 +244,7 @@ object Archives {
 
       IO.copy(m2)
       // TODO - Is this enough?
-      for ( (from, to) <- m2 if (to.getAbsolutePath contains "/bin/") || from.canExecute ) {
+      for ((from, to) <- m2 if (to.getAbsolutePath contains "/bin/") || from.canExecute) {
         println("Making " + to.getAbsolutePath + " executable")
         to.setExecutable(true, false)
       }
@@ -256,7 +260,7 @@ object Archives {
 
       val cmd = Seq("tar") ++ options ++ Seq(tmptar.getAbsolutePath) ++ distdirs
       println("Running with " + cmd.mkString(" "))
-      Process(cmd, Some(rdir)).! match {
+      sys.process.Process(cmd, Some(rdir)).! match {
         case 0 => ()
         case n =>
           sys.error("Error tarballing " + tarball + ". Exit code: " + n)

@@ -1,5 +1,5 @@
 # Run the debian packaging.
-> rpm:package-bin
+> rpm:packageBin
 $ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 
 # Check rpm contents
@@ -19,8 +19,8 @@ $ exists var/run/rpm-test
 
 # TODO symlinks aren't checked
 
-> check-spec-file
+> checkSpecFile
 > set NativePackagerKeys.rpmBrpJavaRepackJars := false
-> check-spec-file
+> checkSpecFile
 
-> unique-scripts-in-spec-file
+> uniqueSccriptsInSpecFile

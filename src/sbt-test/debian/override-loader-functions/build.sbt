@@ -14,10 +14,12 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-TaskKey[Unit]("check-loader-functions") := {
+TaskKey[Unit]("checkLoaderFunctions") := {
   val extracted = target.value / "tmp" / "extracted-package"
   extracted.mkdirs()
-  Seq("dpkg-deb", "-e", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath).!
+  sys.process
+    .Process(Seq("dpkg-deb", "-e", (target.value / "debian-test_0.1.0_all.deb").absolutePath, extracted.absolutePath))
+    .!
 
   val script = IO.read(extracted / "postinst")
 

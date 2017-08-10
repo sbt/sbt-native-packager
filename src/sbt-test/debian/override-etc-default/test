@@ -3,4 +3,4 @@
 $ exists target/debian-test_0.1.0_all.deb
 
 # Check files for defaults
-> check-etc-default
+> checkEtcDefault

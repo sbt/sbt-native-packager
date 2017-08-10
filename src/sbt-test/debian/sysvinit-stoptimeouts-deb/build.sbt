@@ -23,7 +23,7 @@ termTimeout in Debian := 10
 
 killTimeout in Debian := 20
 
-TaskKey[Unit]("check-control-files") := {
+TaskKey[Unit]("checkControlFiles") := {
   val header = "#!/bin/sh"
   val debian = target.value / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
@@ -36,7 +36,7 @@ TaskKey[Unit]("check-control-files") := {
   ()
 }
 
-TaskKey[Unit]("check-startup-script") := {
+TaskKey[Unit]("checkStartupScript") := {
   val script =
     IO.read(target.value / "debian-test-0.1.0" / "etc" / "init.d" / "debian-test")
   assert(script.contains("# Default-Start: 2 3 4 5"), "script doesn't contain Default-Start header\n" + script)

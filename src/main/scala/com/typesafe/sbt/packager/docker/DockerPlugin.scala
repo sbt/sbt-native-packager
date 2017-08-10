@@ -1,27 +1,17 @@
-package com.typesafe.sbt
-package packager
-package docker
+package com.typesafe.sbt.packager.docker
 
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
+
 import sbt._
-import sbt.Keys.{
-  cacheDirectory,
-  clean,
-  mappings,
-  name,
-  publish,
-  publishArtifact,
-  publishLocal,
-  sourceDirectory,
-  streams,
-  target,
-  version
-}
-import packager.Keys._
-import linux.LinuxPlugin.autoImport.{daemonUser, defaultLinuxInstallLocation}
-import universal.UniversalPlugin.autoImport.stage
-import SbtNativePackager.{Linux, Universal}
+import sbt.Keys.{clean, mappings, name, publish, publishLocal, sourceDirectory, streams, target, version}
+import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{daemonUser, defaultLinuxInstallLocation}
+import com.typesafe.sbt.packager.universal.UniversalPlugin
+import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stage
+import com.typesafe.sbt.SbtNativePackager.Universal
+import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.{MappingsHelper, Stager}
 
 /**
   * == Docker Plugin ==
@@ -68,37 +58,37 @@ object DockerPlugin extends AutoPlugin {
     */
   val UnixSeparatorChar = '/'
 
-  override def requires = universal.UniversalPlugin
+  override def requires = UniversalPlugin
 
   override def projectConfigurations: Seq[Configuration] = Seq(Docker)
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
-      dockerBaseImage := "openjdk:latest",
-      dockerExposedPorts := Seq(),
-      dockerExposedUdpPorts := Seq(),
-      dockerExposedVolumes := Seq(),
-      dockerLabels := Map(),
-      dockerRepository := None,
-      dockerUsername := None,
-      dockerAlias := DockerAlias(
-        dockerRepository.value,
-        dockerUsername.value,
-        (packageName in Docker).value,
-        Some((version in Docker).value)
-      ),
-      dockerUpdateLatest := false,
-      dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
-      dockerCmd := Seq(),
-      dockerExecCommand := Seq("docker"),
-      dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
-        if (dockerUpdateLatest.value)
-          Seq("-t", dockerAlias.value.latest)
-        else
-          Seq()
-      ),
-      dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
-      dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
-      dockerCommands := {
+    dockerBaseImage := "openjdk:latest",
+    dockerExposedPorts := Seq(),
+    dockerExposedUdpPorts := Seq(),
+    dockerExposedVolumes := Seq(),
+    dockerLabels := Map(),
+    dockerRepository := None,
+    dockerUsername := None,
+    dockerAlias := DockerAlias(
+      dockerRepository.value,
+      dockerUsername.value,
+      (packageName in Docker).value,
+      Some((version in Docker).value)
+    ),
+    dockerUpdateLatest := false,
+    dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
+    dockerCmd := Seq(),
+    dockerExecCommand := Seq("docker"),
+    dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
+      if (dockerUpdateLatest.value)
+        Seq("-t", dockerAlias.value.latest)
+      else
+        Seq()
+    ),
+    dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
+    dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
+    dockerCommands := {
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
       val user = (daemonUser in Docker).value
       val group = (daemonGroup in Docker).value
@@ -112,46 +102,52 @@ object DockerPlugin extends AutoPlugin {
         makeVolumes(dockerExposedVolumes.value, user, group) ++
         Seq(makeUser(user), makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
     }
-    ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
-      Seq(
-        executableScriptName := executableScriptName.value,
-        mappings ++= dockerPackageMappings.value,
-        mappings ++= Seq(dockerGenerateConfig.value) pair relativeTo(target.value),
-        name := name.value,
-        packageName := packageName.value,
-        publishLocal := {
+  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
+    Seq(
+      executableScriptName := executableScriptName.value,
+      mappings ++= dockerPackageMappings.value,
+      mappings ++= {
+        val baseDir = target.value
+        Seq(dockerGenerateConfig.value) pair (file => IO.relativize(baseDir, file))
+      },
+      name := name.value,
+      packageName := packageName.value,
+      publishLocal := {
         val log = streams.value.log
         publishLocalDocker(stage.value, dockerBuildCommand.value, log)
         log.info(s"Built image ${dockerAlias.value.versioned}")
       },
-        publish := {
+      publish := {
         val _ = publishLocal.value
         val alias = dockerAlias.value
         val log = streams.value.log
-        publishDocker(dockerExecCommand.value, alias.versioned, log)
+        val execCommand = dockerExecCommand.value
+        publishDocker(execCommand, alias.versioned, log)
         if (dockerUpdateLatest.value) {
-          publishDocker(dockerExecCommand.value, alias.latest, log)
+          publishDocker(execCommand, alias.latest, log)
         }
       },
-        clean := {
+      clean := {
         val alias = dockerAlias.value
         val log = streams.value.log
-        rmiDocker(dockerRmiCommand.value, alias.versioned, log)
+        val rmiCommand = dockerRmiCommand.value
+        // clean up images
+        rmiDocker(rmiCommand, alias.versioned, log)
         if (dockerUpdateLatest.value) {
-          rmiDocker(dockerRmiCommand.value, alias.latest, log)
+          rmiDocker(rmiCommand, alias.latest, log)
         }
       },
-        sourceDirectory := sourceDirectory.value / "docker",
-        stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
-        stagingDirectory := (target in Docker).value / "stage",
-        target := target.value / "docker",
-        daemonUser := "daemon",
-        daemonGroup := daemonUser.value,
-        defaultLinuxInstallLocation := "/opt/docker",
-        dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
-        dockerGenerateConfig := generateDockerConfig(dockerCommands.value, target.value)
-      )
+      sourceDirectory := sourceDirectory.value / "docker",
+      stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
+      stagingDirectory := (target in Docker).value / "stage",
+      target := target.value / "docker",
+      daemonUser := "daemon",
+      daemonGroup := daemonUser.value,
+      defaultLinuxInstallLocation := "/opt/docker",
+      dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
+      dockerGenerateConfig := generateDockerConfig(dockerCommands.value, target.value)
     )
+  )
 
   /**
     * @param maintainer (optional)
@@ -296,8 +292,8 @@ object DockerPlugin extends AutoPlugin {
   }
 
   private[docker] def publishLocalLogger(log: Logger) =
-    new ProcessLogger {
-      def error(err: => String): Unit =
+    new sys.process.ProcessLogger {
+      override def err(err: => String): Unit =
         err match {
           case s if s.startsWith("Uploading context") =>
             log.debug(s) // pre-1.0
@@ -307,40 +303,40 @@ object DockerPlugin extends AutoPlugin {
           case s =>
         }
 
-      def info(inf: => String): Unit = inf match {
+      override def out(inf: => String): Unit = inf match {
         case s if !s.trim.isEmpty => log.info(s)
         case s =>
       }
 
-      def buffer[T](f: => T): T = f
+      override def buffer[T](f: => T): T = f
     }
 
   def publishLocalDocker(context: File, buildCommand: Seq[String], log: Logger): Unit = {
     log.debug("Executing Native " + buildCommand.mkString(" "))
     log.debug("Working directory " + context.toString)
 
-    val ret = Process(buildCommand, context) ! publishLocalLogger(log)
+    val ret = sys.process.Process(buildCommand, context) ! publishLocalLogger(log)
 
     if (ret != 0)
       throw new RuntimeException("Nonzero exit value: " + ret)
   }
 
   def rmiDocker(execCommand: Seq[String], tag: String, log: Logger): Unit = {
-    def rmiDockerLogger(log: Logger) = new ProcessLogger {
-      def error(err: => String): Unit = err match {
+    def rmiDockerLogger(log: Logger) = new sys.process.ProcessLogger {
+      override def err(err: => String): Unit = err match {
         case s if !s.trim.isEmpty => log.error(s)
         case s =>
       }
 
-      def info(inf: => String): Unit = log.info(inf)
+      override def out(inf: => String): Unit = log.info(inf)
 
-      def buffer[T](f: => T): T = f
+      override def buffer[T](f: => T): T = f
     }
 
     log.debug(s"Removing ${tag}")
 
     val cmd = execCommand :+ tag
-    val ret = Process(cmd) ! rmiDockerLogger(log)
+    val ret = sys.process.Process(cmd) ! rmiDockerLogger(log)
 
     if (ret != 0)
       sys.error(s"Nonzero exit value: ${ret}")
@@ -352,14 +348,14 @@ object DockerPlugin extends AutoPlugin {
     val loginRequired = new AtomicBoolean(false)
 
     def publishLogger(log: Logger) =
-      new ProcessLogger {
+      new sys.process.ProcessLogger {
 
-        def error(err: => String): Unit = err match {
+        override def err(err: => String): Unit = err match {
           case s if !s.trim.isEmpty => log.error(s)
           case s =>
         }
 
-        def info(inf: => String): Unit =
+        override def out(inf: => String): Unit =
           inf match {
             case s if s.startsWith("Please login") =>
               loginRequired.compareAndSet(false, true)
@@ -367,14 +363,14 @@ object DockerPlugin extends AutoPlugin {
             case s =>
           }
 
-        def buffer[T](f: => T): T = f
+        override def buffer[T](f: => T): T = f
       }
 
     val cmd = execCommand ++ Seq("push", tag)
 
     log.debug("Executing " + cmd.mkString(" "))
 
-    val ret = Process(cmd) ! publishLogger(log)
+    val ret = sys.process.Process(cmd) ! publishLogger(log)
 
     if (loginRequired.get)
       sys.error("""No credentials for repository, please run "docker login"""")

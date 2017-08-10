@@ -1,10 +1,12 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(JavaServerAppPackaging)
 
 name := "windows-test"
 
 version := "0.1.0"
 
-TaskKey[Unit]("check-cygwin-script") := {
+TaskKey[Unit]("checkCygwinScript") := {
   val dir = (stagingDirectory in Universal).value
   // TODO - FIx our cygwin detection!
   val cygwinBash = file("C:\\cygwin\\bin\\bash.exe")
@@ -18,12 +20,12 @@ TaskKey[Unit]("check-cygwin-script") := {
     val pathEnv = "C:\\cygwin\\bin"
     val cmd = Seq(cygwinBash.getAbsolutePath, cygdriveScriptPath, "-d")
     val result =
-      Process(cmd, Some(dir), "PATH" -> pathEnv) ! streams.value.log match {
+      sys.process.Process(cmd, Some(dir), "PATH" -> pathEnv) ! streams.value.log match {
         case 0 => ()
         case n =>
           sys.error("Failed to run script: " + cygdriveScriptPath + " error code: " + n)
       }
-    val output = Process(cmd, Some(dir), "PATH" -> pathEnv).!!
+    val output = sys.process.Process(cmd, Some(dir), "PATH" -> pathEnv).!!
     val expected = "SUCCESS!"
     assert(
       output contains expected,

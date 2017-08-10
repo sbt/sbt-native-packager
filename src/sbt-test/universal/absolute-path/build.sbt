@@ -8,7 +8,7 @@ scriptClasspath in bashScriptDefines ++= Seq("/dummy/absolute/path", "relative/p
 
 scriptClasspath in batScriptReplacements ++= Seq("x:\\dummy\\absolute\\path", "relative\\path")
 
-TaskKey[Unit]("run-check") := {
+TaskKey[Unit]("check") := {
   val dir = (stagingDirectory in Universal).value
 
   val bash = IO.read(dir / "bin" / "absolute-path")

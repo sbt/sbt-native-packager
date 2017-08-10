@@ -24,7 +24,7 @@ maintainerScripts in Debian := maintainerScriptsFromDirectory(
   Seq(Preinst, Postinst, Prerm, Postrm)
 )
 
-TaskKey[Unit]("check-control-files") := {
+TaskKey[Unit]("checkControlFiles") := {
   val debian = target.value / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
   val preinst = IO.read(debian / "preinst")

@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(JavaAppPackaging)
 
 name := "windows-test"
@@ -33,7 +35,7 @@ batScriptExtraDefines += "exit /B"
 
 batScriptExtraDefines += ":print_args_end"
 
-TaskKey[Unit]("check-script") := {
+TaskKey[Unit]("checkScript") := {
   val dir = (stagingDirectory in Universal).value
   import scala.sys.process._
   val fails = new StringBuilder()
@@ -54,7 +56,7 @@ TaskKey[Unit]("check-script") := {
     val pr = new StringBuilder()
     val logger = ProcessLogger((o: String) => pr.append(o + "\n"), (e: String) => pr.append("error < " + e + "\n"))
     val cmd = Seq("cmd", "/c", script.getAbsolutePath + " " + args)
-    val result = Process(cmd, None, env.toSeq: _*) ! logger
+    val result = sys.process.Process(cmd, None, env.toSeq: _*) ! logger
     if (result != expectedRC) {
       pr.append("error code: " + result + "\n")
     }
@@ -76,7 +78,7 @@ TaskKey[Unit]("check-script") := {
       fails.append(crlf2cr(pr.toString) + "\n")
       fails.append("\n--detail-------------------------------\n")
       pr.clear
-      Process(Seq("cmd", "/c", detailScript.getAbsolutePath + " " + args), None, env.toSeq: _*) ! logger
+      sys.process.Process(Seq("cmd", "/c", detailScript.getAbsolutePath + " " + args), None, env.toSeq: _*) ! logger
       fails.append(crlf2cr(pr.toString) + "\n")
     }
     if (debugOutFile.exists) {

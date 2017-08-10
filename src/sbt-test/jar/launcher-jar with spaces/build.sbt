@@ -5,9 +5,9 @@ name := "launcher-jar-test"
 version := "0.1.0"
 
 // test dependencies sample
-libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-kernel" % "2.3.4")
+libraryDependencies += "com.typesafe" % "config" % "1.3.1"
 
-TaskKey[Unit]("check-classpath") := {
+TaskKey[Unit]("checkClasspath") := {
   val dir = (stagingDirectory in Universal).value
   val bat = IO.read(dir / "bin" / "launcher-jar-test.bat")
   assert(bat contains "set \"APP_CLASSPATH=\"", "bat should set APP_CLASSPATH:\n" + bat)
@@ -24,8 +24,8 @@ TaskKey[Unit]("check-classpath") := {
   val jar = new java.util.jar.JarFile(dir / "lib" / "launcher-jar-test.launcher-jar-test-0.1.0-launcher.jar")
   val attributes = jar.getManifest().getMainAttributes()
   assert(
-    attributes.getValue("Class-Path").toString() contains "com.typesafe.akka.akka-actor",
-    "MANIFEST Class-Path should contain akka-actor:\n" + attributes.getValue("Class-Path").toString()
+    attributes.getValue("Class-Path").toString() contains "com.typesafe.config",
+    "MANIFEST Class-Path should contain com.typesafe.config:\n" + attributes.getValue("Class-Path").toString()
   )
   assert(
     attributes.getValue("Main-Class").toString() contains "test.Test",
@@ -34,12 +34,12 @@ TaskKey[Unit]("check-classpath") := {
   jar close
 }
 
-TaskKey[Unit]("run-check") := {
+TaskKey[Unit]("runCheck") := {
   val dir = (stagingDirectory in Universal).value
   val cmd = if (System.getProperty("os.name").contains("Windows")) {
     Seq("cmd", "/c", (dir / "bin" / "launcher-jar-test.bat").getAbsolutePath)
   } else {
     Seq((dir / "bin" / "launcher-jar-test").getAbsolutePath)
   }
-  assert(Process(cmd).!! contains "SUCCESS!")
+  assert(sys.process.Process(cmd).!! contains "SUCCESS!")
 }
