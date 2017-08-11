@@ -12,4 +12,5 @@ libraryDependencies += "jline" % "jline" % "2.11"
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
 
 // For code formatting
-addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.10")
+//todo Uncomment in fut
+//addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.10")
