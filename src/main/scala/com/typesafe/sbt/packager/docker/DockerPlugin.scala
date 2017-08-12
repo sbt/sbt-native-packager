@@ -129,7 +129,7 @@ object DockerPlugin extends AutoPlugin {
                     rmiDocker(dockerRmiCommand.value, alias.latest, log)
                 }
             },
-            sourceDirectory := sourceDirectory.value / "docker",
+            sourceDirectory := sourceDirectory.value,
             stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
             stagingDirectory := (target in Docker).value / "stage",
             target := target.value,
