@@ -109,7 +109,7 @@ object DockerPlugin extends AutoPlugin {
             packageName := packageName.value,
             publishLocal := {
                 val log = streams.value.log
-                publishLocalDocker(stage.value, dockerBuildCommand.value, log)
+                publishLocalDocker(target.value, dockerBuildCommand.value, log)
                 log.info(s"Built image ${dockerAlias.value.versioned}")
             },
             publish := {
@@ -132,7 +132,7 @@ object DockerPlugin extends AutoPlugin {
             sourceDirectory := sourceDirectory.value / "docker",
             stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
             stagingDirectory := (target in Docker).value / "stage",
-            target := target.value / "docker",
+            target := target.value,
             daemonUser := "daemon",
             daemonGroup := daemonUser.value,
             defaultLinuxInstallLocation := "/opt/docker",
@@ -353,7 +353,7 @@ object DockerPlugin extends AutoPlugin {
 
     def publishLocalDocker(context: File, buildCommand: Seq[String], log: Logger): Unit = {
         log.debug("Executing Native " + buildCommand.mkString(" "))
-        log.debug("Working directory " + context.toString)
+        log.debug(s"Working directory: ${context.getAbsolutePath}")
 
         val ret = Process(buildCommand, context) ! publishLocalLogger(log)
 
