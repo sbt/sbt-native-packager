@@ -10,3 +10,4 @@ log/
 target/
 .cache
 .ensime*
+publish.sbt
