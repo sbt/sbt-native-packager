@@ -6,7 +6,7 @@ organization := "com.typesafe.sbt"
 scalaVersion in Global := "2.10.6"
 
 // crossBuildingSettings
-crossSbtVersions := Vector("0.13.16", "1.0.0-RC3")
+crossSbtVersions := Vector("0.13.16", "1.0.0")
 
 scalacOptions in Compile ++= Seq("-deprecation")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
@@ -14,10 +14,10 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 // put jdeb on the classpath for scripted tests
 classpathTypes += "maven-plugin"
 libraryDependencies ++= Seq(
-  "org.apache.commons" % "commons-compress" % "1.4.1",
+  "org.apache.commons" % "commons-compress" % "1.14",
   // for jdkpackager
-  "org.apache.ant" % "ant" % "1.9.6",
-  "org.scalatest" %% "scalatest" % "3.0.3" % "test"
+  "org.apache.ant" % "ant" % "1.10.1",
+  "org.scalatest" %% "scalatest" % "3.0.3" % Test
 )
 
 // sbt dependend libraries
@@ -25,7 +25,7 @@ libraryDependencies ++= {
   (sbtVersion in pluginCrossBuild).value match {
     case v if v.startsWith("1.") =>
       Seq(
-        "org.scala-sbt" %% "io" % "1.0.0-M13",
+        "org.scala-sbt" %% "io" % "1.0.0",
         // these dependencies have to be explicitly added by the user
         // FIXME temporary remove the 'provided' scope. SBT 1.0.0-M6 changed the resolving somehow
         "com.spotify" % "docker-client" % "3.5.13" /* % "provided" */,
@@ -34,8 +34,8 @@ libraryDependencies ++= {
     case _ =>
       Seq(
         // these dependencies have to be explicitly added by the user
-        "com.spotify" % "docker-client" % "3.5.13" % "provided",
-        "org.vafer" % "jdeb" % "1.3" % "provided" artifacts Artifact("jdeb", "jar", "jar")
+        "com.spotify" % "docker-client" % "3.5.13" % Provided,
+        "org.vafer" % "jdeb" % "1.3"  % Provided artifacts Artifact("jdeb", "jar", "jar")
       )
   }
 }
