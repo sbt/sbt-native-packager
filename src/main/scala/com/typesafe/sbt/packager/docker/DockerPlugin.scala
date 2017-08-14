@@ -274,49 +274,49 @@ object DockerPlugin extends AutoPlugin {
       * @param args arguments
       * @return ExceCmd
       */
-    final def RUN(args: String*): CmdLike = Cmd("RUN", args: _*)
+    final def run(args: String*): CmdLike = Cmd("RUN", args: _*)
 
     /**
       * @param args arguments
       * @return ExceCmd
       */
-    final def RUN$(args: String*): CmdLike = ExecCmd("RUN", (args.init ++ Seq("/bin/bash", "-c") ++ Seq(args.last)): _*)
+    final def run$(args: String*): CmdLike = ExecCmd("RUN", (args.init ++ Seq("/bin/bash", "-c") ++ Seq(args.last)): _*)
 
     /**
       * @param args arguments
       * @return ExceCmd
       */
-    final def ENV(args: String*): CmdLike = Cmd("ENV", args: _*)
+    final def env(args: String*): CmdLike = Cmd("ENV", args: _*)
 
     /**
       * @param args arguments
       * @return ExceCmd
       */
-    final def COPY(args: String*): CmdLike = Cmd("COPY", args: _*)
+    final def copy(args: String*): CmdLike = Cmd("COPY", args: _*)
 
     /**
       * @param args arguments
       * @return ExceCmd
       */
-    final def CMD(args: String*): CmdLike = ExecCmd("CMD", args: _*)
+    final def cmd(args: String*): CmdLike = ExecCmd("CMD", args: _*)
 
     /**
       * @param args arguments
       * @return ExceCmd
       */
-    final def ENTRYPOINT(args: String): CmdLike = ExecCmd("ENTRYPOINT", args)
+    final def entrypoint(args: String): CmdLike = ExecCmd("ENTRYPOINT", args)
 
     /**
       * @param args arguments
       * @return ExceCmd
       */
-    final def EXPOSE(args: Int*): CmdLike = Cmd("EXPOSE", args.map(_.toString): _*)
+    final def expose(args: Int*): CmdLike = Cmd("EXPOSE", args.map(_.toString): _*)
 
     /**
       * @param path path to directory
       * @return ExceCmd
       */
-    final def WORKDIR(path: String): CmdLike = Cmd("WORKDIR", path)
+    final def workdir(path: String): CmdLike = Cmd("WORKDIR", path)
 
     /**
       * uses the `mappings in Unversial` to generate the
