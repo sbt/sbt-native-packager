@@ -6,7 +6,7 @@ organization := "com.typesafe.sbt"
 scalaVersion in Global := "2.10.6"
 
 // crossBuildingSettings
-crossSbtVersions := Vector("0.13.16", "1.0.0-RC3")
+crossSbtVersions := Vector("0.13.16", "1.0.0")
 
 scalacOptions in Compile ++= Seq("-deprecation")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
