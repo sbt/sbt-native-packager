@@ -84,8 +84,8 @@ releaseProcess := Seq[ReleaseStep](
 )
 
 // bintray config
-bintrayOrganization := Some("sbt")
-bintrayRepository := "sbt-plugin-releases"
+//bintrayOrganization := Some("sbt")
+//bintrayRepository := "sbt-plugin-releases"
 
 // ci commands
 addCommandAlias("validateFormatting", "; scalafmt::test ; test:scalafmt::test ; sbt:scalafmt::test")
