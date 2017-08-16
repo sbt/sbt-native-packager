@@ -9,7 +9,8 @@ libraryDependencies += "org.scala-sbt" % "scripted-plugin" % sbtVersion.value
 libraryDependencies += "jline" % "jline" % "2.11"
 
 // For our bintray publishing
-addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
+//addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
 
 // For code formatting
-addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.10")
+//todo Uncomment in future
+//addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.10")

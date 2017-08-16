@@ -16,6 +16,16 @@ trait CmdLike {
   def makeContent: String
 }
 
+
+case object EmptyCmd extends CmdLike{
+  /**
+    * Creates the command which can be placed inside a Dockerfile.
+    *
+    * @return the docker command
+    */
+  override def makeContent = ""
+}
+
 /**
   * Executable command
   *
