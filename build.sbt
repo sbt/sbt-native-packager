@@ -3,7 +3,7 @@ sbtPlugin := true
 name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 
-scalaVersion in Global := "2.10.6"
+scalaVersion in Global := "2.12.2"
 
 // crossBuildingSettings
 crossSbtVersions := Vector("0.13.16", "1.0.0")
@@ -35,7 +35,7 @@ libraryDependencies ++= {
       Seq(
         // these dependencies have to be explicitly added by the user
         "com.spotify" % "docker-client" % "3.5.13" % Provided,
-        "org.vafer" % "jdeb" % "1.3"  % Provided artifacts Artifact("jdeb", "jar", "jar")
+	"org.vafer" % "jdeb" % "1.3" % Provided artifacts Artifact("jdeb", "jar", "jar")
       )
   }
 }
