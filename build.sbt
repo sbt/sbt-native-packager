@@ -17,26 +17,17 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-compress" % "1.14",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.1",
-  "org.scalatest" %% "scalatest" % "3.0.3" % Test
+  "org.scalatest" %% "scalatest" % "3.0.3" % Test,
+  // these dependencies have to be explicitly added by the user
+  "com.spotify" % "docker-client" % "3.5.13" % Provided,
+  "org.vafer" % "jdeb" % "1.3" % Provided artifacts Artifact("jdeb", "jar", "jar")
 )
 
 // sbt dependend libraries
 libraryDependencies ++= {
   (sbtVersion in pluginCrossBuild).value match {
-    case v if v.startsWith("1.") =>
-      Seq(
-        "org.scala-sbt" %% "io" % "1.0.0",
-        // these dependencies have to be explicitly added by the user
-        // FIXME temporary remove the 'provided' scope. SBT 1.0.0-M6 changed the resolving somehow
-        "com.spotify" % "docker-client" % "3.5.13" /* % "provided" */,
-        "org.vafer" % "jdeb" % "1.3" /*% "provided"*/ artifacts Artifact("jdeb", "jar", "jar")
-      )
-    case _ =>
-      Seq(
-        // these dependencies have to be explicitly added by the user
-        "com.spotify" % "docker-client" % "3.5.13" % Provided,
-	"org.vafer" % "jdeb" % "1.3" % Provided artifacts Artifact("jdeb", "jar", "jar")
-      )
+    case v if v.startsWith("1.") => Seq("org.scala-sbt" %% "io" % "1.0.0")
+    case _ => Seq.empty
   }
 }
 
