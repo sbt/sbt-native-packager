@@ -1,4 +1,5 @@
-language: java
+language: scala
+scala: 2.12.3
 os: linux
 
 before_install:
@@ -6,7 +7,7 @@ before_install:
       brew update;
       brew install xz;
     fi
-script: ./sbt "$SBT_TEST_CMD";
+script: sbt "$SBT_TEST_CMD";
 
 # We explicitly set the matrix to include oraclejdk8 because MacOS X has issues. See comment below
 matrix:
