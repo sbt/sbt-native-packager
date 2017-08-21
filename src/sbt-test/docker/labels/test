@@ -1,4 +1,5 @@
 # Stage the distribution and ensure files show up.
 > docker:stage
-$ exec grep -q -F 'LABEL foo=bar' target/docker/Dockerfile
-$ exec grep -q -F 'LABEL Hello=World' target/docker/Dockerfile
+$ exec grep -q -F 'LABEL foo="bar"' target/docker/Dockerfile
+$ exec grep -q -F 'LABEL fooBar="foo bar"' target/docker/Dockerfile
+$ exec grep -q -F 'LABEL number="123"' target/docker/Dockerfile
