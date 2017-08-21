@@ -169,7 +169,7 @@ object DockerPlugin extends AutoPlugin {
     */
   private final def makeLabel(label: (String, String)): CmdLike = {
     val (variable, value) = label
-    Cmd("LABEL", s"$variable=\"${value.toString}\"")
+    Cmd("LABEL", variable + "=\"" + value.toString + "\"")
   }
 
   /**
