@@ -167,9 +167,13 @@ object DockerPlugin extends AutoPlugin {
     * @param label
     * @return LABEL command
     */
-  private final def makeLabel(label: Tuple2[String, String]): CmdLike = {
+  private final def makeLabel(label: (String, Any)): CmdLike = {
     val (variable, value) = label
-    Cmd("LABEL", s"${variable}=${value}")
+    val valueString = value match {
+      case n: Number => n.toString
+      case _ => "\"" + value.toString + "\""
+    }
+    Cmd("LABEL", s"$variable=$valueString")
   }
 
   /**
