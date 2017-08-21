@@ -1,5 +1,17 @@
 # Change Log
 
+## [v1.2.2](https://github.com/sbt/sbt-native-packager/tree/v1.2.2) (2017-08-21)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.2-RC2...v1.2.2)
+
+**Merged pull requests:**
+
+- Wrap docker labels with " character [\#1014](https://github.com/sbt/sbt-native-packager/pull/1014) ([kimxogus](https://github.com/kimxogus))
+- Dependency updates: [\#1012](https://github.com/sbt/sbt-native-packager/pull/1012) ([golem131](https://github.com/golem131))
+- Cross build with sbt 1.0 [\#1000](https://github.com/sbt/sbt-native-packager/pull/1000) ([muuki88](https://github.com/muuki88))
+
+## [v1.2.2-RC2](https://github.com/sbt/sbt-native-packager/tree/v1.2.2-RC2) (2017-08-07)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.1...v1.2.2-RC2)
+
 ## [v1.2.1](https://github.com/sbt/sbt-native-packager/tree/v1.2.1) (2017-08-05)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.0...v1.2.1)
 
