@@ -106,22 +106,11 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
   private[this] def generateMainScripts(discoveredMainClasses: Seq[String],
                                         config: BashScriptConfig,
                                         targetDir: File): Seq[(File, String)] =
-    discoveredMainClasses.map { qualifiedClassName =>
-      val bashConfig =
-        config.copy(executableScriptName = makeScriptName(qualifiedClassName))
+    ScriptUtils.createScriptNames(discoveredMainClasses).map {
+      case (qualifiedClassName, scriptName) =>
+        val bashConfig = config.copy(executableScriptName = scriptName)
       MainScript(qualifiedClassName, bashConfig, targetDir, discoveredMainClasses) -> s"$scriptTargetFolder/${bashConfig.executableScriptName}"
     }
-
-  private[this] def makeScriptName(qualifiedClassName: String): String = {
-    val clazz = qualifiedClassName.split("\\.").last
-
-    val lowerCased = clazz.drop(1).flatMap {
-      case c if c.isUpper => Seq('-', c.toLower)
-      case c => Seq(c)
-    }
-
-    clazz(0).toLower +: lowerCased
-  }
 
   /**
     * @param path that could be relative to app_home
@@ -196,16 +185,16 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
     def apply(executableScriptName: String, discoveredMainClasses: Seq[String], targetDir: File): Seq[(File, String)] = {
       val tmp = targetDir / "scripts"
       val forwarderTemplate = getClass.getResource(bashForwarderTemplate)
-      discoveredMainClasses.map { qualifiedClassName =>
-        val clazz = makeScriptName(qualifiedClassName)
-        val file = tmp / clazz
+      ScriptUtils.createScriptNames(discoveredMainClasses).map {
+        case (qualifiedClassName, scriptName) =>
+          val file = tmp / scriptName
 
-        val replacements = Seq("startScript" -> executableScriptName, "qualifiedClassName" -> qualifiedClassName)
-        val scriptContent = TemplateWriter.generateScript(forwarderTemplate, replacements)
+          val replacements = Seq("startScript" -> executableScriptName, "qualifiedClassName" -> qualifiedClassName)
+          val scriptContent = TemplateWriter.generateScript(forwarderTemplate, replacements)
 
-        IO.write(file, scriptContent)
-        file.setExecutable(true)
-        file -> s"bin/$clazz"
+          IO.write(file, scriptContent)
+          file.setExecutable(true)
+          file -> s"bin/$scriptName"
       }
     }
   }

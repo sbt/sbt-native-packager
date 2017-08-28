@@ -39,6 +39,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
     */
   val appIniLocation = "%APP_HOME%\\conf\\application.ini"
 
+  val scriptSuffix = ".bat"
+
   override val requires = JavaAppPackaging
   override val trigger = AllRequirements
 
@@ -103,21 +105,11 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
   private[this] def generateMainScripts(discoveredMainClasses: Seq[String],
                                         config: BatScriptConfig,
                                         targetDir: File): Seq[(File, String)] =
-    discoveredMainClasses.map { qualifiedClassName =>
-      val batConfig = config.copy(executableScriptName = makeScriptName(qualifiedClassName))
-      MainScript(qualifiedClassName, batConfig, targetDir) -> s"$scriptTargetFolder/${batConfig.executableScriptName}"
+    ScriptUtils.createScriptNames(discoveredMainClasses).map {
+      case (qualifiedClassName, scriptName) =>
+        val batConfig = config.copy(executableScriptName = scriptName + scriptSuffix)
+        MainScript(qualifiedClassName, batConfig, targetDir) -> s"$scriptTargetFolder/${batConfig.executableScriptName}"
     }
-
-  private[this] def makeScriptName(qualifiedClassName: String): String = {
-    val clazz = qualifiedClassName.split("\\.").last
-
-    val lowerCased = clazz.drop(1).flatMap {
-      case c if c.isUpper => Seq('-', c.toLower)
-      case c => Seq(c)
-    }
-
-    clazz(0).toLower + lowerCased + ".bat"
-  }
 
   /**
     * @param path that could be relative to APP_HOME
@@ -202,16 +194,17 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
     def apply(executableScriptName: String, discoveredMainClasses: Seq[String], targetDir: File): Seq[(File, String)] = {
       val tmp = targetDir / "scripts"
       val forwarderTemplate = getClass.getResource(batForwarderTemplate)
-      discoveredMainClasses.map { qualifiedClassName =>
-        val scriptName = makeScriptName(qualifiedClassName)
-        val file = tmp / scriptName
+      ScriptUtils.createScriptNames(discoveredMainClasses).map {
+        case (qualifiedClassName, scriptNameWithoutSuffix) =>
+          val scriptName = scriptNameWithoutSuffix + scriptSuffix
+          val file = tmp / scriptName
 
-        val replacements = Seq("startScript" -> executableScriptName, "qualifiedClassName" -> qualifiedClassName)
-        val scriptContent =
-          TemplateWriter.generateScript(forwarderTemplate, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
+          val replacements = Seq("startScript" -> executableScriptName, "qualifiedClassName" -> qualifiedClassName)
+          val scriptContent =
+            TemplateWriter.generateScript(forwarderTemplate, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
 
-        IO.write(file, scriptContent)
-        file -> s"bin/$scriptName"
+          IO.write(file, scriptContent)
+          file -> s"bin/$scriptName"
       }
     }
 
