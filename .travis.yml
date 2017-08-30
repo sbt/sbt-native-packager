@@ -1,4 +1,4 @@
-language: scala
+language: java
 scala: 2.12.3
 os: linux
 
@@ -6,6 +6,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       brew update;
       brew install xz;
+      brew install sbt;
     fi
 script: sbt "$SBT_TEST_CMD";
 
@@ -13,24 +14,33 @@ script: sbt "$SBT_TEST_CMD";
 matrix:
   include:
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validate"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateUniversal"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateJar"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateBash"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateAsh"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateRpm"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateDebian"
       # for now we can't test the docker image generation on travis
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateDockerUnit"
       # jdk packaging is only available on jdk8+
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateJdkPackagerTravis"
       # oraclejdk8 is not yet available.
       # see https://github.com/travis-ci/travis-ci/issues/2316
