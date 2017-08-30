@@ -154,11 +154,17 @@ Override Start Script
 ~~~~~~~~~~~~~~~~~~~~~
 
 It's also possible to override the entire script/configuration for your service manager.
-Create a file ``src/templates/systemloader/$loader`` and it will be used instead.
+Create a file ``src/templates/systemloader/$loader/$template`` and it will be used instead.
+
 
 Possible values:
 
 * ``$loader`` - ``upstart``, ``systemv`` or ``systemd``
+* ``$template`` -
+
+  * ``systemv`` - ``loader-functions``, ``start-debian-template``, or ``start-rpm-template``
+  * ``systemd`` - ``loader-functions`` or ``start-template``
+  * ``upstart`` - ``loader-functions`` or ``start-template``
 
 **Syntax**
 
