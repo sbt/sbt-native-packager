@@ -121,11 +121,11 @@ object BashStartScriptPlugin extends AutoPlugin {
         log.warn("You have no main class in your project. No start script will be generated.")
         Seq.empty
       case SingleMain(main) =>
-        Seq(MainScript(main, config, targetDir) -> s"$scriptTargetFolder/${config.executableScriptName}")
+        Seq(MainScript(main, config, targetDir, Seq(main)) -> s"$scriptTargetFolder/${config.executableScriptName}")
       case MultipleMains(mains) =>
-        generateMainScripts(discoveredMainClasses, config, targetDir)
+        generateMainScripts(mains, config, targetDir)
       case ExplicitMainWithAdditional(main, additional) =>
-        (MainScript(main, config, targetDir) -> s"$scriptTargetFolder/${config.executableScriptName}") +:
+        (MainScript(main, config, targetDir, discoveredMainClasses) -> s"$scriptTargetFolder/${config.executableScriptName}") +:
           ForwarderScripts(config.executableScriptName, additional, targetDir)
     }
 
@@ -135,7 +135,7 @@ object BashStartScriptPlugin extends AutoPlugin {
     discoveredMainClasses.map { qualifiedClassName =>
       val bashConfig =
         config.copy(executableScriptName = makeScriptName(qualifiedClassName))
-      MainScript(qualifiedClassName, bashConfig, targetDir) -> s"$scriptTargetFolder/${bashConfig.executableScriptName}"
+      MainScript(qualifiedClassName, bashConfig, targetDir, discoveredMainClasses) -> s"$scriptTargetFolder/${bashConfig.executableScriptName}"
     }
 
   private[this] def makeScriptName(qualifiedClassName: String): String = {
@@ -193,9 +193,12 @@ object BashStartScriptPlugin extends AutoPlugin {
       * @param targetDir - Target directory for this script
       * @return File pointing to the created main script
       */
-    def apply(mainClass: String, config: BashScriptConfig, targetDir: File): File = {
+    def apply(mainClass: String, config: BashScriptConfig, targetDir: File, mainClasses: Seq[String]): File = {
       val template = resolveTemplate(config.bashScriptTemplateLocation)
-      val replacements = Seq("app_mainclass" -> mainClassReplacement(mainClass)) ++ config.bashScriptReplacements
+      val replacements = Seq(
+        "app_mainclass" -> mainClassReplacement(mainClass),
+        "available_main_classes" -> usageMainClassReplacement(mainClasses)
+      ) ++ config.bashScriptReplacements
 
       val scriptContent = TemplateWriter.generateScript(template, replacements)
       val script = targetDir / "scripts" / config.executableScriptName
@@ -213,6 +216,12 @@ object BashStartScriptPlugin extends AutoPlugin {
       }
       args.map(s => "\"" + s + "\"").mkString(" ")
     }
+
+    private[this] def usageMainClassReplacement(mainClasses: Seq[String]): String =
+      if (mainClasses.nonEmpty)
+        mainClasses.mkString("Available main classes:\n\t", "\n\t", "")
+      else
+        ""
 
     private[this] def resolveTemplate(defaultTemplateLocation: File): URL =
       if (defaultTemplateLocation.exists) defaultTemplateLocation.toURI.toURL
