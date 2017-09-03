@@ -110,4 +110,4 @@ addCommandAlias(
 )
 
 // TODO check the cygwin scripted tests and run them on appveyor
-addCommandAlias("validateWindows", "; test-only * -- -n windows;scripted universal/dist universal/stage windows/*")
+addCommandAlias("validateWindows", "; testOnly * -- -n windows;scripted universal/dist universal/stage windows/*")
