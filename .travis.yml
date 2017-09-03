@@ -52,6 +52,7 @@ addons:
   apt:
     packages:
     - rpm
+    - fakeroot
 
 sudo: false
 cache:
