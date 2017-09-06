@@ -319,6 +319,7 @@ Usage: $script_name [options]
 
 In the case of duplicated or conflicting options, basically the order above
 shows precedence: JAVA_OPTS lowest, command line options highest except "--".
+${{available_main_classes}}
 EOM
 }
 
