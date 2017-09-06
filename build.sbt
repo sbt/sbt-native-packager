@@ -3,7 +3,7 @@ sbtPlugin := true
 name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 
-scalaVersion in Global := "2.10.6"
+scalaVersion in Global := "2.12.3"
 
 // crossBuildingSettings
 crossSbtVersions := Vector("0.13.16", "1.0.0")
@@ -35,7 +35,7 @@ libraryDependencies ++= {
       Seq(
         // these dependencies have to be explicitly added by the user
         "com.spotify" % "docker-client" % "3.5.13" % Provided,
-        "org.vafer" % "jdeb" % "1.3"  % Provided artifacts Artifact("jdeb", "jar", "jar")
+        "org.vafer" % "jdeb" % "1.3" % Provided artifacts Artifact("jdeb", "jar", "jar")
       )
   }
 }
@@ -54,13 +54,11 @@ libraryDependencies ++= {
 }
 
 // configure github page
-enablePlugins(SphinxPlugin, SiteScaladocPlugin)
+enablePlugins(SphinxPlugin, SiteScaladocPlugin, GhpagesPlugin)
 
-ghpages.settings
 git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 
 // scripted test settings
-scriptedSettings
 scriptedLaunchOpts += "-Dproject.version=" + version.value
 
 // Release configuration
@@ -80,7 +78,7 @@ releaseProcess := Seq[ReleaseStep](
   setNextVersion,
   commitNextVersion,
   pushChanges,
-  releaseStepTask(GhPagesKeys.pushSite)
+  releaseStepTask(ghpagesPushSite)
 )
 
 // bintray config
@@ -112,4 +110,4 @@ addCommandAlias(
 )
 
 // TODO check the cygwin scripted tests and run them on appveyor
-addCommandAlias("validateWindows", "; test-only * -- -n windows;scripted universal/dist universal/stage windows/*")
+addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted universal/dist universal/stage windows/*")

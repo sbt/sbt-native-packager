@@ -13,7 +13,7 @@ TaskKey[Unit]("checkAppMain") := {
   val process =
     sys.process.Process("target/universal/stage/bin/test-custom-main.bat")
   val out = (process !!)
-  if (out.trim != "App Main Method") error("unexpected output: " + out)
+  if (out.trim != "App Main Method") sys.error("unexpected output: " + out)
   ()
 }
 
@@ -22,6 +22,6 @@ TaskKey[Unit]("checkCustomMain") := {
   val process =
     sys.process.Process("target/universal/stage/bin/test-custom-main.bat", Seq("-main", "CustomMain"))
   val out = (process !!)
-  if (out.trim != "Custom Main Method") error("unexpected output: " + out)
+  if (out.trim != "Custom Main Method") sys.error("unexpected output: " + out)
   ()
 }
