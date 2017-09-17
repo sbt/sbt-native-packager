@@ -54,7 +54,7 @@ object ScriptUtils {
       val parts = lowerCased.split("\\.")
       MainClass(qualifiedClassName, parts)
     }
-    val commonPrefixLength = mainClasses.map(_.parts.toList).reduce(commonPrefix).size
+    val commonPrefixLength = mainClasses.map(_.parts.init.toList).reduce(commonPrefix).size
 
     disambiguateNames(
       mainClasses.map {

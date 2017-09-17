@@ -56,4 +56,9 @@ class ScriptUtilsTest extends FlatSpec with Matchers {
       "pkg1.ui.Test" -> "ui_test"
     )
   }
+  it should "not strip the class name as well as packages for single main class" in {
+    testMapping(
+      "pkg1.Test" -> "test"
+    )
+  }
 }
