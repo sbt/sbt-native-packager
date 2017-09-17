@@ -48,8 +48,8 @@ class ScriptUtilsTest extends FlatSpec with Matchers {
     testMapping(
       "com.company.feature1.Test" -> "feature-1_test",
       "com.company.feature1.AnotherTest" -> "another-test",
-      "com.company.feature2.subpkg.core.Test" -> "feature-2_core_test",
-      "com.company.feature2.subpkg.ui.Test" -> "feature-2_ui_test"
+      "com.company.feature2.subpkg.core.Test" -> "feature-2_subpkg_core_test",
+      "com.company.feature2.subpkg.ui.Test"   -> "feature-2_subpkg_ui_test"
     )
     testMapping(
       "pkg1.Test" -> "test",

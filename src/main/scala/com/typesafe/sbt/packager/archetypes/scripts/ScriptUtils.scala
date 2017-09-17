@@ -12,60 +12,34 @@ object ScriptUtils {
         Nil
   }
 
-  /**
-    * Recursive function that disambiguates classes with equal short names
-    * according to their packages.
-    * @param classesAndPrefixParts sequence of tuples
-    *     (qualified class name, not yet processed suffix of packages in which this class resides)
-    * @param shortName short class name to append at the end of generate name
-    * @param accumulatedPrefixes prefix parts accumulated above on the call stack
-    * @return sequence of tuples (passed in class name, disambiguated name)
-    */
+  private[this] case class MainClass(fullyQualifiedClassName: String, parts: Seq[String]) {
+    private val packages: Seq[String] = parts.init
+    private val className: String = parts.last
+
+    def scriptName(expansionIndex: Int): String =
+      (packages.take(expansionIndex) :+ className).mkString("_")
+    def asTuple(expansionIndex: Int): (String, String) =
+      (fullyQualifiedClassName, scriptName(expansionIndex))
+  }
+
   private[this] def disambiguateNames(
-                      classesAndPrefixParts: Seq[(String, List[String])],
-                      shortName: String,
-                      accumulatedPrefixes: Seq[String] = Seq()
-                                  ): Seq[(String, String)] = {
-
-    if (classesAndPrefixParts.size <= 1) {
-      classesAndPrefixParts.map {
-        case (clazz, _) => (
-          clazz,
-          (accumulatedPrefixes :+ shortName)
-            .filter { str => str.nonEmpty }
-            .mkString("_")
-        )
+                                       mainClasses: Seq[MainClass],
+                                       expansionIndex: Int
+                                     ): Seq[(String, String)] = {
+    val (duplicates, uniques) = mainClasses
+      .groupBy(_.scriptName(expansionIndex))
+      .partition {
+        case (_, classes) => classes.length > 1
       }
-    } else {
-      val commonPrefixLength = classesAndPrefixParts
-        .map {
-          case (_, candidatePrefixes) => candidatePrefixes
-        }
-        .reduce(commonPrefix)
-        .size
 
-      classesAndPrefixParts
-        .map {
-          case (clazz, candidatePrefixes) =>
-            (clazz, candidatePrefixes.drop(commonPrefixLength))
-        }
-        .groupBy {
-          case (_, prefixes) => prefixes.headOption.getOrElse("")
-        }
-        .toSeq
-        .flatMap {
-          case (nextPrefix, nextConflictingNames) =>
-            disambiguateNames(
-              nextConflictingNames
-                .map {
-                  case (clazz, Nil) => (clazz, Nil)
-                  case (clazz, _ :: otherPrefixes) => (clazz, otherPrefixes)
-                },
-              shortName,
-              accumulatedPrefixes :+ nextPrefix
-            )
-        }
+    val resultsForUniques = uniques.toSeq.map {
+      case (_, seqOfOneClass) => seqOfOneClass.head.asTuple(expansionIndex)
     }
+    val resultsForDuplicates = duplicates.toSeq.flatMap {
+      case (_, classes) =>
+        disambiguateNames(classes, expansionIndex + 1)
+    }
+    resultsForUniques ++ resultsForDuplicates
   }
 
   /**
@@ -75,26 +49,19 @@ object ScriptUtils {
     * @return sequence of tuples: (passed in class name) -> (generated script name)
     */
   def createScriptNames(discoveredMainClasses: Seq[String]): Seq[(String, String)] = {
-    val names = discoveredMainClasses.map { qualifiedClassName =>
+    val mainClasses = discoveredMainClasses.map { qualifiedClassName =>
       val lowerCased = toLowerCase(qualifiedClassName)
       val parts = lowerCased.split("\\.")
-      (qualifiedClassName, parts.init.toList, parts.last)
+      MainClass(qualifiedClassName, parts)
     }
+    val commonPrefixLength = mainClasses.map(_.parts.toList).reduce(commonPrefix).size
 
-    names
-      .groupBy {
-        case (_, _, shortName) => shortName
-      }
-      .toSeq
-      .flatMap {
-        case (shortName, conflictingNames) =>
-          disambiguateNames(
-            conflictingNames.map {
-              case (clazz, prefixes, _) => (clazz, prefixes)
-            },
-            shortName
-          )
-    }
+    disambiguateNames(
+      mainClasses.map {
+        main => main.copy(parts = main.parts.drop(commonPrefixLength))
+      },
+      0
+    )
   }
 
   /**
