@@ -109,7 +109,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
     ScriptUtils.createScriptNames(discoveredMainClasses).map {
       case (qualifiedClassName, scriptName) =>
         val bashConfig = config.copy(executableScriptName = scriptName)
-      MainScript(qualifiedClassName, bashConfig, targetDir, discoveredMainClasses) -> s"$scriptTargetFolder/${bashConfig.executableScriptName}"
+        MainScript(qualifiedClassName, bashConfig, targetDir, discoveredMainClasses) -> s"$scriptTargetFolder/${bashConfig.executableScriptName}"
     }
 
   /**
