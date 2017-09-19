@@ -10,7 +10,8 @@ case class PackageMetaData(info: PackageInfo,
                            conflicts: Seq[String] = Seq.empty,
                            depends: Seq[String] = Seq.empty,
                            provides: Seq[String] = Seq.empty,
-                           recommends: Seq[String] = Seq.empty) {
+                           recommends: Seq[String] = Seq.empty,
+                           predepends: Seq[String] = Seq.empty) {
   def makeContent(installSizeEstimate: Long = 0L): String = {
     // TODO: Pretty print with line wrap.
     val sb = new StringBuilder
@@ -21,6 +22,8 @@ case class PackageMetaData(info: PackageInfo,
     sb append ("Priority: %s\n" format priority)
     sb append ("Architecture: %s\n" format architecture)
     sb append ("Installed-Size: %d\n" format installSizeEstimate)
+    if (predepends.nonEmpty)
+      sb append ("Pre-Depends: %s\n" format (predepends mkString ", "))
     if (depends.nonEmpty)
       sb append ("Depends: %s\n" format (depends mkString ", "))
     if (recommends.nonEmpty)
@@ -45,6 +48,8 @@ case class PackageMetaData(info: PackageInfo,
     sb append ("Architecture: %s\n" format architecture)
     sb append ("Section: %s\n" format section)
     sb append ("Priority: %s\n" format priority)
+    if (predepends.nonEmpty) 
+      sb append ("Pre-Depends: %s\n" format (predepends mkString ", "))
     if (depends.nonEmpty)
       sb append ("Depends: %s\n" format (depends mkString ", "))
     if (recommends.nonEmpty)

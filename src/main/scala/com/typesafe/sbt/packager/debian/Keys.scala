@@ -20,6 +20,10 @@ trait DebianKeys {
     "debian-package-recommends",
     "Packages recommended to use with the currently packaged one."
   )
+  val debianPackagePredepends = SettingKey[Seq[String]](
+    "debian-package-predepends",
+    "Packages that this debian package depends on being completely installed before this one."
+  )
   val debianPackageInfo =
     SettingKey[PackageInfo]("debian-package-info", "Information (name, version, etc.) about a debian package.")
   val debianPackageMetadata =

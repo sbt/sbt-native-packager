@@ -78,6 +78,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     debianPackageDependencies := Seq.empty,
     debianPackageProvides := Seq.empty,
     debianPackageRecommends := Seq.empty,
+    debianPackagePredepends := Seq.empty,
     debianSignRole := "builder",
     target in Debian := target.value / ((name in Debian).value + "-" + (version in Debian).value),
     name in Debian := (name in Linux).value,
@@ -182,7 +183,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
         debianPackageConflicts.value,
         debianPackageDependencies.value,
         debianPackageProvides.value,
-        debianPackageRecommends.value
+        debianPackageRecommends.value,
+        debianPackagePredepends.value
       ),
       debianPackageInstallSize := getPackageInstallSize(linuxPackageMappings.value),
       debianControlFile := createConfFile(debianPackageMetadata.value, debianPackageInstallSize.value, target.value),
