@@ -28,13 +28,13 @@ libraryDependencies ++= {
         "org.scala-sbt" %% "io" % "1.0.0",
         // these dependencies have to be explicitly added by the user
         // FIXME temporary remove the 'provided' scope. SBT 1.0.0-M6 changed the resolving somehow
-        "com.spotify" % "docker-client" % "3.5.13" /* % "provided" */,
+        "com.spotify" % "docker-client" % "8.9.0" /* % "provided" */,
         "org.vafer" % "jdeb" % "1.3" /*% "provided"*/ artifacts Artifact("jdeb", "jar", "jar")
       )
     case _ =>
       Seq(
         // these dependencies have to be explicitly added by the user
-        "com.spotify" % "docker-client" % "3.5.13" % Provided,
+        "com.spotify" % "docker-client" % "8.9.0" % Provided,
         "org.vafer" % "jdeb" % "1.3" % Provided artifacts Artifact("jdeb", "jar", "jar")
       )
   }
