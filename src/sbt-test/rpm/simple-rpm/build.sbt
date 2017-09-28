@@ -29,8 +29,6 @@ linuxPackageMappings in Rpm := {
   Seq(LinuxPackageMapping(Seq(mapping1, mapping2)))
 }
 
-linuxPackageSymlinks in Rpm := Seq(LinuxSymlink("/etc/link1", "destination1"), LinuxSymlink("link2", "destination2"))
-
 defaultLinuxInstallLocation in Rpm := "/opt/foo"
 
 TaskKey[Unit]("checkSpecFile") := {
@@ -54,18 +52,6 @@ TaskKey[Unit]("checkSpecFile") := {
     spec contains
       "%files\n%attr(755,root,root) /tmp/test\n%attr(755,root,root) /tmp/build.sbt",
     "Contains package mappings"
-  )
-
-  assert(
-    spec contains
-      "ln -s $(relocateLink destination1 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX) $(relocateLink /etc/link1 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX)",
-    "Contains package symlink link (1)"
-  )
-
-  assert(
-    spec contains
-      "ln -s $(relocateLink destination2 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX) $(relocateLink link2 /opt/foo/rpm-test rpm-test $RPM_INSTALL_PREFIX)",
-    "Contains package symlink link (2)"
   )
 
   streams.value.log.success("Successfully tested rpm test file")
