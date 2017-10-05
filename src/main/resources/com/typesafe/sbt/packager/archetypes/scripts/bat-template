@@ -20,14 +20,7 @@ for %%x in (!cmdcmdline!) do if %%~x==/c set DOUBLECLICKED=1
 rem FIRST we load the config file of extra options.
 set "CFG_FILE=%@@APP_ENV_NAME@@_HOME%\@@APP_ENV_NAME@@_config.txt"
 set CFG_OPTS=
-if exist "%CFG_FILE%" (
-  FOR /F "tokens=* eol=# usebackq delims=" %%i IN ("%CFG_FILE%") DO (
-    set DO_NOT_REUSE_ME=%%i
-    rem ZOMG (Part #2) WE use !! here to delay the expansion of
-    rem CFG_OPTS, otherwise it remains "" for this loop.
-    set CFG_OPTS=!CFG_OPTS! !DO_NOT_REUSE_ME!
-  )
-)
+call :parse_config "%CFG_FILE%" CFG_OPTS
 
 rem We use the value of the JAVACMD environment variable if defined
 set _JAVACMD=%JAVACMD%
@@ -97,6 +90,21 @@ rem Call the application and pass all arguments unchanged.
 @endlocal
 
 exit /B %ERRORLEVEL%
+
+
+rem Loads a configuration file full of default command line options for this script.
+rem First argument is the path to the config file.
+rem Second argument is the name of the environment variable to write to.
+:parse_config
+  set _PARSE_FILE=%~1
+  set _PARSE_OUT=
+  if exist "%_PARSE_FILE%" (
+    FOR /F "tokens=* eol=# usebackq delims=" %%i IN ("%_PARSE_FILE%") DO (
+      set _PARSE_OUT=!_PARSE_OUT! %%i
+    )
+  )
+  set %2=!_PARSE_OUT!
+exit /B 0
 
 
 :add_java
