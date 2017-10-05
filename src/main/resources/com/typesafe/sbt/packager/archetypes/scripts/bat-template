@@ -79,50 +79,7 @@ rem "-J" is stripped, "-D" is left as is, and everything is appended to JAVA_OPT
 set _JAVA_PARAMS=
 set _APP_ARGS=
 
-:param_loop
-call set _PARAM1=%%1
-set "_TEST_PARAM=%~1"
-
-if ["!_PARAM1!"]==[""] goto param_afterloop
-
-
-rem ignore arguments that do not start with '-'
-if "%_TEST_PARAM:~0,1%"=="-" goto param_java_check
-set _APP_ARGS=!_APP_ARGS! !_PARAM1!
-shift
-goto param_loop
-
-:param_java_check
-if "!_TEST_PARAM:~0,2!"=="-J" (
-  rem strip -J prefix
-  set _JAVA_PARAMS=!_JAVA_PARAMS! !_TEST_PARAM:~2!
-  shift
-  goto param_loop
-)
-
-if "!_TEST_PARAM:~0,2!"=="-D" (
-  rem test if this was double-quoted property "-Dprop=42"
-  for /F "delims== tokens=1,*" %%G in ("!_TEST_PARAM!") DO (
-    if not ["%%H"] == [""] (
-      set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
-    ) else if [%2] neq [] (
-      rem it was a normal property: -Dprop=42 or -Drop="42"
-      call set _PARAM1=%%1=%%2
-      set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
-      shift
-    )
-  )
-) else (
-  if "!_TEST_PARAM!"=="-main" (
-    call set CUSTOM_MAIN_CLASS=%%2
-    shift
-  ) else (
-    set _APP_ARGS=!_APP_ARGS! !_PARAM1!
-  )
-)
-shift
-goto param_loop
-:param_afterloop
+call :process_args %*
 
 set _JAVA_OPTS=!_JAVA_OPTS! !_JAVA_PARAMS!
 :run
@@ -144,3 +101,63 @@ rem Call the application and pass all arguments unchanged.
 :end
 
 exit /B %ERRORLEVEL%
+
+
+:add_java
+  set _JAVA_PARAMS=!_JAVA_PARAMS! %1
+exit /B 0
+
+
+:add_app
+  set _APP_ARGS=!_APP_ARGS! %1
+exit /B 0
+
+
+rem Processes incoming arguments and places them in appropriate global variables
+:process_args
+  :param_loop
+  call set _PARAM1=%%1
+  set "_TEST_PARAM=%~1"
+
+  if ["!_PARAM1!"]==[""] goto param_afterloop
+
+
+  rem ignore arguments that do not start with '-'
+  if "%_TEST_PARAM:~0,1%"=="-" goto param_java_check
+  call :add_app "!_PARAM1!"
+  shift
+  goto param_loop
+
+  :param_java_check
+  if "!_TEST_PARAM:~0,2!"=="-J" (
+    rem strip -J prefix
+    call :add_java "!_TEST_PARAM:~2!"
+    shift
+    goto param_loop
+  )
+
+  if "!_TEST_PARAM:~0,2!"=="-D" (
+    rem test if this was double-quoted property "-Dprop=42"
+    for /F "delims== tokens=1,*" %%G in ("!_TEST_PARAM!") DO (
+      if not ["%%H"] == [""] (
+        call :add_java "!_PARAM1!"
+      ) else if [%2] neq [] (
+        rem it was a normal property: -Dprop=42 or -Drop="42"
+        call set _PARAM1=%%1=%%2
+        call :add_java "!_PARAM1!"
+        shift
+      )
+    )
+  ) else (
+    if "!_TEST_PARAM!"=="-main" (
+      call set CUSTOM_MAIN_CLASS=%%2
+      shift
+    ) else (
+      call :add_app "!_PARAM1!"
+    )
+  )
+  shift
+  goto param_loop
+  :param_afterloop
+
+exit /B 0
