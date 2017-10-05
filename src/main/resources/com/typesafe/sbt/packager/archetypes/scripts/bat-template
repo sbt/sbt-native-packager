@@ -9,16 +9,21 @@
 
 @echo off
 
-if "%@@APP_ENV_NAME@@_HOME%"=="" set "@@APP_ENV_NAME@@_HOME=%~dp0\\.."
 
-set "APP_LIB_DIR=%@@APP_ENV_NAME@@_HOME%\lib\"
+if "%@@APP_ENV_NAME@@_HOME%"=="" (
+  set "APP_HOME=%~dp0\\.."
+) else (
+  set "APP_HOME=%@@APP_ENV_NAME@@_HOME%"
+)
+
+set "APP_LIB_DIR=%APP_HOME%\lib\"
 
 rem Detect if we were double clicked, although theoretically A user could
 rem manually run cmd /c
 for %%x in (!cmdcmdline!) do if %%~x==/c set DOUBLECLICKED=1
 
 rem FIRST we load the config file of extra options.
-set "CFG_FILE=%@@APP_ENV_NAME@@_HOME%\@@APP_ENV_NAME@@_config.txt"
+set "CFG_FILE=%APP_HOME%\@@APP_ENV_NAME@@_config.txt"
 set CFG_OPTS=
 call :parse_config "%CFG_FILE%" CFG_OPTS
 
