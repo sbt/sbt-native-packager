@@ -77,11 +77,14 @@ rem "-J" is stripped, "-D" is left as is, and everything is appended to JAVA_OPT
 set _JAVA_PARAMS=
 set _APP_ARGS=
 
-call :process_args %*
+@@APP_DEFINES@@
+
+rem if configuration files exist, prepend their contents to the script arguments so it can be processed by this runner
+call :parse_config "%SCRIPT_CONF_FILE%" SCRIPT_CONF_ARGS
+
+call :process_args %SCRIPT_CONF_ARGS% %*
 
 set _JAVA_OPTS=!_JAVA_OPTS! !_JAVA_PARAMS!
-
-@@APP_DEFINES@@
 
 if defined CUSTOM_MAIN_CLASS (
     set MAIN_CLASS=!CUSTOM_MAIN_CLASS!
