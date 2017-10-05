@@ -82,7 +82,6 @@ set _APP_ARGS=
 call :process_args %*
 
 set _JAVA_OPTS=!_JAVA_OPTS! !_JAVA_PARAMS!
-:run
 
 @@APP_DEFINES@@
 
@@ -96,9 +95,6 @@ rem Call the application and pass all arguments unchanged.
 "%_JAVACMD%" !_JAVA_OPTS! !@@APP_ENV_NAME@@_OPTS! -cp "%APP_CLASSPATH%" %MAIN_CLASS% !_APP_ARGS!
 
 @endlocal
-
-
-:end
 
 exit /B %ERRORLEVEL%
 
