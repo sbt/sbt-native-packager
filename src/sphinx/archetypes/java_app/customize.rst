@@ -92,7 +92,7 @@ bash commands here, but for configurations you have two methods to add jvm and a
    // add jvm parameter for typesafe config
    bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/app.config""""
    // add application parameter
-   bashScriptExtraDefines += """addApp "--port=8080"""
+   bashScriptExtraDefines += """addApp "--port=8080""""
 
 **Syntax**
 
@@ -108,14 +108,15 @@ bash commands here, but for configurations you have two methods to add jvm and a
 BatScript defines
 ^^^^^^^^^^^^^^^^^
 
-First, while the BASH file allows you to configure where to load JVM options and default arguments, in
-windows we can only configure JVM options.
+The Windows batch script accepts extra commands in ``batScriptExtraDefines``. It offers
+two methods to add jvm and app parameters using similar syntax to the BASH script.
 
 .. code-block:: scala
 
    // add jvm parameter for typesafe config
-  batScriptExtraDefines += """set _JAVA_OPTS=%_JAVA_OPTS% -Dconfig.file=%EXAMPLE_CLI_HOME%\\conf\\app.config"""
-
+   batScriptExtraDefines += """call :add_java "-Dconfig.file=%APP_HOME%\conf\app.config""""
+   // add application parameter
+   batScriptExtraDefines += """call :add_app "--port=8080""""
 
 **Syntax**
 
