@@ -1,105 +1,178 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!DOCTYPE html >
 <html>
         <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
           <title></title>
           <meta name="description" content="" />
           <meta name="keywords" content="" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="lib/index.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="lib/jquery.js"></script>
+      <script type="text/javascript" src="lib/jquery.panzoom.min.js"></script>
+      <script type="text/javascript" src="lib/jquery.mousewheel.min.js"></script>
+      <script type="text/javascript" src="lib/index.js"></script>
+      <script type="text/javascript" src="index.js"></script>
+      <script type="text/javascript" src="lib/scheduler.js"></script>
+      <script type="text/javascript" src="lib/template.js"></script>
+      <script type="text/javascript" src="lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+        /* this variable can be used by the JS to determine the path to the root document */
+        var toRoot = '';
+      </script>
     
         </head>
         <body>
-      <div id="library">
-        <img class="class icon" src="lib/class.png" />
-        <img class="trait icon" src="lib/trait.png" />
-        <img class="object icon" src="lib/object.png" />
-        <img class="package icon" src="lib/package.png" />
-      </div>
-      <div id="browser" class="ui-layout-west">
-      <div class="ui-west-center">
-      <div id="filter">
-          <div id="textfilter"></div>
-          <div id="letters"><span>#</span><a target="template" href="index/index-a.html">A</a><a target="template" href="index/index-b.html">B</a><a target="template" href="index/index-c.html">C</a><a target="template" href="index/index-d.html">D</a><a target="template" href="index/index-e.html">E</a><a target="template" href="index/index-f.html">F</a><a target="template" href="index/index-g.html">G</a><a target="template" href="index/index-h.html">H</a><a target="template" href="index/index-i.html">I</a><a target="template" href="index/index-j.html">J</a><a target="template" href="index/index-k.html">K</a><a target="template" href="index/index-l.html">L</a><a target="template" href="index/index-m.html">M</a><a target="template" href="index/index-n.html">N</a><a target="template" href="index/index-o.html">O</a><a target="template" href="index/index-p.html">P</a><span>Q</span><a target="template" href="index/index-r.html">R</a><a target="template" href="index/index-s.html">S</a><a target="template" href="index/index-t.html">T</a><a target="template" href="index/index-u.html">U</a><a target="template" href="index/index-v.html">V</a><a target="template" href="index/index-w.html">W</a><a target="template" href="index/index-x.html">X</a><span>Y</span><a target="template" href="index/index-z.html">Z</a></div>
-      </div>
-      <div class="pack" id="tpl">
-            
-            <ol class="templates"></ol>
-            <ol class="packages"> <li class="pack" title="com">
-            <a class="tplshow" href="com/package.html" target="template">com</a>
-            <ol class="templates"></ol>
-            <ol class="packages"> <li class="pack" title="com.typesafe">
-            <a class="tplshow" href="com/typesafe/package.html" target="template">com.typesafe</a>
-            <ol class="templates"></ol>
-            <ol class="packages"> <li class="pack" title="com.typesafe.sbt">
-            <a class="tplshow" href="com/typesafe/sbt/package.html" target="template">com.typesafe.sbt</a>
-            <ol class="templates"><li title="com.typesafe.sbt.SbtNativePackager"><a class="tplshow" href="com/typesafe/sbt/SbtNativePackager$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">SbtNativePackager</span></a></li></ol>
-            <ol class="packages"> <li class="pack" title="com.typesafe.sbt.packager">
-            <a class="tplshow" href="com/typesafe/sbt/packager/package.html" target="template">com.typesafe.sbt.packager</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.chmod"><a class="tplshow" href="com/typesafe/sbt/packager/chmod$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">chmod</span></a></li><li title="com.typesafe.sbt.packager.Compat"><a class="tplshow" href="com/typesafe/sbt/packager/Compat$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Compat</span></a></li><li title="com.typesafe.sbt.packager.Hashing"><a class="tplshow" href="com/typesafe/sbt/packager/Hashing$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Hashing</span></a></li><li title="com.typesafe.sbt.packager.Keys"><a class="tplshow" href="com/typesafe/sbt/packager/Keys$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Keys</span></a></li><li title="com.typesafe.sbt.packager.MappingsHelper"><a class="tplshow" href="com/typesafe/sbt/packager/MappingsHelper$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">MappingsHelper</span></a></li><li title="com.typesafe.sbt.packager.NativePackagerKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/NativePackagerKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">NativePackagerKeys</span></a></li><li title="com.typesafe.sbt.packager.permissions"><a class="tplshow" href="com/typesafe/sbt/packager/permissions$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">permissions</span></a></li><li title="com.typesafe.sbt.packager.SettingsHelper"><a class="tplshow" href="com/typesafe/sbt/packager/SettingsHelper$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">SettingsHelper</span></a></li><li title="com.typesafe.sbt.packager.Stager"><a class="tplshow" href="com/typesafe/sbt/packager/Stager$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Stager</span></a></li></ol>
-            <ol class="packages"> <li class="pack" title="com.typesafe.sbt.packager.archetypes">
-            <a class="tplshow" href="com/typesafe/sbt/packager/archetypes/package.html" target="template">com.typesafe.sbt.packager.archetypes</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.archetypes.JavaAppKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/JavaAppKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">JavaAppKeys</span></a></li><li title="com.typesafe.sbt.packager.archetypes.JavaAppPackaging"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/JavaAppPackaging$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">JavaAppPackaging</span></a></li><li title="com.typesafe.sbt.packager.archetypes.JavaServerAppKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/JavaServerAppKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">JavaServerAppKeys</span></a></li><li title="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/JavaServerAppPackaging$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">JavaServerAppPackaging</span></a></li><li title="com.typesafe.sbt.packager.archetypes.JavaServerBashScript"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/JavaServerBashScript$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">JavaServerBashScript</span></a></li><li title="com.typesafe.sbt.packager.archetypes.JavaServerLoaderScript"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/JavaServerLoaderScript$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">JavaServerLoaderScript</span></a></li><li title="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/MaintainerScriptHelper$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/MaintainerScriptHelper.html" target="template"><span class="trait">(trait)</span><span class="tplLink">MaintainerScriptHelper</span></a></li><li title="com.typesafe.sbt.packager.archetypes.TemplateWriter"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/TemplateWriter$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TemplateWriter</span></a></li></ol>
-            <ol class="packages"> <li class="pack" title="com.typesafe.sbt.packager.archetypes.jar">
-            <a class="tplshow" href="com/typesafe/sbt/packager/archetypes/jar/package.html" target="template">com.typesafe.sbt.packager.archetypes.jar</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.archetypes.jar.ClasspathJarPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/jar/ClasspathJarPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ClasspathJarPlugin</span></a></li><li title="com.typesafe.sbt.packager.archetypes.jar.LauncherJarPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/jar/LauncherJarPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">LauncherJarPlugin</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.typesafe.sbt.packager.archetypes.scripts">
-            <a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/package.html" target="template">com.typesafe.sbt.packager.archetypes.scripts</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.archetypes.scripts.AshScriptPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/AshScriptPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">AshScriptPlugin</span></a></li><li title="com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/BashStartScriptKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">BashStartScriptKeys</span></a></li><li title="com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/BashStartScriptPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">BashStartScriptPlugin</span></a></li><li title="com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">BatStartScriptKeys</span></a></li><li title="com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">BatStartScriptPlugin</span></a></li><li title="com.typesafe.sbt.packager.archetypes.scripts.ExplicitMainWithAdditional"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/ExplicitMainWithAdditional.html" target="template"><span class="case class">(case class)</span><span class="tplLink">ExplicitMainWithAdditional</span></a></li><li title="com.typesafe.sbt.packager.archetypes.scripts.MultipleMains"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/MultipleMains.html" target="template"><span class="case class">(case class)</span><span class="tplLink">MultipleMains</span></a></li><li title="com.typesafe.sbt.packager.archetypes.scripts.NoMain"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/NoMain$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">NoMain</span></a></li><li title="com.typesafe.sbt.packager.archetypes.scripts.SingleMain"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/SingleMain.html" target="template"><span class="case class">(case class)</span><span class="tplLink">SingleMain</span></a></li><li title="com.typesafe.sbt.packager.archetypes.scripts.StartScriptMainClassConfig"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/StartScriptMainClassConfig$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/scripts/StartScriptMainClassConfig.html" target="template"><span class="trait">(trait)</span><span class="tplLink">StartScriptMainClassConfig</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.typesafe.sbt.packager.archetypes.systemloader">
-            <a class="tplshow" href="com/typesafe/sbt/packager/archetypes/systemloader/package.html" target="template">com.typesafe.sbt.packager.archetypes.systemloader</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/systemloader/ServerLoader$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ServerLoader</span></a></li><li title="com.typesafe.sbt.packager.archetypes.systemloader.SystemdPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/systemloader/SystemdPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">SystemdPlugin</span></a></li><li title="com.typesafe.sbt.packager.archetypes.systemloader.SystemloaderKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/systemloader/SystemloaderKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">SystemloaderKeys</span></a></li><li title="com.typesafe.sbt.packager.archetypes.systemloader.SystemloaderPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/systemloader/SystemloaderPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">SystemloaderPlugin</span></a></li><li title="com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/systemloader/SystemVPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">SystemVPlugin</span></a></li><li title="com.typesafe.sbt.packager.archetypes.systemloader.UpstartPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/archetypes/systemloader/UpstartPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">UpstartPlugin</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li></ol>
-          </li><li class="pack" title="com.typesafe.sbt.packager.debian">
-            <a class="tplshow" href="com/typesafe/sbt/packager/debian/package.html" target="template">com.typesafe.sbt.packager.debian</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.debian.DebianControlScriptReplacements"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/debian/DebianControlScriptReplacements.html" target="template"><span class="case class">(case class)</span><span class="tplLink">DebianControlScriptReplacements</span></a></li><li title="com.typesafe.sbt.packager.debian.DebianDeployPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/debian/DebianDeployPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">DebianDeployPlugin</span></a></li><li title="com.typesafe.sbt.packager.debian.DebianKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/debian/DebianKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">DebianKeys</span></a></li><li title="com.typesafe.sbt.packager.debian.DebianNativePackaging"><a class="tplshow" href="com/typesafe/sbt/packager/debian/DebianNativePackaging$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/typesafe/sbt/packager/debian/DebianNativePackaging.html" target="template"><span class="trait">(trait)</span><span class="tplLink">DebianNativePackaging</span></a></li><li title="com.typesafe.sbt.packager.debian.DebianPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/debian/DebianPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">DebianPlugin</span></a></li><li title="com.typesafe.sbt.packager.debian.DebianPluginLike"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/debian/DebianPluginLike.html" target="template"><span class="trait">(trait)</span><span class="tplLink">DebianPluginLike</span></a></li><li title="com.typesafe.sbt.packager.debian.JDebConsole"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/debian/JDebConsole.html" target="template"><span class="class">(class)</span><span class="tplLink">JDebConsole</span></a></li><li title="com.typesafe.sbt.packager.debian.JDebPackaging"><a class="tplshow" href="com/typesafe/sbt/packager/debian/JDebPackaging$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">JDebPackaging</span></a></li><li title="com.typesafe.sbt.packager.debian.PackageInfo"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/debian/PackageInfo.html" target="template"><span class="case class">(case class)</span><span class="tplLink">PackageInfo</span></a></li><li title="com.typesafe.sbt.packager.debian.PackageMetaData"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/debian/PackageMetaData.html" target="template"><span class="case class">(case class)</span><span class="tplLink">PackageMetaData</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.typesafe.sbt.packager.docker">
-            <a class="tplshow" href="com/typesafe/sbt/packager/docker/package.html" target="template">com.typesafe.sbt.packager.docker</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.docker.Cmd"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/docker/Cmd.html" target="template"><span class="case class">(case class)</span><span class="tplLink">Cmd</span></a></li><li title="com.typesafe.sbt.packager.docker.CmdLike"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/docker/CmdLike.html" target="template"><span class="trait">(trait)</span><span class="tplLink">CmdLike</span></a></li><li title="com.typesafe.sbt.packager.docker.CombinedCmd"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/docker/CombinedCmd.html" target="template"><span class="case class">(case class)</span><span class="tplLink">CombinedCmd</span></a></li><li title="com.typesafe.sbt.packager.docker.DockerAlias"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/docker/DockerAlias.html" target="template"><span class="case class">(case class)</span><span class="tplLink">DockerAlias</span></a></li><li title="com.typesafe.sbt.packager.docker.Dockerfile"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/docker/Dockerfile.html" target="template"><span class="case class">(case class)</span><span class="tplLink">Dockerfile</span></a></li><li title="com.typesafe.sbt.packager.docker.DockerKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/docker/DockerKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">DockerKeys</span></a></li><li title="com.typesafe.sbt.packager.docker.DockerPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/docker/DockerPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">DockerPlugin</span></a></li><li title="com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/docker/DockerSpotifyClientPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">DockerSpotifyClientPlugin</span></a></li><li title="com.typesafe.sbt.packager.docker.ExecCmd"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/docker/ExecCmd.html" target="template"><span class="case class">(case class)</span><span class="tplLink">ExecCmd</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.typesafe.sbt.packager.jdkpackager">
-            <a class="tplshow" href="com/typesafe/sbt/packager/jdkpackager/package.html" target="template">com.typesafe.sbt.packager.jdkpackager</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.jdkpackager.JDKPackagerAntHelper"><a class="tplshow" href="com/typesafe/sbt/packager/jdkpackager/JDKPackagerAntHelper$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">JDKPackagerAntHelper</span></a></li><li title="com.typesafe.sbt.packager.jdkpackager.JDKPackagerDeployPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/jdkpackager/JDKPackagerDeployPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">JDKPackagerDeployPlugin</span></a></li><li title="com.typesafe.sbt.packager.jdkpackager.JDKPackagerKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/jdkpackager/JDKPackagerKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">JDKPackagerKeys</span></a></li><li title="com.typesafe.sbt.packager.jdkpackager.JDKPackagerPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/jdkpackager/JDKPackagerPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">JDKPackagerPlugin</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.typesafe.sbt.packager.linux">
-            <a class="tplshow" href="com/typesafe/sbt/packager/linux/package.html" target="template">com.typesafe.sbt.packager.linux</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.linux.LinuxFileMetaData"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/linux/LinuxFileMetaData.html" target="template"><span class="case class">(case class)</span><span class="tplLink">LinuxFileMetaData</span></a></li><li title="com.typesafe.sbt.packager.linux.LinuxKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/linux/LinuxKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">LinuxKeys</span></a></li><li title="com.typesafe.sbt.packager.linux.LinuxMappingDSL"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/linux/LinuxMappingDSL.html" target="template"><span class="trait">(trait)</span><span class="tplLink">LinuxMappingDSL</span></a></li><li title="com.typesafe.sbt.packager.linux.LinuxPackageMapping"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/linux/LinuxPackageMapping.html" target="template"><span class="case class">(case class)</span><span class="tplLink">LinuxPackageMapping</span></a></li><li title="com.typesafe.sbt.packager.linux.LinuxPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/linux/LinuxPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">LinuxPlugin</span></a></li><li title="com.typesafe.sbt.packager.linux.LinuxSymlink"><a class="tplshow" href="com/typesafe/sbt/packager/linux/LinuxSymlink$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/typesafe/sbt/packager/linux/LinuxSymlink.html" target="template"><span class="case class">(case class)</span><span class="tplLink">LinuxSymlink</span></a></li><li title="com.typesafe.sbt.packager.linux.Mapper"><a class="tplshow" href="com/typesafe/sbt/packager/linux/Mapper$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Mapper</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.typesafe.sbt.packager.rpm">
-            <a class="tplshow" href="com/typesafe/sbt/packager/rpm/package.html" target="template">com.typesafe.sbt.packager.rpm</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.rpm.RpmDependencies"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/rpm/RpmDependencies.html" target="template"><span class="case class">(case class)</span><span class="tplLink">RpmDependencies</span></a></li><li title="com.typesafe.sbt.packager.rpm.RpmDeployPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/rpm/RpmDeployPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">RpmDeployPlugin</span></a></li><li title="com.typesafe.sbt.packager.rpm.RpmDescription"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/rpm/RpmDescription.html" target="template"><span class="case class">(case class)</span><span class="tplLink">RpmDescription</span></a></li><li title="com.typesafe.sbt.packager.rpm.RpmHelper"><a class="tplshow" href="com/typesafe/sbt/packager/rpm/RpmHelper$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">RpmHelper</span></a></li><li title="com.typesafe.sbt.packager.rpm.RpmKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/rpm/RpmKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">RpmKeys</span></a></li><li title="com.typesafe.sbt.packager.rpm.RpmMetadata"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/rpm/RpmMetadata.html" target="template"><span class="case class">(case class)</span><span class="tplLink">RpmMetadata</span></a></li><li title="com.typesafe.sbt.packager.rpm.RpmPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/rpm/RpmPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">RpmPlugin</span></a></li><li title="com.typesafe.sbt.packager.rpm.RpmScripts"><a class="tplshow" href="com/typesafe/sbt/packager/rpm/RpmScripts$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/typesafe/sbt/packager/rpm/RpmScripts.html" target="template"><span class="case class">(case class)</span><span class="tplLink">RpmScripts</span></a></li><li title="com.typesafe.sbt.packager.rpm.RpmSpec"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/rpm/RpmSpec.html" target="template"><span class="case class">(case class)</span><span class="tplLink">RpmSpec</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.typesafe.sbt.packager.universal">
-            <a class="tplshow" href="com/typesafe/sbt/packager/universal/package.html" target="template">com.typesafe.sbt.packager.universal</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.universal.Archives"><a class="tplshow" href="com/typesafe/sbt/packager/universal/Archives$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Archives</span></a></li><li title="com.typesafe.sbt.packager.universal.UniversalDeployPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/universal/UniversalDeployPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">UniversalDeployPlugin</span></a></li><li title="com.typesafe.sbt.packager.universal.UniversalKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/universal/UniversalKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">UniversalKeys</span></a></li><li title="com.typesafe.sbt.packager.universal.UniversalPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/universal/UniversalPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">UniversalPlugin</span></a></li><li title="com.typesafe.sbt.packager.universal.ZipHelper"><a class="tplshow" href="com/typesafe/sbt/packager/universal/ZipHelper$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ZipHelper</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.typesafe.sbt.packager.windows">
-            <a class="tplshow" href="com/typesafe/sbt/packager/windows/package.html" target="template">com.typesafe.sbt.packager.windows</a>
-            <ol class="templates"><li title="com.typesafe.sbt.packager.windows.AddDirectoryToPath"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/windows/AddDirectoryToPath.html" target="template"><span class="case class">(case class)</span><span class="tplLink">AddDirectoryToPath</span></a></li><li title="com.typesafe.sbt.packager.windows.AddShortCuts"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/windows/AddShortCuts.html" target="template"><span class="case class">(case class)</span><span class="tplLink">AddShortCuts</span></a></li><li title="com.typesafe.sbt.packager.windows.ComponentFile"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/windows/ComponentFile.html" target="template"><span class="case class">(case class)</span><span class="tplLink">ComponentFile</span></a></li><li title="com.typesafe.sbt.packager.windows.FeatureComponent"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/windows/FeatureComponent.html" target="template"><span class="trait">(trait)</span><span class="tplLink">FeatureComponent</span></a></li><li title="com.typesafe.sbt.packager.windows.NameHelper"><a class="tplshow" href="com/typesafe/sbt/packager/windows/NameHelper$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">NameHelper</span></a></li><li title="com.typesafe.sbt.packager.windows.NamespaceDefinitions"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/windows/NamespaceDefinitions.html" target="template"><span class="case class">(case class)</span><span class="tplLink">NamespaceDefinitions</span></a></li><li title="com.typesafe.sbt.packager.windows.WindowsDeployPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/windows/WindowsDeployPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">WindowsDeployPlugin</span></a></li><li title="com.typesafe.sbt.packager.windows.WindowsFeature"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/windows/WindowsFeature.html" target="template"><span class="case class">(case class)</span><span class="tplLink">WindowsFeature</span></a></li><li title="com.typesafe.sbt.packager.windows.WindowsKeys"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/windows/WindowsKeys.html" target="template"><span class="trait">(trait)</span><span class="tplLink">WindowsKeys</span></a></li><li title="com.typesafe.sbt.packager.windows.WindowsPlugin"><a class="tplshow" href="com/typesafe/sbt/packager/windows/WindowsPlugin$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">WindowsPlugin</span></a></li><li title="com.typesafe.sbt.packager.windows.WindowsProductInfo"><div class="placeholder"></div><a class="tplshow" href="com/typesafe/sbt/packager/windows/WindowsProductInfo.html" target="template"><span class="case class">(case class)</span><span class="tplLink">WindowsProductInfo</span></a></li><li title="com.typesafe.sbt.packager.windows.WixHelper"><a class="tplshow" href="com/typesafe/sbt/packager/windows/WixHelper$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">WixHelper</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li></ol>
-          </li></ol>
-          </li></ol>
-          </li></ol>
-          </li><li class="pack" title="sbt">
-            <a class="tplshow" href="sbt/package.html" target="template">sbt</a>
-            <ol class="templates"></ol>
-            <ol class="packages"> <li class="pack" title="sbt.serialization">
-            <a class="tplshow" href="sbt/serialization/package.html" target="template">sbt.serialization</a>
-            <ol class="templates"></ol>
-            <ol class="packages"> </ol>
-          </li></ol>
-          </li></ol>
-          </div></div>
+      <div id="search">
+        <span id="doc-title"><span id="doc-version"></span></span>
+        <span class="close-results"><span class="left">&lt;</span> Back</span>
+        <div id="textfilter">
+          <span class="input">
+            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
+            <i class="clear material-icons"></i>
+            <i id="search-icon" class="material-icons"></i>
+          </span>
+        </div>
     </div>
-      <div id="content" class="ui-layout-center">
-        <iframe id="template" name="template" src="package.html"></iframe>
+      <div id="search-results">
+        <div id="search-progress">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="results-content">
+          <div id="entity-results"></div>
+          <div id="member-results"></div>
+        </div>
       </div>
-      <script defer="defer" type="text/javascript" src="lib/jquery.js"></script><script defer="defer" type="text/javascript" src="lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" src="lib/jquery.layout.js"></script><script defer="defer" type="text/javascript" src="lib/scheduler.js"></script><script defer="defer" type="text/javascript" src="lib/index.js"></script><script defer="defer" type="text/javascript" src="index.js"></script>
+      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
+        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
+          <div id="subpackage-spacer">
+            <div id="packages">
+              <h1>Packages</h1>
+              <ul>
+                <li name="_root_.root" visbl="pub" class="indented0 current" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="_root_"></a><a id="root:_root_"></a>
+      <span class="permalink">
+      <a href="index.html#_root_" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">root</span>
+      </span>
+      
+      
+    </li><li name="_root_.com" visbl="pub" class="indented1 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="com"></a><a id="com:com"></a>
+      <span class="permalink">
+      <a href="index.html#com" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="com/index.html">
+              <span class="name">com</span>
+            </a>
+      </span>
+      
+      
+    </li><li name="_root_.sbt" visbl="pub" class="indented1 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="sbt"></a><a id="sbt:sbt"></a>
+      <span class="permalink">
+      <a href="index.html#sbt" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="sbt/index.html">
+              <span class="name">sbt</span>
+            </a>
+      </span>
+      
+      
+    </li>
+              </ul>
+            </div>
+          </div>
+          <div id="content">
+            <body class="package value">
+      <div id="definition">
+        <div class="big-circle package">p</div>
+        
+        <h1>root package<span class="permalink">
+      <a href="index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span></h1>
+        
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">root</span>
+      </span>
+      </h4>
+
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+    </body>
+          </div>
+        </div>
+      </div>
     </body>
       </html>

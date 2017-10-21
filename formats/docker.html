@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.2
+                1.0
               </div>
             
           
@@ -505,7 +505,7 @@ This will only affect the image name.</dd>
 <dt><code class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt>
 <dd>The version of the package for Docker (if different from general version).  Often takes the form <code class="docutils literal"><span class="pre">x.y.z</span></code>.</dd>
 <dt><code class="docutils literal"><span class="pre">maintainer</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt>
-<dd>The maintainer of the package, required by the Dockerfile format.</dd>
+<dd>The maintainer of the package, recommended by the Dockerfile format.</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -629,7 +629,7 @@ commands or simply add some.</p>
 <p>First of all you should take a look what you docker commands look like.
 In your sbt console type</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; show dockerCommands
-<span class="o">[</span>info<span class="o">]</span> List<span class="o">(</span>Cmd<span class="o">(</span>FROM,openjdk:latest<span class="o">)</span>, Cmd<span class="o">(</span>MAINTAINER,Your Name &lt;y.n@yourcompany.com&gt;<span class="o">)</span>, ...<span class="o">)</span>
+<span class="o">[</span>info<span class="o">]</span> List<span class="o">(</span>Cmd<span class="o">(</span>FROM,openjdk:latest<span class="o">)</span>, Cmd<span class="o">(</span>LABEL,MAINTAINER<span class="o">=</span>Your Name &lt;y.n@yourcompany.com&gt;<span class="o">)</span>, ...<span class="o">)</span>
 </pre></div>
 </div>
 </div>
@@ -685,7 +685,7 @@ the chowning of a exposed volume:</p>
 
 <span class="n">dockerCommands</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span>
   <span class="nc">Cmd</span><span class="o">(</span><span class="s">&quot;FROM&quot;</span><span class="o">,</span> <span class="s">&quot;openjdk:latest&quot;</span><span class="o">),</span>
-  <span class="nc">Cmd</span><span class="o">(</span><span class="s">&quot;MAINTAINER&quot;</span><span class="o">,</span> <span class="n">maintainer</span><span class="o">.</span><span class="n">value</span><span class="o">),</span>
+  <span class="nc">Cmd</span><span class="o">(</span><span class="s">&quot;LABEL&quot;</span><span class="o">,</span> <span class="s">s&quot;&quot;&quot;MAINTAINER=&quot;</span><span class="si">${</span><span class="n">maintainer</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">&quot;&quot;&quot;&quot;</span><span class="o">)</span>
   <span class="nc">ExecCmd</span><span class="o">(</span><span class="s">&quot;CMD&quot;</span><span class="o">,</span> <span class="s">&quot;echo&quot;</span><span class="o">,</span> <span class="s">&quot;Hello, World from Docker&quot;</span><span class="o">)</span>
 <span class="o">)</span>
 </pre></div>

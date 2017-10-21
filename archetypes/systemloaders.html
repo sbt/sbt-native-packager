@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.2
+                1.0
               </div>
             
           
@@ -571,10 +571,16 @@ distribution specific actions.</p>
 <div class="section" id="override-start-script">
 <h3>Override Start Script<a class="headerlink" href="#override-start-script" title="Permalink to this headline">¶</a></h3>
 <p>It&#8217;s also possible to override the entire script/configuration for your service manager.
-Create a file <code class="docutils literal"><span class="pre">src/templates/systemloader/$loader</span></code> and it will be used instead.</p>
+Create a file <code class="docutils literal"><span class="pre">src/templates/systemloader/$loader/$template</span></code> and it will be used instead.</p>
 <p>Possible values:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">$loader</span></code> - <code class="docutils literal"><span class="pre">upstart</span></code>, <code class="docutils literal"><span class="pre">systemv</span></code> or <code class="docutils literal"><span class="pre">systemd</span></code></li>
+<li><code class="docutils literal"><span class="pre">$template</span></code> -<ul>
+<li><code class="docutils literal"><span class="pre">systemv</span></code> - <code class="docutils literal"><span class="pre">loader-functions</span></code>, <code class="docutils literal"><span class="pre">start-debian-template</span></code>, or <code class="docutils literal"><span class="pre">start-rpm-template</span></code></li>
+<li><code class="docutils literal"><span class="pre">systemd</span></code> - <code class="docutils literal"><span class="pre">loader-functions</span></code> or <code class="docutils literal"><span class="pre">start-template</span></code></li>
+<li><code class="docutils literal"><span class="pre">upstart</span></code> - <code class="docutils literal"><span class="pre">loader-functions</span></code> or <code class="docutils literal"><span class="pre">start-template</span></code></li>
+</ul>
+</li>
 </ul>
 <p><strong>Syntax</strong></p>
 <p>You can use <code class="docutils literal"><span class="pre">${{variable_name}}</span></code> to reference variables when writing your script.  The default set of variables is:</p>
