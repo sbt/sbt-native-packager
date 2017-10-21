@@ -87,7 +87,7 @@ Informational Settings
     The version of the package for Docker (if different from general version).  Often takes the form ``x.y.z``.
 
   ``maintainer in Docker``
-    The maintainer of the package, required by the Dockerfile format.
+    The maintainer of the package, recommended by the Dockerfile format.
 
 Environment Settings
 ~~~~~~~~~~~~~~~~~~~~
@@ -230,7 +230,7 @@ In your sbt console type
 .. code-block:: bash
 
     > show dockerCommands
-    [info] List(Cmd(FROM,openjdk:latest), Cmd(MAINTAINER,Your Name <y.n@yourcompany.com>), ...)
+    [info] List(Cmd(FROM,openjdk:latest), Cmd(LABEL,MAINTAINER=Your Name <y.n@yourcompany.com>), ...)
 
 
 
@@ -299,7 +299,7 @@ Now let's start adding some Docker commands.
 
   dockerCommands := Seq(
     Cmd("FROM", "openjdk:latest"),
-    Cmd("MAINTAINER", maintainer.value),
+    Cmd("LABEL", s"""MAINTAINER="${maintainer.value}"""")
     ExecCmd("CMD", "echo", "Hello, World from Docker")
   )
 
