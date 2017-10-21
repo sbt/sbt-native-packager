@@ -4,7 +4,7 @@ Rpm Plugin
 ==========
 
 RedHat ``rpm`` files support a number of very advanced features.  To take full advantage of this environment,
-it's best to understand how the ``rpm`` package system works. `How to create an RPM package`_ on the fedorda project wiki
+it's best to understand how the ``rpm`` package system works. `How to create an RPM package`_ on the fedora project wiki
 is a good tutorial, but it focuses on building packages from *source.*  The sbt-native-packager assumes that SBT has built your source and generated
 *binary* packages.
 

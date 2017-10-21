@@ -157,10 +157,10 @@ object DockerPlugin extends AutoPlugin {
 
   /**
     * @param maintainer (optional)
-    * @return MAINTAINER if defined
+    * @return LABEL MAINTAINER if defined
     */
   private final def makeMaintainer(maintainer: String): Option[CmdLike] =
-    if (maintainer.isEmpty) None else Some(Cmd("MAINTAINER", maintainer))
+    if (maintainer.isEmpty) None else Some(makeLabel(Tuple2("MAINTAINER", maintainer)))
 
   /**
     * @param dockerBaseImage

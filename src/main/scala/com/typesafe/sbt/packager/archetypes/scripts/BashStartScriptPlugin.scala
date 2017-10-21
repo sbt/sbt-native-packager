@@ -196,7 +196,7 @@ object BashStartScriptPlugin extends AutoPlugin {
     def apply(mainClass: String, config: BashScriptConfig, targetDir: File, mainClasses: Seq[String]): File = {
       val template = resolveTemplate(config.bashScriptTemplateLocation)
       val replacements = Seq(
-        "app_mainclass" -> mainClassReplacement(mainClass),
+        "app_mainclass" -> mainClass,
         "available_main_classes" -> usageMainClassReplacement(mainClasses)
       ) ++ config.bashScriptReplacements
 
@@ -206,15 +206,6 @@ object BashStartScriptPlugin extends AutoPlugin {
       // TODO - Better control over this!
       script.setExecutable(true)
       script
-    }
-
-    private[this] def mainClassReplacement(mainClass: String): String = {
-      val jarPrefixed = """^\-jar (.*)""".r
-      val args = mainClass match {
-        case jarPrefixed(jarName) => Seq("-jar", jarName)
-        case className => Seq(className)
-      }
-      args.map(s => "\"" + s + "\"").mkString(" ")
     }
 
     private[this] def usageMainClassReplacement(mainClasses: Seq[String]): String =
