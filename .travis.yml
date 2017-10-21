@@ -3,6 +3,8 @@ scala: 2.12.3
 os: linux
 
 before_install:
+  # travis sets the java options which breaks tests that check the applied memory settings
+  - unset _JAVA_OPTIONS
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       brew update;
       brew install xz;
