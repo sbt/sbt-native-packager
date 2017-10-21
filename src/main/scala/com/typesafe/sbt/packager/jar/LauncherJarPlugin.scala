@@ -39,11 +39,11 @@ object LauncherJarPlugin extends AutoPlugin {
         artifact.classifier.fold("")("-" + _) + "." + artifact.extension
     },
     mainClass in (Compile, bashScriptDefines) := {
-      Some("-jar $lib_dir/" + (artifactPath in packageJavaLauncherJar).value.getName)
+      Some(s"""-jar "$$lib_dir/${(artifactPath in packageJavaLauncherJar).value.getName}"""")
     },
     scriptClasspath in bashScriptDefines := Nil,
     mainClass in (Compile, batScriptReplacements) := {
-      Some("-jar %APP_LIB_DIR%\\" + (artifactPath in packageJavaLauncherJar).value.getName)
+      Some(s"""-jar "%APP_LIB_DIR%\\${(artifactPath in packageJavaLauncherJar).value.getName}"""")
     },
     scriptClasspath in batScriptReplacements := Nil,
     mappings in Universal += {
