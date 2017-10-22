@@ -13,6 +13,9 @@ import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Compat._
 import com.typesafe.sbt.packager.{MappingsHelper, Stager}
 
+import scala.sys.process.Process
+import scala.util.Try
+
 /**
   * == Docker Plugin ==
   *
@@ -80,6 +83,9 @@ object DockerPlugin extends AutoPlugin {
     dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
     dockerCmd := Seq(),
     dockerExecCommand := Seq("docker"),
+    dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version --format '{{.Server.Version}}'")).!!)
+      .toOption.map(_.trim)
+      .flatMap(DockerVersion.parse),
     dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
       if (dockerUpdateLatest.value)
         Seq("-t", dockerAlias.value.latest)
@@ -96,7 +102,7 @@ object DockerPlugin extends AutoPlugin {
       val generalCommands = makeFrom(dockerBaseImage.value) +: makeMaintainer((maintainer in Docker).value).toSeq
 
       generalCommands ++
-        Seq(makeWorkdir(dockerBaseDirectory), makeAdd(dockerBaseDirectory), makeChown(user, group, "." :: Nil)) ++
+        Seq(makeWorkdir(dockerBaseDirectory)) ++ makeAdd(dockerVersion.value, dockerBaseDirectory, user, group) ++
         dockerLabels.value.map(makeLabel) ++
         makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
         makeVolumes(dockerExposedVolumes.value, user, group) ++
@@ -179,10 +185,14 @@ object DockerPlugin extends AutoPlugin {
     Cmd("WORKDIR", dockerBaseDirectory)
 
   /**
-    * @param dockerBaseDirectory, the installation directory
+    * @param dockerVersion
+    * @param dockerBaseDirectory the installation directory
+    * @param daemonUser
+    * @param daemonGroup
     * @return ADD command adding all files inside the installation directory
     */
-  private final def makeAdd(dockerBaseDirectory: String): CmdLike = {
+  private final def makeAdd(dockerVersion: Option[DockerVersion], dockerBaseDirectory: String,
+                            daemonUser: String, daemonGroup: String): Seq[CmdLike] = {
 
     /**
       * This is the file path of the file in the Docker image, and does not depend on the OS where the image
@@ -190,7 +200,17 @@ object DockerPlugin extends AutoPlugin {
       * on e.g. Windows systems.
       */
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
-    Cmd("ADD", s"$files /$files")
+
+    if (dockerVersion.exists(DockerSupport.chownFlag)) {
+      Seq(
+        Cmd("ADD", s"--chown=$daemonUser:$daemonGroup $files /$files")
+      )
+    } else {
+      Seq(
+        Cmd("ADD", s"$files /$files"),
+        makeChown(daemonUser, daemonGroup, "." :: Nil)
+      )
+    }
   }
 
   /**
@@ -278,7 +298,7 @@ object DockerPlugin extends AutoPlugin {
   }
 
   /**
-    * uses the `mappings in Unversial` to generate the
+    * uses the `mappings in Universal` to generate the
     * `mappings in Docker`.
     */
   def mapGenericFilesToDocker: Seq[Setting[_]] = {
