@@ -201,17 +201,15 @@ object DockerPlugin extends AutoPlugin {
       */
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
 
-    dockerVersion match {
-      case Some(DockerVersion(major, minor, _, _)) if major >= 17 && minor >= 9 =>
-        Seq(
-          Cmd("ADD", s"--chown=$daemonUser:$daemonGroup $files /$files")
-        )
-
-      case _ =>
-        Seq(
-          Cmd("ADD", s"$files /$files"),
-          makeChown(daemonUser, daemonGroup, "." :: Nil)
-        )
+    if (dockerVersion.exists(DockerSupport.chownFlag)) {
+      Seq(
+        Cmd("ADD", s"--chown=$daemonUser:$daemonGroup $files /$files")
+      )
+    } else {
+      Seq(
+        Cmd("ADD", s"$files /$files"),
+        makeChown(daemonUser, daemonGroup, "." :: Nil)
+      )
     }
   }
 
