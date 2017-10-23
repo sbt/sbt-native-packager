@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Application and runtime configuration &mdash; sbt-native-packager 1.2.3-SNAPSHOT documentation</title>
+  <title>Application and runtime configuration &mdash; sbt-native-packager 1.3.1-SNAPSHOT documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.2.3-SNAPSHOT documentation" href="../../index.html"/>
+    <link rel="top" title="sbt-native-packager 1.3.1-SNAPSHOT documentation" href="../../index.html"/>
         <link rel="up" title="Java Application Archetype" href="index.html"/>
         <link rel="next" title="Java Server Application Archetype" href="../java_server/index.html"/>
         <link rel="prev" title="Java Application Archetype" href="index.html"/> 
@@ -475,8 +475,7 @@ recognize these as vm config parameters.</p>
 </div>
 <div class="section" id="via-application-ini">
 <h2>Via Application.ini<a class="headerlink" href="#via-application-ini" title="Permalink to this headline">¶</a></h2>
-<p>The second option is to create <code class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></code> with the following template
-(For Windows-user: Create <code class="docutils literal"><span class="pre">src/universal/&lt;APP_ENV_NAME&gt;_config.txt</span></code> instead of the application.ini, it is expected that way by the BAT-template. Inside the &lt;App_ENV_NAME&gt;_config.txt the jvm-options are expected like in the command-line  (e.g. -Xms2G -Xmx3G) without an leading <code class="docutils literal"><span class="pre">J</span></code>)</p>
+<p>The second option is to create <code class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></code> with the following template</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Setting -X directly (-J is stripped)</span>
 <span class="c1"># -J-X</span>
 -J-Xmx1024
@@ -518,7 +517,7 @@ bash commands here, but for configurations you have two methods to add jvm and a
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// add jvm parameter for typesafe config</span>
 <span class="n">bashScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;addJava &quot;-Dconfig.file=${app_home}/../conf/app.config&quot;&quot;&quot;&quot;</span>
 <span class="c1">// add application parameter</span>
-<span class="n">bashScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;addApp &quot;--port=8080&quot;&quot;&quot;</span>
+<span class="n">bashScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;addApp &quot;--port=8080&quot;&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p><strong>Syntax</strong></p>
@@ -534,10 +533,12 @@ are predefined:
 </div>
 <div class="section" id="batscript-defines">
 <span id="bat-script-defines"></span><h2>BatScript defines<a class="headerlink" href="#batscript-defines" title="Permalink to this headline">¶</a></h2>
-<p>First, while the BASH file allows you to configure where to load JVM options and default arguments, in
-windows we can only configure JVM options.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span> <span class="c1">// add jvm parameter for typesafe config</span>
-<span class="n">batScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;set _JAVA_OPTS=%_JAVA_OPTS% -Dconfig.file=%EXAMPLE_CLI_HOME%\\conf\\app.config&quot;&quot;&quot;</span>
+<p>The Windows batch script accepts extra commands in <code class="docutils literal"><span class="pre">batScriptExtraDefines</span></code>. It offers
+two methods to add jvm and app parameters using similar syntax to the BASH script.</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// add jvm parameter for typesafe config</span>
+<span class="n">batScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;call :add_java &quot;-Dconfig.file=%APP_HOME%\conf\app.config&quot;&quot;&quot;&quot;</span>
+<span class="c1">// add application parameter</span>
+<span class="n">batScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;call :add_app &quot;--port=8080&quot;&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p><strong>Syntax</strong></p>
@@ -634,7 +635,7 @@ You can also use a different file location by setting <code class="docutils lite
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.2.3-SNAPSHOT',
+            VERSION:'1.3.1-SNAPSHOT',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
