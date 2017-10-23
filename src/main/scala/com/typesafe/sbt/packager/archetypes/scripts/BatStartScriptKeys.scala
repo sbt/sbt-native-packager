@@ -25,4 +25,8 @@ trait BatStartScriptKeys {
     "A list of extra definitions that should be written to the bat file template."
   )
 
+  val batScriptConfigLocation = TaskKey[Option[String]](
+    "batScriptConfigLocation",
+    "The location where the bat script will load default argument configuration from."
+  )
 }

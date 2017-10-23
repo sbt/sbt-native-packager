@@ -38,7 +38,6 @@ Via Application.ini
 ^^^^^^^^^^^^^^^^^^^
 
 The second option is to create ``src/universal/conf/application.ini`` with the following template
-(For Windows-user: Create ``src/universal/<APP_ENV_NAME>_config.txt`` instead of the application.ini, it is expected that way by the BAT-template. Inside the <App_ENV_NAME>_config.txt the jvm-options are expected like in the command-line  (e.g. -Xms2G -Xmx3G) without an leading ``J``)
 
 .. code-block:: bash
 
@@ -92,7 +91,7 @@ bash commands here, but for configurations you have two methods to add jvm and a
    // add jvm parameter for typesafe config
    bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/app.config""""
    // add application parameter
-   bashScriptExtraDefines += """addApp "--port=8080"""
+   bashScriptExtraDefines += """addApp "--port=8080""""
 
 **Syntax**
 
@@ -108,14 +107,15 @@ bash commands here, but for configurations you have two methods to add jvm and a
 BatScript defines
 ^^^^^^^^^^^^^^^^^
 
-First, while the BASH file allows you to configure where to load JVM options and default arguments, in
-windows we can only configure JVM options.
+The Windows batch script accepts extra commands in ``batScriptExtraDefines``. It offers
+two methods to add jvm and app parameters using similar syntax to the BASH script.
 
 .. code-block:: scala
 
    // add jvm parameter for typesafe config
-  batScriptExtraDefines += """set _JAVA_OPTS=%_JAVA_OPTS% -Dconfig.file=%EXAMPLE_CLI_HOME%\\conf\\app.config"""
-
+   batScriptExtraDefines += """call :add_java "-Dconfig.file=%APP_HOME%\conf\app.config""""
+   // add application parameter
+   batScriptExtraDefines += """call :add_app "--port=8080""""
 
 **Syntax**
 
