@@ -1,5 +1,37 @@
 # Change Log
 
+## [v1.3.0](https://github.com/sbt/sbt-native-packager/tree/v1.3.0) (2017-10-23)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.2...v1.3.0)
+
+**Closed issues:**
+
+- question: how to disable universal packager script creation [\#1049](https://github.com/sbt/sbt-native-packager/issues/1049)
+- question: How do I pass JVM option to container ? [\#1047](https://github.com/sbt/sbt-native-packager/issues/1047)
+- Support SBT 1.0 [\#1041](https://github.com/sbt/sbt-native-packager/issues/1041)
+- MAINTAINER in Dockerfile [\#1033](https://github.com/sbt/sbt-native-packager/issues/1033)
+- Provide means to set umask of user? [\#1032](https://github.com/sbt/sbt-native-packager/issues/1032)
+- \[1.2.2\] docker:publishLocal only succeeds with JavaAppPackaging plugin but not with DockerPlugin [\#1030](https://github.com/sbt/sbt-native-packager/issues/1030)
+- Add support for --chown flag for ADD/COPY Docker commands [\#1029](https://github.com/sbt/sbt-native-packager/issues/1029)
+- Pass proxy configuration to the application in startup script [\#1015](https://github.com/sbt/sbt-native-packager/issues/1015)
+- Publish build for sbt 1.0.0 [\#815](https://github.com/sbt/sbt-native-packager/issues/815)
+- Universal java options ignored on Windows - cannot set javaOptions [\#688](https://github.com/sbt/sbt-native-packager/issues/688)
+- use case: single project, multiple apps [\#633](https://github.com/sbt/sbt-native-packager/issues/633)
+
+**Merged pull requests:**
+
+- Unset JAVA\_OPTIONS in travis build [\#1048](https://github.com/sbt/sbt-native-packager/pull/1048) ([muuki88](https://github.com/muuki88))
+- Add support for --chown flag for ADD/COPY Docker commands [\#1044](https://github.com/sbt/sbt-native-packager/pull/1044) ([mrfyda](https://github.com/mrfyda))
+- Windows batch script improvements [\#1042](https://github.com/sbt/sbt-native-packager/pull/1042) ([dwickern](https://github.com/dwickern))
+- Fix launcher jar paths not being quoted on Windows [\#1040](https://github.com/sbt/sbt-native-packager/pull/1040) ([dwickern](https://github.com/dwickern))
+- Refresh PR: Treat symlinks as normal files in spec file [\#1039](https://github.com/sbt/sbt-native-packager/pull/1039) ([erickpintor](https://github.com/erickpintor))
+- Add recipe for setting umask [\#1038](https://github.com/sbt/sbt-native-packager/pull/1038) ([keirlawson](https://github.com/keirlawson))
+- Fix typo in universal.rst [\#1037](https://github.com/sbt/sbt-native-packager/pull/1037) ([srinchiera](https://github.com/srinchiera))
+- \[docs\] fix typo [\#1036](https://github.com/sbt/sbt-native-packager/pull/1036) ([dwickern](https://github.com/dwickern))
+- Use LABEL instead of MAINTAINER for maintainers [\#1034](https://github.com/sbt/sbt-native-packager/pull/1034) ([NeQuissimus](https://github.com/NeQuissimus))
+- add available main classes to the usage notes in bash script [\#1027](https://github.com/sbt/sbt-native-packager/pull/1027) ([frosforever](https://github.com/frosforever))
+- Fix inconsistency in docs [\#1025](https://github.com/sbt/sbt-native-packager/pull/1025) ([Discipe](https://github.com/Discipe))
+- Wip/build with sbt 1.0 [\#1013](https://github.com/sbt/sbt-native-packager/pull/1013) ([muuki88](https://github.com/muuki88))
+
 ## [v1.2.2](https://github.com/sbt/sbt-native-packager/tree/v1.2.2) (2017-08-21)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.2-RC2...v1.2.2)
 
