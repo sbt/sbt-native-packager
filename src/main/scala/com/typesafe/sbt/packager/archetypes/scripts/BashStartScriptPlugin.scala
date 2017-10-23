@@ -16,7 +16,7 @@ import sbt._
   * [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]].
   *
   */
-object BashStartScriptPlugin extends AutoPlugin {
+object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
 
   /**
     * Name of the bash template if user wants to provide custom one
@@ -85,32 +85,6 @@ object BashStartScriptPlugin extends AutoPlugin {
     Seq("template_declares" -> defineString)
   }
 
-  private[this] def generateApplicationIni(universalMappings: Seq[(File, String)],
-                                           javaOptions: Seq[String],
-                                           bashScriptConfigLocation: Option[String],
-                                           tmpDir: File,
-                                           log: Logger): Seq[(File, String)] =
-    bashScriptConfigLocation
-      .collect {
-        case location if javaOptions.nonEmpty =>
-          val configFile = tmpDir / "tmp" / "conf" / "application.ini"
-          //Do not use writeLines here because of issue #637
-          IO.write(configFile, ("# options from build" +: javaOptions).mkString("\n"))
-          val filteredMappings = universalMappings.filter {
-            case (file, path) => path != appIniLocation
-          }
-          // Warn the user if he tries to specify options
-          if (filteredMappings.size < universalMappings.size) {
-            log.warn("--------!!! JVM Options are defined twice !!!-----------")
-            log.warn(
-              "application.ini is already present in output package. Will be overridden by 'javaOptions in Universal'"
-            )
-          }
-          (configFile -> cleanApplicationIniPath(location)) +: filteredMappings
-
-      }
-      .getOrElse(universalMappings)
-
   private[this] def generateStartScripts(config: BashScriptConfig,
                                          mainClass: Option[String],
                                          discoveredMainClasses: Seq[String],
@@ -153,8 +127,7 @@ object BashStartScriptPlugin extends AutoPlugin {
     * @param path that could be relative to app_home
     * @return path relative to app_home
     */
-  private[this] def cleanApplicationIniPath(path: String): String =
-    path.replaceFirst("\\$\\{app_home\\}/../", "")
+  protected def cleanApplicationIniPath(path: String): String = path.stripPrefix("${app_home}/../")
 
   /**
     * Bash defines
@@ -196,7 +169,7 @@ object BashStartScriptPlugin extends AutoPlugin {
     def apply(mainClass: String, config: BashScriptConfig, targetDir: File, mainClasses: Seq[String]): File = {
       val template = resolveTemplate(config.bashScriptTemplateLocation)
       val replacements = Seq(
-        "app_mainclass" -> mainClassReplacement(mainClass),
+        "app_mainclass" -> mainClass,
         "available_main_classes" -> usageMainClassReplacement(mainClasses)
       ) ++ config.bashScriptReplacements
 
@@ -206,15 +179,6 @@ object BashStartScriptPlugin extends AutoPlugin {
       // TODO - Better control over this!
       script.setExecutable(true)
       script
-    }
-
-    private[this] def mainClassReplacement(mainClass: String): String = {
-      val jarPrefixed = """^\-jar (.*)""".r
-      val args = mainClass match {
-        case jarPrefixed(jarName) => Seq("-jar", jarName)
-        case className => Seq(className)
-      }
-      args.map(s => "\"" + s + "\"").mkString(" ")
     }
 
     private[this] def usageMainClassReplacement(mainClasses: Seq[String]): String =

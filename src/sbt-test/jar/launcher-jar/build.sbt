@@ -14,13 +14,13 @@ TaskKey[Unit]("checkClasspath") := {
   val bat = IO.read(dir / "bin" / "launcher-jar-test.bat")
   assert(bat contains "set \"APP_CLASSPATH=\"", "bat should set APP_CLASSPATH:\n" + bat)
   assert(
-    bat contains "set \"APP_MAIN_CLASS=-jar %APP_LIB_DIR%\\launcher-jar-test.launcher-jar-test-0.1.0-launcher.jar\"",
+    bat contains "set \"APP_MAIN_CLASS=-jar \"%APP_LIB_DIR%\\launcher-jar-test.launcher-jar-test-0.1.0-launcher.jar\"\"",
     "bat should set APP_MAIN_CLASS:\n" + bat
   )
   val bash = IO.read(dir / "bin" / "launcher-jar-test")
   assert(bash contains "declare -r app_classpath=\"\"", "bash should declare app_classpath:\n" + bash)
   assert(
-    bash contains "declare -a app_mainclass=(\"-jar\" \"$lib_dir/launcher-jar-test.launcher-jar-test-0.1.0-launcher.jar\")",
+    bash contains "declare -a app_mainclass=(-jar \"$lib_dir/launcher-jar-test.launcher-jar-test-0.1.0-launcher.jar\")",
     "bash should declare app_mainclass:\n" + bash
   )
   val jar = new java.util.jar.JarFile(dir / "lib" / "launcher-jar-test.launcher-jar-test-0.1.0-launcher.jar")

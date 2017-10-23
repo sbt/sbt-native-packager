@@ -60,35 +60,22 @@ case class RpmScripts(pretrans: Option[String] = None,
                       preun: Option[String] = None,
                       postun: Option[String] = None) {
 
-  def pretransContent(): String =
-    pretrans.fold("")("\n%pretrans\n" + _ + "\n\n")
+  def pretransContent(): String = buildScript("pretrans", pretrans)
+  def preContent(): String = buildScript("pre", pre)
+  def postContent(): String = buildScript("post", post)
+  def posttransContent(): String = buildScript("posttrans", posttrans)
+  def verifyscriptContent(): String = buildScript("verifyscript", verifyscript)
+  def preunContent(): String = buildScript("preun", preun)
+  def postunContent(): String = buildScript("postun", postun)
 
-  def preContent(): String =
-    pre.fold("")("\n%pre\n" + _ + "\n\n")
-
-  def postContent(buildSymlinkScript: Option[String]): String = {
-    val scripts = Seq(post, buildSymlinkScript).flatten
-    if (scripts.isEmpty)
-      ""
-    else
-      "\n%post\n" + scripts.mkString("\n") + "\n\n"
-  }
-
-  def posttransContent(): String =
-    posttrans.fold("")("\n%posttrans\n" + _ + "\n\n")
-
-  def verifyscriptContent(): String =
-    verifyscript.fold("")("\n%verifyscript\n" + _ + "\n\n")
-
-  def preunContent(): String =
-    preun.fold("")("\n%preun\n" + _ + "\n\n")
-
-  def postunContent(tearDownSymlinkScript: Option[String]): String = {
-    val scripts = Seq(postun, tearDownSymlinkScript).flatten
-    if (scripts.isEmpty)
-      ""
-    else
-      "\n%postun\n" + scripts.mkString("\n") + "\n\n"
+  private def buildScript(name: String, script: Option[String]): String = {
+    script.map { code =>
+      s"""
+         |%$name
+         |$code
+         |
+         |""".stripMargin
+    } getOrElse ""
   }
 
   @deprecated(
@@ -207,6 +194,8 @@ case class RpmSpec(meta: RpmMetadata,
       mapping <- mappings
       (file, dest) <- mapping.mappings
     } sb append makeFilesLine(dest, mapping.fileData, file.isDirectory)
+
+    symlinks foreach (l => sb append s"${l.link}\n")
     sb.toString
   }
 
@@ -276,11 +265,11 @@ case class RpmSpec(meta: RpmMetadata,
     // write scriptlets
     sb append scriptlets.pretransContent()
     sb append scriptlets.preContent()
-    sb append scriptlets.postContent(buildSymlinkScript(meta.name, installDir, symlinks))
+    sb append scriptlets.postContent()
     sb append scriptlets.verifyscriptContent()
     sb append scriptlets.posttransContent()
     sb append scriptlets.preunContent()
-    sb append scriptlets.postunContent(teardownSymlinkScript(meta.name, installDir, symlinks))
+    sb append scriptlets.postunContent()
 
     // Write file mappings
     sb append fileSection
@@ -296,45 +285,4 @@ case class RpmSpec(meta: RpmMetadata,
     }
     sb.toString
   }
-
-  private def buildSymlinkScript(appName: String, installDir: String, symlinks: Seq[LinuxSymlink]): Option[String] =
-    if (symlinks.isEmpty)
-      None
-    else {
-      val relocateLinks = symlinks
-        .map { symlink =>
-          s"""rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$RPM_INSTALL_PREFIX) && ln -s $$(relocateLink ${symlink.destination} $installDir $appName $$RPM_INSTALL_PREFIX) $$(relocateLink ${symlink.link} $installDir $appName $$RPM_INSTALL_PREFIX)"""
-        }
-        .mkString("\n")
-
-      Some(relocateLinkFunction + "\n" + relocateLinks)
-    }
-
-  private def teardownSymlinkScript(appName: String, installDir: String, symlinks: Seq[LinuxSymlink]): Option[String] =
-    if (symlinks.isEmpty)
-      None
-    else {
-      val checkUninstall = "if [ $1 -eq 0 ] ;\nthen"
-      val sourceAppConfig =
-        s"""  [ -e /etc/sysconfig/$appName ] && . /etc/sysconfig/$appName"""
-      val cleanupLinks = symlinks
-        .map { symlink =>
-          s"""  rm -rf $$(relocateLink ${symlink.link} $installDir $appName $$PACKAGE_PREFIX)"""
-        }
-        .mkString("\n")
-
-      Some(relocateLinkFunction + "\n" + checkUninstall + "\n" + sourceAppConfig + "\n" + cleanupLinks + "\nfi")
-    }
-
-  private def relocateLinkFunction: String =
-    """
-      |relocateLink() {
-      |  if [ -n "$4" ] ;
-      |  then
-      |    RELOCATED_INSTALL_DIR="$4/$3"
-      |    echo "${1/$2/$RELOCATED_INSTALL_DIR}"
-      |  else
-      |    echo "$1"
-      |  fi
-      |}""".stripMargin
 }
