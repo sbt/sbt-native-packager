@@ -83,7 +83,7 @@ object DockerPlugin extends AutoPlugin {
     dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
     dockerCmd := Seq(),
     dockerExecCommand := Seq("docker"),
-    dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version --format '{{.Server.Version}}'")).!!)
+    dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!)
       .toOption.map(_.trim)
       .flatMap(DockerVersion.parse),
     dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
