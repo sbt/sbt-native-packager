@@ -21,17 +21,25 @@ trait ApplicationIniGenerator {
           val pathMapping = cleanApplicationIniPath(location)
           //Do not use writeLines here because of issue #637
           IO.write(configFile, ("# options from build" +: javaOptions).mkString("\n"))
-          val hasConflict = universalMappings.exists {
-            case (file, path) => file != configFile && path == pathMapping
+          val filteredMappings = universalMappings.filter {
+            case (`configFile`, `pathMapping`) =>
+              // ignore duplicate application.ini mappings with identical contents
+              // for example when using both the BASH and BAT plugin
+              false
+
+            case (_, `pathMapping`) =>
+              // specified a custom application.ini file *and* JVM options
+              // TODO: merge JVM options into the existing application.ini?
+              log.warn("--------!!! JVM Options are defined twice !!!-----------")
+              log.warn(
+                "application.ini is already present in output package. Will be overridden by 'javaOptions in Universal'"
+              )
+              false
+
+            case _ =>
+              true
           }
-          // Warn the user if he tries to specify options
-          if (hasConflict) {
-            log.warn("--------!!! JVM Options are defined twice !!!-----------")
-            log.warn(
-              "application.ini is already present in output package. Will be overridden by 'javaOptions in Universal'"
-            )
-          }
-          (configFile -> pathMapping) +: universalMappings
+          (configFile -> pathMapping) +: filteredMappings
 
       }
       .getOrElse(universalMappings)
