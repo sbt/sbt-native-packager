@@ -41,7 +41,7 @@ object StartScriptMainClassConfig {
     * @return A start script configuration
     */
   def from(mainClass: Option[String], discoveredMainClasses: Seq[String]): StartScriptMainClassConfig = {
-    val additionalMainClasses = discoveredMainClasses.filterNot(mainClass contains _)
+    val additionalMainClasses = discoveredMainClasses.filterNot(mainClass == Some(_))
     (mainClass, additionalMainClasses) match {
       // only one main - create the default script
       case (Some(main), Seq()) => SingleMain(main)
