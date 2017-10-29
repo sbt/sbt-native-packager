@@ -40,16 +40,19 @@ object StartScriptMainClassConfig {
     * @param discoveredMainClasses all discovered main classes, e.g. from (discoveredMainClasses in Compile).value
     * @return A start script configuration
     */
-  def from(mainClass: Option[String], discoveredMainClasses: Seq[String]): StartScriptMainClassConfig =
-    mainClass match {
+  def from(mainClass: Option[String], discoveredMainClasses: Seq[String]): StartScriptMainClassConfig = {
+    val additionalMainClasses = discoveredMainClasses.filterNot(mainClass == Some(_))
+    (mainClass, additionalMainClasses) match {
       // only one main - create the default script
-      case Some(main) if discoveredMainClasses.size == 1 => SingleMain(main)
+      case (Some(main), Seq()) => SingleMain(main)
+      case (None, Seq(main)) => SingleMain(main)
       // main explicitly set and multiple discoveredMainClasses
-      case Some(main) => ExplicitMainWithAdditional(main, discoveredMainClasses.filterNot(_ == main))
+      case (Some(main), additional) => ExplicitMainWithAdditional(main, additional)
       // no main class at all
-      case None if discoveredMainClasses.isEmpty => NoMain
+      case (None, Seq()) => NoMain
       // multiple main classes and none explicitly set. Create start script for each class
-      case None => MultipleMains(discoveredMainClasses)
+      case (None, additional) => MultipleMains(additional)
     }
+  }
 
 }
