@@ -47,14 +47,14 @@ matrix:
       # oraclejdk8 is not yet available.
       # see https://github.com/travis-ci/travis-ci/issues/2316
     - os: osx
-      env: SBT_VERSION_CMD="^validate ^validateUniversal"
+      env: SBT_TEST_CMD="^validate ^validateUniversal"
       osx_image: xcode8
       # docker configuration as described in
       # https://docs.travis-ci.com/user/docker/
     - jdk: oraclejdk8
       services: docker
       sudo: required
-      env: SBT_VERSION_CMD="^validateDocker"
+      env: SBT_TEST_CMD="^validateDocker"
 
 addons:
   apt:
