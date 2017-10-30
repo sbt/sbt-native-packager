@@ -49,6 +49,11 @@ matrix:
     - os: osx
       env: SBT_VERSION_CMD="^validate ^validateUniversal"
       osx_image: xcode8
+      # docker configuration as described in
+      # https://docs.travis-ci.com/user/docker/
+    - services: docker
+      sudo: required
+      env: SBT_VERSION_CMD="^validateDocker"
 
 addons:
   apt:
