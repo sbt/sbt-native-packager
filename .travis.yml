@@ -1,5 +1,5 @@
 language: java
-scala: 2.12.3
+scala: 2.10.4
 os: linux
 
 before_install:
