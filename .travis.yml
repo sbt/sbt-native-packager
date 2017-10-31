@@ -47,8 +47,17 @@ matrix:
       # oraclejdk8 is not yet available.
       # see https://github.com/travis-ci/travis-ci/issues/2316
     - os: osx
-      env: SBT_VERSION_CMD="^validate ^validateUniversal"
+      env: SBT_TEST_CMD="^validateOSX"
       osx_image: xcode8
+      # docker configuration as described in
+      # https://docs.travis-ci.com/user/docker/
+    - jdk: oraclejdk8
+      services: docker
+      sudo: required
+      env: SBT_TEST_CMD="^validateDocker"
+      # workaround for https://github.com/travis-ci/travis-ci/issues/4527
+      before_script:
+        - curl -L --create-dirs -o $HOME/.sbt/launchers/1.0.2/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.0.2/sbt-launch.jar
 
 addons:
   apt:
