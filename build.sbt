@@ -65,12 +65,12 @@ scriptedLaunchOpts += "-Dproject.version=" + version.value
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 publishMavenStyle := false
 
+// The release task doesn't run any tests. We rely on travis.ci and appveyor,
+// because it's impossible to run all tests (linux, macosx, windows) on a single computer.
 import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
-  releaseStepCommandAndRemaining("^ test"),
-  releaseStepCommandAndRemaining("^ scripted universal/* debian/* rpm/* docker/* ash/* jar/* bash/* jdkpackager/*"),
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
