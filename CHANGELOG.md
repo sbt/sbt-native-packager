@@ -1,5 +1,41 @@
 # Change Log
 
+## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.1...HEAD)
+
+**Fixed bugs:**
+
+- when project version is a SNAPSHOT, `rpm:packageBin` fails with "`version in Rpm` is empty." [\#1004](https://github.com/sbt/sbt-native-packager/issues/1004)
+
+**Closed issues:**
+
+- question: are jar files compressed? [\#1046](https://github.com/sbt/sbt-native-packager/issues/1046)
+- Docker Image 'chown -R daemon:daemon' duplicates application layer [\#883](https://github.com/sbt/sbt-native-packager/issues/883)
+- systemd service customization \(open files\) [\#728](https://github.com/sbt/sbt-native-packager/issues/728)
+- Play pid is a big caveat for people starting using sbt-native-packager. [\#602](https://github.com/sbt/sbt-native-packager/issues/602)
+- Evalualte circleci.com for docker intergation tests [\#497](https://github.com/sbt/sbt-native-packager/issues/497)
+
+**Merged pull requests:**
+
+- Run docker tests on travis [\#1059](https://github.com/sbt/sbt-native-packager/pull/1059) ([muuki88](https://github.com/muuki88))
+- Convert dockerVersion from a setting to a task [\#1058](https://github.com/sbt/sbt-native-packager/pull/1058) ([dwickern](https://github.com/dwickern))
+- Update README.md [\#1057](https://github.com/sbt/sbt-native-packager/pull/1057) ([gurghet](https://github.com/gurghet))
+- Fix duplicate application.ini mappings when both BASH and BAT plugins are used [\#1056](https://github.com/sbt/sbt-native-packager/pull/1056) ([dwickern](https://github.com/dwickern))
+- Improve main class detection [\#1055](https://github.com/sbt/sbt-native-packager/pull/1055) ([dwickern](https://github.com/dwickern))
+
+## [v1.3.1](https://github.com/sbt/sbt-native-packager/tree/v1.3.1) (2017-10-24)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.0...v1.3.1)
+
+**Closed issues:**
+
+- Error running rpm:packageBin [\#1054](https://github.com/sbt/sbt-native-packager/issues/1054)
+- After upgrading to version 1.3.0, sbt started throwing "docker: 'version --format '{{.Server.Version}}'' not a docker command" warnings on console [\#1051](https://github.com/sbt/sbt-native-packager/issues/1051)
+
+**Merged pull requests:**
+
+- Fix dockerVersion command creation [\#1052](https://github.com/sbt/sbt-native-packager/pull/1052) ([mrfyda](https://github.com/mrfyda))
+
 ## [v1.3.0](https://github.com/sbt/sbt-native-packager/tree/v1.3.0) (2017-10-23)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.2...v1.3.0)
 
