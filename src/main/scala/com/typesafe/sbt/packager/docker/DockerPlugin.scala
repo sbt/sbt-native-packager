@@ -112,10 +112,6 @@ object DockerPlugin extends AutoPlugin {
     Seq(
       executableScriptName := executableScriptName.value,
       mappings ++= dockerPackageMappings.value,
-      mappings ++= {
-        val baseDir = target.value
-        Seq(dockerGenerateConfig.value) pair (file => IO.relativize(baseDir, file))
-      },
       name := name.value,
       packageName := packageName.value,
       publishLocal := {
@@ -144,14 +140,17 @@ object DockerPlugin extends AutoPlugin {
         }
       },
       sourceDirectory := sourceDirectory.value / "docker",
-      stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
+      stage := {
+        dockerGenerateConfig.value
+        Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value)
+      },
       stagingDirectory := (target in Docker).value / "stage",
       target := target.value / "docker",
       daemonUser := "daemon",
       daemonGroup := daemonUser.value,
       defaultLinuxInstallLocation := "/opt/docker",
       dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
-      dockerGenerateConfig := generateDockerConfig(dockerCommands.value, target.value)
+      dockerGenerateConfig := generateDockerConfig(dockerCommands.value, stagingDirectory.value)
     )
   )
 
