@@ -140,10 +140,8 @@ object DockerPlugin extends AutoPlugin {
         }
       },
       sourceDirectory := sourceDirectory.value / "docker",
-      stage := {
-        dockerGenerateConfig.value
-        Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value)
-      },
+      stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
+      stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (target in Docker).value / "stage",
       target := target.value / "docker",
       daemonUser := "daemon",
