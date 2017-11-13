@@ -54,6 +54,8 @@ different archetypes for common configurations, such as simple Java apps or serv
 Add the following to your `project/plugins.sbt` file:
 
 ```scala
+resolvers += Resolver.sbtPluginRepo("releases")
+
 // for autoplugins
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.1")
 ```
