@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
-
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.1...HEAD)
+## [v1.3.2](https://github.com/sbt/sbt-native-packager/tree/v1.3.2) (2017-11-01)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.1...v1.3.2)
 
 **Fixed bugs:**
 
