@@ -87,11 +87,12 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks),
         conffileProducers(mappings, targetDir)
       )
+      // set compression default to none - in line with native version / allows rsync to be effective
+      debMaker setCompression "none"
       debMaker setDepends ""
       debMaker setDeb debianFile
       debMaker setControl (targetDir / Names.DebianMaintainerScripts)
 
-      // TODO set compression, gzip is default
       // TODO add signing with setKeyring, setKey, setPassphrase, setSignPackage, setSignMethod, setSignRole
       debMaker validate ()
       debMaker makeDeb ()
