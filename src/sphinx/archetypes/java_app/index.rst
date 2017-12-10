@@ -95,6 +95,14 @@ have sensible defaults.
   ``batScriptTemplateLocation``
     The location of the bat script template.
 
+  ``bashScriptConfigLocation``
+    The location of the bash script on the target system.
+    **Default** ``${app_home}/../conf/application.ini``
+
+  ``batScriptConfigLocation``
+    The location of the bat script on the target system.
+    **Default** ``%APP_HOME%\conf\application.ini``
+
   ``bashScriptExtraDefines``
     A list of extra definitions that should be written to the bash file template.
 
