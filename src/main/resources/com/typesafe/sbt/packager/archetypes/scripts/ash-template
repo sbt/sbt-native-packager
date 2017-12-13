@@ -40,7 +40,7 @@ fi
 
 # Loads a configuration file full of default command line options for this script.
 loadConfigFile() {
-  cat "$1" | sed '/^\#/d' | sed 's/^-J-X/-X/' | tr '\r\n' ' '
+  cat "$1" | sed '/^\#/d;s/\r$//' | sed 's/^-J-X/-X/' | tr '\r\n' ' '
 }
 
 
