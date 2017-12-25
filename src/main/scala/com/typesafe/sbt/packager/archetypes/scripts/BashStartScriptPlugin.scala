@@ -16,7 +16,7 @@ import sbt._
   * [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]].
   *
   */
-object BashStartScriptPlugin extends AutoPlugin {
+object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
 
   /**
     * Name of the bash template if user wants to provide custom one
@@ -85,32 +85,6 @@ object BashStartScriptPlugin extends AutoPlugin {
     Seq("template_declares" -> defineString)
   }
 
-  private[this] def generateApplicationIni(universalMappings: Seq[(File, String)],
-                                           javaOptions: Seq[String],
-                                           bashScriptConfigLocation: Option[String],
-                                           tmpDir: File,
-                                           log: Logger): Seq[(File, String)] =
-    bashScriptConfigLocation
-      .collect {
-        case location if javaOptions.nonEmpty =>
-          val configFile = tmpDir / "tmp" / "conf" / "application.ini"
-          //Do not use writeLines here because of issue #637
-          IO.write(configFile, ("# options from build" +: javaOptions).mkString("\n"))
-          val filteredMappings = universalMappings.filter {
-            case (file, path) => path != appIniLocation
-          }
-          // Warn the user if he tries to specify options
-          if (filteredMappings.size < universalMappings.size) {
-            log.warn("--------!!! JVM Options are defined twice !!!-----------")
-            log.warn(
-              "application.ini is already present in output package. Will be overridden by 'javaOptions in Universal'"
-            )
-          }
-          (configFile -> cleanApplicationIniPath(location)) +: filteredMappings
-
-      }
-      .getOrElse(universalMappings)
-
   private[this] def generateStartScripts(config: BashScriptConfig,
                                          mainClass: Option[String],
                                          discoveredMainClasses: Seq[String],
@@ -121,11 +95,11 @@ object BashStartScriptPlugin extends AutoPlugin {
         log.warn("You have no main class in your project. No start script will be generated.")
         Seq.empty
       case SingleMain(main) =>
-        Seq(MainScript(main, config, targetDir) -> s"$scriptTargetFolder/${config.executableScriptName}")
+        Seq(MainScript(main, config, targetDir, Seq(main)) -> s"$scriptTargetFolder/${config.executableScriptName}")
       case MultipleMains(mains) =>
-        generateMainScripts(discoveredMainClasses, config, targetDir)
+        generateMainScripts(mains, config, targetDir)
       case ExplicitMainWithAdditional(main, additional) =>
-        (MainScript(main, config, targetDir) -> s"$scriptTargetFolder/${config.executableScriptName}") +:
+        (MainScript(main, config, targetDir, discoveredMainClasses) -> s"$scriptTargetFolder/${config.executableScriptName}") +:
           ForwarderScripts(config.executableScriptName, additional, targetDir)
     }
 
@@ -135,7 +109,7 @@ object BashStartScriptPlugin extends AutoPlugin {
     discoveredMainClasses.map { qualifiedClassName =>
       val bashConfig =
         config.copy(executableScriptName = makeScriptName(qualifiedClassName))
-      MainScript(qualifiedClassName, bashConfig, targetDir) -> s"$scriptTargetFolder/${bashConfig.executableScriptName}"
+      MainScript(qualifiedClassName, bashConfig, targetDir, discoveredMainClasses) -> s"$scriptTargetFolder/${bashConfig.executableScriptName}"
     }
 
   private[this] def makeScriptName(qualifiedClassName: String): String = {
@@ -153,8 +127,7 @@ object BashStartScriptPlugin extends AutoPlugin {
     * @param path that could be relative to app_home
     * @return path relative to app_home
     */
-  private[this] def cleanApplicationIniPath(path: String): String =
-    path.replaceFirst("\\$\\{app_home\\}/../", "")
+  protected def cleanApplicationIniPath(path: String): String = path.stripPrefix("${app_home}/../")
 
   /**
     * Bash defines
@@ -193,9 +166,12 @@ object BashStartScriptPlugin extends AutoPlugin {
       * @param targetDir - Target directory for this script
       * @return File pointing to the created main script
       */
-    def apply(mainClass: String, config: BashScriptConfig, targetDir: File): File = {
+    def apply(mainClass: String, config: BashScriptConfig, targetDir: File, mainClasses: Seq[String]): File = {
       val template = resolveTemplate(config.bashScriptTemplateLocation)
-      val replacements = Seq("app_mainclass" -> mainClassReplacement(mainClass)) ++ config.bashScriptReplacements
+      val replacements = Seq(
+        "app_mainclass" -> mainClass,
+        "available_main_classes" -> usageMainClassReplacement(mainClasses)
+      ) ++ config.bashScriptReplacements
 
       val scriptContent = TemplateWriter.generateScript(template, replacements)
       val script = targetDir / "scripts" / config.executableScriptName
@@ -205,14 +181,11 @@ object BashStartScriptPlugin extends AutoPlugin {
       script
     }
 
-    private[this] def mainClassReplacement(mainClass: String): String = {
-      val jarPrefixed = """^\-jar (.*)""".r
-      val args = mainClass match {
-        case jarPrefixed(jarName) => Seq("-jar", jarName)
-        case className => Seq(className)
-      }
-      args.map(s => "\"" + s + "\"").mkString(" ")
-    }
+    private[this] def usageMainClassReplacement(mainClasses: Seq[String]): String =
+      if (mainClasses.nonEmpty)
+        mainClasses.mkString("Available main classes:\n\t", "\n\t", "")
+      else
+        ""
 
     private[this] def resolveTemplate(defaultTemplateLocation: File): URL =
       if (defaultTemplateLocation.exists) defaultTemplateLocation.toURI.toURL

@@ -2,6 +2,7 @@ package com.typesafe.sbt.packager.rpm
 
 import sbt._
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.linux.LinuxSymlink
 
 object RpmHelper {
 
@@ -65,6 +66,8 @@ object RpmHelper {
       if file.exists && !file.isDirectory()
       target = buildroot / dest
     } copyWithZip(file, target, mapping.zipped)
+
+    LinuxSymlink.makeSymLinks(spec.symlinks, buildroot, relativeLinks = false)
   }
 
   private[this] def writeSpecFile(spec: RpmSpec, workArea: File, log: sbt.Logger): File = {

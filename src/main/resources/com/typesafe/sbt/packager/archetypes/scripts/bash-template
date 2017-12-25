@@ -263,7 +263,7 @@ run() {
 
 # Loads a configuration file full of default command line options for this script.
 loadConfigFile() {
-  cat "$1" | sed '/^\#/d'
+  cat "$1" | sed '/^\#/d;s/\r$//'
 }
 
 # Now check to see if it's a good enough version
@@ -319,6 +319,7 @@ Usage: $script_name [options]
 
 In the case of duplicated or conflicting options, basically the order above
 shows precedence: JAVA_OPTS lowest, command line options highest except "--".
+${{available_main_classes}}
 EOM
 }
 

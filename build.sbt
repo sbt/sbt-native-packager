@@ -3,7 +3,7 @@ sbtPlugin := true
 name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 
-scalaVersion in Global := "2.10.6"
+scalaVersion in Global := "2.12.3"
 
 // crossBuildingSettings
 crossSbtVersions := Vector("0.13.16", "1.0.0")
@@ -28,14 +28,14 @@ libraryDependencies ++= {
         "org.scala-sbt" %% "io" % "1.0.0",
         // these dependencies have to be explicitly added by the user
         // FIXME temporary remove the 'provided' scope. SBT 1.0.0-M6 changed the resolving somehow
-        "com.spotify" % "docker-client" % "3.5.13" /* % "provided" */,
+        "com.spotify" % "docker-client" % "8.9.0" /* % "provided" */,
         "org.vafer" % "jdeb" % "1.3" /*% "provided"*/ artifacts Artifact("jdeb", "jar", "jar")
       )
     case _ =>
       Seq(
         // these dependencies have to be explicitly added by the user
-        "com.spotify" % "docker-client" % "3.5.13" % Provided,
-        "org.vafer" % "jdeb" % "1.3"  % Provided artifacts Artifact("jdeb", "jar", "jar")
+        "com.spotify" % "docker-client" % "8.9.0" % Provided,
+        "org.vafer" % "jdeb" % "1.3" % Provided artifacts Artifact("jdeb", "jar", "jar")
       )
   }
 }
@@ -54,25 +54,23 @@ libraryDependencies ++= {
 }
 
 // configure github page
-enablePlugins(SphinxPlugin, SiteScaladocPlugin)
+enablePlugins(SphinxPlugin, SiteScaladocPlugin, GhpagesPlugin)
 
-ghpages.settings
 git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 
 // scripted test settings
-scriptedSettings
 scriptedLaunchOpts += "-Dproject.version=" + version.value
 
 // Release configuration
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 publishMavenStyle := false
 
+// The release task doesn't run any tests. We rely on travis.ci and appveyor,
+// because it's impossible to run all tests (linux, macosx, windows) on a single computer.
 import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
-  releaseStepCommandAndRemaining("^ test"),
-  releaseStepCommandAndRemaining("^ scripted universal/* debian/* rpm/* docker/* ash/* jar/* bash/* jdkpackager/*"),
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
@@ -80,7 +78,10 @@ releaseProcess := Seq[ReleaseStep](
   setNextVersion,
   commitNextVersion,
   pushChanges,
-  releaseStepTask(GhPagesKeys.pushSite)
+  generateReleaseChangelog,
+  commitChangelog,
+  pushChanges,
+  releaseStepTask(ghpagesPushSite)
 )
 
 // bintray config
@@ -110,6 +111,7 @@ addCommandAlias(
   "validateJdkPackagerTravis",
   "scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings"
 )
+addCommandAlias("validateOSX", "; validate ; validateUniversal")
 
 // TODO check the cygwin scripted tests and run them on appveyor
-addCommandAlias("validateWindows", "; test-only * -- -n windows;scripted universal/dist universal/stage windows/*")
+addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted universal/dist universal/stage windows/*")

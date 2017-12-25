@@ -9,12 +9,53 @@ There are generally two types of configurations:
 * Configuring the JVM and the process
 * Configuring the application itself
 
-You have three options to define your runtime and application configurations.
+You have two options to define your runtime and application configurations.
+
+Configuration file
+^^^^^^^^^^^^^^^^^^
+
+The start scripts provided by the ``BatStartScriptPlugin`` and ``BashStartScriptPlugin`` can both load an external
+configuration file during execution. You can define the configuration file location for both with these two settings.
+
+
+  ``bashScriptConfigLocation``
+    The location of the bash script on the target system.
+
+    **Default** ``${app_home}/../conf/application.ini``
+
+  ``batScriptConfigLocation``
+    The location of the bat script on the target system.
+
+    **Default** ``%APP_HOME%\conf\application.ini``
+
+
+The configuration path is the path on the **target** system. This means that native-packager needs to process this path
+to create a valid ``universal:mapping``s entry.
+
+* ``${app_home}/../`` is removed
+* ``%APP_HOME%`` is removed and ``\`` is being replaced with ``/``
+
+This means you can either
+
+1. Create a configuration path relative to the application directory (recommended)
+2. Create an absolute path that has to match your target **and** build system
+
+**Example**
+
+.. code-block:: scala
+
+    // configure two different files for bash and bat
+    bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts-bash")
+    batScriptConfigLocation  := Some("%APP_HOME%\\conf\\jvmopts-bat")
+
+
+Now we know how to configure the location of our configuration file. The next step is to learn how to provide content
+for the configuration file.
 
 Via build.sbt
-^^^^^^^^^^^^^
+"""""""""""""
 
-First, you can specify your options via the ``build.sbt``.
+You can specify your options via the ``build.sbt``.
 
 .. code-block:: scala
 
@@ -34,11 +75,13 @@ First, you can specify your options via the ``build.sbt``.
 For the ``-X`` settings you need to add a suffix ``-J`` so the start script will
 recognize these as vm config parameters.
 
+When you use the  ``javaOptions in Universal`` sbt-native-packager will generate configuration files
+if you haven't set the ``batScriptConfigLocation`` and/or ``bashScriptConfigLocation`` to ``None``.
+
 Via Application.ini
-^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""
 
 The second option is to create ``src/universal/conf/application.ini`` with the following template
-(For Windows-user: Create ``src/universal/<APP_ENV_NAME>_config.txt`` instead of the application.ini, it is expected that way by the BAT-template. Inside the <App_ENV_NAME>_config.txt the jvm-options are expected like in the command-line  (e.g. -Xms2G -Xmx3G) without an leading ``J``)
 
 .. code-block:: bash
 
@@ -78,13 +121,27 @@ The default configuration looks like this
 .. code-block:: scala
 
     bashScriptConfigLocation := Some("${app_home}/../conf/application.ini")
+    batScriptConfigLocation := Some("%APP_HOME%\\conf\\application.ini")
+
+
+Add code to the start scripts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The second option is to add code to the generated start scripts via these settings.
+
+  ``bashScriptExtraDefines``
+    A list of extra definitions that should be written to the bash file template.
+
+  ``batScriptExtraDefines``
+    A list of extra definitions that should be written to the bat file template.
+
 
 .. _bash-script-defines:
 
 BashScript defines
-^^^^^^^^^^^^^^^^^^
+""""""""""""""""""
 
-The last option is to use the ``bashScriptExtraDefines``. Generally you can add arbitrary
+The bash script accepts extra commands via ``bashScriptExtraDefines``. Generally you can add arbitrary
 bash commands here, but for configurations you have two methods to add jvm and app parameters.
 
 .. code-block:: scala
@@ -92,7 +149,7 @@ bash commands here, but for configurations you have two methods to add jvm and a
    // add jvm parameter for typesafe config
    bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/app.config""""
    // add application parameter
-   bashScriptExtraDefines += """addApp "--port=8080"""
+   bashScriptExtraDefines += """addApp "--port=8080""""
 
 **Syntax**
 
@@ -106,16 +163,17 @@ bash commands here, but for configurations you have two methods to add jvm and a
 .. _bat-script-defines:
 
 BatScript defines
-^^^^^^^^^^^^^^^^^
+"""""""""""""""""
 
-First, while the BASH file allows you to configure where to load JVM options and default arguments, in
-windows we can only configure JVM options.
+The Windows batch script accepts extra commands via ``batScriptExtraDefines``. It offers
+two methods to add jvm and app parameters using similar syntax to the BASH script.
 
 .. code-block:: scala
 
    // add jvm parameter for typesafe config
-  batScriptExtraDefines += """set _JAVA_OPTS=%_JAVA_OPTS% -Dconfig.file=%EXAMPLE_CLI_HOME%\\conf\\app.config"""
-
+   batScriptExtraDefines += """call :add_java "-Dconfig.file=%APP_HOME%\conf\app.config""""
+   // add application parameter
+   batScriptExtraDefines += """call :add_app "--port=8080""""
 
 **Syntax**
 

@@ -87,7 +87,7 @@ Informational Settings
     The version of the package for Docker (if different from general version).  Often takes the form ``x.y.z``.
 
   ``maintainer in Docker``
-    The maintainer of the package, required by the Dockerfile format.
+    The maintainer of the package, recommended by the Dockerfile format.
 
 Environment Settings
 ~~~~~~~~~~~~~~~~~~~~
@@ -114,6 +114,9 @@ Environment Settings
     Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
     Defaults to the bash executable script, available at ``bin/<script name>`` in the current ``WORKDIR`` of ``/opt/docker``.
 
+  ``dockerVersion``
+    The docker server version. Used to leverage new docker features while maintaining backwards compatibility.
+
 Publishing Settings
 ~~~~~~~~~~~~~~~~~~~
 
@@ -121,7 +124,7 @@ Publishing Settings
     The repository to which the image is pushed when the ``docker:publish`` task is run. This should be of the form  ``[repository.host[:repository.port]]`` (assumes use of the ``index.docker.io`` repository) or ``[repository.host[:repository.port]][/username]`` (discouraged, but available for backwards compatibilty.).
 
   ``dockerUsername``
-    The username or orgranization to which the image is pushed when the ``docker:publish`` task is run. This should be of the form ``[username]`` or ``[organization]``.
+    The username or organization to which the image is pushed when the ``docker:publish`` task is run. This should be of the form ``[username]`` or ``[organization]``.
 
   ``dockerUpdateLatest``
     The flag to automatic update the latest tag when the ``docker:publish`` task is run. Default value is ``FALSE``.  In order to use this setting, the minimum docker console version required is 1.10. See https://github.com/sbt/sbt-native-packager/issues/871 for a detailed explanation.
@@ -230,7 +233,7 @@ In your sbt console type
 .. code-block:: bash
 
     > show dockerCommands
-    [info] List(Cmd(FROM,openjdk:latest), Cmd(MAINTAINER,Your Name <y.n@yourcompany.com>), ...)
+    [info] List(Cmd(FROM,openjdk:latest), Cmd(LABEL,MAINTAINER=Your Name <y.n@yourcompany.com>), ...)
 
 
 
@@ -299,7 +302,7 @@ Now let's start adding some Docker commands.
 
   dockerCommands := Seq(
     Cmd("FROM", "openjdk:latest"),
-    Cmd("MAINTAINER", maintainer.value),
+    Cmd("LABEL", s"""MAINTAINER="${maintainer.value}"""")
     ExecCmd("CMD", "echo", "Hello, World from Docker")
   )
 

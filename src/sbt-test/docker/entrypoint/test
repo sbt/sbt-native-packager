@@ -1,3 +1,3 @@
 # Stage the distribution and ensure files show up.
 > docker:stage
-$ exec grep -q -F 'ENTRYPOINT ["/bin/sh", "-c", "env"]' target/docker/Dockerfile
+$ exec grep -q -F 'ENTRYPOINT ["/bin/sh", "-c", "env"]' target/docker/stage/Dockerfile

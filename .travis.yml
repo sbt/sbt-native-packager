@@ -1,10 +1,14 @@
-language: scala
+language: java
+scala: 2.12.3
 os: linux
 
 before_install:
+  # travis sets the java options which breaks tests that check the applied memory settings
+  - unset _JAVA_OPTIONS
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       brew update;
       brew install xz;
+      brew install sbt;
     fi
 script: sbt "$SBT_TEST_CMD";
 
@@ -12,35 +16,54 @@ script: sbt "$SBT_TEST_CMD";
 matrix:
   include:
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validate"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateUniversal"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateJar"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateBash"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateAsh"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateRpm"
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateDebian"
       # for now we can't test the docker image generation on travis
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateDockerUnit"
       # jdk packaging is only available on jdk8+
     - jdk: oraclejdk8
+      language: scala
       env: SBT_TEST_CMD="^validateJdkPackagerTravis"
       # oraclejdk8 is not yet available.
       # see https://github.com/travis-ci/travis-ci/issues/2316
     - os: osx
-      env: SBT_VERSION_CMD="^validate ^validateUniversal"
+      env: SBT_TEST_CMD="^validateOSX"
       osx_image: xcode8
+      # docker configuration as described in
+      # https://docs.travis-ci.com/user/docker/
+    - jdk: oraclejdk8
+      services: docker
+      sudo: required
+      env: SBT_TEST_CMD="^validateDocker"
+      # workaround for https://github.com/travis-ci/travis-ci/issues/4527
+      before_script:
+        - curl -L --create-dirs -o $HOME/.sbt/launchers/1.0.2/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.0.2/sbt-launch.jar
 
 addons:
   apt:
     packages:
     - rpm
+    - fakeroot
 
 sudo: false
 cache:

@@ -9,25 +9,26 @@
 
 @echo off
 
-if "%@@APP_ENV_NAME@@_HOME%"=="" set "@@APP_ENV_NAME@@_HOME=%~dp0\\.."
 
-set "APP_LIB_DIR=%@@APP_ENV_NAME@@_HOME%\lib\"
+if "%@@APP_ENV_NAME@@_HOME%"=="" (
+  set "APP_HOME=%~dp0\\.."
+
+  rem Also set the old env name for backwards compatibility
+  set "@@APP_ENV_NAME@@_HOME=%~dp0\\.."
+) else (
+  set "APP_HOME=%@@APP_ENV_NAME@@_HOME%"
+)
+
+set "APP_LIB_DIR=%APP_HOME%\lib\"
 
 rem Detect if we were double clicked, although theoretically A user could
 rem manually run cmd /c
 for %%x in (!cmdcmdline!) do if %%~x==/c set DOUBLECLICKED=1
 
 rem FIRST we load the config file of extra options.
-set "CFG_FILE=%@@APP_ENV_NAME@@_HOME%\@@APP_ENV_NAME@@_config.txt"
+set "CFG_FILE=%APP_HOME%\@@APP_ENV_NAME@@_config.txt"
 set CFG_OPTS=
-if exist "%CFG_FILE%" (
-  FOR /F "tokens=* eol=# usebackq delims=" %%i IN ("%CFG_FILE%") DO (
-    set DO_NOT_REUSE_ME=%%i
-    rem ZOMG (Part #2) WE use !! here to delay the expansion of
-    rem CFG_OPTS, otherwise it remains "" for this loop.
-    set CFG_OPTS=!CFG_OPTS! !DO_NOT_REUSE_ME!
-  )
-)
+call :parse_config "%CFG_FILE%" CFG_OPTS
 
 rem We use the value of the JAVACMD environment variable if defined
 set _JAVACMD=%JAVACMD%
@@ -79,55 +80,14 @@ rem "-J" is stripped, "-D" is left as is, and everything is appended to JAVA_OPT
 set _JAVA_PARAMS=
 set _APP_ARGS=
 
-:param_loop
-call set _PARAM1=%%1
-set "_TEST_PARAM=%~1"
+@@APP_DEFINES@@
 
-if ["!_PARAM1!"]==[""] goto param_afterloop
+rem if configuration files exist, prepend their contents to the script arguments so it can be processed by this runner
+call :parse_config "%SCRIPT_CONF_FILE%" SCRIPT_CONF_ARGS
 
-
-rem ignore arguments that do not start with '-'
-if "%_TEST_PARAM:~0,1%"=="-" goto param_java_check
-set _APP_ARGS=!_APP_ARGS! !_PARAM1!
-shift
-goto param_loop
-
-:param_java_check
-if "!_TEST_PARAM:~0,2!"=="-J" (
-  rem strip -J prefix
-  set _JAVA_PARAMS=!_JAVA_PARAMS! !_TEST_PARAM:~2!
-  shift
-  goto param_loop
-)
-
-if "!_TEST_PARAM:~0,2!"=="-D" (
-  rem test if this was double-quoted property "-Dprop=42"
-  for /F "delims== tokens=1,*" %%G in ("!_TEST_PARAM!") DO (
-    if not ["%%H"] == [""] (
-      set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
-    ) else if [%2] neq [] (
-      rem it was a normal property: -Dprop=42 or -Drop="42"
-      call set _PARAM1=%%1=%%2
-      set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
-      shift
-    )
-  )
-) else (
-  if "!_TEST_PARAM!"=="-main" (
-    call set CUSTOM_MAIN_CLASS=%%2
-    shift
-  ) else (
-    set _APP_ARGS=!_APP_ARGS! !_PARAM1!
-  )
-)
-shift
-goto param_loop
-:param_afterloop
+call :process_args %SCRIPT_CONF_ARGS% %%*
 
 set _JAVA_OPTS=!_JAVA_OPTS! !_JAVA_PARAMS!
-:run
-
-@@APP_DEFINES@@
 
 if defined CUSTOM_MAIN_CLASS (
     set MAIN_CLASS=!CUSTOM_MAIN_CLASS!
@@ -140,7 +100,79 @@ rem Call the application and pass all arguments unchanged.
 
 @endlocal
 
-
-:end
-
 exit /B %ERRORLEVEL%
+
+
+rem Loads a configuration file full of default command line options for this script.
+rem First argument is the path to the config file.
+rem Second argument is the name of the environment variable to write to.
+:parse_config
+  set _PARSE_FILE=%~1
+  set _PARSE_OUT=
+  if exist "%_PARSE_FILE%" (
+    FOR /F "tokens=* eol=# usebackq delims=" %%i IN ("%_PARSE_FILE%") DO (
+      set _PARSE_OUT=!_PARSE_OUT! %%i
+    )
+  )
+  set %2=!_PARSE_OUT!
+exit /B 0
+
+
+:add_java
+  set _JAVA_PARAMS=!_JAVA_PARAMS! %*
+exit /B 0
+
+
+:add_app
+  set _APP_ARGS=!_APP_ARGS! %*
+exit /B 0
+
+
+rem Processes incoming arguments and places them in appropriate global variables
+:process_args
+  :param_loop
+  call set _PARAM1=%%1
+  set "_TEST_PARAM=%~1"
+
+  if ["!_PARAM1!"]==[""] goto param_afterloop
+
+
+  rem ignore arguments that do not start with '-'
+  if "%_TEST_PARAM:~0,1%"=="-" goto param_java_check
+  set _APP_ARGS=!_APP_ARGS! !_PARAM1!
+  shift
+  goto param_loop
+
+  :param_java_check
+  if "!_TEST_PARAM:~0,2!"=="-J" (
+    rem strip -J prefix
+    set _JAVA_PARAMS=!_JAVA_PARAMS! !_TEST_PARAM:~2!
+    shift
+    goto param_loop
+  )
+
+  if "!_TEST_PARAM:~0,2!"=="-D" (
+    rem test if this was double-quoted property "-Dprop=42"
+    for /F "delims== tokens=1,*" %%G in ("!_TEST_PARAM!") DO (
+      if not ["%%H"] == [""] (
+        set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
+      ) else if [%2] neq [] (
+        rem it was a normal property: -Dprop=42 or -Drop="42"
+        call set _PARAM1=%%1=%%2
+        set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
+        shift
+      )
+    )
+  ) else (
+    if "!_TEST_PARAM!"=="-main" (
+      call set CUSTOM_MAIN_CLASS=%%2
+      shift
+    ) else (
+      set _APP_ARGS=!_APP_ARGS! !_PARAM1!
+    )
+  )
+  shift
+  goto param_loop
+  :param_afterloop
+
+exit /B 0

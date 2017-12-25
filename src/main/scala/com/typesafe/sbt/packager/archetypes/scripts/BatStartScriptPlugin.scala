@@ -17,7 +17,7 @@ import sbt._
   * [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]].
   *
   */
-object BatStartScriptPlugin extends AutoPlugin {
+object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
 
   /**
     * Name of the bat template if user wants to provide custom one
@@ -34,6 +34,11 @@ object BatStartScriptPlugin extends AutoPlugin {
     */
   val scriptTargetFolder = "bin"
 
+  /**
+    * Location for the application.ini file used by the bat script to load initialization parameters for jvm and app
+    */
+  val appIniLocation = "%APP_HOME%\\conf\\application.ini"
+
   override val requires = JavaAppPackaging
   override val trigger = AllRequirements
 
@@ -42,19 +47,29 @@ object BatStartScriptPlugin extends AutoPlugin {
 
   private[this] case class BatScriptConfig(executableScriptName: String,
                                            scriptClasspath: Seq[String],
+                                           configLocation: Option[String],
                                            extraDefines: Seq[String],
                                            replacements: Seq[(String, String)],
                                            batScriptTemplateLocation: File)
 
   override def projectSettings: Seq[Setting[_]] = Seq(
     batScriptTemplateLocation := (sourceDirectory.value / "templates" / batTemplate),
+    batScriptConfigLocation := (batScriptConfigLocation ?? Some(appIniLocation)).value,
     batScriptExtraDefines := Nil,
     batScriptReplacements := Replacements(executableScriptName.value),
     // Generating the application configuration
+    mappings in Universal := generateApplicationIni(
+      (mappings in Universal).value,
+      (javaOptions in Universal).value,
+      batScriptConfigLocation.value,
+      (target in Universal).value,
+      streams.value.log
+    ),
     makeBatScripts := generateStartScripts(
       BatScriptConfig(
         executableScriptName = s"${executableScriptName.value}.bat",
         scriptClasspath = (scriptClasspath in batScriptReplacements).value,
+        configLocation = batScriptConfigLocation.value,
         extraDefines = batScriptExtraDefines.value,
         replacements = batScriptReplacements.value,
         batScriptTemplateLocation = batScriptTemplateLocation.value
@@ -105,6 +120,13 @@ object BatStartScriptPlugin extends AutoPlugin {
   }
 
   /**
+    * @param path that could be relative to APP_HOME
+    * @return path relative to APP_HOME
+    */
+  protected def cleanApplicationIniPath(path: String): String =
+    path.stripPrefix("%APP_HOME%\\").stripPrefix("/").replace('\\', '/')
+
+  /**
     * Bat script replacements
     */
   object Replacements {
@@ -113,7 +135,9 @@ object BatStartScriptPlugin extends AutoPlugin {
       Seq("APP_NAME" -> name, "APP_ENV_NAME" -> NameHelper.makeEnvFriendlyName(name))
 
     def appDefines(mainClass: String, config: BatScriptConfig, replacements: Seq[(String, String)]): (String, String) = {
-      val defines = Seq(makeWindowsRelativeClasspathDefine(config.scriptClasspath), Defines.mainClass(mainClass)) ++ config.extraDefines
+      val defines = Seq(makeWindowsRelativeClasspathDefine(config.scriptClasspath), Defines.mainClass(mainClass)) ++
+        config.configLocation.map(Defines.configFileDefine) ++
+        config.extraDefines
       "APP_DEFINES" -> Defines(defines, replacements)
     }
 
@@ -140,6 +164,7 @@ object BatStartScriptPlugin extends AutoPlugin {
       defines.map(replace(_, replacements)).mkString("\r\n")
 
     def mainClass(mainClass: String): String = s"""set "APP_MAIN_CLASS=$mainClass""""
+    def configFileDefine(configFile: String): String = s"""set "SCRIPT_CONF_FILE=$configFile""""
 
     // TODO - use more of the template writer for this...
     private[this] def replace(line: String, replacements: Seq[(String, String)]): String =
