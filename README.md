@@ -131,6 +131,13 @@ or provide a richer API for a single packaging format.
 [My First Packaged Server Project guide]: http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html
 [jdkpackager]: http://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html
 
+## Maintainers ##
+
+- Nepomuk Seiler (@muuki88)
+- Alexey Kardapoltsev (@kardapoltsev)
+- Derek Wickern (@dwickern)
+- Felix Satyaputra (@fsat)
+
 ## Credits ##
 
 - [Josh Suereth](https://twitter.com/jsuereth) for the initial developement
