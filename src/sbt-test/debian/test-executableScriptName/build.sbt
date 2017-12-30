@@ -19,7 +19,7 @@ debianPackageRecommends in Debian += "git"
 
 TaskKey[Unit]("checkUpstartScript") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "etc" / "init" / "debian-test.conf")
-  assert(script.contains("exec sudo -u debian-test bin/debian-exec"), "wrong exec call\n" + script)
+  assert(script.contains("exec sudo -E -u debian-test bin/debian-exec"), "wrong exec call\n" + script)
   streams.value.log.success("Successfully tested control script")
   ()
 }

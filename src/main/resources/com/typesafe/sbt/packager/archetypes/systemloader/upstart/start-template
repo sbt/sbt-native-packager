@@ -35,5 +35,8 @@ chdir ${{chdir}}
 
 # Start the process
 script
-  exec sudo -u ${{daemon_user}} bin/${{exec}}
+  # Mark variables which are modified or created for export
+  set -a
+  [ -f ${{env_config}} ] && . ${{env_config}}
+  exec sudo -E -u ${{daemon_user}} bin/${{exec}}
 end script
