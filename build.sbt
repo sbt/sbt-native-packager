@@ -88,9 +88,10 @@ releaseProcess := Seq[ReleaseStep](
 bintrayOrganization := Some("sbt")
 bintrayRepository := "sbt-plugin-releases"
 
+addCommandAlias("scalafmtAll", "; scalafmt ; test:scalafmt ; sbt:scalafmt")
 // ci commands
 addCommandAlias("validateFormatting", "; scalafmt::test ; test:scalafmt::test ; sbt:scalafmt::test")
-addCommandAlias("validate", "; clean ; update ; test")
+addCommandAlias("validate", "; clean ; update ; validateFormatting ; test")
 
 // List all scripted test separately to schedule them in different travis-ci jobs.
 // Travis-CI has hard timeouts for jobs, so we run them in smaller jobs as the scripted

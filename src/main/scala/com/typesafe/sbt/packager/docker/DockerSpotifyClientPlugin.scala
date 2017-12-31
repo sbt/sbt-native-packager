@@ -54,10 +54,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
   override lazy val projectSettings: Seq[Setting[_]] = inConfig(Docker)(clientSettings)
 
-  def clientSettings = Seq(
-    publishLocal := publishLocalDocker.value,
-    dockerVersion := dockerServerVersion.value
-  )
+  def clientSettings = Seq(publishLocal := publishLocalDocker.value, dockerVersion := dockerServerVersion.value)
 
   def publishLocalDocker: Def.Initialize[Task[Unit]] = Def.task {
     val context = stage.value
