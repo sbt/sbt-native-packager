@@ -63,7 +63,23 @@ object SettingsHelper {
           .withChecksums(checksums.value.toVector)
           .withOverwrite(isSnapshot.value)
           .withLogging(UpdateLogging.DownloadOnly)
-      )
-    ) ++ addPackage(config, packageTask, extension, classifier)
+      )sc
+    ) ++ addPackage(config, packageTask, extension, classifier) ++ addResolver(config)
 
+  /**
+   * SBT looks in the `otherResolvers` setting for resolvers defined in `publishTo`.
+   * If a user scopes a `publishTo`, e.g.
+   *
+   * {{{
+   * // publish the rpm to the target folder
+   * publishTo in Rpm := Some(Resolver.file("target-resolver", target.value / "rpm-repo" ))
+   * }}}
+   *
+   * then the resolver must also be present in the `otherResolvers`
+   *
+   * @param config the ivy configuration to look for resolvers
+   */
+  private def addResolver(config: Configuration): Seq[Setting[_]] = Seq(
+    otherResolvers ++= (publishTo in config).value.toSeq
+  )
 }
