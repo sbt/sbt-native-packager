@@ -68,7 +68,7 @@ case class RpmScripts(pretrans: Option[String] = None,
   def preunContent(): String = buildScript("preun", preun)
   def postunContent(): String = buildScript("postun", postun)
 
-  private def buildScript(name: String, script: Option[String]): String = {
+  private def buildScript(name: String, script: Option[String]): String =
     script.map { code =>
       s"""
          |%$name
@@ -76,7 +76,6 @@ case class RpmScripts(pretrans: Option[String] = None,
          |
          |""".stripMargin
     } getOrElse ""
-  }
 
   @deprecated(
     "Call individual scriptlet content method instead, e.g. pretransContent(). This is to allow managing symlink during %post and %postun so it can be relocated",

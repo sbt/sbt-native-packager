@@ -5,6 +5,7 @@ import java.io.File
 import sbt._
 
 trait ApplicationIniGenerator {
+
   /**
     * @return the existing mappings plus a generated application.ini
     *         if custom javaOptions are specified

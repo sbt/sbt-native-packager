@@ -83,8 +83,8 @@ object DockerPlugin extends AutoPlugin {
     dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
     dockerCmd := Seq(),
     dockerExecCommand := Seq("docker"),
-    dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!)
-      .toOption.map(_.trim)
+    dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!).toOption
+      .map(_.trim)
       .flatMap(DockerVersion.parse),
     dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
       if (dockerUpdateLatest.value)
@@ -188,8 +188,10 @@ object DockerPlugin extends AutoPlugin {
     * @param daemonGroup
     * @return ADD command adding all files inside the installation directory
     */
-  private final def makeAdd(dockerVersion: Option[DockerVersion], dockerBaseDirectory: String,
-                            daemonUser: String, daemonGroup: String): Seq[CmdLike] = {
+  private final def makeAdd(dockerVersion: Option[DockerVersion],
+                            dockerBaseDirectory: String,
+                            daemonUser: String,
+                            daemonGroup: String): Seq[CmdLike] = {
 
     /**
       * This is the file path of the file in the Docker image, and does not depend on the OS where the image
@@ -199,14 +201,9 @@ object DockerPlugin extends AutoPlugin {
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
 
     if (dockerVersion.exists(DockerSupport.chownFlag)) {
-      Seq(
-        Cmd("ADD", s"--chown=$daemonUser:$daemonGroup $files /$files")
-      )
+      Seq(Cmd("ADD", s"--chown=$daemonUser:$daemonGroup $files /$files"))
     } else {
-      Seq(
-        Cmd("ADD", s"$files /$files"),
-        makeChown(daemonUser, daemonGroup, "." :: Nil)
-      )
+      Seq(Cmd("ADD", s"$files /$files"), makeChown(daemonUser, daemonGroup, "." :: Nil))
     }
   }
 
