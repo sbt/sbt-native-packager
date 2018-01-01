@@ -63,7 +63,7 @@ object SettingsHelper {
           .withChecksums(checksums.value.toVector)
           .withOverwrite(isSnapshot.value)
           .withLogging(UpdateLogging.DownloadOnly)
-      )sc
+      )
     ) ++ addPackage(config, packageTask, extension, classifier) ++ addResolver(config)
 
   /**
