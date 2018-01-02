@@ -18,15 +18,14 @@ class ScriptUtilsTest extends FlatSpec with Matchers {
   }
 
   it should "convert names with numbers" in {
-    ScriptUtils.toLowerCase("package.Test1")  should be("package.test-1")
+    ScriptUtils.toLowerCase("package.Test1") should be("package.test-1")
     ScriptUtils.toLowerCase("package.Test11") should be("package.test-11")
-    ScriptUtils.toLowerCase("package.Test1Class")  should be("package.test-1-class")
+    ScriptUtils.toLowerCase("package.Test1Class") should be("package.test-1-class")
     ScriptUtils.toLowerCase("package.Test11Class") should be("package.test-11-class")
   }
 
-  private[this] def testMapping(testCase: (String, String)*): Unit = {
+  private[this] def testMapping(testCase: (String, String)*): Unit =
     ScriptUtils.createScriptNames(testCase.map(_._1)) should contain theSameElementsAs testCase
-  }
 
   "createScriptNames()" should "generate short names when no conflicts" in {
     testMapping(
@@ -46,8 +45,6 @@ class ScriptUtilsTest extends FlatSpec with Matchers {
   }
 
   it should "handle single main class" in {
-    testMapping(
-      "pkg1.Test" -> "test"
-    )
+    testMapping("pkg1.Test" -> "test")
   }
 }

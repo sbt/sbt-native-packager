@@ -201,7 +201,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
 
           val replacements = Seq("startScript" -> executableScriptName, "qualifiedClassName" -> qualifiedClassName)
           val scriptContent =
-            TemplateWriter.generateScript(forwarderTemplate, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
+            TemplateWriter
+              .generateScript(forwarderTemplate, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
 
           IO.write(file, scriptContent)
           file -> s"bin/$scriptName"
