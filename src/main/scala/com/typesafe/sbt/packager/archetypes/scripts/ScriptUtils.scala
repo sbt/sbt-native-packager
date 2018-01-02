@@ -2,66 +2,36 @@ package com.typesafe.sbt.packager.archetypes.scripts
 
 object ScriptUtils {
 
-  private[this] def commonPrefix(list1: List[String], list2: List[String]): List[String] = (list1, list2) match {
-    case (Nil, _) => Nil
-    case (_, Nil) => Nil
-    case (x::xs, y::ys) =>
-      if (x == y)
-        x :: commonPrefix(xs, ys)
-      else
-        Nil
+  private[this] case class MainClass(fullyQualifiedClassName: String) {
+    private val lowerCased = toLowerCase(fullyQualifiedClassName)
+    val simpleName: String = lowerCased.split("\\.").last
+
+    def asSimpleTuple: (String, String) = (fullyQualifiedClassName, simpleName)
+    def asQualifiedTuple: (String, String) = (fullyQualifiedClassName, lowerCased.replace('.', '_'))
   }
 
-  private[this] case class MainClass(fullyQualifiedClassName: String, parts: Seq[String]) {
-    private val packages: Seq[String] = parts.init
-    private val className: String = parts.last
-
-    def scriptName(expansionIndex: Int): String =
-      (packages.take(expansionIndex) :+ className).mkString("_")
-    def asTuple(expansionIndex: Int): (String, String) =
-      (fullyQualifiedClassName, scriptName(expansionIndex))
-  }
-
-  private[this] def disambiguateNames(
-                                       mainClasses: Seq[MainClass],
-                                       expansionIndex: Int
-                                     ): Seq[(String, String)] = {
+  /**
+    * Generates launcher script names for the specified main class names.
+    * @param discoveredMainClasses discovered qualified main class names
+    * @return sequence of tuples: (passed in class name) -> (generated script name)
+    */
+  def createScriptNames(discoveredMainClasses: Seq[String]): Seq[(String, String)] = {
+    val mainClasses = discoveredMainClasses.map { fullyQualifiedClassName =>
+      MainClass(fullyQualifiedClassName)
+    }
     val (duplicates, uniques) = mainClasses
-      .groupBy(_.scriptName(expansionIndex))
+      .groupBy(_.simpleName)
       .partition {
         case (_, classes) => classes.length > 1
       }
 
     val resultsForUniques = uniques.toSeq.map {
-      case (_, seqOfOneClass) => seqOfOneClass.head.asTuple(expansionIndex)
+      case (_, seqOfOneClass) => seqOfOneClass.head.asSimpleTuple
     }
     val resultsForDuplicates = duplicates.toSeq.flatMap {
-      case (_, classes) =>
-        disambiguateNames(classes, expansionIndex + 1)
+      case (_, classes) => classes.map(_.asQualifiedTuple)
     }
     resultsForUniques ++ resultsForDuplicates
-  }
-
-  /**
-    * Generates launcher script names for the specified main class names.
-    * Tries to make script names readable and unique.
-    * @param discoveredMainClasses discovered qualified main class names
-    * @return sequence of tuples: (passed in class name) -> (generated script name)
-    */
-  def createScriptNames(discoveredMainClasses: Seq[String]): Seq[(String, String)] = {
-    val mainClasses = discoveredMainClasses.map { qualifiedClassName =>
-      val lowerCased = toLowerCase(qualifiedClassName)
-      val parts = lowerCased.split("\\.")
-      MainClass(qualifiedClassName, parts)
-    }
-    val commonPrefixLength = mainClasses.map(_.parts.init.toList).reduce(commonPrefix).size
-
-    disambiguateNames(
-      mainClasses.map {
-        main => main.copy(parts = main.parts.drop(commonPrefixLength))
-      },
-      0
-    )
   }
 
   /**
