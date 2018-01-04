@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Packaging Formats &mdash; sbt-native-packager 1.3.3-SNAPSHOT documentation</title>
+  <title>Packaging Formats &mdash; sbt-native-packager 1.3.2 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.3.3-SNAPSHOT documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="../index.html"/>
         <link rel="next" title="Universal Plugin" href="universal.html"/>
         <link rel="prev" title="Getting Started" href="../gettingstarted.html"/> 
 
@@ -106,7 +109,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Formats</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Formats</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="universal.html">Universal Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="universal.html#related-plugins">Related Plugins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="universal.html#requirements">Requirements</a></li>
@@ -428,7 +431,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/formats/index.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/formats/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -442,20 +445,20 @@
 <span id="id1"></span><h1>Packaging Formats<a class="headerlink" href="#packaging-formats" title="Permalink to this headline">¶</a></h1>
 <p>There is a plugin for each packaging format that native-packager supports. These plugins can rely on each other to reuse
 existing functionality. Currently the autoplugin hierarchy looks like this</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>          SbtNativePackager
-                +
-                |
-                |
-  +-------+  Universal  +--------+-------------+
-  |             +                |             |
-  |             |                |             |
-  |             |                |             |
-  +             +                +             +
-Docker    +-+ Linux +-+       Windows     JDKPackager
-          |           |
-          |           |
-          +           +
-        Debian       RPM
+<div class="highlight-default"><div class="highlight"><pre><span></span>          <span class="n">SbtNativePackager</span>
+                <span class="o">+</span>
+                <span class="o">|</span>
+                <span class="o">|</span>
+  <span class="o">+-------+</span>  <span class="n">Universal</span>  <span class="o">+--------+-------------+</span>
+  <span class="o">|</span>             <span class="o">+</span>                <span class="o">|</span>             <span class="o">|</span>
+  <span class="o">|</span>             <span class="o">|</span>                <span class="o">|</span>             <span class="o">|</span>
+  <span class="o">|</span>             <span class="o">|</span>                <span class="o">|</span>             <span class="o">|</span>
+  <span class="o">+</span>             <span class="o">+</span>                <span class="o">+</span>             <span class="o">+</span>
+<span class="n">Docker</span>    <span class="o">+-+</span> <span class="n">Linux</span> <span class="o">+-+</span>       <span class="n">Windows</span>     <span class="n">JDKPackager</span>
+          <span class="o">|</span>           <span class="o">|</span>
+          <span class="o">|</span>           <span class="o">|</span>
+          <span class="o">+</span>           <span class="o">+</span>
+        <span class="n">Debian</span>       <span class="n">RPM</span>
 </pre></div>
 </div>
 <p>If you enable the <code class="docutils literal"><span class="pre">DebianPlugin</span></code> all plugins that depend on the <code class="docutils literal"><span class="pre">DebianPlugin</span></code> will be enabled as well (<code class="docutils literal"><span class="pre">LinuxPlugin</span></code>, <code class="docutils literal"><span class="pre">UniversalPlugin</span></code>
@@ -470,7 +473,7 @@ looks like this</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p class="last">You may also need to read the docs of the dependent plugins. We recommend always that you read the
-<a class="reference internal" href="universal.html#universal-plugin"><span>Universal Plugin</span></a> documentation because all plugins rely on this one.</p>
+<a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a> documentation because all plugins rely on this one.</p>
 </div>
 <div class="toctree-wrapper compound">
 <ul>
@@ -526,7 +529,7 @@ looks like this</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.3-SNAPSHOT',
+            VERSION:'1.3.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

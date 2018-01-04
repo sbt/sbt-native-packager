@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Application and runtime configuration &mdash; sbt-native-packager 1.3.3-SNAPSHOT documentation</title>
+  <title>Application and runtime configuration &mdash; sbt-native-packager 1.3.2 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.3.3-SNAPSHOT documentation" href="../../index.html"/>
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="../../index.html"/>
         <link rel="up" title="Java Application Archetype" href="index.html"/>
         <link rel="next" title="Java Server Application Archetype" href="../java_server/index.html"/>
         <link rel="prev" title="Java Application Archetype" href="index.html"/> 
@@ -270,7 +273,7 @@
 </ul>
 </li>
 <li class="toctree-l3 current"><a class="reference internal" href="index.html#customize">Customize</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="">Application and runtime configuration</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Application and runtime configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#start-script-customizations">Start script customizations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#overriding-templates-bash-bat">Overriding Templates (Bash/Bat)</a></li>
 </ul>
@@ -433,7 +436,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../../_sources/archetypes/java_app/customize.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/archetypes/java_app/customize.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -444,7 +447,7 @@
            <div itemprop="articleBody">
             
   <p>The application structure is customizable via the standard mappings, which is described in the
-<a class="reference internal" href="../../formats/universal.html#universal-plugin"><span>Universal Plugin Section</span></a>.</p>
+<a class="reference internal" href="../../formats/universal.html#universal-plugin"><span class="std std-ref">Universal Plugin Section</span></a>.</p>
 <div class="section" id="application-and-runtime-configuration">
 <h1>Application and runtime configuration<a class="headerlink" href="#application-and-runtime-configuration" title="Permalink to this headline">¶</a></h1>
 <p>There are generally two types of configurations:</p>
@@ -560,7 +563,7 @@ overridden.</p>
 <div class="section" id="bash-and-bat-script-extra-defines">
 <h2>Bash and Bat script extra defines<a class="headerlink" href="#bash-and-bat-script-extra-defines" title="Permalink to this headline">¶</a></h2>
 <p>For the bat and bash script are separated settings available to add arbitrary code to the start script.
-See <a class="reference internal" href="#bash-script-defines"><span>BashScript defines</span></a> and <a class="reference internal" href="#bat-script-defines"><span>BatScript defines</span></a> for details.</p>
+See <a class="reference internal" href="#bash-script-defines"><span class="std std-ref">BashScript defines</span></a> and <a class="reference internal" href="#bat-script-defines"><span class="std std-ref">BatScript defines</span></a> for details.</p>
 <p>The  <code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code> sequence allows you to add new lines to the default bash script used to start the
 application. This is useful when you need a setting which isn&#8217;t mean for the command-line parameter list passed to the
 java process. The lines added to <code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code> are placed near the end of the script and have access to a
@@ -635,7 +638,7 @@ You can also use a different file location by setting <code class="docutils lite
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.3.3-SNAPSHOT',
+            VERSION:'1.3.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

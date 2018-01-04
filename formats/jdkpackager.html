@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>JDKPackager Plugin &mdash; sbt-native-packager 1.3.3-SNAPSHOT documentation</title>
+  <title>JDKPackager Plugin &mdash; sbt-native-packager 1.3.2 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.3.3-SNAPSHOT documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="../index.html"/>
         <link rel="up" title="Packaging Formats" href="index.html"/>
         <link rel="next" title="Project Archetypes" href="../archetypes/index.html"/>
         <link rel="prev" title="Windows Plugin" href="windows.html"/> 
@@ -247,7 +250,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">JDKPackager Plugin</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">JDKPackager Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#build">Build</a></li>
@@ -431,7 +434,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/formats/jdkpackager.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/formats/jdkpackager.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -445,7 +448,7 @@
 <span id="id1"></span><h1>JDKPackager Plugin<a class="headerlink" href="#jdkpackager-plugin" title="Permalink to this headline">¶</a></h1>
 <p>This plugin builds on Oracle&#8217;s <a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/packager.html#CCHIHIIJ">javapackager</a> tool to generate  native application
 launchers and installers for MacOS X, Windows, and Linux. This plugin takes the settings and staged output from
-<a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span>Java Application Archetype</span></a> and passes them through <code class="docutils literal"><span class="pre">javapackager</span></code>
+<a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> and passes them through <code class="docutils literal"><span class="pre">javapackager</span></code>
 to create native formats per Oracle&#8217;s provided features.</p>
 <p>The actual mechanism used by this plugin is the support provided by the <code class="docutils literal"><span class="pre">lib/ant-javafx.jar</span></code> Ant task library,
 which provides more capabilities than the <code class="docutils literal"><span class="pre">javapackager</span></code> command line version, but the idea is the same.</p>
@@ -457,7 +460,7 @@ formats are also possible via this plugin, it is likely the native <cite>sbt-nat
 <code class="docutils literal"><span class="pre">.rpm</span></code> formats will provide more configurability.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The JDKPackagerPlugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span>Universal Plugin</span></a>, <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span>Java Application Archetype</span></a> and <a class="reference internal" href="../recipes/longclasspath.html#launcher-jar-plugin"><span>Launcher Plugin</span></a></p>
+<p class="last">The JDKPackagerPlugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>, <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> and <a class="reference internal" href="../recipes/longclasspath.html#launcher-jar-plugin"><span class="std std-ref">Launcher Plugin</span></a></p>
 </div>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
@@ -487,7 +490,7 @@ creating, say, Windows installers on MacOS, or MacOS on Linux, etc.</p>
 </div>
 <div class="section" id="build">
 <h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<p>To use, first get your application working per <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span>Java Application Archetype</span></a> instructions (including the <code class="docutils literal"><span class="pre">mainClass</span></code> setting). Once that is working, run</p>
+<p>To use, first get your application working per <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> instructions (including the <code class="docutils literal"><span class="pre">mainClass</span></code> setting). Once that is working, run</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">sbt</span> <span class="n">jdkPackager</span><span class="k">:</span><span class="kt">packageBin</span>
 </pre></div>
 </div>
@@ -660,7 +663,7 @@ make use of all formats. <code class="docutils literal"><span class="pre">dmg</s
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.3-SNAPSHOT',
+            VERSION:'1.3.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

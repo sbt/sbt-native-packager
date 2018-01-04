@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; sbt-native-packager 1.3.3-SNAPSHOT documentation</title>
+  <title>Introduction &mdash; sbt-native-packager 1.3.2 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="sbt-native-packager 1.3.3-SNAPSHOT documentation" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="index.html"/>
         <link rel="next" title="Getting Started" href="gettingstarted.html"/>
         <link rel="prev" title="Sitemap" href="index.html"/> 
 
@@ -82,7 +85,7 @@
             
             
                 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Introduction</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scope">Scope</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#core-concepts">Core Concepts</a><ul>
@@ -428,7 +431,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/introduction.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -443,34 +446,31 @@
 <p>SBT native packager lets you build application packages in native formats and offers different archetypes for common
 configurations, such as simple Java apps or server applications.</p>
 <p>This section provides a general overview of native packager and its core concepts. If you want a quick start, go to the
-<a class="reference internal" href="gettingstarted.html#getting-started"><span>getting started section</span></a>. However we recommend understanding the core concepts, which will help
+<a class="reference internal" href="gettingstarted.html#getting-started"><span class="std std-ref">getting started section</span></a>. However we recommend understanding the core concepts, which will help
 you to get started even quicker.</p>
 <div class="section" id="goals">
 <span id="id2"></span><h2>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
 <p>Native packager defines project goals in order to set expectations and scope for this project.</p>
-<ol class="arabic">
+<ol class="arabic simple">
 <li><dl class="first docutils">
 <dt>Native formats should build on their respective platform</dt>
-<dd><p class="first last">This allows native packager to support a wide range of formats as the packaging plugin serves as a wrapper around
+<dd>This allows native packager to support a wide range of formats as the packaging plugin serves as a wrapper around
 the actual packaging tool. However, alternative packaging plugins maybe provided if a java/scala implementation
 exists. As an example <em>debian</em> packages should always build on debian systems, however native packager provides
-an additional plugin that integrates JDeb for a platform independent packaging strategy.</p>
-</dd>
+an additional plugin that integrates JDeb for a platform independent packaging strategy.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>Provide archetypes for zero configuration builds</dt>
-<dd><p class="first last">While packaging plugins provide the <em>how</em> a package is created, archetypes provide the configuration for <em>what</em> gets
+<dd>While packaging plugins provide the <em>how</em> a package is created, archetypes provide the configuration for <em>what</em> gets
 packaged. Archetypes configure your build to create a package for a certain purpose. While an archetype may not
-support all packaging formats, it should work without configuration for the supported formats.</p>
-</dd>
+support all packaging formats, it should work without configuration for the supported formats.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>Enforce best-practices</dt>
-<dd><p class="first last">There is no single way to create a package. Native packager <em>tries</em> to create packages following best practices,
-e.g. for file names, installation paths or script layouts.</p>
-</dd>
+<dd>There is no single way to create a package. Native packager <em>tries</em> to create packages following best practices,
+e.g. for file names, installation paths or script layouts.</dd>
 </dl>
 </li>
 </ol>
@@ -480,25 +480,23 @@ e.g. for file names, installation paths or script layouts.</p>
 <p>While native packager provides a wide range of formats and archetype configurations, its scope is relatively narrow.
 Native packager only takes care of <em>packaging</em>, the act of putting a list of <code class="docutils literal"><span class="pre">mappings</span></code> (source file to install target
 path) into a distinct package format (<em>zip</em>, <em>rpm</em>, etc.).</p>
-<p>Archetypes like <a class="reference internal" href="archetypes/java_app/index.html#java-app-plugin"><span>Java Application Archetype</span></a> or <a class="reference internal" href="archetypes/java_server/index.html#java-server-plugin"><span>Java Server Application Archetype</span></a> only add additional files to the <code class="docutils literal"><span class="pre">mappings</span></code>
+<p>Archetypes like <a class="reference internal" href="archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> or <a class="reference internal" href="archetypes/java_server/index.html#java-server-plugin"><span class="std std-ref">Java Server Application Archetype</span></a> only add additional files to the <code class="docutils literal"><span class="pre">mappings</span></code>
 enriching the created package, but they don&#8217;t provide any new features for native-packager core functionality. Much like
-the <a class="reference internal" href="formats/index.html#packaging-formats"><span>packaging format plugins</span></a>, the archetypes rely on functionality already available on your
+the <a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">packaging format plugins</span></a>, the archetypes rely on functionality already available on your
 deploy target.</p>
 <p>These things are <strong>out of native packagers scope</strong></p>
-<ol class="arabic">
+<ol class="arabic simple">
 <li><dl class="first docutils">
 <dt>Providing application lifecyle management.</dt>
-<dd><p class="first last">The <a class="reference internal" href="archetypes/java_server/index.html#java-server-plugin"><span>Java Server Application Archetype</span></a> provides <em>configurations</em> for common systeloaders like SystemV, Upstart or SystemD.
+<dd>The <a class="reference internal" href="archetypes/java_server/index.html#java-server-plugin"><span class="std std-ref">Java Server Application Archetype</span></a> provides <em>configurations</em> for common systeloaders like SystemV, Upstart or SystemD.
 However create a custome solution, which includes stop scripts, PID management, etc. are not part of native
-packager.</p>
-</dd>
+packager.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>Providing deployment configurations</dt>
-<dd><p class="first last">Native packager produces artefacts with the <code class="docutils literal"><span class="pre">packageBin</span></code> task. What you do with these is part of another step in
-your process.</p>
-</dd>
+<dd>Native packager produces artefacts with the <code class="docutils literal"><span class="pre">packageBin</span></code> task. What you do with these is part of another step in
+your process.</dd>
 </dl>
 </li>
 </ol>
@@ -511,8 +509,8 @@ create own packaging formats and deploy more effectively.</p>
 <li><p class="first"><strong>Separation of concerns</strong> of the two plugin kinds</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="formats/index.html#packaging-formats"><span>format plugins</span></a> define <strong>how</strong> a package is created</li>
-<li><a class="reference internal" href="archetypes/index.html#archetypes"><span>archetype plugins</span></a> define <strong>what</strong> a package should contain</li>
+<li><a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">format plugins</span></a> define <strong>how</strong> a package is created</li>
+<li><a class="reference internal" href="archetypes/index.html#archetypes"><span class="std std-ref">archetype plugins</span></a> define <strong>what</strong> a package should contain</li>
 </ul>
 </div></blockquote>
 </li>
@@ -526,26 +524,23 @@ create own packaging formats and deploy more effectively.</p>
 <div class="section" id="format-plugins">
 <h3>Format Plugins<a class="headerlink" href="#format-plugins" title="Permalink to this headline">¶</a></h3>
 <p>Format plugins provide the implementation to create package, the <strong>how</strong> a package is created. For example the
-<a class="reference internal" href="formats/debian.html#debian-plugin"><span>Debian Plugin</span></a> provides a way to package debian packages. Each format plugin has its
-<a class="reference internal" href="formats/index.html#packaging-formats"><span>own documentation</span></a>. Each plugin provides a common set of features:</p>
-<ol class="arabic">
+<a class="reference internal" href="formats/debian.html#debian-plugin"><span class="std std-ref">Debian Plugin</span></a> provides a way to package debian packages. Each format plugin has its
+<a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">own documentation</span></a>. Each plugin provides a common set of features:</p>
+<ol class="arabic simple">
 <li><dl class="first docutils">
 <dt>Provide a new configuration scope</dt>
-<dd><p class="first last">Formats define their own configuration scope to be able to customize every shared setting or task.</p>
-</dd>
+<dd>Formats define their own configuration scope to be able to customize every shared setting or task.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>Provide package format related settings and tasks</dt>
-<dd><p class="first last">Each format plugin may add additional settings or tasks that are only used by this plugin. Normally these settings
-start with the plugin name, e.g. <em>rpmXYZ</em>.</p>
-</dd>
+<dd>Each format plugin may add additional settings or tasks that are only used by this plugin. Normally these settings
+start with the plugin name, e.g. <em>rpmXYZ</em>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>Implement package task</dt>
-<dd><p class="first last">The <code class="docutils literal"><span class="pre">packageBin</span></code> or <code class="docutils literal"><span class="pre">publishLocal</span></code> ( docker ) task provides the actual action to create a package.</p>
-</dd>
+<dd>The <code class="docutils literal"><span class="pre">packageBin</span></code> or <code class="docutils literal"><span class="pre">publishLocal</span></code> ( docker ) task provides the actual action to create a package.</dd>
 </dl>
 </li>
 </ol>
@@ -561,7 +556,7 @@ for the format plugin&#8217;s specific settings.</p>
 <p>While format plugins provide the <strong>how</strong>, archetypes provide the <strong>what</strong> gets packaged. An archetype changes the configuration in all supported package format scopes; they don&#8217;t add configuration
 scopes.</p>
 <p>A full list of archetypes can be found
-<a class="reference internal" href="archetypes/index.html#archetypes"><span>here</span></a>.</p>
+<a class="reference internal" href="archetypes/index.html#archetypes"><span class="std std-ref">here</span></a>.</p>
 <dl class="docutils">
 <dt>An archetype may provide the following:</dt>
 <dd><ol class="first last arabic simple">
@@ -589,7 +584,7 @@ target system. The type signature for the mappings task is</p>
 </div>
 <p>The <em>file</em> part of the tuple must be available during the packaging phase. The String part represents the path inside
 the installation directory.</p>
-<p>The <a class="reference internal" href="formats/universal.html#universal-plugin"><span>Universal Plugin</span></a> represents the base for all other plugins. It has a <a class="reference internal" href="formats/universal.html#universal-plugin-getting-started-with-packaging"><span>big section on how to customize
+<p>The <a class="reference internal" href="formats/universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a> represents the base for all other plugins. It has a <a class="reference internal" href="formats/universal.html#universal-plugin-getting-started-with-packaging"><span class="std std-ref">big section on how to customize
 mappings</span></a>.</p>
 </div>
 <div class="section" id="architecture">
@@ -643,7 +638,7 @@ native packaging as needed.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.3.3-SNAPSHOT',
+            VERSION:'1.3.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
