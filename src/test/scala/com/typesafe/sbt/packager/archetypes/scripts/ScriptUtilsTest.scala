@@ -47,4 +47,14 @@ class ScriptUtilsTest extends FlatSpec with Matchers {
   it should "handle single main class" in {
     testMapping("pkg1.Test" -> "test")
   }
+
+  it should "be consistent with the docs" in {
+    // see src/sphinx/archetypes/java_app/index.rst
+    testMapping(
+      "pkg1.TestClass" -> "pkg-1_test-class",
+      "pkg2.AnUIMainClass" -> "an-ui-main-class",
+      "pkg2.SomeXMLLoader" -> "some-xml-loader",
+      "pkg3.TestClass" -> "pkg-3_test-class"
+    )
+  }
 }
