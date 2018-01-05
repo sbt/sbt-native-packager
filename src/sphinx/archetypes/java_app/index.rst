@@ -248,10 +248,10 @@ When this plugin generates script names from main class names, it tries to gener
 
 2. Resulted lower-cased names are grouped by the simple class name.
 
-    - Names from single-element groups are reduced to their lower-cased simple names.
+   - Names from single-element groups are reduced to their lower-cased simple names.
 
-    - Names that would otherwise collide by their simple names are used as is (that is, full names)
-      with dots replaced by underscores
+   - Names that would otherwise collide by their simple names are used as is (that is, full names)
+     with dots replaced by underscores
 
    So the final names will be:
 
