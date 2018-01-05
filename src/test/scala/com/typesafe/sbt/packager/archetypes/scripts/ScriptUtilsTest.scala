@@ -57,4 +57,17 @@ class ScriptUtilsTest extends FlatSpec with Matchers {
       "pkg3.TestClass" -> "pkg-3_test-class"
     )
   }
+
+  "duplicated script name detector" should "work" in {
+    ScriptUtils.describeDuplicates(
+      Seq(
+        "Test11" -> "dup1",
+        "Test12" -> "dup1",
+        "Test21" -> "dup2",
+        "Test22" -> "dup2",
+        "Test23" -> "dup2",
+        "Test3" -> "nodup"
+      )
+    ) should contain theSameElementsAs Seq("dup1 (Test11, Test12)", "dup2 (Test21, Test22, Test23)")
+  }
 }
