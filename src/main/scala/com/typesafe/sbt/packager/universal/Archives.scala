@@ -223,28 +223,33 @@ object Archives {
     * @param target folder to build package in
     * @param name of output (without extension)
     * @param mappings included in the output
-    * @param top level directory
+    * @param topDirectory level directory
     * @param options for tar command
     * @return tar file
     *
     */
-  def makeTarballWithOptions(
-    compressor: File => File,
-    ext: String
-  )(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File = {
-    val relname = name
+  def makeTarballWithOptions(compressor: File => File, ext: String)(target: File,
+                                                                    name: String,
+                                                                    mappings: Seq[(File, String)],
+                                                                    topDirectory: Option[String],
+                                                                    options: Seq[String]): File = {
     val tarball = target / (name + ext)
-    IO.withTemporaryDirectory { f =>
-      val rdir = f / relname
-      val m2 = top map { dir =>
-        mappings map { case (f, p) => f -> (rdir / dir / p) }
-      } getOrElse {
-        mappings map { case (f, p) => f -> (rdir / p) }
-      }
+    IO.withTemporaryDirectory { tempDirectory =>
+      val workingDirectory = tempDirectory / name
+      val temporaryMappings = topDirectory
+        .map { dir =>
+          mappings map { case (f, p) => f -> (workingDirectory / dir / p) }
+        }
+        .getOrElse {
+          mappings map { case (f, p) => f -> (workingDirectory / p) }
+        }
 
-      IO.copy(m2)
-      // TODO - Is this enough?
-      for ((from, to) <- m2 if (to.getAbsolutePath contains "/bin/") || from.canExecute) {
+      // create the working directory
+      IO.createDirectory(workingDirectory)
+      IO.copy(temporaryMappings)
+      // setExecutable does not always work. There are known issues with macOSx where
+      // the executable flags is missing after compression.
+      for ((from, to) <- temporaryMappings if (to.getAbsolutePath contains "/bin/") || from.canExecute) {
         println("Making " + to.getAbsolutePath + " executable")
         to.setExecutable(true, false)
       }
@@ -252,20 +257,20 @@ object Archives {
       IO.createDirectory(tarball.getParentFile)
 
       // all directories that should be zipped
-      val distdirs = top map (_ :: Nil) getOrElse {
-        IO.listFiles(rdir).map(_.getName).toList // no top level dir, use all available
+      val distdirs = topDirectory.map(_ :: Nil).getOrElse {
+        IO.listFiles(workingDirectory).map(_.getName).toList // no top level dir, use all available
       }
 
-      val tmptar = f / (relname + ".tar")
+      val temporaryTarFile = tempDirectory / (name + ".tar")
 
-      val cmd = Seq("tar") ++ options ++ Seq(tmptar.getAbsolutePath) ++ distdirs
+      val cmd = Seq("tar") ++ options ++ Seq(temporaryTarFile.getAbsolutePath) ++ distdirs
       println("Running with " + cmd.mkString(" "))
-      sys.process.Process(cmd, Some(rdir)).! match {
+      sys.process.Process(cmd, workingDirectory).! match {
         case 0 => ()
         case n =>
           sys.error("Error tarballing " + tarball + ". Exit code: " + n)
       }
-      IO.copyFile(compressor(tmptar), tarball)
+      IO.copyFile(compressor(temporaryTarFile), tarball)
     }
     tarball
   }
