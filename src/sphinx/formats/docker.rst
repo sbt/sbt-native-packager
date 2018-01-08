@@ -302,7 +302,7 @@ Now let's start adding some Docker commands.
 
   dockerCommands := Seq(
     Cmd("FROM", "openjdk:latest"),
-    Cmd("LABEL", s"""MAINTAINER="${maintainer.value}"""")
+    Cmd("LABEL", s"""MAINTAINER="${maintainer.value}""""),
     ExecCmd("CMD", "echo", "Hello, World from Docker")
   )
 
