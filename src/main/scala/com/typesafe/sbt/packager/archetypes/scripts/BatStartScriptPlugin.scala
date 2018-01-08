@@ -1,7 +1,6 @@
 package com.typesafe.sbt.packager.archetypes.scripts
 
 import java.io.File
-import java.net.URL
 
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys._
@@ -17,7 +16,7 @@ import sbt._
   * [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]].
   *
   */
-object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
+object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with CommonStartScriptGenerator {
 
   /**
     * Name of the bat template if user wants to provide custom one
@@ -27,17 +26,17 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
   /**
     * Name of the bat forwarder template if user wants to provide custom one
     */
-  val batForwarderTemplate = "bat-forwarder-template"
-
-  /**
-    * Script destination in final package
-    */
-  val scriptTargetFolder = "bin"
+  override protected[this] val forwarderTemplateName = "bat-forwarder-template"
 
   /**
     * Location for the application.ini file used by the bat script to load initialization parameters for jvm and app
     */
   val appIniLocation = "%APP_HOME%\\conf\\application.ini"
+
+  override protected[this] val scriptSuffix = ".bat"
+  override protected[this] val eol: String = "\r\n"
+  override protected[this] val keySurround: String => String = TemplateWriter.batFriendlyKeySurround
+  override protected[this] val executableBitValue: Boolean = false
 
   override val requires = JavaAppPackaging
   override val trigger = AllRequirements
@@ -45,12 +44,17 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
   object autoImport extends BatStartScriptKeys
   import autoImport._
 
-  private[this] case class BatScriptConfig(executableScriptName: String,
-                                           scriptClasspath: Seq[String],
-                                           configLocation: Option[String],
-                                           extraDefines: Seq[String],
-                                           replacements: Seq[(String, String)],
-                                           batScriptTemplateLocation: File)
+  protected[this] case class BatScriptConfig(override val executableScriptName: String,
+                                             override val scriptClasspath: Seq[String],
+                                             configLocation: Option[String],
+                                             extraDefines: Seq[String],
+                                             override val replacements: Seq[(String, String)],
+                                             override val templateLocation: File)
+      extends ScriptConfig {
+    override def withScriptName(scriptName: String): BatScriptConfig = copy(executableScriptName = scriptName)
+  }
+
+  override protected[this] type SpecializedScriptConfig = BatScriptConfig
 
   override def projectSettings: Seq[Setting[_]] = Seq(
     batScriptTemplateLocation := (sourceDirectory.value / "templates" / batTemplate),
@@ -67,12 +71,12 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
     ),
     makeBatScripts := generateStartScripts(
       BatScriptConfig(
-        executableScriptName = s"${executableScriptName.value}.bat",
+        executableScriptName = executableScriptName.value,
         scriptClasspath = (scriptClasspath in batScriptReplacements).value,
         configLocation = batScriptConfigLocation.value,
         extraDefines = batScriptExtraDefines.value,
         replacements = batScriptReplacements.value,
-        batScriptTemplateLocation = batScriptTemplateLocation.value
+        templateLocation = batScriptTemplateLocation.value
       ),
       (mainClass in (Compile, batScriptReplacements)).value,
       (discoveredMainClasses in Compile).value,
@@ -81,43 +85,6 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
     ),
     mappings in Universal ++= makeBatScripts.value
   )
-
-  private[this] def generateStartScripts(config: BatScriptConfig,
-                                         mainClass: Option[String],
-                                         discoveredMainClasses: Seq[String],
-                                         targetDir: File,
-                                         log: Logger): Seq[(File, String)] =
-    StartScriptMainClassConfig.from(mainClass, discoveredMainClasses) match {
-      case NoMain =>
-        log.warn("You have no main class in your project. No start script will be generated.")
-        Seq.empty
-      case SingleMain(main) =>
-        Seq(MainScript(main, config, targetDir) -> s"$scriptTargetFolder/${config.executableScriptName}")
-      case MultipleMains(mains) =>
-        generateMainScripts(discoveredMainClasses, config, targetDir)
-      case ExplicitMainWithAdditional(main, additional) =>
-        (MainScript(main, config, targetDir) -> s"$scriptTargetFolder/${config.executableScriptName}") +:
-          ForwarderScripts(config.executableScriptName, additional, targetDir)
-    }
-
-  private[this] def generateMainScripts(discoveredMainClasses: Seq[String],
-                                        config: BatScriptConfig,
-                                        targetDir: File): Seq[(File, String)] =
-    discoveredMainClasses.map { qualifiedClassName =>
-      val batConfig = config.copy(executableScriptName = makeScriptName(qualifiedClassName))
-      MainScript(qualifiedClassName, batConfig, targetDir) -> s"$scriptTargetFolder/${batConfig.executableScriptName}"
-    }
-
-  private[this] def makeScriptName(qualifiedClassName: String): String = {
-    val clazz = qualifiedClassName.split("\\.").last
-
-    val lowerCased = clazz.drop(1).flatMap {
-      case c if c.isUpper => Seq('-', c.toLower)
-      case c => Seq(c)
-    }
-
-    clazz(0).toLower + lowerCased + ".bat"
-  }
 
   /**
     * @param path that could be relative to APP_HOME
@@ -173,47 +140,11 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator {
       }
   }
 
-  object MainScript {
+  override protected[this] def createReplacementsForMainScript(
+    mainClass: String,
+    mainClasses: Seq[String],
+    config: SpecializedScriptConfig
+  ): Seq[(String, String)] =
+    config.replacements :+ Replacements.appDefines(mainClass, config, config.replacements)
 
-    /**
-      *
-      * @param mainClass - Main class added to the java command
-      * @param config - Config data for this script
-      * @param targetDir - Target directory for this script
-      * @return File pointing to the created main script
-      */
-    def apply(mainClass: String, config: BatScriptConfig, targetDir: File): File = {
-      val template = resolveTemplate(config.batScriptTemplateLocation)
-      val replacements = config.replacements :+ Replacements.appDefines(mainClass, config, config.replacements)
-      val scriptContent =
-        TemplateWriter.generateScript(template, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
-      val script = targetDir / "scripts" / config.executableScriptName
-      IO.write(script, scriptContent)
-      script
-    }
-
-    private[this] def resolveTemplate(defaultTemplateLocation: File): URL =
-      if (defaultTemplateLocation.exists) defaultTemplateLocation.toURI.toURL
-      else getClass.getResource(defaultTemplateLocation.getName)
-
-  }
-
-  object ForwarderScripts {
-    def apply(executableScriptName: String, discoveredMainClasses: Seq[String], targetDir: File): Seq[(File, String)] = {
-      val tmp = targetDir / "scripts"
-      val forwarderTemplate = getClass.getResource(batForwarderTemplate)
-      discoveredMainClasses.map { qualifiedClassName =>
-        val scriptName = makeScriptName(qualifiedClassName)
-        val file = tmp / scriptName
-
-        val replacements = Seq("startScript" -> executableScriptName, "qualifiedClassName" -> qualifiedClassName)
-        val scriptContent =
-          TemplateWriter.generateScript(forwarderTemplate, replacements, "\r\n", TemplateWriter.batFriendlyKeySurround)
-
-        IO.write(file, scriptContent)
-        file -> s"bin/$scriptName"
-      }
-    }
-
-  }
 }
