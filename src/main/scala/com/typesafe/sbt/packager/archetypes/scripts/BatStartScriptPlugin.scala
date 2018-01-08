@@ -36,7 +36,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
   override protected[this] val scriptSuffix = ".bat"
   override protected[this] val eol: String = "\r\n"
   override protected[this] val keySurround: String => String = TemplateWriter.batFriendlyKeySurround
-  override protected[this] val makeScriptsExecutable: Boolean = false
+  override protected[this] val executableBitValue: Boolean = false
 
   override val requires = JavaAppPackaging
   override val trigger = AllRequirements

@@ -35,7 +35,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
   override protected[this] val scriptSuffix: String = ""
   override protected[this] val eol: String = "\n"
   override protected[this] val keySurround: String => String = TemplateWriter.bashFriendlyKeySurround
-  override protected[this] val makeScriptsExecutable: Boolean = true
+  override protected[this] val executableBitValue: Boolean = true
 
   override val requires = JavaAppPackaging
   override val trigger = AllRequirements

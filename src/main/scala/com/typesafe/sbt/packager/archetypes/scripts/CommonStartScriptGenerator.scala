@@ -33,7 +33,11 @@ trait CommonStartScriptGenerator {
     */
   protected[this] val keySurround: String => String
 
-  protected[this] val makeScriptsExecutable: Boolean
+  /**
+    * Set executable bit of the generated scripts to this value
+    * @todo Does it work when building archives on hosts that do not support such permission?
+    */
+  protected[this] val executableBitValue: Boolean
 
   protected[this] def createReplacementsForMainScript(mainClass: String,
                                                       mainClasses: Seq[String],
@@ -48,6 +52,11 @@ trait CommonStartScriptGenerator {
     def withScriptName(scriptName: String): SpecializedScriptConfig
   }
 
+  /**
+    * The type of specialized ScriptConfig.
+    * This enables callback methods of the concrete plugin implementations
+    * to use fields of config that only exist in their ScriptConfig specialization.
+    */
   protected[this] type SpecializedScriptConfig <: ScriptConfig
 
   protected[this] def generateStartScripts(config: SpecializedScriptConfig,
@@ -100,10 +109,10 @@ trait CommonStartScriptGenerator {
     val scriptContent = TemplateWriter.generateScript(template, replacements, eol, keySurround)
     val scriptNameWithSuffix = mainScriptName(config)
     val script = targetDir / scriptTargetFolder / scriptNameWithSuffix
+
     IO.write(script, scriptContent)
     // TODO - Better control over this!
-    if (makeScriptsExecutable)
-      script.setExecutable(true)
+    script.setExecutable(executableBitValue)
     script -> s"$scriptTargetFolder/$scriptNameWithSuffix"
   }
 
@@ -129,8 +138,7 @@ trait CommonStartScriptGenerator {
         val scriptContent = TemplateWriter.generateScript(forwarderTemplate, replacements, eol, keySurround)
 
         IO.write(file, scriptContent)
-        if (makeScriptsExecutable)
-          file.setExecutable(true)
+        file.setExecutable(executableBitValue)
         file -> s"$scriptTargetFolder/$scriptName"
     }
   }
