@@ -74,8 +74,8 @@ object DockerPlugin extends AutoPlugin {
     dockerRepository := None,
     dockerUsername := None,
     dockerAlias := DockerAlias(
-      dockerRepository.value,
-      dockerUsername.value,
+      (dockerRepository in Docker).value,
+      (dockerUsername in Docker).value,
       (packageName in Docker).value,
       Some((version in Docker).value)
     ),
