@@ -10,7 +10,7 @@ import sbt._
 /**
   * == Native Packaging ==
   *
-  * This provides a dpgk based implementation for debian packaging.
+  * This provides a dpkg based implementation for debian packaging.
   *
   * == Requirements ==
   *
@@ -40,7 +40,7 @@ trait DebianNativePackaging extends DebianPluginLike {
     inConfig(Debian)(
       Seq(
         debianNativeBuildOptions += "-Znone", // packages are largely JARs, which are already compressed
-        genChanges := dpgkGenChanges(
+        genChanges := dpkgGenChanges(
           packageBin.value,
           debianChangelog.value,
           debianPackageMetadata.value,
@@ -73,7 +73,7 @@ trait DebianNativePackaging extends DebianPluginLike {
       )
     )
 
-  private[this] def dpgkGenChanges(debFile: File, changelog: Option[File], data: PackageMetaData, targetDir: File) = {
+  private[this] def dpkgGenChanges(debFile: File, changelog: Option[File], data: PackageMetaData, targetDir: File) = {
     println(s"Changelog: $changelog")
     changelog match {
       case None =>
