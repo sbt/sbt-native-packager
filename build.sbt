@@ -3,12 +3,12 @@ sbtPlugin := true
 name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 
-scalaVersion in Global := "2.12.4"
+Global / scalaVersion := "2.12.5"
 
 // crossBuildingSettings
-crossSbtVersions := Vector("0.13.16", "1.0.0")
+crossSbtVersions := Vector("0.13.17", "1.1.1")
 
-scalacOptions in Compile ++= Seq("-deprecation")
+Compile / scalacOptions ++= Seq("-deprecation")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 // put jdeb on the classpath for scripted tests
@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
 
 // sbt dependend libraries
 libraryDependencies ++= {
-  (sbtVersion in pluginCrossBuild).value match {
+  (pluginCrossBuild / sbtVersion).value match {
     case v if v.startsWith("1.") =>
       Seq(
         "org.scala-sbt" %% "io" % "1.0.0",
@@ -50,7 +50,6 @@ libraryDependencies ++= {
         "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
       )
   }
-
 }
 
 // configure github page
