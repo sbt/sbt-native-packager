@@ -3,7 +3,7 @@ sbtPlugin := true
 name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 
-scalaVersion in Global := "2.12.3"
+scalaVersion in Global := "2.12.4"
 
 // crossBuildingSettings
 crossSbtVersions := Vector("0.13.16", "1.0.0")
