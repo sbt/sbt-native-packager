@@ -56,11 +56,74 @@ you have these settings in your build:
       with multiple lines."""
 
 
+It's not exactly mandatory, but still highly recommended to add
+relevant :ref:`JRE dependency <jre-dependencies>`, for example:
+
+.. code-block:: scala
+
+    debianPackageDependencies := Seq("java8-runtime-headless")
+
 Enable the debian plugin to activate the native package implementation.
 
 .. code-block:: scala
 
   enablePlugins(DebianPlugin)
+
+.. _jre-dependencies:
+
+JRE Dependencies
+~~~~~~~~~~~~~~~~
+
+By default, a Debian package would have no dependencies, even for the
+Java Runtime Environment (JRE). A startup script will seek JRE in
+several popular locations, and, JRE is not found, the following
+message would be displayed::
+
+    No java installations was detected.
+    Please go to http://www.java.com/getjava/ and download
+
+To build a Debian package that integrates properly with Debian
+repository environment, i.e. depends on a package that provides JRE,
+one needs to specify JRE dependency using
+``debianPackageDependencies``. Debian (Ubuntu and compatible
+distributions as well) provides two families of virtual packages to do
+that:
+
+  ``javaN-runtime``
+    Regular (full) JRE packages, with GUI support. Use this for
+    applications requiring AWT/Swing support, OpenGL, sound, etc.
+
+  ``javaN-runtime-headless``
+    Minimal JRE packages without GUI support, useful for server
+    installation to avoid pulling large set of X.org-related
+    packages. Use this for console-only applications, services,
+    networked / web applications, etc.
+
+``N`` in ``javaN`` should be replaced with minimal JRE version
+required by the packaged application. It usually depends on a Scala
+version used:
+
+* Scala 2.11.x or earlier requires Java 6
+* Scala 2.12.x requires Java 8
+
+Note that these are *virtual* packages, which are provided by a set of
+real packages. This means, for example, while installing a .deb
+package that depends on ``java6-runtime-headless``:
+
+* If end-user has no suitable JRE installed, it would automatically
+  pull and install some "sane default" package which provides thing
+  functionality (typically, it would be ``openjdk-8-jre-headless``).
+* If end-user does not like default suggested JRE for some reason,
+  it's possible to install any alternative implementation.
+* If end-user has some existing JRE installation that is sufficient to
+  play that role (for example, ``openjdk-9-jre``, which provides,
+  along others, ``java8-runtime-headless`` too), it would be used.
+
+This dependency works equially well with both free/libre OpenJDK
+packages supplied by Debian, and non-free JDKs supplied by Oracle and
+packaged as .deb using `make-jpkg utility
+<https://wiki.debian.org/JavaPackage>`_ from Debian's `java-package
+<https://packages.debian.org/java-package>`_.
 
 Native packaging
 ~~~~~~~~~~~~~~~~
