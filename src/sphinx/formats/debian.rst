@@ -119,7 +119,7 @@ package that depends on ``java6-runtime-headless``:
   play that role (for example, ``openjdk-9-jre``, which provides,
   along others, ``java8-runtime-headless`` too), it would be used.
 
-This dependency works equially well with both free/libre OpenJDK
+This dependency works equally well with both free/libre OpenJDK
 packages supplied by Debian, and non-free JDKs supplied by Oracle and
 packaged as .deb using `make-jpkg utility
 <https://wiki.debian.org/JavaPackage>`_ from Debian's `java-package
