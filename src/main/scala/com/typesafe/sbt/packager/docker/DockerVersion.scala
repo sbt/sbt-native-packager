@@ -5,7 +5,7 @@ import scala.util.matching.Regex
 case class DockerVersion(major: Int, minor: Int, patch: Int, release: Option[String])
 
 object DockerVersion {
-  private val DockerVersionPattern: Regex = "^'?([0-9]+).([0-9]+).([0-9]+)-?([-a-z]+)?'?$".r
+  private val DockerVersionPattern: Regex = "^'?([0-9]+).([0-9]+).([0-9]+)-?([-a-z0-9]+)?'?$".r
 
   def parse(version: String): Option[DockerVersion] =
     Option(version).collect {
