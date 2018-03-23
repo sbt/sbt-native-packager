@@ -1,6 +1,6 @@
 val basename = "jdk-versions"
 
-scalacOptions in ThisBuild := Seq("-target:jvm-1.8")
+scalacOptions in ThisBuild in (Compile, compile) := Seq("-target:jvm-1.8")
 
 lazy val `jdk8` = project
   .in(file("jdk8"))
