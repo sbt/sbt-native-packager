@@ -1,0 +1,9 @@
+> project jdk8
+> docker:publishLocal
+$ exec bash -c 'docker run --rm jdk-versions:8 | grep -q "Hello JDK8!"'
+> project jdk9
+> docker:publishLocal
+$ exec bash -c 'docker run --rm jdk-versions:9 | grep -q "Hello JDK9!"'
+> project jdk10
+> docker:publishLocal
+$ exec bash -c 'docker run --rm jdk-versions:10 | grep -q "Hello JDK10!"'
