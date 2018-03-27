@@ -9,5 +9,6 @@ lazy val testResolver =
 
 // Workaround for ivy configuration bug
 resolvers += testResolver
+resolvers += Resolver.mavenLocal
 
 publishTo in Universal := Some(testResolver)
