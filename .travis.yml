@@ -70,4 +70,5 @@ cache:
  apt: true
  directories:
  - $HOME/.sbt
+ - $HOME/.m2
  - $HOME/.ivy2
