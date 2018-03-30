@@ -209,7 +209,7 @@ Docker Image Customization
 
 
 In order to work properly with `USER daemon` the exposed volumes are first
-created (if they do not existend) and then chowned.
+created (if they do not exist) and then chowned.
 
 Install Location
 ~~~~~~~~~~~~~~~~
@@ -302,7 +302,7 @@ Now let's start adding some Docker commands.
 
   dockerCommands := Seq(
     Cmd("FROM", "openjdk:latest"),
-    Cmd("LABEL", s"""MAINTAINER="${maintainer.value}"""")
+    Cmd("LABEL", s"""MAINTAINER="${maintainer.value}""""),
     ExecCmd("CMD", "echo", "Hello, World from Docker")
   )
 

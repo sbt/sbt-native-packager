@@ -3,12 +3,12 @@ sbtPlugin := true
 name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 
-scalaVersion in Global := "2.12.3"
+Global / scalaVersion := "2.12.5"
 
 // crossBuildingSettings
-crossSbtVersions := Vector("0.13.16", "1.0.0")
+crossSbtVersions := Vector("0.13.17", "1.1.1")
 
-scalacOptions in Compile ++= Seq("-deprecation")
+Compile / scalacOptions ++= Seq("-deprecation")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 // put jdeb on the classpath for scripted tests
@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
 
 // sbt dependend libraries
 libraryDependencies ++= {
-  (sbtVersion in pluginCrossBuild).value match {
+  (pluginCrossBuild / sbtVersion).value match {
     case v if v.startsWith("1.") =>
       Seq(
         "org.scala-sbt" %% "io" % "1.0.0",
@@ -50,7 +50,6 @@ libraryDependencies ++= {
         "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
       )
   }
-
 }
 
 // configure github page
@@ -65,18 +64,23 @@ scriptedLaunchOpts += "-Dproject.version=" + version.value
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 publishMavenStyle := false
 
+// The release task doesn't run any tests. We rely on travis.ci and appveyor,
+// because it's impossible to run all tests (linux, macosx, windows) on a single computer.
 import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
-  releaseStepCommandAndRemaining("^ test"),
-  releaseStepCommandAndRemaining("^ scripted universal/* debian/* rpm/* docker/* ash/* jar/* bash/* jdkpackager/*"),
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
+  updateReadme,
+  commitReadme,
   releaseStepCommandAndRemaining("^ publishSigned"),
   setNextVersion,
   commitNextVersion,
+  pushChanges,
+  generateReleaseChangelog,
+  commitChangelog,
   pushChanges,
   releaseStepTask(ghpagesPushSite)
 )
@@ -85,9 +89,10 @@ releaseProcess := Seq[ReleaseStep](
 bintrayOrganization := Some("sbt")
 bintrayRepository := "sbt-plugin-releases"
 
+addCommandAlias("scalafmtAll", "; scalafmt ; test:scalafmt ; sbt:scalafmt")
 // ci commands
 addCommandAlias("validateFormatting", "; scalafmt::test ; test:scalafmt::test ; sbt:scalafmt::test")
-addCommandAlias("validate", "; clean ; update ; test")
+addCommandAlias("validate", "; clean ; update ; validateFormatting ; test")
 
 // List all scripted test separately to schedule them in different travis-ci jobs.
 // Travis-CI has hard timeouts for jobs, so we run them in smaller jobs as the scripted
@@ -108,6 +113,7 @@ addCommandAlias(
   "validateJdkPackagerTravis",
   "scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings"
 )
+addCommandAlias("validateOSX", "; validate ; validateUniversal")
 
 // TODO check the cygwin scripted tests and run them on appveyor
 addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted universal/dist universal/stage windows/*")

@@ -40,7 +40,7 @@ fi
 
 # Loads a configuration file full of default command line options for this script.
 loadConfigFile() {
-  cat "$1" | sed '/^\#/d' | sed 's/^-J-X/-X/' | tr '\r\n' ' '
+  cat "$1" | sed '/^\#/d;s/\r$//' | sed 's/^-J-X/-X/' | tr '\r\n' ' '
 }
 
 
@@ -55,4 +55,4 @@ ${{template_declares}}
 # If a configuration file exist, read the contents to $opts
 [ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
 
-exec java $java_opts -classpath $app_classpath $opts $app_mainclass $@
+exec java $java_opts -classpath $app_classpath $opts $app_mainclass "$@"

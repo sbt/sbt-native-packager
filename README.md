@@ -55,7 +55,7 @@ Add the following to your `project/plugins.sbt` file:
 
 ```scala
 // for autoplugins
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.2.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.3")
 ```
 
 In your `build.sbt` enable the plugin you want. For example the
@@ -130,6 +130,13 @@ or provide a richer API for a single packaging format.
 [Java server application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/index.html
 [My First Packaged Server Project guide]: http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html
 [jdkpackager]: http://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html
+
+## Maintainers ##
+
+- Nepomuk Seiler (@muuki88)
+- Alexey Kardapoltsev (@kardapoltsev)
+- Derek Wickern (@dwickern)
+- Felix Satyaputra (@fsat)
 
 ## Credits ##
 

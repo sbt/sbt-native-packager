@@ -9,10 +9,18 @@ $ exists target/universal-src/simple-test-0.1.0.zip
 # Run the tgz packaging.
 > universal:packageZipTarball
 $ exists target/universal/simple-test-0.1.0.tgz
+> universal-docs:packageZipTarball
+$ exists target/universal-docs/simple-test-0.1.0.tgz
+> universal-src:packageZipTarball
+$ exists target/universal-src/simple-test-0.1.0.tgz
 
 # Run the txz packaging.
 > universal:packageXzTarball
 $ exists target/universal/simple-test-0.1.0.txz
+> universal-docs:packageXzTarball
+$ exists target/universal-docs/simple-test-0.1.0.txz
+> universal-src:packageXzTarball
+$ exists target/universal-src/simple-test-0.1.0.txz
 
 
 # TODO - Check contents of zips

@@ -1,5 +1,132 @@
 # Change Log
 
+## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.3...HEAD)
+
+**Closed issues:**
+
+- unresolved dependency: com.typesafe.sbt\#sbt-native-packager;1.1.4: not found [\#1100](https://github.com/sbt/sbt-native-packager/issues/1100)
+
+**Merged pull requests:**
+
+- JRE dependencies in Debian documentation [\#1107](https://github.com/sbt/sbt-native-packager/pull/1107) ([GreyCat](https://github.com/GreyCat))
+- Upgrade Scala version [\#1103](https://github.com/sbt/sbt-native-packager/pull/1103) ([joan38](https://github.com/joan38))
+- Give an absolute path to the entrypoint [\#1101](https://github.com/sbt/sbt-native-packager/pull/1101) ([joan38](https://github.com/joan38))
+- Typo: dpgk -\> dpkg [\#1099](https://github.com/sbt/sbt-native-packager/pull/1099) ([raboof](https://github.com/raboof))
+
+## [v1.3.3](https://github.com/sbt/sbt-native-packager/tree/v1.3.3) (2018-02-03)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.2...v1.3.3)
+
+**Fixed bugs:**
+
+- Break arguments with spaces in ash [\#1094](https://github.com/sbt/sbt-native-packager/issues/1094)
+- Documentation for specific version not published anymore [\#1087](https://github.com/sbt/sbt-native-packager/issues/1087)
+- Remove carriage return characters when loading configuration files. [\#1074](https://github.com/sbt/sbt-native-packager/issues/1074)
+- java.lang.NoClassDefFoundError: org/vafer/jdeb/Console [\#1053](https://github.com/sbt/sbt-native-packager/issues/1053)
+- Duplicated startup script names in universal zip [\#1016](https://github.com/sbt/sbt-native-packager/issues/1016)
+
+**Closed issues:**
+
+- bashScriptConfigLocation config  invalid [\#1076](https://github.com/sbt/sbt-native-packager/issues/1076)
+- Don't compress packages using the JDeb debian packager [\#1072](https://github.com/sbt/sbt-native-packager/issues/1072)
+- APP\_CLASSPATH line growths too long in windows startup batch script [\#1071](https://github.com/sbt/sbt-native-packager/issues/1071)
+- Docker Errors on Load [\#1065](https://github.com/sbt/sbt-native-packager/issues/1065)
+- Doc and src packages for 1.3.2 not found in repo1.maven.org [\#1063](https://github.com/sbt/sbt-native-packager/issues/1063)
+- \[Feature Request\] Universal plugin, directory output format [\#1061](https://github.com/sbt/sbt-native-packager/issues/1061)
+- Remove redundant docker file [\#1060](https://github.com/sbt/sbt-native-packager/issues/1060)
+- Upstart init script does not source environment variables, nor does it pass environment variables on [\#1023](https://github.com/sbt/sbt-native-packager/issues/1023)
+- SystemV service template does not actually generate any logs [\#1021](https://github.com/sbt/sbt-native-packager/issues/1021)
+- Docs do not accurately describe how to install plugin [\#797](https://github.com/sbt/sbt-native-packager/issues/797)
+- Adding a Code of Conduct [\#744](https://github.com/sbt/sbt-native-packager/issues/744)
+
+**Merged pull requests:**
+
+- Fix systemv logging [\#1096](https://github.com/sbt/sbt-native-packager/pull/1096) ([kardapoltsev](https://github.com/kardapoltsev))
+- do not break arguments with spaces inside [\#1095](https://github.com/sbt/sbt-native-packager/pull/1095) ([yanns](https://github.com/yanns))
+- DockerAlias should use dockerRepository and dockerUsername from Docker scope [\#1092](https://github.com/sbt/sbt-native-packager/pull/1092) ([jjst](https://github.com/jjst))
+- Fix typo in docker.rst [\#1091](https://github.com/sbt/sbt-native-packager/pull/1091) ([mattinbits](https://github.com/mattinbits))
+- Fix typo in src/sphinx/formats/docker.rst [\#1089](https://github.com/sbt/sbt-native-packager/pull/1089) ([kasonchan](https://github.com/kasonchan))
+- Update documentation for multi-module builds [\#1088](https://github.com/sbt/sbt-native-packager/pull/1088) ([nornagon](https://github.com/nornagon))
+- fix packageZipTarball defaults for UniversalDocs and UniversalSource [\#1086](https://github.com/sbt/sbt-native-packager/pull/1086) ([muuki88](https://github.com/muuki88))
+- Update readme during relaese [\#1084](https://github.com/sbt/sbt-native-packager/pull/1084) ([muuki88](https://github.com/muuki88))
+- Add scoped resolvers to otherResolvers [\#1083](https://github.com/sbt/sbt-native-packager/pull/1083) ([muuki88](https://github.com/muuki88))
+- FIX \#744 Add code of conduct [\#1082](https://github.com/sbt/sbt-native-packager/pull/1082) ([muuki88](https://github.com/muuki88))
+- Enable environment export for upstart loader [\#1080](https://github.com/sbt/sbt-native-packager/pull/1080) ([kardapoltsev](https://github.com/kardapoltsev))
+- Remove carriage return characters when loading configuration files. [\#1078](https://github.com/sbt/sbt-native-packager/pull/1078) ([JustinPihony](https://github.com/JustinPihony))
+- Fix \#1076 add more documentation on bash and bat script configuration [\#1077](https://github.com/sbt/sbt-native-packager/pull/1077) ([muuki88](https://github.com/muuki88))
+- Update release version in download instructions [\#1075](https://github.com/sbt/sbt-native-packager/pull/1075) ([agemooij](https://github.com/agemooij))
+- Don't compress packages using the JDeb debian packager [\#1073](https://github.com/sbt/sbt-native-packager/pull/1073) ([ajrnz](https://github.com/ajrnz))
+- Remove redundant Dockerfile [\#1062](https://github.com/sbt/sbt-native-packager/pull/1062) ([mrfyda](https://github.com/mrfyda))
+- Change startup script name generation [\#1020](https://github.com/sbt/sbt-native-packager/pull/1020) ([atrosinenko](https://github.com/atrosinenko))
+
+## [v1.3.2](https://github.com/sbt/sbt-native-packager/tree/v1.3.2) (2017-11-01)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.1...v1.3.2)
+
+**Fixed bugs:**
+
+- when project version is a SNAPSHOT, `rpm:packageBin` fails with "`version in Rpm` is empty." [\#1004](https://github.com/sbt/sbt-native-packager/issues/1004)
+
+**Closed issues:**
+
+- question: are jar files compressed? [\#1046](https://github.com/sbt/sbt-native-packager/issues/1046)
+- Docker Image 'chown -R daemon:daemon' duplicates application layer [\#883](https://github.com/sbt/sbt-native-packager/issues/883)
+- systemd service customization \(open files\) [\#728](https://github.com/sbt/sbt-native-packager/issues/728)
+- Play pid is a big caveat for people starting using sbt-native-packager. [\#602](https://github.com/sbt/sbt-native-packager/issues/602)
+- Evalualte circleci.com for docker intergation tests [\#497](https://github.com/sbt/sbt-native-packager/issues/497)
+
+**Merged pull requests:**
+
+- Run docker tests on travis [\#1059](https://github.com/sbt/sbt-native-packager/pull/1059) ([muuki88](https://github.com/muuki88))
+- Convert dockerVersion from a setting to a task [\#1058](https://github.com/sbt/sbt-native-packager/pull/1058) ([dwickern](https://github.com/dwickern))
+- Update README.md [\#1057](https://github.com/sbt/sbt-native-packager/pull/1057) ([gurghet](https://github.com/gurghet))
+- Fix duplicate application.ini mappings when both BASH and BAT plugins are used [\#1056](https://github.com/sbt/sbt-native-packager/pull/1056) ([dwickern](https://github.com/dwickern))
+- Improve main class detection [\#1055](https://github.com/sbt/sbt-native-packager/pull/1055) ([dwickern](https://github.com/dwickern))
+
+## [v1.3.1](https://github.com/sbt/sbt-native-packager/tree/v1.3.1) (2017-10-24)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.0...v1.3.1)
+
+**Closed issues:**
+
+- Error running rpm:packageBin [\#1054](https://github.com/sbt/sbt-native-packager/issues/1054)
+- After upgrading to version 1.3.0, sbt started throwing "docker: 'version --format '{{.Server.Version}}'' not a docker command" warnings on console [\#1051](https://github.com/sbt/sbt-native-packager/issues/1051)
+
+**Merged pull requests:**
+
+- Fix dockerVersion command creation [\#1052](https://github.com/sbt/sbt-native-packager/pull/1052) ([mrfyda](https://github.com/mrfyda))
+
+## [v1.3.0](https://github.com/sbt/sbt-native-packager/tree/v1.3.0) (2017-10-23)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.2...v1.3.0)
+
+**Closed issues:**
+
+- question: how to disable universal packager script creation [\#1049](https://github.com/sbt/sbt-native-packager/issues/1049)
+- question: How do I pass JVM option to container ? [\#1047](https://github.com/sbt/sbt-native-packager/issues/1047)
+- Support SBT 1.0 [\#1041](https://github.com/sbt/sbt-native-packager/issues/1041)
+- MAINTAINER in Dockerfile [\#1033](https://github.com/sbt/sbt-native-packager/issues/1033)
+- Provide means to set umask of user? [\#1032](https://github.com/sbt/sbt-native-packager/issues/1032)
+- \[1.2.2\] docker:publishLocal only succeeds with JavaAppPackaging plugin but not with DockerPlugin [\#1030](https://github.com/sbt/sbt-native-packager/issues/1030)
+- Add support for --chown flag for ADD/COPY Docker commands [\#1029](https://github.com/sbt/sbt-native-packager/issues/1029)
+- Pass proxy configuration to the application in startup script [\#1015](https://github.com/sbt/sbt-native-packager/issues/1015)
+- Publish build for sbt 1.0.0 [\#815](https://github.com/sbt/sbt-native-packager/issues/815)
+- Universal java options ignored on Windows - cannot set javaOptions [\#688](https://github.com/sbt/sbt-native-packager/issues/688)
+- use case: single project, multiple apps [\#633](https://github.com/sbt/sbt-native-packager/issues/633)
+
+**Merged pull requests:**
+
+- Unset JAVA\_OPTIONS in travis build [\#1048](https://github.com/sbt/sbt-native-packager/pull/1048) ([muuki88](https://github.com/muuki88))
+- Add support for --chown flag for ADD/COPY Docker commands [\#1044](https://github.com/sbt/sbt-native-packager/pull/1044) ([mrfyda](https://github.com/mrfyda))
+- Windows batch script improvements [\#1042](https://github.com/sbt/sbt-native-packager/pull/1042) ([dwickern](https://github.com/dwickern))
+- Fix launcher jar paths not being quoted on Windows [\#1040](https://github.com/sbt/sbt-native-packager/pull/1040) ([dwickern](https://github.com/dwickern))
+- Refresh PR: Treat symlinks as normal files in spec file [\#1039](https://github.com/sbt/sbt-native-packager/pull/1039) ([erickpintor](https://github.com/erickpintor))
+- Add recipe for setting umask [\#1038](https://github.com/sbt/sbt-native-packager/pull/1038) ([keirlawson](https://github.com/keirlawson))
+- Fix typo in universal.rst [\#1037](https://github.com/sbt/sbt-native-packager/pull/1037) ([srinchiera](https://github.com/srinchiera))
+- \[docs\] fix typo [\#1036](https://github.com/sbt/sbt-native-packager/pull/1036) ([dwickern](https://github.com/dwickern))
+- Use LABEL instead of MAINTAINER for maintainers [\#1034](https://github.com/sbt/sbt-native-packager/pull/1034) ([NeQuissimus](https://github.com/NeQuissimus))
+- add available main classes to the usage notes in bash script [\#1027](https://github.com/sbt/sbt-native-packager/pull/1027) ([frosforever](https://github.com/frosforever))
+- Fix inconsistency in docs [\#1025](https://github.com/sbt/sbt-native-packager/pull/1025) ([Discipe](https://github.com/Discipe))
+- Wip/build with sbt 1.0 [\#1013](https://github.com/sbt/sbt-native-packager/pull/1013) ([muuki88](https://github.com/muuki88))
+
 ## [v1.2.2](https://github.com/sbt/sbt-native-packager/tree/v1.2.2) (2017-08-21)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.2.2-RC2...v1.2.2)
 

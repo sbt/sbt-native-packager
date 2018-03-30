@@ -49,7 +49,7 @@ TaskKey[Unit]("checkStartupScript") := {
   )
   assert(
     script.contains(
-      """start-stop-daemon --background --chdir /usr/share/debian-test --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --startas "$RUN_CMD" --start -- $RUN_OPTS ${stdout_redirect}"""
+      """start-stop-daemon --background --chdir /usr/share/debian-test --chuid "$DAEMON_USER" --make-pidfile --pidfile "$PIDFILE" --startas /bin/sh --start -- -c "exec $RUN_CMD $RUN_OPTS ${stdout_redirect}"""
     ),
     "script has wrong startup line\n" + script
   )

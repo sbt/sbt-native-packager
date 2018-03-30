@@ -74,17 +74,17 @@ object DockerPlugin extends AutoPlugin {
     dockerRepository := None,
     dockerUsername := None,
     dockerAlias := DockerAlias(
-      dockerRepository.value,
-      dockerUsername.value,
+      (dockerRepository in Docker).value,
+      (dockerUsername in Docker).value,
       (packageName in Docker).value,
       Some((version in Docker).value)
     ),
     dockerUpdateLatest := false,
-    dockerEntrypoint := Seq("bin/%s" format executableScriptName.value),
+    dockerEntrypoint := Seq(s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
     dockerCmd := Seq(),
     dockerExecCommand := Seq("docker"),
-    dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version --format '{{.Server.Version}}'")).!!)
-      .toOption.map(_.trim)
+    dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!).toOption
+      .map(_.trim)
       .flatMap(DockerVersion.parse),
     dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
       if (dockerUpdateLatest.value)
@@ -112,10 +112,6 @@ object DockerPlugin extends AutoPlugin {
     Seq(
       executableScriptName := executableScriptName.value,
       mappings ++= dockerPackageMappings.value,
-      mappings ++= {
-        val baseDir = target.value
-        Seq(dockerGenerateConfig.value) pair (file => IO.relativize(baseDir, file))
-      },
       name := name.value,
       packageName := packageName.value,
       publishLocal := {
@@ -145,13 +141,14 @@ object DockerPlugin extends AutoPlugin {
       },
       sourceDirectory := sourceDirectory.value / "docker",
       stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
+      stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (target in Docker).value / "stage",
       target := target.value / "docker",
       daemonUser := "daemon",
       daemonGroup := daemonUser.value,
       defaultLinuxInstallLocation := "/opt/docker",
       dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
-      dockerGenerateConfig := generateDockerConfig(dockerCommands.value, target.value)
+      dockerGenerateConfig := generateDockerConfig(dockerCommands.value, stagingDirectory.value)
     )
   )
 
@@ -191,8 +188,10 @@ object DockerPlugin extends AutoPlugin {
     * @param daemonGroup
     * @return ADD command adding all files inside the installation directory
     */
-  private final def makeAdd(dockerVersion: Option[DockerVersion], dockerBaseDirectory: String,
-                            daemonUser: String, daemonGroup: String): Seq[CmdLike] = {
+  private final def makeAdd(dockerVersion: Option[DockerVersion],
+                            dockerBaseDirectory: String,
+                            daemonUser: String,
+                            daemonGroup: String): Seq[CmdLike] = {
 
     /**
       * This is the file path of the file in the Docker image, and does not depend on the OS where the image
@@ -202,14 +201,9 @@ object DockerPlugin extends AutoPlugin {
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
 
     if (dockerVersion.exists(DockerSupport.chownFlag)) {
-      Seq(
-        Cmd("ADD", s"--chown=$daemonUser:$daemonGroup $files /$files")
-      )
+      Seq(Cmd("ADD", s"--chown=$daemonUser:$daemonGroup $files /$files"))
     } else {
-      Seq(
-        Cmd("ADD", s"$files /$files"),
-        makeChown(daemonUser, daemonGroup, "." :: Nil)
-      )
+      Seq(Cmd("ADD", s"$files /$files"), makeChown(daemonUser, daemonGroup, "." :: Nil))
     }
   }
 
