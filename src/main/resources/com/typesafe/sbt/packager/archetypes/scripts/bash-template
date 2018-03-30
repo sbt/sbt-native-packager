@@ -194,9 +194,9 @@ process_args () {
 
      -java-home) require_arg path "$1" "$2" && jre=`eval echo $2` && java_cmd="$jre/bin/java" && shift 2 ;;
 
- -D*|-agentlib*) addJava "$1" && shift ;;
-            -J*) addJava "${1:2}" && shift ;;
-              *) addResidual "$1" && shift ;;
+ -D*|-agentlib*|-XX*) addJava "$1" && shift ;;
+                 -J*) addJava "${1:2}" && shift ;;
+                   *) addResidual "$1" && shift ;;
     esac
   done
 
