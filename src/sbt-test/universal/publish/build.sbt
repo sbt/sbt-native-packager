@@ -11,4 +11,7 @@ lazy val testResolver =
 resolvers += testResolver
 resolvers += Resolver.mavenLocal
 
+// Workaround for overwriting packages at .m2 directory
+isSnapshot in ThisBuild := true
+
 publishTo in Universal := Some(testResolver)
