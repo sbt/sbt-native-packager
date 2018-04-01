@@ -9,5 +9,9 @@ lazy val testResolver =
 
 // Workaround for ivy configuration bug
 resolvers += testResolver
+resolvers += Resolver.mavenLocal
+
+// Workaround for overwriting packages at .m2 directory
+isSnapshot in ThisBuild := true
 
 publishTo in Universal := Some(testResolver)

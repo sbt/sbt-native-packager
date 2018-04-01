@@ -2,3 +2,5 @@
 > universal:publish
 # Ensure isSnpashot works correctly
 > universal:publish
+# Ensure we can publish to local maven repository.
+> universal:publishM2

@@ -62,6 +62,12 @@ object SettingsHelper {
           .withArtifacts(packagedArtifacts.value.toVector)
           .withChecksums(checksums.value.toVector)
           .withOverwrite(isSnapshot.value)
+          .withLogging(UpdateLogging.DownloadOnly),
+        publishM2Configuration := PublishConfiguration()
+          .withResolverName(Resolver.mavenLocal.name)
+          .withArtifacts(packagedArtifacts.value.toVector)
+          .withChecksums(checksums.value.toVector)
+          .withOverwrite(isSnapshot.value)
           .withLogging(UpdateLogging.DownloadOnly)
       )
     ) ++ addPackage(config, packageTask, extension, classifier) ++ addResolver(config)

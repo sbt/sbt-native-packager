@@ -55,7 +55,15 @@ object SettingsHelper {
           checksums = checksums.value,
           logging = UpdateLogging.DownloadOnly,
           overwrite = isSnapshot.value
-        )
+        ),
+        publishM2Configuration := new PublishConfiguration(
+          ivyFile = None,
+          resolverName = Resolver.mavenLocal.name,
+          artifacts = packagedArtifacts.value,
+          checksums = checksums.value,
+          logging = UpdateLogging.DownloadOnly,
+          overwrite = isSnapshot.value
+       )
       )
     ) ++ addPackage(config, packageTask, extension, classifier) ++ addResolver(config)
 
