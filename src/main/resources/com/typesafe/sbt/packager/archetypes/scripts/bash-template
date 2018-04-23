@@ -263,7 +263,7 @@ run() {
 
 # Loads a configuration file full of default command line options for this script.
 loadConfigFile() {
-  cat "$1" | sed '/^\#/d;s/\r$//'
+  cat "$1" | sed $'/^\#/d;s/\r$//'
 }
 
 # Now check to see if it's a good enough version
