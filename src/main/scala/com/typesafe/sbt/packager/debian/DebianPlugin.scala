@@ -91,8 +91,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     packageSummary in Debian := (packageSummary in Linux).value,
     maintainer in Debian := (maintainer in Linux).value,
     validatePackageValidators in Debian := Seq(
-      nonEmptyMappings((mappings in Debian).value),
-      filesExist((mappings in Debian).value),
+      nonEmptyMappings((linuxPackageMappings in Debian).value.flatMap(_.mappings)),
+      filesExist((linuxPackageMappings in Debian).value.flatMap(_.mappings)),
       checkMaintainer((maintainer in Debian).value, asWarning = false)
     ),
     // override the linux sourceDirectory setting
