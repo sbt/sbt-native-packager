@@ -103,8 +103,8 @@ object RpmPlugin extends AutoPlugin {
     rpmDaemonLogFile := s"${(packageName in Linux).value}.log",
     daemonStdoutLogFile in Rpm := Some(rpmDaemonLogFile.value),
     validatePackageValidators in Rpm := Seq(
-      nonEmptyMappings((mappings in Rpm).value),
-      filesExist((mappings in Rpm).value),
+      nonEmptyMappings((linuxPackageMappings in Rpm).value.flatMap(_.mappings)),
+      filesExist((linuxPackageMappings in Rpm).value.flatMap(_.mappings)),
       checkMaintainer((maintainer in Rpm).value, asWarning = false)
     ),
     // override the linux sourceDirectory setting
