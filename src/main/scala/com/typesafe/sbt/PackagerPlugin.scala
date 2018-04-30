@@ -1,11 +1,11 @@
 package com.typesafe.sbt
 
 import packager._
-
 import debian.DebianPlugin.autoImport.genChanges
-import universal.UniversalPlugin.autoImport.{packageXzTarball, packageZipTarball}
+import com.typesafe.sbt.packager.Keys.{packageXzTarball, packageZipTarball, validatePackage, validatePackageValidators}
+import com.typesafe.sbt.packager.validation.Validation
 import sbt._
-import sbt.Keys.{name, normalizedName, packageBin}
+import sbt.Keys.{name, normalizedName, packageBin, streams}
 
 /**
   * == SBT Native Packager Plugin ==
@@ -99,7 +99,10 @@ object SbtNativePackager extends AutoPlugin {
     packageSummary := name.value,
     packageName := normalizedName.value,
     executableScriptName := normalizedName.value,
-    maintainerScripts := Map()
+    maintainerScripts := Map(),
+    // no validation by default
+    validatePackageValidators := Seq.empty,
+    validatePackage := Validation.runAndThrow(validatePackageValidators.value, streams.value.log)
   )
 
   object packageArchetype {

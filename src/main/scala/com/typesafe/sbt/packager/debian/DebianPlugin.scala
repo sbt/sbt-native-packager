@@ -6,7 +6,8 @@ import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxPlugin, LinuxSymlink}
 import com.typesafe.sbt.packager.universal.Archives
-import com.typesafe.sbt.packager.{chmod, Hashing, SettingsHelper}
+import com.typesafe.sbt.packager.validation._
+import com.typesafe.sbt.packager.{Hashing, SettingsHelper, chmod}
 import sbt.Keys._
 import sbt._
 
@@ -89,6 +90,11 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     packageDescription in Debian := (packageDescription in Linux).value,
     packageSummary in Debian := (packageSummary in Linux).value,
     maintainer in Debian := (maintainer in Linux).value,
+    validatePackageValidators in Debian := Seq(
+      nonEmptyMappings((mappings in Debian).value),
+      filesExist((mappings in Debian).value),
+      checkMaintainer((maintainer in Debian).value, asWarning = false)
+    ),
     // override the linux sourceDirectory setting
     sourceDirectory in Debian := sourceDirectory.value,
     /* ==== Debian configuration settings ==== */

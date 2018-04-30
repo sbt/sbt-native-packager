@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.rpm
 
 import sbt._
-import sbt.Keys.{isSnapshot, name, packageBin, sourceDirectory, streams, target, version}
+import sbt.Keys._
 import java.nio.charset.Charset
 
 import com.typesafe.sbt.SbtNativePackager.Linux
@@ -9,6 +9,7 @@ import com.typesafe.sbt.packager.SettingsHelper
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.linux._
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.validation._
 
 /**
   * Plugin containing all generic values used for packaging rpms.
@@ -101,6 +102,11 @@ object RpmPlugin extends AutoPlugin {
     executableScriptName in Rpm := (executableScriptName in Linux).value,
     rpmDaemonLogFile := s"${(packageName in Linux).value}.log",
     daemonStdoutLogFile in Rpm := Some(rpmDaemonLogFile.value),
+    validatePackageValidators in Rpm := Seq(
+      nonEmptyMappings((mappings in Rpm).value),
+      filesExist((mappings in Rpm).value),
+      checkMaintainer((maintainer in Rpm).value, asWarning = false)
+    ),
     // override the linux sourceDirectory setting
     sourceDirectory in Rpm := sourceDirectory.value,
     packageArchitecture in Rpm := "noarch",
