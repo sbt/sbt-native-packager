@@ -402,11 +402,11 @@ object DockerPlugin extends AutoPlugin {
   }
 
   private[this] def validateExposedPorts(ports: Seq[Int], udpPorts: Seq[Int]): Validation.Validator = () => {
-    if (ports.isEmpty && udpPorts.isEmpty) {
-      List(
-        ValidationWarning(
-          description = "There are no exposed ports for your docker image",
-          howToFix = """| Configure the `dockerExposedPorts` or `dockerExposedUdpPorts` setting. E.g.
+    if(ports.isEmpty && udpPorts.isEmpty) {
+      List(ValidationWarning(
+        description = "There are no exposed ports for your docker image",
+        howToFix =
+          """| Configure the `dockerExposedPorts` or `dockerExposedUdpPorts` setting. E.g.
              |
              | // standard tcp ports
              | dockerExposedPorts ++= Seq(9000, 9001)
@@ -414,8 +414,7 @@ object DockerPlugin extends AutoPlugin {
              | // for udp ports
              | dockerExposedUdpPorts += 4444
           """.stripMargin
-        )
-      )
+      ))
     } else {
       List.empty
     }
@@ -424,12 +423,10 @@ object DockerPlugin extends AutoPlugin {
   private[this] def validateDockerVersion(dockerVersion: Option[DockerVersion]): Validation.Validator = () => {
     dockerVersion match {
       case Some(_) => List.empty
-      case None =>
-        List(
-          ValidationWarning(
-            description =
-              "sbt-native-packager wasn't able to identify the docker version. Some features may not be enabled",
-            howToFix = """|sbt-native packager tries to parse the `docker version` output. This can fail if
+      case None => List(ValidationWarning(
+        description = "sbt-native-packager wasn't able to identify the docker version. Some features may not be enabled",
+        howToFix =
+          """|sbt-native packager tries to parse the `docker version` output. This can fail if
              |
              |  - the output has changed:
              |    $ docker version --format '{{.Server.Version}}'
@@ -448,9 +445,10 @@ object DockerPlugin extends AutoPlugin {
              |  import com.typesafe.sbt.packager.docker.DockerVersion
              |  dockerVersion := Some(DockerVersion(17, 5, 0, Some("ce"))
           """.stripMargin
-          )
-        )
+      ))
     }
   }
+
+
 
 }
