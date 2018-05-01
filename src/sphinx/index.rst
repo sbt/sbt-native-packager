@@ -11,7 +11,7 @@ needed to generate the best package possible.
 
 Read the :ref:`introduction` to learn how native-packager works. The :ref:`getting-started` guide will help you set up
 your first package. The :ref:`packaging-formats` and :ref:`archetypes` sections explain the different plugins in more
-detail, which :ref:`recipes` provides solutions for common configurations.
+detail, while :ref:`recipes` provide solutions for common configurations.
 
 
 Sitemap

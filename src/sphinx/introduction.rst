@@ -53,7 +53,7 @@ These things are **out of native packagers scope**
     packager.
 
 2. Providing deployment configurations
-    Native packager produces artefacts with the ``packageBin`` task. What you do with these is part of another step in
+    Native packager produces artifacts with the ``packageBin`` task. What you do with these is part of another step in
     your process.
 
 
@@ -65,7 +65,7 @@ Core Concepts
 Native packager is based on a few simple concepts. If you understand these, you will be able to customize your build,
 create own packaging formats and deploy more effectively.
 
-1. **Separation of concerns** of the two plugin kinds
+1. **Separation of concerns** with two kinds of plugins
 
     - :ref:`format plugins <packaging-formats>` define **how** a package is created
     - :ref:`archetype plugins <archetypes>` define **what** a package should contain
@@ -93,7 +93,7 @@ Format plugins provide the implementation to create package, the **how** a packa
     start with the plugin name, e.g. *rpmXYZ*.
 
 3. Implement package task
-    The ``packageBin`` or ``publishLocal`` ( docker ) task provides the actual action to create a package.
+    ``packageBin`` or ``publishLocal`` tasks provide the actual action to create a package.
 
 By enabling a format plugin only with
 
@@ -116,7 +116,7 @@ A full list of archetypes can be found
 
 
 An archetype may provide the following:
-    1. New, archetype related settings and tasks
+    1. Archetype related settings and tasks
     2. New files in your package
 
 By enabling an archetype plugin with
