@@ -7,8 +7,8 @@ Archetype plugins provide predefined configurations for your build. Like :ref:`f
 archetype plugins can depend on other archetype plugins to extend existing functionality.
 
 Project archetypes are default deployment scripts that try to "do the right thing" for a given type of project.
-Because not all projects are created equal, there is no one single archetype for all native packages, but a set
-of them for usage.
+Because not all projects are created equal, there is no single archetype for all native packages, but a set
+of them to choose from.
 
 .. toctree::
    :maxdepth: 1
