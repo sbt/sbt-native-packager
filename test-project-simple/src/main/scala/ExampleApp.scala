@@ -16,7 +16,7 @@ object ExampleApp extends App {
 }
 
 case class HelloWorld(i: Int) extends Runnable {
-  def run() {
+  def run(): Unit = {
     println(s"[$i] Hello, world!")
   }
 }

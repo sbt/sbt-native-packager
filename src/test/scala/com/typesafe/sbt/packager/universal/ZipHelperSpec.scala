@@ -13,18 +13,17 @@ class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with 
   var tmp: Path = _
   val toDelete = scala.collection.mutable.ListBuffer[Path]()
 
-  override def beforeEach {
+  override def beforeEach: Unit = {
     tmp = Files createTempDirectory "_sbt-native-packager"
     toDelete += tmp
   }
 
-  override def afterAll {
+  override def afterAll: Unit =
     toDelete foreach { dir =>
       scala.util.Try {
         Files.walkFileTree(dir, new DeleteDirectoryVisitor)
       }
     }
-  }
 
   "The ZipHelper.zip" should {
 
@@ -104,7 +103,7 @@ class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with 
 
   private type Zipper = (Traversable[(File, String)], File) => Unit
 
-  private def zipSingleFile(zipper: Zipper) {
+  private def zipSingleFile(zipper: Zipper): Unit = {
     val out = tmp resolve "single.zip"
     val file = Files createFile (tmp resolve "single.txt")
 
@@ -117,7 +116,7 @@ class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with 
 
   }
 
-  private def zipNestedFile(zipper: Zipper) {
+  private def zipNestedFile(zipper: Zipper): Unit = {
     // setup
     val out = tmp resolve "nested.zip"
     val dir = tmp resolve "dir"
@@ -137,7 +136,7 @@ class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with 
     }
   }
 
-  private def zipNestedDirsWithFiles(zipper: Zipper) {
+  private def zipNestedDirsWithFiles(zipper: Zipper): Unit = {
     // setup
     val out = tmp resolve "nested-containing.zip"
     val dir = tmp resolve "dir"
@@ -158,7 +157,7 @@ class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with 
     }
   }
 
-  private def createNecessaryDirectories(zipper: Zipper) {
+  private def createNecessaryDirectories(zipper: Zipper): Unit = {
     val out = tmp resolve "dir-creation.zip"
     val file = tmp resolve "dir-file.txt"
     Files createFile file
@@ -176,7 +175,7 @@ class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with 
     }
   }
 
-  private def preserveExecutableBit(zipper: Zipper) {
+  private def preserveExecutableBit(zipper: Zipper): Unit = {
     val out = tmp resolve "exec.zip"
     val exec = tmp resolve "exec"
     Files createFile exec
