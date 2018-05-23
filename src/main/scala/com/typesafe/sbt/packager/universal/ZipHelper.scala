@@ -153,7 +153,7 @@ object ZipHelper {
     * @param f: FileSystem => Unit, logic working in the filesystem
     * @see http://stackoverflow.com/questions/9873845/java-7-zip-file-system-provider-doesnt-seem-to-accept-spaces-in-uri
     */
-  def withZipFilesystem(zipFile: File, overwrite: Boolean = true)(f: FileSystem => Unit) {
+  def withZipFilesystem(zipFile: File, overwrite: Boolean = true)(f: FileSystem => Unit): Unit = {
     if (overwrite) Files deleteIfExists zipFile.toPath
     val env = Map("create" -> "true").asJava
     val uri = new URI("jar", zipFile.toPath.toUri().toString(), null)

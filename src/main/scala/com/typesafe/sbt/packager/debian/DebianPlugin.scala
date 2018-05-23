@@ -380,7 +380,7 @@ trait DebianPluginLike {
     script
   }
 
-  private[debian] final def validateUserGroupNames(user: String, streams: TaskStreams) {
+  private[debian] final def validateUserGroupNames(user: String, streams: TaskStreams): Unit = {
     if ((UserNamePattern findFirstIn user).isEmpty) {
       streams.log.warn(
         "The user or group '" + user + "' may contain invalid characters for Debian based distributions"
