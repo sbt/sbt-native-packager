@@ -81,7 +81,7 @@ object DockerPlugin extends AutoPlugin {
     ),
     dockerUpdateLatest := false,
     dockerEntrypoint := Seq(s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
-    dockerCmd := Seq(),
+    dockerCmd := (dockerCmd in Docker).value,
     dockerExecCommand := Seq("docker"),
     dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!).toOption
       .map(_.trim)
