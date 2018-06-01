@@ -3,10 +3,10 @@ sbtPlugin := true
 name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 
-Global / scalaVersion := "2.12.5"
+Global / scalaVersion := "2.12.6"
 
 // crossBuildingSettings
-crossSbtVersions := Vector("0.13.17", "1.1.1")
+crossSbtVersions := Vector("0.13.17", "1.1.6")
 
 Compile / scalacOptions ++= Seq("-deprecation")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
