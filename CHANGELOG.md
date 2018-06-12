@@ -1,5 +1,31 @@
 # Change Log
 
+## [v1.3.5](https://github.com/sbt/sbt-native-packager/tree/v1.3.5) (2018-06-12)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.4...v1.3.5)
+
+**Fixed bugs:**
+
+- Error while `sbt debian:packageBin` [\#479](https://github.com/sbt/sbt-native-packager/issues/479)
+
+**Closed issues:**
+
+- how to package CLI app on MacOS? [\#1133](https://github.com/sbt/sbt-native-packager/issues/1133)
+- Java 10 breaks Unix launcher script [\#1128](https://github.com/sbt/sbt-native-packager/issues/1128)
+- systemd vendor preset: enabled - can I change this [\#1127](https://github.com/sbt/sbt-native-packager/issues/1127)
+- Auto generated scripts drop last character if its an `r`  [\#1121](https://github.com/sbt/sbt-native-packager/issues/1121)
+- Custom name for tgz archive [\#1120](https://github.com/sbt/sbt-native-packager/issues/1120)
+- sbt docker:stage fails but sbt docker:publishLocal works [\#1006](https://github.com/sbt/sbt-native-packager/issues/1006)
+- Support for rocket / rkt [\#557](https://github.com/sbt/sbt-native-packager/issues/557)
+
+**Merged pull requests:**
+
+- sbt 1.1.6 [\#1132](https://github.com/sbt/sbt-native-packager/pull/1132) ([sullis](https://github.com/sullis))
+- fix procedure syntax [\#1131](https://github.com/sbt/sbt-native-packager/pull/1131) ([xuwei-k](https://github.com/xuwei-k))
+- More grammar changes in docs [\#1126](https://github.com/sbt/sbt-native-packager/pull/1126) ([anilkumarmyla](https://github.com/anilkumarmyla))
+- Correct some typos and grammar [\#1125](https://github.com/sbt/sbt-native-packager/pull/1125) ([anilkumarmyla](https://github.com/anilkumarmyla))
+- fixes \#1121  [\#1122](https://github.com/sbt/sbt-native-packager/pull/1122) ([tobyweston](https://github.com/tobyweston))
+- Fix typo in TaskKey for rpmLint. [\#1119](https://github.com/sbt/sbt-native-packager/pull/1119) ([daanhoogenboezem](https://github.com/daanhoogenboezem))
+
 ## [v1.3.4](https://github.com/sbt/sbt-native-packager/tree/v1.3.4) (2018-04-06)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.3...v1.3.4)
 
