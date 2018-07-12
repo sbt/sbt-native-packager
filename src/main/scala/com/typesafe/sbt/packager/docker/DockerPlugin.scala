@@ -325,12 +325,12 @@ object DockerPlugin extends AutoPlugin {
           case s if s.startsWith("Sending build context") =>
             log.debug(s) // 1.0
           case s if !s.trim.isEmpty => log.error(s)
-          case s                    =>
+          case s =>
         }
 
       override def out(inf: => String): Unit = inf match {
         case s if !s.trim.isEmpty => log.info(s)
-        case s                    =>
+        case s =>
       }
 
       override def buffer[T](f: => T): T = f
@@ -350,7 +350,7 @@ object DockerPlugin extends AutoPlugin {
     def rmiDockerLogger(log: Logger) = new sys.process.ProcessLogger {
       override def err(err: => String): Unit = err match {
         case s if !s.trim.isEmpty => log.error(s)
-        case s                    =>
+        case s =>
       }
 
       override def out(inf: => String): Unit = log.info(inf)
@@ -377,7 +377,7 @@ object DockerPlugin extends AutoPlugin {
 
         override def err(err: => String): Unit = err match {
           case s if !s.trim.isEmpty => log.error(s)
-          case s                    =>
+          case s =>
         }
 
         override def out(inf: => String): Unit =
@@ -385,7 +385,7 @@ object DockerPlugin extends AutoPlugin {
             case s if s.startsWith("Please login") =>
               loginRequired.compareAndSet(false, true)
             case s if !loginRequired.get && !s.trim.isEmpty => log.info(s)
-            case s                                          =>
+            case s =>
           }
 
         override def buffer[T](f: => T): T = f
