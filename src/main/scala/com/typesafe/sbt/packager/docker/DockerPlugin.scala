@@ -76,27 +76,34 @@ object DockerPlugin extends AutoPlugin {
     dockerUsername := None,
     dockerAdditionalTags := Nil,
     dockerUpdateLatest := false,
-    dockerAlias := {
+    dockerUntaggedImage := false,
+    dockerAliases := {
       var tags = Seq((version in Docker).value)
       if (dockerUpdateLatest.value) {
         tags = tags :+ "latest"
       }
       tags ++= dockerAdditionalTags.value
-      DockerAlias(
-        (dockerRepository in Docker).value,
-        (dockerUsername in Docker).value,
-        (packageName in Docker).value,
-        tags
-      )
+      val registry = (dockerRepository in Docker).value
+      val username = (dockerUsername in Docker).value
+      val name = (packageName in Docker).value
+      val aliases = tags.map { tag =>
+        DockerAlias(registry, username, name, Option(tag))
+      }
+      if (dockerUntaggedImage.value) {
+        aliases :+ DockerAlias(registry, username, name, None)
+      } else {
+        aliases
+      }
     },
+    dockerAlias := dockerAliases.value.head, // alias tagged with (version in Docker)
     dockerEntrypoint := Seq(s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
     dockerCmd := Seq(),
     dockerExecCommand := Seq("docker"),
     dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!).toOption
       .map(_.trim)
       .flatMap(DockerVersion.parse),
-    dockerBuildOptions := Seq("--force-rm") ++ dockerAlias.value.value.flatMap { alias =>
-      Seq("-t", alias)
+    dockerBuildOptions := Seq("--force-rm") ++ dockerAliases.value.flatMap { alias =>
+      Seq("-t", alias.versioned)
     },
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
@@ -124,24 +131,26 @@ object DockerPlugin extends AutoPlugin {
       publishLocal := {
         val log = streams.value.log
         publishLocalDocker(stage.value, dockerBuildCommand.value, log)
-        log.info(s"Built image ${dockerAlias.value.untagged} with tags [${dockerAlias.value.tags.mkString(", ")}]")
+        log.info(
+          s"Built image ${dockerAlias.value.untagged} with tags [${dockerAliases.value.flatMap(_.tag).mkString(", ")}]"
+        )
       },
       publish := {
         val _ = publishLocal.value
-        val alias = dockerAlias.value
+        val alias = dockerAliases.value
         val log = streams.value.log
         val execCommand = dockerExecCommand.value
-        alias.value.foreach { aliasValue =>
-          publishDocker(execCommand, aliasValue, log)
+        alias.foreach { aliasValue =>
+          publishDocker(execCommand, aliasValue.versioned, log)
         }
       },
       clean := {
-        val alias = dockerAlias.value
+        val alias = dockerAliases.value
         val log = streams.value.log
         val rmiCommand = dockerRmiCommand.value
         // clean up images
-        alias.value.foreach { aliasValue =>
-          rmiDocker(rmiCommand, aliasValue, log)
+        alias.foreach { aliasValue =>
+          rmiDocker(rmiCommand, aliasValue.versioned, log)
         }
       },
       sourceDirectory := sourceDirectory.value / "docker",
