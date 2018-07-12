@@ -100,7 +100,7 @@ object DockerPlugin extends AutoPlugin {
       .map(_.trim)
       .flatMap(DockerVersion.parse),
     dockerBuildOptions := Seq("--force-rm") ++ dockerAliases.value.flatMap { alias =>
-      Seq("-t", alias.versioned)
+      Seq("-t", alias.tagged)
     },
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
@@ -138,7 +138,7 @@ object DockerPlugin extends AutoPlugin {
         val log = streams.value.log
         val execCommand = dockerExecCommand.value
         alias.foreach { aliasValue =>
-          publishDocker(execCommand, aliasValue.versioned, log)
+          publishDocker(execCommand, aliasValue.tagged, log)
         }
       },
       clean := {
@@ -147,7 +147,7 @@ object DockerPlugin extends AutoPlugin {
         val rmiCommand = dockerRmiCommand.value
         // clean up images
         alias.foreach { aliasValue =>
-          rmiDocker(rmiCommand, aliasValue.versioned, log)
+          rmiDocker(rmiCommand, aliasValue.tagged, log)
         }
       },
       sourceDirectory := sourceDirectory.value / "docker",

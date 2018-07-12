@@ -14,9 +14,6 @@ case class DockerAlias(registryHost: Option[String], username: Option[String], n
   /** Untagged image alias */
   val untagged: String = registryHost.map(_ + "/").getOrElse("") + username.map(_ + "/").getOrElse("") + name
 
-  /** Tag with version 'latest' */
-  val latest = s"$untagged:latest"
-
-  /** Seq of tagged docker image aliases */
-  val versioned: String = untagged + tag.map(":" + _).getOrElse("")
+  /** Tagged docker image alias */
+  val tagged: String = untagged + tag.map(":" + _).getOrElse("")
 }

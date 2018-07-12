@@ -58,7 +58,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
   def publishLocalDocker: Def.Initialize[Task[Unit]] = Def.task {
     val context = stage.value
-    val tags = dockerAlias.value.value
+    val aliases = dockerAliases.value
     val log = streams.value.log
 
     val dockerDirectory = context.toString
@@ -66,10 +66,10 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
     log.info(s"PublishLocal using Docker API ${docker.version().apiVersion()}")
 
-    tags.headOption.foreach { primaryTag =>
+    aliases.headOption.foreach { primaryTag =>
       docker.build(
         Paths.get(dockerDirectory),
-        primaryTag,
+        primaryTag.tagged,
         (message: ProgressMessage) =>
           Option(message.error()) match {
             case Some(error) if error.nonEmpty => log.error(message.error())
@@ -78,9 +78,9 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
         BuildParam.forceRm()
       )
 
-      if (tags.lengthCompare(1) > 0) {
-        tags.drop(1).foreach { tag =>
-          docker.tag(primaryTag, tag, true)
+      if (aliases.lengthCompare(1) > 0) {
+        aliases.drop(1).foreach { tag =>
+          docker.tag(primaryTag.tagged, tag.tagged, true)
         }
       }
     }
