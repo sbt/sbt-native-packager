@@ -178,7 +178,7 @@ object DockerPlugin extends AutoPlugin {
 
   /**
     * @param envVar
-    * @return LABEL command
+    * @return ENV command
     */
   private final def makeEnvVar(envVar: (String, String)): CmdLike = {
     val (variable, value) = envVar
