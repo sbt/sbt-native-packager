@@ -4,7 +4,7 @@ import java.nio.file.Paths
 
 import com.spotify.docker.client.DockerClient.BuildParam
 import com.spotify.docker.client.messages.ProgressMessage
-import com.spotify.docker.client.{DefaultDockerClient, DockerClient}
+import com.spotify.docker.client.{DefaultDockerClient, DockerClient, ProgressHandler}
 import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stage
 import sbt.Keys._
 import sbt._
@@ -67,16 +67,13 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
     log.info(s"PublishLocal using Docker API ${docker.version().apiVersion()}")
 
     aliases.headOption.foreach { primaryTag =>
-      docker.build(
-        Paths.get(dockerDirectory),
-        primaryTag.tagged,
-        (message: ProgressMessage) =>
+      docker.build(Paths.get(dockerDirectory), primaryTag.tagged, new ProgressHandler {
+        override def progress(message: ProgressMessage): Unit =
           Option(message.error()) match {
             case Some(error) if error.nonEmpty => log.error(message.error())
             case _ => Option(message.stream()) foreach (v => log.info(v))
-        },
-        BuildParam.forceRm()
-      )
+          }
+      }, BuildParam.forceRm())
 
       if (aliases.lengthCompare(1) > 0) {
         aliases.drop(1).foreach { tag =>
