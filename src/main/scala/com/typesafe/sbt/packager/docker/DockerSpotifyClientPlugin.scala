@@ -2,12 +2,12 @@ package com.typesafe.sbt.packager.docker
 
 import java.nio.file.Paths
 
-import com.spotify.docker.client.messages.ProgressMessage
-import com.spotify.docker.client.{DefaultDockerClient, DockerClient, ProgressHandler}
 import com.spotify.docker.client.DockerClient.BuildParam
-import sbt._
-import sbt.Keys._
+import com.spotify.docker.client.messages.ProgressMessage
+import com.spotify.docker.client.{DefaultDockerClient, DockerClient}
 import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stage
+import sbt.Keys._
+import sbt._
 
 /**
   * == DockerSpotifyClientPlugin Plugin ==
@@ -58,8 +58,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
   def publishLocalDocker: Def.Initialize[Task[Unit]] = Def.task {
     val context = stage.value
-    val tag = dockerAlias.value.versioned
-    val latest = dockerUpdateLatest.value
+    val tags = dockerAlias.value.value
     val log = streams.value.log
 
     val dockerDirectory = context.toString
@@ -67,17 +66,23 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
     log.info(s"PublishLocal using Docker API ${docker.version().apiVersion()}")
 
-    docker.build(Paths.get(dockerDirectory), tag, new ProgressHandler() {
-      def progress(message: ProgressMessage): Unit =
-        Option(message.error()) match {
-          case Some(error) if error.nonEmpty => log.error(message.error())
-          case _ => Option(message.stream()) foreach (v => log.info(v))
-        }
-    }, BuildParam.forceRm())
+    tags.headOption.foreach { primaryTag =>
+      docker.build(
+        Paths.get(dockerDirectory),
+        primaryTag,
+        (message: ProgressMessage) =>
+          Option(message.error()) match {
+            case Some(error) if error.nonEmpty => log.error(message.error())
+            case _                             => Option(message.stream()) foreach (v => log.info(v))
+        },
+        BuildParam.forceRm()
+      )
 
-    if (latest) {
-      val name = tag.substring(0, tag.lastIndexOf(":")) + ":latest"
-      docker.tag(tag, name, true)
+      if (tags.lengthCompare(1) > 0) {
+        tags.drop(1).foreach { tag =>
+          docker.tag(primaryTag, tag, true)
+        }
+      }
     }
   }
 
