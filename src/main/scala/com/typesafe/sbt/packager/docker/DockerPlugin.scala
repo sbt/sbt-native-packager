@@ -78,14 +78,11 @@ object DockerPlugin extends AutoPlugin {
     dockerUpdateLatest := false,
     dockerUntaggedImage := false,
     dockerAliases := {
-      var tags = Seq((version in Docker).value)
-      if (dockerUpdateLatest.value) {
-        tags = tags :+ "latest"
-      }
-      tags ++= dockerAdditionalTags.value
       val registry = (dockerRepository in Docker).value
       val username = (dockerUsername in Docker).value
       val name = (packageName in Docker).value
+
+      val tags = Seq(Option((version in Docker).value), if (dockerUpdateLatest.value) Some("latest") else None).flatten ++ dockerAdditionalTags.value
       val aliases = tags.map { tag =>
         DockerAlias(registry, username, name, Option(tag))
       }
