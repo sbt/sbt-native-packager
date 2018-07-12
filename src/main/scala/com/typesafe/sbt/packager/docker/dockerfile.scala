@@ -36,7 +36,7 @@ trait CmdLike {
   * }}}
   */
 case class ExecCmd(cmd: String, args: String*) extends CmdLike {
-  def makeContent =
+  def makeContent: String =
     "%s [%s]\n" format (cmd, args.map('"' + _ + '"').mkString(", "))
 }
 
@@ -59,7 +59,7 @@ case class ExecCmd(cmd: String, args: String*) extends CmdLike {
   * }}}
   */
 case class Cmd(cmd: String, args: String*) extends CmdLike {
-  def makeContent = "%s %s\n" format (cmd, args.mkString(" "))
+  def makeContent: String = "%s %s\n" format (cmd, args.mkString(" "))
 }
 
 /**
@@ -76,7 +76,7 @@ case class Cmd(cmd: String, args: String*) extends CmdLike {
   * }}}
   */
 case class CombinedCmd(cmd: String, arg: CmdLike) extends CmdLike {
-  def makeContent = "%s %s\n" format (cmd, arg.makeContent)
+  def makeContent: String = "%s %s\n" format (cmd, arg.makeContent)
 }
 
 /** Represents dockerfile used by docker when constructing packages. */

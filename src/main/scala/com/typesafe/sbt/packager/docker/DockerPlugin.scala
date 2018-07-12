@@ -61,7 +61,7 @@ object DockerPlugin extends AutoPlugin {
     */
   val UnixSeparatorChar = '/'
 
-  override def requires = UniversalPlugin
+  override def requires: Plugins = UniversalPlugin
 
   override def projectConfigurations: Seq[Configuration] = Seq(Docker)
 
@@ -71,6 +71,7 @@ object DockerPlugin extends AutoPlugin {
     dockerExposedUdpPorts := Seq(),
     dockerExposedVolumes := Seq(),
     dockerLabels := Map(),
+    dockerEnvVars := Map(),
     dockerRepository := None,
     dockerUsername := None,
     dockerAlias := DockerAlias(
@@ -104,6 +105,7 @@ object DockerPlugin extends AutoPlugin {
       generalCommands ++
         Seq(makeWorkdir(dockerBaseDirectory)) ++ makeAdd(dockerVersion.value, dockerBaseDirectory, user, group) ++
         dockerLabels.value.map(makeLabel) ++
+        dockerEnvVars.value.map(makeEnvVar) ++
         makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
         makeVolumes(dockerExposedVolumes.value, user, group) ++
         Seq(makeUser(user), makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
@@ -173,6 +175,15 @@ object DockerPlugin extends AutoPlugin {
   private final def makeLabel(label: (String, String)): CmdLike = {
     val (variable, value) = label
     Cmd("LABEL", variable + "=\"" + value.toString + "\"")
+  }
+
+  /**
+    * @param envVar
+    * @return ENV command
+    */
+  private final def makeEnvVar(envVar: (String, String)): CmdLike = {
+    val (variable, value) = envVar
+    Cmd("ENV", variable + "=\"" + value.toString + "\"")
   }
 
   /**

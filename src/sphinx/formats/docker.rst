@@ -110,6 +110,9 @@ Environment Settings
   ``dockerLabels``
     A map of labels that will be applied to the Docker image.
 
+  ``dockerEnvVars``
+    A map of environment variables that will be applied to the Docker image.
+
   ``dockerEntrypoint``
     Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
     Defaults to the bash executable script, available at ``bin/<script name>`` in the current ``WORKDIR`` of ``/opt/docker``.
