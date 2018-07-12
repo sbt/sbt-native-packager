@@ -54,7 +54,7 @@ and this to your ``plugins.sbt``
 
 .. code-block:: scala
 
-  libraryDependencies += "com.spotify" % "docker-client" % "3.5.13"
+  libraryDependencies += "com.spotify" % "docker-client" % "8.9.0"
 
 The Docker-spotify client is a provided dependency. You have to explicitly add it on your own. It brings a lot of dependencies
 that could slow your build times. This is the reason the dependency is marked as provided.
@@ -132,10 +132,21 @@ Publishing Settings
   ``dockerUpdateLatest``
     The flag to automatic update the latest tag when the ``docker:publish`` task is run. Default value is ``FALSE``.  In order to use this setting, the minimum docker console version required is 1.10. See https://github.com/sbt/sbt-native-packager/issues/871 for a detailed explanation.
 
+  ``dockerAdditionalTags``
+    The tags for docker images in addition to project version and ``latest`` tag (if ``dockerUpdateLatest`` is enabled).
+
+  ``dockerUntaggedImage``
+    The flag to make untagged image.
+
   ``dockerAlias``
     The alias to be used for tagging the resulting image of the Docker build.
     The type of the setting key is ``DockerAlias``.
     Defaults to ``[dockerRepository/][dockerUsername/][packageName]:[version]``.
+
+  ``dockerAliases``
+    The list of aliases to be used for tagging the resulting image of the Docker build.
+    The type of the setting key is ``Seq[DockerAlias]``.
+    Alias values are in format of ``[dockerRepository/][dockerUsername/][packageName]:[tag]`` where tags are list of including project version, latest tag if ``dockerUpdateLatest`` is enabled, values of ``dockerAdditionalTags`` and empty tag if ``dockerUntaggedImage`` is enabled.
 
   ``dockerBuildOptions``
     Overrides the default Docker build options.
