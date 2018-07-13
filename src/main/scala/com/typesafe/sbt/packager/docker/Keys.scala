@@ -25,9 +25,6 @@ trait DockerKeys {
     SettingKey[Seq[DockerAlias]]("dockerAliases", "Docker aliases for the built image")
   val dockerUpdateLatest =
     SettingKey[Boolean]("dockerUpdateLatest", "Set to update latest tag")
-  val dockerUntaggedImage =
-    SettingKey[Boolean]("dockerUntaggedImage", "Generate untagged docker image")
-  val dockerAdditionalTags = SettingKey[Seq[String]]("dockerAdditionalTags", "Docker image tags")
   val dockerEntrypoint = SettingKey[Seq[String]]("dockerEntrypoint", "Entrypoint arguments passed in exec form")
   val dockerCmd = SettingKey[Seq[String]](
     "dockerCmd",

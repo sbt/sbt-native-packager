@@ -11,9 +11,17 @@ package com.typesafe.sbt.packager.docker
   */
 case class DockerAlias(registryHost: Option[String], username: Option[String], name: String, tag: Option[String]) {
 
-  /** Untagged image alias */
-  val untagged: String = registryHost.map(_ + "/").getOrElse("") + username.map(_ + "/").getOrElse("") + name
+  def withRegistryHost(registryHost: Option[String]): DockerAlias = copy(registryHost = registryHost)
 
-  /** Tagged docker image alias */
-  val tagged: String = untagged + tag.map(":" + _).getOrElse("")
+  def withUsername(username: Option[String]): DockerAlias = copy(username = username)
+
+  def withName(name: String): DockerAlias = copy(name = name)
+
+  def withTag(tag: Option[String]): DockerAlias = copy(tag = tag)
+
+  override def toString: String =
+    registryHost.map(_ + "/").getOrElse("") +
+      username.map(_ + "/").getOrElse("") +
+      name +
+      tag.map(":" + _).getOrElse("")
 }

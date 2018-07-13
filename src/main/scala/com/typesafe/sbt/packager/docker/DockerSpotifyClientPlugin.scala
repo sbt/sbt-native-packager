@@ -58,6 +58,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
   def publishLocalDocker: Def.Initialize[Task[Unit]] = Def.task {
     val context = stage.value
+    val primaryAlias = dockerAlias.value
     val aliases = dockerAliases.value
     val log = streams.value.log
 
@@ -66,20 +67,16 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
     log.info(s"PublishLocal using Docker API ${docker.version().apiVersion()}")
 
-    aliases.headOption.foreach { primaryTag =>
-      docker.build(Paths.get(dockerDirectory), primaryTag.tagged, new ProgressHandler {
-        override def progress(message: ProgressMessage): Unit =
-          Option(message.error()) match {
-            case Some(error) if error.nonEmpty => log.error(message.error())
-            case _ => Option(message.stream()) foreach (v => log.info(v))
-          }
-      }, BuildParam.forceRm())
-
-      if (aliases.lengthCompare(1) > 0) {
-        aliases.drop(1).foreach { tag =>
-          docker.tag(primaryTag.tagged, tag.tagged, true)
+    docker.build(Paths.get(dockerDirectory), primaryAlias.toString, new ProgressHandler {
+      override def progress(message: ProgressMessage): Unit =
+        Option(message.error()) match {
+          case Some(error) if error.nonEmpty => log.error(message.error())
+          case _                             => Option(message.stream()) foreach (v => log.info(v))
         }
-      }
+    }, BuildParam.forceRm())
+
+    aliases.foreach { tag =>
+      docker.tag(primaryAlias.toString, tag.toString, true)
     }
   }
 
