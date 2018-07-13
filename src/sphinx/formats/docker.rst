@@ -132,12 +132,6 @@ Publishing Settings
   ``dockerUpdateLatest``
     The flag to automatic update the latest tag when the ``docker:publish`` task is run. Default value is ``FALSE``.  In order to use this setting, the minimum docker console version required is 1.10. See https://github.com/sbt/sbt-native-packager/issues/871 for a detailed explanation.
 
-  ``dockerAdditionalTags``
-    The tags for docker images in addition to project version and ``latest`` tag (if ``dockerUpdateLatest`` is enabled).
-
-  ``dockerUntaggedImage``
-    The flag to make untagged image.
-
   ``dockerAlias``
     The alias to be used for tagging the resulting image of the Docker build.
     The type of the setting key is ``DockerAlias``.
@@ -146,7 +140,9 @@ Publishing Settings
   ``dockerAliases``
     The list of aliases to be used for tagging the resulting image of the Docker build.
     The type of the setting key is ``Seq[DockerAlias]``.
-    Alias values are in format of ``[dockerRepository/][dockerUsername/][packageName]:[tag]`` where tags are list of including project version, latest tag if ``dockerUpdateLatest`` is enabled, values of ``dockerAdditionalTags`` and empty tag if ``dockerUntaggedImage`` is enabled.
+    Alias values are in format of ``[dockerRepository/][dockerUsername/][packageName]:[tag]`` where tags are list of including your project version and ``latest`` tag(if ``dockerUpdateLatest`` is enabled).
+    To append additional aliases to this list, you can add them by extending ``dockerAlias``.
+    ``dockerAliases ++= Seq(dockerAlias.value.withTag(Option("stable")), dockerAlias.value.withRegistryHost(Option("registry.internal.yourdomain.com")))``
 
   ``dockerBuildOptions``
     Overrides the default Docker build options.
