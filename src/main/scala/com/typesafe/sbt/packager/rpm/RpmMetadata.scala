@@ -167,8 +167,8 @@ case class RpmSpec(meta: RpmMetadata,
     val sb = new StringBuilder
     meta.config.toLowerCase match {
       case "false" => ()
-      case "true" => sb append "%config "
-      case x => sb append ("%config(" + x + ") ")
+      case "true"  => sb append "%config "
+      case x       => sb append ("%config(" + x + ") ")
     }
     if (meta.docs) sb append "%doc "
     if (isDir) sb append "%dir "

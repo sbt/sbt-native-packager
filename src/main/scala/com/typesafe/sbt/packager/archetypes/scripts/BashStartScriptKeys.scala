@@ -20,10 +20,8 @@ trait BashStartScriptKeys {
        |""".stripMargin
   )
 
-  val bashScriptDefines = TaskKey[Seq[String]](
-    "bashScriptDefines",
-    "A list of definitions that should be written to the bash file template."
-  )
+  val bashScriptDefines =
+    TaskKey[Seq[String]]("bashScriptDefines", "A list of definitions that should be written to the bash file template.")
   val bashScriptExtraDefines = TaskKey[Seq[String]](
     "bashScriptExtraDefines",
     "A list of extra definitions that should be written to the bash file template."

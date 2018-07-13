@@ -129,10 +129,8 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
     else
       ""
 
-  override protected[this] def createReplacementsForMainScript(
-    mainClass: String,
-    mainClasses: Seq[String],
-    config: SpecializedScriptConfig
-  ): Seq[(String, String)] =
+  override protected[this] def createReplacementsForMainScript(mainClass: String,
+                                                               mainClasses: Seq[String],
+                                                               config: SpecializedScriptConfig): Seq[(String, String)] =
     Seq("app_mainclass" -> mainClass, "available_main_classes" -> usageMainClassReplacement(mainClasses)) ++ config.replacements
 }

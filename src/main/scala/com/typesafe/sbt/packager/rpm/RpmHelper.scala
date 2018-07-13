@@ -88,7 +88,7 @@ object RpmHelper {
     IO.withTemporaryDirectory { tmpRpmBuildDir =>
       val args: Seq[String] = (spec.setarch match {
         case Some(arch) => Seq("setarch", arch)
-        case None => Seq()
+        case None       => Seq()
       }) ++ Seq(
         "rpmbuild",
         "-bb",
