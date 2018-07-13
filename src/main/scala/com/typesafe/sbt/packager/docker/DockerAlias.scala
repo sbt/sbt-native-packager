@@ -10,11 +10,18 @@ package com.typesafe.sbt.packager.docker
   * @param tag Optional tag for the image, e.g. the version
   */
 case class DockerAlias(registryHost: Option[String], username: Option[String], name: String, tag: Option[String]) {
-  protected val untagged = registryHost.map(_ + "/").getOrElse("") + username.map(_ + "/").getOrElse("") + name
 
-  /** Tag with (optional) given version */
-  val versioned = untagged + tag.map(":" + _).getOrElse("")
+  def withRegistryHost(registryHost: Option[String]): DockerAlias = copy(registryHost = registryHost)
 
-  /** Tag with version 'latest' */
-  val latest = s"$untagged:latest"
+  def withUsername(username: Option[String]): DockerAlias = copy(username = username)
+
+  def withName(name: String): DockerAlias = copy(name = name)
+
+  def withTag(tag: Option[String]): DockerAlias = copy(tag = tag)
+
+  override def toString: String =
+    registryHost.map(_ + "/").getOrElse("") +
+      username.map(_ + "/").getOrElse("") +
+      name +
+      tag.map(":" + _).getOrElse("")
 }

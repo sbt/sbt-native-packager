@@ -78,21 +78,26 @@ object DockerPlugin extends AutoPlugin {
       (dockerRepository in Docker).value,
       (dockerUsername in Docker).value,
       (packageName in Docker).value,
-      Some((version in Docker).value)
+      Option((version in Docker).value)
     ),
     dockerUpdateLatest := false,
+    dockerAliases := {
+      val alias = dockerAlias.value
+      if (dockerUpdateLatest.value) {
+        Seq(alias, alias.withTag(Option("latest")))
+      } else {
+        Seq(alias)
+      }
+    },
     dockerEntrypoint := Seq(s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
     dockerCmd := Seq(),
     dockerExecCommand := Seq("docker"),
     dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!).toOption
       .map(_.trim)
       .flatMap(DockerVersion.parse),
-    dockerBuildOptions := Seq("--force-rm") ++ Seq("-t", dockerAlias.value.versioned) ++ (
-      if (dockerUpdateLatest.value)
-        Seq("-t", dockerAlias.value.latest)
-      else
-        Seq()
-    ),
+    dockerBuildOptions := Seq("--force-rm") ++ dockerAliases.value.flatMap { alias =>
+      Seq("-t", alias.toString)
+    },
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerCommands := {
@@ -119,26 +124,26 @@ object DockerPlugin extends AutoPlugin {
       publishLocal := {
         val log = streams.value.log
         publishLocalDocker(stage.value, dockerBuildCommand.value, log)
-        log.info(s"Built image ${dockerAlias.value.versioned}")
+        log.info(
+          s"Built image ${dockerAlias.value.withTag(None).toString} with tags [${dockerAliases.value.flatMap(_.tag).mkString(", ")}]"
+        )
       },
       publish := {
         val _ = publishLocal.value
-        val alias = dockerAlias.value
+        val alias = dockerAliases.value
         val log = streams.value.log
         val execCommand = dockerExecCommand.value
-        publishDocker(execCommand, alias.versioned, log)
-        if (dockerUpdateLatest.value) {
-          publishDocker(execCommand, alias.latest, log)
+        alias.foreach { aliasValue =>
+          publishDocker(execCommand, aliasValue.toString, log)
         }
       },
       clean := {
-        val alias = dockerAlias.value
+        val alias = dockerAliases.value
         val log = streams.value.log
         val rmiCommand = dockerRmiCommand.value
         // clean up images
-        rmiDocker(rmiCommand, alias.versioned, log)
-        if (dockerUpdateLatest.value) {
-          rmiDocker(rmiCommand, alias.latest, log)
+        alias.foreach { aliasValue =>
+          rmiDocker(rmiCommand, aliasValue.toString, log)
         }
       },
       sourceDirectory := sourceDirectory.value / "docker",
@@ -325,12 +330,12 @@ object DockerPlugin extends AutoPlugin {
           case s if s.startsWith("Sending build context") =>
             log.debug(s) // 1.0
           case s if !s.trim.isEmpty => log.error(s)
-          case s =>
+          case s                    =>
         }
 
       override def out(inf: => String): Unit = inf match {
         case s if !s.trim.isEmpty => log.info(s)
-        case s =>
+        case s                    =>
       }
 
       override def buffer[T](f: => T): T = f
@@ -350,7 +355,7 @@ object DockerPlugin extends AutoPlugin {
     def rmiDockerLogger(log: Logger) = new sys.process.ProcessLogger {
       override def err(err: => String): Unit = err match {
         case s if !s.trim.isEmpty => log.error(s)
-        case s =>
+        case s                    =>
       }
 
       override def out(inf: => String): Unit = log.info(inf)
@@ -377,7 +382,7 @@ object DockerPlugin extends AutoPlugin {
 
         override def err(err: => String): Unit = err match {
           case s if !s.trim.isEmpty => log.error(s)
-          case s =>
+          case s                    =>
         }
 
         override def out(inf: => String): Unit =
@@ -385,7 +390,7 @@ object DockerPlugin extends AutoPlugin {
             case s if s.startsWith("Please login") =>
               loginRequired.compareAndSet(false, true)
             case s if !loginRequired.get && !s.trim.isEmpty => log.info(s)
-            case s =>
+            case s                                          =>
           }
 
         override def buffer[T](f: => T): T = f

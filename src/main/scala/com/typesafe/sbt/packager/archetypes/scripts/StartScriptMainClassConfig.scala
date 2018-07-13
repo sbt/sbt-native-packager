@@ -45,7 +45,7 @@ object StartScriptMainClassConfig {
     (mainClass, additionalMainClasses) match {
       // only one main - create the default script
       case (Some(main), Seq()) => SingleMain(main)
-      case (None, Seq(main)) => SingleMain(main)
+      case (None, Seq(main))   => SingleMain(main)
       // main explicitly set and multiple discoveredMainClasses
       case (Some(main), additional) => ExplicitMainWithAdditional(main, additional)
       // no main class at all

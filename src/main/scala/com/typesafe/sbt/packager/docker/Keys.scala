@@ -21,6 +21,8 @@ trait DockerKeys {
   val dockerUsername = SettingKey[Option[String]]("dockerUsername", "Username for published Docker image")
   val dockerAlias =
     SettingKey[DockerAlias]("dockerAlias", "Docker alias for the built image")
+  val dockerAliases =
+    SettingKey[Seq[DockerAlias]]("dockerAliases", "Docker aliases for the built image")
   val dockerUpdateLatest =
     SettingKey[Boolean]("dockerUpdateLatest", "Set to update latest tag")
   val dockerEntrypoint = SettingKey[Seq[String]]("dockerEntrypoint", "Entrypoint arguments passed in exec form")

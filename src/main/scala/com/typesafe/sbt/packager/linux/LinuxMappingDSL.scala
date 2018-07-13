@@ -45,7 +45,7 @@ trait LinuxMappingDSL {
   def configWithNoReplace(mappings: Seq[LinuxPackageMapping]): Seq[LinuxPackageMapping] =
     mappings.map {
       case mapping if mapping.fileData.config != "false" => mapping.withConfig("noreplace")
-      case mapping => mapping
+      case mapping                                       => mapping
     }
 }
 

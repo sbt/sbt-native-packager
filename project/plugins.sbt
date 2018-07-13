@@ -12,4 +12,4 @@ libraryDependencies += "jline" % "jline" % "2.11"
 addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.1")
 
 // For code formatting
-addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.10")
+addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.15")

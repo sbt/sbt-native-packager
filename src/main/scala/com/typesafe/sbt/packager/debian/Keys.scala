@@ -16,10 +16,8 @@ trait DebianKeys {
     SettingKey[Seq[String]]("debian-package-dependencies", "Packages that this debian package depends on.")
   val debianPackageProvides =
     SettingKey[Seq[String]]("debian-package-provides", "Packages that are provided by the currently packaged one.")
-  val debianPackageRecommends = SettingKey[Seq[String]](
-    "debian-package-recommends",
-    "Packages recommended to use with the currently packaged one."
-  )
+  val debianPackageRecommends =
+    SettingKey[Seq[String]]("debian-package-recommends", "Packages recommended to use with the currently packaged one.")
   val debianPackageInfo =
     SettingKey[PackageInfo]("debian-package-info", "Information (name, version, etc.) about a debian package.")
   val debianPackageMetadata =
