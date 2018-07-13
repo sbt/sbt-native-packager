@@ -6,6 +6,6 @@ version := "0.1.0"
 
 maintainer := "Gary Coady <gary@lyranthe.org>"
 
-dockerAdditionalTags := Seq("0.1", "0")
+dockerAliases ++= Seq(dockerAlias.value.withTag(Option("0.1")))
 
 dockerUpdateLatest := true
