@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Linux Plugin &mdash; sbt-native-packager 1.3.2 documentation</title>
+  <title>Linux Plugin &mdash; sbt-native-packager 1.3.6-SNAPSHOT documentation</title>
   
 
+  
+  
   
   
 
@@ -22,29 +24,21 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="../index.html"/>
-        <link rel="up" title="Packaging Formats" href="index.html"/>
-        <link rel="next" title="Debian Plugin" href="debian.html"/>
-        <link rel="prev" title="Universal Plugin" href="universal.html"/> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Debian Plugin" href="debian.html" />
+    <link rel="prev" title="Universal Plugin" href="universal.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +79,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
@@ -159,6 +156,7 @@
 <li class="toctree-l3"><a class="reference internal" href="debian.html#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debian.html#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#jre-dependencies">JRE Dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#java-based-packaging">Java based packaging</a></li>
 </ul>
@@ -270,6 +268,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#multiple-applications">Multiple Applications</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#multiple-start-scripts">Multiple start scripts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#a-note-on-script-names">A note on script names</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#customize">Customize</a><ul>
@@ -409,36 +408,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">sbt-native-packager</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sbt-native-packager</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="index.html">Packaging Formats</a> &raquo;</li>
-      
-    <li>Linux Plugin</li>
+        
+      <li>Linux Plugin</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/formats/linux.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -519,19 +538,19 @@ you have these settings in your build:</p>
 <h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="package-mappings">
 <h3>Package Mappings<a class="headerlink" href="#package-mappings" title="Permalink to this headline">¶</a></h3>
-<p>Most of the work in generating a linux package is constructing package mappings.  These &#8216;map&#8217; a file to a location on disk where it should
+<p>Most of the work in generating a linux package is constructing package mappings.  These ‘map’ a file to a location on disk where it should
 reside as well as information about that file. Package mappings allow the specification of file ownership, permissions and whether or not
-the file can be considered &#8220;configuration&#8221;.</p>
+the file can be considered “configuration”.</p>
 <blockquote>
 <div>Note that while the <code class="docutils literal"><span class="pre">sbt-native-packager</span></code> plugin allows you to specify all of this information, not all platforms will make use of the
-information.  It&#8217;s best to be specific about how you want files handled and run tests on each platform you wish to deploy to.</div></blockquote>
+information.  It’s best to be specific about how you want files handled and run tests on each platform you wish to deploy to.</div></blockquote>
 <p>A package mapping takes this general form</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">packageMapping</span><span class="o">(</span>
     <span class="n">file</span> <span class="o">-&gt;</span> <span class="s">&quot;/usr/share/man/man1/sbt.1.gz&quot;</span>
   <span class="o">)</span> <span class="n">withPerms</span> <span class="s">&quot;0644&quot;</span> <span class="n">gzipped</span><span class="o">)</span> <span class="n">asDocs</span><span class="o">()</span>
 </pre></div>
 </div>
-<p>Let&#8217;s look at each of the methods supported in the packageMapping &#8216;library&#8217;.</p>
+<p>Let’s look at each of the methods supported in the packageMapping ‘library’.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">packageMapping(mappings:</span> <span class="pre">(File,</span> <span class="pre">String)*)</span></code></dt>
@@ -563,7 +582,7 @@ instances yourself you have to add <code class="docutils literal"><span class="p
 <dt><code class="docutils literal"><span class="pre">mappings:</span> <span class="pre">Traversable[(File,</span> <span class="pre">String)]</span></code></dt>
 <dd>A list of mappings aggregated by this LinuxPackageMapping</dd>
 <dt><code class="docutils literal"><span class="pre">fileData:</span> <span class="pre">LinuxFileMetaData</span></code></dt>
-<dd>Permissions for all the defined mappings. Default = &#8220;root:root 755&#8221;</dd>
+<dd>Permissions for all the defined mappings. Default = “root:root 755”</dd>
 <dt><code class="docutils literal"><span class="pre">zipped:</span> <span class="pre">Boolean</span></code></dt>
 <dd>Are the mappings zipped? Default = false</dd>
 </dl>
@@ -577,13 +596,13 @@ open the sbt console and call</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">user:</span> <span class="pre">String</span></code></dt>
-<dd>The user owning all the mappings. Default = &#8220;root&#8221;</dd>
+<dd>The user owning all the mappings. Default = “root”</dd>
 <dt><code class="docutils literal"><span class="pre">group:</span> <span class="pre">String</span></code></dt>
-<dd>The group owning all the mappings. Default = &#8220;root&#8221;</dd>
+<dd>The group owning all the mappings. Default = “root”</dd>
 <dt><code class="docutils literal"><span class="pre">permissions:</span> <span class="pre">String</span></code></dt>
-<dd>Access permissions for all the mappings. Default = &#8220;755&#8221;</dd>
+<dd>Access permissions for all the mappings. Default = “755”</dd>
 <dt><code class="docutils literal"><span class="pre">config:</span> <span class="pre">String</span></code></dt>
-<dd>Are the mappings config files. Default = &#8220;false&#8221;</dd>
+<dd>Are the mappings config files. Default = “false”</dd>
 <dt><code class="docutils literal"><span class="pre">docs:</span> <span class="pre">Boolean</span></code></dt>
 <dd>Are the mappings docs. Default = false</dd>
 </dl>
@@ -617,7 +636,7 @@ This section shows you the general way to add, modify, or filter mappings.  The 
 </pre></div>
 </div>
 <p>To <strong>filter</strong> or <strong>modify</strong> a mapping, you generally create a new mapping by copying an existing one (or occasionally by creating a new blank one),
-then filter or modify it, and then return that filtered or modified mapping.  Here&#8217;s an example that shows a number of things you can <em>possibly</em> do.  See the next section for specifc examples.
+then filter or modify it, and then return that filtered or modified mapping.  Here’s an example that shows a number of things you can <em>possibly</em> do.  See the next section for specifc examples.
 (Basic scala collections operations are used in the code. <a class="reference external" href="https://twitter.github.io/scala_school/collections.html#filter">Here is an explanation of the filter method</a>.)</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// sbt 0.13.0 syntax</span>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
@@ -763,7 +782,7 @@ useful if the service needs some location to store files.</p>
 <p>There are many ways to document your projects, and many ways to expose them.  While the native packager places
 no limit on WHAT is included in a package, there are some things which receive special treatment.</p>
 <p>Specifically: linux man pages.</p>
-<p>To create a linux man page for the application, let&#8217;s create a <code class="docutils literal"><span class="pre">src/linux/usr/share/man/man1/example-cli.1</span></code> file</p>
+<p>To create a linux man page for the application, let’s create a <code class="docutils literal"><span class="pre">src/linux/usr/share/man/man1/example-cli.1</span></code> file</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>.<span class="se">\&quot;</span> Process this file with
 .<span class="se">\&quot;</span> groff -man -Tascii example-cli.1
 .<span class="se">\&quot;</span>
@@ -777,11 +796,11 @@ example-cli <span class="se">\-</span> Example CLI
 <p>Notice the location of the file.  Any file under <code class="docutils literal"><span class="pre">src/linux</span></code> is automatically included,
 relative to <code class="docutils literal"><span class="pre">/</span></code>, in linux packages (deb, rpm).  That means the man file will <strong>not</strong> appear
 in the universal package (confusing linux users).</p>
-<p>Now that the man page is created, we can use a few tasks provided to view it in sbt.  Let&#8217;s look in the sbt console</p>
+<p>Now that the man page is created, we can use a few tasks provided to view it in sbt.  Let’s look in the sbt console</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>sbt generateManPages
 </pre></div>
 </div>
-<p>We can use this task to work on the man pages and ensure they&#8217;ll look OK.  You can also directly use <code class="docutils literal"><span class="pre">groff</span></code> to view
+<p>We can use this task to work on the man pages and ensure they’ll look OK.  You can also directly use <code class="docutils literal"><span class="pre">groff</span></code> to view
 changes in your man pages.</p>
 <p>In addition to providing the means to view the man page, the native packager will also automatically <code class="docutils literal"><span class="pre">gzip</span></code> man pages
 for the distribution.  The resulting man page is stored in <code class="docutils literal"><span class="pre">/usr/share/man/man1/example-cli.1.gz</span></code> in linux distributions.</p>
@@ -791,15 +810,16 @@ for the distribution.  The resulting man page is stored in <code class="docutils
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="debian.html" class="btn btn-neutral float-right" title="Debian Plugin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="debian.html" class="btn btn-neutral float-right" title="Debian Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="universal.html" class="btn btn-neutral" title="Universal Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="universal.html" class="btn btn-neutral" title="Universal Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -812,7 +832,7 @@ for the distribution.  The resulting man page is stored in <code class="docutils
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -830,10 +850,12 @@ for the distribution.  The resulting man page is stored in <code class="docutils
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.2',
+            VERSION:'1.3.6-SNAPSHOT',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -842,19 +864,13 @@ for the distribution.  The resulting man page is stored in <code class="docutils
 
   
 
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

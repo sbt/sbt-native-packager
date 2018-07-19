@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SBT Native Packager &mdash; sbt-native-packager 1.3.2 documentation</title>
+  <title>SBT Native Packager &mdash; sbt-native-packager 1.3.6-SNAPSHOT documentation</title>
   
 
+  
+  
   
   
 
@@ -22,27 +24,20 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="#"/>
-        <link rel="next" title="Introduction" href="introduction.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introduction" href="introduction.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -83,7 +78,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#scope">Scope</a></li>
@@ -157,6 +155,7 @@
 <li class="toctree-l3"><a class="reference internal" href="formats/debian.html#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="formats/debian.html#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="formats/debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="formats/debian.html#jre-dependencies">JRE Dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="formats/debian.html#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="formats/debian.html#java-based-packaging">Java based packaging</a></li>
 </ul>
@@ -268,6 +267,7 @@
 <li class="toctree-l3"><a class="reference internal" href="archetypes/java_app/index.html#multiple-applications">Multiple Applications</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="archetypes/java_app/index.html#multiple-start-scripts">Multiple start scripts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="archetypes/java_app/index.html#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="archetypes/java_app/index.html#a-note-on-script-names">A note on script names</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="archetypes/java_app/index.html#customize">Customize</a><ul>
@@ -407,34 +407,54 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="#">sbt-native-packager</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">sbt-native-packager</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="#">Docs</a> &raquo;</li>
-      
-    <li>SBT Native Packager</li>
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>SBT Native Packager</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -445,10 +465,10 @@
 some basic abstractions around packaging, it also allows you to dig down into the nuts and bolts of each platform as
 needed to generate the best package possible.</p>
 <blockquote class="highlights">
-<div><strong>&#8220;Code once, deploy anywhere&#8221;</strong></div></blockquote>
+<div><strong>“Code once, deploy anywhere”</strong></div></blockquote>
 <p>Read the <a class="reference internal" href="introduction.html#introduction"><span class="std std-ref">Introduction</span></a> to learn how native-packager works. The <a class="reference internal" href="gettingstarted.html#getting-started"><span class="std std-ref">Getting Started</span></a> guide will help you set up
 your first package. The <a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">Packaging Formats</span></a> and <a class="reference internal" href="archetypes/index.html#archetypes"><span class="std std-ref">Project Archetypes</span></a> sections explain the different plugins in more
-detail, which <a class="reference internal" href="recipes/index.html#recipes"><span class="std std-ref">Recipes</span></a> provides solutions for common configurations.</p>
+detail, while <a class="reference internal" href="recipes/index.html#recipes"><span class="std std-ref">Recipes</span></a> provide solutions for common configurations.</p>
 <div class="section" id="sitemap">
 <h1>Sitemap<a class="headerlink" href="#sitemap" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
@@ -498,12 +518,13 @@ detail, which <a class="reference internal" href="recipes/index.html#recipes"><s
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -517,7 +538,7 @@ detail, which <a class="reference internal" href="recipes/index.html#recipes"><s
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -535,10 +556,12 @@ detail, which <a class="reference internal" href="recipes/index.html#recipes"><s
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.3.2',
+            VERSION:'1.3.6-SNAPSHOT',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
@@ -547,19 +570,13 @@ detail, which <a class="reference internal" href="recipes/index.html#recipes"><s
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

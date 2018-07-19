@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Application and runtime configuration &mdash; sbt-native-packager 1.3.2 documentation</title>
+  <title>Application and runtime configuration &mdash; sbt-native-packager 1.3.6-SNAPSHOT documentation</title>
   
 
+  
+  
   
   
 
@@ -22,29 +24,21 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="../../index.html"/>
-        <link rel="up" title="Java Application Archetype" href="index.html"/>
-        <link rel="next" title="Java Server Application Archetype" href="../java_server/index.html"/>
-        <link rel="prev" title="Java Application Archetype" href="index.html"/> 
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Java Server Application Archetype" href="../java_server/index.html" />
+    <link rel="prev" title="Java Application Archetype" href="index.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +79,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../introduction.html#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../introduction.html#scope">Scope</a></li>
@@ -159,6 +156,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../formats/debian.html#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/debian.html#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#jre-dependencies">JRE Dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#java-based-packaging">Java based packaging</a></li>
 </ul>
@@ -270,6 +268,7 @@
 <li class="toctree-l3"><a class="reference internal" href="index.html#multiple-applications">Multiple Applications</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="index.html#multiple-start-scripts">Multiple start scripts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="index.html#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#a-note-on-script-names">A note on script names</a></li>
 </ul>
 </li>
 <li class="toctree-l3 current"><a class="reference internal" href="index.html#customize">Customize</a><ul class="current">
@@ -409,38 +408,58 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">sbt-native-packager</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sbt-native-packager</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../index.html">Project Archetypes</a> &raquo;</li>
-      
+        
           <li><a href="index.html">Java Application Archetype</a> &raquo;</li>
-      
-    <li>Application and runtime configuration</li>
+        
+      <li>Application and runtime configuration</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../../_sources/archetypes/java_app/customize.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -455,10 +474,45 @@
 <li>Configuring the JVM and the process</li>
 <li>Configuring the application itself</li>
 </ul>
-<p>You have three options to define your runtime and application configurations.</p>
+<p>You have two options to define your runtime and application configurations.</p>
+<div class="section" id="configuration-file">
+<h2>Configuration file<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>The start scripts provided by the <code class="docutils literal"><span class="pre">BatStartScriptPlugin</span></code> and <code class="docutils literal"><span class="pre">BashStartScriptPlugin</span></code> can both load an external
+configuration file during execution. You can define the configuration file location for both with these two settings.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">bashScriptConfigLocation</span></code></dt>
+<dd><p class="first">The location of the bash script on the target system.</p>
+<p class="last"><strong>Default</strong> <code class="docutils literal"><span class="pre">${app_home}/../conf/application.ini</span></code></p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">batScriptConfigLocation</span></code></dt>
+<dd><p class="first">The location of the bat script on the target system.</p>
+<p class="last"><strong>Default</strong> <code class="docutils literal"><span class="pre">%APP_HOME%\conf\application.ini</span></code></p>
+</dd>
+</dl>
+</div></blockquote>
+<p>The configuration path is the path on the <strong>target</strong> system. This means that native-packager needs to process this path
+to create a valid <a href="#id1"><span class="problematic" id="id2">``</span></a>universal:mapping``s entry.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">${app_home}/../</span></code> is removed</li>
+<li><code class="docutils literal"><span class="pre">%APP_HOME%</span></code> is removed and <code class="docutils literal"><span class="pre">\</span></code> is being replaced with <code class="docutils literal"><span class="pre">/</span></code></li>
+</ul>
+<p>This means you can either</p>
+<ol class="arabic simple">
+<li>Create a configuration path relative to the application directory (recommended)</li>
+<li>Create an absolute path that has to match your target <strong>and</strong> build system</li>
+</ol>
+<p><strong>Example</strong></p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// configure two different files for bash and bat</span>
+<span class="n">bashScriptConfigLocation</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;${app_home}/../conf/jvmopts-bash&quot;</span><span class="o">)</span>
+<span class="n">batScriptConfigLocation</span>  <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;%APP_HOME%\\conf\\jvmopts-bat&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Now we know how to configure the location of our configuration file. The next step is to learn how to provide content
+for the configuration file.</p>
 <div class="section" id="via-build-sbt">
-<h2>Via build.sbt<a class="headerlink" href="#via-build-sbt" title="Permalink to this headline">¶</a></h2>
-<p>First, you can specify your options via the <code class="docutils literal"><span class="pre">build.sbt</span></code>.</p>
+<h3>Via build.sbt<a class="headerlink" href="#via-build-sbt" title="Permalink to this headline">¶</a></h3>
+<p>You can specify your options via the <code class="docutils literal"><span class="pre">build.sbt</span></code>.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">javaOptions</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
     <span class="c1">// -J params will be added as jvm parameters</span>
     <span class="s">&quot;-J-Xmx64m&quot;</span><span class="o">,</span>
@@ -475,9 +529,11 @@
 </div>
 <p>For the <code class="docutils literal"><span class="pre">-X</span></code> settings you need to add a suffix <code class="docutils literal"><span class="pre">-J</span></code> so the start script will
 recognize these as vm config parameters.</p>
+<p>When you use the  <code class="docutils literal"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Universal</span></code> sbt-native-packager will generate configuration files
+if you haven’t set the <code class="docutils literal"><span class="pre">batScriptConfigLocation</span></code> and/or <code class="docutils literal"><span class="pre">bashScriptConfigLocation</span></code> to <code class="docutils literal"><span class="pre">None</span></code>.</p>
 </div>
 <div class="section" id="via-application-ini">
-<h2>Via Application.ini<a class="headerlink" href="#via-application-ini" title="Permalink to this headline">¶</a></h2>
+<h3>Via Application.ini<a class="headerlink" href="#via-application-ini" title="Permalink to this headline">¶</a></h3>
 <p>The second option is to create <code class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></code> with the following template</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Setting -X directly (-J is stripped)</span>
 <span class="c1"># -J-X</span>
@@ -500,22 +556,35 @@ recognize these as vm config parameters.</p>
 </div>
 <p>The file will be installed to <code class="docutils literal"><span class="pre">${app_home}/conf/application.ini</span></code> and read from there
 by the startscript. You can use <code class="docutils literal"><span class="pre">#</span></code> for comments and new lines as you like. This file
-currently doesn&#8217;t has any variable substitution. We recommend using the <code class="docutils literal"><span class="pre">build.sbt</span></code> if
+currently doesn’t has any variable substitution. We recommend using the <code class="docutils literal"><span class="pre">build.sbt</span></code> if
 you need any information from your build.</p>
 <p>The configuration file for bash scripts takes arguments for the BASH file on each line,
 and allows comments which start with the <code class="docutils literal"><span class="pre">#</span></code> character.  Essentially, this provides
 a set of default arguments when calling the script.</p>
 <p>By default, any file in the <code class="docutils literal"><span class="pre">src/universal</span></code> directory is packaged. This is a convenient
 way to include things like licenses, and readmes.</p>
-<p>If you don&#8217;t like <code class="docutils literal"><span class="pre">application.ini</span></code> as a name, you can change this in the <code class="docutils literal"><span class="pre">build.sbt</span></code>.
+<p>If you don’t like <code class="docutils literal"><span class="pre">application.ini</span></code> as a name, you can change this in the <code class="docutils literal"><span class="pre">build.sbt</span></code>.
 The default configuration looks like this</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">bashScriptConfigLocation</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;${app_home}/../conf/application.ini&quot;</span><span class="o">)</span>
+<span class="n">batScriptConfigLocation</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;%APP_HOME%\\conf\\application.ini&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="add-code-to-the-start-scripts">
+<h2>Add code to the start scripts<a class="headerlink" href="#add-code-to-the-start-scripts" title="Permalink to this headline">¶</a></h2>
+<p>The second option is to add code to the generated start scripts via these settings.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code></dt>
+<dd>A list of extra definitions that should be written to the bash file template.</dd>
+<dt><code class="docutils literal"><span class="pre">batScriptExtraDefines</span></code></dt>
+<dd>A list of extra definitions that should be written to the bat file template.</dd>
+</dl>
+</div></blockquote>
 <div class="section" id="bashscript-defines">
-<span id="bash-script-defines"></span><h2>BashScript defines<a class="headerlink" href="#bashscript-defines" title="Permalink to this headline">¶</a></h2>
-<p>The last option is to use the <code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code>. Generally you can add arbitrary
+<span id="bash-script-defines"></span><h3>BashScript defines<a class="headerlink" href="#bashscript-defines" title="Permalink to this headline">¶</a></h3>
+<p>The bash script accepts extra commands via <code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code>. Generally you can add arbitrary
 bash commands here, but for configurations you have two methods to add jvm and app parameters.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// add jvm parameter for typesafe config</span>
 <span class="n">bashScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;addJava &quot;-Dconfig.file=${app_home}/../conf/app.config&quot;&quot;&quot;&quot;</span>
@@ -535,8 +604,8 @@ are predefined:
 </div></blockquote>
 </div>
 <div class="section" id="batscript-defines">
-<span id="bat-script-defines"></span><h2>BatScript defines<a class="headerlink" href="#batscript-defines" title="Permalink to this headline">¶</a></h2>
-<p>The Windows batch script accepts extra commands in <code class="docutils literal"><span class="pre">batScriptExtraDefines</span></code>. It offers
+<span id="bat-script-defines"></span><h3>BatScript defines<a class="headerlink" href="#batscript-defines" title="Permalink to this headline">¶</a></h3>
+<p>The Windows batch script accepts extra commands via <code class="docutils literal"><span class="pre">batScriptExtraDefines</span></code>. It offers
 two methods to add jvm and app parameters using similar syntax to the BASH script.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// add jvm parameter for typesafe config</span>
 <span class="n">batScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;call :add_java &quot;-Dconfig.file=%APP_HOME%\conf\app.config&quot;&quot;&quot;&quot;</span>
@@ -555,6 +624,7 @@ will be replaced with a set of variable definitions, like <code class="docutils 
 </div></blockquote>
 </div>
 </div>
+</div>
 <div class="section" id="start-script-customizations">
 <h1>Start script customizations<a class="headerlink" href="#start-script-customizations" title="Permalink to this headline">¶</a></h1>
 <p>While the native packager tries to provide robust BASH/BAT scripts for your applications, they may not always be enough.
@@ -565,7 +635,7 @@ overridden.</p>
 <p>For the bat and bash script are separated settings available to add arbitrary code to the start script.
 See <a class="reference internal" href="#bash-script-defines"><span class="std std-ref">BashScript defines</span></a> and <a class="reference internal" href="#bat-script-defines"><span class="std std-ref">BatScript defines</span></a> for details.</p>
 <p>The  <code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code> sequence allows you to add new lines to the default bash script used to start the
-application. This is useful when you need a setting which isn&#8217;t mean for the command-line parameter list passed to the
+application. This is useful when you need a setting which isn’t mean for the command-line parameter list passed to the
 java process. The lines added to <code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code> are placed near the end of the script and have access to a
 number of utility bash functions (e.g. <code class="docutils literal"><span class="pre">addJava</span></code>, <code class="docutils literal"><span class="pre">addApp</span></code>, <code class="docutils literal"><span class="pre">addResidual</span></code>, <code class="docutils literal"><span class="pre">addDebugger</span></code>). You can add lines to
 this script as we did for the Typesafe config file above. For more complex scripts you can also inject a separate file
@@ -599,15 +669,16 @@ You can also use a different file location by setting <code class="docutils lite
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../java_server/index.html" class="btn btn-neutral float-right" title="Java Server Application Archetype" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../java_server/index.html" class="btn btn-neutral float-right" title="Java Server Application Archetype" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Java Application Archetype" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Java Application Archetype" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -620,7 +691,7 @@ You can also use a different file location by setting <code class="docutils lite
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -638,10 +709,12 @@ You can also use a different file location by setting <code class="docutils lite
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.3.2',
+            VERSION:'1.3.6-SNAPSHOT',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -650,19 +723,13 @@ You can also use a different file location by setting <code class="docutils lite
 
   
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

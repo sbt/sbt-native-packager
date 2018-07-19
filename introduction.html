@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; sbt-native-packager 1.3.2 documentation</title>
+  <title>Introduction &mdash; sbt-native-packager 1.3.6-SNAPSHOT documentation</title>
   
 
+  
+  
   
   
 
@@ -22,28 +24,21 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="index.html"/>
-        <link rel="next" title="Getting Started" href="gettingstarted.html"/>
-        <link rel="prev" title="Sitemap" href="index.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="gettingstarted.html" />
+    <link rel="prev" title="Sitemap" href="index.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +79,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scope">Scope</a></li>
@@ -158,6 +156,7 @@
 <li class="toctree-l3"><a class="reference internal" href="formats/debian.html#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="formats/debian.html#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="formats/debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="formats/debian.html#jre-dependencies">JRE Dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="formats/debian.html#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="formats/debian.html#java-based-packaging">Java based packaging</a></li>
 </ul>
@@ -269,6 +268,7 @@
 <li class="toctree-l3"><a class="reference internal" href="archetypes/java_app/index.html#multiple-applications">Multiple Applications</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="archetypes/java_app/index.html#multiple-start-scripts">Multiple start scripts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="archetypes/java_app/index.html#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="archetypes/java_app/index.html#a-note-on-script-names">A note on script names</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="archetypes/java_app/index.html#customize">Customize</a><ul>
@@ -408,34 +408,54 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">sbt-native-packager</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sbt-native-packager</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Introduction</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -481,21 +501,21 @@ e.g. for file names, installation paths or script layouts.</dd>
 Native packager only takes care of <em>packaging</em>, the act of putting a list of <code class="docutils literal"><span class="pre">mappings</span></code> (source file to install target
 path) into a distinct package format (<em>zip</em>, <em>rpm</em>, etc.).</p>
 <p>Archetypes like <a class="reference internal" href="archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> or <a class="reference internal" href="archetypes/java_server/index.html#java-server-plugin"><span class="std std-ref">Java Server Application Archetype</span></a> only add additional files to the <code class="docutils literal"><span class="pre">mappings</span></code>
-enriching the created package, but they don&#8217;t provide any new features for native-packager core functionality. Much like
+enriching the created package, but they don’t provide any new features for native-packager core functionality. Much like
 the <a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">packaging format plugins</span></a>, the archetypes rely on functionality already available on your
 deploy target.</p>
 <p>These things are <strong>out of native packagers scope</strong></p>
 <ol class="arabic simple">
 <li><dl class="first docutils">
 <dt>Providing application lifecyle management.</dt>
-<dd>The <a class="reference internal" href="archetypes/java_server/index.html#java-server-plugin"><span class="std std-ref">Java Server Application Archetype</span></a> provides <em>configurations</em> for common systeloaders like SystemV, Upstart or SystemD.
-However create a custome solution, which includes stop scripts, PID management, etc. are not part of native
+<dd>The <a class="reference internal" href="archetypes/java_server/index.html#java-server-plugin"><span class="std std-ref">Java Server Application Archetype</span></a> provides <em>configurations</em> for common system-loaders like SystemV, Upstart or SystemD.
+However creating a custom solution which includes stop scripts, PID management, etc. are not part of native
 packager.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>Providing deployment configurations</dt>
-<dd>Native packager produces artefacts with the <code class="docutils literal"><span class="pre">packageBin</span></code> task. What you do with these is part of another step in
+<dd>Native packager produces artifacts with the <code class="docutils literal"><span class="pre">packageBin</span></code> task. What you do with these is part of another step in
 your process.</dd>
 </dl>
 </li>
@@ -506,7 +526,7 @@ your process.</dd>
 <p>Native packager is based on a few simple concepts. If you understand these, you will be able to customize your build,
 create own packaging formats and deploy more effectively.</p>
 <ol class="arabic">
-<li><p class="first"><strong>Separation of concerns</strong> of the two plugin kinds</p>
+<li><p class="first"><strong>Separation of concerns</strong> with two kinds of plugins</p>
 <blockquote>
 <div><ul class="simple">
 <li><a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">format plugins</span></a> define <strong>how</strong> a package is created</li>
@@ -516,7 +536,7 @@ create own packaging formats and deploy more effectively.</p>
 </li>
 <li><p class="first"><strong>Mappings</strong> define how your build files should be organized on the target system.</p>
 <blockquote>
-<div><p><code class="docutils literal"><span class="pre">Mappings</span></code> are a <code class="docutils literal"><span class="pre">Seq[(File,</span> <span class="pre">String)]</span></code>, which translates to &#8220;a list of tuples,  where each tuple defines a source file that gets mapped to a path on the target system&#8221;.</p>
+<div><p><code class="docutils literal"><span class="pre">Mappings</span></code> are a <code class="docutils literal"><span class="pre">Seq[(File,</span> <span class="pre">String)]</span></code>, which translates to “a list of tuples,  where each tuple defines a source file that gets mapped to a path on the target system”.</p>
 </div></blockquote>
 </li>
 </ol>
@@ -540,7 +560,7 @@ start with the plugin name, e.g. <em>rpmXYZ</em>.</dd>
 </li>
 <li><dl class="first docutils">
 <dt>Implement package task</dt>
-<dd>The <code class="docutils literal"><span class="pre">packageBin</span></code> or <code class="docutils literal"><span class="pre">publishLocal</span></code> ( docker ) task provides the actual action to create a package.</dd>
+<dd><code class="docutils literal"><span class="pre">packageBin</span></code> or <code class="docutils literal"><span class="pre">publishLocal</span></code> tasks provide the actual action to create a package.</dd>
 </dl>
 </li>
 </ol>
@@ -548,19 +568,19 @@ start with the plugin name, e.g. <em>rpmXYZ</em>.</dd>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">SomePackageFormatPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>the resulting package will be empty because a format plugin doesn&#8217;t provide any configuration other than the default settings
-for the format plugin&#8217;s specific settings.</p>
+<p>the resulting package will be empty because a format plugin doesn’t provide any configuration other than the default settings
+for the format plugin’s specific settings.</p>
 </div>
 <div class="section" id="archetype-plugins">
 <h3>Archetype Plugins<a class="headerlink" href="#archetype-plugins" title="Permalink to this headline">¶</a></h3>
-<p>While format plugins provide the <strong>how</strong>, archetypes provide the <strong>what</strong> gets packaged. An archetype changes the configuration in all supported package format scopes; they don&#8217;t add configuration
+<p>While format plugins provide the <strong>how</strong>, archetypes provide the <strong>what</strong> gets packaged. An archetype changes the configuration in all supported package format scopes; they don’t add configuration
 scopes.</p>
 <p>A full list of archetypes can be found
 <a class="reference internal" href="archetypes/index.html#archetypes"><span class="std std-ref">here</span></a>.</p>
 <dl class="docutils">
 <dt>An archetype may provide the following:</dt>
 <dd><ol class="first last arabic simple">
-<li>New, archetype related settings and tasks</li>
+<li>Archetype related settings and tasks</li>
 <li>New files in your package</li>
 </ol>
 </dd>
@@ -599,15 +619,16 @@ native packaging as needed.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="gettingstarted.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="gettingstarted.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Sitemap" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Sitemap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -620,7 +641,7 @@ native packaging as needed.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -638,10 +659,12 @@ native packaging as needed.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.3.2',
+            VERSION:'1.3.6-SNAPSHOT',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
@@ -650,19 +673,13 @@ native packaging as needed.</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

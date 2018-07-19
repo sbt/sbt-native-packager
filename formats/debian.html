@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Debian Plugin &mdash; sbt-native-packager 1.3.2 documentation</title>
+  <title>Debian Plugin &mdash; sbt-native-packager 1.3.6-SNAPSHOT documentation</title>
   
 
+  
+  
   
   
 
@@ -22,29 +24,21 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="../index.html"/>
-        <link rel="up" title="Packaging Formats" href="index.html"/>
-        <link rel="next" title="Rpm Plugin" href="rpm.html"/>
-        <link rel="prev" title="Linux Plugin" href="linux.html"/> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Rpm Plugin" href="rpm.html" />
+    <link rel="prev" title="Linux Plugin" href="linux.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +79,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
@@ -159,6 +156,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jre-dependencies">JRE Dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#java-based-packaging">Java based packaging</a></li>
 </ul>
@@ -270,6 +268,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#multiple-applications">Multiple Applications</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#multiple-start-scripts">Multiple start scripts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#a-note-on-script-names">A note on script names</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#customize">Customize</a><ul>
@@ -409,36 +408,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">sbt-native-packager</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sbt-native-packager</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="index.html">Packaging Formats</a> &raquo;</li>
-      
-    <li>Debian Plugin</li>
+        
+      <li>Debian Plugin</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/formats/debian.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -446,7 +465,7 @@
             
   <div class="section" id="debian-plugin">
 <span id="id1"></span><h1>Debian Plugin<a class="headerlink" href="#debian-plugin" title="Permalink to this headline">¶</a></h1>
-<p>The debian package specification is very robust and powerful.  If you wish to do any advanced features, it&#8217;s best to understand how
+<p>The debian package specification is very robust and powerful.  If you wish to do any advanced features, it’s best to understand how
 the underlying packaging system works.  <a class="reference external" href="http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/">Debian Binary Package Building HOWTO</a> by Chr. Clemens Lee is an excellent tutorial.</p>
 <p>SBT Native Packager provides two ways to build debian packages:</p>
 <ol class="arabic simple">
@@ -490,10 +509,67 @@ you have these settings in your build:</p>
 <span class="s">  with multiple lines.&quot;&quot;&quot;</span>
 </pre></div>
 </div>
+<p>It’s not exactly mandatory, but still highly recommended to add
+relevant <a class="reference internal" href="#jre-dependencies"><span class="std std-ref">JRE dependency</span></a>, for example:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">debianPackageDependencies</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;java8-runtime-headless&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
 <p>Enable the debian plugin to activate the native package implementation.</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">DebianPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="jre-dependencies">
+<span id="id2"></span><h3>JRE Dependencies<a class="headerlink" href="#jre-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>By default, a Debian package would have no dependencies, even for the
+Java Runtime Environment (JRE). A startup script will seek JRE in
+several popular locations, and, JRE is not found, the following
+message would be displayed:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">No</span> <span class="n">java</span> <span class="n">installations</span> <span class="n">was</span> <span class="n">detected</span><span class="o">.</span>
+<span class="n">Please</span> <span class="n">go</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">java</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">getjava</span><span class="o">/</span> <span class="ow">and</span> <span class="n">download</span>
+</pre></div>
+</div>
+<p>To build a Debian package that integrates properly with Debian
+repository environment, i.e. depends on a package that provides JRE,
+one needs to specify JRE dependency using
+<code class="docutils literal"><span class="pre">debianPackageDependencies</span></code>. Debian (Ubuntu and compatible
+distributions as well) provides two families of virtual packages to do
+that:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">javaN-runtime</span></code></dt>
+<dd>Regular (full) JRE packages, with GUI support. Use this for
+applications requiring AWT/Swing support, OpenGL, sound, etc.</dd>
+<dt><code class="docutils literal"><span class="pre">javaN-runtime-headless</span></code></dt>
+<dd>Minimal JRE packages without GUI support, useful for server
+installation to avoid pulling large set of X.org-related
+packages. Use this for console-only applications, services,
+networked / web applications, etc.</dd>
+</dl>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">N</span></code> in <code class="docutils literal"><span class="pre">javaN</span></code> should be replaced with minimal JRE version
+required by the packaged application. It usually depends on a Scala
+version used:</p>
+<ul class="simple">
+<li>Scala 2.11.x or earlier requires Java 6</li>
+<li>Scala 2.12.x requires Java 8</li>
+</ul>
+<p>Note that these are <em>virtual</em> packages, which are provided by a set of
+real packages. This means, for example, while installing a .deb
+package that depends on <code class="docutils literal"><span class="pre">java6-runtime-headless</span></code>:</p>
+<ul class="simple">
+<li>If end-user has no suitable JRE installed, it would automatically
+pull and install some “sane default” package which provides thing
+functionality (typically, it would be <code class="docutils literal"><span class="pre">openjdk-8-jre-headless</span></code>).</li>
+<li>If end-user does not like default suggested JRE for some reason,
+it’s possible to install any alternative implementation.</li>
+<li>If end-user has some existing JRE installation that is sufficient to
+play that role (for example, <code class="docutils literal"><span class="pre">openjdk-9-jre</span></code>, which provides,
+along others, <code class="docutils literal"><span class="pre">java8-runtime-headless</span></code> too), it would be used.</li>
+</ul>
+<p>This dependency works equally well with both free/libre OpenJDK
+packages supplied by Debian, and non-free JDKs supplied by Oracle and
+packaged as .deb using <a class="reference external" href="https://wiki.debian.org/JavaPackage">make-jpkg utility</a> from Debian’s <a class="reference external" href="https://packages.debian.org/java-package">java-package</a>.</p>
 </div>
 <div class="section" id="native-packaging">
 <h3>Native packaging<a class="headerlink" href="#native-packaging" title="Permalink to this headline">¶</a></h3>
@@ -513,7 +589,7 @@ installation of the generated debian package in the following configuration:</p>
 <ul class="simple">
 <li>installation using python-apt module, used by Ansible and SaltStack for
 example,</li>
-<li>being on python-apt 8.8 series that&#8217;s on Debian Wheezy and perhaps older</li>
+<li>being on python-apt 8.8 series that’s on Debian Wheezy and perhaps older</li>
 </ul>
 <p>It will fail with an error message like:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span><span class="p">:</span> <span class="n">This</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">DEB</span> <span class="n">archive</span><span class="p">,</span> <span class="n">it</span> <span class="n">has</span> <span class="n">no</span> <span class="s1">&#39;data.tar.gz&#39;</span><span class="p">,</span> <span class="s1">&#39;data.tar.bz2&#39;</span> <span class="ow">or</span> <span class="s1">&#39;data.tar.lzma&#39;</span> <span class="n">member</span>
@@ -637,15 +713,16 @@ maintainer scripts will be <em>extended</em> not overridden.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="rpm.html" class="btn btn-neutral float-right" title="Rpm Plugin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="rpm.html" class="btn btn-neutral float-right" title="Rpm Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="linux.html" class="btn btn-neutral" title="Linux Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="linux.html" class="btn btn-neutral" title="Linux Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -658,7 +735,7 @@ maintainer scripts will be <em>extended</em> not overridden.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -676,10 +753,12 @@ maintainer scripts will be <em>extended</em> not overridden.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.2',
+            VERSION:'1.3.6-SNAPSHOT',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -688,19 +767,13 @@ maintainer scripts will be <em>extended</em> not overridden.</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

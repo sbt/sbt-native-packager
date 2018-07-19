@@ -124,6 +124,8 @@ you can specify everything in a single ``build.sbt``
 
 .. code-block:: scala
 
+    import NativePackagerKeys._
+
     name := "mukis-fullstack"
 
     // used like the groupId in maven
@@ -144,7 +146,7 @@ you can specify everything in a single ``build.sbt``
         id = "root",
         base = file("."),
         // configure your native packaging settings here
-        settings = Seq(
+        settings = packageArchetype.java_server++ Seq(
             maintainer := "John Smith <john.smith@example.com>",
             packageDescription := "Fullstack Application",
             packageSummary := "Fullstack Application",
@@ -153,8 +155,7 @@ you can specify everything in a single ``build.sbt``
         ),
         // always run all commands on each sub project
         aggregate = Seq(frontend, backend, api)
-    ).enablePlugins(JavaServerAppPackaging) // enable app packaging on this project
-     .dependsOn(frontend, backend, api) // this does the actual aggregation
+    ) dependsOn(frontend, backend, api) // this does the actual aggregation
 
     // --------- Project Frontend ------------------
     lazy val frontend = Project(
@@ -174,8 +175,6 @@ you can specify everything in a single ``build.sbt``
         id = "api",
         base = file("api")
     )
-    
-If you want to build multiple bundles from the a single .sbt build, rather than one bundle aggregating all projects, you'll need to call `.enablePlugins(JavaAppPackaging)` on each root that you want to bundle.
     
     
 Custom Packaging Format

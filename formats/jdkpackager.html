@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>JDKPackager Plugin &mdash; sbt-native-packager 1.3.2 documentation</title>
+  <title>JDKPackager Plugin &mdash; sbt-native-packager 1.3.6-SNAPSHOT documentation</title>
   
 
+  
+  
   
   
 
@@ -22,29 +24,21 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="../index.html"/>
-        <link rel="up" title="Packaging Formats" href="index.html"/>
-        <link rel="next" title="Project Archetypes" href="../archetypes/index.html"/>
-        <link rel="prev" title="Windows Plugin" href="windows.html"/> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Project Archetypes" href="../archetypes/index.html" />
+    <link rel="prev" title="Windows Plugin" href="windows.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +79,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
@@ -159,6 +156,7 @@
 <li class="toctree-l3"><a class="reference internal" href="debian.html#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debian.html#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#jre-dependencies">JRE Dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="debian.html#java-based-packaging">Java based packaging</a></li>
 </ul>
@@ -270,6 +268,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#multiple-applications">Multiple Applications</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#multiple-start-scripts">Multiple start scripts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/java_app/index.html#a-note-on-script-names">A note on script names</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/java_app/index.html#customize">Customize</a><ul>
@@ -409,36 +408,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">sbt-native-packager</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sbt-native-packager</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="index.html">Packaging Formats</a> &raquo;</li>
-      
-    <li>JDKPackager Plugin</li>
+        
+      <li>JDKPackager Plugin</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/formats/jdkpackager.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -446,13 +465,13 @@
             
   <div class="section" id="jdkpackager-plugin">
 <span id="id1"></span><h1>JDKPackager Plugin<a class="headerlink" href="#jdkpackager-plugin" title="Permalink to this headline">¶</a></h1>
-<p>This plugin builds on Oracle&#8217;s <a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/packager.html#CCHIHIIJ">javapackager</a> tool to generate  native application
+<p>This plugin builds on Oracle’s <a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/packager.html#CCHIHIIJ">javapackager</a> tool to generate  native application
 launchers and installers for MacOS X, Windows, and Linux. This plugin takes the settings and staged output from
 <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> and passes them through <code class="docutils literal"><span class="pre">javapackager</span></code>
-to create native formats per Oracle&#8217;s provided features.</p>
+to create native formats per Oracle’s provided features.</p>
 <p>The actual mechanism used by this plugin is the support provided by the <code class="docutils literal"><span class="pre">lib/ant-javafx.jar</span></code> Ant task library,
 which provides more capabilities than the <code class="docutils literal"><span class="pre">javapackager</span></code> command line version, but the idea is the same.</p>
-<p>This plugin&#8217;s most relevant addition to the core <cite>sbt-native-packager</cite> capabilities is the generation of MacOS X App
+<p>This plugin’s most relevant addition to the core <cite>sbt-native-packager</cite> capabilities is the generation of MacOS X App
 bundles and associated <code class="docutils literal"><span class="pre">.dmg</span></code> and <code class="docutils literal"><span class="pre">.pkg</span></code> package formats.  With this plugin complete drag-and-drop installable
 application bundles are possible, including the embedding of the JRE.  It can also generate Windows <code class="docutils literal"><span class="pre">.exe</span></code> and <code class="docutils literal"><span class="pre">.msi</span></code>
 installers provided the requisite tools are available on the Windows build platform (see below). While Linux package
@@ -565,7 +584,7 @@ make use of all formats. <code class="docutils literal"><span class="pre">dmg</s
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
 <p>To take it for a test spin, run <code class="docutils literal"><span class="pre">sbt</span> <span class="pre">jdkPackager:packageBin</span></code> in the <code class="docutils literal"><span class="pre">test-project-jdkpackager</span></code> directory of the <cite>sbt-native-packager</cite> source. Then look in the <code class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></code> directory for the result (specific name depends on platform built).</p>
-<p>Here&#8217;s what the build file looks like:</p>
+<p>Here’s what the build file looks like:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;JDKPackagerPlugin Example&quot;</span>
 
 <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;0.1.0&quot;</span>
@@ -624,15 +643,16 @@ make use of all formats. <code class="docutils literal"><span class="pre">dmg</s
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../archetypes/index.html" class="btn btn-neutral float-right" title="Project Archetypes" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../archetypes/index.html" class="btn btn-neutral float-right" title="Project Archetypes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="windows.html" class="btn btn-neutral" title="Windows Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="windows.html" class="btn btn-neutral" title="Windows Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -645,7 +665,7 @@ make use of all formats. <code class="docutils literal"><span class="pre">dmg</s
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -663,10 +683,12 @@ make use of all formats. <code class="docutils literal"><span class="pre">dmg</s
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.2',
+            VERSION:'1.3.6-SNAPSHOT',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -675,19 +697,13 @@ make use of all formats. <code class="docutils literal"><span class="pre">dmg</s
 
   
 
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

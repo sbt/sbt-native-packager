@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Project Archetypes &mdash; sbt-native-packager 1.3.2 documentation</title>
+  <title>Project Archetypes &mdash; sbt-native-packager 1.3.6-SNAPSHOT documentation</title>
   
 
+  
+  
   
   
 
@@ -22,28 +24,21 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="../index.html"/>
-        <link rel="next" title="Java Application Archetype" href="java_app/index.html"/>
-        <link rel="prev" title="JDKPackager Plugin" href="../formats/jdkpackager.html"/> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Java Application Archetype" href="java_app/index.html" />
+    <link rel="prev" title="JDKPackager Plugin" href="../formats/jdkpackager.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +79,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
@@ -158,6 +156,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/debian.html#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#jre-dependencies">JRE Dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/debian.html#java-based-packaging">Java based packaging</a></li>
 </ul>
@@ -269,6 +268,7 @@
 <li class="toctree-l3"><a class="reference internal" href="java_app/index.html#multiple-applications">Multiple Applications</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="java_app/index.html#multiple-start-scripts">Multiple start scripts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="java_app/index.html#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="java_app/index.html#a-note-on-script-names">A note on script names</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="java_app/index.html#customize">Customize</a><ul>
@@ -408,34 +408,54 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">sbt-native-packager</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sbt-native-packager</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
-    <li>Project Archetypes</li>
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Project Archetypes</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/archetypes/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -445,9 +465,9 @@
 <span id="archetypes"></span><h1>Project Archetypes<a class="headerlink" href="#project-archetypes" title="Permalink to this headline">¶</a></h1>
 <p>Archetype plugins provide predefined configurations for your build. Like <a class="reference internal" href="../formats/index.html#packaging-formats"><span class="std std-ref">format plugins</span></a>,
 archetype plugins can depend on other archetype plugins to extend existing functionality.</p>
-<p>Project archetypes are default deployment scripts that try to &#8220;do the right thing&#8221; for a given type of project.
-Because not all projects are created equal, there is no one single archetype for all native packages, but a set
-of them for usage.</p>
+<p>Project archetypes are default deployment scripts that try to “do the right thing” for a given type of project.
+Because not all projects are created equal, there is no single archetype for all native packages, but a set
+of them to choose from.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="java_app/index.html">Java Command Line Application</a></li>
@@ -461,15 +481,16 @@ of them for usage.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="java_app/index.html" class="btn btn-neutral float-right" title="Java Application Archetype" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="java_app/index.html" class="btn btn-neutral float-right" title="Java Application Archetype" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../formats/jdkpackager.html" class="btn btn-neutral" title="JDKPackager Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../formats/jdkpackager.html" class="btn btn-neutral" title="JDKPackager Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -482,7 +503,7 @@ of them for usage.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -500,10 +521,12 @@ of them for usage.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.2',
+            VERSION:'1.3.6-SNAPSHOT',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -512,19 +535,13 @@ of them for usage.</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

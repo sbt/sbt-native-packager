@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Java Application Archetype &mdash; sbt-native-packager 1.3.2 documentation</title>
+  <title>Java Application Archetype &mdash; sbt-native-packager 1.3.6-SNAPSHOT documentation</title>
   
 
+  
+  
   
   
 
@@ -22,29 +24,21 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="sbt-native-packager 1.3.2 documentation" href="../../index.html"/>
-        <link rel="up" title="Project Archetypes" href="../index.html"/>
-        <link rel="next" title="Application and runtime configuration" href="customize.html"/>
-        <link rel="prev" title="Project Archetypes" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Application and runtime configuration" href="customize.html" />
+    <link rel="prev" title="Project Archetypes" href="../index.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +79,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../introduction.html#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../introduction.html#scope">Scope</a></li>
@@ -159,6 +156,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../formats/debian.html#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/debian.html#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#jre-dependencies">JRE Dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#native-packaging">Native packaging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/debian.html#java-based-packaging">Java based packaging</a></li>
 </ul>
@@ -270,6 +268,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#multiple-applications">Multiple Applications</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#multiple-start-scripts">Multiple start scripts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#single-start-script-with-forwarders">Single start script with forwarders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-note-on-script-names">A note on script names</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#customize">Customize</a><ul>
@@ -409,36 +408,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">sbt-native-packager</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sbt-native-packager</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../index.html">Project Archetypes</a> &raquo;</li>
-      
-    <li>Java Application Archetype</li>
+        
+      <li>Java Application Archetype</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../../_sources/archetypes/java_app/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -516,6 +535,12 @@ have sensible defaults.</p>
 <dd>The location of the bash script template.</dd>
 <dt><code class="docutils literal"><span class="pre">batScriptTemplateLocation</span></code></dt>
 <dd>The location of the bat script template.</dd>
+<dt><code class="docutils literal"><span class="pre">bashScriptConfigLocation</span></code></dt>
+<dd>The location of the bash script on the target system.
+<strong>Default</strong> <code class="docutils literal"><span class="pre">${app_home}/../conf/application.ini</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">batScriptConfigLocation</span></code></dt>
+<dd>The location of the bat script on the target system.
+<strong>Default</strong> <code class="docutils literal"><span class="pre">%APP_HOME%\conf\application.ini</span></code></dd>
 <dt><code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code></dt>
 <dd>A list of extra definitions that should be written to the bash file template.</dd>
 <dt><code class="docutils literal"><span class="pre">batScriptExtraDefines</span></code></dt>
@@ -533,7 +558,7 @@ have sensible defaults.</p>
 <dt><code class="docutils literal"><span class="pre">-v</span> <span class="pre">|</span> <span class="pre">-verbose</span></code></dt>
 <dd>Prints out more information</dd>
 <dt><code class="docutils literal"><span class="pre">-no-version-check</span></code></dt>
-<dd>Don&#8217;t run the java version check</dd>
+<dd>Don’t run the java version check</dd>
 <dt><code class="docutils literal"><span class="pre">-jvm-debug</span> <span class="pre">&lt;port&gt;</span></code></dt>
 <dd>Turn on JVM debugging, open at the given port</dd>
 <dt><code class="docutils literal"><span class="pre">-java-home</span> <span class="pre">&lt;java</span> <span class="pre">home&gt;</span></code></dt>
@@ -547,7 +572,7 @@ have sensible defaults.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">JAVA_OPTS</span></code></dt>
-<dd>environment variable, if unset uses &#8220;$java_opts&#8221;</dd>
+<dd>environment variable, if unset uses “$java_opts”</dd>
 <dt><code class="docutils literal"><span class="pre">-Dkey=val</span></code></dt>
 <dd>pass -Dkey=val directly to the java runtime</dd>
 <dt><code class="docutils literal"><span class="pre">-J-X</span></code></dt>
@@ -571,8 +596,8 @@ generating start scripts.</p>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>What does <em>&#8216;forwarder script&#8217;</em> mean?</p>
-<p>Native-packager&#8217;s start script provides a <cite>-main</cite> option to override the main class that should be executed.
+<p>What does <em>‘forwarder script’</em> mean?</p>
+<p>Native-packager’s start script provides a <cite>-main</cite> option to override the main class that should be executed.
 A <em>forwarder script</em> only overrides this attribute and forwards all other parameters to the normal start script.</p>
 <p class="last">All customization you implemented for the main script will also apply for the forwarder scripts.</p>
 </div>
@@ -613,16 +638,59 @@ version of the class name.</p>
 </div>
 <p>Now you can package your application as usual, but with multiple start scripts.</p>
 </div>
+<div class="section" id="a-note-on-script-names">
+<h3>A note on script names<a class="headerlink" href="#a-note-on-script-names" title="Permalink to this headline">¶</a></h3>
+<p>When this plugin generates script names from main class names, it tries to generate readable and unique names:</p>
+<ol class="arabic">
+<li><p class="first">An heuristic is used to split the fully qualified class names into words:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>pkg1.TestClass
+pkg2.AnUIMainClass
+pkg2.SomeXMLLoader
+pkg3.TestClass
+</pre></div>
+</div>
+<p>becomes</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>pkg-1.test-class
+pkg-2.an-ui-main-class
+pkg-2.some-xml-loader
+pkg-3.test-class
+</pre></div>
+</div>
+</li>
+<li><p class="first">Resulted lower-cased names are grouped by the simple class name.</p>
+<ul class="simple">
+<li>Names from single-element groups are reduced to their lower-cased simple names.</li>
+<li>Names that would otherwise collide by their simple names are used as is (that is, full names)
+with dots replaced by underscores</li>
+</ul>
+<p>So the final names will be:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>pkg-1_test-class
+an-ui-main-class
+some-xml-loader
+pkg-3_test-class
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Please note that in some corner cases this may result in multiple scripts with the same name
+in the resulting archive, but it is not expected to happen in normal circumstances.</p>
+</div>
 </div>
 <div class="section" id="customize">
 <h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="customize.html">Application and runtime configuration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="customize.html#via-build-sbt">Via build.sbt</a></li>
-<li class="toctree-l2"><a class="reference internal" href="customize.html#via-application-ini">Via Application.ini</a></li>
-<li class="toctree-l2"><a class="reference internal" href="customize.html#bashscript-defines">BashScript defines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="customize.html#batscript-defines">BatScript defines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="customize.html#configuration-file">Configuration file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customize.html#via-build-sbt">Via build.sbt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customize.html#via-application-ini">Via Application.ini</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="customize.html#add-code-to-the-start-scripts">Add code to the start scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customize.html#bashscript-defines">BashScript defines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customize.html#batscript-defines">BatScript defines</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="customize.html#start-script-customizations">Start script customizations</a><ul>
@@ -637,15 +705,16 @@ version of the class name.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="customize.html" class="btn btn-neutral float-right" title="Application and runtime configuration" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="customize.html" class="btn btn-neutral float-right" title="Application and runtime configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral" title="Project Archetypes" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral" title="Project Archetypes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -658,7 +727,7 @@ version of the class name.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -676,10 +745,12 @@ version of the class name.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.3.2',
+            VERSION:'1.3.6-SNAPSHOT',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -688,19 +759,13 @@ version of the class name.</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

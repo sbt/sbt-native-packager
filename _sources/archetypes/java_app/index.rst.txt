@@ -95,6 +95,14 @@ have sensible defaults.
   ``batScriptTemplateLocation``
     The location of the bat script template.
 
+  ``bashScriptConfigLocation``
+    The location of the bash script on the target system.
+    **Default** ``${app_home}/../conf/application.ini``
+
+  ``batScriptConfigLocation``
+    The location of the bat script on the target system.
+    **Default** ``%APP_HOME%\conf\application.ini``
+
   ``bashScriptExtraDefines``
     A list of extra definitions that should be written to the bash file template.
 
@@ -214,6 +222,48 @@ For two main classes ``com.example.FooMain`` and ``com.example.BarMain`` ``sbt s
 
 
 Now you can package your application as usual, but with multiple start scripts.
+
+A note on script names
+----------------------
+
+When this plugin generates script names from main class names, it tries to generate readable and unique names:
+
+1. An heuristic is used to split the fully qualified class names into words:
+
+   .. code-block:: none
+
+      pkg1.TestClass
+      pkg2.AnUIMainClass
+      pkg2.SomeXMLLoader
+      pkg3.TestClass
+
+   becomes
+
+   .. code-block:: none
+
+      pkg-1.test-class
+      pkg-2.an-ui-main-class
+      pkg-2.some-xml-loader
+      pkg-3.test-class
+
+2. Resulted lower-cased names are grouped by the simple class name.
+
+   - Names from single-element groups are reduced to their lower-cased simple names.
+
+   - Names that would otherwise collide by their simple names are used as is (that is, full names)
+     with dots replaced by underscores
+
+   So the final names will be:
+
+   .. code-block:: none
+
+      pkg-1_test-class
+      an-ui-main-class
+      some-xml-loader
+      pkg-3_test-class
+
+Please note that in some corner cases this may result in multiple scripts with the same name
+in the resulting archive, but it is not expected to happen in normal circumstances.
 
 Customize
 =========
