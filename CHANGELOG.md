@@ -1,5 +1,18 @@
 # Change Log
 
+## [v1.3.6](https://github.com/sbt/sbt-native-packager/tree/v1.3.6) (2018-07-19)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.5...v1.3.6)
+
+**Closed issues:**
+
+- can sbt-native-packager be used to pack /test ? [\#1136](https://github.com/sbt/sbt-native-packager/issues/1136)
+- Changes to application.conf are not picked up on Debian [\#1135](https://github.com/sbt/sbt-native-packager/issues/1135)
+
+**Merged pull requests:**
+
+- \[Docker\] add multiple docker tags support [\#1138](https://github.com/sbt/sbt-native-packager/pull/1138) ([kimxogus](https://github.com/kimxogus))
+- \[Docker\] add dockerEnvVars support [\#1137](https://github.com/sbt/sbt-native-packager/pull/1137) ([kimxogus](https://github.com/kimxogus))
+
 ## [v1.3.5](https://github.com/sbt/sbt-native-packager/tree/v1.3.5) (2018-06-12)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.4...v1.3.5)
 
