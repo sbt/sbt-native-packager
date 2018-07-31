@@ -53,7 +53,7 @@ libraryDependencies ++= {
 }
 
 // configure github page
-enablePlugins(SphinxPlugin, SiteScaladocPlugin, GhpagesPlugin)
+enablePlugins(SphinxPlugin, SiteScaladocPlugin, GhpagesPlugin, SbtPlugin)
 
 git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 
