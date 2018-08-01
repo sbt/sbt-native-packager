@@ -1,4 +1,3 @@
-sbtPlugin := true
 
 name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
