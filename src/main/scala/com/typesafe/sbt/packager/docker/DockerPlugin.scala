@@ -66,7 +66,7 @@ object DockerPlugin extends AutoPlugin {
   override def projectConfigurations: Seq[Configuration] = Seq(Docker)
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
-    dockerBaseImage := "openjdk:latest",
+    dockerBaseImage := "openjdk:8",
     dockerExposedPorts := Seq(),
     dockerExposedUdpPorts := Seq(),
     dockerExposedVolumes := Seq(),
