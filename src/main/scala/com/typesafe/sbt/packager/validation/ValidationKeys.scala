@@ -2,7 +2,6 @@ package com.typesafe.sbt.packager.validation
 
 import sbt._
 
-
 trait ValidationKeys {
 
   /**
