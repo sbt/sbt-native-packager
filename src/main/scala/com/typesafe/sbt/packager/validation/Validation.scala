@@ -37,7 +37,7 @@ object Validation {
     * @return aggregated result of all validator function
     */
   def apply(validators: Seq[Validator]): Validation = validators.flatMap(_.apply()).foldLeft(Validation(Nil, Nil)) {
-    case (validation, error: ValidationError)     => validation.copy(errors = validation.errors :+ error)
+    case (validation, error: ValidationError) => validation.copy(errors = validation.errors :+ error)
     case (validation, warning: ValidationWarning) => validation.copy(warnings = validation.warnings :+ warning)
   }
 

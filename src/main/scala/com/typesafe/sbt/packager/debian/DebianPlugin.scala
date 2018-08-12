@@ -7,7 +7,7 @@ import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxPlugin, LinuxSymlink}
 import com.typesafe.sbt.packager.universal.Archives
 import com.typesafe.sbt.packager.validation._
-import com.typesafe.sbt.packager.{Hashing, SettingsHelper, chmod}
+import com.typesafe.sbt.packager.{chmod, Hashing, SettingsHelper}
 import sbt.Keys._
 import sbt._
 
