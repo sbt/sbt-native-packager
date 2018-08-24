@@ -2,6 +2,7 @@ language: java
 scala: 2.12.6
 os: linux
 
+before_script: gpg --import key.asc
 before_install:
   # travis sets the java options which breaks tests that check the applied memory settings
   - unset _JAVA_OPTIONS
