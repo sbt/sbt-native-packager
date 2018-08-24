@@ -76,7 +76,7 @@ object UniversalPlugin extends AutoPlugin {
           mappings := findSources(sourceDirectory.value),
           dist := printDist(packageBin.value, streams.value),
           stagingDirectory := target.value / "stage",
-          stage := Stager.stage(config.name)(streams.value, stagingDirectory.value, mappings.value),
+          stage := Stager.stage(config.name)(streams.value, stagingDirectory.value, mappings.value)
         )
       ) ++ Seq(
       sourceDirectory in config := sourceDirectory.value / config.name,
