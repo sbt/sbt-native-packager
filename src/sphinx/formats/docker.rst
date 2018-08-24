@@ -21,7 +21,7 @@ SBT Native Packager doesn't use the REST API, but instead uses the CLI directly.
 
 It is currently not possible to provide authentication for Docker repositories from within the build.
 The ``docker`` binary used by the build should already have been configured with the appropriate
-authentication details. See https://docs.docker.com/reference/commandline/cli/#login.
+authentication details. See https://docs.docker.com/engine/reference/commandline/login/.
 
 
 Build
@@ -54,7 +54,7 @@ and this to your ``plugins.sbt``
 
 .. code-block:: scala
 
-  libraryDependencies += "com.spotify" % "docker-client" % "3.5.13"
+  libraryDependencies += "com.spotify" % "docker-client" % "8.9.0"
 
 The Docker-spotify client is a provided dependency. You have to explicitly add it on your own. It brings a lot of dependencies
 that could slow your build times. This is the reason the dependency is marked as provided.
@@ -110,6 +110,9 @@ Environment Settings
   ``dockerLabels``
     A map of labels that will be applied to the Docker image.
 
+  ``dockerEnvVars``
+    A map of environment variables that will be applied to the Docker image.
+
   ``dockerEntrypoint``
     Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
     Defaults to the bash executable script, available at ``bin/<script name>`` in the current ``WORKDIR`` of ``/opt/docker``.
@@ -133,6 +136,13 @@ Publishing Settings
     The alias to be used for tagging the resulting image of the Docker build.
     The type of the setting key is ``DockerAlias``.
     Defaults to ``[dockerRepository/][dockerUsername/][packageName]:[version]``.
+
+  ``dockerAliases``
+    The list of aliases to be used for tagging the resulting image of the Docker build.
+    The type of the setting key is ``Seq[DockerAlias]``.
+    Alias values are in format of ``[dockerRepository/][dockerUsername/][packageName]:[tag]`` where tags are list of including your project version and ``latest`` tag(if ``dockerUpdateLatest`` is enabled).
+    To append additional aliases to this list, you can add them by extending ``dockerAlias``.
+    ``dockerAliases ++= Seq(dockerAlias.value.withTag(Option("stable")), dockerAlias.value.withRegistryHost(Option("registry.internal.yourdomain.com")))``
 
   ``dockerBuildOptions``
     Overrides the default Docker build options.
@@ -233,7 +243,7 @@ In your sbt console type
 .. code-block:: bash
 
     > show dockerCommands
-    [info] List(Cmd(FROM,openjdk:latest), Cmd(LABEL,MAINTAINER=Your Name <y.n@yourcompany.com>), ...)
+    [info] List(Cmd(FROM,openjdk:8), Cmd(LABEL,MAINTAINER=Your Name <y.n@yourcompany.com>), ...)
 
 
 
@@ -301,7 +311,7 @@ Now let's start adding some Docker commands.
   import com.typesafe.sbt.packager.docker._
 
   dockerCommands := Seq(
-    Cmd("FROM", "openjdk:latest"),
+    Cmd("FROM", "openjdk:8"),
     Cmd("LABEL", s"""MAINTAINER="${maintainer.value}""""),
     ExecCmd("CMD", "echo", "Hello, World from Docker")
   )

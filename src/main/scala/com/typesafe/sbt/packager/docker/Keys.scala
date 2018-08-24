@@ -21,6 +21,8 @@ trait DockerKeys {
   val dockerUsername = SettingKey[Option[String]]("dockerUsername", "Username for published Docker image")
   val dockerAlias =
     SettingKey[DockerAlias]("dockerAlias", "Docker alias for the built image")
+  val dockerAliases =
+    SettingKey[Seq[DockerAlias]]("dockerAliases", "Docker aliases for the built image")
   val dockerUpdateLatest =
     SettingKey[Boolean]("dockerUpdateLatest", "Set to update latest tag")
   val dockerEntrypoint = SettingKey[Seq[String]]("dockerEntrypoint", "Entrypoint arguments passed in exec form")
@@ -33,6 +35,8 @@ trait DockerKeys {
   val dockerBuildOptions = SettingKey[Seq[String]]("dockerBuildOptions", "Options used for the Docker build")
   val dockerBuildCommand = SettingKey[Seq[String]]("dockerBuildCommand", "Command for building the Docker image")
   val dockerLabels = SettingKey[Map[String, String]]("dockerLabels", "Labels applied to the Docker image")
+  val dockerEnvVars =
+    SettingKey[Map[String, String]]("dockerEnvVars", "Environment Variables applied to the Docker image")
   val dockerRmiCommand =
     SettingKey[Seq[String]]("dockerRmiCommand", "Command for removing the Docker image from the local registry")
 

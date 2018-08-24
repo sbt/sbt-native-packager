@@ -84,7 +84,7 @@ trait RpmKeys {
   )
 
   // Building
-  val rpmLint = TaskKey[Unit]("rpm-lint", "Runs rpmlint program against the genreated RPM, if available.")
+  val rpmLint = TaskKey[Unit]("rpm-lint", "Runs rpmlint program against the generated RPM, if available.")
 
   @deprecated("Use daemonStdoutLogFile instead", "1.1.x")
   val rpmDaemonLogFile =

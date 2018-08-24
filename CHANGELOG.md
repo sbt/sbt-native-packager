@@ -1,17 +1,67 @@
 # Change Log
 
-## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
-
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.3...HEAD)
+## [v1.3.6](https://github.com/sbt/sbt-native-packager/tree/v1.3.6) (2018-07-19)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.5...v1.3.6)
 
 **Closed issues:**
 
+- can sbt-native-packager be used to pack /test ? [\#1136](https://github.com/sbt/sbt-native-packager/issues/1136)
+- Changes to application.conf are not picked up on Debian [\#1135](https://github.com/sbt/sbt-native-packager/issues/1135)
+
+**Merged pull requests:**
+
+- \[Docker\] add multiple docker tags support [\#1138](https://github.com/sbt/sbt-native-packager/pull/1138) ([kimxogus](https://github.com/kimxogus))
+- \[Docker\] add dockerEnvVars support [\#1137](https://github.com/sbt/sbt-native-packager/pull/1137) ([kimxogus](https://github.com/kimxogus))
+
+## [v1.3.5](https://github.com/sbt/sbt-native-packager/tree/v1.3.5) (2018-06-12)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.4...v1.3.5)
+
+**Fixed bugs:**
+
+- Error while `sbt debian:packageBin` [\#479](https://github.com/sbt/sbt-native-packager/issues/479)
+
+**Closed issues:**
+
+- how to package CLI app on MacOS? [\#1133](https://github.com/sbt/sbt-native-packager/issues/1133)
+- Java 10 breaks Unix launcher script [\#1128](https://github.com/sbt/sbt-native-packager/issues/1128)
+- systemd vendor preset: enabled - can I change this [\#1127](https://github.com/sbt/sbt-native-packager/issues/1127)
+- Auto generated scripts drop last character if its an `r`  [\#1121](https://github.com/sbt/sbt-native-packager/issues/1121)
+- Custom name for tgz archive [\#1120](https://github.com/sbt/sbt-native-packager/issues/1120)
+- sbt docker:stage fails but sbt docker:publishLocal works [\#1006](https://github.com/sbt/sbt-native-packager/issues/1006)
+- Support for rocket / rkt [\#557](https://github.com/sbt/sbt-native-packager/issues/557)
+
+**Merged pull requests:**
+
+- sbt 1.1.6 [\#1132](https://github.com/sbt/sbt-native-packager/pull/1132) ([sullis](https://github.com/sullis))
+- fix procedure syntax [\#1131](https://github.com/sbt/sbt-native-packager/pull/1131) ([xuwei-k](https://github.com/xuwei-k))
+- More grammar changes in docs [\#1126](https://github.com/sbt/sbt-native-packager/pull/1126) ([anilkumarmyla](https://github.com/anilkumarmyla))
+- Correct some typos and grammar [\#1125](https://github.com/sbt/sbt-native-packager/pull/1125) ([anilkumarmyla](https://github.com/anilkumarmyla))
+- fixes \#1121  [\#1122](https://github.com/sbt/sbt-native-packager/pull/1122) ([tobyweston](https://github.com/tobyweston))
+- Fix typo in TaskKey for rpmLint. [\#1119](https://github.com/sbt/sbt-native-packager/pull/1119) ([daanhoogenboezem](https://github.com/daanhoogenboezem))
+
+## [v1.3.4](https://github.com/sbt/sbt-native-packager/tree/v1.3.4) (2018-04-06)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.3...v1.3.4)
+
+**Fixed bugs:**
+
+- Ability to independently override different systemloader templates [\#937](https://github.com/sbt/sbt-native-packager/issues/937)
+
+**Closed issues:**
+
+- Remove requirement of JvmPlugin from UniversalPlugin [\#1116](https://github.com/sbt/sbt-native-packager/issues/1116)
+- Feature request - publishM2 [\#1114](https://github.com/sbt/sbt-native-packager/issues/1114)
+- Deb package dependencies [\#1106](https://github.com/sbt/sbt-native-packager/issues/1106)
 - unresolved dependency: com.typesafe.sbt\#sbt-native-packager;1.1.4: not found [\#1100](https://github.com/sbt/sbt-native-packager/issues/1100)
 
 **Merged pull requests:**
 
+- Included feature publishM2 [\#1113](https://github.com/sbt/sbt-native-packager/pull/1113) ([giorgioinf](https://github.com/giorgioinf))
+- Process -XX arguments as JVM args [\#1112](https://github.com/sbt/sbt-native-packager/pull/1112) ([longshorej](https://github.com/longshorej))
+- fixed Java version check in bash template [\#1111](https://github.com/sbt/sbt-native-packager/pull/1111) ([jubecker](https://github.com/jubecker))
+- Fix docker server version parsing [\#1108](https://github.com/sbt/sbt-native-packager/pull/1108) ([jalaziz](https://github.com/jalaziz))
 - JRE dependencies in Debian documentation [\#1107](https://github.com/sbt/sbt-native-packager/pull/1107) ([GreyCat](https://github.com/GreyCat))
 - Upgrade Scala version [\#1103](https://github.com/sbt/sbt-native-packager/pull/1103) ([joan38](https://github.com/joan38))
+- SBT 1.1.1 [\#1102](https://github.com/sbt/sbt-native-packager/pull/1102) ([joan38](https://github.com/joan38))
 - Give an absolute path to the entrypoint [\#1101](https://github.com/sbt/sbt-native-packager/pull/1101) ([joan38](https://github.com/joan38))
 - Typo: dpgk -\> dpkg [\#1099](https://github.com/sbt/sbt-native-packager/pull/1099) ([raboof](https://github.com/raboof))
 

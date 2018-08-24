@@ -1,0 +1,5 @@
+# Generate the Docker image locally
+> docker:publishLocal
+$ exec bash -c 'docker run docker-test:latest | grep -q "Hello world"'
+$ exec bash -c 'docker run docker-test:0.1.0 | grep -q "Hello world"'
+$ exec bash -c 'docker run docker-test:0.1 | grep -q "Hello world"'

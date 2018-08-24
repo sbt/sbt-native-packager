@@ -101,7 +101,9 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
     def apply(name: String): Seq[(String, String)] =
       Seq("APP_NAME" -> name, "APP_ENV_NAME" -> NameHelper.makeEnvFriendlyName(name))
 
-    def appDefines(mainClass: String, config: BatScriptConfig, replacements: Seq[(String, String)]): (String, String) = {
+    def appDefines(mainClass: String,
+                   config: BatScriptConfig,
+                   replacements: Seq[(String, String)]): (String, String) = {
       val defines = Seq(makeWindowsRelativeClasspathDefine(config.scriptClasspath), Defines.mainClass(mainClass)) ++
         config.configLocation.map(Defines.configFileDefine) ++
         config.extraDefines
@@ -140,11 +142,9 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
       }
   }
 
-  override protected[this] def createReplacementsForMainScript(
-    mainClass: String,
-    mainClasses: Seq[String],
-    config: SpecializedScriptConfig
-  ): Seq[(String, String)] =
+  override protected[this] def createReplacementsForMainScript(mainClass: String,
+                                                               mainClasses: Seq[String],
+                                                               config: SpecializedScriptConfig): Seq[(String, String)] =
     config.replacements :+ Replacements.appDefines(mainClass, config, config.replacements)
 
 }
