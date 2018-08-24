@@ -439,7 +439,7 @@ object DockerPlugin extends AutoPlugin {
              |
              |  - you have not the required privileges to run `docker`
              |
-             |You can display the parsed in the sbt console with:
+             |You can display the parsed docker version in the sbt console with:
              |
              |  $ sbt show dockerVersion
              |
