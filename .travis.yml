@@ -60,7 +60,9 @@ matrix:
         - curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
 
 
-before_deploy: gpg --import project/.gnupg/key.asc
+before_deploy:
+  - gpg --import project/.gnupg/key.asc
+  - gem install github_changelog_generator
 
 deploy:
 - provider: script
