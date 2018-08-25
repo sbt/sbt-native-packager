@@ -2,7 +2,6 @@ language: java
 scala: 2.12.6
 os: linux
 
-before_script: gpg --import key.asc
 before_install:
   # travis sets the java options which breaks tests that check the applied memory settings
   - unset _JAVA_OPTIONS
@@ -59,6 +58,23 @@ matrix:
       # workaround for https://github.com/travis-ci/travis-ci/issues/4527
       before_script:
         - curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
+
+
+before_deploy: gpg --import project/.gnupg/key.asc
+
+deploy:
+- provider: script
+  script: sbt release
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: $TRAVIS_PULL_REQUEST = false
+- provider: script
+  script: sbt release
+  skip_cleanup: true
+  on:
+    branch: snapshot
+    condition: $TRAVIS_PULL_REQUEST = false
 
 addons:
   apt:
