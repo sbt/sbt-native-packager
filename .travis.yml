@@ -1,6 +1,7 @@
 language: java
 scala: 2.12.6
 os: linux
+jdk: oraclejdk8
 
 addons:
   apt:
@@ -30,60 +31,59 @@ before_install:
       brew install xz;
       brew install sbt;
     fi
-script: sbt "$SBT_TEST_CMD";
 
 jobs:
   include:
     - stage: validate
-      matrix:
-        include:
-        - jdk: oraclejdk8
-          language: scala
-          env: SBT_TEST_CMD="^validate"
-    - stage: scripted
-      # We explicitly set the matrix to include oraclejdk8 because MacOS X has issues. See comment below
-      matrix:
-        include:
-          - jdk: oraclejdk8
-            language: scala
-            env: SBT_TEST_CMD="^validateUniversal"
-          - jdk: oraclejdk8
-            language: scala
-            env: SBT_TEST_CMD="^validateJar"
-          - jdk: oraclejdk8
-            language: scala
-            env: SBT_TEST_CMD="^validateBash"
-          - jdk: oraclejdk8
-            language: scala
-            env: SBT_TEST_CMD="^validateAsh"
-          - jdk: oraclejdk8
-            language: scala
-            env: SBT_TEST_CMD="^validateRpm"
-          - jdk: oraclejdk8
-            language: scala
-            env: SBT_TEST_CMD="^validateDebian"
-            # for now we can't test the docker image generation on travis
-          - jdk: oraclejdk8
-            language: scala
-            env: SBT_TEST_CMD="^validateDockerUnit"
-            # jdk packaging is only available on jdk8+
-          - jdk: oraclejdk8
-            language: scala
-            env: SBT_TEST_CMD="^validateJdkPackagerTravis"
-            # oraclejdk8 is not yet available.
-            # see https://github.com/travis-ci/travis-ci/issues/2316
-          - os: osx
-            env: SBT_TEST_CMD="^validateOSX"
-            osx_image: xcode8
-            # docker configuration as described in
-            # https://docs.travis-ci.com/user/docker/
-          - jdk: oraclejdk8
-            services: docker
-            sudo: required
-            env: SBT_TEST_CMD="^validateDocker"
-            # workaround for https://github.com/travis-ci/travis-ci/issues/4527
-            before_script:
-              - curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
+      language: scala
+      # workaround for https://github.com/travis-ci/travis-ci/issues/4527
+      before_script:
+        - curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
+      script: sbt "^validate"
+    - &scripted
+      stage: scripted
+      env: SBT_TEST_CMD="^validateUniversal"
+      language: scala
+      # workaround for https://github.com/travis-ci/travis-ci/issues/4527
+      before_script:
+        - curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
+      script: sbt "$SBT_TEST_CMD";
+
+    - <<: *scripted
+      env: SBT_TEST_CMD="^validateJar"
+
+    - <<: *scripted
+      env: SBT_TEST_CMD="^validateBash"
+
+    - <<: *scripted
+      env: SBT_TEST_CMD="^validateAsh"
+
+    - <<: *scripted
+      env: SBT_TEST_CMD="^validateRpm"
+
+    - <<: *scripted
+      env: SBT_TEST_CMD="^validateDebian"
+
+    - <<: *scripted
+      env: SBT_TEST_CMD="^validateDockerUnit"
+
+    - <<: *scripted
+      env: SBT_TEST_CMD="^validateJdkPackagerTravis"
+
+    # oraclejdk8 is not yet available.
+    # see https://github.com/travis-ci/travis-ci/issues/2316
+    - <<: *scripted
+      os: osx
+      env: SBT_TEST_CMD="^validateOSX"
+      osx_image: xcode8
+
+    # docker configuration as described in
+    # https://docs.travis-ci.com/user/docker/
+    - <<: *scripted
+      services: docker
+      sudo: required
+      env: SBT_TEST_CMD="^validateDocker"
+
     - stage: deploy
         before_deploy:
           - gpg --import project/.gnupg/key.asc
