@@ -145,6 +145,8 @@ object ChangelogPlugin extends AutoPlugin {
   }
 
   private def readToken(predefinedToken: Option[String]): Option[String] =
-    predefinedToken.getOrElse(SimpleReader.readLine("Github token: ")).filter(_.isEmpty)
+    predefinedToken
+      .orElse(Option(SimpleReader.readLine("Github token: ").mkString))
+      .filter(_.nonEmpty)
 
 }
