@@ -24,6 +24,12 @@ import scala.sys.process._
   * - generated for all available version tasks
   * - runs in verbose mode
   *
+  *
+  * == Travis configuration ==
+  *
+  * The travis repository settings contain the `CHANGELOG_GITHUB_TOKEN` environment variable
+  * to make the release process unattended.
+  *
   * @see [[https://github.com/skywinder/github-changelog-generator]]
   * @see [[https://github.com/skywinder/github-changelog-generator/wiki/Advanced-change-log-generation-examples]]
   */
@@ -80,7 +86,10 @@ object ChangelogPlugin extends AutoPlugin {
     val extracted = Project.extract(state)
     val predefinedToken = extracted.get(generateChangelogToken)
 
-    val githubToken = readToken(predefinedToken)
+    // if no input token is provided we rely on the `CHANGELOG_GITHUB_TOKEN` env variable
+    val githubToken = readToken(predefinedToken).map {
+      githubToken => s" --token $githubToken"
+    }.getOrElse("")
 
     val (newState, _) = extracted.runInputTask(generateChangelog, s" --token $githubToken", state)
     newState
@@ -135,11 +144,9 @@ object ChangelogPlugin extends AutoPlugin {
     override def buffer[T](f: => T): T = state.log.buffer(f)
   }
 
-  private def readToken(predefinedToken: Option[String]): String =
-    predefinedToken.getOrElse(SimpleReader.readLine("Github token: ") match {
-      case Some(input) if input.trim.isEmpty => sys.error("No token provided")
-      case Some(input)                       => input
-      case None                              => sys.error("No token provided")
-    })
+  private def readToken(predefinedToken: Option[String]): Option[String] =
+    predefinedToken
+      .orElse(Option(SimpleReader.readLine("Github token: ").mkString))
+      .filter(_.nonEmpty)
 
 }
