@@ -42,9 +42,11 @@ jobs:
   include:
     - stage: validate
       script: sbt "^validate"
+      if: type = pull_request OR (type = push AND branch = master)
 
     - stage: scripted
       script: sbt "^validateUniversal"
+      if: type = pull_request OR (type = push AND branch = master)
       name: "scripted universal tests"
     - script: sbt "^validateJar"
       name: "scripted jar tests"
