@@ -22,7 +22,6 @@ env:
   - secure: bK5zEd2s3y+ScGwuGcxlP0tXx83nvurmF/SWuQSmI0A2KRelipGSSY2BTa+URKk9smJusJIZUi72EqEwMHDhxLCfHomjze5BmpJB5Mr3fQI700nxPEA95cbM4Z1G9+K6fYWy2pi5S7Xmz1Sg07bP4sfzyVYlNB20aquLCmB9Llk=
   - secure: iY6MLAx39wW8y4uPZxt86FiNkLdrVHaAKCIcp7P35c0Zi1T0aaPTVTwZMS1uJAYs7e3Nh7gv7yU0hZR6t3klYPNjQdS7LHTgITIejBmikkBTkVqfpIYEOyrfDSaT59YlGrBiidegEGnw84kD4dFDmjnUY0ViCwOpJKr0a0Iokls=
 
-
 before_install:
   # travis sets the java options which breaks tests that check the applied memory settings
   - unset _JAVA_OPTIONS
@@ -32,73 +31,19 @@ before_install:
       brew install sbt;
     fi
 
+before_script:
+- curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
+
+# job definitions
+
 jobs:
   include:
     - stage: validate
-      language: scala
-      # workaround for https://github.com/travis-ci/travis-ci/issues/4527
-      before_script:
-        - curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
       script: sbt "^validate"
-    - &scripted
-      stage: scripted
-      env: SBT_TEST_CMD="^validateUniversal"
-      language: scala
-      # workaround for https://github.com/travis-ci/travis-ci/issues/4527
-      before_script:
-        - curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
-      script: sbt "$SBT_TEST_CMD";
-
-    - <<: *scripted
-      env: SBT_TEST_CMD="^validateJar"
-
-    - <<: *scripted
-      env: SBT_TEST_CMD="^validateBash"
-
-    - <<: *scripted
-      env: SBT_TEST_CMD="^validateAsh"
-
-    - <<: *scripted
-      env: SBT_TEST_CMD="^validateRpm"
-
-    - <<: *scripted
-      env: SBT_TEST_CMD="^validateDebian"
-
-    - <<: *scripted
-      env: SBT_TEST_CMD="^validateDockerUnit"
-
-    - <<: *scripted
-      env: SBT_TEST_CMD="^validateJdkPackagerTravis"
-
-    # oraclejdk8 is not yet available.
-    # see https://github.com/travis-ci/travis-ci/issues/2316
-    - <<: *scripted
-      os: osx
-      env: SBT_TEST_CMD="^validateOSX"
-      osx_image: xcode8
-
-    # docker configuration as described in
-    # https://docs.travis-ci.com/user/docker/
-    - <<: *scripted
-      services: docker
-      sudo: required
-      env: SBT_TEST_CMD="^validateDocker"
-
-    - stage: deploy
-        before_deploy:
-          - gpg --import project/.gnupg/key.asc
-          - gem install github_changelog_generator
-
-        deploy:
-        - provider: script
-          script: sbt release
-          skip_cleanup: true
-          on:
-            tags: true
-            condition: $TRAVIS_PULL_REQUEST = false
-        - provider: script
-          script: sbt release
-          skip_cleanup: true
-          on:
-            branch: snapshot
-            condition: $TRAVIS_PULL_REQUEST = false
+    - stage: scripted
+      script: sbt "^validateUniversal"
+      name: "scripted universal tests"
+    - script: sbt "^validateJar"
+      name: "scripted jar tests"
+    - stage: release
+      script: "echo releasing"
