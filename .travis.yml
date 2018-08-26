@@ -24,7 +24,6 @@ env:
   - secure: A2zj75lTCnCDUQ8+f7++eKue9990h//F2GljSj4/2MRs+klvvc/+qr+oakjNKdJMvwq15vCE2Oqmc75+s9FrGr5Fv0ujY16ZknHeZjuZONu1UbFp1EpZvYkPnZ5XbCe/4IOijt6RPBfrWod0gMSoEgGsp406vDG+1K+S+1tKNGQ=
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_22ffc3d85ef2_key -iv $encrypted_22ffc3d85ef2_iv -in project/key.asc.enc -out project/key.asc -d
   # travis sets the java options which breaks tests that check the applied memory settings
   - unset _JAVA_OPTIONS
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
@@ -84,6 +83,7 @@ jobs:
 
     - stage: release
       script:
+        - openssl aes-256-cbc -K $encrypted_22ffc3d85ef2_key -iv $encrypted_22ffc3d85ef2_iv -in project/key.asc.enc -out project/key.asc -d
         - gpg --import project/key.asc
         - gem install github_changelog_generator
         - sbt "^release"
