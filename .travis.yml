@@ -50,25 +50,35 @@ jobs:
       name: "scripted universal tests"
     - script: sbt "^validateJar"
       name: "scripted jar tests"
+      if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateBash"
       name: "scripted bash tests"
+      if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateAsh"
       name: "scripted ash tests"
+      if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateRpm"
       name: "scripted rpm tests"
+      if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateDebian"
       name: "scripted debian tests"
+      if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateDockerUnit"
       name: "scripted docker unit-tests"
+      if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateJdkPackagerTravis"
       name: "scripted jdk-packager tests"
+      if: type = pull_request OR (type = push AND branch = master)
       # docker configuration as described in
       # https://docs.travis-ci.com/user/docker/
     - script: sbt "^validateDocker"
       name: "scripted docker integration-tests"
+      if: type = pull_request OR (type = push AND branch = master)
       services: docker
       sudo: required
     - script: sbt "^validateOSX"
+      name: "scripted osx tests"
+      if: type = pull_request OR (type = push AND branch = master)
       os: osx
       osx_image: xcode8
 
