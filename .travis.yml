@@ -75,3 +75,4 @@ jobs:
         - gpg --import project/key.asc
         - gem install github_changelog_generator
         - sbt "^release"
+      if: (tag =~ ^v) AND (branch = master)
