@@ -419,7 +419,7 @@ trait DebianPluginLike {
                                             streams: TaskStreams): (String, String) = {
     // how to create the chownCmd. TODO maybe configurable?
     def chownCmd(user: String, group: String)(path: String): String =
-      s"chown $user:$group $path"
+      s"chown $user:$group '$path'"
 
     val header = "# Chown definitions created by SBT Native Packager\n"
     // Check for non root user/group and create chown commands
