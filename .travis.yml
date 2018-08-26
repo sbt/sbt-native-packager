@@ -54,7 +54,7 @@ jobs:
       name: "scripted rpm tests"
     - script: sbt "^validateDebian"
       name: "scripted debian tests"
-    - script sbt "^validateDockerUnit"
+    - script: sbt "^validateDockerUnit"
       name: "scripted docker unit-tests"
     - script: sbt "^validateJdkPackagerTravis"
       name: "scripted jdk-packager tests"
