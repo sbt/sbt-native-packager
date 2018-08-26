@@ -45,5 +45,14 @@ jobs:
       name: "scripted universal tests"
     - script: sbt "^validateJar"
       name: "scripted jar tests"
+      # docker configuration as described in
+      # https://docs.travis-ci.com/user/docker/
+    - script: sbt "^validateDocker"
+      name: "scripted docker tests"
+      services: docker
+      sudo: required
+    - script: sbt "^validateOSX"
+      os: osx
+      osx_image: xcode8
     - stage: release
       script: "echo releasing"
