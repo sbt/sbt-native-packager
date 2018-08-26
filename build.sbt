@@ -69,15 +69,9 @@ publishMavenStyle := false
 import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
-  inquireVersions,
-  setReleaseVersion,
-  commitReleaseVersion,
-  tagRelease,
   updateReadme,
   commitReadme,
-  releaseStepCommandAndRemaining("^ publishSigned"),
-  setNextVersion,
-  commitNextVersion,
+  releaseStepCommandAndRemaining("^ publish"),
   pushChanges,
   generateReleaseChangelog,
   commitChangelog,
@@ -117,3 +111,5 @@ addCommandAlias("validateOSX", "; validate ; validateUniversal")
 
 // TODO check the cygwin scripted tests and run them on appveyor
 addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted universal/dist universal/stage windows/*")
+
+addCommandAlias("releaseFromTravis", "release with-defaults")

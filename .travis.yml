@@ -86,5 +86,5 @@ jobs:
         - openssl aes-256-cbc -K $encrypted_22ffc3d85ef2_key -iv $encrypted_22ffc3d85ef2_iv -in project/key.asc.enc -out project/key.asc -d
         - gpg --import project/key.asc
         - gem install github_changelog_generator
-        - sbt "^release with-defaults"
+        - sbt releaseFromTravis
       if: (tag =~ ^v)
