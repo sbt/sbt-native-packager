@@ -40,19 +40,37 @@ jobs:
   include:
     - stage: validate
       script: sbt "^validate"
+
     - stage: scripted
       script: sbt "^validateUniversal"
       name: "scripted universal tests"
     - script: sbt "^validateJar"
       name: "scripted jar tests"
+    - script: sbt "^validateBash"
+      name: "scripted bash tests"
+    - script: sbt "^validateAsh"
+      name: "scripted ash tests"
+    - script: sbt "^validateRpm"
+      name: "scripted rpm tests"
+    - script: sbt "^validateDebian"
+      name: "scripted debian tests"
+    - script sbt "^validateDockerUnit"
+      name: "scripted docker unit-tests"
+    - script: sbt "^validateJdkPackagerTravis"
+      name: "scripted jdk-packager tests"
       # docker configuration as described in
       # https://docs.travis-ci.com/user/docker/
     - script: sbt "^validateDocker"
-      name: "scripted docker tests"
+      name: "scripted docker integration-tests"
       services: docker
       sudo: required
     - script: sbt "^validateOSX"
       os: osx
       osx_image: xcode8
+
     - stage: release
-      script: "echo releasing"
+      script:
+        - gpg --import project/.gnupg/key.asc
+        - gem install github_changelog_generator
+        - sbt "^release"
+      if: (tag =~ ^v) AND (branch = master)
