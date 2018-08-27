@@ -61,7 +61,6 @@ git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 scriptedLaunchOpts += "-Dproject.version=" + version.value
 
 // Release configuration
-releasePublishArtifactsAction := PgpKeys.publishSigned.value
 publishMavenStyle := false
 
 // The release task doesn't run any tests. We rely on travis.ci and appveyor,
