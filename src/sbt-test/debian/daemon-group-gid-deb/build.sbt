@@ -24,8 +24,8 @@ TaskKey[Unit]("checkControlFiles") := {
     "postinst misses useradd for daemonuser: " + postinst
   )
   assert(
-    postinst contains "chown daemonuser:daemongroup /var/log/debian-test",
-    "postinst misses chown daemonuser /var/log/debian-test: " + postinst
+    postinst contains "chown daemonuser:daemongroup '/var/log/debian-test'",
+    "postinst misses chown daemonuser '/var/log/debian-test': " + postinst
   )
   assert(!(postinst contains "addgroup --system daemonuser"), "postinst has addgroup for daemonuser: " + postinst)
   assert(
