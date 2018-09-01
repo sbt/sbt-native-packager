@@ -1,6 +1,6 @@
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.2")
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.0")
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.6")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.9")
 addSbtPlugin("com.dwijnand" % "sbt-dynver" % "3.0.0")
 addSbtPlugin("io.crashbox" % "sbt-gpg" % "0.2.0")
 
