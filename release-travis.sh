@@ -14,17 +14,19 @@ ssh-add project/native_packager_deploy_key
 # travis checks out a specific commit which creates an unatteched HEAD.
 # this leads to an error like this: "ref HEAD is not a symbolic ref"
 # https://github.com/sbt/sbt-release/issues/210#issuecomment-348210828
-echo "Fixing git setup for $TRAVIS_BRANCH"
-git checkout "${TRAVIS_BRANCH}"
+echo "Fixing git setup for $TRAVIS_BRANCH (master)"
+git checkout "${RELEASE_BRANCH}"
+
+# TODO we should check that the SHA of $TRAVIS_BRANCH and $RELEASE_BRANCH match
 
 git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
 git config commit.gpgsign true
 git config --global user.signingkey 7E26A821BA75234D
 
-git branch -u origin/${TRAVIS_BRANCH}
-git config branch.${TRAVIS_BRANCH}.remote origin
-git config branch.${TRAVIS_BRANCH}.merge refs/heads/${TRAVIS_BRANCH}
+git branch -u origin/${RELEASE_BRANCH}
+git config branch.${RELEASE_BRANCH}.remote origin
+git config branch.${RELEASE_BRANCH}.merge refs/heads/${RELEASE_BRANCH}
 
 # CHANGELOG GENREATOR
 gem install github_changelog_generator
