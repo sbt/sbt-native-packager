@@ -15,7 +15,7 @@ ssh-add project/native_packager_deploy_key
 # this leads to an error like this: "ref HEAD is not a symbolic ref"
 # https://github.com/sbt/sbt-release/issues/210#issuecomment-348210828
 echo "Fixing git setup for $TRAVIS_BRANCH (master)"
-git checkout "${RELEASE_BRANCH}"
+git checkout -b "${RELEASE_BRANCH}"
 
 # TODO we should check that the SHA of $TRAVIS_BRANCH and $RELEASE_BRANCH match
 
