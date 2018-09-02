@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+# travis can only encrypt one file
+# https://docs.travis-ci.com/user/encrypting-files/#encrypting-multiple-files
+function setup_secrets() {
+    tar -C project -xvf project/secrets.tar
+    gpg --import project/key.asc
+    chmod 600 project/native_packager_deploy_key
+    eval `ssh-agent -s`
+    ssh-add project/native_packager_deploy_key
+}
 
 # travis checks out a specific commit which creates an unatteched HEAD.
 # this leads to an error like this: "ref HEAD is not a symbolic ref"
@@ -13,18 +22,9 @@ function fix_git {
     git config branch.${TRAVIS_BRANCH}.merge refs/heads/${TRAVIS_BRANCH}
 }
 
-function setup_ssh {
-    chmod 600 project/native_packager_deploy_key
-    eval `ssh-agent -s`
-    ssh-add project/native_packager_deploy_key
-}
 
 
-function release {
-    sbt releaseFromTravis
-}
-
+setup_secrets()
 fix_git()
-gpg --import project/key.asc
 gem install github_changelog_generator
-release()
+sbt releaseFromTravis

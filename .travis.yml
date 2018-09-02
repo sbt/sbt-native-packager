@@ -83,7 +83,6 @@ jobs:
 
     - stage: release
       script:
-        - openssl aes-256-cbc -K $encrypted_22ffc3d85ef2_key -iv $encrypted_22ffc3d85ef2_iv -in project/key.asc.enc -out project/key.asc -d
-        - openssl aes-256-cbc -K $encrypted_22ffc3d85ef2_key -iv $encrypted_22ffc3d85ef2_iv -in project/native_packager_deploy_key.enc -out project/native_packager_deploy_key -d
+        - openssl aes-256-cbc -K $encrypted_22ffc3d85ef2_key -iv $encrypted_22ffc3d85ef2_iv -in project/secrets.tar.enc -out project/secrets.tar -d
         - ./release-travis.sh
       if: (tag =~ ^v)
