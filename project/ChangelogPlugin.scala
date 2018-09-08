@@ -135,11 +135,15 @@ object ChangelogPlugin extends AutoPlugin {
     override def buffer[T](f: => T): T = state.log.buffer(f)
   }
 
-  private def readToken(predefinedToken: Option[String]): String =
-    predefinedToken.getOrElse(SimpleReader.readLine("Github token: ") match {
-      case Some(input) if input.trim.isEmpty => sys.error("No token provided")
-      case Some(input)                       => input
-      case None                              => sys.error("No token provided")
-    })
+  private def readToken(predefinedToken: Option[String]): String = 
+    predefinedToken
+      // https://github.com/github-changelog-generator/github-changelog-generator#github-token
+      .orElse(sys.env("CHANGELOG_GITHUB_TOKEN"))
+      // get it from std in
+      .getOrElse(SimpleReader.readLine("Github token: ") match {
+        case Some(input) if input.trim.isEmpty => sys.error("No token provided")
+        case Some(input)                       => input
+        case None                              => sys.error("No token provided")
+     })
 
 }
