@@ -61,7 +61,6 @@ git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 scriptedLaunchOpts += "-Dproject.version=" + version.value
 
 // Release configuration
-releasePublishArtifactsAction := PgpKeys.publishSigned.value
 publishMavenStyle := false
 
 // The release task doesn't run any tests. We rely on travis.ci and appveyor,
@@ -69,15 +68,10 @@ publishMavenStyle := false
 import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
-  inquireVersions,
-  setReleaseVersion,
-  commitReleaseVersion,
-  tagRelease,
+  runTest,
+  releaseStepCommandAndRemaining("^ publish"),
   updateReadme,
   commitReadme,
-  releaseStepCommandAndRemaining("^ publishSigned"),
-  setNextVersion,
-  commitNextVersion,
   pushChanges,
   generateReleaseChangelog,
   commitChangelog,
@@ -117,3 +111,5 @@ addCommandAlias("validateOSX", "; validate ; validateUniversal")
 
 // TODO check the cygwin scripted tests and run them on appveyor
 addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted universal/dist universal/stage windows/*")
+
+addCommandAlias("releaseFromTravis", "release with-defaults")

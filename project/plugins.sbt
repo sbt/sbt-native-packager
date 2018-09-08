@@ -1,7 +1,8 @@
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.2")
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.0")
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.6")
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.0")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.9")
+addSbtPlugin("com.dwijnand" % "sbt-dynver" % "3.0.0")
+addSbtPlugin("io.crashbox" % "sbt-gpg" % "0.2.0")
 
 libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
 
@@ -9,7 +10,7 @@ libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
 libraryDependencies += "jline" % "jline" % "2.11"
 
 // For our bintray publishing
-addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.1")
+addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.4")
 
 // For code formatting
 addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.15")

@@ -1,63 +1,7 @@
 language: java
 scala: 2.12.6
 os: linux
-
-before_install:
-  # travis sets the java options which breaks tests that check the applied memory settings
-  - unset _JAVA_OPTIONS
-  - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
-      brew update;
-      brew install xz;
-      brew install sbt;
-    fi
-script: sbt "$SBT_TEST_CMD";
-
-# We explicitly set the matrix to include oraclejdk8 because MacOS X has issues. See comment below
-matrix:
-  include:
-    - jdk: oraclejdk8
-      language: scala
-      env: SBT_TEST_CMD="^validate"
-    - jdk: oraclejdk8
-      language: scala
-      env: SBT_TEST_CMD="^validateUniversal"
-    - jdk: oraclejdk8
-      language: scala
-      env: SBT_TEST_CMD="^validateJar"
-    - jdk: oraclejdk8
-      language: scala
-      env: SBT_TEST_CMD="^validateBash"
-    - jdk: oraclejdk8
-      language: scala
-      env: SBT_TEST_CMD="^validateAsh"
-    - jdk: oraclejdk8
-      language: scala
-      env: SBT_TEST_CMD="^validateRpm"
-    - jdk: oraclejdk8
-      language: scala
-      env: SBT_TEST_CMD="^validateDebian"
-      # for now we can't test the docker image generation on travis
-    - jdk: oraclejdk8
-      language: scala
-      env: SBT_TEST_CMD="^validateDockerUnit"
-      # jdk packaging is only available on jdk8+
-    - jdk: oraclejdk8
-      language: scala
-      env: SBT_TEST_CMD="^validateJdkPackagerTravis"
-      # oraclejdk8 is not yet available.
-      # see https://github.com/travis-ci/travis-ci/issues/2316
-    - os: osx
-      env: SBT_TEST_CMD="^validateOSX"
-      osx_image: xcode8
-      # docker configuration as described in
-      # https://docs.travis-ci.com/user/docker/
-    - jdk: oraclejdk8
-      services: docker
-      sudo: required
-      env: SBT_TEST_CMD="^validateDocker"
-      # workaround for https://github.com/travis-ci/travis-ci/issues/4527
-      before_script:
-        - curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
+jdk: oraclejdk8
 
 addons:
   apt:
@@ -67,8 +11,80 @@ addons:
 
 sudo: false
 cache:
- apt: true
- directories:
- - $HOME/.sbt
- - $HOME/.m2
- - $HOME/.ivy2
+  apt: true
+  directories:
+  - $HOME/.sbt
+  - $HOME/.m2
+  - $HOME/.ivy2
+
+env:
+  global:
+  - COMMIT_AUTHOR_EMAIL: "sbt-native-packager@muki.rocks"
+  - RELEASE_BRANCH: master
+  - secure: bK5zEd2s3y+ScGwuGcxlP0tXx83nvurmF/SWuQSmI0A2KRelipGSSY2BTa+URKk9smJusJIZUi72EqEwMHDhxLCfHomjze5BmpJB5Mr3fQI700nxPEA95cbM4Z1G9+K6fYWy2pi5S7Xmz1Sg07bP4sfzyVYlNB20aquLCmB9Llk=
+  - secure: iY6MLAx39wW8y4uPZxt86FiNkLdrVHaAKCIcp7P35c0Zi1T0aaPTVTwZMS1uJAYs7e3Nh7gv7yU0hZR6t3klYPNjQdS7LHTgITIejBmikkBTkVqfpIYEOyrfDSaT59YlGrBiidegEGnw84kD4dFDmjnUY0ViCwOpJKr0a0Iokls=
+  - secure: A2zj75lTCnCDUQ8+f7++eKue9990h//F2GljSj4/2MRs+klvvc/+qr+oakjNKdJMvwq15vCE2Oqmc75+s9FrGr5Fv0ujY16ZknHeZjuZONu1UbFp1EpZvYkPnZ5XbCe/4IOijt6RPBfrWod0gMSoEgGsp406vDG+1K+S+1tKNGQ=
+
+before_install:
+  # travis sets the java options which breaks tests that check the applied memory settings
+  - unset _JAVA_OPTIONS
+  - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+      brew update;
+      brew install xz;
+      brew install sbt;
+    fi
+
+before_script:
+- curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
+
+# job definitions
+
+jobs:
+  include:
+    - stage: validate
+      script: sbt "^validate"
+      if: type = pull_request OR (type = push AND branch = master)
+
+    - stage: scripted
+      script: sbt "^validateUniversal"
+      if: type = pull_request OR (type = push AND branch = master)
+      name: "scripted universal tests"
+    - script: sbt "^validateJar"
+      name: "scripted jar tests"
+      if: type = pull_request OR (type = push AND branch = master)
+    - script: sbt "^validateBash"
+      name: "scripted bash tests"
+      if: type = pull_request OR (type = push AND branch = master)
+    - script: sbt "^validateAsh"
+      name: "scripted ash tests"
+      if: type = pull_request OR (type = push AND branch = master)
+    - script: sbt "^validateRpm"
+      name: "scripted rpm tests"
+      if: type = pull_request OR (type = push AND branch = master)
+    - script: sbt "^validateDebian"
+      name: "scripted debian tests"
+      if: type = pull_request OR (type = push AND branch = master)
+    - script: sbt "^validateDockerUnit"
+      name: "scripted docker unit-tests"
+      if: type = pull_request OR (type = push AND branch = master)
+    - script: sbt "^validateJdkPackagerTravis"
+      name: "scripted jdk-packager tests"
+      if: type = pull_request OR (type = push AND branch = master)
+      # docker configuration as described in
+      # https://docs.travis-ci.com/user/docker/
+    - script: sbt "^validateDocker"
+      name: "scripted docker integration-tests"
+      if: type = pull_request OR (type = push AND branch = master)
+      services: docker
+      sudo: required
+    - script: sbt "^validateOSX"
+      name: "scripted osx tests"
+      if: type = pull_request OR (type = push AND branch = master)
+      os: osx
+      osx_image: xcode8
+
+    - stage: release
+      script:
+        - openssl aes-256-cbc -K $encrypted_22ffc3d85ef2_key -iv $encrypted_22ffc3d85ef2_iv -in project/secrets.tar.enc -out project/secrets.tar -d
+        - ./release-travis.sh
+      if: (tag =~ ^v)

@@ -1,5 +1,49 @@
 # Change Log
 
+## [v1.3.7](https://github.com/sbt/sbt-native-packager/tree/v1.3.7) (2018-08-31)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.7-M6...v1.3.7)
+
+**Fixed bugs:**
+
+- docker:publish should skip non-Docker projects [\#974](https://github.com/sbt/sbt-native-packager/issues/974)
+
+**Closed issues:**
+
+- lib directory remains after RPM erase [\#623](https://github.com/sbt/sbt-native-packager/issues/623)
+- bin access to script replacements [\#622](https://github.com/sbt/sbt-native-packager/issues/622)
+- packageName added to defaultLinuxLogsLocation [\#620](https://github.com/sbt/sbt-native-packager/issues/620)
+
+**Merged pull requests:**
+
+- Fix generated chown command \(\#1151\) [\#1152](https://github.com/sbt/sbt-native-packager/pull/1152) ([mcenkar](https://github.com/mcenkar))
+
+## [v1.3.7-M6](https://github.com/sbt/sbt-native-packager/tree/v1.3.7-M6) (2018-08-27)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.7-M5...v1.3.7-M6)
+
+## [v1.3.7-M5](https://github.com/sbt/sbt-native-packager/tree/v1.3.7-M5) (2018-08-26)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.6...v1.3.7-M5)
+
+**Fixed bugs:**
+
+- dpkg error: archive has premature member [\#1067](https://github.com/sbt/sbt-native-packager/issues/1067)
+
+**Closed issues:**
+
+- Default dockerBaseImage value should be set to Java 8. [\#1146](https://github.com/sbt/sbt-native-packager/issues/1146)
+- Version check doesn't work for openjdk 10 [\#1145](https://github.com/sbt/sbt-native-packager/issues/1145)
+- Rpm: publish [\#1143](https://github.com/sbt/sbt-native-packager/issues/1143)
+- Can you add optional ability of create\delete user\user group [\#1140](https://github.com/sbt/sbt-native-packager/issues/1140)
+- Packaged jars are not the same in different \*:packageBin configs [\#1130](https://github.com/sbt/sbt-native-packager/issues/1130)
+- Scope of daemon user [\#551](https://github.com/sbt/sbt-native-packager/issues/551)
+- Option to use Java libraries instead of native tools when possible [\#422](https://github.com/sbt/sbt-native-packager/issues/422)
+
+**Merged pull requests:**
+
+- Use travis jobs to structure build and deployment [\#1150](https://github.com/sbt/sbt-native-packager/pull/1150) ([muuki88](https://github.com/muuki88))
+- FIX \#1148 travis release [\#1149](https://github.com/sbt/sbt-native-packager/pull/1149) ([muuki88](https://github.com/muuki88))
+- Change openjdk:latest to openjdk:8. [\#1147](https://github.com/sbt/sbt-native-packager/pull/1147) ([wjlow](https://github.com/wjlow))
+- Fix docker login link in the documentation [\#1139](https://github.com/sbt/sbt-native-packager/pull/1139) ([BenFradet](https://github.com/BenFradet))
+
 ## [v1.3.6](https://github.com/sbt/sbt-native-packager/tree/v1.3.6) (2018-07-19)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.5...v1.3.6)
 

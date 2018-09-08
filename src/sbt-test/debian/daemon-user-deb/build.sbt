@@ -23,8 +23,8 @@ TaskKey[Unit]("checkControlFiles") := {
     "postinst misses useradd for daemonuser: " + postinst
   )
   assert(
-    postinst contains "chown daemonuser:daemongroup /var/log/debian-test",
-    "postinst misses chown daemonuser /var/log/debian-test: " + postinst
+    postinst contains "chown daemonuser:daemongroup '/var/log/debian-test'",
+    "postinst misses chown daemonuser '/var/log/debian-test': " + postinst
   )
   assert(!(postinst contains "addgroup --system daemonuser"), "postinst has addgroup for daemonuser: " + postinst)
   assert(
@@ -37,7 +37,7 @@ TaskKey[Unit]("checkControlFiles") := {
   assert(!(postinst contains "chown daemonuser:debian-test"), "postinst contains wrong group: \n" + postinst)
   assert(!(postinst contains "chown debian-test:debian-test"), "postinst contains wrong user and group: \n" + postinst)
   assert(
-    !(postinst contains "chown daemonuser:daemongroup /usr/share/debian-test"),
+    !(postinst contains "chown daemonuser:daemongroup '/usr/share/debian-test'"),
     "postinst contains chown /usr/share/app_name:  \n" + postinst
   )
   streams.value.log.success("Successfully tested upstart control files")
