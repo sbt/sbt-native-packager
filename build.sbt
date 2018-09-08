@@ -68,6 +68,7 @@ publishMavenStyle := false
 import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
+  runTest,
   releaseStepCommandAndRemaining("^ publish"),
   updateReadme,
   commitReadme,
