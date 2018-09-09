@@ -43,12 +43,11 @@ git config commit.gpgsign true
 git config --global user.signingkey 7E26A821BA75234D
 
 
-# see if we really need these
-# git config branch.${RELEASE_BRANCH}.remote origin
-# git config branch.${RELEASE_BRANCH}.merge refs/heads/${RELEASE_BRANCH}
-
 # CHANGELOG GENREATOR
 gem install github_changelog_generator
+
+# Github pages
+pip install sphinx sphinx_rtd_theme
 
 # RELEASE
 sbt releaseFromTravis
