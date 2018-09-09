@@ -29,7 +29,7 @@ git checkout -b "${RELEASE_BRANCH}"
 git branch -u origin/${RELEASE_BRANCH}
 
 MASTER_SHA=$(git rev-parse HEAD)
-if [ $MASTER_SHA != $TAG_SHA ] then
+if [ $MASTER_SHA != $TAG_SHA ]; then
     echo "You tagged an older commit with SHA $TAG_SHA , but the master is on $MASTER_SHA"
     echo "Automatic releases are only possible from the current master"
     exit 1
@@ -43,12 +43,11 @@ git config commit.gpgsign true
 git config --global user.signingkey 7E26A821BA75234D
 
 
-# see if we really need these
-# git config branch.${RELEASE_BRANCH}.remote origin
-# git config branch.${RELEASE_BRANCH}.merge refs/heads/${RELEASE_BRANCH}
-
 # CHANGELOG GENREATOR
 gem install github_changelog_generator
+
+# Github pages
+pip install --user sphinx sphinx_rtd_theme
 
 # RELEASE
 sbt releaseFromTravis

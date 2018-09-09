@@ -1,5 +1,20 @@
 # Change Log
 
+## [v1.3.8-M14](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M14) (2018-09-09)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.7...v1.3.8-M14)
+
+**Fixed bugs:**
+
+- Debian plugin creates incorrect chown command [\#1151](https://github.com/sbt/sbt-native-packager/issues/1151)
+
+**Closed issues:**
+
+- Sed command error in ash-template file [\#1154](https://github.com/sbt/sbt-native-packager/issues/1154)
+
+**Merged pull requests:**
+
+- Fixes \#1154 [\#1155](https://github.com/sbt/sbt-native-packager/pull/1155) ([glammers1](https://github.com/glammers1))
+
 ## [v1.3.7](https://github.com/sbt/sbt-native-packager/tree/v1.3.7) (2018-08-31)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.7-M6...v1.3.7)
 
