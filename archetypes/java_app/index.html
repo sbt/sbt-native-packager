@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Java Application Archetype &mdash; sbt-native-packager 1.3.7 documentation</title>
+  <title>Java Application Archetype &mdash; sbt-native-packager 1.3.8-M14 documentation</title>
   
 
   
@@ -196,7 +196,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#jar-repackaging">Jar Repackaging</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -330,10 +330,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -465,7 +465,7 @@
             
   <div class="section" id="java-application-archetype">
 <span id="java-app-plugin"></span><h1>Java Application Archetype<a class="headerlink" href="#java-application-archetype" title="Permalink to this headline">¶</a></h1>
-<p>Application packaging focuses on how your application is launched (via a <code class="docutils literal"><span class="pre">bash</span></code> or <code class="docutils literal"><span class="pre">bat</span></code> script), how dependencies
+<p>Application packaging focuses on how your application is launched (via a <code class="docutils literal notranslate"><span class="pre">bash</span></code> or <code class="docutils literal notranslate"><span class="pre">bat</span></code> script), how dependencies
 are managed and how configuration and other auxiliary files are included in the final distributable. The
 <em>JavaAppPackaging</em> archetype provides a default application structure and executable scripts to launch your application.</p>
 <p>Additionally there is <a class="reference internal" href="../java_server/index.html#java-server-plugin"><span class="std std-ref">Java Server Application Archetype</span></a> which provides platform-specific functionality for installing your
@@ -481,37 +481,37 @@ init service loaders including Upstart, System V and SystemD.</p>
 </div>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>Enable the <code class="docutils literal"><span class="pre">JavaAppPackaging</span></code> plugin in your <code class="docutils literal"><span class="pre">build.sbt</span></code> with</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
+<p>Enable the <code class="docutils literal notranslate"><span class="pre">JavaAppPackaging</span></code> plugin in your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> with</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>This archetype will use the <code class="docutils literal"><span class="pre">mainClass</span></code> setting of sbt (automatically discovers your main class) to generate
-<code class="docutils literal"><span class="pre">bat</span></code> and <code class="docutils literal"><span class="pre">bin</span></code> scripts for your project. In case you have multiple main classes you can point to a specific
+<p>This archetype will use the <code class="docutils literal notranslate"><span class="pre">mainClass</span></code> setting of sbt (automatically discovers your main class) to generate
+<code class="docutils literal notranslate"><span class="pre">bat</span></code> and <code class="docutils literal notranslate"><span class="pre">bin</span></code> scripts for your project. In case you have multiple main classes you can point to a specific
 class with the following setting:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;foo.bar.Main&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;foo.bar.Main&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 <p>To create a staging version of your package call</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt stage
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt stage
 </pre></div>
 </div>
-<p>The universal layout produced in your <code class="docutils literal"><span class="pre">target/universal/stage</span></code> folder looks like the following:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>bin/
+<p>The universal layout produced in your <code class="docutils literal notranslate"><span class="pre">target/universal/stage</span></code> folder looks like the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bin/
   &lt;app_name&gt;       &lt;- BASH script
   &lt;app_name&gt;.bat   &lt;- cmd.exe script
 lib/
    &lt;Your project and dependent jar files here.&gt;
 </pre></div>
 </div>
-<p>You can add additional files to the project by placing things in <code class="docutils literal"><span class="pre">src/windows</span></code>, <code class="docutils literal"><span class="pre">src/universal</span></code> or <code class="docutils literal"><span class="pre">src/linux</span></code> as
+<p>You can add additional files to the project by placing things in <code class="docutils literal notranslate"><span class="pre">src/windows</span></code>, <code class="docutils literal notranslate"><span class="pre">src/universal</span></code> or <code class="docutils literal notranslate"><span class="pre">src/linux</span></code> as
 needed. To see if your application runs:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> target/universal/stage
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> target/universal/stage
 ./bin/&lt;app-name&gt;
 </pre></div>
 </div>
 <p>This plugin also enables all supported <strong>packaging formats</strong> as well. Currently <strong>all formats</strong> are supported by the
-java app archetype! For example you can build <em>zips</em>, <em>deb</em> or <em>docker</em> by just enabling <code class="docutils literal"><span class="pre">JavaAppPackaging</span></code>.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt
+java app archetype! For example you can build <em>zips</em>, <em>deb</em> or <em>docker</em> by just enabling <code class="docutils literal notranslate"><span class="pre">JavaAppPackaging</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt
 <span class="c1"># create a zip file</span>
 &gt; universal:packageBin
 <span class="c1"># create a deb file</span>
@@ -527,23 +527,23 @@ java app archetype! For example you can build <em>zips</em>, <em>deb</em> or <em
 have sensible defaults.</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">makeBashScript</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">makeBashScript</span></code></dt>
 <dd>Creates or discovers the bash script used by this project.</dd>
-<dt><code class="docutils literal"><span class="pre">makeBatScript</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">makeBatScript</span></code></dt>
 <dd>Creates or discovers the bat script used by this project.</dd>
-<dt><code class="docutils literal"><span class="pre">bashScriptTemplateLocation</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">bashScriptTemplateLocation</span></code></dt>
 <dd>The location of the bash script template.</dd>
-<dt><code class="docutils literal"><span class="pre">batScriptTemplateLocation</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">batScriptTemplateLocation</span></code></dt>
 <dd>The location of the bat script template.</dd>
-<dt><code class="docutils literal"><span class="pre">bashScriptConfigLocation</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></dt>
 <dd>The location of the bash script on the target system.
-<strong>Default</strong> <code class="docutils literal"><span class="pre">${app_home}/../conf/application.ini</span></code></dd>
-<dt><code class="docutils literal"><span class="pre">batScriptConfigLocation</span></code></dt>
+<strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">${app_home}/../conf/application.ini</span></code></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">batScriptConfigLocation</span></code></dt>
 <dd>The location of the bat script on the target system.
-<strong>Default</strong> <code class="docutils literal"><span class="pre">%APP_HOME%\conf\application.ini</span></code></dd>
-<dt><code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code></dt>
+<strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">%APP_HOME%\conf\application.ini</span></code></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code></dt>
 <dd>A list of extra definitions that should be written to the bash file template.</dd>
-<dt><code class="docutils literal"><span class="pre">batScriptExtraDefines</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code></dt>
 <dd>A list of extra definitions that should be written to the bat file template.</dd>
 </dl>
 </div></blockquote>
@@ -553,46 +553,46 @@ have sensible defaults.</p>
 <p>The start script provides a few standard options you can pass:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">-h</span> <span class="pre">|</span> <span class="pre">-help</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">-h</span> <span class="pre">|</span> <span class="pre">-help</span></code></dt>
 <dd>Prints script usage</dd>
-<dt><code class="docutils literal"><span class="pre">-v</span> <span class="pre">|</span> <span class="pre">-verbose</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">|</span> <span class="pre">-verbose</span></code></dt>
 <dd>Prints out more information</dd>
-<dt><code class="docutils literal"><span class="pre">-no-version-check</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">-no-version-check</span></code></dt>
 <dd>Don’t run the java version check</dd>
-<dt><code class="docutils literal"><span class="pre">-jvm-debug</span> <span class="pre">&lt;port&gt;</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">-jvm-debug</span> <span class="pre">&lt;port&gt;</span></code></dt>
 <dd>Turn on JVM debugging, open at the given port</dd>
-<dt><code class="docutils literal"><span class="pre">-java-home</span> <span class="pre">&lt;java</span> <span class="pre">home&gt;</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">-java-home</span> <span class="pre">&lt;java</span> <span class="pre">home&gt;</span></code></dt>
 <dd>Override the default JVM home, it accept variable expansions, e.g.
-<code class="docutils literal"><span class="pre">-java-home</span> <span class="pre">${app_home}/../jre</span></code></dd>
-<dt><code class="docutils literal"><span class="pre">-main</span></code></dt>
+<code class="docutils literal notranslate"><span class="pre">-java-home</span> <span class="pre">${app_home}/../jre</span></code></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-main</span></code></dt>
 <dd>Define a custom main class</dd>
 </dl>
 </div></blockquote>
 <p>To configure the JVM these options are available</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">JAVA_OPTS</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">JAVA_OPTS</span></code></dt>
 <dd>environment variable, if unset uses “$java_opts”</dd>
-<dt><code class="docutils literal"><span class="pre">-Dkey=val</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">-Dkey=val</span></code></dt>
 <dd>pass -Dkey=val directly to the java runtime</dd>
-<dt><code class="docutils literal"><span class="pre">-J-X</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">-J-X</span></code></dt>
 <dd>pass option -X directly to the java runtime (-J is stripped).
-E.g. <code class="docutils literal"><span class="pre">-J-Xmx1024</span></code></dd>
+E.g. <code class="docutils literal notranslate"><span class="pre">-J-Xmx1024</span></code></dd>
 </dl>
 </div></blockquote>
 <p>In order to pass <strong>application arguments</strong> you need to separate the jvm arguments from the
-application arguments with <code class="docutils literal"><span class="pre">--</span></code>. For example</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./bin/my-app -Dconfig.resource<span class="o">=</span>prod.conf -- -appParam1 -appParam2
+application arguments with <code class="docutils literal notranslate"><span class="pre">--</span></code>. For example</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./bin/my-app -Dconfig.resource<span class="o">=</span>prod.conf -- -appParam1 -appParam2
 </pre></div>
 </div>
 </div>
 <div class="section" id="multiple-applications">
 <h2>Multiple Applications<a class="headerlink" href="#multiple-applications" title="Permalink to this headline">¶</a></h2>
-<p>If you have multiple main classes then the <code class="docutils literal"><span class="pre">JavaAppPackaging</span></code> archetype provides you with two different ways of
+<p>If you have multiple main classes then the <code class="docutils literal notranslate"><span class="pre">JavaAppPackaging</span></code> archetype provides you with two different ways of
 generating start scripts.</p>
 <ol class="arabic simple">
-<li>A start script for each entry point. This is the default behaviour, when no <code class="docutils literal"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> is set</li>
-<li>One start script for the defined <code class="docutils literal"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> and forwarding scripts for all other main classes.</li>
+<li>A start script for each entry point. This is the default behaviour, when no <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> is set</li>
+<li>One start script for the defined <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> and forwarding scripts for all other main classes.</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -603,11 +603,11 @@ A <em>forwarder script</em> only overrides this attribute and forwards all other
 </div>
 <div class="section" id="multiple-start-scripts">
 <h3>Multiple start scripts<a class="headerlink" href="#multiple-start-scripts" title="Permalink to this headline">¶</a></h3>
-<p>No configuration is needed. SBT sets <code class="docutils literal"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> automatically to <code class="docutils literal"><span class="pre">None</span></code> if multiple main classes are
+<p>No configuration is needed. SBT sets <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> automatically to <code class="docutils literal notranslate"><span class="pre">None</span></code> if multiple main classes are
 discovered.</p>
 <p><strong>Example:</strong></p>
-<p>For two main classes <code class="docutils literal"><span class="pre">com.example.FooMain</span></code> and <code class="docutils literal"><span class="pre">com.example.BarMain</span></code> <code class="docutils literal"><span class="pre">sbt</span> <span class="pre">stage</span></code> will generate these scripts:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>bin/
+<p>For two main classes <code class="docutils literal notranslate"><span class="pre">com.example.FooMain</span></code> and <code class="docutils literal notranslate"><span class="pre">com.example.BarMain</span></code> <code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">stage</span></code> will generate these scripts:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bin/
   bar-main
   bar-main.bat
   foo-main
@@ -617,19 +617,19 @@ discovered.</p>
 </div>
 <div class="section" id="single-start-script-with-forwarders">
 <h3>Single start script with forwarders<a class="headerlink" href="#single-start-script-with-forwarders" title="Permalink to this headline">¶</a></h3>
-<p>Generates a single start script for the defined main class in <code class="docutils literal"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> and forwarding scripts for all
-other <code class="docutils literal"><span class="pre">discoveredMainClasses</span> <span class="pre">in</span> <span class="pre">Compile</span></code>. The forwarder scripts call the defined start script and set the <code class="docutils literal"><span class="pre">-main</span></code>
+<p>Generates a single start script for the defined main class in <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> and forwarding scripts for all
+other <code class="docutils literal notranslate"><span class="pre">discoveredMainClasses</span> <span class="pre">in</span> <span class="pre">Compile</span></code>. The forwarder scripts call the defined start script and set the <code class="docutils literal notranslate"><span class="pre">-main</span></code>
 parameter to the concrete main class.</p>
-<p>The start script name uses the <code class="docutils literal"><span class="pre">executableScriptName</span></code> setting for its name. The forwarder scripts use a simplified
+<p>The start script name uses the <code class="docutils literal notranslate"><span class="pre">executableScriptName</span></code> setting for its name. The forwarder scripts use a simplified
 version of the class name.</p>
 <p><strong>Example:</strong></p>
-<p>The <code class="docutils literal"><span class="pre">build.sbt</span></code> has an explicit main class set.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;my-project&quot;</span>
+<p>The <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> has an explicit main class set.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;my-project&quot;</span>
 <span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;com.example.FooMain&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>For two main classes <code class="docutils literal"><span class="pre">com.example.FooMain</span></code> and <code class="docutils literal"><span class="pre">com.example.BarMain</span></code> <code class="docutils literal"><span class="pre">sbt</span> <span class="pre">stage</span></code> will generate these scripts:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>bin/
+<p>For two main classes <code class="docutils literal notranslate"><span class="pre">com.example.FooMain</span></code> and <code class="docutils literal notranslate"><span class="pre">com.example.BarMain</span></code> <code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">stage</span></code> will generate these scripts:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bin/
   bar-main
   bar-main.bat
   my-project
@@ -643,14 +643,14 @@ version of the class name.</p>
 <p>When this plugin generates script names from main class names, it tries to generate readable and unique names:</p>
 <ol class="arabic">
 <li><p class="first">An heuristic is used to split the fully qualified class names into words:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>pkg1.TestClass
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pkg1.TestClass
 pkg2.AnUIMainClass
 pkg2.SomeXMLLoader
 pkg3.TestClass
 </pre></div>
 </div>
 <p>becomes</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>pkg-1.test-class
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pkg-1.test-class
 pkg-2.an-ui-main-class
 pkg-2.some-xml-loader
 pkg-3.test-class
@@ -664,7 +664,7 @@ pkg-3.test-class
 with dots replaced by underscores</li>
 </ul>
 <p>So the final names will be:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>pkg-1_test-class
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pkg-1_test-class
 an-ui-main-class
 some-xml-loader
 pkg-3_test-class
@@ -745,7 +745,7 @@ in the resulting archive, but it is not expected to happen in normal circumstanc
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.3.7',
+            VERSION:'1.3.8-M14',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Packaging Formats &mdash; sbt-native-packager 1.3.7 documentation</title>
+  <title>Packaging Formats &mdash; sbt-native-packager 1.3.8-M14 documentation</title>
   
 
   
@@ -196,7 +196,7 @@
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#jar-repackaging">Jar Repackaging</a></li>
-<li class="toctree-l4"><a class="reference internal" href="rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -330,10 +330,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -465,7 +465,7 @@
 <span id="id1"></span><h1>Packaging Formats<a class="headerlink" href="#packaging-formats" title="Permalink to this headline">¶</a></h1>
 <p>There is a plugin for each packaging format that native-packager supports. These plugins can rely on each other to reuse
 existing functionality. Currently the autoplugin hierarchy looks like this</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>          <span class="n">SbtNativePackager</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>          <span class="n">SbtNativePackager</span>
                 <span class="o">+</span>
                 <span class="o">|</span>
                 <span class="o">|</span>
@@ -481,12 +481,12 @@ existing functionality. Currently the autoplugin hierarchy looks like this</p>
         <span class="n">Debian</span>       <span class="n">RPM</span>
 </pre></div>
 </div>
-<p>If you enable the <code class="docutils literal"><span class="pre">DebianPlugin</span></code> all plugins that depend on the <code class="docutils literal"><span class="pre">DebianPlugin</span></code> will be enabled as well (<code class="docutils literal"><span class="pre">LinuxPlugin</span></code>, <code class="docutils literal"><span class="pre">UniversalPlugin</span></code>
-and <code class="docutils literal"><span class="pre">SbtNativePackager</span></code>).</p>
+<p>If you enable the <code class="docutils literal notranslate"><span class="pre">DebianPlugin</span></code> all plugins that depend on the <code class="docutils literal notranslate"><span class="pre">DebianPlugin</span></code> will be enabled as well (<code class="docutils literal notranslate"><span class="pre">LinuxPlugin</span></code>, <code class="docutils literal notranslate"><span class="pre">UniversalPlugin</span></code>
+and <code class="docutils literal notranslate"><span class="pre">SbtNativePackager</span></code>).</p>
 <p>Each packaging format defines its own scope for settings and tasks, so you can customize
-your build on a packaging level. The settings and tasks must be explicitly inherited. For the <code class="docutils literal"><span class="pre">mappings</span></code> task this
+your build on a packaging level. The settings and tasks must be explicitly inherited. For the <code class="docutils literal notranslate"><span class="pre">mappings</span></code> task this
 looks like this</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
 </pre></div>
 </div>
 <p>To learn more about a specific plugin, read the appropriate doc.</p>
@@ -550,7 +550,7 @@ looks like this</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.7',
+            VERSION:'1.3.8-M14',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Windows Plugin &mdash; sbt-native-packager 1.3.7 documentation</title>
+  <title>Windows Plugin &mdash; sbt-native-packager 1.3.8-M14 documentation</title>
   
 
   
@@ -196,7 +196,7 @@
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#jar-repackaging">Jar Repackaging</a></li>
-<li class="toctree-l4"><a class="reference internal" href="rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -330,10 +330,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -469,7 +469,7 @@
 it’s important to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial
 to how to create packages using wix.</p>
 <p>However, the native-packager provides a simple layer on top of wix that <em>may</em> be enough for most projects.
-If it is not enough, just override <code class="docutils literal"><span class="pre">wixConfig</span></code> or <code class="docutils literal"><span class="pre">wixFile</span></code> settings.  Let’s look at the layer above direct
+If it is not enough, just override <code class="docutils literal notranslate"><span class="pre">wixConfig</span></code> or <code class="docutils literal notranslate"><span class="pre">wixFile</span></code> settings.  Let’s look at the layer above direct
 xml configuration.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -484,14 +484,14 @@ xml configuration.</p>
 </div>
 <div class="section" id="build">
 <h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt windows:packageBin
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt windows:packageBin
 </pre></div>
 </div>
 <div class="section" id="required-settings">
 <h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
 <p>A windows package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// general package information (can be scoped to Windows)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// general package information (can be scoped to Windows)</span>
 <span class="n">maintainer</span> <span class="o">:=</span> <span class="s">&quot;Josh Suereth &lt;joshua.suereth@typesafe.com&gt;&quot;</span>
 <span class="n">packageSummary</span> <span class="o">:=</span> <span class="s">&quot;test-windows&quot;</span>
 <span class="n">packageDescription</span> <span class="o">:=</span> <span class="s">&quot;&quot;&quot;Test Windows MSI.&quot;&quot;&quot;</span>
@@ -505,7 +505,7 @@ you have these settings in your build:</p>
 <div class="section" id="or-higher">
 <h3>1.0 or higher<a class="headerlink" href="#or-higher" title="Permalink to this headline">¶</a></h3>
 <p>Enables the windows plugin</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">WindowsPlugin</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">WindowsPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
@@ -518,8 +518,8 @@ on how to enable sbt-native-packager.</p>
 </div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
-<p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal"><span class="pre">Universal</span></code>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">:=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
+<p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Universal</span></code>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">:=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
 </pre></div>
 </div>
 <p>Now, let’s look at the full set of windows settings.</p>
@@ -528,36 +528,36 @@ on how to enable sbt-native-packager.</p>
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Windows</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Windows</span></code></dt>
 <dd>The name of the generated msi file.</dd>
-<dt><code class="docutils literal"><span class="pre">candleOptions</span></code></dt>
-<dd>the list of options to pass to the <code class="docutils literal"><span class="pre">candle.exe</span></code> command.</dd>
-<dt><code class="docutils literal"><span class="pre">lightOptions</span></code></dt>
-<dd>the list of options to pass to the <code class="docutils literal"><span class="pre">light.exe</span></code> command.  Most likely setting is: <code class="docutils literal"><span class="pre">Seq(&quot;-ext&quot;,</span> <span class="pre">&quot;WixUIExtension&quot;,</span> <span class="pre">&quot;-cultures:en-us&quot;)</span></code> for UI.</dd>
-<dt><code class="docutils literal"><span class="pre">wixMajorVersion</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">candleOptions</span></code></dt>
+<dd>the list of options to pass to the <code class="docutils literal notranslate"><span class="pre">candle.exe</span></code> command.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">lightOptions</span></code></dt>
+<dd>the list of options to pass to the <code class="docutils literal notranslate"><span class="pre">light.exe</span></code> command.  Most likely setting is: <code class="docutils literal notranslate"><span class="pre">Seq(&quot;-ext&quot;,</span> <span class="pre">&quot;WixUIExtension&quot;,</span> <span class="pre">&quot;-cultures:en-us&quot;)</span></code> for UI.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">wixMajorVersion</span></code></dt>
 <dd>the major version of the Wix tool-set (e.g. when using Wix 4.0.1, major version is 4). Default is 3.</dd>
-<dt><code class="docutils literal"><span class="pre">wixProductId</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">wixProductId</span></code></dt>
 <dd>The GUID to use to identify the windows package/product.</dd>
-<dt><code class="docutils literal"><span class="pre">wixProductUpgradeId</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">wixProductUpgradeId</span></code></dt>
 <dd>The GUID to use to identify the windows package/product <em>upgrade</em> identifier (<a class="reference external" href="http://wixtoolset.org/documentation/manual/v3/howtos/updates/major_upgrade.html">See the wix docs on upgrades</a>).</dd>
 </dl>
 </div></blockquote>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">wixPackageInfo</span></code></dt>
-<dd>The information used to autoconstruct the <code class="docutils literal"><span class="pre">&lt;Product&gt;&lt;Package/&gt;</span></code> portion of the wix xml.  <strong>Note: unused if ``wixConfig`` is overridden</strong></dd>
-<dt><code class="docutils literal"><span class="pre">wixProductLicense</span></code></dt>
-<dd>An (optional) <code class="docutils literal"><span class="pre">rtf</span></code> file to display as the product license during installation.  Defaults to <code class="docutils literal"><span class="pre">src/windows/License.rtf</span></code></dd>
-<dt><code class="docutils literal"><span class="pre">wixFeatures</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">wixPackageInfo</span></code></dt>
+<dd>The information used to autoconstruct the <code class="docutils literal notranslate"><span class="pre">&lt;Product&gt;&lt;Package/&gt;</span></code> portion of the wix xml.  <strong>Note: unused if ``wixConfig`` is overridden</strong></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">wixProductLicense</span></code></dt>
+<dd>An (optional) <code class="docutils literal notranslate"><span class="pre">rtf</span></code> file to display as the product license during installation.  Defaults to <code class="docutils literal notranslate"><span class="pre">src/windows/License.rtf</span></code></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">wixFeatures</span></code></dt>
 <dd>A set of windows features that users can install with this package.  <strong>Note: unused if ``wixConfig`` is overridden</strong></dd>
-<dt><code class="docutils literal"><span class="pre">wixProductConfig</span></code></dt>
-<dd>inline XML to use for wix configuration.  This is everything nested inside the <code class="docutils literal"><span class="pre">&lt;Product&gt;</span></code> element.</dd>
-<dt><code class="docutils literal"><span class="pre">wixConfig</span></code></dt>
-<dd>inline XML to use for wix configuration.   This is used if the <code class="docutils literal"><span class="pre">wixFile</span></code> setting is not specified.</dd>
-<dt><code class="docutils literal"><span class="pre">wixFile</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">wixProductConfig</span></code></dt>
+<dd>inline XML to use for wix configuration.  This is everything nested inside the <code class="docutils literal notranslate"><span class="pre">&lt;Product&gt;</span></code> element.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">wixConfig</span></code></dt>
+<dd>inline XML to use for wix configuration.   This is used if the <code class="docutils literal notranslate"><span class="pre">wixFile</span></code> setting is not specified.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">wixFile</span></code></dt>
 <dd>The file containing WIX xml that defines the build.</dd>
-<dt><code class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">packageMsi</span> <span class="pre">in</span> <span class="pre">Windows</span></code></dt>
-<dd>A list of file-&gt;location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a <code class="docutils literal"><span class="pre">cab</span></code> or embedded <code class="docutils literal"><span class="pre">cab</span></code> for the <code class="docutils literal"><span class="pre">msi</span></code>.
+<dt><code class="docutils literal notranslate"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">packageMsi</span> <span class="pre">in</span> <span class="pre">Windows</span></code></dt>
+<dd>A list of file-&gt;location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a <code class="docutils literal notranslate"><span class="pre">cab</span></code> or embedded <code class="docutils literal notranslate"><span class="pre">cab</span></code> for the <code class="docutils literal notranslate"><span class="pre">msi</span></code>.
 The WIX xml should use the relative locations in this mappings when referencing files for the package.</dd>
 </dl>
 </div></blockquote>
@@ -566,25 +566,25 @@ The WIX xml should use the relative locations in this mappings when referencing 
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">windows:packageBin</span></code></dt>
-<dd>Creates the <code class="docutils literal"><span class="pre">msi</span></code> package.</dd>
-<dt><code class="docutils literal"><span class="pre">wix-file</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">windows:packageBin</span></code></dt>
+<dd>Creates the <code class="docutils literal notranslate"><span class="pre">msi</span></code> package.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">wix-file</span></code></dt>
 <dd>Generates the Wix xml file from <cite>wixConfig</cite> and <cite>wixProductConfig</cite> setings, unless overriden.</dd>
 </dl>
 </div></blockquote>
 <p>The native-packager plugin provides a few handy utilities for generating Wix XML.  These
-utilities are located in the <code class="docutils literal"><span class="pre">com.typesafe.packager.windows.WixHelper</span></code> object.  Among
+utilities are located in the <code class="docutils literal notranslate"><span class="pre">com.typesafe.packager.windows.WixHelper</span></code> object.  Among
 these are the following functions:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">cleanStringForId(String):</span> <span class="pre">String</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">cleanStringForId(String):</span> <span class="pre">String</span></code></dt>
 <dd>Takes in a string and returns a wix-friendly identifier.  Note: truncates to 50 characters.</dd>
-<dt><code class="docutils literal"><span class="pre">cleanFileName(String):</span> <span class="pre">String</span></code></dt>
-<dd>Takes in a file name and replaces any <code class="docutils literal"><span class="pre">$</span></code> with <code class="docutils literal"><span class="pre">$$</span></code> to make it past the Wix preprocessor.</dd>
-<dt><code class="docutils literal"><span class="pre">generateComponentsAndDirectoryXml(File):</span> <span class="pre">(Seq[String],</span> <span class="pre">scala.xml.Node)</span></code></dt>
-<dd>This method will take a file and generate <code class="docutils literal"><span class="pre">&lt;Directory&gt;</span></code>, <code class="docutils literal"><span class="pre">&lt;Component&gt;</span></code> and <code class="docutils literal"><span class="pre">&lt;File&gt;</span></code>
+<dt><code class="docutils literal notranslate"><span class="pre">cleanFileName(String):</span> <span class="pre">String</span></code></dt>
+<dd>Takes in a file name and replaces any <code class="docutils literal notranslate"><span class="pre">$</span></code> with <code class="docutils literal notranslate"><span class="pre">$$</span></code> to make it past the Wix preprocessor.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">generateComponentsAndDirectoryXml(File):</span> <span class="pre">(Seq[String],</span> <span class="pre">scala.xml.Node)</span></code></dt>
+<dd>This method will take a file and generate <code class="docutils literal notranslate"><span class="pre">&lt;Directory&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;Component&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;File&gt;</span></code>
 XML elements for all files/directories contained in the given file.  It will return the
-<code class="docutils literal"><span class="pre">Id</span></code> settings for any generated components.  This is a handy way to package a large
+<code class="docutils literal notranslate"><span class="pre">Id</span></code> settings for any generated components.  This is a handy way to package a large
 directory of files for usage in the Features of an MSI.</dd>
 </dl>
 </div></blockquote>
@@ -596,13 +596,13 @@ directory of files for usage in the Features of an MSI.</dd>
 <p>The abstraction over wix allows you to configure “features” that users may optionally install. These feature are higher level things,
 like a set of files or menu links. The currently supported components of features are:</p>
 <ol class="arabic simple">
-<li>Files (<code class="docutils literal"><span class="pre">ComponentFile</span></code>)</li>
-<li>Path Configuration (<code class="docutils literal"><span class="pre">AddDirectoryToPath</span></code>)</li>
-<li>Menu Shortcuts (<code class="docutils literal"><span class="pre">AddShortCuts</span></code>)</li>
+<li>Files (<code class="docutils literal notranslate"><span class="pre">ComponentFile</span></code>)</li>
+<li>Path Configuration (<code class="docutils literal notranslate"><span class="pre">AddDirectoryToPath</span></code>)</li>
+<li>Menu Shortcuts (<code class="docutils literal notranslate"><span class="pre">AddShortCuts</span></code>)</li>
 </ol>
-<p>To create a new feature, simple instantiate the <code class="docutils literal"><span class="pre">WindowsFeature</span></code> class with the desired feature components that are included.</p>
+<p>To create a new feature, simple instantiate the <code class="docutils literal notranslate"><span class="pre">WindowsFeature</span></code> class with the desired feature components that are included.</p>
 <p>Here’s an example feature that installs a binary file (<cite>cool.jar</cite>) and a script (<cite>cool.bat</cite>), and adds a directory to the PATH:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">wixFeatures</span> <span class="o">+=</span> <span class="nc">WindowsFeature</span><span class="o">(</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">wixFeatures</span> <span class="o">+=</span> <span class="nc">WindowsFeature</span><span class="o">(</span>
     <span class="n">id</span><span class="o">=</span><span class="s">&quot;BinaryAndPath&quot;</span><span class="o">,</span>
     <span class="n">title</span><span class="o">=</span><span class="s">&quot;My Project&#39;s Binaries and updated PATH settings&quot;</span><span class="o">,</span>
     <span class="n">desc</span><span class="o">=</span><span class="s">&quot;Update PATH environment variables (requires restart).&quot;</span><span class="o">,</span>
@@ -613,10 +613,10 @@ like a set of files or menu links. The currently supported components of feature
 <span class="o">)</span>
 </pre></div>
 </div>
-<p>All file references should line up exactly with those found in the <code class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></code> configuration.   When generating a MSI, the plugin will first create
-a directory using all the <code class="docutils literal"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></code> and configure this for inclusion in a <code class="docutils literal"><span class="pre">cab</span></code> file.  If you’d like to add files to include, these must <em>first</em>
+<p>All file references should line up exactly with those found in the <code class="docutils literal notranslate"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></code> configuration.   When generating a MSI, the plugin will first create
+a directory using all the <code class="docutils literal notranslate"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Windows</span></code> and configure this for inclusion in a <code class="docutils literal notranslate"><span class="pre">cab</span></code> file.  If you’d like to add files to include, these must <em>first</em>
 be added to the mappings, and then to a feature.   For example, if we complete the above setting to include file mappings, we’d have the following:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">sourceDirectory</span> <span class="n">in</span> <span class="nc">Windows</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="n">jar</span><span class="o">,</span> <span class="n">dir</span><span class="o">)</span> <span class="k">=&gt;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Windows</span> <span class="o">++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">sourceDirectory</span> <span class="n">in</span> <span class="nc">Windows</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="n">jar</span><span class="o">,</span> <span class="n">dir</span><span class="o">)</span> <span class="k">=&gt;</span>
   <span class="nc">Seq</span><span class="o">(</span><span class="n">jar</span> <span class="o">-&gt;</span> <span class="s">&quot;lib/cool.jar&quot;</span><span class="o">,</span> <span class="o">(</span><span class="n">dir</span> <span class="o">/</span> <span class="s">&quot;cool.bat&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;bin/cool.bat&quot;</span><span class="o">)</span>
 <span class="o">}</span>
 
@@ -632,7 +632,7 @@ be added to the mappings, and then to a feature.   For example, if we complete t
 </pre></div>
 </div>
 <p>Right now this layer is <em>very</em> limited in what it can accomplish, and hasn’t been heavily debugged.  If you’re interested in helping contribute, please
-do so!   However, for most command line tools, it should be sufficient for generating a basic <code class="docutils literal"><span class="pre">msi</span></code> that Windows users can install.</p>
+do so!   However, for most command line tools, it should be sufficient for generating a basic <code class="docutils literal notranslate"><span class="pre">msi</span></code> that Windows users can install.</p>
 </div>
 </div>
 </div>
@@ -679,7 +679,7 @@ do so!   However, for most command line tools, it should be sufficient for gener
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.7',
+            VERSION:'1.3.8-M14',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

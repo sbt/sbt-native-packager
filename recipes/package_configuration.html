@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Build the same package with different configs &mdash; sbt-native-packager 1.3.7 documentation</title>
+  <title>Build the same package with different configs &mdash; sbt-native-packager 1.3.8-M14 documentation</title>
   
 
   
@@ -196,7 +196,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#jar-repackaging">Jar Repackaging</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -330,10 +330,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -469,20 +469,20 @@
 have three ways to do this.</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last">All examples are shown in a simple <code class="docutils literal"><span class="pre">build.sbt</span></code>. We recommend using AutoPlugins to encapsulate certain aspects
+<p class="last">All examples are shown in a simple <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>. We recommend using AutoPlugins to encapsulate certain aspects
 of your build.</p>
 </div>
 <p>All examples can also be found in the <a class="reference external" href="https://github.com/muuki88/sbt-native-packager-examples">native-packager examples</a>,</p>
 <div class="section" id="sbt-sub-modules">
 <h2>SBT sub modules<a class="headerlink" href="#sbt-sub-modules" title="Permalink to this headline">¶</a></h2>
-<p>The main idea is to create a submodule per configuration. We start with a simple project <code class="docutils literal"><span class="pre">build.sbt</span></code>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;my-app&quot;</span>
+<p>The main idea is to create a submodule per configuration. We start with a simple project <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;my-app&quot;</span>
 <span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
 </pre></div>
 </div>
 <p>In the end we want to create three different packages (<em>test</em>, <em>stage</em>, <em>prod</em>) with the respective configurations.
 We do this by creating an application module and three packaging submodules.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// the application</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// the application</span>
 <span class="k">lazy</span> <span class="k">val</span> <span class="n">app</span> <span class="k">=</span> <span class="n">project</span>
   <span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">))</span>
   <span class="o">.</span><span class="n">settings</span><span class="o">(</span>
@@ -491,8 +491,8 @@ We do this by creating an application module and three packaging submodules.</p>
   <span class="o">)</span>
 </pre></div>
 </div>
-<p>Now that our application is defined in a module, we can add the three packaging submodules. We will override the <code class="docutils literal"><span class="pre">resourceDirectory</span></code> setting with our <code class="docutils literal"><span class="pre">app</span></code> resource directory to gain easy access to the applications resources.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">lazy</span> <span class="k">val</span> <span class="n">testPackage</span> <span class="k">=</span> <span class="n">project</span>
+<p>Now that our application is defined in a module, we can add the three packaging submodules. We will override the <code class="docutils literal notranslate"><span class="pre">resourceDirectory</span></code> setting with our <code class="docutils literal notranslate"><span class="pre">app</span></code> resource directory to gain easy access to the applications resources.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">lazy</span> <span class="k">val</span> <span class="n">testPackage</span> <span class="k">=</span> <span class="n">project</span>
   <span class="c1">// we put the results  in a build folder</span>
   <span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;build/test&quot;</span><span class="o">))</span>
   <span class="o">.</span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
@@ -529,8 +529,8 @@ We do this by creating an application module and three packaging submodules.</p>
   <span class="o">.</span><span class="n">dependsOn</span><span class="o">(</span><span class="n">app</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>Now that you have your <code class="docutils literal"><span class="pre">build.sbt</span></code> set up, you can try building packages.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># stages a test build in build/test/target/universal/stage</span>
+<p>Now that you have your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> set up, you can try building packages.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># stages a test build in build/test/target/universal/stage</span>
 testPackage/stage
 
 <span class="c1"># creates a zip with the test configuration</span>
@@ -543,7 +543,7 @@ sbt testPackage/universal:packageBin
 <h2>SBT parameters and Build Environment<a class="headerlink" href="#sbt-parameters-and-build-environment" title="Permalink to this headline">¶</a></h2>
 <p>SBT is a java process, which means you can start it with system properties and use these in your build.
 This pattern may be useful in other scopes as well. First we define an <em>AutoPlugin</em> that sets a build environment.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">sbt._</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">sbt._</span>
 <span class="k">import</span> <span class="nn">sbt.Keys._</span>
 <span class="k">import</span> <span class="nn">sbt.plugins.JvmPlugin</span>
 
@@ -590,16 +590,16 @@ This pattern may be useful in other scopes as well. First we define an <em>AutoP
 </pre></div>
 </div>
 <p>This plugin allows you to start sbt for example like</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt -Denv<span class="o">=</span>prod
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt -Denv<span class="o">=</span>prod
 <span class="o">[</span>info<span class="o">]</span> Set current project to my-app <span class="o">(</span>in build file: ...<span class="o">)</span>
 <span class="o">[</span>info<span class="o">]</span> Running in build environment: Production
 &gt; show buildEnv
 <span class="o">[</span>info<span class="o">]</span> Production
 </pre></div>
 </div>
-<p>Now we can use this <code class="docutils literal"><span class="pre">buildEnv</span></code> setting to change things. For example the <code class="docutils literal"><span class="pre">mappings</span></code>. We recommend doing this in a
-plugin as it involes quite some logic. In this case we decide which configuration file to map as <code class="docutils literal"><span class="pre">application.conf</span></code>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">+=</span> <span class="o">{</span>
+<p>Now we can use this <code class="docutils literal notranslate"><span class="pre">buildEnv</span></code> setting to change things. For example the <code class="docutils literal notranslate"><span class="pre">mappings</span></code>. We recommend doing this in a
+plugin as it involes quite some logic. In this case we decide which configuration file to map as <code class="docutils literal notranslate"><span class="pre">application.conf</span></code>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">+=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">confFile</span> <span class="k">=</span> <span class="n">buildEnv</span><span class="o">.</span><span class="n">value</span> <span class="k">match</span> <span class="o">{</span>
     <span class="k">case</span> <span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Developement</span> <span class="k">=&gt;</span> <span class="s">&quot;dev.conf&quot;</span>
     <span class="k">case</span> <span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Test</span> <span class="k">=&gt;</span> <span class="s">&quot;test.conf&quot;</span>
@@ -612,7 +612,7 @@ plugin as it involes quite some logic. In this case we decide which configuratio
 </div>
 <p>Ofcourse you can change all other settings, package names, etc. as well. Building different output packages would look
 like this</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt -Denv<span class="o">=</span><span class="nb">test</span> universal:packageBin
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt -Denv<span class="o">=</span><span class="nb">test</span> universal:packageBin
 sbt -Denv<span class="o">=</span>stage universal:packageBin
 sbt -Denv<span class="o">=</span>prod universal:packageBin
 </pre></div>
@@ -620,7 +620,7 @@ sbt -Denv<span class="o">=</span>prod universal:packageBin
 </div>
 <div class="section" id="sbt-configuration-scope-not-recommended">
 <h2>SBT configuration scope (not recommended)<a class="headerlink" href="#sbt-configuration-scope-not-recommended" title="Permalink to this headline">¶</a></h2>
-<p>The other option is to generate additional scopes in order to build a package like <code class="docutils literal"><span class="pre">prod:packageBin</span></code>. Scopes behave
+<p>The other option is to generate additional scopes in order to build a package like <code class="docutils literal notranslate"><span class="pre">prod:packageBin</span></code>. Scopes behave
 counter intuitive sometimes, why we don’t recommend this technique.</p>
 <div class="admonition error">
 <p class="first admonition-title">Error</p>
@@ -628,7 +628,7 @@ counter intuitive sometimes, why we don’t recommend this technique.</p>
 recommend using another technique.</p>
 </div>
 <p>A simple start may look like this</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">lazy</span> <span class="k">val</span> <span class="nc">Prod</span> <span class="k">=</span> <span class="n">config</span><span class="o">(</span><span class="s">&quot;prod&quot;</span><span class="o">)</span> <span class="n">extend</span><span class="o">(</span><span class="nc">Universal</span><span class="o">)</span> <span class="n">describedAs</span><span class="o">(</span><span class="s">&quot;scope to build production packages&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">lazy</span> <span class="k">val</span> <span class="nc">Prod</span> <span class="k">=</span> <span class="n">config</span><span class="o">(</span><span class="s">&quot;prod&quot;</span><span class="o">)</span> <span class="n">extend</span><span class="o">(</span><span class="nc">Universal</span><span class="o">)</span> <span class="n">describedAs</span><span class="o">(</span><span class="s">&quot;scope to build production packages&quot;</span><span class="o">)</span>
 <span class="k">lazy</span> <span class="k">val</span> <span class="nc">Stage</span> <span class="k">=</span> <span class="n">config</span><span class="o">(</span><span class="s">&quot;stage&quot;</span><span class="o">)</span> <span class="n">extend</span><span class="o">(</span><span class="nc">Universal</span><span class="o">)</span> <span class="n">describedAs</span><span class="o">(</span><span class="s">&quot;scope to build staging packages&quot;</span><span class="o">)</span>
 
 <span class="k">lazy</span> <span class="k">val</span> <span class="n">app</span> <span class="k">=</span> <span class="n">project</span>
@@ -641,9 +641,9 @@ recommend using another technique.</p>
   <span class="o">)</span>
 </pre></div>
 </div>
-<p>You would expect <code class="docutils literal"><span class="pre">prod:packageBin</span></code> to work, but <em>extending</em> scopes doesn’t imply inheriting tasks and settings. This
-needs to be done manually. Append this to the <code class="docutils literal"><span class="pre">app</span></code> project.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// inheriting tasks and settings</span>
+<p>You would expect <code class="docutils literal notranslate"><span class="pre">prod:packageBin</span></code> to work, but <em>extending</em> scopes doesn’t imply inheriting tasks and settings. This
+needs to be done manually. Append this to the <code class="docutils literal notranslate"><span class="pre">app</span></code> project.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// inheriting tasks and settings</span>
 <span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">inConfig</span><span class="o">(</span><span class="nc">Prod</span><span class="o">)(</span><span class="nc">UniversalPlugin</span><span class="o">.</span><span class="n">projectSettings</span><span class="o">))</span>
 <span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">inConfig</span><span class="o">(</span><span class="nc">Prod</span><span class="o">)(</span><span class="nc">JavaAppPackaging</span><span class="o">.</span><span class="n">projectSettings</span><span class="o">))</span>
 <span class="c1">// define custom settings</span>
@@ -704,7 +704,7 @@ the package.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.7',
+            VERSION:'1.3.8-M14',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

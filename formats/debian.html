@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Debian Plugin &mdash; sbt-native-packager 1.3.7 documentation</title>
+  <title>Debian Plugin &mdash; sbt-native-packager 1.3.8-M14 documentation</title>
   
 
   
@@ -196,7 +196,7 @@
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#jar-repackaging">Jar Repackaging</a></li>
-<li class="toctree-l4"><a class="reference internal" href="rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -330,10 +330,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -469,7 +469,7 @@
 the underlying packaging system works.  <a class="reference external" href="http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/">Debian Binary Package Building HOWTO</a> by Chr. Clemens Lee is an excellent tutorial.</p>
 <p>SBT Native Packager provides two ways to build debian packages:</p>
 <ol class="arabic simple">
-<li>A native implementation, where you need <code class="docutils literal"><span class="pre">dpkg-deb</span></code> installed, or</li>
+<li>A native implementation, where you need <code class="docutils literal notranslate"><span class="pre">dpkg-deb</span></code> installed, or</li>
 <li>A java, platform independent approach with <a class="reference external" href="https://github.com/tcurdt/jdeb">jdeb</a>.</li>
 </ol>
 <p>By default the <em>native</em> implementation is activated.</p>
@@ -490,14 +490,14 @@ the underlying packaging system works.  <a class="reference external" href="http
 </div>
 <div class="section" id="build">
 <h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt debian:packageBin
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt debian:packageBin
 </pre></div>
 </div>
 <div class="section" id="required-settings">
 <h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
 <p>A debian package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Debian Example&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Debian Example&quot;</span>
 
 <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span>
 
@@ -511,11 +511,11 @@ you have these settings in your build:</p>
 </div>
 <p>It’s not exactly mandatory, but still highly recommended to add
 relevant <a class="reference internal" href="#jre-dependencies"><span class="std std-ref">JRE dependency</span></a>, for example:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">debianPackageDependencies</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;java8-runtime-headless&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">debianPackageDependencies</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;java8-runtime-headless&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 <p>Enable the debian plugin to activate the native package implementation.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">DebianPlugin</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">DebianPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
@@ -525,29 +525,29 @@ relevant <a class="reference internal" href="#jre-dependencies"><span class="std
 Java Runtime Environment (JRE). A startup script will seek JRE in
 several popular locations, and, JRE is not found, the following
 message would be displayed:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">No</span> <span class="n">java</span> <span class="n">installations</span> <span class="n">was</span> <span class="n">detected</span><span class="o">.</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">No</span> <span class="n">java</span> <span class="n">installations</span> <span class="n">was</span> <span class="n">detected</span><span class="o">.</span>
 <span class="n">Please</span> <span class="n">go</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">java</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">getjava</span><span class="o">/</span> <span class="ow">and</span> <span class="n">download</span>
 </pre></div>
 </div>
 <p>To build a Debian package that integrates properly with Debian
 repository environment, i.e. depends on a package that provides JRE,
 one needs to specify JRE dependency using
-<code class="docutils literal"><span class="pre">debianPackageDependencies</span></code>. Debian (Ubuntu and compatible
+<code class="docutils literal notranslate"><span class="pre">debianPackageDependencies</span></code>. Debian (Ubuntu and compatible
 distributions as well) provides two families of virtual packages to do
 that:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">javaN-runtime</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">javaN-runtime</span></code></dt>
 <dd>Regular (full) JRE packages, with GUI support. Use this for
 applications requiring AWT/Swing support, OpenGL, sound, etc.</dd>
-<dt><code class="docutils literal"><span class="pre">javaN-runtime-headless</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">javaN-runtime-headless</span></code></dt>
 <dd>Minimal JRE packages without GUI support, useful for server
 installation to avoid pulling large set of X.org-related
 packages. Use this for console-only applications, services,
 networked / web applications, etc.</dd>
 </dl>
 </div></blockquote>
-<p><code class="docutils literal"><span class="pre">N</span></code> in <code class="docutils literal"><span class="pre">javaN</span></code> should be replaced with minimal JRE version
+<p><code class="docutils literal notranslate"><span class="pre">N</span></code> in <code class="docutils literal notranslate"><span class="pre">javaN</span></code> should be replaced with minimal JRE version
 required by the packaged application. It usually depends on a Scala
 version used:</p>
 <ul class="simple">
@@ -556,16 +556,16 @@ version used:</p>
 </ul>
 <p>Note that these are <em>virtual</em> packages, which are provided by a set of
 real packages. This means, for example, while installing a .deb
-package that depends on <code class="docutils literal"><span class="pre">java6-runtime-headless</span></code>:</p>
+package that depends on <code class="docutils literal notranslate"><span class="pre">java6-runtime-headless</span></code>:</p>
 <ul class="simple">
 <li>If end-user has no suitable JRE installed, it would automatically
 pull and install some “sane default” package which provides thing
-functionality (typically, it would be <code class="docutils literal"><span class="pre">openjdk-8-jre-headless</span></code>).</li>
+functionality (typically, it would be <code class="docutils literal notranslate"><span class="pre">openjdk-8-jre-headless</span></code>).</li>
 <li>If end-user does not like default suggested JRE for some reason,
 it’s possible to install any alternative implementation.</li>
 <li>If end-user has some existing JRE installation that is sufficient to
-play that role (for example, <code class="docutils literal"><span class="pre">openjdk-9-jre</span></code>, which provides,
-along others, <code class="docutils literal"><span class="pre">java8-runtime-headless</span></code> too), it would be used.</li>
+play that role (for example, <code class="docutils literal notranslate"><span class="pre">openjdk-9-jre</span></code>, which provides,
+along others, <code class="docutils literal notranslate"><span class="pre">java8-runtime-headless</span></code> too), it would be used.</li>
 </ul>
 <p>This dependency works equally well with both free/libre OpenJDK
 packages supplied by Debian, and non-free JDKs supplied by Oracle and
@@ -577,7 +577,7 @@ packaged as .deb using <a class="reference external" href="https://wiki.debian.o
 contents.</p>
 <p>To compress the debian package, override <cite>debianNativeBuildOptions</cite> with
 <a class="reference external" href="http://man7.org/linux/man-pages/man1/dpkg-deb.1.html">options</a> for <cite>dpkg-deb</cite>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">debianNativeBuildOptions</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">Nil</span> <span class="c1">// dpkg-deb&#39;s default compression (currently xz)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">debianNativeBuildOptions</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">Nil</span> <span class="c1">// dpkg-deb&#39;s default compression (currently xz)</span>
 
 <span class="n">debianNativeBuildOptions</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;-Zgzip&quot;</span><span class="o">,</span> <span class="s">&quot;-z3&quot;</span><span class="o">)</span> <span class="c1">// gzip compression at level 3</span>
 </pre></div>
@@ -592,7 +592,7 @@ example,</li>
 <li>being on python-apt 8.8 series that’s on Debian Wheezy and perhaps older</li>
 </ul>
 <p>It will fail with an error message like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span><span class="p">:</span> <span class="n">This</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">DEB</span> <span class="n">archive</span><span class="p">,</span> <span class="n">it</span> <span class="n">has</span> <span class="n">no</span> <span class="s1">&#39;data.tar.gz&#39;</span><span class="p">,</span> <span class="s1">&#39;data.tar.bz2&#39;</span> <span class="ow">or</span> <span class="s1">&#39;data.tar.lzma&#39;</span> <span class="n">member</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">E</span><span class="p">:</span> <span class="n">This</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">DEB</span> <span class="n">archive</span><span class="p">,</span> <span class="n">it</span> <span class="n">has</span> <span class="n">no</span> <span class="s1">&#39;data.tar.gz&#39;</span><span class="p">,</span> <span class="s1">&#39;data.tar.bz2&#39;</span> <span class="ow">or</span> <span class="s1">&#39;data.tar.lzma&#39;</span> <span class="n">member</span>
 </pre></div>
 </div>
 <p>Solutions include:</p>
@@ -606,11 +606,11 @@ example,</li>
 <div class="section" id="java-based-packaging">
 <h3>Java based packaging<a class="headerlink" href="#java-based-packaging" title="Permalink to this headline">¶</a></h3>
 <p>If you want to use the java based implementation, enable the following plugin:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JDebPackaging</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JDebPackaging</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>and this to your <code class="docutils literal"><span class="pre">plugins.sbt</span></code>:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;org.vafer&quot;</span> <span class="o">%</span> <span class="s">&quot;jdeb&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3&quot;</span> <span class="n">artifacts</span> <span class="o">(</span><span class="nc">Artifact</span><span class="o">(</span><span class="s">&quot;jdeb&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">))</span>
+<p>and this to your <code class="docutils literal notranslate"><span class="pre">plugins.sbt</span></code>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;org.vafer&quot;</span> <span class="o">%</span> <span class="s">&quot;jdeb&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3&quot;</span> <span class="n">artifacts</span> <span class="o">(</span><span class="nc">Artifact</span><span class="o">(</span><span class="s">&quot;jdeb&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">))</span>
 </pre></div>
 </div>
 <p>JDeb is a provided dependency. You have to explicitly add it on your own. It brings a lot of dependencies
@@ -619,8 +619,8 @@ that could slow your build times. This is the reason the dependency is marked as
 </div>
 <div class="section" id="configurations">
 <h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
-<p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal"><span class="pre">Debian</span></code>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
+<p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Debian</span></code>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </div>
@@ -629,30 +629,30 @@ that could slow your build times. This is the reason the dependency is marked as
 <p>Debian requires the following specific settings:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The name of the package for debian (if different from general linux name).</dd>
-<dt><code class="docutils literal"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The debian-friendly version of the package.   Should be of the form <code class="docutils literal"><span class="pre">x.y.z-build-aa</span></code>.</dd>
-<dt><code class="docutils literal"><span class="pre">debianPackageConflicts</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dd>The debian-friendly version of the package.   Should be of the form <code class="docutils literal notranslate"><span class="pre">x.y.z-build-aa</span></code>.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debianPackageConflicts</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The list of debian packages that this package conflicts with.</dd>
-<dt><code class="docutils literal"><span class="pre">debianPackageDependencies</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">debianPackageDependencies</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The list of debian packages that this package depends on.</dd>
-<dt><code class="docutils literal"><span class="pre">debianPackageProvides</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">debianPackageProvides</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The list of debian packages that are provided by this package.</dd>
-<dt><code class="docutils literal"><span class="pre">debianPackageRecommends</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">debianPackageRecommends</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
 <dd>The list of debian packages that are recommended to be installed with this package.</dd>
-<dt><code class="docutils literal"><span class="pre">linuxPackageMappings</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>Debian requires a <code class="docutils literal"><span class="pre">/usr/share/doc/{package</span> <span class="pre">name}/changelog.gz</span></code> file that describes
+<dt><code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dd>Debian requires a <code class="docutils literal notranslate"><span class="pre">/usr/share/doc/{package</span> <span class="pre">name}/changelog.gz</span></code> file that describes
 the version changes in this package. These should be appended to the base linux versions.</dd>
-<dt><code class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> (<code class="docutils literal"><span class="pre">debianMaintainerScripts</span></code>)</dt>
-<dd><em>DEPRECATED</em> use <code class="docutils literal"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> instead.
-These are the packaging scripts themselves used by <code class="docutils literal"><span class="pre">dpkg-deb</span></code> to build your debian.  These
+<dt><code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> (<code class="docutils literal notranslate"><span class="pre">debianMaintainerScripts</span></code>)</dt>
+<dd><em>DEPRECATED</em> use <code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> instead.
+These are the packaging scripts themselves used by <code class="docutils literal notranslate"><span class="pre">dpkg-deb</span></code> to build your debian.  These
 scripts are used when installing/uninstalling a debian, like prerm, postinstall, etc.  These scripts
-are placed in the <code class="docutils literal"><span class="pre">DEBIAN</span></code> file when building.    Some of these files can be autogenerated,
+are placed in the <code class="docutils literal notranslate"><span class="pre">DEBIAN</span></code> file when building.    Some of these files can be autogenerated,
 for example when using a package archetype, like server_application.  However, any autogenerated file
-can be overridden by placing your own files in the <code class="docutils literal"><span class="pre">src/debian/DEBIAN</span></code> directory.</dd>
-<dt><code class="docutils literal"><span class="pre">changelog</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>This is the changelog used by <code class="docutils literal"><span class="pre">dpkg-genchanges</span></code> to create the .changes file. This will allow you to
+can be overridden by placing your own files in the <code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code> directory.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
+<dd>This is the changelog used by <code class="docutils literal notranslate"><span class="pre">dpkg-genchanges</span></code> to create the .changes file. This will allow you to
 upload the debian package to a mirror.</dd>
 </dl>
 </div></blockquote>
@@ -662,12 +662,12 @@ upload the debian package to a mirror.</dd>
 <p>The Debian support grants the following commands:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">debian:package-bin</span></code></dt>
-<dd>Generates the <code class="docutils literal"><span class="pre">.deb</span></code> package for this project.</dd>
-<dt><code class="docutils literal"><span class="pre">debian:lintian</span></code></dt>
-<dd>Generates the <code class="docutils literal"><span class="pre">.deb</span></code> file and runs the <code class="docutils literal"><span class="pre">lintian</span></code> command to look for issues in the package.  Useful for debugging.</dd>
-<dt><code class="docutils literal"><span class="pre">debian:gen-changes</span></code></dt>
-<dd>Generates the <code class="docutils literal"><span class="pre">.changes</span></code>, and therefore the <code class="docutils literal"><span class="pre">.deb</span></code> package for this project.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debian:package-bin</span></code></dt>
+<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> package for this project.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debian:lintian</span></code></dt>
+<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> file and runs the <code class="docutils literal notranslate"><span class="pre">lintian</span></code> command to look for issues in the package.  Useful for debugging.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debian:gen-changes</span></code></dt>
+<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.changes</span></code>, and therefore the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> package for this project.</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -678,7 +678,7 @@ upload the debian package to a mirror.</dd>
 <h3>Customizing Debian Metadata<a class="headerlink" href="#customizing-debian-metadata" title="Permalink to this headline">¶</a></h3>
 <p>A Debian package provides metadata, which includes <strong>dependencies</strong> and <strong>recommendations</strong>.
 This example adds a dependency on java and recommends a git installation.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">debianPackageDependencies</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;java2-runtime&quot;</span><span class="o">,</span> <span class="s">&quot;bash (&gt;= 2.05a-11)&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">debianPackageDependencies</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;java2-runtime&quot;</span><span class="o">,</span> <span class="s">&quot;bash (&gt;= 2.05a-11)&quot;</span><span class="o">)</span>
 
 <span class="n">debianPackageRecommends</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span> <span class="s">&quot;git&quot;</span>
 </pre></div>
@@ -687,9 +687,9 @@ This example adds a dependency on java and recommends a git installation.</p>
 <div class="section" id="hook-actions-into-the-debian-package-lifecycle">
 <h3>Hook Actions into the Debian Package Lifecycle<a class="headerlink" href="#hook-actions-into-the-debian-package-lifecycle" title="Permalink to this headline">¶</a></h3>
 <p>To hook into the debian package lifecycle (<a class="reference external" href="https://wiki.debian.org/MaintainerScripts">https://wiki.debian.org/MaintainerScripts</a>) you
-can add <code class="docutils literal"><span class="pre">preinst</span></code> , <code class="docutils literal"><span class="pre">postinst</span></code> , <code class="docutils literal"><span class="pre">prerm</span></code> and/or <code class="docutils literal"><span class="pre">postrm</span></code> scripts. Just place them into
-<code class="docutils literal"><span class="pre">src/debian/DEBIAN</span></code>. Or you can do it programmatically in your <code class="docutils literal"><span class="pre">build.sbt</span></code>.  This example adds actions to <code class="docutils literal"><span class="pre">preinst</span></code> and <code class="docutils literal"><span class="pre">postinst</span></code>:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">DebianConstants._</span>
+can add <code class="docutils literal notranslate"><span class="pre">preinst</span></code> , <code class="docutils literal notranslate"><span class="pre">postinst</span></code> , <code class="docutils literal notranslate"><span class="pre">prerm</span></code> and/or <code class="docutils literal notranslate"><span class="pre">postrm</span></code> scripts. Just place them into
+<code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code>. Or you can do it programmatically in your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>.  This example adds actions to <code class="docutils literal notranslate"><span class="pre">preinst</span></code> and <code class="docutils literal notranslate"><span class="pre">postinst</span></code>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">DebianConstants._</span>
 <span class="n">maintainerScripts</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="n">maintainerScriptsAppend</span><span class="o">((</span><span class="n">maintainerScripts</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">).</span><span class="n">value</span><span class="o">)(</span>
   <span class="nc">Preinst</span> <span class="o">-&gt;</span> <span class="s">&quot;echo &#39;hello, world&#39;&quot;</span><span class="o">,</span>
   <span class="nc">Postinst</span> <span class="o">-&gt;</span> <span class="s">s&quot;echo &#39;installed </span><span class="si">${</span><span class="o">(</span><span class="n">packageName</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">).</span><span class="n">value</span><span class="si">}</span><span class="s">&#39;&quot;</span>
@@ -697,14 +697,14 @@ can add <code class="docutils literal"><span class="pre">preinst</span></code> ,
 </pre></div>
 </div>
 <p>The helper methods can be found in <a class="reference external" href="http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$">MaintainerScriptHelper Scaladocs</a>.</p>
-<p>If you use the <code class="docutils literal"><span class="pre">JavaServerAppPackaging</span></code> there are predefined <code class="docutils literal"><span class="pre">postinst</span></code> and
-<code class="docutils literal"><span class="pre">preinst</span></code> files, which start/stop the application on install/remove calls. Existing
+<p>If you use the <code class="docutils literal notranslate"><span class="pre">JavaServerAppPackaging</span></code> there are predefined <code class="docutils literal notranslate"><span class="pre">postinst</span></code> and
+<code class="docutils literal notranslate"><span class="pre">preinst</span></code> files, which start/stop the application on install/remove calls. Existing
 maintainer scripts will be <em>extended</em> not overridden.</p>
 </div>
 <div class="section" id="use-a-different-castle-directory-for-your-control-scripts">
 <h3>Use a Different Castle Directory for your Control Scripts<a class="headerlink" href="#use-a-different-castle-directory-for-your-control-scripts" title="Permalink to this headline">¶</a></h3>
 <p>Your control scripts are in a different castle.. directory? No problem.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">debianControlScriptsDirectory</span> <span class="o">&lt;&lt;=</span> <span class="o">(</span><span class="n">sourceDirectory</span><span class="o">)</span> <span class="n">apply</span> <span class="o">(</span><span class="k">_</span> <span class="o">/</span> <span class="s">&quot;deb&quot;</span> <span class="o">/</span> <span class="s">&quot;control&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">debianControlScriptsDirectory</span> <span class="o">&lt;&lt;=</span> <span class="o">(</span><span class="n">sourceDirectory</span><span class="o">)</span> <span class="n">apply</span> <span class="o">(</span><span class="k">_</span> <span class="o">/</span> <span class="s">&quot;deb&quot;</span> <span class="o">/</span> <span class="s">&quot;control&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
@@ -753,7 +753,7 @@ maintainer scripts will be <em>extended</em> not overridden.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.7',
+            VERSION:'1.3.8-M14',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

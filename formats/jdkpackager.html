@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>JDKPackager Plugin &mdash; sbt-native-packager 1.3.7 documentation</title>
+  <title>JDKPackager Plugin &mdash; sbt-native-packager 1.3.8-M14 documentation</title>
   
 
   
@@ -196,7 +196,7 @@
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#jar-repackaging">Jar Repackaging</a></li>
-<li class="toctree-l4"><a class="reference internal" href="rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -330,10 +330,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -467,29 +467,29 @@
 <span id="id1"></span><h1>JDKPackager Plugin<a class="headerlink" href="#jdkpackager-plugin" title="Permalink to this headline">¶</a></h1>
 <p>This plugin builds on Oracle’s <a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/packager.html#CCHIHIIJ">javapackager</a> tool to generate  native application
 launchers and installers for MacOS X, Windows, and Linux. This plugin takes the settings and staged output from
-<a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> and passes them through <code class="docutils literal"><span class="pre">javapackager</span></code>
+<a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> and passes them through <code class="docutils literal notranslate"><span class="pre">javapackager</span></code>
 to create native formats per Oracle’s provided features.</p>
-<p>The actual mechanism used by this plugin is the support provided by the <code class="docutils literal"><span class="pre">lib/ant-javafx.jar</span></code> Ant task library,
-which provides more capabilities than the <code class="docutils literal"><span class="pre">javapackager</span></code> command line version, but the idea is the same.</p>
+<p>The actual mechanism used by this plugin is the support provided by the <code class="docutils literal notranslate"><span class="pre">lib/ant-javafx.jar</span></code> Ant task library,
+which provides more capabilities than the <code class="docutils literal notranslate"><span class="pre">javapackager</span></code> command line version, but the idea is the same.</p>
 <p>This plugin’s most relevant addition to the core <cite>sbt-native-packager</cite> capabilities is the generation of MacOS X App
-bundles and associated <code class="docutils literal"><span class="pre">.dmg</span></code> and <code class="docutils literal"><span class="pre">.pkg</span></code> package formats.  With this plugin complete drag-and-drop installable
-application bundles are possible, including the embedding of the JRE.  It can also generate Windows <code class="docutils literal"><span class="pre">.exe</span></code> and <code class="docutils literal"><span class="pre">.msi</span></code>
+bundles and associated <code class="docutils literal notranslate"><span class="pre">.dmg</span></code> and <code class="docutils literal notranslate"><span class="pre">.pkg</span></code> package formats.  With this plugin complete drag-and-drop installable
+application bundles are possible, including the embedding of the JRE.  It can also generate Windows <code class="docutils literal notranslate"><span class="pre">.exe</span></code> and <code class="docutils literal notranslate"><span class="pre">.msi</span></code>
 installers provided the requisite tools are available on the Windows build platform (see below). While Linux package
-formats are also possible via this plugin, it is likely the native <cite>sbt-native-packager</cite> support for <code class="docutils literal"><span class="pre">.deb</span></code> and
-<code class="docutils literal"><span class="pre">.rpm</span></code> formats will provide more configurability.</p>
+formats are also possible via this plugin, it is likely the native <cite>sbt-native-packager</cite> support for <code class="docutils literal notranslate"><span class="pre">.deb</span></code> and
+<code class="docutils literal notranslate"><span class="pre">.rpm</span></code> formats will provide more configurability.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The JDKPackagerPlugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>, <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> and <a class="reference internal" href="../recipes/longclasspath.html#launcher-jar-plugin"><span class="std std-ref">Launcher Plugin</span></a></p>
 </div>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal"><span class="pre">ant-javafx.jar</span></code> library comes with <em>Oracle</em> JDK 8, found in the <code class="docutils literal"><span class="pre">lib</span></code> directory along with <code class="docutils literal"><span class="pre">tools.jar</span></code>
+<p>The <code class="docutils literal notranslate"><span class="pre">ant-javafx.jar</span></code> library comes with <em>Oracle</em> JDK 8, found in the <code class="docutils literal notranslate"><span class="pre">lib</span></code> directory along with <code class="docutils literal notranslate"><span class="pre">tools.jar</span></code>
 and friends. If <cite>sbt</cite> is running under the JVM in Oracle JDK 8, then the plugin should be able to find the path to
-<code class="docutils literal"><span class="pre">ant-javafx.jar</span></code>. If <cite>sbt</cite> is running under a different JVM, then the path to the tool will have to be specified
-via the <code class="docutils literal"><span class="pre">jdkPackager:antPackagerTasks</span></code> setting.</p>
+<code class="docutils literal notranslate"><span class="pre">ant-javafx.jar</span></code>. If <cite>sbt</cite> is running under a different JVM, then the path to the tool will have to be specified
+via the <code class="docutils literal notranslate"><span class="pre">jdkPackager:antPackagerTasks</span></code> setting.</p>
 <p>This plugin must be run on the platform of the target installer. The Oracle tooling does <em>not</em> provide a means of
 creating, say, Windows installers on MacOS, or MacOS on Linux, etc.</p>
-<p>To use create Windows launchers &amp; installers, the either the WIX Toolset (<code class="docutils literal"><span class="pre">msi</span></code>) or Inno Setup (<code class="docutils literal"><span class="pre">exe</span></code>) is required:</p>
+<p>To use create Windows launchers &amp; installers, the either the WIX Toolset (<code class="docutils literal notranslate"><span class="pre">msi</span></code>) or Inno Setup (<code class="docutils literal notranslate"><span class="pre">exe</span></code>) is required:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://wixtoolset.org/">WIX Toolset</a></li>
 <li><a class="reference external" href="http://www.jrsoftware.org/isinfo.php">Inno Setup</a></li>
@@ -502,51 +502,51 @@ creating, say, Windows installers on MacOS, or MacOS on Linux, etc.</p>
 </div>
 <div class="section" id="enabling">
 <h2>Enabling<a class="headerlink" href="#enabling" title="Permalink to this headline">¶</a></h2>
-<p>The plugin is enabled via the <code class="docutils literal"><span class="pre">AutoPlugins</span></code> facility:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JDKPackagerPlugin</span><span class="o">)</span>
+<p>The plugin is enabled via the <code class="docutils literal notranslate"><span class="pre">AutoPlugins</span></code> facility:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JDKPackagerPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="build">
 <h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<p>To use, first get your application working per <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> instructions (including the <code class="docutils literal"><span class="pre">mainClass</span></code> setting). Once that is working, run</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">sbt</span> <span class="n">jdkPackager</span><span class="k">:</span><span class="kt">packageBin</span>
+<p>To use, first get your application working per <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> instructions (including the <code class="docutils literal notranslate"><span class="pre">mainClass</span></code> setting). Once that is working, run</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sbt</span> <span class="n">jdkPackager</span><span class="k">:</span><span class="kt">packageBin</span>
 </pre></div>
 </div>
 <p>By default, the plugin makes the installer type that is native to the current build platform.  The installer is put in the directory
-<code class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></code>. The key <code class="docutils literal"><span class="pre">jdkPackageType</span></code> can be used to modify this behavior. Run
-<code class="docutils literal"><span class="pre">help</span> <span class="pre">jdkPackageType</span></code> in <cite>sbt</cite> for details. The most popular setting is likely to be <code class="docutils literal"><span class="pre">jdkAppIcon</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">target/jdkpackager/bundles</span></code>. The key <code class="docutils literal notranslate"><span class="pre">jdkPackageType</span></code> can be used to modify this behavior. Run
+<code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">jdkPackageType</span></code> in <cite>sbt</cite> for details. The most popular setting is likely to be <code class="docutils literal notranslate"><span class="pre">jdkAppIcon</span></code>.</p>
 </div>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <p><em>For the latest documentation reference the key descriptions in sbt.</em></p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">jdkPackagerBasename</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">jdkPackagerBasename</span></code></dt>
 <dd>Filename without the extension for the generated installer package.</dd>
-<dt><code class="docutils literal"><span class="pre">jdkPackagerType</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">jdkPackagerType</span></code></dt>
 <dd><p class="first">Value passed as the <cite>native</cite> attribute to <cite>fx:deploy</cite> task.</p>
 <p>Per <a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/packager.html#CCHIHIIJ">javapackager</a> documentation, this may be one of the following:</p>
 <ul class="last simple">
-<li><code class="docutils literal"><span class="pre">all</span></code>: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.</li>
-<li><code class="docutils literal"><span class="pre">installer</span></code>: Runs all of the installers for the platform on which it is running.</li>
-<li><code class="docutils literal"><span class="pre">image</span></code>: Creates a disk image for the application. On OS X, the image is the .app file. On Linux, the image is the directory that gets installed.</li>
-<li><code class="docutils literal"><span class="pre">dmg</span></code>: Generates a DMG file for OS X.</li>
-<li><code class="docutils literal"><span class="pre">pkg</span></code>: Generates a .pkg package for OS X.</li>
-<li><code class="docutils literal"><span class="pre">mac.appStore</span></code>: Generates a package for the Mac App Store.</li>
-<li><code class="docutils literal"><span class="pre">rpm</span></code>: Generates an RPM package for Linux.</li>
-<li><code class="docutils literal"><span class="pre">deb</span></code>: Generates a Debian package for Linux.</li>
-<li><code class="docutils literal"><span class="pre">exe</span></code>: Generates a Windows .exe package.</li>
-<li><code class="docutils literal"><span class="pre">msi</span></code>: Generates a Windows Installer package.</li>
+<li><code class="docutils literal notranslate"><span class="pre">all</span></code>: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.</li>
+<li><code class="docutils literal notranslate"><span class="pre">installer</span></code>: Runs all of the installers for the platform on which it is running.</li>
+<li><code class="docutils literal notranslate"><span class="pre">image</span></code>: Creates a disk image for the application. On OS X, the image is the .app file. On Linux, the image is the directory that gets installed.</li>
+<li><code class="docutils literal notranslate"><span class="pre">dmg</span></code>: Generates a DMG file for OS X.</li>
+<li><code class="docutils literal notranslate"><span class="pre">pkg</span></code>: Generates a .pkg package for OS X.</li>
+<li><code class="docutils literal notranslate"><span class="pre">mac.appStore</span></code>: Generates a package for the Mac App Store.</li>
+<li><code class="docutils literal notranslate"><span class="pre">rpm</span></code>: Generates an RPM package for Linux.</li>
+<li><code class="docutils literal notranslate"><span class="pre">deb</span></code>: Generates a Debian package for Linux.</li>
+<li><code class="docutils literal notranslate"><span class="pre">exe</span></code>: Generates a Windows .exe package.</li>
+<li><code class="docutils literal notranslate"><span class="pre">msi</span></code>: Generates a Windows Installer package.</li>
 </ul>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Because only a subset of the possible settings are exposed through the plugin, updates are likely required to fully
-make use of all formats. <code class="docutils literal"><span class="pre">dmg</span></code> is currently the most tested type.</p>
+make use of all formats. <code class="docutils literal notranslate"><span class="pre">dmg</span></code> is currently the most tested type.</p>
 </div>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">jdkAppIcon</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">jdkAppIcon</span></code></dt>
 <dd><p class="first">Path to platform-specific application icon:</p>
 <ul class="simple">
 <li><cite>icns</cite>: MacOS</li>
@@ -555,26 +555,26 @@ make use of all formats. <code class="docutils literal"><span class="pre">dmg</s
 </ul>
 <p class="last">Defaults to a generically bland Java icon. <a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACFJBFJ">Oracle javafx ant task reference</a></p>
 </dd>
-<dt><code class="docutils literal"><span class="pre">jdkPackagerToolkit</span></code></dt>
-<dd>GUI toolkit used in app. Either <code class="docutils literal"><span class="pre">JavaFXToolkit</span></code> (default) or <code class="docutils literal"><span class="pre">SwingToolkit</span></code></dd>
-<dt><code class="docutils literal"><span class="pre">jdkPackagerJVMArgs</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">jdkPackagerToolkit</span></code></dt>
+<dd>GUI toolkit used in app. Either <code class="docutils literal notranslate"><span class="pre">JavaFXToolkit</span></code> (default) or <code class="docutils literal notranslate"><span class="pre">SwingToolkit</span></code></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">jdkPackagerJVMArgs</span></code></dt>
 <dd><p class="first">Sequence of arguments to pass to the JVM.</p>
-<p>Default: <code class="docutils literal"><span class="pre">Seq(&quot;-Xmx768m&quot;)</span></code>.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">Seq(&quot;-Xmx768m&quot;)</span></code>.</p>
 <p class="last"><a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHJIJG">Oracle JVM argument docs</a></p>
 </dd>
-<dt><code class="docutils literal"><span class="pre">jdkPackagerAppArgs</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">jdkPackagerAppArgs</span></code></dt>
 <dd><p class="first">List of command line arguments to pass to the application on launch.</p>
-<p>Default: <code class="docutils literal"><span class="pre">Seq.empty</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">Seq.empty</span></code></p>
 <p class="last"><a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACIJFHB">Oracle arguments docs</a></p>
 </dd>
-<dt><code class="docutils literal"><span class="pre">jdkPackagerProperties</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">jdkPackagerProperties</span></code></dt>
 <dd><p class="first">Map of <cite>System</cite> properties to define in application.</p>
-<p>Default: <code class="docutils literal"><span class="pre">Map.empty</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">Map.empty</span></code></p>
 <p class="last"><a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHCIFJ">Oracle properties docs</a></p>
 </dd>
-<dt><code class="docutils literal"><span class="pre">jdkPackagerAssociations</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">jdkPackagerAssociations</span></code></dt>
 <dd><p class="first">Set of application file associations to register for the application.</p>
-<p>Example: <code class="docutils literal"><span class="pre">jdkPackagerAssociations</span> <span class="pre">:=</span> <span class="pre">Seq(FileAssociation(&quot;foo&quot;,</span> <span class="pre">&quot;application/x-foo&quot;,</span> <span class="pre">Foo</span> <span class="pre">Data</span> <span class="pre">File&quot;,</span> <span class="pre">iconPath))</span></code></p>
+<p>Example: <code class="docutils literal notranslate"><span class="pre">jdkPackagerAssociations</span> <span class="pre">:=</span> <span class="pre">Seq(FileAssociation(&quot;foo&quot;,</span> <span class="pre">&quot;application/x-foo&quot;,</span> <span class="pre">Foo</span> <span class="pre">Data</span> <span class="pre">File&quot;,</span> <span class="pre">iconPath))</span></code></p>
 <p>Default: <cite>Seq.empty</cite></p>
 <p>Note: Requires JDK &gt;= 8 build 40.</p>
 <p class="last"><a class="reference external" href="http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAIDHBJ">Oracle associations docs</a></p>
@@ -583,9 +583,9 @@ make use of all formats. <code class="docutils literal"><span class="pre">dmg</s
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>To take it for a test spin, run <code class="docutils literal"><span class="pre">sbt</span> <span class="pre">jdkPackager:packageBin</span></code> in the <code class="docutils literal"><span class="pre">test-project-jdkpackager</span></code> directory of the <cite>sbt-native-packager</cite> source. Then look in the <code class="docutils literal"><span class="pre">target/jdkpackager/bundles</span></code> directory for the result (specific name depends on platform built).</p>
+<p>To take it for a test spin, run <code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">jdkPackager:packageBin</span></code> in the <code class="docutils literal notranslate"><span class="pre">test-project-jdkpackager</span></code> directory of the <cite>sbt-native-packager</cite> source. Then look in the <code class="docutils literal notranslate"><span class="pre">target/jdkpackager/bundles</span></code> directory for the result (specific name depends on platform built).</p>
 <p>Here’s what the build file looks like:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;JDKPackagerPlugin Example&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;JDKPackagerPlugin Example&quot;</span>
 
 <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;0.1.0&quot;</span>
 
@@ -637,7 +637,7 @@ make use of all formats. <code class="docutils literal"><span class="pre">dmg</s
 </div>
 <div class="section" id="debugging">
 <h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
-<p>If you are having trouble figuring out how certain features affect the generated package, you can find the Ant-based build definition file in <code class="docutils literal"><span class="pre">target/jdkpackager/build.xml</span></code>. You should be able to run Ant directly in that file assuming <code class="docutils literal"><span class="pre">jdkPackager:packageBin</span></code> has been run at least once.</p>
+<p>If you are having trouble figuring out how certain features affect the generated package, you can find the Ant-based build definition file in <code class="docutils literal notranslate"><span class="pre">target/jdkpackager/build.xml</span></code>. You should be able to run Ant directly in that file assuming <code class="docutils literal notranslate"><span class="pre">jdkPackager:packageBin</span></code> has been run at least once.</p>
 </div>
 </div>
 
@@ -683,7 +683,7 @@ make use of all formats. <code class="docutils literal"><span class="pre">dmg</s
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.7',
+            VERSION:'1.3.8-M14',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

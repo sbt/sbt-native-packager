@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Linux Plugin &mdash; sbt-native-packager 1.3.7 documentation</title>
+  <title>Linux Plugin &mdash; sbt-native-packager 1.3.8-M14 documentation</title>
   
 
   
@@ -196,7 +196,7 @@
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rpm.html#jar-repackaging">Jar Repackaging</a></li>
-<li class="toctree-l4"><a class="reference internal" href="rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -330,10 +330,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -480,16 +480,16 @@
 <div class="section" id="build">
 <h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
 <p>The linux plugin is just a top level plugin for linux packaging formats.
-The <code class="docutils literal"><span class="pre">Linux</span></code> scope contains settings which can be used by the plugins
+The <code class="docutils literal notranslate"><span class="pre">Linux</span></code> scope contains settings which can be used by the plugins
 depending on the linux plugin.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt <span class="s2">&quot;show linux:linuxPackageMappings&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt <span class="s2">&quot;show linux:linuxPackageMappings&quot;</span>
 </pre></div>
 </div>
 <div class="section" id="required-settings">
 <h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
 <p>A linux package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Linux Example&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Linux Example&quot;</span>
 
 <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span>
 
@@ -502,15 +502,15 @@ you have these settings in your build:</p>
 </pre></div>
 </div>
 <p>Enable the linux plugin to activate the native package implementation.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">LinuxPlugin</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">LinuxPlugin</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="configurations">
 <h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
-<p>Settings and tasks inherited from parent plugins can be scoped with <code class="docutils literal"><span class="pre">Linux</span></code>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="n">name</span><span class="o">.</span><span class="n">value</span>
+<p>Settings and tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Linux</span></code>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="n">name</span><span class="o">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </div>
@@ -519,17 +519,17 @@ you have these settings in your build:</p>
 <p>The required fields for any linux distribution are:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Linux</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Linux</span></code></dt>
 <dd>The name given the package for installation.</dd>
-<dt><code class="docutils literal"><span class="pre">maintainer</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">maintainer</span></code></dt>
 <dd>The name of the maintainer of the package (important for ownership and signing).</dd>
-<dt><code class="docutils literal"><span class="pre">packageSummary</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">packageSummary</span></code></dt>
 <dd>A one-sentence short summary of what the package does.</dd>
-<dt><code class="docutils literal"><span class="pre">packageDescription</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">packageDescription</span></code></dt>
 <dd>A longer description of what the package does and what it includes.</dd>
-<dt><code class="docutils literal"><span class="pre">linuxPackageMappings</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code></dt>
 <dd>A list of files and their desired installation locations for the package, as well as other metainformation.</dd>
-<dt><code class="docutils literal"><span class="pre">fileDescriptorLimit</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">fileDescriptorLimit</span></code></dt>
 <dd>Maximum number of open file descriptors for the spawned application. The default value is 1024.</dd>
 </dl>
 </div></blockquote>
@@ -542,10 +542,10 @@ you have these settings in your build:</p>
 reside as well as information about that file. Package mappings allow the specification of file ownership, permissions and whether or not
 the file can be considered “configuration”.</p>
 <blockquote>
-<div>Note that while the <code class="docutils literal"><span class="pre">sbt-native-packager</span></code> plugin allows you to specify all of this information, not all platforms will make use of the
+<div>Note that while the <code class="docutils literal notranslate"><span class="pre">sbt-native-packager</span></code> plugin allows you to specify all of this information, not all platforms will make use of the
 information.  It’s best to be specific about how you want files handled and run tests on each platform you wish to deploy to.</div></blockquote>
 <p>A package mapping takes this general form</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">packageMapping</span><span class="o">(</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">packageMapping</span><span class="o">(</span>
     <span class="n">file</span> <span class="o">-&gt;</span> <span class="s">&quot;/usr/share/man/man1/sbt.1.gz&quot;</span>
   <span class="o">)</span> <span class="n">withPerms</span> <span class="s">&quot;0644&quot;</span> <span class="n">gzipped</span><span class="o">)</span> <span class="n">asDocs</span><span class="o">()</span>
 </pre></div>
@@ -553,82 +553,82 @@ information.  It’s best to be specific about how you want files handled and ru
 <p>Let’s look at each of the methods supported in the packageMapping ‘library’.</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">packageMapping(mappings:</span> <span class="pre">(File,</span> <span class="pre">String)*)</span></code></dt>
-<dd>This method takes a variable number of <code class="docutils literal"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">String</span></code> pairs.  The <code class="docutils literal"><span class="pre">File</span></code> should be a locally available file that can be bundled,
-and the <code class="docutils literal"><span class="pre">String</span></code> is the installation location on disk for that file.  This returns a new <code class="docutils literal"><span class="pre">PackageMapping</span></code> that supports the remaining methods.</dd>
-<dt><code class="docutils literal"><span class="pre">withPerms(mask:</span> <span class="pre">String)</span></code></dt>
-<dd>This function adjusts the installation permissions of the associated files.  The flags passed should be of the form of a mask, e.g. <code class="docutils literal"><span class="pre">0755</span></code>.</dd>
-<dt><code class="docutils literal"><span class="pre">gzipped</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">packageMapping(mappings:</span> <span class="pre">(File,</span> <span class="pre">String)*)</span></code></dt>
+<dd>This method takes a variable number of <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">String</span></code> pairs.  The <code class="docutils literal notranslate"><span class="pre">File</span></code> should be a locally available file that can be bundled,
+and the <code class="docutils literal notranslate"><span class="pre">String</span></code> is the installation location on disk for that file.  This returns a new <code class="docutils literal notranslate"><span class="pre">PackageMapping</span></code> that supports the remaining methods.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">withPerms(mask:</span> <span class="pre">String)</span></code></dt>
+<dd>This function adjusts the installation permissions of the associated files.  The flags passed should be of the form of a mask, e.g. <code class="docutils literal notranslate"><span class="pre">0755</span></code>.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gzipped</span></code></dt>
 <dd>This ensures that the files are written in compressed format to the destination.  This is a convenience for distributions that want files zipped.</dd>
-<dt><code class="docutils literal"><span class="pre">asDocs</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">asDocs</span></code></dt>
 <dd>This denotes that the mapped files are documentation files.  <em>Note: I believe these are only used for ``RPM``s.</em></dd>
-<dt><code class="docutils literal"><span class="pre">withConfig(value:String=&quot;true&quot;)</span></code></dt>
-<dd>This denotes whether or not a <code class="docutils literal"><span class="pre">%config</span></code> attribute is attached to the given files in the generated rpm SPEC.  Any value other than <code class="docutils literal"><span class="pre">&quot;true&quot;</span></code> will be
-placed inside the <code class="docutils literal"><span class="pre">%config()</span></code> definition.  For example <code class="docutils literal"><span class="pre">withConfig(&quot;noreplace&quot;)</span></code> results in <code class="docutils literal"><span class="pre">%config(noreplace)</span></code> attribute in the rpm spec.</dd>
-<dt><code class="docutils literal"><span class="pre">withUser(user:String)</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">withConfig(value:String=&quot;true&quot;)</span></code></dt>
+<dd>This denotes whether or not a <code class="docutils literal notranslate"><span class="pre">%config</span></code> attribute is attached to the given files in the generated rpm SPEC.  Any value other than <code class="docutils literal notranslate"><span class="pre">&quot;true&quot;</span></code> will be
+placed inside the <code class="docutils literal notranslate"><span class="pre">%config()</span></code> definition.  For example <code class="docutils literal notranslate"><span class="pre">withConfig(&quot;noreplace&quot;)</span></code> results in <code class="docutils literal notranslate"><span class="pre">%config(noreplace)</span></code> attribute in the rpm spec.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">withUser(user:String)</span></code></dt>
 <dd>This denotes which user should be the owner of the given files in the resulting package.</dd>
-<dt><code class="docutils literal"><span class="pre">withGroup(group:String)</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">withGroup(group:String)</span></code></dt>
 <dd>This denotes which group should be the owner of the given files in the resulting package.</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="the-linuxpackagemapping-models">
 <h3>The LinuxPackageMapping Models<a class="headerlink" href="#the-linuxpackagemapping-models" title="Permalink to this headline">¶</a></h3>
-<p>All classes are located in the <code class="docutils literal"><span class="pre">com.typesafe.sbt.packager.linux</span></code> package. So if you want to create
-instances yourself you have to add <code class="docutils literal"><span class="pre">import</span> <span class="pre">com.typesafe.sbt.packager.linux._</span></code> to your build file.</p>
-<p>A <code class="docutils literal"><span class="pre">LinuxPackageMapping</span></code> contains the following fields:</p>
+<p>All classes are located in the <code class="docutils literal notranslate"><span class="pre">com.typesafe.sbt.packager.linux</span></code> package. So if you want to create
+instances yourself you have to add <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">com.typesafe.sbt.packager.linux._</span></code> to your build file.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">LinuxPackageMapping</span></code> contains the following fields:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">mappings:</span> <span class="pre">Traversable[(File,</span> <span class="pre">String)]</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">mappings:</span> <span class="pre">Traversable[(File,</span> <span class="pre">String)]</span></code></dt>
 <dd>A list of mappings aggregated by this LinuxPackageMapping</dd>
-<dt><code class="docutils literal"><span class="pre">fileData:</span> <span class="pre">LinuxFileMetaData</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">fileData:</span> <span class="pre">LinuxFileMetaData</span></code></dt>
 <dd>Permissions for all the defined mappings. Default = “root:root 755”</dd>
-<dt><code class="docutils literal"><span class="pre">zipped:</span> <span class="pre">Boolean</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">zipped:</span> <span class="pre">Boolean</span></code></dt>
 <dd>Are the mappings zipped? Default = false</dd>
 </dl>
 </div></blockquote>
-<p>All mappings are stored in the task <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> which returns a <code class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></code>. To display the contents (value),
+<p>All mappings are stored in the task <code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code> which returns a <code class="docutils literal notranslate"><span class="pre">Seq[LinuxPackageMapping]</span></code>. To display the contents (value),
 open the sbt console and call</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>show linuxPackageMappings
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>show linuxPackageMappings
 </pre></div>
 </div>
-<p>The <code class="docutils literal"><span class="pre">LinuxFileMetaData</span></code> has the following fields</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">LinuxFileMetaData</span></code> has the following fields</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">user:</span> <span class="pre">String</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">user:</span> <span class="pre">String</span></code></dt>
 <dd>The user owning all the mappings. Default = “root”</dd>
-<dt><code class="docutils literal"><span class="pre">group:</span> <span class="pre">String</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">group:</span> <span class="pre">String</span></code></dt>
 <dd>The group owning all the mappings. Default = “root”</dd>
-<dt><code class="docutils literal"><span class="pre">permissions:</span> <span class="pre">String</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">permissions:</span> <span class="pre">String</span></code></dt>
 <dd>Access permissions for all the mappings. Default = “755”</dd>
-<dt><code class="docutils literal"><span class="pre">config:</span> <span class="pre">String</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">config:</span> <span class="pre">String</span></code></dt>
 <dd>Are the mappings config files. Default = “false”</dd>
-<dt><code class="docutils literal"><span class="pre">docs:</span> <span class="pre">Boolean</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">docs:</span> <span class="pre">Boolean</span></code></dt>
 <dd>Are the mappings docs. Default = false</dd>
 </dl>
 </div></blockquote>
-<p>Last but not least there are the <code class="docutils literal"><span class="pre">linuxPackageSymlinks</span></code>, which encapsulate symlinks on your
-destination system. A <code class="docutils literal"><span class="pre">LinuxSymlink</span></code> contains only  two fields</p>
+<p>Last but not least there are the <code class="docutils literal notranslate"><span class="pre">linuxPackageSymlinks</span></code>, which encapsulate symlinks on your
+destination system. A <code class="docutils literal notranslate"><span class="pre">LinuxSymlink</span></code> contains only  two fields</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">link:</span> <span class="pre">String</span></code></dt>
-<dd>The actual link that points to <code class="docutils literal"><span class="pre">destination</span></code></dd>
-<dt><code class="docutils literal"><span class="pre">destination:</span> <span class="pre">String</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">link:</span> <span class="pre">String</span></code></dt>
+<dd>The actual link that points to <code class="docutils literal notranslate"><span class="pre">destination</span></code></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">destination:</span> <span class="pre">String</span></code></dt>
 <dd>The link destination</dd>
 </dl>
 </div></blockquote>
 <p>You can see all currently configured symlinks with this simple command.
-<code class="docutils literal"><span class="pre">linuxPackageSymlinks</span></code> is just a <code class="docutils literal"><span class="pre">Seq[LinuxSymlink]</span></code></p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>show linuxPackageSymlinks
+<code class="docutils literal notranslate"><span class="pre">linuxPackageSymlinks</span></code> is just a <code class="docutils literal notranslate"><span class="pre">Seq[LinuxSymlink]</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>show linuxPackageSymlinks
 </pre></div>
 </div>
 </div>
 <div class="section" id="modifying-mappings-in-general">
 <h3>Modifying Mappings in General<a class="headerlink" href="#modifying-mappings-in-general" title="Permalink to this headline">¶</a></h3>
-<p>Adding, filtering and altering mappings are always simple methods on a <code class="docutils literal"><span class="pre">Seq[LinuxPackageMapping]</span></code> sequence.
+<p>Adding, filtering and altering mappings are always simple methods on a <code class="docutils literal notranslate"><span class="pre">Seq[LinuxPackageMapping]</span></code> sequence.
 This section shows you the general way to add, modify, or filter mappings.  The following sections have specific examples.</p>
 <p>The basic construct for <strong>adding</strong> a mapping is</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// simple</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// simple</span>
 <span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">theFile</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
 
 <span class="c1">// specialized</span>
@@ -638,7 +638,7 @@ This section shows you the general way to add, modify, or filter mappings.  The 
 <p>To <strong>filter</strong> or <strong>modify</strong> a mapping, you generally create a new mapping by copying an existing one (or occasionally by creating a new blank one),
 then filter or modify it, and then return that filtered or modified mapping.  Here’s an example that shows a number of things you can <em>possibly</em> do.  See the next section for specifc examples.
 (Basic scala collections operations are used in the code. <a class="reference external" href="https://twitter.github.io/scala_school/collections.html#filter">Here is an explanation of the filter method</a>.)</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// sbt 0.13.0 syntax</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// sbt 0.13.0 syntax</span>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="c1">// mappings: Seq[LinuxPackageMapping]</span>
     <span class="k">val</span> <span class="n">mappings</span> <span class="k">=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
@@ -684,14 +684,14 @@ then filter or modify it, and then return that filtered or modified mapping.  He
 <div class="section" id="add-mappings">
 <h3>Add Mappings<a class="headerlink" href="#add-mappings" title="Permalink to this headline">¶</a></h3>
 <p>To add an arbitrary file in your build path</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="o">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;somefile.txt&quot;</span>
   <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> can be scoped to <code class="docutils literal"><span class="pre">Rpm</span></code> or <code class="docutils literal"><span class="pre">Debian</span></code> if you want to add mappings only for a single packaging type.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span> <span class="o">{</span>
+<p><code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code> can be scoped to <code class="docutils literal notranslate"><span class="pre">Rpm</span></code> or <code class="docutils literal notranslate"><span class="pre">Debian</span></code> if you want to add mappings only for a single packaging type.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;debian-somefile.txt&quot;</span>
   <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
 <span class="o">}</span>
@@ -705,10 +705,10 @@ then filter or modify it, and then return that filtered or modified mapping.  He
 </div>
 <div class="section" id="filter-remove-mappings">
 <h3>Filter/Remove Mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this headline">¶</a></h3>
-<p>If you want to remove some mappings you have to <strong>filter</strong> the current list of <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code>.
-As <code class="docutils literal"><span class="pre">linuxPackageMappings</span></code> is a task, the order of your settings is important. Here are some examples
+<p>If you want to remove some mappings you have to <strong>filter</strong> the current list of <code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code>.
+As <code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code> is a task, the order of your settings is important. Here are some examples
 on how to filter mappings.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// this is equal to</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// this is equal to</span>
 <span class="c1">// linuxPackageMappings &lt;&lt;= linuxPackageMappings map { mappings =&gt; /* stuff */ mappings }</span>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="c1">// first get the current mappings. mapping is of type Seq[LinuxPackageMapping]</span>
@@ -735,8 +735,8 @@ on how to filter mappings.</p>
 </div>
 <div class="section" id="alter-linuxpackagemapping">
 <h3>Alter LinuxPackageMapping<a class="headerlink" href="#alter-linuxpackagemapping" title="Permalink to this headline">¶</a></h3>
-<p>To alter the permissions for all <code class="docutils literal"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// Altering permissions for configs</span>
+<p>To alter the permissions for all <code class="docutils literal notranslate"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Altering permissions for configs</span>
 <span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">mappings</span> <span class="k">=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
     <span class="c1">// Changing the group for all configs</span>
@@ -758,8 +758,8 @@ on how to filter mappings.</p>
 </div>
 <div class="section" id="alter-linuxsymlinks">
 <h3>Alter LinuxSymlinks<a class="headerlink" href="#alter-linuxsymlinks" title="Permalink to this headline">¶</a></h3>
-<p>To alter the permissions for all <code class="docutils literal"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// The same as linuxPackageMappings</span>
+<p>To alter the permissions for all <code class="docutils literal notranslate"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// The same as linuxPackageMappings</span>
 <span class="n">linuxPackageSymlinks</span> <span class="o">:=</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">links</span> <span class="k">=</span> <span class="n">linuxPackageSymlinks</span><span class="o">.</span><span class="n">value</span>
 
@@ -772,7 +772,7 @@ on how to filter mappings.</p>
 <h3>Add Empty Directories<a class="headerlink" href="#add-empty-directories" title="Permalink to this headline">¶</a></h3>
 <p>There is a special helper function that allows you to add empty directories to the package mappings. This might be
 useful if the service needs some location to store files.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// Add an empty folder to mappings</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add an empty folder to mappings</span>
 <span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageTemplateMapping</span><span class="o">(</span><span class="s">s&quot;/usr/share/</span><span class="si">${</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">/lib/native&quot;</span><span class="o">)()</span> <span class="n">withUser</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="o">)</span> <span class="n">withGroup</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
 </pre></div>
 </div>
@@ -782,8 +782,8 @@ useful if the service needs some location to store files.</p>
 <p>There are many ways to document your projects, and many ways to expose them.  While the native packager places
 no limit on WHAT is included in a package, there are some things which receive special treatment.</p>
 <p>Specifically: linux man pages.</p>
-<p>To create a linux man page for the application, let’s create a <code class="docutils literal"><span class="pre">src/linux/usr/share/man/man1/example-cli.1</span></code> file</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>.<span class="se">\&quot;</span> Process this file with
+<p>To create a linux man page for the application, let’s create a <code class="docutils literal notranslate"><span class="pre">src/linux/usr/share/man/man1/example-cli.1</span></code> file</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="se">\&quot;</span> Process this file with
 .<span class="se">\&quot;</span> groff -man -Tascii example-cli.1
 .<span class="se">\&quot;</span>
 .TH EXAMPLE_CLI <span class="m">1</span> <span class="s2">&quot;NOVEMBER 2011&quot;</span> Linux <span class="s2">&quot;User Manuals&quot;</span>
@@ -793,17 +793,17 @@ example-cli <span class="se">\-</span> Example CLI
 .B example-cli <span class="o">[</span>-h<span class="o">]</span>
 </pre></div>
 </div>
-<p>Notice the location of the file.  Any file under <code class="docutils literal"><span class="pre">src/linux</span></code> is automatically included,
-relative to <code class="docutils literal"><span class="pre">/</span></code>, in linux packages (deb, rpm).  That means the man file will <strong>not</strong> appear
+<p>Notice the location of the file.  Any file under <code class="docutils literal notranslate"><span class="pre">src/linux</span></code> is automatically included,
+relative to <code class="docutils literal notranslate"><span class="pre">/</span></code>, in linux packages (deb, rpm).  That means the man file will <strong>not</strong> appear
 in the universal package (confusing linux users).</p>
 <p>Now that the man page is created, we can use a few tasks provided to view it in sbt.  Let’s look in the sbt console</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sbt generateManPages
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt generateManPages
 </pre></div>
 </div>
-<p>We can use this task to work on the man pages and ensure they’ll look OK.  You can also directly use <code class="docutils literal"><span class="pre">groff</span></code> to view
+<p>We can use this task to work on the man pages and ensure they’ll look OK.  You can also directly use <code class="docutils literal notranslate"><span class="pre">groff</span></code> to view
 changes in your man pages.</p>
-<p>In addition to providing the means to view the man page, the native packager will also automatically <code class="docutils literal"><span class="pre">gzip</span></code> man pages
-for the distribution.  The resulting man page is stored in <code class="docutils literal"><span class="pre">/usr/share/man/man1/example-cli.1.gz</span></code> in linux distributions.</p>
+<p>In addition to providing the means to view the man page, the native packager will also automatically <code class="docutils literal notranslate"><span class="pre">gzip</span></code> man pages
+for the distribution.  The resulting man page is stored in <code class="docutils literal notranslate"><span class="pre">/usr/share/man/man1/example-cli.1.gz</span></code> in linux distributions.</p>
 </div>
 </div>
 </div>
@@ -850,7 +850,7 @@ for the distribution.  The resulting man page is stored in <code class="docutils
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.7',
+            VERSION:'1.3.8-M14',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

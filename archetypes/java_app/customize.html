@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Application and runtime configuration &mdash; sbt-native-packager 1.3.7 documentation</title>
+  <title>Application and runtime configuration &mdash; sbt-native-packager 1.3.8-M14 documentation</title>
   
 
   
@@ -196,7 +196,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#scriptlet-changes">Scriptlet Changes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#scriptlet-migration-from-1-0-x">Scriptlet Migration from 1.0.x</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#jar-repackaging">Jar Repackaging</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal"><span class="pre">noreplace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/rpm.html#marking-config-files-as-noreplace">Marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -330,10 +330,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../cheatsheet.html#overriding-templates">Overriding Templates</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal"><span class="pre">src/templates/bash-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#bat-script-src-templates-bat-template">Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#bash-script-src-templates-bash-template">Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#service-manager-templates">Service Manager Templates</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd">Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -477,25 +477,25 @@
 <p>You have two options to define your runtime and application configurations.</p>
 <div class="section" id="configuration-file">
 <h2>Configuration file<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
-<p>The start scripts provided by the <code class="docutils literal"><span class="pre">BatStartScriptPlugin</span></code> and <code class="docutils literal"><span class="pre">BashStartScriptPlugin</span></code> can both load an external
+<p>The start scripts provided by the <code class="docutils literal notranslate"><span class="pre">BatStartScriptPlugin</span></code> and <code class="docutils literal notranslate"><span class="pre">BashStartScriptPlugin</span></code> can both load an external
 configuration file during execution. You can define the configuration file location for both with these two settings.</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">bashScriptConfigLocation</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></dt>
 <dd><p class="first">The location of the bash script on the target system.</p>
-<p class="last"><strong>Default</strong> <code class="docutils literal"><span class="pre">${app_home}/../conf/application.ini</span></code></p>
+<p class="last"><strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">${app_home}/../conf/application.ini</span></code></p>
 </dd>
-<dt><code class="docutils literal"><span class="pre">batScriptConfigLocation</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">batScriptConfigLocation</span></code></dt>
 <dd><p class="first">The location of the bat script on the target system.</p>
-<p class="last"><strong>Default</strong> <code class="docutils literal"><span class="pre">%APP_HOME%\conf\application.ini</span></code></p>
+<p class="last"><strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">%APP_HOME%\conf\application.ini</span></code></p>
 </dd>
 </dl>
 </div></blockquote>
 <p>The configuration path is the path on the <strong>target</strong> system. This means that native-packager needs to process this path
 to create a valid <a href="#id1"><span class="problematic" id="id2">``</span></a>universal:mapping``s entry.</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">${app_home}/../</span></code> is removed</li>
-<li><code class="docutils literal"><span class="pre">%APP_HOME%</span></code> is removed and <code class="docutils literal"><span class="pre">\</span></code> is being replaced with <code class="docutils literal"><span class="pre">/</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">${app_home}/../</span></code> is removed</li>
+<li><code class="docutils literal notranslate"><span class="pre">%APP_HOME%</span></code> is removed and <code class="docutils literal notranslate"><span class="pre">\</span></code> is being replaced with <code class="docutils literal notranslate"><span class="pre">/</span></code></li>
 </ul>
 <p>This means you can either</p>
 <ol class="arabic simple">
@@ -503,7 +503,7 @@ to create a valid <a href="#id1"><span class="problematic" id="id2">``</span></a
 <li>Create an absolute path that has to match your target <strong>and</strong> build system</li>
 </ol>
 <p><strong>Example</strong></p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// configure two different files for bash and bat</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// configure two different files for bash and bat</span>
 <span class="n">bashScriptConfigLocation</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;${app_home}/../conf/jvmopts-bash&quot;</span><span class="o">)</span>
 <span class="n">batScriptConfigLocation</span>  <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;%APP_HOME%\\conf\\jvmopts-bat&quot;</span><span class="o">)</span>
 </pre></div>
@@ -512,8 +512,8 @@ to create a valid <a href="#id1"><span class="problematic" id="id2">``</span></a
 for the configuration file.</p>
 <div class="section" id="via-build-sbt">
 <h3>Via build.sbt<a class="headerlink" href="#via-build-sbt" title="Permalink to this headline">¶</a></h3>
-<p>You can specify your options via the <code class="docutils literal"><span class="pre">build.sbt</span></code>.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">javaOptions</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+<p>You can specify your options via the <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">javaOptions</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
     <span class="c1">// -J params will be added as jvm parameters</span>
     <span class="s">&quot;-J-Xmx64m&quot;</span><span class="o">,</span>
     <span class="s">&quot;-J-Xms64m&quot;</span><span class="o">,</span>
@@ -527,15 +527,15 @@ for the configuration file.</p>
 <span class="o">)</span>
 </pre></div>
 </div>
-<p>For the <code class="docutils literal"><span class="pre">-X</span></code> settings you need to add a suffix <code class="docutils literal"><span class="pre">-J</span></code> so the start script will
+<p>For the <code class="docutils literal notranslate"><span class="pre">-X</span></code> settings you need to add a suffix <code class="docutils literal notranslate"><span class="pre">-J</span></code> so the start script will
 recognize these as vm config parameters.</p>
-<p>When you use the  <code class="docutils literal"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Universal</span></code> sbt-native-packager will generate configuration files
-if you haven’t set the <code class="docutils literal"><span class="pre">batScriptConfigLocation</span></code> and/or <code class="docutils literal"><span class="pre">bashScriptConfigLocation</span></code> to <code class="docutils literal"><span class="pre">None</span></code>.</p>
+<p>When you use the  <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Universal</span></code> sbt-native-packager will generate configuration files
+if you haven’t set the <code class="docutils literal notranslate"><span class="pre">batScriptConfigLocation</span></code> and/or <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code> to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </div>
 <div class="section" id="via-application-ini">
 <h3>Via Application.ini<a class="headerlink" href="#via-application-ini" title="Permalink to this headline">¶</a></h3>
-<p>The second option is to create <code class="docutils literal"><span class="pre">src/universal/conf/application.ini</span></code> with the following template</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Setting -X directly (-J is stripped)</span>
+<p>The second option is to create <code class="docutils literal notranslate"><span class="pre">src/universal/conf/application.ini</span></code> with the following template</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setting -X directly (-J is stripped)</span>
 <span class="c1"># -J-X</span>
 -J-Xmx1024
 
@@ -554,18 +554,18 @@ if you haven’t set the <code class="docutils literal"><span class="pre">batScr
 <span class="c1"># -d -- -d</span>
 </pre></div>
 </div>
-<p>The file will be installed to <code class="docutils literal"><span class="pre">${app_home}/conf/application.ini</span></code> and read from there
-by the startscript. You can use <code class="docutils literal"><span class="pre">#</span></code> for comments and new lines as you like. This file
-currently doesn’t has any variable substitution. We recommend using the <code class="docutils literal"><span class="pre">build.sbt</span></code> if
+<p>The file will be installed to <code class="docutils literal notranslate"><span class="pre">${app_home}/conf/application.ini</span></code> and read from there
+by the startscript. You can use <code class="docutils literal notranslate"><span class="pre">#</span></code> for comments and new lines as you like. This file
+currently doesn’t has any variable substitution. We recommend using the <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> if
 you need any information from your build.</p>
 <p>The configuration file for bash scripts takes arguments for the BASH file on each line,
-and allows comments which start with the <code class="docutils literal"><span class="pre">#</span></code> character.  Essentially, this provides
+and allows comments which start with the <code class="docutils literal notranslate"><span class="pre">#</span></code> character.  Essentially, this provides
 a set of default arguments when calling the script.</p>
-<p>By default, any file in the <code class="docutils literal"><span class="pre">src/universal</span></code> directory is packaged. This is a convenient
+<p>By default, any file in the <code class="docutils literal notranslate"><span class="pre">src/universal</span></code> directory is packaged. This is a convenient
 way to include things like licenses, and readmes.</p>
-<p>If you don’t like <code class="docutils literal"><span class="pre">application.ini</span></code> as a name, you can change this in the <code class="docutils literal"><span class="pre">build.sbt</span></code>.
+<p>If you don’t like <code class="docutils literal notranslate"><span class="pre">application.ini</span></code> as a name, you can change this in the <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>.
 The default configuration looks like this</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">bashScriptConfigLocation</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;${app_home}/../conf/application.ini&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">bashScriptConfigLocation</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;${app_home}/../conf/application.ini&quot;</span><span class="o">)</span>
 <span class="n">batScriptConfigLocation</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;%APP_HOME%\\conf\\application.ini&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
@@ -576,17 +576,17 @@ The default configuration looks like this</p>
 <p>The second option is to add code to the generated start scripts via these settings.</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code></dt>
 <dd>A list of extra definitions that should be written to the bash file template.</dd>
-<dt><code class="docutils literal"><span class="pre">batScriptExtraDefines</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code></dt>
 <dd>A list of extra definitions that should be written to the bat file template.</dd>
 </dl>
 </div></blockquote>
 <div class="section" id="bashscript-defines">
 <span id="bash-script-defines"></span><h3>BashScript defines<a class="headerlink" href="#bashscript-defines" title="Permalink to this headline">¶</a></h3>
-<p>The bash script accepts extra commands via <code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code>. Generally you can add arbitrary
+<p>The bash script accepts extra commands via <code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code>. Generally you can add arbitrary
 bash commands here, but for configurations you have two methods to add jvm and app parameters.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// add jvm parameter for typesafe config</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// add jvm parameter for typesafe config</span>
 <span class="n">bashScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;addJava &quot;-Dconfig.file=${app_home}/../conf/app.config&quot;&quot;&quot;&quot;</span>
 <span class="c1">// add application parameter</span>
 <span class="n">bashScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;addApp &quot;--port=8080&quot;&quot;&quot;&quot;</span>
@@ -595,19 +595,19 @@ bash commands here, but for configurations you have two methods to add jvm and a
 <p><strong>Syntax</strong></p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">${{template_declares}}</span></code></dt>
-<dd>Will be replaced with a series of <code class="docutils literal"><span class="pre">declare</span> <span class="pre">&lt;var&gt;</span></code> lines based on the <code class="docutils literal"><span class="pre">bashScriptDefines</span></code> key. These variables
+<dt><code class="docutils literal notranslate"><span class="pre">${{template_declares}}</span></code></dt>
+<dd>Will be replaced with a series of <code class="docutils literal notranslate"><span class="pre">declare</span> <span class="pre">&lt;var&gt;</span></code> lines based on the <code class="docutils literal notranslate"><span class="pre">bashScriptDefines</span></code> key. These variables
 are predefined:
-* <code class="docutils literal"><span class="pre">app_mainclass</span></code> - The main class entry point for the application.
-* <code class="docutils literal"><span class="pre">app_classpath</span></code> - The complete classpath for the application (in order).</dd>
+* <code class="docutils literal notranslate"><span class="pre">app_mainclass</span></code> - The main class entry point for the application.
+* <code class="docutils literal notranslate"><span class="pre">app_classpath</span></code> - The complete classpath for the application (in order).</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="batscript-defines">
 <span id="bat-script-defines"></span><h3>BatScript defines<a class="headerlink" href="#batscript-defines" title="Permalink to this headline">¶</a></h3>
-<p>The Windows batch script accepts extra commands via <code class="docutils literal"><span class="pre">batScriptExtraDefines</span></code>. It offers
+<p>The Windows batch script accepts extra commands via <code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code>. It offers
 two methods to add jvm and app parameters using similar syntax to the BASH script.</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="c1">// add jvm parameter for typesafe config</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// add jvm parameter for typesafe config</span>
 <span class="n">batScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;call :add_java &quot;-Dconfig.file=%APP_HOME%\conf\app.config&quot;&quot;&quot;&quot;</span>
 <span class="c1">// add application parameter</span>
 <span class="n">batScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;call :add_app &quot;--port=8080&quot;&quot;&quot;&quot;</span>
@@ -615,12 +615,12 @@ two methods to add jvm and app parameters using similar syntax to the BASH scrip
 </div>
 <p><strong>Syntax</strong></p>
 <blockquote>
-<div><p><code class="docutils literal"><span class="pre">&#64;&#64;APP_ENV_NAME&#64;&#64;</span></code>
+<div><p><code class="docutils literal notranslate"><span class="pre">&#64;&#64;APP_ENV_NAME&#64;&#64;</span></code>
 will be replaced with the script friendly name of your package.</p>
-<p><code class="docutils literal"><span class="pre">&#64;&#64;APP_NAME&#64;&#64;</span></code>
+<p><code class="docutils literal notranslate"><span class="pre">&#64;&#64;APP_NAME&#64;&#64;</span></code>
 will be replaced with user friendly name of your package.</p>
-<p><code class="docutils literal"><span class="pre">&#64;APP_DEFINES&#64;&#64;</span></code>
-will be replaced with a set of variable definitions, like <code class="docutils literal"><span class="pre">APP_MAIN_CLASS</span></code>, <code class="docutils literal"><span class="pre">APP_MAIN_CLASS</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&#64;APP_DEFINES&#64;&#64;</span></code>
+will be replaced with a set of variable definitions, like <code class="docutils literal notranslate"><span class="pre">APP_MAIN_CLASS</span></code>, <code class="docutils literal notranslate"><span class="pre">APP_MAIN_CLASS</span></code>.</p>
 </div></blockquote>
 </div>
 </div>
@@ -634,17 +634,17 @@ overridden.</p>
 <h2>Bash and Bat script extra defines<a class="headerlink" href="#bash-and-bat-script-extra-defines" title="Permalink to this headline">¶</a></h2>
 <p>For the bat and bash script are separated settings available to add arbitrary code to the start script.
 See <a class="reference internal" href="#bash-script-defines"><span class="std std-ref">BashScript defines</span></a> and <a class="reference internal" href="#bat-script-defines"><span class="std std-ref">BatScript defines</span></a> for details.</p>
-<p>The  <code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code> sequence allows you to add new lines to the default bash script used to start the
+<p>The  <code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code> sequence allows you to add new lines to the default bash script used to start the
 application. This is useful when you need a setting which isn’t mean for the command-line parameter list passed to the
-java process. The lines added to <code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code> are placed near the end of the script and have access to a
-number of utility bash functions (e.g. <code class="docutils literal"><span class="pre">addJava</span></code>, <code class="docutils literal"><span class="pre">addApp</span></code>, <code class="docutils literal"><span class="pre">addResidual</span></code>, <code class="docutils literal"><span class="pre">addDebugger</span></code>). You can add lines to
+java process. The lines added to <code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code> are placed near the end of the script and have access to a
+number of utility bash functions (e.g. <code class="docutils literal notranslate"><span class="pre">addJava</span></code>, <code class="docutils literal notranslate"><span class="pre">addApp</span></code>, <code class="docutils literal notranslate"><span class="pre">addResidual</span></code>, <code class="docutils literal notranslate"><span class="pre">addDebugger</span></code>). You can add lines to
 this script as we did for the Typesafe config file above. For more complex scripts you can also inject a separate file
 managed in your source tree or resource directory:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span></span><span class="n">bashScriptExtraDefines</span> <span class="o">++=</span> <span class="nc">IO</span><span class="o">.</span><span class="n">readLines</span><span class="o">(</span><span class="n">baseDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;scripts&quot;</span> <span class="o">/</span> <span class="s">&quot;extra.sh&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">bashScriptExtraDefines</span> <span class="o">++=</span> <span class="nc">IO</span><span class="o">.</span><span class="n">readLines</span><span class="o">(</span><span class="n">baseDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;scripts&quot;</span> <span class="o">/</span> <span class="s">&quot;extra.sh&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>This will add the contents of <code class="docutils literal"><span class="pre">/scripts/extra.sh</span></code> in the resource directory to the bash script. Note you should always
-concatenate lines to <code class="docutils literal"><span class="pre">bashScriptExtraDefines</span></code> as other stages in the pipeline may be include lines to the
+<p>This will add the contents of <code class="docutils literal notranslate"><span class="pre">/scripts/extra.sh</span></code> in the resource directory to the bash script. Note you should always
+concatenate lines to <code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code> as other stages in the pipeline may be include lines to the
 start-script.</p>
 </div>
 </div>
@@ -661,10 +661,10 @@ start-script.</p>
 scripts.</p>
 </div>
 <p>In order to override full templates, like the default bash script, you can create a file in
-<code class="docutils literal"><span class="pre">src/templates/bash-template</span></code>. Alternatively, you can use a different file location by setting
-<code class="docutils literal"><span class="pre">bashScriptTemplateLocation</span></code>. There are</p>
-<p>Similarly the windows BAT template can be overridden by placing a new template in <code class="docutils literal"><span class="pre">src/templates/bat-template</span></code>.
-You can also use a different file location by setting <code class="docutils literal"><span class="pre">batScriptTemplateLocation</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code>. Alternatively, you can use a different file location by setting
+<code class="docutils literal notranslate"><span class="pre">bashScriptTemplateLocation</span></code>. There are</p>
+<p>Similarly the windows BAT template can be overridden by placing a new template in <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code>.
+You can also use a different file location by setting <code class="docutils literal notranslate"><span class="pre">batScriptTemplateLocation</span></code>.</p>
 </div>
 
 
@@ -709,7 +709,7 @@ You can also use a different file location by setting <code class="docutils lite
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.3.7',
+            VERSION:'1.3.8-M14',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
