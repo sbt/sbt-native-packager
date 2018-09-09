@@ -85,9 +85,6 @@ jobs:
 
     - stage: release
       python: 3.6
-      install:
-	      - pip install --user sphinx sphinx_rtd_theme
-	      - gem install github_changelog_generator
       script:
         - openssl aes-256-cbc -K $encrypted_22ffc3d85ef2_key -iv $encrypted_22ffc3d85ef2_iv -in project/secrets.tar.enc -out project/secrets.tar -d
         - ./release-travis.sh
