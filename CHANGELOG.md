@@ -1,16 +1,7 @@
 # Change Log
 
-## [v1.3.8-M11](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M11) (2018-09-09)
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8-M10...v1.3.8-M11)
-
-## [v1.3.8-M10](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M10) (2018-09-09)
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8-M9...v1.3.8-M10)
-
-## [v1.3.8-M9](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M9) (2018-09-08)
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8-M8...v1.3.8-M9)
-
-## [v1.3.8-M8](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M8) (2018-09-08)
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.7...v1.3.8-M8)
+## [v1.3.8-M14](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M14) (2018-09-09)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.7...v1.3.8-M14)
 
 **Fixed bugs:**
 
