@@ -1,5 +1,8 @@
 # Change Log
 
+## [v1.3.8-M11](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M11) (2018-09-09)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8-M10...v1.3.8-M11)
+
 ## [v1.3.8-M10](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M10) (2018-09-09)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8-M9...v1.3.8-M10)
 
