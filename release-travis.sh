@@ -47,7 +47,7 @@ git config --global user.signingkey 7E26A821BA75234D
 gem install github_changelog_generator
 
 # Github pages
-pip install sphinx sphinx_rtd_theme
+pip install --user sphinx sphinx_rtd_theme
 
 # RELEASE
 sbt releaseFromTravis
