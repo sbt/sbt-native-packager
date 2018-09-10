@@ -1,5 +1,16 @@
 # Change Log
 
+## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8-M15...HEAD)
+
+**Closed issues:**
+
+- Automatic relaese process from travis [\#1148](https://github.com/sbt/sbt-native-packager/issues/1148)
+
+## [v1.3.8-M15](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M15) (2018-09-09)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8-M14...v1.3.8-M15)
+
 ## [v1.3.8-M14](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M14) (2018-09-09)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.7...v1.3.8-M14)
 
