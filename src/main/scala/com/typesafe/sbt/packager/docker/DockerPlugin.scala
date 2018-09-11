@@ -11,6 +11,7 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stage
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.validation._
 import com.typesafe.sbt.packager.{MappingsHelper, Stager}
 
 import scala.sys.process.Process
@@ -154,6 +155,12 @@ object DockerPlugin extends AutoPlugin {
       daemonUser := "daemon",
       daemonGroup := daemonUser.value,
       defaultLinuxInstallLocation := "/opt/docker",
+      validatePackageValidators := Seq(
+        nonEmptyMappings((mappings in Docker).value),
+        filesExist((mappings in Docker).value),
+        validateExposedPorts(dockerExposedPorts.value, dockerExposedUdpPorts.value),
+        validateDockerVersion(dockerVersion.value)
+      ),
       dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
       dockerGenerateConfig := generateDockerConfig(dockerCommands.value, stagingDirectory.value)
     )
@@ -408,6 +415,58 @@ object DockerPlugin extends AutoPlugin {
       sys.error("Nonzero exit value: " + ret)
     else
       log.info("Published image " + tag)
+  }
+
+  private[this] def validateExposedPorts(ports: Seq[Int], udpPorts: Seq[Int]): Validation.Validator = () => {
+    if (ports.isEmpty && udpPorts.isEmpty) {
+      List(
+        ValidationWarning(
+          description = "There are no exposed ports for your docker image",
+          howToFix = """| Configure the `dockerExposedPorts` or `dockerExposedUdpPorts` setting. E.g.
+             |
+             | // standard tcp ports
+             | dockerExposedPorts ++= Seq(9000, 9001)
+             |
+             | // for udp ports
+             | dockerExposedUdpPorts += 4444
+          """.stripMargin
+        )
+      )
+    } else {
+      List.empty
+    }
+  }
+
+  private[this] def validateDockerVersion(dockerVersion: Option[DockerVersion]): Validation.Validator = () => {
+    dockerVersion match {
+      case Some(_) => List.empty
+      case None =>
+        List(
+          ValidationWarning(
+            description =
+              "sbt-native-packager wasn't able to identify the docker version. Some features may not be enabled",
+            howToFix = """|sbt-native packager tries to parse the `docker version` output. This can fail if
+             |
+             |  - the output has changed:
+             |    $ docker version --format '{{.Server.Version}}'
+             |
+             |  - no `docker` executable is available
+             |    $ which docker
+             |
+             |  - you have not the required privileges to run `docker`
+             |
+             |You can display the parsed docker version in the sbt console with:
+             |
+             |  $ sbt show dockerVersion
+             |
+             |As a last resort you could hard code the docker version, but it's not recommended!!
+             |
+             |  import com.typesafe.sbt.packager.docker.DockerVersion
+             |  dockerVersion := Some(DockerVersion(17, 5, 0, Some("ce"))
+          """.stripMargin
+          )
+        )
+    }
   }
 
 }

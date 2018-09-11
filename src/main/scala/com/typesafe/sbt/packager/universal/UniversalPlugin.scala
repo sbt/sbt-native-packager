@@ -5,6 +5,7 @@ import sbt.Keys._
 import Archives._
 import com.typesafe.sbt.SbtNativePackager
 import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.validation._
 import com.typesafe.sbt.packager.{SettingsHelper, Stager}
 import sbt.Keys.TaskStreams
 
@@ -50,7 +51,6 @@ object UniversalPlugin extends AutoPlugin {
     // For now, we provide delegates from dist/stage to universal...
     dist := (dist in Universal).value,
     stage := (stage in Universal).value,
-    // TODO - New default to naming, is this right?
     // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
     name in Universal := name.value,
     name in UniversalDocs := (name in Universal).value,
@@ -80,6 +80,7 @@ object UniversalPlugin extends AutoPlugin {
         )
       ) ++ Seq(
       sourceDirectory in config := sourceDirectory.value / config.name,
+      validatePackageValidators in config := validatePackageValidators.value,
       target in config := target.value / config.name
     )
 
@@ -107,24 +108,24 @@ object UniversalPlugin extends AutoPlugin {
     inConfig(config)(
       Seq(
         universalArchiveOptions in packageKey := Nil,
-        mappings in packageKey := checkMappings(mappings.value),
+        mappings in packageKey := mappings.value,
         packageKey := packager(
           target.value,
           packageName.value,
           (mappings in packageKey).value,
           topLevelDirectory.value,
           (universalArchiveOptions in packageKey).value
-        )
+        ),
+        validatePackageValidators in packageKey := (validatePackageValidators in config).value ++ Seq(
+          nonEmptyMappings((mappings in packageKey).value),
+          filesExist((mappings in packageKey).value),
+          checkMaintainer((maintainer in packageKey).value, asWarning = true)
+        ),
+        validatePackage in packageKey := Validation
+          .runAndThrow(validatePackageValidators.in(config, packageKey).value, streams.value.log),
+        packageKey := packageKey.dependsOn(validatePackage in packageKey).value
       )
     )
-
-  /** check that all mapped files actually exist */
-  private[this] def checkMappings(mappings: Seq[(File, String)]): Seq[(File, String)] =
-    mappings collect {
-      case (f, p) =>
-        if (f.exists) (f, p)
-        else sys.error("Mapped file " + f + " does not exist.")
-    }
 
   /** Finds all sources in a source directory. */
   private[this] def findSources(sourceDir: File): Seq[(File, String)] =

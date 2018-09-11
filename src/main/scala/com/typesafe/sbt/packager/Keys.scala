@@ -55,3 +55,4 @@ object Keys
     with archetypes.systemloader.SystemloaderKeys
     with archetypes.scripts.BashStartScriptKeys
     with archetypes.scripts.BatStartScriptKeys
+    with validation.ValidationKeys

@@ -1,0 +1,6 @@
+# Cannot create an empty distribution
+-> universal:packageBin
+$ mkdir src/universal
+$ copy-file build.sbt src/universal/test-file
+> universal:packageBin
+$ exists target/universal/simple-test-0.1.0.zip

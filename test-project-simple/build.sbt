@@ -22,3 +22,9 @@ javaOptions in Universal ++= Seq("-J-Xmx64m", "-J-Xms64m", "-jvm-debug 12345")
 //bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts")
 
 mappings in UniversalSrc := (mappings in Universal).value
+
+maintainer in Universal := ""
+mappings in Universal ++= Seq(
+  (baseDirectory.value / "foo.txt") -> "foo.txt",
+  (baseDirectory.value / "bar.txt") -> "bar.txt"
+)
