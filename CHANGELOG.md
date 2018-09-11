@@ -1,12 +1,17 @@
 # Change Log
 
-## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
-
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8-M15...HEAD)
+## [v1.3.9](https://github.com/sbt/sbt-native-packager/tree/v1.3.9) (2018-09-11)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8-M15...v1.3.9)
 
 **Closed issues:**
 
 - Automatic relaese process from travis [\#1148](https://github.com/sbt/sbt-native-packager/issues/1148)
+- Add validatePackageConfiguration task [\#1026](https://github.com/sbt/sbt-native-packager/issues/1026)
+
+**Merged pull requests:**
+
+- Add kill timeout to SystemD service as TimeoutStopSec [\#1156](https://github.com/sbt/sbt-native-packager/pull/1156) ([andrewgee](https://github.com/andrewgee))
+- Wip/1026 validate task [\#1124](https://github.com/sbt/sbt-native-packager/pull/1124) ([muuki88](https://github.com/muuki88))
 
 ## [v1.3.8-M15](https://github.com/sbt/sbt-native-packager/tree/v1.3.8-M15) (2018-09-09)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8-M14...v1.3.8-M15)
@@ -27,7 +32,10 @@
 - Fixes \#1154 [\#1155](https://github.com/sbt/sbt-native-packager/pull/1155) ([glammers1](https://github.com/glammers1))
 
 ## [v1.3.7](https://github.com/sbt/sbt-native-packager/tree/v1.3.7) (2018-08-31)
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.7-M6...v1.3.7)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.8...v1.3.7)
+
+## [v1.3.8](https://github.com/sbt/sbt-native-packager/tree/v1.3.8) (2018-08-28)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.7-M6...v1.3.8)
 
 **Fixed bugs:**
 
