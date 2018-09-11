@@ -4,6 +4,7 @@ import sbt._
 import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
+  killTimeout,
   linuxMakeStartScript,
   linuxPackageMappings,
   linuxScriptReplacements,
@@ -58,7 +59,8 @@ object SystemdPlugin extends AutoPlugin {
       isConf = true
     ),
     // add additional system configurations to script replacements
-    linuxScriptReplacements += ("SuccessExitStatus" -> systemdSuccessExitStatus.value.mkString(" "))
+    linuxScriptReplacements += ("SuccessExitStatus" -> systemdSuccessExitStatus.value.mkString(" ")),
+    linuxScriptReplacements += ("TimeoutStopSec" -> killTimeout.value.toString)
   )
 
   def debianSettings: Seq[Setting[_]] = inConfig(Debian)(defaultLinuxStartScriptLocation := "/lib/systemd/system")
