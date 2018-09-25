@@ -102,14 +102,11 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       }
     } else IO.copyFile(from, to, preserveLastModified = true)
 
-
   /**
     * The same as [[DebianPluginLike.filterAndFixPerms]] except chmod invocation (for windows compatibility).
     * Permissions will be handled by jDeb packager itself.
     */
-  private final def filterFiles(script: File,
-                                replacements: Seq[(String, String)],
-                                perms: LinuxFileMetaData): File = {
+  private final def filterFiles(script: File, replacements: Seq[(String, String)], perms: LinuxFileMetaData): File = {
     val filtered =
       TemplateWriter.generateScript(script.toURI.toURL, replacements)
     IO.delete(script)
@@ -133,19 +130,23 @@ class JDebConsole(log: Logger) extends org.vafer.jdeb.Console {
 }
 
 /**
- * == JDeb Packaging Task ==
+  * == JDeb Packaging Task ==
   *
   * This private class contains all the jdeb-plugin specific implementations. It's only invoked when the jdeb plugin is
   * enabled and the `debian:packageBin` task is called. This means that all classes in `org.vafer.jdeb._` are only loaded
   * when required and allows us to put the dependency in the "provided" scope. The provided scope means that we have less
   * dependency issues in an sbt build.
- */
+  */
 private class JDebPackagingTask {
   import org.vafer.jdeb.{DataProducer, DebMaker}
   import org.vafer.jdeb.mapping._
   import org.vafer.jdeb.producers._
 
-  def packageDebian(mappings: Seq[LinuxPackageMapping], symlinks: Seq[LinuxSymlink], debianFile: File, targetDir: File, log: Logger): Unit = {
+  def packageDebian(mappings: Seq[LinuxPackageMapping],
+                    symlinks: Seq[LinuxSymlink],
+                    debianFile: File,
+                    targetDir: File,
+                    log: Logger): Unit = {
     val debMaker = new DebMaker(
       new JDebConsole(log),
       fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks),
