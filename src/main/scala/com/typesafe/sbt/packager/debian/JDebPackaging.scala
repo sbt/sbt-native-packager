@@ -12,9 +12,6 @@ import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{
   packageArchitecture
 }
 import scala.collection.JavaConversions._
-import org.vafer.jdeb.{DataProducer, DebMaker}
-import org.vafer.jdeb.mapping._
-import org.vafer.jdeb.producers._
 import DebianPlugin.Names
 import DebianPlugin.autoImport._
 
@@ -34,7 +31,7 @@ import DebianPlugin.autoImport._
   */
 object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
-  override def requires = DebianPlugin
+  override def requires: Plugins = DebianPlugin
 
   override lazy val projectSettings: Seq[Setting[_]] = inConfig(Debian)(jdebSettings)
 
@@ -79,23 +76,10 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       }
 
       log.info("Building debian package with java based implementation 'jdeb'")
-      val console = new JDebConsole(log)
       val archive = archiveFilename(normalizedName.value, version.value, packageArchitecture.value)
       val debianFile = targetDir.getParentFile / archive
-      val debMaker = new DebMaker(
-        console,
-        fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks),
-        conffileProducers(mappings, targetDir)
-      )
-      // set compression default to none - in line with native version / allows rsync to be effective
-      debMaker setCompression "none"
-      debMaker setDepends ""
-      debMaker setDeb debianFile
-      debMaker setControl (targetDir / Names.DebianMaintainerScripts)
-
-      // TODO add signing with setKeyring, setKey, setPassphrase, setSignPackage, setSignMethod, setSignRole
-      debMaker validate ()
-      debMaker makeDeb ()
+      val debMaker = new JDebPackagingTask()
+      debMaker.packageDebian(mappings, symlinks, debianFile, targetDir, log)
       debianFile
     },
     packageBin := (packageBin dependsOn debianControlFile).value,
@@ -108,7 +92,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     * The same as [[DebianPluginLike.copyAndFixPerms]] except chmod invocation (for windows compatibility).
     * Permissions will be handled by jDeb packager itself.
     */
-  private[this] def copyFiles(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit =
+  private def copyFiles(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit =
     if (zipped) {
       IO.withTemporaryDirectory { dir =>
         val tmp = dir / from.getName
@@ -122,14 +106,61 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     * The same as [[DebianPluginLike.filterAndFixPerms]] except chmod invocation (for windows compatibility).
     * Permissions will be handled by jDeb packager itself.
     */
-  private[this] final def filterFiles(script: File,
-                                      replacements: Seq[(String, String)],
-                                      perms: LinuxFileMetaData): File = {
+  private final def filterFiles(script: File, replacements: Seq[(String, String)], perms: LinuxFileMetaData): File = {
     val filtered =
       TemplateWriter.generateScript(script.toURI.toURL, replacements)
     IO.delete(script)
     IO.write(script, filtered)
     script
+  }
+
+}
+
+/**
+  * This provides the task for building a debian packaging with
+  * the java-based implementation jdeb
+  */
+class JDebConsole(log: Logger) extends org.vafer.jdeb.Console {
+
+  def debug(message: String): Unit = log debug message
+
+  def info(message: String): Unit = log info message
+
+  def warn(message: String): Unit = log warn message
+}
+
+/**
+  * == JDeb Packaging Task ==
+  *
+  * This private class contains all the jdeb-plugin specific implementations. It's only invoked when the jdeb plugin is
+  * enabled and the `debian:packageBin` task is called. This means that all classes in `org.vafer.jdeb._` are only loaded
+  * when required and allows us to put the dependency in the "provided" scope. The provided scope means that we have less
+  * dependency issues in an sbt build.
+  */
+private class JDebPackagingTask {
+  import org.vafer.jdeb.{DataProducer, DebMaker}
+  import org.vafer.jdeb.mapping._
+  import org.vafer.jdeb.producers._
+
+  def packageDebian(mappings: Seq[LinuxPackageMapping],
+                    symlinks: Seq[LinuxSymlink],
+                    debianFile: File,
+                    targetDir: File,
+                    log: Logger): Unit = {
+    val debMaker = new DebMaker(
+      new JDebConsole(log),
+      fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks),
+      conffileProducers(mappings, targetDir)
+    )
+    // set compression default to none - in line with native version / allows rsync to be effective
+    debMaker setCompression "none"
+    debMaker setDepends ""
+    debMaker setDeb debianFile
+    debMaker setControl (targetDir / Names.DebianMaintainerScripts)
+
+    // TODO add signing with setKeyring, setKey, setPassphrase, setSignPackage, setSignMethod, setSignRole
+    debMaker validate ()
+    debMaker makeDeb ()
   }
 
   /**
@@ -139,7 +170,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     * May create duplicates together with the conffileProducers.
     * This will be an performance improvement (reducing IO)
     */
-  private[debian] def fileAndDirectoryProducers(mappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] =
+  private def fileAndDirectoryProducers(mappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] =
     mappings.flatMap {
       case LinuxPackageMapping(paths, perms, zipped) =>
         paths.map {
@@ -168,7 +199,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     */
   private[debian] def conffileProducers(linuxMappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] = {
 
-    val producers = linuxMappings map {
+    val producers = linuxMappings.map {
       case LinuxPackageMapping(concretMappings, perms, _) if perms.config == "true" =>
         concretMappings collect {
           case (path, name) if path.isFile =>
@@ -186,18 +217,4 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
   private[this] def filePermissions(perms: LinuxFileMetaData): PermMapper =
     new PermMapper(-1, -1, perms.user, perms.group, perms.permissions, null, -1, null)
-
-}
-
-/**
-  * This provides the task for building a debian packaging with
-  * the java-based implementation jdeb
-  */
-class JDebConsole(log: Logger) extends org.vafer.jdeb.Console {
-
-  def debug(message: String): Unit = log debug message
-
-  def info(message: String): Unit = log info message
-
-  def warn(message: String): Unit = log warn message
 }
