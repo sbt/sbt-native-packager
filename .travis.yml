@@ -35,7 +35,7 @@ before_install:
     fi
 
 before_script:
-- curl -L --create-dirs -o $HOME/.sbt/launchers/1.2.4/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.2.4/sbt-launch.jar
+- curl -L --create-dirs -o $HOME/.sbt/launchers/1.2.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.2.6/sbt-launch.jar
 
 # job definitions
 
