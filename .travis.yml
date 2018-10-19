@@ -1,5 +1,5 @@
 language: java
-scala: 2.12.6
+scala: 2.12.7
 os: linux
 jdk: oraclejdk8
 
@@ -35,7 +35,7 @@ before_install:
     fi
 
 before_script:
-- curl -L --create-dirs -o $HOME/.sbt/launchers/1.1.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.1.6/sbt-launch.jar
+- curl -L --create-dirs -o $HOME/.sbt/launchers/1.2.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.2.6/sbt-launch.jar
 
 # job definitions
 
