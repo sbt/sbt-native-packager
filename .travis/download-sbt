@@ -1,0 +1,5 @@
+#!/bin/bash
+SBT_VERSION=1.2.6
+SBT_LAUNCH_JAR_URL=http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/${SBT_VERSION}/sbt-launch.jar
+TARGET_SBT_LAUNCH_JAR=${HOME}/.sbt/launchers/${SBT_VERSION}/sbt-launch.jar
+curl -L --create-dirs -o ${TARGET_SBT_LAUNCH_JAR} ${SBT_LAUNCH_JAR_URL}
