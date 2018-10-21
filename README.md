@@ -39,7 +39,7 @@ different archetypes for common configurations, such as simple Java apps or serv
   * `dmg` for OSX
   * `msi` for Windows
   * `docker` images
-  * `graavlm` native images
+  * `graalvm` native images
 * Provide archetypes for common use cases
   * [Java application][] with start scripts for Linux, OSX and Windows
   * [Java server application][] adds support for service managers:s
