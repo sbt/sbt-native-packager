@@ -4,7 +4,7 @@ libraryDependencies ++= Seq("com.typesafe" % "config" % "1.2.1")
 
 mainClass in Compile := Some("ExampleApp")
 
-enablePlugins(JavaServerAppPackaging, UpstartPlugin)
+enablePlugins(JavaServerAppPackaging, UpstartPlugin, GraalVMNativeImagePlugin)
 
 maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 packageSummary := "Minimal Native Packager"
