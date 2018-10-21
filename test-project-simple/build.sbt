@@ -2,8 +2,6 @@ name := "test-project-simple"
 version := "0.2.0"
 libraryDependencies ++= Seq("com.typesafe" % "config" % "1.2.1")
 
-mainClass in Compile := Some("ExampleApp")
-
 enablePlugins(JavaServerAppPackaging, UpstartPlugin, GraalVMNativeImagePlugin)
 
 maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
