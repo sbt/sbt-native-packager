@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Debian Plugin &mdash; sbt-native-packager 1.3.11 documentation</title>
+  <title>GraalVM Native Image Plugin &mdash; sbt-native-packager 1.3.11 documentation</title>
   
 
   
@@ -27,9 +27,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Rpm Plugin" href="rpm.html" />
-    <link rel="prev" title="Linux Plugin" href="linux.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -82,7 +80,7 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#scope">Scope</a></li>
@@ -107,7 +105,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Formats</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Formats</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="universal.html">Universal Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="universal.html#related-plugins">Related Plugins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="universal.html#requirements">Requirements</a></li>
@@ -152,22 +150,22 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Debian Plugin</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build">Build</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#required-settings">Required Settings</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#jre-dependencies">JRE Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#native-packaging">Native packaging</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#java-based-packaging">Java based packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debian.html">Debian Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#required-settings">Required Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#jre-dependencies">JRE Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#native-packaging">Native packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#java-based-packaging">Java based packaging</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#configurations">Configurations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#settings">Settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#tasks">Tasks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#customize">Customize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#customizing-debian-metadata">Customizing Debian Metadata</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#configurations">Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#tasks">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debian.html#customize">Customize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#customizing-debian-metadata">Customizing Debian Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#hook-actions-into-the-debian-package-lifecycle">Hook Actions into the Debian Package Lifecycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debian.html#use-a-different-castle-directory-for-your-control-scripts">Use a Different Castle Directory for your Control Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -442,15 +440,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="index.html">Packaging Formats</a> &raquo;</li>
-        
-      <li>Debian Plugin</li>
+      <li>GraalVM Native Image Plugin</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/formats/debian.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/formats/graalvm-native-image.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -463,251 +459,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="debian-plugin">
-<span id="id1"></span><h1>Debian Plugin<a class="headerlink" href="#debian-plugin" title="Permalink to this headline">¶</a></h1>
-<p>The debian package specification is very robust and powerful.  If you wish to do any advanced features, it’s best to understand how
-the underlying packaging system works.  <a class="reference external" href="http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/">Debian Binary Package Building HOWTO</a> by Chr. Clemens Lee is an excellent tutorial.</p>
-<p>SBT Native Packager provides two ways to build debian packages:</p>
-<ol class="arabic simple">
-<li>A native implementation, where you need <code class="docutils literal notranslate"><span class="pre">dpkg-deb</span></code> installed, or</li>
-<li>A java, platform independent approach with <a class="reference external" href="https://github.com/tcurdt/jdeb">jdeb</a>.</li>
-</ol>
-<p>By default the <em>native</em> implementation is activated.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The debian plugin depends on the <a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a>.</p>
-</div>
+  <div class="section" id="graalvm-native-image-plugin">
+<span id="id1"></span><h1>GraalVM Native Image Plugin<a class="headerlink" href="#graalvm-native-image-plugin" title="Permalink to this headline">¶</a></h1>
+<p>GraalVM’s <code class="docutils literal notranslate"><span class="pre">native-image</span></code> compiles Java programs AOT (ahead-of-time) into native binaries.</p>
+<blockquote>
+<div><a class="reference external" href="https://www.graalvm.org/docs/reference-manual/aot-compilation/">https://www.graalvm.org/docs/reference-manual/aot-compilation/</a> documents the AOT compilation of GraalVM.</div></blockquote>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<p>If you use the <em>native</em>  debian package implementation you need the following applications installed:</p>
-<ul class="simple">
-<li>dpkg-deb</li>
-<li>dpkg-sig</li>
-<li>dpkg-genchanges</li>
-<li>lintian</li>
-<li>fakeroot</li>
-</ul>
+<p>You must have <code class="docutils literal notranslate"><span class="pre">native-image</span></code> of GraalVM in your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
 </div>
 <div class="section" id="build">
 <h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt debian:packageBin
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt <span class="s1">&#39;show graalvm-native-image:packageBin&#39;</span>
 </pre></div>
 </div>
 <div class="section" id="required-settings">
 <h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
-<p>A debian package needs some mandatory settings to be valid. Make sure
-you have these settings in your build:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Debian Example&quot;</span>
-
-<span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span>
-
-<span class="n">maintainer</span> <span class="o">:=</span> <span class="s">&quot;Max Smith &lt;max.smith@yourcompany.io&gt;&quot;</span>
-
-<span class="n">packageSummary</span> <span class="o">:=</span> <span class="s">&quot;Hello World Debian Package&quot;</span>
-
-<span class="n">packageDescription</span> <span class="o">:=</span> <span class="s">&quot;&quot;&quot;A fun package description of our software,</span>
-<span class="s">  with multiple lines.&quot;&quot;&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">GraalVMNativeImagePlugin</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>It’s not exactly mandatory, but still highly recommended to add
-relevant <a class="reference internal" href="#jre-dependencies"><span class="std std-ref">JRE dependency</span></a>, for example:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">debianPackageDependencies</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;java8-runtime-headless&quot;</span><span class="o">)</span>
-</pre></div>
-</div>
-<p>Enable the debian plugin to activate the native package implementation.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">DebianPlugin</span><span class="o">)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="jre-dependencies">
-<span id="id2"></span><h3>JRE Dependencies<a class="headerlink" href="#jre-dependencies" title="Permalink to this headline">¶</a></h3>
-<p>By default, a Debian package would have no dependencies, even for the
-Java Runtime Environment (JRE). A startup script will seek JRE in
-several popular locations, and, JRE is not found, the following
-message would be displayed:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">No</span> <span class="n">java</span> <span class="n">installations</span> <span class="n">was</span> <span class="n">detected</span><span class="o">.</span>
-<span class="n">Please</span> <span class="n">go</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">java</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">getjava</span><span class="o">/</span> <span class="ow">and</span> <span class="n">download</span>
-</pre></div>
-</div>
-<p>To build a Debian package that integrates properly with Debian
-repository environment, i.e. depends on a package that provides JRE,
-one needs to specify JRE dependency using
-<code class="docutils literal notranslate"><span class="pre">debianPackageDependencies</span></code>. Debian (Ubuntu and compatible
-distributions as well) provides two families of virtual packages to do
-that:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">javaN-runtime</span></code></dt>
-<dd>Regular (full) JRE packages, with GUI support. Use this for
-applications requiring AWT/Swing support, OpenGL, sound, etc.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">javaN-runtime-headless</span></code></dt>
-<dd>Minimal JRE packages without GUI support, useful for server
-installation to avoid pulling large set of X.org-related
-packages. Use this for console-only applications, services,
-networked / web applications, etc.</dd>
-</dl>
-</div></blockquote>
-<p><code class="docutils literal notranslate"><span class="pre">N</span></code> in <code class="docutils literal notranslate"><span class="pre">javaN</span></code> should be replaced with minimal JRE version
-required by the packaged application. It usually depends on a Scala
-version used:</p>
-<ul class="simple">
-<li>Scala 2.11.x or earlier requires Java 6</li>
-<li>Scala 2.12.x requires Java 8</li>
-</ul>
-<p>Note that these are <em>virtual</em> packages, which are provided by a set of
-real packages. This means, for example, while installing a .deb
-package that depends on <code class="docutils literal notranslate"><span class="pre">java6-runtime-headless</span></code>:</p>
-<ul class="simple">
-<li>If end-user has no suitable JRE installed, it would automatically
-pull and install some “sane default” package which provides thing
-functionality (typically, it would be <code class="docutils literal notranslate"><span class="pre">openjdk-8-jre-headless</span></code>).</li>
-<li>If end-user does not like default suggested JRE for some reason,
-it’s possible to install any alternative implementation.</li>
-<li>If end-user has some existing JRE installation that is sufficient to
-play that role (for example, <code class="docutils literal notranslate"><span class="pre">openjdk-9-jre</span></code>, which provides,
-along others, <code class="docutils literal notranslate"><span class="pre">java8-runtime-headless</span></code> too), it would be used.</li>
-</ul>
-<p>This dependency works equally well with both free/libre OpenJDK
-packages supplied by Debian, and non-free JDKs supplied by Oracle and
-packaged as .deb using <a class="reference external" href="https://wiki.debian.org/JavaPackage">make-jpkg utility</a> from Debian’s <a class="reference external" href="https://packages.debian.org/java-package">java-package</a>.</p>
-</div>
-<div class="section" id="native-packaging">
-<h3>Native packaging<a class="headerlink" href="#native-packaging" title="Permalink to this headline">¶</a></h3>
-<p>Since JARs are by default already compressed, <cite>DebianPlugin</cite> disables additional compression of the debian package
-contents.</p>
-<p>To compress the debian package, override <cite>debianNativeBuildOptions</cite> with
-<a class="reference external" href="http://man7.org/linux/man-pages/man1/dpkg-deb.1.html">options</a> for <cite>dpkg-deb</cite>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">debianNativeBuildOptions</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">Nil</span> <span class="c1">// dpkg-deb&#39;s default compression (currently xz)</span>
-
-<span class="n">debianNativeBuildOptions</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;-Zgzip&quot;</span><span class="o">,</span> <span class="s">&quot;-z3&quot;</span><span class="o">)</span> <span class="c1">// gzip compression at level 3</span>
-</pre></div>
-</div>
-<p>Note that commit cee091c released in 1.1.1 disables package re-compression by
-default. While this works great with tools such as apt and dpkg, un-compressed
-package installation is <a class="reference external" href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718330">bugged in python-apt 8.8 series</a>. This bug prevents
-installation of the generated debian package in the following configuration:</p>
-<ul class="simple">
-<li>installation using python-apt module, used by Ansible and SaltStack for
-example,</li>
-<li>being on python-apt 8.8 series that’s on Debian Wheezy and perhaps older</li>
-</ul>
-<p>It will fail with an error message like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">E</span><span class="p">:</span> <span class="n">This</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">DEB</span> <span class="n">archive</span><span class="p">,</span> <span class="n">it</span> <span class="n">has</span> <span class="n">no</span> <span class="s1">&#39;data.tar.gz&#39;</span><span class="p">,</span> <span class="s1">&#39;data.tar.bz2&#39;</span> <span class="ow">or</span> <span class="s1">&#39;data.tar.lzma&#39;</span> <span class="n">member</span>
-</pre></div>
-</div>
-<p>Solutions include:</p>
-<ul class="simple">
-<li>upgrading to Debian Jessie,</li>
-<li>upgrading python-apt, note that no official backport is known</li>
-<li>re-enabling package re-compression in sbt-native-packager, by overridding
-<cite>debianNativeBuildOptions</cite> as described above.</li>
-</ul>
-</div>
-<div class="section" id="java-based-packaging">
-<h3>Java based packaging<a class="headerlink" href="#java-based-packaging" title="Permalink to this headline">¶</a></h3>
-<p>If you want to use the java based implementation, enable the following plugin:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JDebPackaging</span><span class="o">)</span>
-</pre></div>
-</div>
-<p>and this to your <code class="docutils literal notranslate"><span class="pre">plugins.sbt</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;org.vafer&quot;</span> <span class="o">%</span> <span class="s">&quot;jdeb&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3&quot;</span> <span class="n">artifacts</span> <span class="o">(</span><span class="nc">Artifact</span><span class="o">(</span><span class="s">&quot;jdeb&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">))</span>
-</pre></div>
-</div>
-<p>JDeb is a provided dependency. You have to explicitly add it on your own. It brings a lot of dependencies
-that could slow your build times. This is the reason the dependency is marked as provided.</p>
-</div>
-</div>
-<div class="section" id="configurations">
-<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
-<p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Debian</span></code>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
-</pre></div>
 </div>
 </div>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<p>Debian requires the following specific settings:</p>
+<div class="section" id="publishing-settings">
+<h3>Publishing Settings<a class="headerlink" href="#publishing-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The name of the package for debian (if different from general linux name).</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The debian-friendly version of the package.   Should be of the form <code class="docutils literal notranslate"><span class="pre">x.y.z-build-aa</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianPackageConflicts</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The list of debian packages that this package conflicts with.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianPackageDependencies</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The list of debian packages that this package depends on.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianPackageProvides</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The list of debian packages that are provided by this package.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianPackageRecommends</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The list of debian packages that are recommended to be installed with this package.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>Debian requires a <code class="docutils literal notranslate"><span class="pre">/usr/share/doc/{package</span> <span class="pre">name}/changelog.gz</span></code> file that describes
-the version changes in this package. These should be appended to the base linux versions.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> (<code class="docutils literal notranslate"><span class="pre">debianMaintainerScripts</span></code>)</dt>
-<dd><em>DEPRECATED</em> use <code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> instead.
-These are the packaging scripts themselves used by <code class="docutils literal notranslate"><span class="pre">dpkg-deb</span></code> to build your debian.  These
-scripts are used when installing/uninstalling a debian, like prerm, postinstall, etc.  These scripts
-are placed in the <code class="docutils literal notranslate"><span class="pre">DEBIAN</span></code> file when building.    Some of these files can be autogenerated,
-for example when using a package archetype, like server_application.  However, any autogenerated file
-can be overridden by placing your own files in the <code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code> directory.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>This is the changelog used by <code class="docutils literal notranslate"><span class="pre">dpkg-genchanges</span></code> to create the .changes file. This will allow you to
-upload the debian package to a mirror.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">graalVMNativeImageOptions</span></code></dt>
+<dd>Extra options that will be passed to the <code class="docutils literal notranslate"><span class="pre">native-image</span></code> command. By default, this includes the name of the main class.</dd>
 </dl>
 </div></blockquote>
+</div>
 </div>
 <div class="section" id="tasks">
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
-<p>The Debian support grants the following commands:</p>
+<p>The GraalVM Native Image plugin provides the following commands:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">debian:package-bin</span></code></dt>
-<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> package for this project.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debian:lintian</span></code></dt>
-<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> file and runs the <code class="docutils literal notranslate"><span class="pre">lintian</span></code> command to look for issues in the package.  Useful for debugging.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debian:gen-changes</span></code></dt>
-<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.changes</span></code>, and therefore the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> package for this project.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">graalvm-native-image:packageBin</span></code></dt>
+<dd>Generates a native image using GraalVM.</dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
-<p>This section contains examples of how you can customize your debian build.</p>
-<div class="section" id="customizing-debian-metadata">
-<h3>Customizing Debian Metadata<a class="headerlink" href="#customizing-debian-metadata" title="Permalink to this headline">¶</a></h3>
-<p>A Debian package provides metadata, which includes <strong>dependencies</strong> and <strong>recommendations</strong>.
-This example adds a dependency on java and recommends a git installation.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">debianPackageDependencies</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;java2-runtime&quot;</span><span class="o">,</span> <span class="s">&quot;bash (&gt;= 2.05a-11)&quot;</span><span class="o">)</span>
-
-<span class="n">debianPackageRecommends</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span> <span class="s">&quot;git&quot;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="hook-actions-into-the-debian-package-lifecycle">
-<h3>Hook Actions into the Debian Package Lifecycle<a class="headerlink" href="#hook-actions-into-the-debian-package-lifecycle" title="Permalink to this headline">¶</a></h3>
-<p>To hook into the debian package lifecycle (<a class="reference external" href="https://wiki.debian.org/MaintainerScripts">https://wiki.debian.org/MaintainerScripts</a>) you
-can add <code class="docutils literal notranslate"><span class="pre">preinst</span></code> , <code class="docutils literal notranslate"><span class="pre">postinst</span></code> , <code class="docutils literal notranslate"><span class="pre">prerm</span></code> and/or <code class="docutils literal notranslate"><span class="pre">postrm</span></code> scripts. Just place them into
-<code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code>. Or you can do it programmatically in your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>.  This example adds actions to <code class="docutils literal notranslate"><span class="pre">preinst</span></code> and <code class="docutils literal notranslate"><span class="pre">postinst</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">DebianConstants._</span>
-<span class="n">maintainerScripts</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">:=</span> <span class="n">maintainerScriptsAppend</span><span class="o">((</span><span class="n">maintainerScripts</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">).</span><span class="n">value</span><span class="o">)(</span>
-  <span class="nc">Preinst</span> <span class="o">-&gt;</span> <span class="s">&quot;echo &#39;hello, world&#39;&quot;</span><span class="o">,</span>
-  <span class="nc">Postinst</span> <span class="o">-&gt;</span> <span class="s">s&quot;echo &#39;installed </span><span class="si">${</span><span class="o">(</span><span class="n">packageName</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">).</span><span class="n">value</span><span class="si">}</span><span class="s">&#39;&quot;</span>
-<span class="o">)</span>
-</pre></div>
-</div>
-<p>The helper methods can be found in <a class="reference external" href="http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$">MaintainerScriptHelper Scaladocs</a>.</p>
-<p>If you use the <code class="docutils literal notranslate"><span class="pre">JavaServerAppPackaging</span></code> there are predefined <code class="docutils literal notranslate"><span class="pre">postinst</span></code> and
-<code class="docutils literal notranslate"><span class="pre">preinst</span></code> files, which start/stop the application on install/remove calls. Existing
-maintainer scripts will be <em>extended</em> not overridden.</p>
-</div>
-<div class="section" id="use-a-different-castle-directory-for-your-control-scripts">
-<h3>Use a Different Castle Directory for your Control Scripts<a class="headerlink" href="#use-a-different-castle-directory-for-your-control-scripts" title="Permalink to this headline">¶</a></h3>
-<p>Your control scripts are in a different castle.. directory? No problem.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">debianControlScriptsDirectory</span> <span class="o">&lt;&lt;=</span> <span class="o">(</span><span class="n">sourceDirectory</span><span class="o">)</span> <span class="n">apply</span> <span class="o">(</span><span class="k">_</span> <span class="o">/</span> <span class="s">&quot;deb&quot;</span> <span class="o">/</span> <span class="s">&quot;control&quot;</span><span class="o">)</span>
-</pre></div>
-</div>
-</div>
 </div>
 </div>
 
@@ -716,15 +509,6 @@ maintainer scripts will be <em>extended</em> not overridden.</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="rpm.html" class="btn btn-neutral float-right" title="Rpm Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="linux.html" class="btn btn-neutral" title="Linux Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
