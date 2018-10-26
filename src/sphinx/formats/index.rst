@@ -10,12 +10,12 @@ existing functionality. Currently the autoplugin hierarchy looks like this ::
                   +
                   |
                   |
-    +-------+  Universal  +--------+-------------+
-    |             +                |             |
-    |             |                |             |
-    |             |                |             |
-    +             +                +             +
-  Docker    +-+ Linux +-+       Windows     JDKPackager
+    +-------+  Universal  +--------+-------------+----------------+
+    |             +                |             |                |
+    |             |                |             |                |
+    |             |                |             |                |
+    +             +                +             +                +
+  Docker    +-+ Linux +-+       Windows     JDKPackager   GraalVM native-image
             |           |
             |           |
             +           +
@@ -49,3 +49,4 @@ To learn more about a specific plugin, read the appropriate doc.
    docker.rst
    windows.rst
    jdkpackager.rst
+   graalvm-native-image.rst
