@@ -1,5 +1,19 @@
 # Change Log
 
+## [v1.3.12](https://github.com/sbt/sbt-native-packager/tree/v1.3.12) (2018-10-27)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.11...v1.3.12)
+
+**Closed issues:**
+
+- Manage graalvm native images [\#1123](https://github.com/sbt/sbt-native-packager/issues/1123)
+
+**Merged pull requests:**
+
+- GraalVM docs to use the installer from master branch [\#1169](https://github.com/sbt/sbt-native-packager/pull/1169) ([ScalaWilliam](https://github.com/ScalaWilliam))
+- Improve the GraalVM native-image documentation [\#1168](https://github.com/sbt/sbt-native-packager/pull/1168) ([ScalaWilliam](https://github.com/ScalaWilliam))
+- fix typo in README.md [\#1167](https://github.com/sbt/sbt-native-packager/pull/1167) ([hepin1989](https://github.com/hepin1989))
+- Add Travis tests for the GraalVL native-image plug-in [\#1166](https://github.com/sbt/sbt-native-packager/pull/1166) ([ScalaWilliam](https://github.com/ScalaWilliam))
+
 ## [v1.3.11](https://github.com/sbt/sbt-native-packager/tree/v1.3.11) (2018-10-21)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.10...v1.3.11)
 
