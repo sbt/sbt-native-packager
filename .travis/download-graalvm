@@ -11,10 +11,11 @@ NATIVE_IMAGE_TARGET_DIRECTORY=${HOME}/.local/bin
 NATIVE_IMAGE_TARGET=${NATIVE_IMAGE_TARGET_DIRECTORY}/native-image
 if [[ ! -f ${NATIVE_IMAGE} ]]
 then
-  (cd ${GRAALVM_PARENT_DIRECTORY} &&
-  wget -O ${TAR_GZ_FILENAME} ${TAR_GZ_URL} &&
-  tar zxf ${TAR_GZ_FILENAME} &&
-  rm -f ${TAR_GZ_FILENAME})
+  (mkdir -p ${GRAALVM_PARENT_DIRECTORY} &&
+    cd ${GRAALVM_PARENT_DIRECTORY} &&
+    wget -O ${TAR_GZ_FILENAME} ${TAR_GZ_URL} &&
+    tar zxf ${TAR_GZ_FILENAME} &&
+    rm -f ${TAR_GZ_FILENAME})
 fi
 ls -lsa ${NATIVE_IMAGE}
 mkdir -p ${NATIVE_IMAGE_TARGET_DIRECTORY}
