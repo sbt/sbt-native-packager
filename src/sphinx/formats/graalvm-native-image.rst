@@ -21,7 +21,7 @@ To do so, run the following. It will install GraalVM 1.0.0-rc8.
 
 .. code-block:: bash
 
-  source <(curl -o - https://raw.githubusercontent.com/sbt/sbt-native-packager/6e1ee230350ce86c37b39c75f35718ac4a7f0a26/.travis/download-graalvm)
+  source <(curl -o - https://raw.githubusercontent.com/sbt/sbt-native-packager/master/.travis/download-graalvm)
 
 Build
 -----
