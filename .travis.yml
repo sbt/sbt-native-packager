@@ -16,6 +16,7 @@ cache:
   - $HOME/.sbt
   - $HOME/.m2
   - $HOME/.ivy2
+  - $HOME/.local/share/graalvm-ce-1.0.0-rc8
 
 env:
   global:
@@ -35,7 +36,8 @@ before_install:
     fi
 
 before_script:
-- curl -L --create-dirs -o $HOME/.sbt/launchers/1.2.6/sbt-launch.jar http://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.2.6/sbt-launch.jar
+- .travis/download-sbt
+- . .travis/download-graalvm
 
 # job definitions
 
@@ -49,6 +51,9 @@ jobs:
       script: sbt "^validateUniversal"
       if: type = pull_request OR (type = push AND branch = master)
       name: "scripted universal tests"
+    - script: sbt "^validateGraalVMNativeImage"
+      if: type = pull_request OR (type = push AND branch = master)
+      name: "scripted GraalVM native-image tests"
     - script: sbt "^validateJar"
       name: "scripted jar tests"
       if: type = pull_request OR (type = push AND branch = master)
