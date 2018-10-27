@@ -12,6 +12,17 @@ Requirements
 
 You must have ``native-image`` of GraalVM in your ``PATH``.
 
+Quick installation
+~~~~~~~~~~~~~~~~~~
+
+To get started quickly, eg make ``native-image`` available in your ``PATH``,
+you may reuse the script that is used for sbt-native-packager's continuous integration.
+To do so, run the following. It will install GraalVM 1.0.0-rc8.
+
+.. code-block:: bash
+
+  source <(curl -o - https://raw.githubusercontent.com/sbt/sbt-native-packager/master/.travis/download-graalvm)
+
 Build
 -----
 

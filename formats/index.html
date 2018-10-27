@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Packaging Formats &mdash; sbt-native-packager 1.3.11 documentation</title>
+  <title>Packaging Formats &mdash; sbt-native-packager 1.3.12 documentation</title>
   
 
   
@@ -257,6 +257,22 @@
 <li class="toctree-l3"><a class="reference internal" href="jdkpackager.html#debugging">Debugging</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="graalvm-native-image.html">GraalVM Native Image Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graalvm-native-image.html#requirements">Requirements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#quick-installation">Quick installation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="graalvm-native-image.html#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#required-settings">Required Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="graalvm-native-image.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="graalvm-native-image.html#tasks">Tasks</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../archetypes/index.html">Archetypes</a><ul>
@@ -469,12 +485,12 @@ existing functionality. Currently the autoplugin hierarchy looks like this</p>
                 <span class="o">+</span>
                 <span class="o">|</span>
                 <span class="o">|</span>
-  <span class="o">+-------+</span>  <span class="n">Universal</span>  <span class="o">+--------+-------------+</span>
-  <span class="o">|</span>             <span class="o">+</span>                <span class="o">|</span>             <span class="o">|</span>
-  <span class="o">|</span>             <span class="o">|</span>                <span class="o">|</span>             <span class="o">|</span>
-  <span class="o">|</span>             <span class="o">|</span>                <span class="o">|</span>             <span class="o">|</span>
-  <span class="o">+</span>             <span class="o">+</span>                <span class="o">+</span>             <span class="o">+</span>
-<span class="n">Docker</span>    <span class="o">+-+</span> <span class="n">Linux</span> <span class="o">+-+</span>       <span class="n">Windows</span>     <span class="n">JDKPackager</span>
+  <span class="o">+-------+</span>  <span class="n">Universal</span>  <span class="o">+--------+-------------+----------------+</span>
+  <span class="o">|</span>             <span class="o">+</span>                <span class="o">|</span>             <span class="o">|</span>                <span class="o">|</span>
+  <span class="o">|</span>             <span class="o">|</span>                <span class="o">|</span>             <span class="o">|</span>                <span class="o">|</span>
+  <span class="o">|</span>             <span class="o">|</span>                <span class="o">|</span>             <span class="o">|</span>                <span class="o">|</span>
+  <span class="o">+</span>             <span class="o">+</span>                <span class="o">+</span>             <span class="o">+</span>                <span class="o">+</span>
+<span class="n">Docker</span>    <span class="o">+-+</span> <span class="n">Linux</span> <span class="o">+-+</span>       <span class="n">Windows</span>     <span class="n">JDKPackager</span>   <span class="n">GraalVM</span> <span class="n">native</span><span class="o">-</span><span class="n">image</span>
           <span class="o">|</span>           <span class="o">|</span>
           <span class="o">|</span>           <span class="o">|</span>
           <span class="o">+</span>           <span class="o">+</span>
@@ -504,6 +520,7 @@ looks like this</p>
 <li class="toctree-l1"><a class="reference internal" href="docker.html">Docker Plugin</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Windows Plugin</a></li>
 <li class="toctree-l1"><a class="reference internal" href="jdkpackager.html">JDKPackager Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graalvm-native-image.html">GraalVM Native Image Plugin</a></li>
 </ul>
 </div>
 </div>
