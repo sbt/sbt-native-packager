@@ -56,6 +56,7 @@ object ReadmeReleasePlugin extends AutoPlugin {
     val log = toProcessLogger(state)
     val base = vcs(state).baseDir
     val sign = Project.extract(state).get(releaseVcsSign)
+    val signOff = Project.extract(state).get(releaseVcsSignOff)
     val readmeFile = base / "README.md"
 
     val relativePath = IO
@@ -69,7 +70,7 @@ object ReadmeReleasePlugin extends AutoPlugin {
     if (vcsAddOutput.isEmpty) {
       state.log.info("README.md hasn't been changed.")
     } else {
-      vcs(state).commit("Update release version in readme", sign) ! log
+      vcs(state).commit("Update release version in readme", sign, signOff) ! log
     }
 
     state
