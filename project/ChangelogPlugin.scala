@@ -90,6 +90,7 @@ object ChangelogPlugin extends AutoPlugin {
     val log = toProcessLogger(state)
     val base = vcs(state).baseDir
     val sign = Project.extract(state).get(releaseVcsSign)
+    val signOff = Project.extract(state).get(releaseVcsSignOff)
     val changelogFile = base / "CHANGELOG.md"
 
     val relativePath = IO
@@ -103,7 +104,7 @@ object ChangelogPlugin extends AutoPlugin {
     if (vcsAddOutput.isEmpty) {
       state.log.info("CHANGELOG.md hasn't been changed.")
     } else {
-      vcs(state).commit("Update changelog", sign) ! log
+      vcs(state).commit("Update changelog", sign, signOff) ! log
     }
 
     state

@@ -11,7 +11,7 @@ import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{
   linuxScriptReplacements,
   packageArchitecture
 }
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import DebianPlugin.Names
 import DebianPlugin.autoImport._
 
@@ -149,8 +149,8 @@ private class JDebPackagingTask {
                     log: Logger): Unit = {
     val debMaker = new DebMaker(
       new JDebConsole(log),
-      fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks),
-      conffileProducers(mappings, targetDir)
+      (fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks)).asJava,
+      conffileProducers(mappings, targetDir).asJava
     )
     // set compression default to none - in line with native version / allows rsync to be effective
     debMaker setCompression "none"
