@@ -25,7 +25,7 @@ object MappingsHelper extends Mapper {
     *
     * @example
     * {{{
-    * mappings in Universal ++= sourceDir("extra")
+    * mappings in Universal ++= contentOf("extra")
     * }}}
     *
     * @param sourceDir as string representation
