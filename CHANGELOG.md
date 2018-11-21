@@ -1,5 +1,17 @@
 # Change Log
 
+## [v1.3.14](https://github.com/sbt/sbt-native-packager/tree/v1.3.14) (2018-11-21)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.12...v1.3.14)
+
+**Closed issues:**
+
+- docker:publishLocal publish to private remote repository [\#1174](https://github.com/sbt/sbt-native-packager/issues/1174)
+
+**Merged pull requests:**
+
+- Update scaladoc in contentOf to match method signature [\#1172](https://github.com/sbt/sbt-native-packager/pull/1172) ([frosforever](https://github.com/frosforever))
+- Update dependencies [\#1170](https://github.com/sbt/sbt-native-packager/pull/1170) ([marcospereira](https://github.com/marcospereira))
+
 ## [v1.3.12](https://github.com/sbt/sbt-native-packager/tree/v1.3.12) (2018-10-27)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.11...v1.3.12)
 
