@@ -106,9 +106,10 @@ object WindowsPlugin extends AutoPlugin {
       // to our target directory.
       val targetFlat: Path.FileMap = Path.flat(target.value)
       val wsxFiles = wsxSources.map(targetFlat(_).get)
-      IO.copy(wsxSources.zip(wsxFiles).filter {
+      val wsxCopyPairs = wsxSources.zip(wsxFiles).filter {
         case (src, dest) => src.getAbsolutePath != dest.getAbsolutePath
-      }, CopyOptions().withOverwrite(true))
+      }
+      IO.copy(wsxCopyPairs)
       IO.copy(for ((f, to) <- mappings.value) yield (f, target.value / to))
 
       // Now compile WIX
