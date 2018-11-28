@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<!-- Use * to generate product ID on every build -->
+	<Product
+    Id="*"
+		Name="Custom WiX build"
+		Language="1033"
+		Version="1.0.0.0"
+		Manufacturer="sbt-native-packager"
+		UpgradeCode="424a691a-627d-47c2-b5b7-39fed4fe69e9">
+
+		<Package
+      Compressed="yes"
+			InstallScope="perMachine"
+			Manufacturer="software architects"
+			Description="Demo installer for learning WiX basics."
+			Comments="(c) 2012 software architects" />
+
+		<Media Id="1" Cabinet="custom.cab" EmbedCab="yes" />
+
+		<!--Directory structure-->
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="CustomDir" Name="Custom WiX build" />
+			</Directory>
+		</Directory>
+
+		<!--Components-->
+		<DirectoryRef Id="CustomDir">
+			<Component Id="CustomComponent" Guid="37de77f3-e716-486b-a859-600ba4edc466">
+        <CreateFolder/>
+			</Component>
+		</DirectoryRef>
+
+		<!--Features-->
+		<Feature
+      Id="CustomFeature"
+			Title="Custom WiX feature"
+			Level="1">
+
+			<ComponentRef Id="CustomComponent" />
+		</Feature>
+
+		<UIRef Id="CustomUI"/>
+	</Product>
+</Wix>
