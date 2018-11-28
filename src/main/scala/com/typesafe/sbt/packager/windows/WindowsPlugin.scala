@@ -106,12 +106,9 @@ object WindowsPlugin extends AutoPlugin {
       // to our target directory.
       val targetFlat: Path.FileMap = Path.flat(target.value)
       val wsxFiles = wsxSources.map(targetFlat(_).get)
-      IO.copy(
-        wsxSources.zip(wsxFiles).filter {
-          case (src, dest) => src.getAbsolutePath != dest.getAbsolutePath
-        },
-        CopyOptions().withOverwrite(true)
-      )
+      IO.copy(wsxSources.zip(wsxFiles).filter {
+        case (src, dest) => src.getAbsolutePath != dest.getAbsolutePath
+      }, CopyOptions().withOverwrite(true))
       IO.copy(for ((f, to) <- mappings.value) yield (f, target.value / to))
 
       // Now compile WIX
@@ -132,11 +129,9 @@ object WindowsPlugin extends AutoPlugin {
       }
 
       // Now create MSI
-      val lightCmd = List(
-        wixdir + "\\bin\\light.exe",
-        "-out",
-        msi.getAbsolutePath
-      ) ++ wixobjFiles.map(_.getAbsolutePath) ++
+      val lightCmd = List(wixdir + "\\bin\\light.exe", "-out", msi.getAbsolutePath) ++ wixobjFiles.map(
+        _.getAbsolutePath
+      ) ++
         lightOptions.value
 
       streams.value.log.debug(lightCmd mkString " ")
