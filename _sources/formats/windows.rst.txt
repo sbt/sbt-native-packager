@@ -8,7 +8,7 @@ it's important to understand how WIX works.  http://wix.tramontana.co.hu/ is an 
 to how to create packages using wix.
 
 However, the native-packager provides a simple layer on top of wix that *may* be enough for most projects.
-If it is not enough, just override ``wixConfig`` or ``wixFile`` settings.  Let's look at the layer above direct
+If it is not enough, just override ``wixConfig`` or ``wixFiles`` tasks.  Let's look at the layer above direct
 xml configuration.
 
 .. note:: The windows plugin depends on the :ref:`universal-plugin`.
@@ -109,10 +109,10 @@ Settings
     inline XML to use for wix configuration.  This is everything nested inside the ``<Product>`` element.
 
   ``wixConfig``
-    inline XML to use for wix configuration.   This is used if the ``wixFile`` setting is not specified.
+    inline XML to use for wix configuration.   This is used if the ``wixFiles`` task is not specified.
 
-  ``wixFile``
-    The file containing WIX xml that defines the build.
+  ``wixFiles``
+    WIX xml source files (``wxs``) that define the build.
 
   ``mappings in packageMsi in Windows``
     A list of file->location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a ``cab`` or embedded ``cab`` for the ``msi``.

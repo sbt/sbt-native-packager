@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Windows Plugin &mdash; sbt-native-packager 1.3.14 documentation</title>
+  <title>Windows Plugin &mdash; sbt-native-packager 1.3.15 documentation</title>
   
 
   
@@ -485,7 +485,7 @@
 it’s important to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial
 to how to create packages using wix.</p>
 <p>However, the native-packager provides a simple layer on top of wix that <em>may</em> be enough for most projects.
-If it is not enough, just override <code class="docutils literal notranslate"><span class="pre">wixConfig</span></code> or <code class="docutils literal notranslate"><span class="pre">wixFile</span></code> settings.  Let’s look at the layer above direct
+If it is not enough, just override <code class="docutils literal notranslate"><span class="pre">wixConfig</span></code> or <code class="docutils literal notranslate"><span class="pre">wixFiles</span></code> tasks.  Let’s look at the layer above direct
 xml configuration.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -569,9 +569,9 @@ on how to enable sbt-native-packager.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">wixProductConfig</span></code></dt>
 <dd>inline XML to use for wix configuration.  This is everything nested inside the <code class="docutils literal notranslate"><span class="pre">&lt;Product&gt;</span></code> element.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">wixConfig</span></code></dt>
-<dd>inline XML to use for wix configuration.   This is used if the <code class="docutils literal notranslate"><span class="pre">wixFile</span></code> setting is not specified.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">wixFile</span></code></dt>
-<dd>The file containing WIX xml that defines the build.</dd>
+<dd>inline XML to use for wix configuration.   This is used if the <code class="docutils literal notranslate"><span class="pre">wixFiles</span></code> task is not specified.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">wixFiles</span></code></dt>
+<dd>WIX xml source files (<code class="docutils literal notranslate"><span class="pre">wxs</span></code>) that define the build.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">packageMsi</span> <span class="pre">in</span> <span class="pre">Windows</span></code></dt>
 <dd>A list of file-&gt;location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a <code class="docutils literal notranslate"><span class="pre">cab</span></code> or embedded <code class="docutils literal notranslate"><span class="pre">cab</span></code> for the <code class="docutils literal notranslate"><span class="pre">msi</span></code>.
 The WIX xml should use the relative locations in this mappings when referencing files for the package.</dd>
