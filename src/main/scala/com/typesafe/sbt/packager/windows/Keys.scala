@@ -19,7 +19,9 @@ trait WindowsKeys {
     TaskKey[xml.Node]("wix-product-xml", "The WIX XML configuration for a product (nested in Wix/Product elements).")
   val wixConfig =
     TaskKey[xml.Node]("wix-xml", "The WIX XML configuration for this package.")
-  val wixFile = TaskKey[File]("wix-file", "The WIX XML file to package with.")
+  @deprecated("Use wixFiles task instead", "1.3.15")
+  val wixFile = TaskKey[File]("wix-file", "The generated WIX XML file.")
+  val wixFiles = TaskKey[Seq[File]]("wix-files", "WIX XML sources (*.wxs) to package with")
   val candleOptions = SettingKey[Seq[String]]("candle-options", "Options to pass to the candle.exe program.")
   val lightOptions = SettingKey[Seq[String]]("light-options", "Options to pass to the light.exe program.")
   val wixMajorVersion =

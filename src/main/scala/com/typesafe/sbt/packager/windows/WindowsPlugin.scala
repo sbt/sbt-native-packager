@@ -96,27 +96,45 @@ object WindowsPlugin extends AutoPlugin {
         val wixConfigFile = (target in Windows).value / ((name in Windows).value + ".wxs")
         IO.write(wixConfigFile, config.toString)
         wixConfigFile
-      }
+      },
+      wixFiles := Seq(wixFile.value)
     ) ++ inConfig(Windows)(Seq(packageBin := {
-      val wixFileValue = wixFile.value
+      val wsxSources = wixFiles.value
       val msi = target.value / (name.value + ".msi")
-      // First we have to move everything (including the wix file) to our target directory.
-      val wix = target.value / (name.value + ".wix")
-      if (wixFileValue.getAbsolutePath != wix.getAbsolutePath) IO.copyFile(wixFileValue, wix)
+
+      // First we have to move everything (including the WIX scripts)
+      // to our target directory.
+      val targetFlat: Path.FileMap = Path.flat(target.value)
+      val wsxFiles = wsxSources.map(targetFlat(_).get)
+      val wsxCopyPairs = wsxSources.zip(wsxFiles).filter {
+        case (src, dest) => src.getAbsolutePath != dest.getAbsolutePath
+      }
+      IO.copy(wsxCopyPairs)
       IO.copy(for ((f, to) <- mappings.value) yield (f, target.value / to))
+
       // Now compile WIX
       val wixdir = Option(System.getenv("WIX")) getOrElse sys.error(
         "WIX environment not found.  Please ensure WIX is installed on this computer."
       )
-      val candleCmd = Seq(wixdir + "\\bin\\candle.exe", wix.getAbsolutePath) ++ candleOptions.value
+      val candleCmd = (wixdir + "\\bin\\candle.exe") +:
+        wsxFiles.map(_.getAbsolutePath) ++:
+        candleOptions.value
+      val wixobjFiles = wsxFiles.map { wsx =>
+        wsx.getParentFile / (wsx.base + ".wixobj")
+      }
+
       streams.value.log.debug(candleCmd mkString " ")
       sys.process.Process(candleCmd, Some(target.value)) ! streams.value.log match {
         case 0        => ()
         case exitCode => sys.error(s"Unable to run WIX compilation to wixobj. Exited with ${exitCode}")
       }
+
       // Now create MSI
-      val wixobj = target.value / (name.value + ".wixobj")
-      val lightCmd = Seq(wixdir + "\\bin\\light.exe", wixobj.getAbsolutePath) ++ lightOptions.value
+      val lightCmd = List(wixdir + "\\bin\\light.exe", "-out", msi.getAbsolutePath) ++ wixobjFiles.map(
+        _.getAbsolutePath
+      ) ++
+        lightOptions.value
+
       streams.value.log.debug(lightCmd mkString " ")
       sys.process.Process(lightCmd, Some(target.value)) ! streams.value.log match {
         case 0        => ()
