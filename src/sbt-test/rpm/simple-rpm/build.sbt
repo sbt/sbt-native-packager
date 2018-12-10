@@ -21,6 +21,8 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
+rpmEpoch := Some(1)
+
 packageArchitecture in Rpm := "x86_64"
 
 linuxPackageMappings in Rpm := {
@@ -38,6 +40,7 @@ TaskKey[Unit]("checkSpecFile") := {
   assert(spec contains "Release: 1", "Contains project release")
   assert(spec contains "Summary: Test rpm package", "Contains project summary")
   assert(spec contains "License: BSD", "Contains project license")
+  assert(spec contains "Epoch: 1", "Contains epoch of 1")
   assert(spec contains "Vendor: typesafe", "Contains project vendor")
   assert(spec contains "URL: http://github.com/sbt/sbt-native-packager", "Contains project url")
   assert(spec contains "BuildArch: x86_64", "Contains project package architecture")

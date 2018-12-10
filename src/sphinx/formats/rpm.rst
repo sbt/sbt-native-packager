@@ -123,6 +123,12 @@ Informational Settings
   ``rpmLicense``
     The license associated with software in the RPM.
 
+  ``rpmEpoch``
+    The epoch is the most significant number used when resolving different versions
+    for the same RPM. For a given package, packages with the highest epoch will be
+    used, and in the event of a tie it will fall back to comparing the version and
+    release.
+
 Dependency Settings
 ~~~~~~~~~~~~~~~~~~~
 

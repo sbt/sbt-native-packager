@@ -63,4 +63,16 @@ package object validation {
     }
   }
 
+  def epochIsNaturalNumber(epoch: Int): Validation.Validator = () => {
+    sys.error(s"Passed: $epoch")
+    if (epoch < 0) {
+      ValidationError(
+        description = s"The Epoch cannot be a negative number (found $epoch)",
+        howToFix = "Change rpmEpoch to Some(n), where n >= 0"
+      ) :: Nil
+    } else {
+      Nil
+    }
+  }
+
 }

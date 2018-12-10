@@ -28,3 +28,5 @@ rpmRelease := "1"
 rpmVendor := "DemoVendor"
 
 rpmLicense := Some("Apache-2.0")
+
+rpmEpoch := Some(1)

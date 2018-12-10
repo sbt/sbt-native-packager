@@ -69,6 +69,7 @@ object RpmPlugin extends AutoPlugin {
     rpmPrefix := None,
     rpmVendor := "", // TODO - Maybe pull in organization?
     rpmLicense := None,
+    rpmEpoch := None,
     rpmDistribution := None,
     rpmUrl := None,
     rpmGroup := None,
@@ -105,7 +106,8 @@ object RpmPlugin extends AutoPlugin {
     validatePackageValidators in Rpm := Seq(
       nonEmptyMappings((linuxPackageMappings in Rpm).value.flatMap(_.mappings)),
       filesExist((linuxPackageMappings in Rpm).value.flatMap(_.mappings)),
-      checkMaintainer((maintainer in Rpm).value, asWarning = false)
+      checkMaintainer((maintainer in Rpm).value, asWarning = false),
+      epochIsNaturalNumber((rpmEpoch in Rpm).value.getOrElse(0))
     ),
     // override the linux sourceDirectory setting
     sourceDirectory in Rpm := sourceDirectory.value,
@@ -121,7 +123,8 @@ object RpmPlugin extends AutoPlugin {
       (packageSummary in Rpm).value,
       (packageDescription in Rpm).value,
       rpmAutoprov.value,
-      rpmAutoreq.value
+      rpmAutoreq.value,
+      rpmEpoch.value
     ),
     rpmDescription := RpmDescription(
       rpmLicense.value,
