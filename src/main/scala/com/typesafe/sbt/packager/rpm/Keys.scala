@@ -21,6 +21,7 @@ trait RpmKeys {
   // DESCRIPTION KEYS
   // TODO - Summary and license are required.
   val rpmLicense = SettingKey[Option[String]]("rpm-license", "License of the code within the RPM.")
+  val rpmEpoch = SettingKey[Option[Int]]("rpm-epoch", "Epoch of the generated RPM.")
   val rpmDistribution = SettingKey[Option[String]]("rpm-distribution")
   val rpmUrl =
     SettingKey[Option[String]]("rpm-url", "Url to include in the RPM.")

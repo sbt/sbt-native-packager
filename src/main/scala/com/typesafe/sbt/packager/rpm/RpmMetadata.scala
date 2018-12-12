@@ -18,7 +18,8 @@ case class RpmMetadata(name: String,
                        summary: String,
                        description: String,
                        autoprov: String,
-                       autoreq: String)
+                       autoreq: String,
+                       epoch: Option[Int])
 
 /**
   * The Description used to generate an RPM
@@ -222,6 +223,11 @@ case class RpmSpec(meta: RpmMetadata,
     sb append ("Version: %s\n" format meta.version)
     sb append ("Release: %s\n" format meta.release)
     sb append ("Summary: %s\n" format meta.summary)
+
+    meta.epoch filter (_ >= 0) foreach { epoch =>
+      sb append ("Epoch: %d\n" format epoch)
+    }
+
     meta.prefix foreach { v =>
       sb append ("prefix: %s\n" format v)
     }
