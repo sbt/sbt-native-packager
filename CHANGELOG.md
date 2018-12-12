@@ -1,5 +1,20 @@
 # Change Log
 
+## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.15...HEAD)
+
+**Closed issues:**
+
+- WindowsPlugin: support multiple .wxs inputs [\#1176](https://github.com/sbt/sbt-native-packager/issues/1176)
+
+## [v1.3.15](https://github.com/sbt/sbt-native-packager/tree/v1.3.15) (2018-11-29)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.14...v1.3.15)
+
+**Merged pull requests:**
+
+- WindowsPlugin: support multiple wxs sources \(\#1176\) [\#1177](https://github.com/sbt/sbt-native-packager/pull/1177) ([nigredo-tori](https://github.com/nigredo-tori))
+
 ## [v1.3.14](https://github.com/sbt/sbt-native-packager/tree/v1.3.14) (2018-11-21)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.12...v1.3.14)
 
