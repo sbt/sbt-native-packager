@@ -64,7 +64,6 @@ package object validation {
   }
 
   def epochIsNaturalNumber(epoch: Int): Validation.Validator = () => {
-    sys.error(s"Passed: $epoch")
     if (epoch < 0) {
       ValidationError(
         description = s"The Epoch cannot be a negative number (found $epoch)",
