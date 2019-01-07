@@ -2,7 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/sbt/sbt-native-packager.png?branch=master)](https://travis-ci.org/sbt/sbt-native-packager)
 [![Build status](https://ci.appveyor.com/api/projects/status/pbxd0untlcst4we7/branch/master?svg=true)](https://ci.appveyor.com/project/muuki88/sbt-native-packager/branch/master)
-[![Codacy Badge](https://www.codacy.com/project/badge/0e9a7ec769c84e578f4550bf7da6bf05)](https://www.codacy.com/public/nepomukseiler/sbt-native-packager)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0e9a7ec769c84e578f4550bf7da6bf05)](https://www.codacy.com/app/nepomukseiler/sbt-native-packager?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sbt/sbt-native-packager&amp;utm_campaign=Badge_Grade)
 [ ![Download](https://api.bintray.com/packages/sbt/sbt-plugin-releases/sbt-native-packager/images/download.svg) ](https://bintray.com/sbt/sbt-plugin-releases/sbt-native-packager/_latestVersion)
 [![Join the chat at https://gitter.im/sbt/sbt-native-packager](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sbt/sbt-native-packager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Documentation Status](https://readthedocs.org/projects/sbt-native-packager/badge/?version=latest)](http://sbt-native-packager.readthedocs.org/en/latest/?badge=latest)
