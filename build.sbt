@@ -63,16 +63,16 @@ mimaPreviousArtifacts := {
   val m = organization.value %% moduleName.value % "1.3.15"
   val sbtBinV = (sbtBinaryVersion in pluginCrossBuild).value
   val scalaBinV = (scalaBinaryVersion in update).value
-  Set(
-    Defaults.sbtPluginExtra(m cross CrossVersion.Disabled(), sbtBinV, scalaBinV)
-  )
+  Set(Defaults.sbtPluginExtra(m cross CrossVersion.Disabled(), sbtBinV, scalaBinV))
 }
 mimaBinaryIssueFilters ++= {
   import com.typesafe.tools.mima.core._
   List(
     // added via #1179
     ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmKeys.rpmEpoch"),
-    ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmKeys.com$typesafe$sbt$packager$rpm$RpmKeys$_setter_$rpmEpoch_="),
+    ProblemFilters.exclude[ReversedMissingMethodProblem](
+      "com.typesafe.sbt.packager.rpm.RpmKeys.com$typesafe$sbt$packager$rpm$RpmKeys$_setter_$rpmEpoch_="
+    ),
     ProblemFilters.exclude[MissingTypesProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata$"),
     ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.apply"),
     ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.copy"),
