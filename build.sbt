@@ -58,6 +58,28 @@ git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
 // scripted test settings
 scriptedLaunchOpts += "-Dproject.version=" + version.value
 
+// binary compatibility settings
+mimaPreviousArtifacts := {
+  val m = organization.value %% moduleName.value % "1.3.15"
+  val sbtBinV = (sbtBinaryVersion in pluginCrossBuild).value
+  val scalaBinV = (scalaBinaryVersion in update).value
+  Set(
+    Defaults.sbtPluginExtra(m cross CrossVersion.Disabled(), sbtBinV, scalaBinV)
+  )
+}
+mimaBinaryIssueFilters ++= {
+  import com.typesafe.tools.mima.core._
+  List(
+    // added via #1179
+    ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmKeys.rpmEpoch"),
+    ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmKeys.com$typesafe$sbt$packager$rpm$RpmKeys$_setter_$rpmEpoch_="),
+    ProblemFilters.exclude[MissingTypesProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata$"),
+    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.apply"),
+    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.copy"),
+    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.this")
+  )
+}
+
 // Release configuration
 publishMavenStyle := false
 
@@ -84,7 +106,7 @@ bintrayRepository := "sbt-plugin-releases"
 addCommandAlias("scalafmtAll", "; scalafmt ; test:scalafmt ; sbt:scalafmt")
 // ci commands
 addCommandAlias("validateFormatting", "; scalafmt::test ; test:scalafmt::test ; sbt:scalafmt::test")
-addCommandAlias("validate", "; clean ; update ; validateFormatting ; test")
+addCommandAlias("validate", "; clean ; update ; validateFormatting ; test ; mimaReportBinaryIssues")
 
 // List all scripted test separately to schedule them in different travis-ci jobs.
 // Travis-CI has hard timeouts for jobs, so we run them in smaller jobs as the scripted

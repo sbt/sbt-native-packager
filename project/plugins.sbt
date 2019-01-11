@@ -14,3 +14,6 @@ addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.4")
 
 // For code formatting
 addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.15")
+
+// binary compatibility checks
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.3.0")
