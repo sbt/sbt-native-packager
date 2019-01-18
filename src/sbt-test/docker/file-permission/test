@@ -1,0 +1,27 @@
+# Stage the distribution and ensure files show up.
+> docker:publishLocal
+> checkDockerfile
+
+$ copy-file changes/a.sbt change.sbt
+> reload
+> docker:publishLocal
+> checkDockerfile2
+
+$ copy-file changes/b.sbt change.sbt
+> reload
+> docker:publishLocal
+> checkDockerfile3
+
+$ copy-file changes/c.sbt change.sbt
+> reload
+-> docker:stage
+
+$ copy-file changes/d.sbt change.sbt
+> reload
+> docker:publishLocal
+> checkDockerfile4
+
+$ copy-file changes/e.sbt change.sbt
+> reload
+> docker:publishLocal
+> checkDockerfile5

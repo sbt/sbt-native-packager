@@ -2,4 +2,4 @@
 > docker:publishLocal
 $ exec bash -c 'docker images | grep -q rmi'
 > docker:clean
-$ exec bash -c '[[ $(docker images) != *"rmi"* ]]'
+$ exec bash -c '[[ $(docker images) != "rmi"* ]]'
