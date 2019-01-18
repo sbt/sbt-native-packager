@@ -1,5 +1,6 @@
 enablePlugins(JavaAppPackaging)
 
+organization := "com.example"
 name := "docker-test"
 
 // packageName := "docker-package" // sets the executable script, too

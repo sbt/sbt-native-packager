@@ -155,6 +155,8 @@ object DockerPlugin extends AutoPlugin {
       daemonUser := "daemon",
       daemonGroup := daemonUser.value,
       defaultLinuxInstallLocation := "/opt/docker",
+      validatePackage := Validation
+        .runAndThrow(validatePackageValidators.value, streams.value.log),
       validatePackageValidators := Seq(
         nonEmptyMappings((mappings in Docker).value),
         filesExist((mappings in Docker).value),
@@ -162,7 +164,10 @@ object DockerPlugin extends AutoPlugin {
         validateDockerVersion(dockerVersion.value)
       ),
       dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
-      dockerGenerateConfig := generateDockerConfig(dockerCommands.value, stagingDirectory.value)
+      dockerGenerateConfig := {
+        val _ = validatePackage.value
+        generateDockerConfig(dockerCommands.value, stagingDirectory.value)
+      }
     )
   )
 
