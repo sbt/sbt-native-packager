@@ -7,6 +7,7 @@ import sbt._
 /**
   * Docker settings
   */
+@deprecated("Internal use only. Please don't extend this trait", "1.3.15")
 trait DockerKeys {
   val dockerGenerateConfig = TaskKey[File]("docker-generate-config", "Generates configuration file for Docker.")
   val dockerPackageMappings =
@@ -41,4 +42,11 @@ trait DockerKeys {
     SettingKey[Seq[String]]("dockerRmiCommand", "Command for removing the Docker image from the local registry")
 
   val dockerCommands = TaskKey[Seq[CmdLike]]("dockerCommands", "List of docker commands that form the Dockerfile")
+}
+
+// Workaround to pass mima.
+// In the next version bump we should hide DockerKeys trait to package private.
+private[packager] trait DockerKeysEx extends DockerKeys {
+  lazy val dockerPermissionStrategy = settingKey[DockerPermissionStrategy]("The strategy to change file permissions.")
+  lazy val dockerChmodType = settingKey[DockerChmodType]("The file permissions for the files copied into Docker image.")
 }

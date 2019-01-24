@@ -79,6 +79,14 @@ case class CombinedCmd(cmd: String, arg: CmdLike) extends CmdLike {
   def makeContent: String = "%s %s\n" format (cmd, arg.makeContent)
 }
 
+/**
+  * A break in Dockerfile to express multi-stage build.
+  * https://docs.docker.com/develop/develop-images/multistage-build/
+  */
+case object DockerStageBreak extends CmdLike {
+  def makeContent: String = "\n"
+}
+
 /** Represents dockerfile used by docker when constructing packages. */
 case class Dockerfile(commands: CmdLike*) {
   def makeContent: String = {

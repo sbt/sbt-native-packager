@@ -48,7 +48,7 @@ import scala.util.Try
   */
 object DockerPlugin extends AutoPlugin {
 
-  object autoImport extends DockerKeys {
+  object autoImport extends DockerKeysEx {
     val Docker: Configuration = config("docker")
 
     val DockerAlias = com.typesafe.sbt.packager.docker.DockerAlias
@@ -57,7 +57,7 @@ object DockerPlugin extends AutoPlugin {
   import autoImport._
 
   /**
-    * The separator used by makeAdd should be always forced to UNIX separator.
+    * The separator used by makeCopy should be always forced to UNIX separator.
     * The separator doesn't depend on the OS where Dockerfile is being built.
     */
   val UnixSeparatorChar = '/'
@@ -65,6 +65,13 @@ object DockerPlugin extends AutoPlugin {
   override def requires: Plugins = UniversalPlugin
 
   override def projectConfigurations: Seq[Configuration] = Seq(Docker)
+
+  // Some of the default values are now provided in the global setting based on
+  // sbt plugin best practice: https://www.scala-sbt.org/release/docs/Plugins-Best-Practices.html#Provide+default+values+in
+  override lazy val globalSettings: Seq[Setting[_]] = Seq(
+    dockerPermissionStrategy := DockerPermissionStrategy.MultiStage,
+    dockerChmodType := DockerChmodType.UserGroupReadExecute
+  )
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
     dockerBaseImage := "openjdk:8",
@@ -102,19 +109,48 @@ object DockerPlugin extends AutoPlugin {
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerCommands := {
+      val strategy = dockerPermissionStrategy.value
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
       val user = (daemonUser in Docker).value
       val group = (daemonGroup in Docker).value
+      val base = dockerBaseImage.value
+      val uid = 1001
+      val gid = 0
 
-      val generalCommands = makeFrom(dockerBaseImage.value) +: makeMaintainer((maintainer in Docker).value).toSeq
+      val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
+      val stage0name = "stage0"
+      val stage0: Seq[CmdLike] = strategy match {
+        case DockerPermissionStrategy.MultiStage =>
+          Seq(
+            makeFromAs(base, stage0name),
+            makeWorkdir(dockerBaseDirectory),
+            makeUserAdd(user, uid, gid),
+            makeCopy(dockerBaseDirectory),
+            makeChmod(dockerChmodType.value, Seq(dockerBaseDirectory)),
+            DockerStageBreak
+          )
+        case _ => Seq()
+      }
 
-      generalCommands ++
-        Seq(makeWorkdir(dockerBaseDirectory)) ++ makeAdd(dockerVersion.value, dockerBaseDirectory, user, group) ++
+      val stage1: Seq[CmdLike] = generalCommands ++
+        Seq(makeUserAdd(user, uid, gid), makeWorkdir(dockerBaseDirectory)) ++
+        (strategy match {
+          case DockerPermissionStrategy.MultiStage =>
+            Seq(makeCopyFrom(dockerBaseDirectory, stage0name, user, group))
+          case DockerPermissionStrategy.Run =>
+            Seq(makeCopy(dockerBaseDirectory), makeChmod(dockerChmodType.value, Seq(dockerBaseDirectory)))
+          case DockerPermissionStrategy.CopyChown =>
+            Seq(makeCopyChown(dockerBaseDirectory, user, group))
+          case DockerPermissionStrategy.None =>
+            Seq(makeCopy(dockerBaseDirectory))
+        }) ++
         dockerLabels.value.map(makeLabel) ++
         dockerEnvVars.value.map(makeEnvVar) ++
         makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
         makeVolumes(dockerExposedVolumes.value, user, group) ++
-        Seq(makeUser(user), makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
+        Seq(makeUser(uid), makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
+
+      stage0 ++ stage1
     }
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
     Seq(
@@ -153,16 +189,22 @@ object DockerPlugin extends AutoPlugin {
       stagingDirectory := (target in Docker).value / "stage",
       target := target.value / "docker",
       daemonUser := "daemon",
-      daemonGroup := daemonUser.value,
+      daemonGroup := "root",
       defaultLinuxInstallLocation := "/opt/docker",
+      validatePackage := Validation
+        .runAndThrow(validatePackageValidators.value, streams.value.log),
       validatePackageValidators := Seq(
         nonEmptyMappings((mappings in Docker).value),
         filesExist((mappings in Docker).value),
         validateExposedPorts(dockerExposedPorts.value, dockerExposedUdpPorts.value),
-        validateDockerVersion(dockerVersion.value)
+        validateDockerVersion(dockerVersion.value),
+        validateDockerPermissionStrategy(dockerPermissionStrategy.value, dockerVersion.value)
       ),
       dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
-      dockerGenerateConfig := generateDockerConfig(dockerCommands.value, stagingDirectory.value)
+      dockerGenerateConfig := {
+        val _ = validatePackage.value
+        generateDockerConfig(dockerCommands.value, stagingDirectory.value)
+      }
     )
   )
 
@@ -179,6 +221,14 @@ object DockerPlugin extends AutoPlugin {
     */
   private final def makeFrom(dockerBaseImage: String): CmdLike =
     Cmd("FROM", dockerBaseImage)
+
+  /**
+    * @param dockerBaseImage
+    * @param name
+    * @return FROM command
+    */
+  private final def makeFromAs(dockerBaseImage: String, name: String): CmdLike =
+    Cmd("FROM", dockerBaseImage, "as", name)
 
   /**
     * @param label
@@ -205,16 +255,10 @@ object DockerPlugin extends AutoPlugin {
     Cmd("WORKDIR", dockerBaseDirectory)
 
   /**
-    * @param dockerVersion
     * @param dockerBaseDirectory the installation directory
-    * @param daemonUser
-    * @param daemonGroup
-    * @return ADD command adding all files inside the installation directory
+    * @return COPY command copying all files inside the installation directory
     */
-  private final def makeAdd(dockerVersion: Option[DockerVersion],
-                            dockerBaseDirectory: String,
-                            daemonUser: String,
-                            daemonGroup: String): Seq[CmdLike] = {
+  private final def makeCopy(dockerBaseDirectory: String): CmdLike = {
 
     /**
       * This is the file path of the file in the Docker image, and does not depend on the OS where the image
@@ -222,12 +266,38 @@ object DockerPlugin extends AutoPlugin {
       * on e.g. Windows systems.
       */
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
+    Cmd("COPY", s"$files /$files")
+  }
 
-    if (dockerVersion.exists(DockerSupport.chownFlag)) {
-      Seq(Cmd("ADD", s"--chown=$daemonUser:$daemonGroup $files /$files"))
-    } else {
-      Seq(Cmd("ADD", s"$files /$files"), makeChown(daemonUser, daemonGroup, "." :: Nil))
-    }
+  /**
+    * @param dockerBaseDirectory the installation directory
+    * @param from files are copied from the given build stage
+    * @param daemonUser
+    * @param daemonGroup
+    * @return COPY command copying all files inside the directory from another build stage.
+    */
+  private final def makeCopyFrom(dockerBaseDirectory: String,
+                                 from: String,
+                                 daemonUser: String,
+                                 daemonGroup: String): CmdLike =
+    Cmd("COPY", s"--from=$from --chown=$daemonUser:$daemonGroup $dockerBaseDirectory $dockerBaseDirectory")
+
+  /**
+    * @param dockerBaseDirectory the installation directory
+    * @param from files are copied from the given build stage
+    * @param daemonUser
+    * @param daemonGroup
+    * @return COPY command copying all files inside the directory from another build stage.
+    */
+  private final def makeCopyChown(dockerBaseDirectory: String, daemonUser: String, daemonGroup: String): CmdLike = {
+
+    /**
+      * This is the file path of the file in the Docker image, and does not depend on the OS where the image
+      * is being built. This means that it needs to be the Unix file separator even when the image is built
+      * on e.g. Windows systems.
+      */
+    val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
+    Cmd("COPY", s"--chown=$daemonUser:$daemonGroup $files /$files")
   }
 
   /**
@@ -239,11 +309,40 @@ object DockerPlugin extends AutoPlugin {
     ExecCmd("RUN", Seq("chown", "-R", s"$daemonUser:$daemonGroup") ++ directories: _*)
 
   /**
+    * @return chown command, owning the installation directory with the daemonuser
+    */
+  private final def makeChmod(chmodType: DockerChmodType, directories: Seq[String]): CmdLike =
+    ExecCmd("RUN", Seq("chmod", "-R", chmodType.argument) ++ directories: _*)
+
+  /**
     * @param daemonUser
+    * @param userId
+    * @param groupId
+    * @return useradd to create the daemon user with the given userId and groupId
+    */
+  private final def makeUserAdd(daemonUser: String, userId: Int, groupId: Int): CmdLike =
+    Cmd(
+      "RUN",
+      "id",
+      "-u",
+      daemonUser,
+      "||",
+      "useradd",
+      "--system",
+      "--create-home",
+      "--uid",
+      userId.toString,
+      "--gid",
+      groupId.toString,
+      daemonUser
+    )
+
+  /**
+    * @param userId userId of the daemon user
     * @return USER docker command
     */
-  private final def makeUser(daemonUser: String): CmdLike =
-    Cmd("USER", daemonUser)
+  private final def makeUser(userId: Int): CmdLike =
+    Cmd("USER", userId.toString)
 
   /**
     * @param entrypoint
@@ -462,11 +561,52 @@ object DockerPlugin extends AutoPlugin {
              |As a last resort you could hard code the docker version, but it's not recommended!!
              |
              |  import com.typesafe.sbt.packager.docker.DockerVersion
-             |  dockerVersion := Some(DockerVersion(17, 5, 0, Some("ce"))
+             |  dockerVersion := Some(DockerVersion(18, 9, 0, Some("ce"))
           """.stripMargin
           )
         )
     }
   }
+
+  private[this] def validateDockerPermissionStrategy(strategy: DockerPermissionStrategy,
+                                                     dockerVersion: Option[DockerVersion]): Validation.Validator =
+    () => {
+      (strategy, dockerVersion) match {
+        case (DockerPermissionStrategy.MultiStage, Some(ver)) if !DockerSupport.multiStage(ver) =>
+          List(
+            ValidationError(
+              description =
+                s"The detected Docker version $ver is not compatible with DockerPermissionStrategy.MultiStage",
+              howToFix =
+                """|sbt-native packager tries to parse the `docker version` output.
+             |To use multi-stage build, upgrade your Docker, pick another strategy, or override dockerVersion:
+             |
+             |  import com.typesafe.sbt.packager.docker.DockerPermissionStrategy
+             |  dockerPermissionStrategy := DockerPermissionStrategy.Run
+             |
+             |  import com.typesafe.sbt.packager.docker.DockerVersion
+             |  dockerVersion := Some(DockerVersion(18, 9, 0, Some("ce"))
+          """.stripMargin
+            )
+          )
+        case (DockerPermissionStrategy.CopyChown, Some(ver)) if !DockerSupport.chownFlag(ver) =>
+          List(
+            ValidationError(
+              description =
+                s"The detected Docker version $ver is not compatible with DockerPermissionStrategy.CopyChown",
+              howToFix = """|sbt-native packager tries to parse the `docker version` output.
+             |To use --chown flag, upgrade your Docker, pick another strategy, or override dockerVersion:
+             |
+             |  import com.typesafe.sbt.packager.docker.DockerPermissionStrategy
+             |  dockerPermissionStrategy := DockerPermissionStrategy.Run
+             |
+             |  import com.typesafe.sbt.packager.docker.DockerVersion
+             |  dockerVersion := Some(DockerVersion(18, 9, 0, Some("ce"))
+          """.stripMargin
+            )
+          )
+        case _ => List.empty
+      }
+    }
 
 }

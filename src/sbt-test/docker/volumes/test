@@ -1,5 +1,5 @@
 # Stage the distribution and ensure files show up.
 > docker:stage
 $ exec grep -q -F 'VOLUME ["/opt/docker/logs", "/opt/docker/config"]' target/docker/stage/Dockerfile
-$ exec grep -q -F 'RUN ["chown", "-R", "daemon:daemon", "/opt/docker/logs", "/opt/docker/config"]' target/docker/stage/Dockerfile
+$ exec grep -q -F 'RUN ["chown", "-R", "daemon:root", "/opt/docker/logs", "/opt/docker/config"]' target/docker/stage/Dockerfile
 $ exec grep -q -F 'RUN ["mkdir", "-p", "/opt/docker/logs", "/opt/docker/config"]' target/docker/stage/Dockerfile

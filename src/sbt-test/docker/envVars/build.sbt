@@ -1,4 +1,4 @@
-enablePlugins(DockerPlugin)
+enablePlugins(DockerPlugin, JavaAppPackaging)
 
 name := "simple-test"
 

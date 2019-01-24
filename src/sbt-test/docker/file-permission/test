@@ -1,0 +1,27 @@
+# Stage the distribution and ensure files show up.
+> docker:publishLocal
+> checkDockerfileDefaults
+
+$ copy-file changes/strategy-none.sbt change.sbt
+> reload
+> docker:publishLocal
+> checkDockerfileWithStrategyNone
+
+$ copy-file changes/strategy-run.sbt change.sbt
+> reload
+> docker:publishLocal
+> checkDockerfileWithStrategyRun
+
+$ copy-file changes/dockerversion.sbt change.sbt
+> reload
+-> docker:stage
+
+$ copy-file changes/strategy-copychown.sbt change.sbt
+> reload
+> docker:publishLocal
+> checkDockerfileWithStrategyCopyChown
+
+$ copy-file changes/write-execute.sbt change.sbt
+> reload
+> docker:publishLocal
+> checkDockerfileWithWriteExecute
