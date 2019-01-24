@@ -66,6 +66,8 @@ object DockerPlugin extends AutoPlugin {
 
   override def projectConfigurations: Seq[Configuration] = Seq(Docker)
 
+  // Some of the default values are now provided in the global setting based on
+  // sbt plugin best practice: https://www.scala-sbt.org/release/docs/Plugins-Best-Practices.html#Provide+default+values+in
   override lazy val globalSettings: Seq[Setting[_]] = Seq(
     dockerPermissionStrategy := DockerPermissionStrategy.MultiStage,
     dockerChmodType := DockerChmodType.UserGroupReadExecute
