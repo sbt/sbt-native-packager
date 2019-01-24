@@ -1,15 +1,15 @@
-lazy val checkDockerfile = taskKey[Unit]("")
-lazy val checkDockerfile2 = taskKey[Unit]("")
-lazy val checkDockerfile3 = taskKey[Unit]("")
-lazy val checkDockerfile4 = taskKey[Unit]("")
-lazy val checkDockerfile5 = taskKey[Unit]("")
+lazy val checkDockerfileDefaults = taskKey[Unit]("")
+lazy val checkDockerfileWithStrategyNone = taskKey[Unit]("")
+lazy val checkDockerfileWithStrategyRun = taskKey[Unit]("")
+lazy val checkDockerfileWithStrategyCopyChown = taskKey[Unit]("")
+lazy val checkDockerfileWithWriteExecute = taskKey[Unit]("")
 
 lazy val root = (project in file("."))
   .enablePlugins(DockerPlugin, JavaAppPackaging)
   .settings(
     name := "file-permission-test",
     version := "0.1.0",
-    checkDockerfile := {
+    checkDockerfileDefaults := {
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
@@ -28,7 +28,7 @@ lazy val root = (project in file("."))
           |CMD []""".stripMargin.linesIterator.toList)
     },
 
-    checkDockerfile2 := {
+    checkDockerfileWithStrategyNone := {
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
@@ -41,7 +41,7 @@ lazy val root = (project in file("."))
           |CMD []""".stripMargin.linesIterator.toList)
     },
 
-    checkDockerfile3 := {
+    checkDockerfileWithStrategyRun := {
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
@@ -55,7 +55,7 @@ lazy val root = (project in file("."))
           |CMD []""".stripMargin.linesIterator.toList)
     },
 
-    checkDockerfile4 := {
+    checkDockerfileWithStrategyCopyChown := {
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
@@ -68,7 +68,7 @@ lazy val root = (project in file("."))
           |CMD []""".stripMargin.linesIterator.toList)
     },
 
-    checkDockerfile5 := {
+    checkDockerfileWithWriteExecute := {
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
