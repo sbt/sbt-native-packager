@@ -208,7 +208,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">RpmMetadata</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="release">release: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="prefix">prefix: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="arch">arch: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="vendor">vendor: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="os">os: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="summary">summary: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="autoprov">autoprov: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="autoreq">autoreq: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">RpmMetadata</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="release">release: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="prefix">prefix: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="arch">arch: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="vendor">vendor: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="os">os: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="summary">summary: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="autoprov">autoprov: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="autoreq">autoreq: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="epoch">epoch: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
@@ -264,9 +264,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.typesafe.sbt.packager.rpm.RpmMetadata#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(name:String,version:String,release:String,prefix:Option[String],arch:String,vendor:String,os:String,summary:String,description:String,autoprov:String,autoreq:String):com.typesafe.sbt.packager.rpm.RpmMetadata"></a><a id="&lt;init&gt;:RpmMetadata"></a>
+      <a id="&lt;init&gt;(name:String,version:String,release:String,prefix:Option[String],arch:String,vendor:String,os:String,summary:String,description:String,autoprov:String,autoreq:String,epoch:Option[Int]):com.typesafe.sbt.packager.rpm.RpmMetadata"></a><a id="&lt;init&gt;:RpmMetadata"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/rpm/RpmMetadata.html#&lt;init&gt;(name:String,version:String,release:String,prefix:Option[String],arch:String,vendor:String,os:String,summary:String,description:String,autoprov:String,autoreq:String):com.typesafe.sbt.packager.rpm.RpmMetadata" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/rpm/RpmMetadata.html#&lt;init&gt;(name:String,version:String,release:String,prefix:Option[String],arch:String,vendor:String,os:String,summary:String,description:String,autoprov:String,autoreq:String,epoch:Option[Int]):com.typesafe.sbt.packager.rpm.RpmMetadata" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -275,7 +275,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">RpmMetadata</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="release">release: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="prefix">prefix: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="arch">arch: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="vendor">vendor: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="os">os: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="summary">summary: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="autoprov">autoprov: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="autoreq">autoreq: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
+        <span class="name">RpmMetadata</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="release">release: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="prefix">prefix: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="arch">arch: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="vendor">vendor: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="os">os: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="summary">summary: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="autoprov">autoprov: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="autoreq">autoreq: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="epoch">epoch: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span>
       </span>
       
       
@@ -438,6 +438,22 @@
       </span>
       <span class="symbol">
         <span class="name">description</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="com.typesafe.sbt.packager.rpm.RpmMetadata#epoch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="epoch:Option[Int]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/rpm/RpmMetadata.html#epoch:Option[Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">epoch</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>
       </span>
       
       
