@@ -2,11 +2,29 @@
 
 ## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
 
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.15...HEAD)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.16...HEAD)
 
 **Closed issues:**
 
+- OpenShift compatibility [\#1189](https://github.com/sbt/sbt-native-packager/issues/1189)
+
+## [v1.3.16](https://github.com/sbt/sbt-native-packager/tree/v1.3.16) (2019-01-24)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.15...v1.3.16)
+
+**Closed issues:**
+
+- Add MiMa to check binary compatibility [\#1185](https://github.com/sbt/sbt-native-packager/issues/1185)
+- 1.6.0 not compatible with Lagom 1.4.10 [\#1184](https://github.com/sbt/sbt-native-packager/issues/1184)
+- LinuxPackageMappings in Rpm. Cannot resolve symbol packageMapping for sbt 0.13.15 [\#1180](https://github.com/sbt/sbt-native-packager/issues/1180)
+- Can't specify Epoch for the RPM Plugin [\#1178](https://github.com/sbt/sbt-native-packager/issues/1178)
 - WindowsPlugin: support multiple .wxs inputs [\#1176](https://github.com/sbt/sbt-native-packager/issues/1176)
+
+**Merged pull requests:**
+
+- Implement dockerPermissionStrategy [\#1190](https://github.com/sbt/sbt-native-packager/pull/1190) ([eed3si9n](https://github.com/eed3si9n))
+- Fix \#1185 Add MiMa to check binary compatibility [\#1188](https://github.com/sbt/sbt-native-packager/pull/1188) ([muuki88](https://github.com/muuki88))
+- Fix Codacy's badge link [\#1183](https://github.com/sbt/sbt-native-packager/pull/1183) ([prendi](https://github.com/prendi))
+-  \#1178 attempt at adding in rpm epochs [\#1179](https://github.com/sbt/sbt-native-packager/pull/1179) ([Ophirr33](https://github.com/Ophirr33))
 
 ## [v1.3.15](https://github.com/sbt/sbt-native-packager/tree/v1.3.15) (2018-11-29)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.14...v1.3.15)
@@ -359,7 +377,7 @@
 **Merged pull requests:**
 
 - Rpm Metadata Small Typo Fix "vaid" changed back to "valid" [\#1009](https://github.com/sbt/sbt-native-packager/pull/1009) ([ChristopherDavenport](https://github.com/ChristopherDavenport))
-- strip snapshot suffix safely \(\#1004\) [\#1005](https://github.com/sbt/sbt-native-packager/pull/1005) ([colin-passiv](https://github.com/colin-passiv))
+- strip snapshot suffix safely \(\#1004\) [\#1005](https://github.com/sbt/sbt-native-packager/pull/1005) ([colin-lamed](https://github.com/colin-lamed))
 - Fix a bug which cause upgrade failing because of no restartService [\#1003](https://github.com/sbt/sbt-native-packager/pull/1003) ([buster84](https://github.com/buster84))
 - sbt 0.13.15. fix warnings [\#998](https://github.com/sbt/sbt-native-packager/pull/998) ([xuwei-k](https://github.com/xuwei-k))
 - update scalatest 3.0.3 [\#997](https://github.com/sbt/sbt-native-packager/pull/997) ([xuwei-k](https://github.com/xuwei-k))
