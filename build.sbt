@@ -29,6 +29,7 @@ libraryDependencies ++= {
       Seq(
         "org.scala-sbt" %% "io" % "1.2.2"
       )
+    case _ => Seq()
   }
 }
 
