@@ -13,13 +13,13 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM openjdk:8 as stage0
+        """FROM fabric8/java-centos-openjdk8-jdk as stage0
           |WORKDIR /opt/docker
-          |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
           |COPY opt /opt
+          |USER root
           |RUN ["chmod", "-R", "u=rX,g=rX", "/opt/docker"]
           |
-          |FROM openjdk:8
+          |FROM fabric8/java-centos-openjdk8-jdk
           |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
           |WORKDIR /opt/docker
           |COPY --from=stage0 --chown=daemon:root /opt/docker /opt/docker
@@ -32,7 +32,7 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM openjdk:8
+        """FROM fabric8/java-centos-openjdk8-jdk
           |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
           |WORKDIR /opt/docker
           |COPY opt /opt
@@ -59,7 +59,7 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM openjdk:8
+        """FROM fabric8/java-centos-openjdk8-jdk
           |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
           |WORKDIR /opt/docker
           |COPY --chown=daemon:root opt /opt
@@ -72,13 +72,13 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM openjdk:8 as stage0
+        """FROM fabric8/java-centos-openjdk8-jdk as stage0
           |WORKDIR /opt/docker
-          |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
           |COPY opt /opt
+          |USER root
           |RUN ["chmod", "-R", "u=rwX,g=rwX", "/opt/docker"]
           |
-          |FROM openjdk:8
+          |FROM fabric8/java-centos-openjdk8-jdk
           |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
           |WORKDIR /opt/docker
           |COPY --from=stage0 --chown=daemon:root /opt/docker /opt/docker

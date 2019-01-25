@@ -124,8 +124,8 @@ object DockerPlugin extends AutoPlugin {
           Seq(
             makeFromAs(base, stage0name),
             makeWorkdir(dockerBaseDirectory),
-            makeUserAdd(user, uid, gid),
             makeCopy(dockerBaseDirectory),
+            makeUser("root"),
             makeChmod(dockerChmodType.value, Seq(dockerBaseDirectory)),
             DockerStageBreak
           )
@@ -336,6 +336,13 @@ object DockerPlugin extends AutoPlugin {
       groupId.toString,
       daemonUser
     )
+
+  /**
+    * @param daemonUser
+    * @return USER docker command
+    */
+  private final def makeUser(daemonUser: String): CmdLike =
+    Cmd("USER", daemonUser)
 
   /**
     * @param userId userId of the daemon user
