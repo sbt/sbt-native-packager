@@ -16,7 +16,7 @@ We have a lot of different languages and DSLs:
 
 ### Scala
 
-Make sure to run `sbt compile` before opening a pull request. This will format
+Make sure to run `sbt scalafmtAll` before opening a pull request. This will format
 the sourcecode according to our standards
 
 ### Bash
