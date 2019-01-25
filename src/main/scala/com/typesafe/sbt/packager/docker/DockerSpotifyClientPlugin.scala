@@ -2,10 +2,8 @@ package com.typesafe.sbt.packager.docker
 
 import java.nio.file.Paths
 
-import com.spotify.docker.client.DockerClient.BuildParam
-import com.spotify.docker.client.messages.ProgressMessage
-import com.spotify.docker.client.{DefaultDockerClient, DockerClient, ProgressHandler}
 import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stage
+
 import sbt.Keys._
 import sbt._
 
@@ -63,6 +61,35 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
     val log = streams.value.log
 
     val dockerDirectory = context.toString
+
+    val docker = new DockerClientTask()
+    docker.packageDocker(primaryAlias, aliases, dockerDirectory, log)
+  }
+
+  def dockerServerVersion: Def.Initialize[Task[Option[DockerVersion]]] = Def.task {
+    val docker = new DockerClientTask()
+    docker.dockerServerVersion()
+  }
+
+}
+
+/**
+  * == Docker Client Task ==
+  *
+  * This private class contains all the docker-plugin specific implementations. It's only invoked when the docker
+  * plugin is enabled and the `docker:publishLocal` task is called. This means that all classes in
+  * `com.spotify.docker.client._` are only loaded when required and allows us to put the dependency in the "provided"
+  * scope. The provided scope means that we have less dependency issues in an sbt build.
+  */
+private class DockerClientTask {
+  import com.spotify.docker.client.DockerClient.BuildParam
+  import com.spotify.docker.client.messages.ProgressMessage
+  import com.spotify.docker.client.{DefaultDockerClient, DockerClient, ProgressHandler}
+
+  def packageDocker(primaryAlias: DockerAlias,
+                    aliases: Seq[DockerAlias],
+                    dockerDirectory: String,
+                    log: Logger): Unit = {
     val docker: DockerClient = DefaultDockerClient.fromEnv().build()
 
     log.info(s"PublishLocal using Docker API ${docker.version().apiVersion()}")
@@ -80,9 +107,8 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
     }
   }
 
-  def dockerServerVersion: Def.Initialize[Task[Option[DockerVersion]]] = Def.task {
+  def dockerServerVersion(): Option[DockerVersion] = {
     val docker: DockerClient = DefaultDockerClient.fromEnv().build()
     DockerVersion.parse(docker.version().version())
   }
-
 }

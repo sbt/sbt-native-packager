@@ -12,6 +12,9 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 // put jdeb on the classpath for scripted tests
 classpathTypes += "maven-plugin"
 libraryDependencies ++= Seq(
+  // these dependencies have to be explicitly added by the user
+  "com.spotify" % "docker-client" % "8.14.3" % Provided,
+  "org.vafer" % "jdeb" % "1.7" % Provided artifacts Artifact("jdeb", "jar", "jar"),
   "org.apache.commons" % "commons-compress" % "1.18",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.5",
@@ -22,19 +25,8 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= {
   (pluginCrossBuild / sbtVersion).value match {
     case v if v.startsWith("1.") =>
-      Seq(
-        "org.scala-sbt" %% "io" % "1.2.2",
-        // these dependencies have to be explicitly added by the user
-        // FIXME temporary remove the 'provided' scope. SBT 1.0.0-M6 changed the resolving somehow
-        "com.spotify" % "docker-client" % "8.14.3" /* % "provided" */,
-        "org.vafer" % "jdeb" % "1.7" % Provided artifacts Artifact("jdeb", "jar", "jar")
-      )
-    case _ =>
-      Seq(
-        // these dependencies have to be explicitly added by the user
-        "com.spotify" % "docker-client" % "8.14.3" % Provided,
-        "org.vafer" % "jdeb" % "1.7" % Provided artifacts Artifact("jdeb", "jar", "jar")
-      )
+      Seq("org.scala-sbt" %% "io" % "1.2.2")
+    case _ => Seq()
   }
 }
 
