@@ -117,6 +117,22 @@ Environment Settings
     Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
     Defaults to the bash executable script, available at ``bin/<script name>`` in the current ``WORKDIR`` of ``/opt/docker``.
 
+  ``dockerPermissionStrategy``
+    The strategy that decides how file permissions are set for the working directory inside the Docker image
+
+    * ``DockerPermissionStrategy.MultiStage`` (default) uses multi-stage Docker build to call chmod ahead of time.
+    * ``DockerPermissionStrategy.None`` does not attempt to change the file permissions, and use the host machine's file mode bits.
+    * ``DockerPermissionStrategy.Run`` calls ``RUN`` in the Dockerfile. This has regression on the resulting Docker image file size.
+    * ``DockerPermissionStrategy.CopyChown`` calls ``COPY --chown`` in the Dockerfile. Provided as a backward compatibility.
+
+  ``dockerChmodType``
+    The file permissions for the files copied into Docker image when ``MultiStage`` or ``Run`` strategy is used.
+
+    * ``DockerChmodType.UserGroupReadExecute`` (default): chmod -R u=rX,g=rX
+    * ``DockerChmodType.UserGroupWriteExecute``: chmod -R u=rwX,g=rwX
+    * ``DockerChmodType.SyncGroupToUser``: chmod -R g=u
+    * ``DockerChmodType.Custom``: Custom argument provided by the user.
+
   ``dockerVersion``
     The docker server version. Used to leverage new docker features while maintaining backwards compatibility.
 
@@ -229,6 +245,31 @@ The files from ``mappings in Docker`` are extracted underneath this directory.
 .. code-block:: scala
 
   defaultLinuxInstallLocation in Docker := "/opt/docker"
+
+
+File Permission
+~~~~~~~~~~~~~~~
+By default, the working directory inside the Docker image is given read-only file permissions
+set using multi-stage Docker build, which requires Docker 17.5 or later (watch out if you're using older Minikube).
+
+If you want to make the working directory writable by the running process, here's the setting:
+
+.. code-block:: scala
+
+    import com.typesafe.sbt.packager.docker.DockerChmodType
+
+    dockerChmodType := DockerChmodType.UserGroupWriteExecute
+
+If you don't want SBT Native Packager to change the file permissions at all here's a strategy you can choose:
+
+.. code-block:: scala
+
+    import com.typesafe.sbt.packager.docker.DockerPermissionStrategy
+
+    dockerPermissionStrategy := DockerPermissionStrategy.None
+
+This will inherit the file mode bits set in your machine. Given that Kubernetes implementations like OpenShift will use an arbitrary user,
+remember to set both the user bits and group bits when running `chmod` yourself.
 
 Custom Dockerfile
 ~~~~~~~~~~~~~~~~~

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Docker Plugin &mdash; sbt-native-packager 1.3.16 documentation</title>
+  <title>Docker Plugin &mdash; sbt-native-packager 1.3.17 documentation</title>
   
 
   
@@ -222,6 +222,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#docker-repository">Docker Repository</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#docker-image-customization">Docker Image Customization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#install-location">Install Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-permission">File Permission</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#custom-dockerfile">Custom Dockerfile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#remove-commands">Remove Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#add-commands">Add Commands</a></li>
@@ -568,6 +569,24 @@ This will only affect the image name.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">dockerEntrypoint</span></code></dt>
 <dd>Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
 Defaults to the bash executable script, available at <code class="docutils literal notranslate"><span class="pre">bin/&lt;script</span> <span class="pre">name&gt;</span></code> in the current <code class="docutils literal notranslate"><span class="pre">WORKDIR</span></code> of <code class="docutils literal notranslate"><span class="pre">/opt/docker</span></code>.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerPermissionStrategy</span></code></dt>
+<dd><p class="first">The strategy that decides how file permissions are set for the working directory inside the Docker image</p>
+<ul class="last simple">
+<li><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.MultiStage</span></code> (default) uses multi-stage Docker build to call chmod ahead of time.</li>
+<li><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.None</span></code> does not attempt to change the file permissions, and use the host machine’s file mode bits.</li>
+<li><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.Run</span></code> calls <code class="docutils literal notranslate"><span class="pre">RUN</span></code> in the Dockerfile. This has regression on the resulting Docker image file size.</li>
+<li><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.CopyChown</span></code> calls <code class="docutils literal notranslate"><span class="pre">COPY</span> <span class="pre">--chown</span></code> in the Dockerfile. Provided as a backward compatibility.</li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerChmodType</span></code></dt>
+<dd><p class="first">The file permissions for the files copied into Docker image when <code class="docutils literal notranslate"><span class="pre">MultiStage</span></code> or <code class="docutils literal notranslate"><span class="pre">Run</span></code> strategy is used.</p>
+<ul class="last simple">
+<li><code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupReadExecute</span></code> (default): chmod -R u=rX,g=rX</li>
+<li><code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupWriteExecute</span></code>: chmod -R u=rwX,g=rwX</li>
+<li><code class="docutils literal notranslate"><span class="pre">DockerChmodType.SyncGroupToUser</span></code>: chmod -R g=u</li>
+<li><code class="docutils literal notranslate"><span class="pre">DockerChmodType.Custom</span></code>: Custom argument provided by the user.</li>
+</ul>
+</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">dockerVersion</span></code></dt>
 <dd>The docker server version. Used to leverage new docker features while maintaining backwards compatibility.</dd>
 </dl>
@@ -668,6 +687,25 @@ The files from <code class="docutils literal notranslate"><span class="pre">mapp
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">defaultLinuxInstallLocation</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="s">&quot;/opt/docker&quot;</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="file-permission">
+<h3>File Permission<a class="headerlink" href="#file-permission" title="Permalink to this headline">¶</a></h3>
+<p>By default, the working directory inside the Docker image is given read-only file permissions
+set using multi-stage Docker build, which requires Docker 17.5 or later (watch out if you’re using older Minikube).</p>
+<p>If you want to make the working directory writable by the running process, here’s the setting:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.docker.DockerChmodType</span>
+
+<span class="n">dockerChmodType</span> <span class="o">:=</span> <span class="nc">DockerChmodType</span><span class="o">.</span><span class="nc">UserGroupWriteExecute</span>
+</pre></div>
+</div>
+<p>If you don’t want SBT Native Packager to change the file permissions at all here’s a strategy you can choose:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.docker.DockerPermissionStrategy</span>
+
+<span class="n">dockerPermissionStrategy</span> <span class="o">:=</span> <span class="nc">DockerPermissionStrategy</span><span class="o">.</span><span class="nc">None</span>
+</pre></div>
+</div>
+<p>This will inherit the file mode bits set in your machine. Given that Kubernetes implementations like OpenShift will use an arbitrary user,
+remember to set both the user bits and group bits when running <cite>chmod</cite> yourself.</p>
 </div>
 <div class="section" id="custom-dockerfile">
 <h3>Custom Dockerfile<a class="headerlink" href="#custom-dockerfile" title="Permalink to this headline">¶</a></h3>
