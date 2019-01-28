@@ -2,11 +2,25 @@
 
 ## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
 
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.16...HEAD)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.17...HEAD)
 
 **Closed issues:**
 
+- Defining a user in multi-stage builds [\#1195](https://github.com/sbt/sbt-native-packager/issues/1195)
+
+## [v1.3.17](https://github.com/sbt/sbt-native-packager/tree/v1.3.17) (2019-01-28)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.16...v1.3.17)
+
+**Closed issues:**
+
+- Put Spotify docker-client back in provided scope [\#1194](https://github.com/sbt/sbt-native-packager/issues/1194)
 - OpenShift compatibility [\#1189](https://github.com/sbt/sbt-native-packager/issues/1189)
+
+**Merged pull requests:**
+
+- Run stage0 as root during Docker build [\#1197](https://github.com/sbt/sbt-native-packager/pull/1197) ([eed3si9n](https://github.com/eed3si9n))
+- Attempt to move docker-client dependency back to the provided scope [\#1196](https://github.com/sbt/sbt-native-packager/pull/1196) ([gpgekko](https://github.com/gpgekko))
+- Update Docker plugin docs [\#1193](https://github.com/sbt/sbt-native-packager/pull/1193) ([eed3si9n](https://github.com/eed3si9n))
 
 ## [v1.3.16](https://github.com/sbt/sbt-native-packager/tree/v1.3.16) (2019-01-24)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.15...v1.3.16)
