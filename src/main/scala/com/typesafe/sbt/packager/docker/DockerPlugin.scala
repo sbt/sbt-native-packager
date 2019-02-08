@@ -148,7 +148,7 @@ object DockerPlugin extends AutoPlugin {
         dockerEnvVars.value.map(makeEnvVar) ++
         makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
         makeVolumes(dockerExposedVolumes.value, user, group) ++
-        Seq(makeUser(uid), makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
+        Seq(makeUser(user), makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
 
       stage0 ++ stage1
     }
