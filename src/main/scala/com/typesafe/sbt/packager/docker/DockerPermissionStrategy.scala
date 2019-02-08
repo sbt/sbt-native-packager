@@ -47,6 +47,13 @@ object DockerChmodType {
 
   /**
     * Gives read permission to users and groups.
+    */
+  case object UserGroupRead extends DockerChmodType {
+    def argument: String = "u=r,g=r"
+  }
+
+  /**
+    * Gives read permission to users and groups.
     * Gives execute permission to users and groups, if +x flag is on for any.
     */
   case object UserGroupReadExecute extends DockerChmodType {
@@ -59,6 +66,13 @@ object DockerChmodType {
     */
   case object UserGroupWriteExecute extends DockerChmodType {
     def argument: String = "u=rwX,g=rwX"
+  }
+
+  /**
+    * Gives +x permission to users and groups.
+    */
+  case object UserGroupPlusExecute extends DockerChmodType {
+    def argument: String = "u+x,g+x"
   }
 
   /**

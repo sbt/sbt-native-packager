@@ -108,6 +108,16 @@ object DockerPlugin extends AutoPlugin {
     },
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
+    dockerAdditionalPermissions := {
+      val scripts = makeBashScripts.value
+      val ms = (mappings in Docker).value
+      scripts flatMap {
+        case (script, _) =>
+          ms collect {
+            case (k, v) if k == script => DockerChmodType.UserGroupPlusExecute -> v
+          }
+      }
+    },
     dockerCommands := {
       val strategy = dockerPermissionStrategy.value
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
@@ -116,6 +126,7 @@ object DockerPlugin extends AutoPlugin {
       val group = (daemonGroup in Docker).value
       val gidOpt = (daemonGroupGid in Docker).value
       val base = dockerBaseImage.value
+      val addPerms = dockerAdditionalPermissions.value
 
       val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
@@ -126,9 +137,10 @@ object DockerPlugin extends AutoPlugin {
             makeWorkdir(dockerBaseDirectory),
             makeCopy(dockerBaseDirectory),
             makeUser("root"),
-            makeChmod(dockerChmodType.value, Seq(dockerBaseDirectory)),
-            DockerStageBreak
-          )
+            makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))
+          ) ++
+            (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) }) ++
+            Seq(DockerStageBreak)
         case _ => Seq()
       }
 
@@ -142,7 +154,8 @@ object DockerPlugin extends AutoPlugin {
           case DockerPermissionStrategy.MultiStage =>
             Seq(makeCopyFrom(dockerBaseDirectory, stage0name, user, group))
           case DockerPermissionStrategy.Run =>
-            Seq(makeCopy(dockerBaseDirectory), makeChmod(dockerChmodType.value, Seq(dockerBaseDirectory)))
+            Seq(makeCopy(dockerBaseDirectory), makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
+              (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
           case DockerPermissionStrategy.CopyChown =>
             Seq(makeCopyChown(dockerBaseDirectory, user, group))
           case DockerPermissionStrategy.None =>
@@ -156,6 +169,8 @@ object DockerPlugin extends AutoPlugin {
           case Some(uid) => makeUser(uid)
           case _         => makeUser(user)
         }) ++
+        // Use this to debug permissions
+        // Seq(ExecCmd("RUN", Seq("ls", "-l", "/opt/docker/bin/"): _*)) ++
         Seq(makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
 
       stage0 ++ stage1
@@ -321,9 +336,15 @@ object DockerPlugin extends AutoPlugin {
     ExecCmd("RUN", Seq("chown", "-R", s"$daemonUser:$daemonGroup") ++ directories: _*)
 
   /**
-    * @return chown command, owning the installation directory with the daemonuser
+    * @return chmod command
     */
-  private final def makeChmod(chmodType: DockerChmodType, directories: Seq[String]): CmdLike =
+  private final def makeChmod(chmodType: DockerChmodType, files: Seq[String]): CmdLike =
+    ExecCmd("RUN", Seq("chmod", chmodType.argument) ++ files: _*)
+
+  /**
+    * @return chmod command recursively
+    */
+  private final def makeChmodRecursive(chmodType: DockerChmodType, directories: Seq[String]): CmdLike =
     ExecCmd("RUN", Seq("chmod", "-R", chmodType.argument) ++ directories: _*)
 
   /**

@@ -18,6 +18,7 @@ lazy val root = (project in file("."))
           |COPY opt /opt
           |USER root
           |RUN ["chmod", "-R", "u=rX,g=rX", "/opt/docker"]
+          |RUN ["chmod", "u+x,g+x", "/opt/docker/bin/file-permission-test"]
           |
           |FROM fabric8/java-centos-openjdk8-jdk
           |USER root
@@ -53,6 +54,7 @@ lazy val root = (project in file("."))
           |WORKDIR /opt/docker
           |COPY opt /opt
           |RUN ["chmod", "-R", "u=rX,g=rX", "/opt/docker"]
+          |RUN ["chmod", "u+x,g+x", "/opt/docker/bin/file-permission-test"]
           |USER 1001
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
@@ -79,6 +81,7 @@ lazy val root = (project in file("."))
           |COPY opt /opt
           |USER root
           |RUN ["chmod", "-R", "u=rwX,g=rwX", "/opt/docker"]
+          |RUN ["chmod", "u+x,g+x", "/opt/docker/bin/file-permission-test"]
           |
           |FROM fabric8/java-centos-openjdk8-jdk
           |USER root
