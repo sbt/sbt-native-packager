@@ -20,9 +20,10 @@ lazy val root = (project in file("."))
           |RUN ["chmod", "-R", "u=rX,g=rX", "/opt/docker"]
           |
           |FROM fabric8/java-centos-openjdk8-jdk
-          |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
+          |USER root
+          |RUN id -u demiourgos728 2> /dev/null || useradd --system --create-home --uid 1001 --gid 0 demiourgos728
           |WORKDIR /opt/docker
-          |COPY --from=stage0 --chown=daemon:root /opt/docker /opt/docker
+          |COPY --from=stage0 --chown=demiourgos728:root /opt/docker /opt/docker
           |USER 1001
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
@@ -33,7 +34,8 @@ lazy val root = (project in file("."))
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
         """FROM fabric8/java-centos-openjdk8-jdk
-          |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
+          |USER root
+          |RUN id -u demiourgos728 2> /dev/null || useradd --system --create-home --uid 1001 --gid 0 demiourgos728
           |WORKDIR /opt/docker
           |COPY opt /opt
           |USER 1001
@@ -46,7 +48,8 @@ lazy val root = (project in file("."))
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
         """FROM openjdk:8
-          |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
+          |USER root
+          |RUN id -u demiourgos728 2> /dev/null || useradd --system --create-home --uid 1001 --gid 0 demiourgos728
           |WORKDIR /opt/docker
           |COPY opt /opt
           |RUN ["chmod", "-R", "u=rX,g=rX", "/opt/docker"]
@@ -60,10 +63,9 @@ lazy val root = (project in file("."))
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
         """FROM fabric8/java-centos-openjdk8-jdk
-          |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
           |WORKDIR /opt/docker
           |COPY --chown=daemon:root opt /opt
-          |USER 1001
+          |USER daemon
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
     },
@@ -79,9 +81,10 @@ lazy val root = (project in file("."))
           |RUN ["chmod", "-R", "u=rwX,g=rwX", "/opt/docker"]
           |
           |FROM fabric8/java-centos-openjdk8-jdk
-          |RUN id -u daemon || useradd --system --create-home --uid 1001 --gid 0 daemon
+          |USER root
+          |RUN id -u demiourgos728 2> /dev/null || useradd --system --create-home --uid 1001 --gid 0 demiourgos728
           |WORKDIR /opt/docker
-          |COPY --from=stage0 --chown=daemon:root /opt/docker /opt/docker
+          |COPY --from=stage0 --chown=demiourgos728:root /opt/docker /opt/docker
           |USER 1001
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)

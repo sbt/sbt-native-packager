@@ -112,10 +112,10 @@ object DockerPlugin extends AutoPlugin {
       val strategy = dockerPermissionStrategy.value
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
       val user = (daemonUser in Docker).value
+      val uidOpt = (daemonUserUid in Docker).value
       val group = (daemonGroup in Docker).value
+      val gidOpt = (daemonGroupGid in Docker).value
       val base = dockerBaseImage.value
-      val uid = 1001
-      val gid = 0
 
       val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
@@ -133,7 +133,11 @@ object DockerPlugin extends AutoPlugin {
       }
 
       val stage1: Seq[CmdLike] = generalCommands ++
-        Seq(makeUserAdd(user, uid, gid), makeWorkdir(dockerBaseDirectory)) ++
+        (uidOpt match {
+          case Some(_) => Seq(makeUser("root"), makeUserAdd(user, uidOpt, gidOpt))
+          case _       => Seq()
+        }) ++
+        Seq(makeWorkdir(dockerBaseDirectory)) ++
         (strategy match {
           case DockerPermissionStrategy.MultiStage =>
             Seq(makeCopyFrom(dockerBaseDirectory, stage0name, user, group))
@@ -148,7 +152,11 @@ object DockerPlugin extends AutoPlugin {
         dockerEnvVars.value.map(makeEnvVar) ++
         makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
         makeVolumes(dockerExposedVolumes.value, user, group) ++
-        Seq(makeUser(uid), makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
+        Seq(uidOpt match {
+          case Some(uid) => makeUser(uid)
+          case _         => makeUser(user)
+        }) ++
+        Seq(makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
 
       stage0 ++ stage1
     }
@@ -188,8 +196,12 @@ object DockerPlugin extends AutoPlugin {
       stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (target in Docker).value / "stage",
       target := target.value / "docker",
-      daemonUser := "daemon",
+      // pick a user name that's unlikely to exist in base images
+      daemonUser := "demiourgos728",
+      // when daemonUserUid is set, we will try to create this user and set numeric USER
+      daemonUserUid := Some("1001"),
       daemonGroup := "root",
+      daemonGroupGid := Some("0"),
       defaultLinuxInstallLocation := "/opt/docker",
       validatePackage := Validation
         .runAndThrow(validatePackageValidators.value, streams.value.log),
@@ -316,25 +328,17 @@ object DockerPlugin extends AutoPlugin {
 
   /**
     * @param daemonUser
-    * @param userId
-    * @param groupId
-    * @return useradd to create the daemon user with the given userId and groupId
+    * @param uidOpt
+    * @param gidOpt
+    * @return useradd to create the daemon user with the given uidOpt and gidOpt
     */
-  private final def makeUserAdd(daemonUser: String, userId: Int, groupId: Int): CmdLike =
+  private final def makeUserAdd(daemonUser: String, uidOpt: Option[String], gidOpt: Option[String]): CmdLike =
     Cmd(
       "RUN",
-      "id",
-      "-u",
-      daemonUser,
-      "||",
-      "useradd",
-      "--system",
-      "--create-home",
-      "--uid",
-      userId.toString,
-      "--gid",
-      groupId.toString,
-      daemonUser
+      (List("id", "-u", daemonUser, "2>", "/dev/null", "||", "useradd", "--system", "--create-home") :::
+        (uidOpt.fold[List[String]](Nil)(List("--uid", _))) :::
+        (gidOpt.fold[List[String]](Nil)(List("--gid", _))) :::
+        List(daemonUser)): _*
     )
 
   /**
@@ -343,13 +347,6 @@ object DockerPlugin extends AutoPlugin {
     */
   private final def makeUser(daemonUser: String): CmdLike =
     Cmd("USER", daemonUser)
-
-  /**
-    * @param userId userId of the daemon user
-    * @return USER docker command
-    */
-  private final def makeUser(userId: Int): CmdLike =
-    Cmd("USER", userId.toString)
 
   /**
     * @param entrypoint
