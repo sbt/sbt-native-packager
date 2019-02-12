@@ -136,7 +136,7 @@ Environment Settings
     * ``DockerChmodType.Custom``: Custom argument provided by the user.
 
   ``dockerAdditionalPermissions``
-    Additional permissions typically used to give ``chmod +x`` rights for the executable files. By default generated Bash scripts are given ``DockerChmodType``.
+    Additional permissions typically used to give ``chmod +x`` rights for the executable files. By default generated Bash scripts are given ``DockerChmodType.UserGroupPlusExecute``.
 
   ``dockerVersion``
     The docker server version. Used to leverage new docker features while maintaining backwards compatibility.
