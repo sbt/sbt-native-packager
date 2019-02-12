@@ -2,11 +2,28 @@
 
 ## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
 
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.17...HEAD)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.18...HEAD)
+
+**Closed issues:**
+
+- Docker/stage generates different Dockerfile depending on docker version [\#1187](https://github.com/sbt/sbt-native-packager/issues/1187)
+
+## [v1.3.18](https://github.com/sbt/sbt-native-packager/tree/v1.3.18) (2019-02-12)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.17...v1.3.18)
+
+**Fixed bugs:**
+
+- Dockerfile switches to daemon user uid instead of the daemonUser [\#1198](https://github.com/sbt/sbt-native-packager/issues/1198)
 
 **Closed issues:**
 
 - Defining a user in multi-stage builds [\#1195](https://github.com/sbt/sbt-native-packager/issues/1195)
+- Found conflicts in dependencies [\#1153](https://github.com/sbt/sbt-native-packager/issues/1153)
+
+**Merged pull requests:**
+
+- Run chmod +x explicitly in stage0 [\#1201](https://github.com/sbt/sbt-native-packager/pull/1201) ([eed3si9n](https://github.com/eed3si9n))
+- Use daemonUserUid to opt-out of numeric USER [\#1200](https://github.com/sbt/sbt-native-packager/pull/1200) ([eed3si9n](https://github.com/eed3si9n))
 
 ## [v1.3.17](https://github.com/sbt/sbt-native-packager/tree/v1.3.17) (2019-01-28)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.16...v1.3.17)
