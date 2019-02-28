@@ -109,14 +109,14 @@ object DockerPlugin extends AutoPlugin {
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerAdditionalPermissions := {
-      val scripts = makeBashScripts.value
-      val ms = (mappings in Docker).value
-      scripts flatMap {
-        case (script, _) =>
-          ms collect {
-            case (k, v) if k == script => DockerChmodType.UserGroupPlusExecute -> v
-          }
-      }
+      (mappings in Docker).value
+        .collect {
+          // by default we assume everything in the bin/ folder should be executable
+          case (_, path) if path.startsWith("bin/") => DockerChmodType.UserGroupPlusExecute -> path
+          // sh and windows bat files should also be marked as executable
+          case (_, path) if path.endsWith(".sh") => DockerChmodType.UserGroupPlusExecute -> path
+          case (_, path) if path.startsWith(".bat") => DockerChmodType.UserGroupPlusExecute -> path
+        }
     },
     dockerCommands := {
       val strategy = dockerPermissionStrategy.value
