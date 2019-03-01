@@ -113,9 +113,10 @@ object DockerPlugin extends AutoPlugin {
       (mappings in Docker).value
         .collect {
           // by default we assume everything in the bin/ folder should be executable that is not a .bat file
-          case (_, path) if path.startsWith(s"$basePath/bin/") && !path.endsWith(".bat") => DockerChmodType.UserGroupPlusExecute -> path
+          case (_, path) if path.startsWith(s"$basePath/bin/") && !path.endsWith(".bat") =>
+            DockerChmodType.UserGroupPlusExecute -> path
           // sh files should also be marked as executable
-          case (_, path) if path.endsWith(".sh")    => DockerChmodType.UserGroupPlusExecute -> path
+          case (_, path) if path.endsWith(".sh") => DockerChmodType.UserGroupPlusExecute -> path
         }
     },
     dockerCommands := {
