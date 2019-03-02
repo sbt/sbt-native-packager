@@ -1,12 +1,22 @@
 # Change Log
 
-## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+## [v1.3.19](https://github.com/sbt/sbt-native-packager/tree/v1.3.19) (2019-03-02)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.18...v1.3.19)
 
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.18...HEAD)
+**Fixed bugs:**
+
+- Error "Reference to undefined setting: makeBashScripts from dockerAdditionalPermissions" \(since v1.3.18\) [\#1205](https://github.com/sbt/sbt-native-packager/issues/1205)
+- Docs for specific version not published \(regression\) [\#1203](https://github.com/sbt/sbt-native-packager/issues/1203)
 
 **Closed issues:**
 
+- javaOptions in Universal doesn't have effect in custom plugin [\#1208](https://github.com/sbt/sbt-native-packager/issues/1208)
+- Is there a way to skip tests? [\#1204](https://github.com/sbt/sbt-native-packager/issues/1204)
 - Docker/stage generates different Dockerfile depending on docker version [\#1187](https://github.com/sbt/sbt-native-packager/issues/1187)
+
+**Merged pull requests:**
+
+- FIX \#1205 undefined setting makeBashScripts with vanilla DockerPlugin [\#1207](https://github.com/sbt/sbt-native-packager/pull/1207) ([muuki88](https://github.com/muuki88))
 
 ## [v1.3.18](https://github.com/sbt/sbt-native-packager/tree/v1.3.18) (2019-02-12)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.17...v1.3.18)
