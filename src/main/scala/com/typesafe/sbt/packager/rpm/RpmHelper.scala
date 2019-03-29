@@ -105,7 +105,8 @@ object RpmHelper {
         else Seq.empty
       ) ++ Seq(spec.meta.name + ".spec")
       log.debug("Executing rpmbuild with: " + args.mkString(" "))
-      (sys.process.Process(args, Some(specsDir)) ! log) match {
+      (sys.process.Process(args, Some(specsDir)) ! sys.process
+        .ProcessLogger(o => log.info(o), e => log.error(e))) match {
         case 0 => ()
         case code =>
           sys.error("Unable to run rpmbuild, check output for details. Errorcode " + code)
