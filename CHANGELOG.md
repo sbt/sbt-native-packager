@@ -1,5 +1,21 @@
 # Change Log
 
+## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.20...HEAD)
+
+**Closed issues:**
+
+- Idea: package an app for homebrew? [\#1210](https://github.com/sbt/sbt-native-packager/issues/1210)
+
+## [v1.3.20](https://github.com/sbt/sbt-native-packager/tree/v1.3.20) (2019-03-29)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.19...v1.3.20)
+
+**Merged pull requests:**
+
+- Don't write RPM standard output as error [\#1211](https://github.com/sbt/sbt-native-packager/pull/1211) ([Falmarri](https://github.com/Falmarri))
+- Update Proguard example [\#1209](https://github.com/sbt/sbt-native-packager/pull/1209) ([ipostanogov](https://github.com/ipostanogov))
+
 ## [v1.3.19](https://github.com/sbt/sbt-native-packager/tree/v1.3.19) (2019-03-02)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.18...v1.3.19)
 
