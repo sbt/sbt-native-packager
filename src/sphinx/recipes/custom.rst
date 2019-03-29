@@ -67,47 +67,46 @@ the ``plugins.sbt`` file:
 
 .. code-block:: scala
 
-    addSbtPlugin("com.typesafe.sbt" % "sbt-proguard" % "0.2.2")
+    addSbtPlugin("com.lightbend.sbt" % "sbt-proguard" % "0.3.0")
 
 Then configure the proguard options in ``build.sbt``:
 
 .. code-block:: scala
 
-    import com.typesafe.sbt.SbtProguard.ProguardKeys
+      enablePlugins(SbtProguard)
 
-    // initialize the proguard settings
-    proguardSettings
-
-    // to configure proguard for scala, see
-    // http://proguard.sourceforge.net/manual/examples.html#scala
-    ProguardKeys.options in Proguard ++= Seq(
-        "--dontwarn scala.**",
-        "--dontwarn ch.qos.**"
+      // to configure proguard for scala, see
+      // http://proguard.sourceforge.net/manual/examples.html#scala
+      proguardOptions in Proguard ++= Seq(
+        "-dontoptimize",
+        "-dontnote",
+        "-dontwarn",
+        "-ignorewarnings",
         // ...
-    )
+      )
 
-    // specify the entry point for a standalone app
-    ProguardKeys.options in Proguard += ProguardOptions.keepMain("com.example.Main")
+      // specify the entry point for a standalone app
+      proguardOptions in Proguard += ProguardOptions.keepMain("com.example.Main")
 
-    // Java 8 requires a newer version of proguard than sbt-proguard's default
-    ProguardKeys.proguardVersion in Proguard := "5.2.1"
-    
-    // filter out jar files from the list of generated files, while
-    // keeping non-jar output such as generated launch scripts
-    mappings in Universal := (mappings in Universal).value.
-      filter {
-        case (file, name) =>  ! name.endsWith(".jar")
-      }
+      proguardVersion in Proguard := "6.0.3"
 
-    // ... and then append the jar file emitted from the proguard task to
-    // the file list
-    mappings in Universal ++= (ProguardKeys.proguard in Proguard).
-        value.map(jar => jar -> ("lib/" +jar.getName))
+      // filter out jar files from the list of generated files, while
+      // keeping non-jar output such as generated launch scripts
+      mappings in Universal := (mappings in Universal).value.
+        filter {
+          case (file, name) => !name.endsWith(".jar")
+        }
 
-    // point the classpath to the output from the proguard task
-    scriptClasspath := (ProguardKeys.proguard in Proguard).value.map(jar => jar.getName)
+      // ... and then append the jar file emitted from the proguard task to
+      // the file list
+      mappings in Universal ++= (proguard in Proguard).
+        value.map(jar => jar -> ("lib/" + jar.getName))
 
-Now when you package your project using a command such as ``sbt universal:package-zip-tarball``, 
+      // point the classpath to the output from the proguard task
+      scriptClasspath := (proguard in Proguard).value.map(jar => jar.getName)
+
+
+Now when you package your project using a command such as ``sbt universal:packageZipTarball``, 
 it will include fat jar that has been created by proguard rather than the normal 
 output in ``/lib``.
 
