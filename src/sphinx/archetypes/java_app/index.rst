@@ -36,6 +36,12 @@ class with the following setting:
 .. code-block:: scala
 
    mainClass in Compile := Some("foo.bar.Main")
+   
+In order to generate launch scripts only for specified ``mainClass``, you will need to discard automatically found main classes:
+
+.. code-block:: scala
+
+   discoveredMainClasses in Compile := Seq()
 
 To create a staging version of your package call
 
