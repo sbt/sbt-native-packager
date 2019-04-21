@@ -52,6 +52,7 @@ object Keys
     with rpm.RpmKeys
     with archetypes.JavaAppKeys
     with archetypes.JavaServerAppKeys
+    with archetypes.jlink.JlinkKeys
     with archetypes.systemloader.SystemloaderKeys
     with archetypes.scripts.BashStartScriptKeys
     with archetypes.scripts.BatStartScriptKeys

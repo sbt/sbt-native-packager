@@ -26,4 +26,6 @@ trait JavaAppKeys {
     "scriptClasspath",
     "A list of relative filenames (to the lib/ folder in the distribution) of what to include on the classpath."
   )
+  val bundledJvmLocation =
+    TaskKey[Option[String]]("bundledJvmLocation", "The location of the bundled JVM image")
 }

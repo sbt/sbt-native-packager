@@ -71,7 +71,8 @@ object JavaAppPackaging extends AutoPlugin {
       val d = targetDir / installLocation
       d.mkdirs()
       LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData())
-    }
+    },
+    bundledJvmLocation := (bundledJvmLocation ?? None).value
   )
 
   private def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =

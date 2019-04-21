@@ -49,7 +49,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
                                              configLocation: Option[String],
                                              extraDefines: Seq[String],
                                              override val replacements: Seq[(String, String)],
-                                             override val templateLocation: File)
+                                             override val templateLocation: File,
+                                             bundledJvmLocation: Option[String])
       extends ScriptConfig {
     override def withScriptName(scriptName: String): BatScriptConfig = copy(executableScriptName = scriptName)
   }
@@ -76,7 +77,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
         configLocation = batScriptConfigLocation.value,
         extraDefines = batScriptExtraDefines.value,
         replacements = batScriptReplacements.value,
-        templateLocation = batScriptTemplateLocation.value
+        templateLocation = batScriptTemplateLocation.value,
+        bundledJvmLocation = bundledJvmLocation.value
       ),
       (mainClass in (Compile, batScriptReplacements)).value,
       (discoveredMainClasses in Compile).value,
@@ -106,6 +108,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
                    replacements: Seq[(String, String)]): (String, String) = {
       val defines = Seq(makeWindowsRelativeClasspathDefine(config.scriptClasspath), Defines.mainClass(mainClass)) ++
         config.configLocation.map(Defines.configFileDefine) ++
+        config.bundledJvmLocation.map(Defines.bundledJvmDefine) ++
         config.extraDefines
       "APP_DEFINES" -> Defines(defines, replacements)
     }
@@ -134,6 +137,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
 
     def mainClass(mainClass: String): String = s"""set "APP_MAIN_CLASS=$mainClass""""
     def configFileDefine(configFile: String): String = s"""set "SCRIPT_CONF_FILE=$configFile""""
+    def bundledJvmDefine(bundledJvm: String): String =
+      s"""set "BUNDLED_JVM=%APP_HOME%\\$bundledJvm"""
 
     // TODO - use more of the template writer for this...
     private[this] def replace(line: String, replacements: Seq[(String, String)]): String =

@@ -125,4 +125,6 @@ addCommandAlias("validateOSX", "; validate ; validateUniversal")
 // TODO check the cygwin scripted tests and run them on appveyor
 addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted universal/dist universal/stage windows/*")
 
+addCommandAlias("validateJlink", "scripted jlink/*")
+
 addCommandAlias("releaseFromTravis", "release with-defaults")

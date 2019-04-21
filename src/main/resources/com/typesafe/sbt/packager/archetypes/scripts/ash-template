@@ -43,6 +43,17 @@ loadConfigFile() {
   cat "$1" | sed '/^\#/d;s/\r$//' | sed 's/^-J-X/-X/' | tr '\r\n' ' '
 }
 
+# Detect which JVM we should use.
+get_java_cmd() {
+  # High-priority override for Jlink images
+  if [ -n "$bundled_jvm" ];  then
+    echo "$bundled_jvm/bin/java"
+  elif [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ];  then
+    echo "$JAVA_HOME/bin/java"
+  else
+    echo "java"
+  fi
+}
 
 real_script_path="$(realpath "$0")"
 app_home="$(realpath "$(dirname "$real_script_path")")"
@@ -52,7 +63,9 @@ app_mainclass=${{app_mainclass}}
 
 ${{template_declares}}
 
+declare -r java_cmd=$(get_java_cmd)
+
 # If a configuration file exist, read the contents to $opts
 [ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
 
-exec java $java_opts -classpath $app_classpath $opts $app_mainclass "$@"
+exec "$java_cmd" $java_opts -classpath $app_classpath $opts $app_mainclass "$@"

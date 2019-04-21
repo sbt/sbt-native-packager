@@ -1,0 +1,3 @@
+# Run the jlink packaging
+> stage
+> runChecks

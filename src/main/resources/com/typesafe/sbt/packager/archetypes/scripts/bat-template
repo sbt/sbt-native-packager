@@ -6,6 +6,7 @@
 @REM Configuration:
 @REM @@APP_ENV_NAME@@_config.txt found in the @@APP_ENV_NAME@@_HOME.
 @setlocal enabledelayedexpansion
+@setlocal enableextensions
 
 @echo off
 
@@ -30,12 +31,27 @@ set "CFG_FILE=%APP_HOME%\@@APP_ENV_NAME@@_config.txt"
 set CFG_OPTS=
 call :parse_config "%CFG_FILE%" CFG_OPTS
 
-rem We use the value of the JAVACMD environment variable if defined
-set _JAVACMD=%JAVACMD%
+rem We use the value of the JAVA_OPTS environment variable if defined, rather than the config.
+set _JAVA_OPTS=%JAVA_OPTS%
+if "!_JAVA_OPTS!"=="" set _JAVA_OPTS=!CFG_OPTS!
 
-if "%_JAVACMD%"=="" (
-  if not "%JAVA_HOME%"=="" (
-    if exist "%JAVA_HOME%\bin\java.exe" set "_JAVACMD=%JAVA_HOME%\bin\java.exe"
+rem We keep in _JAVA_PARAMS all -J-prefixed and -D-prefixed arguments
+rem "-J" is stripped, "-D" is left as is, and everything is appended to JAVA_OPTS
+set _JAVA_PARAMS=
+set _APP_ARGS=
+
+@@APP_DEFINES@@
+
+rem Bundled JRE has priority over standard environment variables
+if defined BUNDLED_JVM (
+  set "_JAVACMD=%BUNDLED_JVM%\bin\java.exe"
+) else (
+  if "%JAVACMD%" neq "" (
+    set "_JAVACMD=%JAVACMD%"
+  ) else (
+    if "%JAVA_HOME%" neq "" (
+      if exist "%JAVA_HOME%\bin\java.exe" set "_JAVACMD=%JAVA_HOME%\bin\java.exe"
+    )
   )
 )
 
@@ -69,18 +85,6 @@ if "%JAVAOK%"=="false" (
   if defined DOUBLECLICKED pause
   exit /B 1
 )
-
-
-rem We use the value of the JAVA_OPTS environment variable if defined, rather than the config.
-set _JAVA_OPTS=%JAVA_OPTS%
-if "!_JAVA_OPTS!"=="" set _JAVA_OPTS=!CFG_OPTS!
-
-rem We keep in _JAVA_PARAMS all -J-prefixed and -D-prefixed arguments
-rem "-J" is stripped, "-D" is left as is, and everything is appended to JAVA_OPTS
-set _JAVA_PARAMS=
-set _APP_ARGS=
-
-@@APP_DEFINES@@
 
 rem if configuration files exist, prepend their contents to the script arguments so it can be processed by this runner
 call :parse_config "%SCRIPT_CONF_FILE%" SCRIPT_CONF_ARGS

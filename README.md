@@ -47,6 +47,7 @@ different archetypes for common configurations, such as simple Java apps or serv
     * Systemv
     * Upstart
 * Java8 [jdkpackager][] wrapper
+* Java11 [jlink][] wrapper
 * Optional JDeb integration for cross-platform Debian builds
 * Optional Spotify docker client integration
 
@@ -134,6 +135,7 @@ or provide a richer API for a single packaging format.
 [Java server application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/index.html
 [My First Packaged Server Project guide]: http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html
 [jdkpackager]: http://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html
+[jlink]: https://docs.oracle.com/en/java/javase/11/tools/jlink.html
 
 ## Maintainers ##
 

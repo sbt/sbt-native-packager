@@ -77,7 +77,11 @@ object AshScriptPlugin extends AutoPlugin {
 
   override def projectSettings = Seq(
     bashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashTemplate),
-    bashScriptDefines := Defines((scriptClasspath in bashScriptDefines).value, bashScriptConfigLocation.value),
+    bashScriptDefines := Defines(
+      (scriptClasspath in bashScriptDefines).value,
+      bashScriptConfigLocation.value,
+      bundledJvmLocation.value
+    ),
     bashScriptDefines ++= bashScriptExtraDefines.value
   )
 
@@ -93,8 +97,10 @@ object AshScriptPlugin extends AutoPlugin {
       *                     to include on the classpath.
       * @param configFile An (optional) filename from which the script will read arguments.
       */
-    def apply(appClasspath: Seq[String], configFile: Option[String]): Seq[String] =
-      (configFile map configFileDefine).toSeq ++ Seq(makeClasspathDefine(appClasspath))
+    def apply(appClasspath: Seq[String], configFile: Option[String], bundledJvm: Option[String]): Seq[String] =
+      (configFile map configFileDefine).toSeq ++
+        Seq(makeClasspathDefine(appClasspath)) ++
+        (bundledJvm map bundledJvmDefine).toSeq
 
     private[this] def makeClasspathDefine(cp: Seq[String]): String = {
       val fullString = cp map (
@@ -107,5 +113,8 @@ object AshScriptPlugin extends AutoPlugin {
 
     private[this] def configFileDefine(configFile: String) =
       "script_conf_file=\"%s\"" format (configFile)
+
+    private[this] def bundledJvmDefine(bundledJvm: String) =
+      """bundled_jvm="$(realpath "${app_home}/../%s")"""" format bundledJvm
   }
 }
