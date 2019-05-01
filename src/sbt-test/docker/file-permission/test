@@ -7,6 +7,11 @@ $ copy-file changes/strategy-none.sbt change.sbt
 > docker:publishLocal
 > checkDockerfileWithStrategyNone
 
+$ copy-file changes/strategy-none-gid.sbt change.sbt
+> reload
+> docker:publishLocal
+> checkDockerfileWithStrategyNoneGid
+
 $ copy-file changes/strategy-run.sbt change.sbt
 > reload
 > docker:publishLocal

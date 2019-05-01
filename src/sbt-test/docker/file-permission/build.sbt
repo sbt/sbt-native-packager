@@ -1,5 +1,6 @@
 lazy val checkDockerfileDefaults = taskKey[Unit]("")
 lazy val checkDockerfileWithStrategyNone = taskKey[Unit]("")
+lazy val checkDockerfileWithStrategyNoneGid = taskKey[Unit]("")
 lazy val checkDockerfileWithStrategyRun = taskKey[Unit]("")
 lazy val checkDockerfileWithStrategyCopyChown = taskKey[Unit]("")
 lazy val checkDockerfileWithWriteExecute = taskKey[Unit]("")
@@ -37,6 +38,20 @@ lazy val root = (project in file("."))
         """FROM fabric8/java-centos-openjdk8-jdk
           |USER root
           |RUN id -u demiourgos728 2> /dev/null || useradd --system --create-home --uid 1001 --gid 0 demiourgos728
+          |WORKDIR /opt/docker
+          |COPY opt /opt
+          |USER 1001
+          |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
+          |CMD []""".stripMargin.linesIterator.toList)
+    },
+
+    checkDockerfileWithStrategyNoneGid := {
+      val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
+      val lines = dockerfile.linesIterator.toList
+      assertEquals(lines,
+        """FROM fabric8/java-centos-openjdk8-jdk
+          |USER root
+          |RUN id -u demiourgos728 2> /dev/null || useradd --system --create-home --uid 1001 --gid 5000 demiourgos728
           |WORKDIR /opt/docker
           |COPY opt /opt
           |USER 1001
