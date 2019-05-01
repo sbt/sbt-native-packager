@@ -26,7 +26,7 @@ lazy val root = (project in file("."))
           |RUN id -u demiourgos728 2> /dev/null || (( getent group 0 || groupadd -g 0 root ) && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 )
           |WORKDIR /opt/docker
           |COPY --from=stage0 --chown=demiourgos728:root /opt/docker /opt/docker
-          |USER 1001
+          |USER 1001:0
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
     },
@@ -40,7 +40,7 @@ lazy val root = (project in file("."))
           |RUN id -u demiourgos728 2> /dev/null || (( getent group 0 || groupadd -g 0 root ) && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 )
           |WORKDIR /opt/docker
           |COPY opt /opt
-          |USER 1001
+          |USER 1001:0
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
     },
@@ -54,7 +54,7 @@ lazy val root = (project in file("."))
           |RUN id -u demiourgos728 2> /dev/null || (( getent group 5000 || groupadd -g 5000 sbt ) && useradd --system --create-home --uid 1001 --gid 5000 demiourgos728 )
           |WORKDIR /opt/docker
           |COPY opt /opt
-          |USER 1001
+          |USER 1001:5000
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
     },
@@ -70,7 +70,7 @@ lazy val root = (project in file("."))
           |COPY opt /opt
           |RUN ["chmod", "-R", "u=rX,g=rX", "/opt/docker"]
           |RUN ["chmod", "u+x,g+x", "/opt/docker/bin/file-permission-test"]
-          |USER 1001
+          |USER 1001:0
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
     },
@@ -103,7 +103,7 @@ lazy val root = (project in file("."))
           |RUN id -u demiourgos728 2> /dev/null || (( getent group 0 || groupadd -g 0 root ) && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 )
           |WORKDIR /opt/docker
           |COPY --from=stage0 --chown=demiourgos728:root /opt/docker /opt/docker
-          |USER 1001
+          |USER 1001:0
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
     }

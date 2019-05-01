@@ -167,7 +167,7 @@ object DockerPlugin extends AutoPlugin {
         makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
         makeVolumes(dockerExposedVolumes.value, user, group) ++
         Seq(uidOpt match {
-          case Some(uid) => makeUser(uid)
+          case Some(uid) => makeUser(uid, gidOpt)
           case _         => makeUser(user)
         }) ++
         // Use this to debug permissions
@@ -374,10 +374,11 @@ object DockerPlugin extends AutoPlugin {
 
   /**
     * @param daemonUser
+    * @param daemonGroupOpt
     * @return USER docker command
     */
-  private final def makeUser(daemonUser: String): CmdLike =
-    Cmd("USER", daemonUser)
+  private final def makeUser(daemonUser: String, daemonGroupOpt: Option[String] = None): CmdLike =
+    Cmd("USER", daemonGroupOpt.fold(daemonUser)(daemonUser + ":" + _))
 
   /**
     * @param entrypoint
