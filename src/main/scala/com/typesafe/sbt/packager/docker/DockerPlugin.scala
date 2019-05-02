@@ -592,7 +592,7 @@ object DockerPlugin extends AutoPlugin {
              |
              |You can display the parsed docker version in the sbt console with:
              |
-             |  $ sbt show dockerVersion
+             |  sbt:your-project> show dockerVersion
              |
              |As a last resort you could hard code the docker version, but it's not recommended!!
              |
