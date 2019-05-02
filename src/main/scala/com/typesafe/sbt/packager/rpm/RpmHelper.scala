@@ -105,10 +105,15 @@ object RpmHelper {
         else Seq.empty
       ) ++ Seq(spec.meta.name + ".spec")
       log.debug("Executing rpmbuild with: " + args.mkString(" "))
+      // RPM outputs to standard error in non-error cases. So just collect all the output, then dump
+      // it all to either error log or info log depending on the exit status
+      val outputBuffer = collection.mutable.ArrayBuffer.empty[String]
       (sys.process.Process(args, Some(specsDir)) ! sys.process
-        .ProcessLogger(o => log.info(o), e => log.error(e))) match {
-        case 0 => ()
+        .ProcessLogger(o => outputBuffer.append(o))) match {
+        case 0 =>
+          outputBuffer.foreach(log.info(_))
         case code =>
+          outputBuffer.foreach(log.error(_))
           sys.error("Unable to run rpmbuild, check output for details. Errorcode " + code)
       }
     }
