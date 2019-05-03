@@ -63,7 +63,7 @@ app_mainclass=${{app_mainclass}}
 
 ${{template_declares}}
 
-declare -r java_cmd=$(get_java_cmd)
+java_cmd="$(get_java_cmd)"
 
 # If a configuration file exist, read the contents to $opts
 [ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
