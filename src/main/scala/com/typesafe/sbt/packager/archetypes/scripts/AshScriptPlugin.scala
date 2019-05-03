@@ -90,6 +90,10 @@ object AshScriptPlugin extends AutoPlugin {
     */
   object Defines {
 
+    @deprecated("1.3.21", "")
+    def apply(appClasspath: Seq[String], configFile: Option[String]): Seq[String] =
+      apply(appClasspath, configFile, None)
+
     /**
       * Creates the block of defines for a script.
       *

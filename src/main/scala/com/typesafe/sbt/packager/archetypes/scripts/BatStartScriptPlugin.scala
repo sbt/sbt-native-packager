@@ -52,7 +52,56 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
                                              override val templateLocation: File,
                                              bundledJvmLocation: Option[String])
       extends ScriptConfig {
+
+    @deprecated("1.3.21", "")
+    def this(executableScriptName: String,
+             scriptClasspath: Seq[String],
+             configLocation: Option[String],
+             extraDefines: Seq[String],
+             replacements: Seq[(String, String)],
+             templateLocation: File) =
+      this(executableScriptName, scriptClasspath, configLocation, extraDefines, replacements, templateLocation, None)
+
+    @deprecated("1.3.21", "")
+    def copy(executableScriptName: String = executableScriptName,
+             scriptClasspath: Seq[String] = scriptClasspath,
+             configLocation: Option[String] = configLocation,
+             extraDefines: Seq[String] = extraDefines,
+             replacements: Seq[(String, String)] = replacements,
+             templateLocation: File = templateLocation): BatScriptConfig =
+      BatScriptConfig(
+        executableScriptName,
+        scriptClasspath,
+        configLocation,
+        extraDefines,
+        replacements,
+        templateLocation,
+        bundledJvmLocation
+      )
+
     override def withScriptName(scriptName: String): BatScriptConfig = copy(executableScriptName = scriptName)
+  }
+
+  object BatScriptConfig
+      extends scala.runtime.AbstractFunction6[String, Seq[String], Option[String], Seq[String], Seq[(String, String)], File, BatScriptConfig] {
+
+    @deprecated("1.3.21", "")
+    def apply(executableScriptName: String,
+              scriptClasspath: Seq[String],
+              configLocation: Option[String],
+              extraDefines: Seq[String],
+              replacements: Seq[(String, String)],
+              templateLocation: File): BatScriptConfig =
+      BatScriptConfig(
+        executableScriptName,
+        scriptClasspath,
+        configLocation,
+        extraDefines,
+        replacements,
+        templateLocation,
+        None
+      )
+
   }
 
   override protected[this] type SpecializedScriptConfig = BatScriptConfig
