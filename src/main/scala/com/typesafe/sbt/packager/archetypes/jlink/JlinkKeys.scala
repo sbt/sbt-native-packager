@@ -3,12 +3,10 @@ package jlink
 
 import sbt._
 
-import com.typesafe.sbt.packager.archetypes.jlink._
-
 /**
   * Available settings/tasks for the [[com.typesafe.sbt.packager.archetypes.jlink.JlinkPlugin]].
   */
-trait JlinkKeys {
+private[packager] trait JlinkKeys {
 
   val jlinkBundledJvmLocation =
     TaskKey[String]("jlinkBundledJvmLocation", "The location of the resulting JVM image")

@@ -34,7 +34,7 @@ object JavaAppPackaging extends AutoPlugin {
     */
   val batTemplate = "bat-template"
 
-  object autoImport extends JavaAppKeys with MaintainerScriptHelper
+  object autoImport extends JavaAppKeys with JavaAppKeys2 with MaintainerScriptHelper
 
   import JavaAppPackaging.autoImport._
 
