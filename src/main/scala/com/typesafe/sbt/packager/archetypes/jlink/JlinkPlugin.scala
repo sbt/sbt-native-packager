@@ -20,7 +20,6 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin
   * == Configuration ==
   *
   * This plugin adds new settings to configure your packaged application.
-  * The keys are defined in [[com.typesafe.sbt.packager.archetypes.jlink.JlinkKeys]]
   *
   * @example Enable this plugin in your `build.sbt` with
   *
