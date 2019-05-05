@@ -149,10 +149,10 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.scripts" visbl="pub" class="indented6 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="scripts"></a><a id="scripts:scripts"></a>
+    </li><li name="com.typesafe.sbt.packager.archetypes.jlink" visbl="pub" class="indented6 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="jlink"></a><a id="jlink:jlink"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/archetypes/index.html#scripts" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/archetypes/index.html#jlink" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -161,14 +161,14 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="" href="index.html"><span class="name">scripts</span></a>
+        <a title="" href="index.html"><span class="name">jlink</span></a>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.typesafe.sbt.packager.archetypes">archetypes</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptPlugin" visbl="pub" class="indented7 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="BatStartScriptPlugin"></a><a id="BatStartScriptPlugin:BatStartScriptPlugin"></a>
+    </li><li name="com.typesafe.sbt.packager.archetypes.jlink.JlinkPlugin" visbl="pub" class="indented7 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="JlinkPlugin"></a><a id="JlinkPlugin:JlinkPlugin"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/index.html#BatStartScriptPlugin" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/index.html#JlinkPlugin" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -177,32 +177,19 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="This plugins creates a start bat script to run an application built with the com.typesafe.sbt.packager.archetypes.JavaAppPackaging." href="BatStartScriptPlugin$.html"><span class="name">BatStartScriptPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="ApplicationIniGenerator.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.ApplicationIniGenerator">ApplicationIniGenerator</a> with <a href="CommonStartScriptGenerator.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.CommonStartScriptGenerator">CommonStartScriptGenerator</a></span>
+        <a title="This class contains the default settings for creating and deploying an application as a runtime image using the standard jlink utility." href="JlinkPlugin$.html"><span class="name">JlinkPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
       </span>
       
-      <p class="shortcomment cmt">This plugins creates a start bat script to run an application built with the
-<a href="../JavaAppPackaging$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging">com.typesafe.sbt.packager.archetypes.JavaAppPackaging</a>.</p><div class="fullcomment"><div class="comment cmt"><h4> Bat StartScript Plugin </h4><p>This plugins creates a start bat script to run an application built with the
-<a href="../JavaAppPackaging$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging">com.typesafe.sbt.packager.archetypes.JavaAppPackaging</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts">scripts</a></dd></dl></div>
+      <p class="shortcomment cmt">This class contains the default settings for creating and deploying an
+application as a runtime image using the standard <code>jlink</code> utility.</p><div class="fullcomment"><div class="comment cmt"><h4> Jlink Application </h4><p>This class contains the default settings for creating and deploying an
+application as a runtime image using the standard <code>jlink</code> utility.</p><h4> Configuration </h4><p>This plugin adds new settings to configure your packaged application.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager.archetypes.jlink">jlink</a></dd><div class="block">Example:
+               <ol><li class="cmt"><p>Enable this plugin in your <code>build.sbt</code> with</p><pre>enablePlugins(JlinkPlugin)</pre></li></ol>
+            </div></dl></div>
     </li><li class="current-entities indented7">
-                        <a class="object" href="BatStartScriptPlugin$$BatScriptConfig$.html" title=""></a>
-                        <a class="class" href="BatStartScriptPlugin$$BatScriptConfig.html" title=""></a>
-                        <a href="BatStartScriptPlugin$$BatScriptConfig.html" title="">BatScriptConfig</a>
-                      </li><li class="current-entities indented7">
                         <span class="separator"></span>
-                        <a class="object" href="BatStartScriptPlugin$$Defines$.html" title="Bat defines"></a>
-                        <a href="BatStartScriptPlugin$$Defines$.html" title="Bat defines">Defines</a>
-                      </li><li class="current-entities indented7">
-                        <span class="separator"></span>
-                        <a class="object" href="" title="Bat script replacements"></a>
-                        <a href="" title="Bat script replacements">Replacements</a>
-                      </li><li class="current-entities indented7">
-                        <span class="separator"></span>
-                        <a class="trait" href="CommonStartScriptGenerator$ScriptConfig.html" title=""></a>
-                        <a href="CommonStartScriptGenerator$ScriptConfig.html" title="">ScriptConfig</a>
-                      </li><li class="current-entities indented7">
-                        <span class="separator"></span>
-                        <a class="object" href="BatStartScriptPlugin$$autoImport$.html" title=""></a>
-                        <a href="BatStartScriptPlugin$$autoImport$.html" title="">autoImport</a>
+                        <a class="object" href="" title=""></a>
+                        <a href="" title="">autoImport</a>
                       </li>
               </ul>
             </div>
@@ -211,9 +198,9 @@
             <body class="object value">
       <div id="definition">
         <div class="big-circle object">o</div>
-        <p id="owner"><a href="../../../../../index.html" class="extype" name="com">com</a>.<a href="../../../../index.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../../index.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../../index.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="../index.html" class="extype" name="com.typesafe.sbt.packager.archetypes">archetypes</a>.<a href="index.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts">scripts</a>.<a href="BatStartScriptPlugin$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptPlugin">BatStartScriptPlugin</a></p>
-        <h1>Replacements<span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html" title="Permalink">
+        <p id="owner"><a href="../../../../../index.html" class="extype" name="com">com</a>.<a href="../../../../index.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../../index.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../../index.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="../index.html" class="extype" name="com.typesafe.sbt.packager.archetypes">archetypes</a>.<a href="index.html" class="extype" name="com.typesafe.sbt.packager.archetypes.jlink">jlink</a>.<a href="JlinkPlugin$.html" class="extype" name="com.typesafe.sbt.packager.archetypes.jlink.JlinkPlugin">JlinkPlugin</a></p>
+        <h1>autoImport<span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
@@ -226,17 +213,16 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">Replacements</span>
+        <span class="name">autoImport</span><span class="result"> extends <span class="extype" name="com.typesafe.sbt.packager.archetypes.jlink.JlinkKeys">JlinkKeys</span></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Bat script replacements
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="com.typesafe.sbt.packager.archetypes.jlink.JlinkKeys">JlinkKeys</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -262,7 +248,7 @@
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptPlugin.Replacements"><span>Replacements</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="com.typesafe.sbt.packager.archetypes.jlink.JlinkPlugin.autoImport"><span>autoImport</span></li><li class="in" name="com.typesafe.sbt.packager.archetypes.jlink.JlinkKeys"><span>JlinkKeys</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -292,7 +278,7 @@
                 <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#!=(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#!=(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -308,7 +294,7 @@
     </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="##():Int"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html###():Int" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html###():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -324,7 +310,7 @@
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#==(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#==(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -337,42 +323,10 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptPlugin.Replacements#appDefines" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="appDefines(mainClass:String,config:com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptPlugin.BatScriptConfig,replacements:Seq[(String,String)]):(String,String)"></a><a id="appDefines(String,BatScriptConfig,Seq[(String,String)]):(String,String)"></a>
-      <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#appDefines(mainClass:String,config:com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptPlugin.BatScriptConfig,replacements:Seq[(String,String)]):(String,String)" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">appDefines</span><span class="params">(<span name="mainClass">mainClass: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="config">config: <a href="BatStartScriptPlugin$$BatScriptConfig.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptPlugin.BatScriptConfig">BatScriptConfig</a></span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>)</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)</span>
-      </span>
-      
-      
-    </li><li name="com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptPlugin.Replacements#apply" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="apply(name:String):Seq[(String,String)]"></a><a id="apply(String):Seq[(String,String)]"></a>
-      <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#apply(name:String):Seq[(String,String)]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
-      </span>
-      
-      
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#asInstanceOf[T0]:T0" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#asInstanceOf[T0]:T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -388,7 +342,7 @@
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#clone():Object" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#clone():Object" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -412,7 +366,7 @@
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#eq(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -428,7 +382,7 @@
     </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#equals(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#equals(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -444,7 +398,7 @@
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#finalize():Unit" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#finalize():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -466,7 +420,7 @@
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#getClass():Class[_]" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#getClass():Class[_]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -485,7 +439,7 @@
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#hashCode():Int" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#hashCode():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -504,7 +458,7 @@
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#isInstanceOf[T0]:Boolean" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#isInstanceOf[T0]:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -517,10 +471,58 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.jlink.JlinkKeys#jlinkBuildImage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="jlinkBuildImage:sbt.TaskKey[sbt.File]"></a><a id="jlinkBuildImage:TaskKey[sbt.File]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#jlinkBuildImage:sbt.TaskKey[sbt.File]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">jlinkBuildImage</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<a href="../../../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>JlinkKeys</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.jlink.JlinkKeys#jlinkBundledJvmLocation" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="jlinkBundledJvmLocation:sbt.TaskKey[String]"></a><a id="jlinkBundledJvmLocation:TaskKey[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#jlinkBundledJvmLocation:sbt.TaskKey[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">jlinkBundledJvmLocation</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>JlinkKeys</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.jlink.JlinkKeys#jlinkOptions" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="jlinkOptions:sbt.TaskKey[Seq[String]]"></a><a id="jlinkOptions:TaskKey[Seq[String]]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#jlinkOptions:sbt.TaskKey[Seq[String]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">jlinkOptions</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>JlinkKeys</dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#ne(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -536,7 +538,7 @@
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#notify():Unit" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#notify():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -555,7 +557,7 @@
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#notifyAll():Unit" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#notifyAll():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -574,7 +576,7 @@
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -590,7 +592,7 @@
     </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#toString():String" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#toString():String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -606,7 +608,7 @@
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#wait():Unit" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#wait():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -628,7 +630,7 @@
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -650,7 +652,7 @@
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BatStartScriptPlugin$$Replacements$.html#wait(x$1:Long):Unit" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$autoImport$.html#wait(x$1:Long):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -681,7 +683,9 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="com.typesafe.sbt.packager.archetypes.jlink.JlinkKeys">
+              <h3>Inherited from <span class="extype" name="com.typesafe.sbt.packager.archetypes.jlink.JlinkKeys">JlinkKeys</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

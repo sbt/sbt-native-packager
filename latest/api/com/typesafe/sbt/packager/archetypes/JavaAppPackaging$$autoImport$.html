@@ -198,7 +198,7 @@ The keys are defined in <a href="JavaAppKeys.html" class="extype" name="com.type
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">autoImport</span><span class="result"> extends <a href="JavaAppKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys">JavaAppKeys</a> with <a href="MaintainerScriptHelper.html" class="extype" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper">MaintainerScriptHelper</a></span>
+        <span class="name">autoImport</span><span class="result"> extends <a href="JavaAppKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys">JavaAppKeys</a> with <span class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys2">JavaAppKeys2</span> with <a href="MaintainerScriptHelper.html" class="extype" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper">MaintainerScriptHelper</a></span>
       </span>
       </h4>
 
@@ -207,7 +207,7 @@ The keys are defined in <a href="JavaAppKeys.html" class="extype" name="com.type
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="MaintainerScriptHelper.html" class="extype" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper">MaintainerScriptHelper</a>, <a href="JavaAppKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys">JavaAppKeys</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="MaintainerScriptHelper.html" class="extype" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper">MaintainerScriptHelper</a>, <span class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys2">JavaAppKeys2</span>, <a href="JavaAppKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys">JavaAppKeys</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -233,7 +233,7 @@ The keys are defined in <a href="JavaAppKeys.html" class="extype" name="com.type
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging.autoImport"><span>autoImport</span></li><li class="in" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper"><span>MaintainerScriptHelper</span></li><li class="in" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys"><span>JavaAppKeys</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="com.typesafe.sbt.packager.archetypes.JavaAppPackaging.autoImport"><span>autoImport</span></li><li class="in" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper"><span>MaintainerScriptHelper</span></li><li class="in" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys2"><span>JavaAppKeys2</span></li><li class="in" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys"><span>JavaAppKeys</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -340,6 +340,22 @@ The keys are defined in <a href="JavaAppKeys.html" class="extype" name="com.type
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="JavaAppKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys">JavaAppKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.JavaAppKeys2#bundledJvmLocation" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="bundledJvmLocation:sbt.TaskKey[Option[String]]"></a><a id="bundledJvmLocation:TaskKey[Option[String]]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/archetypes/JavaAppPackaging$$autoImport$.html#bundledJvmLocation:sbt.TaskKey[Option[String]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">bundledJvmLocation</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>JavaAppKeys2</dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
@@ -765,6 +781,8 @@ maintainerScripts in Debian := maintainerScriptsFromDirectory(
         <div id="inheritedMembers">
         <div class="parent" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper">
               <h3>Inherited from <a href="MaintainerScriptHelper.html" class="extype" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper">MaintainerScriptHelper</a></h3>
+            </div><div class="parent" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys2">
+              <h3>Inherited from <span class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys2">JavaAppKeys2</span></h3>
             </div><div class="parent" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys">
               <h3>Inherited from <a href="JavaAppKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys">JavaAppKeys</a></h3>
             </div><div class="parent" name="scala.AnyRef">
