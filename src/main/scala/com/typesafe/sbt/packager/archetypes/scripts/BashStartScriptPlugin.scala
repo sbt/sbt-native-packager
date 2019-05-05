@@ -55,7 +55,11 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
   override def projectSettings: Seq[Setting[_]] = Seq(
     bashScriptTemplateLocation := (sourceDirectory.value / "templates" / bashTemplate),
     bashScriptExtraDefines := Nil,
-    bashScriptDefines := Defines((scriptClasspath in bashScriptDefines).value, bashScriptConfigLocation.value),
+    bashScriptDefines := Defines(
+      (scriptClasspath in bashScriptDefines).value,
+      bashScriptConfigLocation.value,
+      bundledJvmLocation.value
+    ),
     bashScriptDefines ++= bashScriptExtraDefines.value,
     bashScriptReplacements := generateScriptReplacements(bashScriptDefines.value),
     // Create a bashConfigLocation if options are set in build.sbt
@@ -100,6 +104,10 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
     */
   object Defines {
 
+    @deprecated("1.3.21", "")
+    def apply(appClasspath: Seq[String], configFile: Option[String]): Seq[String] =
+      apply(appClasspath, configFile, None)
+
     /**
       * Creates the block of defines for a script.
       *
@@ -107,8 +115,10 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       *                     to include on the classpath.
       * @param configFile An (optional) filename from which the script will read arguments.
       */
-    def apply(appClasspath: Seq[String], configFile: Option[String]): Seq[String] =
-      (configFile map configFileDefine).toSeq ++ Seq(makeClasspathDefine(appClasspath))
+    def apply(appClasspath: Seq[String], configFile: Option[String], bundledJvm: Option[String]): Seq[String] =
+      (configFile map configFileDefine).toSeq ++
+        Seq(makeClasspathDefine(appClasspath)) ++
+        (bundledJvm map bundledJvmDefine).toSeq
 
     private[this] def makeClasspathDefine(cp: Seq[String]): String = {
       val fullString = cp map (
@@ -121,6 +131,9 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
 
     private[this] def configFileDefine(configFile: String) =
       "declare -r script_conf_file=\"%s\"" format configFile
+
+    private[this] def bundledJvmDefine(bundledJvm: String) =
+      """declare -r bundled_jvm="$(dirname "$app_home")/%s"""" format bundledJvm
   }
 
   private[this] def usageMainClassReplacement(mainClasses: Seq[String]): String =

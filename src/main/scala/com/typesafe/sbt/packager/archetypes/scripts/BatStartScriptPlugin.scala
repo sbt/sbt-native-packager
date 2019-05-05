@@ -49,9 +49,59 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
                                              configLocation: Option[String],
                                              extraDefines: Seq[String],
                                              override val replacements: Seq[(String, String)],
-                                             override val templateLocation: File)
+                                             override val templateLocation: File,
+                                             bundledJvmLocation: Option[String])
       extends ScriptConfig {
+
+    @deprecated("1.3.21", "")
+    def this(executableScriptName: String,
+             scriptClasspath: Seq[String],
+             configLocation: Option[String],
+             extraDefines: Seq[String],
+             replacements: Seq[(String, String)],
+             templateLocation: File) =
+      this(executableScriptName, scriptClasspath, configLocation, extraDefines, replacements, templateLocation, None)
+
+    @deprecated("1.3.21", "")
+    def copy(executableScriptName: String = executableScriptName,
+             scriptClasspath: Seq[String] = scriptClasspath,
+             configLocation: Option[String] = configLocation,
+             extraDefines: Seq[String] = extraDefines,
+             replacements: Seq[(String, String)] = replacements,
+             templateLocation: File = templateLocation): BatScriptConfig =
+      BatScriptConfig(
+        executableScriptName,
+        scriptClasspath,
+        configLocation,
+        extraDefines,
+        replacements,
+        templateLocation,
+        bundledJvmLocation
+      )
+
     override def withScriptName(scriptName: String): BatScriptConfig = copy(executableScriptName = scriptName)
+  }
+
+  object BatScriptConfig
+      extends scala.runtime.AbstractFunction6[String, Seq[String], Option[String], Seq[String], Seq[(String, String)], File, BatScriptConfig] {
+
+    @deprecated("1.3.21", "")
+    def apply(executableScriptName: String,
+              scriptClasspath: Seq[String],
+              configLocation: Option[String],
+              extraDefines: Seq[String],
+              replacements: Seq[(String, String)],
+              templateLocation: File): BatScriptConfig =
+      BatScriptConfig(
+        executableScriptName,
+        scriptClasspath,
+        configLocation,
+        extraDefines,
+        replacements,
+        templateLocation,
+        None
+      )
+
   }
 
   override protected[this] type SpecializedScriptConfig = BatScriptConfig
@@ -76,7 +126,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
         configLocation = batScriptConfigLocation.value,
         extraDefines = batScriptExtraDefines.value,
         replacements = batScriptReplacements.value,
-        templateLocation = batScriptTemplateLocation.value
+        templateLocation = batScriptTemplateLocation.value,
+        bundledJvmLocation = bundledJvmLocation.value
       ),
       (mainClass in (Compile, batScriptReplacements)).value,
       (discoveredMainClasses in Compile).value,
@@ -106,6 +157,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
                    replacements: Seq[(String, String)]): (String, String) = {
       val defines = Seq(makeWindowsRelativeClasspathDefine(config.scriptClasspath), Defines.mainClass(mainClass)) ++
         config.configLocation.map(Defines.configFileDefine) ++
+        config.bundledJvmLocation.map(Defines.bundledJvmDefine) ++
         config.extraDefines
       "APP_DEFINES" -> Defines(defines, replacements)
     }
@@ -134,6 +186,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
 
     def mainClass(mainClass: String): String = s"""set "APP_MAIN_CLASS=$mainClass""""
     def configFileDefine(configFile: String): String = s"""set "SCRIPT_CONF_FILE=$configFile""""
+    def bundledJvmDefine(bundledJvm: String): String =
+      s"""set "BUNDLED_JVM=%APP_HOME%\\$bundledJvm"""
 
     // TODO - use more of the template writer for this...
     private[this] def replace(line: String, replacements: Seq[(String, String)]): String =
