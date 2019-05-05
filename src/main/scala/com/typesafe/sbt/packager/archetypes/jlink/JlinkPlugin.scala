@@ -44,7 +44,7 @@ object JlinkPlugin extends AutoPlugin {
       val log = streams.value.log
       val run = runJavaTool(javaHome.in(jlinkBuildImage).value, log) _
 
-      val paths = fullClasspath.in(Compile).value.map(_.data.toString)
+      val paths = fullClasspath.in(Compile).value.map(_.data.getPath)
       val modules =
         (run("jdeps", "-R" +: "--print-module-deps" +: paths) !! log).trim
           .split(",")
