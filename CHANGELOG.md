@@ -1,12 +1,22 @@
 # Change Log
 
-## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+## [v1.3.21](https://github.com/sbt/sbt-native-packager/tree/v1.3.21) (2019-05-05)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.20...v1.3.21)
 
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.20...HEAD)
+**Fixed bugs:**
+
+- docker:publish fails if the given daemonGroupGid does not exists [\#1218](https://github.com/sbt/sbt-native-packager/issues/1218)
 
 **Closed issues:**
 
 - Idea: package an app for homebrew? [\#1210](https://github.com/sbt/sbt-native-packager/issues/1210)
+
+**Merged pull requests:**
+
+- Add a simple jlink wrapper [\#1220](https://github.com/sbt/sbt-native-packager/pull/1220) ([nigredo-tori](https://github.com/nigredo-tori))
+- Bug \#1218: docker:publishLocal fails because of non-existent gid [\#1219](https://github.com/sbt/sbt-native-packager/pull/1219) ([NicolasRouquette](https://github.com/NicolasRouquette))
+- correct sbt console example [\#1214](https://github.com/sbt/sbt-native-packager/pull/1214) ([mcanlas](https://github.com/mcanlas))
+- Log rpm output to error or info depending on exit code [\#1212](https://github.com/sbt/sbt-native-packager/pull/1212) ([Falmarri](https://github.com/Falmarri))
 
 ## [v1.3.20](https://github.com/sbt/sbt-native-packager/tree/v1.3.20) (2019-03-29)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.3.19...v1.3.20)
@@ -1159,7 +1169,6 @@
 
 **Merged pull requests:**
 
-- Release preparations [\#550](https://github.com/sbt/sbt-native-packager/pull/550) ([muuki88](https://github.com/muuki88))
 - Fix warnings from rpm lint [\#547](https://github.com/sbt/sbt-native-packager/pull/547) ([dwhjames](https://github.com/dwhjames))
 - Fixing docs with newest changes [\#546](https://github.com/sbt/sbt-native-packager/pull/546) ([muuki88](https://github.com/muuki88))
 - fix for issue \#529 [\#544](https://github.com/sbt/sbt-native-packager/pull/544) ([dwhjames](https://github.com/dwhjames))
@@ -1193,6 +1202,7 @@
 
 **Merged pull requests:**
 
+- Release preparations [\#550](https://github.com/sbt/sbt-native-packager/pull/550) ([muuki88](https://github.com/muuki88))
 - Improvements to RPM documentation [\#535](https://github.com/sbt/sbt-native-packager/pull/535) ([dwhjames](https://github.com/dwhjames))
 - Fix and improve docs for rpmAutoreq and rpmAutoprov [\#534](https://github.com/sbt/sbt-native-packager/pull/534) ([dwhjames](https://github.com/dwhjames))
 - !Update default dockerBaseImage to official repo [\#533](https://github.com/sbt/sbt-native-packager/pull/533) ([danielwegener](https://github.com/danielwegener))
@@ -1488,7 +1498,6 @@
 - fix minor spelling mistakes [\#338](https://github.com/sbt/sbt-native-packager/pull/338) ([mmorearty](https://github.com/mmorearty))
 - change plugin version to 0.7.5-RC1 in documentation  [\#337](https://github.com/sbt/sbt-native-packager/pull/337) ([aviks](https://github.com/aviks))
 - Added support for classifiers in multiproject builds [\#333](https://github.com/sbt/sbt-native-packager/pull/333) ([jroper](https://github.com/jroper))
-- Implemented the changelog to RPM [\#332](https://github.com/sbt/sbt-native-packager/pull/332) ([antonini](https://github.com/antonini))
 - flag to update latest tag [\#317](https://github.com/sbt/sbt-native-packager/pull/317) ([rfranco](https://github.com/rfranco))
 
 ## [v0.7.5-RC1](https://github.com/sbt/sbt-native-packager/tree/v0.7.5-RC1) (2014-08-20)
@@ -1509,6 +1518,7 @@
 
 **Merged pull requests:**
 
+- Implemented the changelog to RPM [\#332](https://github.com/sbt/sbt-native-packager/pull/332) ([antonini](https://github.com/antonini))
 - Fix RPM System User Deletion on Upgrade [\#326](https://github.com/sbt/sbt-native-packager/pull/326) ([pcting](https://github.com/pcting))
 - FIX \#324 adding empty dirs to deb package [\#325](https://github.com/sbt/sbt-native-packager/pull/325) ([kardapoltsev](https://github.com/kardapoltsev))
 - FIX \#322 adding permissions to jdeb packaging [\#323](https://github.com/sbt/sbt-native-packager/pull/323) ([kardapoltsev](https://github.com/kardapoltsev))
@@ -1548,7 +1558,6 @@
 **Merged pull requests:**
 
 - Update README now that 0.7.2 is released [\#300](https://github.com/sbt/sbt-native-packager/pull/300) ([benmccann](https://github.com/benmccann))
-- Adding docs for name-delegation in \#250 [\#299](https://github.com/sbt/sbt-native-packager/pull/299) ([muuki88](https://github.com/muuki88))
 - Fixes \#292 - Not feeding new isSnapshot value to ivy configuration. [\#298](https://github.com/sbt/sbt-native-packager/pull/298) ([jsuereth](https://github.com/jsuereth))
 - \[docker\] add build --force-rm [\#294](https://github.com/sbt/sbt-native-packager/pull/294) ([rfranco](https://github.com/rfranco))
 - fix order of docker commands [\#293](https://github.com/sbt/sbt-native-packager/pull/293) ([rfranco](https://github.com/rfranco))
@@ -1618,6 +1627,7 @@
 
 **Merged pull requests:**
 
+- Adding docs for name-delegation in \#250 [\#299](https://github.com/sbt/sbt-native-packager/pull/299) ([muuki88](https://github.com/muuki88))
 - Setting correct version and adding import statements [\#261](https://github.com/sbt/sbt-native-packager/pull/261) ([muuki88](https://github.com/muuki88))
 
 ## [v0.7.1](https://github.com/sbt/sbt-native-packager/tree/v0.7.1) (2014-05-19)
@@ -1874,6 +1884,7 @@
 - task \#54: Template Directories for Debian package [\#63](https://github.com/sbt/sbt-native-packager/pull/63) ([muuki88](https://github.com/muuki88))
 - Fixing debian package installation/deinstallation [\#60](https://github.com/sbt/sbt-native-packager/pull/60) ([muuki88](https://github.com/muuki88))
 - bat-template pass arguments [\#59](https://github.com/sbt/sbt-native-packager/pull/59) ([rmgk](https://github.com/rmgk))
+- Prefer normalizedName for linux-friendly packages, rather than requiring... [\#41](https://github.com/sbt/sbt-native-packager/pull/41) ([jsuereth](https://github.com/jsuereth))
 
 ## [v0.6.3](https://github.com/sbt/sbt-native-packager/tree/v0.6.3) (2013-11-01)
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v0.6.2...v0.6.3)
@@ -1901,7 +1912,6 @@
 - Update README.md [\#49](https://github.com/sbt/sbt-native-packager/pull/49) ([schmmd](https://github.com/schmmd))
 - Fixes \#39 - Unable to follow symlinks. [\#45](https://github.com/sbt/sbt-native-packager/pull/45) ([jsuereth](https://github.com/jsuereth))
 - Working on \#42 [\#44](https://github.com/sbt/sbt-native-packager/pull/44) ([muuki88](https://github.com/muuki88))
-- Prefer normalizedName for linux-friendly packages, rather than requiring... [\#41](https://github.com/sbt/sbt-native-packager/pull/41) ([jsuereth](https://github.com/jsuereth))
 - Fix \#11 debian symlinks now absolute. Maybe by default for all? [\#40](https://github.com/sbt/sbt-native-packager/pull/40) ([muuki88](https://github.com/muuki88))
 - fix two typos in code examples in the doc. [\#36](https://github.com/sbt/sbt-native-packager/pull/36) ([gourlaysama](https://github.com/gourlaysama))
 - Fixed typo, shortened hash string padding and removed debug printlns [\#33](https://github.com/sbt/sbt-native-packager/pull/33) ([ptrbrtz](https://github.com/ptrbrtz))
