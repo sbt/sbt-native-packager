@@ -147,7 +147,7 @@ object DockerPlugin extends AutoPlugin {
 
       val stage1: Seq[CmdLike] = generalCommands ++
         (uidOpt match {
-          case Some(_) => Seq(makeUser("root"), makeUserAdd(user, uidOpt, gidOpt))
+          case Some(_) => Seq(makeUser("root"), makeUserAdd(user, group, uidOpt, gidOpt))
           case _       => Seq()
         }) ++
         Seq(makeWorkdir(dockerBaseDirectory)) ++
@@ -167,7 +167,7 @@ object DockerPlugin extends AutoPlugin {
         makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
         makeVolumes(dockerExposedVolumes.value, user, group) ++
         Seq(uidOpt match {
-          case Some(uid) => makeUser(uid)
+          case Some(uid) => makeUser(uid, gidOpt)
           case _         => makeUser(user)
         }) ++
         // Use this to debug permissions
@@ -350,25 +350,35 @@ object DockerPlugin extends AutoPlugin {
 
   /**
     * @param daemonUser
+    * @param daemonGroup
     * @param uidOpt
     * @param gidOpt
-    * @return useradd to create the daemon user with the given uidOpt and gidOpt
+    * @return useradd to create the daemon user with the given uidOpt and gidOpt after invoking groupadd to
+    *         create the daemon group if the given gidOpt does not exists.
     */
-  private final def makeUserAdd(daemonUser: String, uidOpt: Option[String], gidOpt: Option[String]): CmdLike =
+  private final def makeUserAdd(daemonUser: String,
+                                daemonGroup: String,
+                                uidOpt: Option[String],
+                                gidOpt: Option[String]): CmdLike =
     Cmd(
       "RUN",
-      (List("id", "-u", daemonUser, "2>", "/dev/null", "||", "useradd", "--system", "--create-home") :::
+      (List("id", "-u", daemonUser, "2>", "/dev/null", "||") :::
+        (gidOpt.fold[List[String]](Nil)(
+        gid => List("((", "getent", "group", gid, "||", "groupadd", "-g", gid, daemonGroup, ")", "&&")
+      )) :::
+        List("useradd", "--system", "--create-home") :::
         (uidOpt.fold[List[String]](Nil)(List("--uid", _))) :::
         (gidOpt.fold[List[String]](Nil)(List("--gid", _))) :::
-        List(daemonUser)): _*
+        List(daemonUser, ")")): _*
     )
 
   /**
     * @param daemonUser
+    * @param daemonGroupOpt
     * @return USER docker command
     */
-  private final def makeUser(daemonUser: String): CmdLike =
-    Cmd("USER", daemonUser)
+  private final def makeUser(daemonUser: String, daemonGroupOpt: Option[String] = None): CmdLike =
+    Cmd("USER", daemonGroupOpt.fold(daemonUser)(daemonUser + ":" + _))
 
   /**
     * @param entrypoint
@@ -582,7 +592,7 @@ object DockerPlugin extends AutoPlugin {
              |
              |You can display the parsed docker version in the sbt console with:
              |
-             |  $ sbt show dockerVersion
+             |  sbt:your-project> show dockerVersion
              |
              |As a last resort you could hard code the docker version, but it's not recommended!!
              |
