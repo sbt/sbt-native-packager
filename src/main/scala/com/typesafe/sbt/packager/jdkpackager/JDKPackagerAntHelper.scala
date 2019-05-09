@@ -176,8 +176,8 @@ object JDKPackagerAntHelper {
     if (antTaskLib.isEmpty) {
       sys.error(
         "Please set key `antPackagerTasks in JDKPackager` to `ant-javafx.jar` path, " +
-          "which should be find in the `lib` directory of the Oracle JDK 8 installation. For example (Windows):\n" +
-          """(antPackagerTasks in JDKPackager) := Some("C:\\Program Files\\Java\\jdk1.8.0_45\\lib\\ant-javafx.jar")"""
+          "which should be found in the `lib` directory of the Oracle JDK 8 installation. For example (Windows):\n" +
+          """(antPackagerTasks in JDKPackager) := Some(file("C:\\Program Files\\Java\\jdk1.8.0_45\\lib\\ant-javafx.jar"))"""
       )
     }
 
