@@ -7,6 +7,8 @@ import sbt._
   * Available settings/tasks for the [[com.typesafe.sbt.packager.archetypes.jlink.JlinkPlugin]].
   */
 private[packager] trait JlinkKeys {
+  val jdepsOptions =
+    SettingKey[Seq[String]]("jdepsOptions", "Options for the jdeps utility")
 
   val jlinkBundledJvmLocation =
     TaskKey[String]("jlinkBundledJvmLocation", "The location of the resulting JVM image")

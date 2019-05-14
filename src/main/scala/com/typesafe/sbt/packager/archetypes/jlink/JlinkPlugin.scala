@@ -39,6 +39,7 @@ object JlinkPlugin extends AutoPlugin {
     target in jlinkBuildImage := target.value / "jlink" / "output",
     jlinkBundledJvmLocation := "jre",
     bundledJvmLocation := Some(jlinkBundledJvmLocation.value),
+    jdepsOptions := Seq("-R", "--print-module-deps"),
     jlinkOptions := (jlinkOptions ?? Nil).value,
     jlinkOptions ++= {
       val log = streams.value.log
@@ -46,7 +47,7 @@ object JlinkPlugin extends AutoPlugin {
 
       val paths = fullClasspath.in(Compile).value.map(_.data.getPath)
       val modules =
-        (run("jdeps", "-R" +: "--print-module-deps" +: paths) !! log).trim
+        (run("jdeps", jdepsOptions.value ++ paths) !! log).trim
           .split(",")
 
       JlinkOptions(addModules = modules, output = Some(target.in(jlinkBuildImage).value))
