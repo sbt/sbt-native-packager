@@ -29,7 +29,9 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin
   */
 object JlinkPlugin extends AutoPlugin {
 
-  object autoImport extends JlinkKeys
+  object autoImport extends JlinkKeys {
+    val JlinkIgnore = JlinkPlugin.Ignore
+  }
 
   import autoImport._
 
@@ -39,15 +41,61 @@ object JlinkPlugin extends AutoPlugin {
     target in jlinkBuildImage := target.value / "jlink" / "output",
     jlinkBundledJvmLocation := "jre",
     bundledJvmLocation := Some(jlinkBundledJvmLocation.value),
-    jlinkOptions := (jlinkOptions ?? Nil).value,
-    jlinkOptions ++= {
+    jlinkIgnoreMissingDependency :=
+      (jlinkIgnoreMissingDependency ?? JlinkIgnore.nothing).value,
+    // Don't use `fullClasspath in Compile` directly - this way we can inject
+    // custom classpath elements for the scan.
+    fullClasspath in jlinkBuildImage := (fullClasspath in Compile).value,
+    jlinkModules := (jlinkModules ?? Nil).value,
+    jlinkModules ++= {
       val log = streams.value.log
       val run = runJavaTool(javaHome.in(jlinkBuildImage).value, log) _
+      val paths = fullClasspath.in(jlinkBuildImage).value.map(_.data.getPath)
+      val shouldIgnore = jlinkIgnoreMissingDependency.value
 
-      val paths = fullClasspath.in(Compile).value.map(_.data.getPath)
-      val modules =
-        (run("jdeps", "-R" +: "--print-module-deps" +: paths) !! log).trim
-          .split(",")
+      // Jdeps has a few convenient options (like --print-module-deps), but those
+      // are not flexible enough - we need to parse the full output.
+      val output = run("jdeps", "-R" +: paths) !! log
+
+      val deps = output.linesIterator
+      // There are headers in some of the lines - ignore those.
+        .flatMap(PackageDependency.parse(_).iterator)
+        .toSeq
+
+      // Check that we don't have any dangling dependencies that were not
+      // explicitly ignored.
+      val missingDeps = deps
+        .collect {
+          case PackageDependency(dependent, dependee, PackageDependency.NotFound) =>
+            (dependent, dependee)
+        }
+        .filterNot(shouldIgnore)
+        .distinct
+
+      if (missingDeps.nonEmpty) {
+        log.error(
+          "Dependee packages not found in classpath. You can use jlinkIgnoreMissingDependency to silence these."
+        )
+        missingDeps.foreach {
+          case (a, b) =>
+            log.error(s"  $a -> $b")
+        }
+        sys.error("Missing package dependencies")
+      }
+
+      // Collect all the found modules
+      deps.collect {
+        case PackageDependency(_, _, PackageDependency.Module(module)) =>
+          module
+      }.distinct
+    },
+    jlinkOptions := (jlinkOptions ?? Nil).value,
+    jlinkOptions ++= {
+      val modules = jlinkModules.value
+
+      if (modules.isEmpty) {
+        sys.error("jlinkModules is empty")
+      }
 
       JlinkOptions(addModules = modules, output = Some(target.in(jlinkBuildImage).value))
     },
@@ -101,5 +149,44 @@ object JlinkPlugin extends AutoPlugin {
 
     private def list(arg: String, values: Seq[String]): Seq[String] =
       if (values.nonEmpty) Seq(arg, values.mkString(",")) else Nil
+  }
+
+  // Jdeps output row
+  private final case class PackageDependency(dependent: String, dependee: String, source: PackageDependency.Source)
+
+  private final object PackageDependency {
+    sealed trait Source
+
+    object Source {
+      def parse(s: String): Source = s match {
+        case "not found" => NotFound
+        // We have no foolproof way to separate jars from modules here, so
+        // we have to do something flaky.
+        case name
+            if name.toLowerCase.endsWith(".jar") ||
+              !name.contains('.') ||
+              name.contains(' ') =>
+          JarOrDir(name)
+        case name => Module(name)
+      }
+    }
+
+    case object NotFound extends Source
+    final case class Module(name: String) extends Source
+    final case class JarOrDir(name: String) extends Source
+
+    private val pattern = """^\s+([^\s]+)\s+->\s+([^\s]+)\s+([^\s].*?)\s*$""".r
+
+    def parse(s: String): Option[PackageDependency] = s match {
+      case pattern(dependent, dependee, source) =>
+        Some(PackageDependency(dependent, dependee, Source.parse(source)))
+      case _ => None
+    }
+  }
+
+  object Ignore {
+    val nothing: ((String, String)) => Boolean = Function.const(false)
+    val everything: ((String, String)) => Boolean = Function.const(true)
+    def only(dependencies: (String, String)*): ((String, String)) => Boolean = dependencies.toSet.contains
   }
 }

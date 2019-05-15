@@ -11,6 +11,14 @@ private[packager] trait JlinkKeys {
   val jlinkBundledJvmLocation =
     TaskKey[String]("jlinkBundledJvmLocation", "The location of the resulting JVM image")
 
+  val jlinkModules = TaskKey[Seq[String]]("jlinkModules", "Modules to link")
+
+  val jlinkIgnoreMissingDependency =
+    TaskKey[((String, String)) => Boolean](
+      "jlinkIgnoreMissingDependency",
+      "A hook to mask missing package dependency issues"
+    )
+
   val jlinkOptions =
     TaskKey[Seq[String]]("jlinkOptions", "Options for the jlink utility")
 

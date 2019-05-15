@@ -1,0 +1,5 @@
+> compile
+# Should fail since we have a missing dependency.
+-> withoutIgnore/jlinkBuildImage
+# Should work OK since the issue is silenced
+> withIgnore/jlinkBuildImage

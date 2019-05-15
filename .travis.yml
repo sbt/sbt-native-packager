@@ -81,6 +81,10 @@ jobs:
       name: "scripted jlink tests"
       jdk: oraclejdk11
       if: type = pull_request OR (type = push AND branch = master)
+    - script: sbt "^validateJlink"
+      name: "scripted jlink tests"
+      jdk: oraclejdk12
+      if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateDocker"
       name: "scripted docker integration-tests"
       if: type = pull_request OR (type = push AND branch = master)
