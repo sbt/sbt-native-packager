@@ -1,21 +1,39 @@
 #!/bin/bash
 # Make GraalVM `native-image` available and nothing else
-GRAALVM_VERSION=1.0.0-rc8
-GRAALVM_DISTRIBUTION=graalvm-ce-${GRAALVM_VERSION}
+function setup_os_specific_envs() {
+	case $(uname | tr '[:upper:]' '[:lower:]') in
+		linux*)
+			OS_NAME=linux
+			BIN_PATH=bin
+			;;
+		darwin*)
+			OS_NAME=darwin
+			BIN_PATH=Contents/Home/bin/
+			;;
+		*)
+			echo "Unsupported OS"
+			exit
+	esac
+}
+
+setup_os_specific_envs
+GRAALVM_VERSION=19.0.0
 GRAALVM_PARENT_DIRECTORY=${HOME}/.local/share
-GRAAL_DIRECTORY=${GRAALVM_PARENT_DIRECTORY}/${GRAALVM_DISTRIBUTION}
-TAR_GZ_FILENAME=${GRAALVM_DISTRIBUTION}-linux-amd64.tar.gz
+GRAALVM_DISTRIBUTION=graalvm-ce
+GRAAL_DIRECTORY=${GRAALVM_PARENT_DIRECTORY}/${GRAALVM_DISTRIBUTION}-${GRAALVM_VERSION}
+TAR_GZ_FILENAME=${GRAALVM_DISTRIBUTION}-${OS_NAME}-amd64-${GRAALVM_VERSION}.tar.gz
 TAR_GZ_URL=https://github.com/oracle/graal/releases/download/vm-${GRAALVM_VERSION}/${TAR_GZ_FILENAME}
-NATIVE_IMAGE=${GRAAL_DIRECTORY}/bin/native-image
+NATIVE_IMAGE=${GRAAL_DIRECTORY}/${BIN_PATH}/native-image
 NATIVE_IMAGE_TARGET_DIRECTORY=${HOME}/.local/bin
 NATIVE_IMAGE_TARGET=${NATIVE_IMAGE_TARGET_DIRECTORY}/native-image
 if [[ ! -f ${NATIVE_IMAGE} ]]
 then
-  (mkdir -p ${GRAALVM_PARENT_DIRECTORY} &&
-    cd ${GRAALVM_PARENT_DIRECTORY} &&
-    wget -O ${TAR_GZ_FILENAME} ${TAR_GZ_URL} &&
-    tar zxf ${TAR_GZ_FILENAME} &&
-    rm -f ${TAR_GZ_FILENAME})
+	(mkdir -p ${GRAALVM_PARENT_DIRECTORY} &&
+		cd ${GRAALVM_PARENT_DIRECTORY} &&
+		wget -O ${TAR_GZ_FILENAME} ${TAR_GZ_URL} &&
+		tar zxf ${TAR_GZ_FILENAME} &&
+		${GRAAL_DIRECTORY}/${BIN_PATH}/gu install native-image &&
+		rm -f ${TAR_GZ_FILENAME})
 fi
 ls -lsa ${NATIVE_IMAGE}
 mkdir -p ${NATIVE_IMAGE_TARGET_DIRECTORY}
