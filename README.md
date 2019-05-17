@@ -127,8 +127,6 @@ or provide a richer API for a single packaging format.
 - [sbt-newrelic](https://github.com/gilt/sbt-newrelic)
 - [sbt-packager](https://github.com/en-japan/sbt-packer)
 - [sbt-package-courier](https://github.com/alkersan/sbt-package-courier)
-- [sbt-typesafe-conductr](https://github.com/sbt/sbt-conductr)
-
 
 [formats]: http://www.scala-sbt.org/sbt-native-packager/gettingstarted.html#packaging-formats
 [Java application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/index.html
