@@ -119,7 +119,6 @@ or provide a richer API for a single packaging format.
 
 - [sbt-aether](https://github.com/arktekk/sbt-aether-deploy)
 - [sbt-assembly](https://github.com/sbt/sbt-assembly)
-- [sbt-bundle](https://github.com/sbt/sbt-bundle)
 - [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
   - This is in addition to the built-in [Docker Plugin](http://www.scala-sbt.org/sbt-native-packager/formats/docker.html) from  sbt-native.  Both generate docker images. `sbt-docker` provides more customization abilities, while the `DockerPlugin` in this project  integrates more directly with predefined archetypes.
 - [sbt-docker-containers](https://github.com/Dwolla/sbt-docker-containers) - enhances sbt-native-packager's docker functionality.
