@@ -69,6 +69,13 @@ object DockerPlugin extends AutoPlugin {
   // Some of the default values are now provided in the global setting based on
   // sbt plugin best practice: https://www.scala-sbt.org/release/docs/Plugins-Best-Practices.html#Provide+default+values+in
   override lazy val globalSettings: Seq[Setting[_]] = Seq(
+    // See https://github.com/sbt/sbt-native-packager/issues/1187
+    // Note: Do not make this setting depend on the Docker version.
+    // Docker version may change depending on the person running the build, or even with something like
+    // `eval $(minikube docker-env)`.
+    // The Docker image the build creates should be repeatable regardless of who runs it as much as possible.
+    // Instead of making dockerPermissionStrategy dependent on the Docker version, what we do instead is to
+    // run validation, and warn the build users if the strategy is not compatible with `docker` that's in scope.
     dockerPermissionStrategy := DockerPermissionStrategy.MultiStage,
     dockerChmodType := DockerChmodType.UserGroupReadExecute
   )
