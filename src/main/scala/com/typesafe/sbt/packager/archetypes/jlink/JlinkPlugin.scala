@@ -175,6 +175,22 @@ object JlinkPlugin extends AutoPlugin {
     final case class Module(name: String) extends Source
     final case class JarOrDir(name: String) extends Source
 
+    // Examples of package dependencies in jdeps output (whitespace may vary,
+    // but there will always be some leading whitespace):
+    // Dependency on a package(java.lang) in a module (java.base):
+    //   foo.bar -> java.lang java.base
+    // Dependency on a package (scala.collection) in a JAR
+    // (scala-library-2.12.8.jar):
+    //   foo.bar -> scala.collection scala-library-2.12.8.jar
+    // Dependency on a package (foo.baz) in a class directory (classes):
+    //   foo.bar -> foo.baz classes
+    // Missing dependency on a package (qux.quux):
+    //   foo.bar -> qux.quux not found
+    // There are also jar/directory/module-level dependencies, but we are
+    // not interested in those:
+    // foo.jar -> scala-library-2.12.8.jar
+    // classes -> java.base
+    // foo.jar -> not found
     private val pattern = """^\s+([^\s]+)\s+->\s+([^\s]+)\s+([^\s].*?)\s*$""".r
 
     def parse(s: String): Option[PackageDependency] = s match {

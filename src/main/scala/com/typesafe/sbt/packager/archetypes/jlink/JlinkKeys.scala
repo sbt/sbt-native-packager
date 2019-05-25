@@ -16,7 +16,12 @@ private[packager] trait JlinkKeys {
   val jlinkIgnoreMissingDependency =
     TaskKey[((String, String)) => Boolean](
       "jlinkIgnoreMissingDependency",
-      "A hook to mask missing package dependency issues"
+      """A hook to mask missing package dependency issues.
+        |This receives a pair of dependent and dependee packages (where the dependee package is NOT
+        |present in the classpath), and returns true if this dependency should be ignored. Any
+        |missing dependencies that are not ignored will result in an error when running
+        |jlinkBuildImage.
+      """.stripMargin
     )
 
   val jlinkOptions =
