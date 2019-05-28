@@ -41,6 +41,30 @@ addressed in the current plugin version.
 This plugin must be run on the platform of the target installer. The tooling does *not*
 provide a means of creating, say, Windows installers on MacOS, or MacOS on Linux, etc.
 
+The plugin analyzes the dependencies between packages using `jdeps`, and raises an error in case of a missing dependency (e.g. for a provided transitive dependency). The missing dependencies can be suppressed on a case-by-case basis (e.g. if you are sure the missing dependency is properly handled):
+
+.. code-block:: scala
+
+    jlinkIgnoreMissingDependency := JlinkIgnore.only(
+      "foo.bar" -> "bar.baz",
+      "foo.bar" -> "bar.qux"
+    )
+
+For large projects with a lot of dependencies this can get unwieldy. You can implement a more flexible ignore strategy:
+
+.. code-block:: scala
+
+  jlinkIgnoreMissingDependency := {
+    case ("foo.bar", dependee) if dependee.startsWith("bar") => true
+    case _ => false
+  }
+
+Otherwise you may opt out of the check altogether (which is not recommended):
+
+.. code-block:: scala
+
+   jlinkIgnoreMissingDependency := JlinkIgnore.everything
+
 For further details on the capabilities of `jlink`, see the
 `jlink <https://docs.oracle.com/en/java/javase/11/tools/jlink.html>`_ and
 `jdeps <https://docs.oracle.com/en/java/javase/11/tools/jdeps.html>`_ references.
