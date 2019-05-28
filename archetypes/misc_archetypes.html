@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Configuration Archetypes &mdash; sbt-native-packager 1.3.21 documentation</title>
+  <title>Configuration Archetypes &mdash; sbt-native-packager 1.3.22 documentation</title>
   
 
   
@@ -514,6 +514,24 @@ a part of the older JDK versions, those lack some of the newer features, which w
 addressed in the current plugin version.</p>
 <p>This plugin must be run on the platform of the target installer. The tooling does <em>not</em>
 provide a means of creating, say, Windows installers on MacOS, or MacOS on Linux, etc.</p>
+<p>The plugin analyzes the dependencies between packages using <cite>jdeps</cite>, and raises an error in case of a missing dependency (e.g. for a provided transitive dependency). The missing dependencies can be suppressed on a case-by-case basis (e.g. if you are sure the missing dependency is properly handled):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">jlinkIgnoreMissingDependency</span> <span class="o">:=</span> <span class="nc">JlinkIgnore</span><span class="o">.</span><span class="n">only</span><span class="o">(</span>
+  <span class="s">&quot;foo.bar&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar.baz&quot;</span><span class="o">,</span>
+  <span class="s">&quot;foo.bar&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar.qux&quot;</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>For large projects with a lot of dependencies this can get unwieldy. You can implement a more flexible ignore strategy:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">jlinkIgnoreMissingDependency</span> <span class="o">:=</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="o">(</span><span class="s">&quot;foo.bar&quot;</span><span class="o">,</span> <span class="n">dependee</span><span class="o">)</span> <span class="k">if</span> <span class="n">dependee</span><span class="o">.</span><span class="n">startsWith</span><span class="o">(</span><span class="s">&quot;bar&quot;</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="kc">true</span>
+  <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="kc">false</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Otherwise you may opt out of the check altogether (which is not recommended):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">jlinkIgnoreMissingDependency</span> <span class="o">:=</span> <span class="nc">JlinkIgnore</span><span class="o">.</span><span class="n">everything</span>
+</pre></div>
+</div>
 <p>For further details on the capabilities of <cite>jlink</cite>, see the
 <a class="reference external" href="https://docs.oracle.com/en/java/javase/11/tools/jlink.html">jlink</a> and
 <a class="reference external" href="https://docs.oracle.com/en/java/javase/11/tools/jdeps.html">jdeps</a> references.
