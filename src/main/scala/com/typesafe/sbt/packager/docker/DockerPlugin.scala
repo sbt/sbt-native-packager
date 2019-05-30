@@ -371,14 +371,18 @@ object DockerPlugin extends AutoPlugin {
       "RUN",
       (List("id", "-u", daemonUser, "1>/dev/null", "2>&1", "||") :::
         (gidOpt.fold[List[String]](Nil)(
-        gid => List("((", "getent", "group", gid, "1>/dev/null", "2>&1", "||",
-          "(", "type", "groupadd", "1>/dev/null", "2>&1", "&&", "groupadd", "-g", gid, daemonGroup,
-          "||", "addgroup", "-g", gid, "-S", daemonGroup, "))", "&&")
+        gid =>
+          List("((", "getent", "group", gid, "1>/dev/null", "2>&1", "||") :::
+            List("(", "type", "groupadd", "1>/dev/null", "2>&1", "&&") :::
+            List("groupadd", "-g", gid, daemonGroup, "||") :::
+            List("addgroup", "-g", gid, "-S", daemonGroup, "))", "&&")
       )) :::
-        List("(", "type", "useradd", "1>/dev/null", "2>&1", "&&", "useradd", "--system", "--create-home") :::
+        List("(", "type", "useradd", "1>/dev/null", "2>&1", "&&") :::
+        List("useradd", "--system", "--create-home") :::
         (uidOpt.fold[List[String]](Nil)(List("--uid", _))) :::
         (gidOpt.fold[List[String]](Nil)(List("--gid", _))) :::
-        List(daemonUser, "||", "adduser", "-S") :::
+        List(daemonUser, "||") :::
+        List("adduser", "-S") :::
         (uidOpt.fold[List[String]](Nil)(List("-u", _))) :::
         List("-G", daemonGroup, daemonUser, "))")): _*
     )
