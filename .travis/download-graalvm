@@ -18,7 +18,6 @@ function setup_os_specific_envs() {
 
 setup_os_specific_envs
 GRAALVM_VERSION=19.0.0
-GRAALVM_PARENT_DIRECTORY=${HOME}/.local/share
 GRAALVM_DISTRIBUTION=graalvm-ce
 GRAAL_DIRECTORY=${GRAALVM_PARENT_DIRECTORY}/${GRAALVM_DISTRIBUTION}-${GRAALVM_VERSION}
 TAR_GZ_FILENAME=${GRAALVM_DISTRIBUTION}-${OS_NAME}-amd64-${GRAALVM_VERSION}.tar.gz
@@ -34,6 +33,8 @@ then
 		tar zxf ${TAR_GZ_FILENAME} &&
 		${GRAAL_DIRECTORY}/${BIN_PATH}/gu install native-image &&
 		rm -f ${TAR_GZ_FILENAME})
+else
+    echo "GraalVM Native Image already exists"
 fi
 ls -lsa ${NATIVE_IMAGE}
 mkdir -p ${NATIVE_IMAGE_TARGET_DIRECTORY}
