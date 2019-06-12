@@ -369,14 +369,22 @@ object DockerPlugin extends AutoPlugin {
                                 gidOpt: Option[String]): CmdLike =
     Cmd(
       "RUN",
-      (List("id", "-u", daemonUser, "2>", "/dev/null", "||") :::
+      (List("id", "-u", daemonUser, "1>/dev/null", "2>&1", "||") :::
         (gidOpt.fold[List[String]](Nil)(
-        gid => List("((", "getent", "group", gid, "||", "groupadd", "-g", gid, daemonGroup, ")", "&&")
+        gid =>
+          List("((", "getent", "group", gid, "1>/dev/null", "2>&1", "||") :::
+            List("(", "type", "groupadd", "1>/dev/null", "2>&1", "&&") :::
+            List("groupadd", "-g", gid, daemonGroup, "||") :::
+            List("addgroup", "-g", gid, "-S", daemonGroup, "))", "&&")
       )) :::
+        List("(", "type", "useradd", "1>/dev/null", "2>&1", "&&") :::
         List("useradd", "--system", "--create-home") :::
         (uidOpt.fold[List[String]](Nil)(List("--uid", _))) :::
         (gidOpt.fold[List[String]](Nil)(List("--gid", _))) :::
-        List(daemonUser, ")")): _*
+        List(daemonUser, "||") :::
+        List("adduser", "-S") :::
+        (uidOpt.fold[List[String]](Nil)(List("-u", _))) :::
+        List("-G", daemonGroup, daemonUser, "))")): _*
     )
 
   /**
