@@ -16,10 +16,11 @@ cache:
   - $HOME/.sbt
   - $HOME/.m2
   - $HOME/.ivy2
-  - $HOME/.local/share/graalvm-ce-1.0.0-rc8
+  - $GRAALVM_PARENT_DIRECTORY
 
 env:
   global:
+  - GRAALVM_PARENT_DIRECTORY: ${HOME}/.local/share
   - COMMIT_AUTHOR_EMAIL: "sbt-native-packager@muki.rocks"
   - RELEASE_BRANCH: master
   - secure: bK5zEd2s3y+ScGwuGcxlP0tXx83nvurmF/SWuQSmI0A2KRelipGSSY2BTa+URKk9smJusJIZUi72EqEwMHDhxLCfHomjze5BmpJB5Mr3fQI700nxPEA95cbM4Z1G9+K6fYWy2pi5S7Xmz1Sg07bP4sfzyVYlNB20aquLCmB9Llk=
@@ -37,7 +38,7 @@ before_install:
 
 before_script:
 - .travis/download-sbt
-- . .travis/download-graalvm
+- .travis/download-graalvm
 
 # job definitions
 
