@@ -104,7 +104,7 @@ jobs:
       name: "scripted jlink tests"
       if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateDocker"
-      name: "scripted docker integration-tests"1239
+      name: "scripted docker integration-tests"
       if: type = pull_request OR (type = push AND branch = master)
       services: docker
       sudo: required
