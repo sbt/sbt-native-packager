@@ -52,12 +52,12 @@ jobs:
       script: sbt "^validateUniversal"
       if: type = pull_request OR (type = push AND branch = master)
       name: "scripted universal tests"
-      if: type = pull_request OR (type = push AND branch = master)
     - script: |
         $JABBA_HOME/bin/jabba install graalvm@19.0.0
         export JAVA_HOME="$JABBA_HOME/jdk/graalvm@19.0.0" && export PATH="$JAVA_HOME/bin:$PATH" && java -version
         gu install native-image
         sbt "^validateGraalVMNativeImage"
+      if: type = pull_request OR (type = push AND branch = master)
       name: "scripted GraalVM native-image tests"
     - script: sbt "^validateJar"
       name: "scripted jar tests"
