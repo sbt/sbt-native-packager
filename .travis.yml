@@ -40,7 +40,7 @@ before_install:
     fi
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
       export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK" && export PATH="$JAVA_HOME/bin:$PATH" && java -version;
-    elfi [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+    elif [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK/Contents/Home" && export PATH="$JAVA_HOME/bin:$PATH" && java -version;
     fi
 
