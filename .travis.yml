@@ -75,6 +75,7 @@ jobs:
       if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateJdkPackagerTravis"
       name: "scripted jdk-packager tests"
+      jdk: oraclejdk11
       if: type = pull_request OR (type = push AND branch = master)
       # docker configuration as described in
       # https://docs.travis-ci.com/user/docker/
@@ -93,6 +94,7 @@ jobs:
       sudo: required
     - script: sbt "^validateOSX"
       name: "scripted osx tests"
+      jdk: oraclejdk11
       if: type = pull_request OR (type = push AND branch = master)
       os: osx
       osx_image: xcode8
