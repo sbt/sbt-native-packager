@@ -94,7 +94,7 @@ jobs:
       sudo: required
     - script: sbt "^validateOSX"
       name: "scripted osx tests"
-      jdk: oraclejdk11
+      jdk: openjdk11
       if: type = pull_request OR (type = push AND branch = master)
       os: osx
       osx_image: xcode8
