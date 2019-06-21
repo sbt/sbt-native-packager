@@ -77,13 +77,13 @@ jobs:
     - script: sbt "^validateDockerUnit"
       name: "scripted docker unit-tests"
       if: type = pull_request OR (type = push AND branch = master)
+      # below will install ZuluFX OpenJFX
     - script: |
           wget https://cdn.azul.com/zulu/bin/zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz
           tar -xvf zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz -C $JAVA_HOME --strip 1
           rm zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz
           sbt "^validateJdkPackagerTravis"
       name: "scripted jdk-packager tests"
-      jdk: oraclejdk10 # jdk11 doesn't ship with javafx which is required by tests
       if: type = pull_request OR (type = push AND branch = master)
       # docker configuration as described in
       # https://docs.travis-ci.com/user/docker/
