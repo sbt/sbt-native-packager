@@ -34,9 +34,13 @@ before_install:
       brew update;
       brew install xz;
     fi
-  - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
+  - if [[ "$TRAVIS_OS_NAME" = "linux" ]] || [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       wget -qO- https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh;
       $JABBA_HOME/bin/jabba install $TRAVIS_JDK;
+    fi
+  - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
+      export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK" && export PATH="$JAVA_HOME/bin:$PATH" && java -version;
+    elfi [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK" && export PATH="$JAVA_HOME/bin:$PATH" && java -version;
     fi
 
@@ -106,7 +110,6 @@ jobs:
       sudo: required
     - script: sbt "^validateOSX"
       name: "scripted osx tests"
-      jdk: openjdk11
       if: type = pull_request OR (type = push AND branch = master)
       os: osx
       osx_image: xcode8
