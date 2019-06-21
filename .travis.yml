@@ -19,7 +19,7 @@ cache:
 
 env:
   global:
-  - TRAVIS_JDK=zulu@1.8
+  - TRAVIS_JDK=zulu@1.8.212
   - JABBA_HOME=$HOME/.jabba
   - COMMIT_AUTHOR_EMAIL: "sbt-native-packager@muki.rocks"
   - RELEASE_BRANCH: master
@@ -92,14 +92,16 @@ jobs:
       # docker configuration as described in
       # https://docs.travis-ci.com/user/docker/
     - script: |
-          $JABBA_HOME/bin/jabba install zulu@1.11
-          export JAVA_HOME="$JABBA_HOME/jdk/zulu@1.11" && export PATH="$JAVA_HOME/bin:$PATH" && java -version
+          export TRAVIS_JDK=zulu@1.11.0-2
+          $JABBA_HOME/bin/jabba install $TRAVIS_JDK
+          export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK" && export PATH="$JAVA_HOME/bin:$PATH" && java -version
           sbt "^validateJlink"
       name: "scripted jlink tests"
       if: type = pull_request OR (type = push AND branch = master)
     - script: |
-          $JABBA_HOME/bin/jabba install zulu@1.12
-          export JAVA_HOME="$JABBA_HOME/jdk/zulu@1.12" && export PATH="$JAVA_HOME/bin:$PATH" && java -version
+          export TRAVIS_JDK=zulu@1.12.0-1
+          $JABBA_HOME/bin/jabba install $TRAVIS_JDK
+          export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK" && export PATH="$JAVA_HOME/bin:$PATH" && java -version
           sbt "^validateJlink"
       name: "scripted jlink tests"
       if: type = pull_request OR (type = push AND branch = master)
