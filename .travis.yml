@@ -83,6 +83,7 @@ jobs:
           rm zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz
           sbt "^validateJdkPackagerTravis"
       name: "scripted jdk-packager tests"
+      jdk: oraclejdk10 # jdk11 doesn't ship with javafx which is required by tests
       if: type = pull_request OR (type = push AND branch = master)
       # docker configuration as described in
       # https://docs.travis-ci.com/user/docker/
@@ -99,12 +100,13 @@ jobs:
       name: "scripted jlink tests"
       if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateDocker"
-      name: "scripted docker integration-tests"
+      name: "scripted docker integration-tests"1239
       if: type = pull_request OR (type = push AND branch = master)
       services: docker
       sudo: required
     - script: sbt "^validateOSX"
       name: "scripted osx tests"
+      jdk: openjdk11
       if: type = pull_request OR (type = push AND branch = master)
       os: osx
       osx_image: xcode8
