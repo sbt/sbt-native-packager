@@ -1,7 +1,6 @@
-language: java
+language: scala
 scala: 2.12.7
 os: linux
-jdk: openjdk8
 
 addons:
   apt:
@@ -16,11 +15,12 @@ cache:
   - $HOME/.sbt
   - $HOME/.m2
   - $HOME/.ivy2
-  - $GRAALVM_PARENT_DIRECTORY
+  - $HOME/.jabba
 
 env:
   global:
-  - GRAALVM_PARENT_DIRECTORY: ${HOME}/.local/share
+  - TRAVIS_JDK=zulu@1.8.212
+  - JABBA_HOME=$HOME/.jabba
   - COMMIT_AUTHOR_EMAIL: "sbt-native-packager@muki.rocks"
   - RELEASE_BRANCH: master
   - secure: bK5zEd2s3y+ScGwuGcxlP0tXx83nvurmF/SWuQSmI0A2KRelipGSSY2BTa+URKk9smJusJIZUi72EqEwMHDhxLCfHomjze5BmpJB5Mr3fQI700nxPEA95cbM4Z1G9+K6fYWy2pi5S7Xmz1Sg07bP4sfzyVYlNB20aquLCmB9Llk=
@@ -33,12 +33,16 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       brew update;
       brew install xz;
-      brew install sbt;
     fi
-
-before_script:
-- .travis/download-sbt
-- .travis/download-graalvm
+  - if [[ "$TRAVIS_OS_NAME" = "linux" ]] || [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+      wget -qO- https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh;
+      $JABBA_HOME/bin/jabba install $TRAVIS_JDK;
+    fi
+  - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
+      export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK" && export PATH="$JAVA_HOME/bin:$PATH" && java -version;
+    elif [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+      export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK/Contents/Home" && export PATH="$JAVA_HOME/bin:$PATH" && java -version;
+    fi
 
 # job definitions
 
@@ -52,7 +56,11 @@ jobs:
       script: sbt "^validateUniversal"
       if: type = pull_request OR (type = push AND branch = master)
       name: "scripted universal tests"
-    - script: sbt "^validateGraalVMNativeImage"
+    - script: |
+        $JABBA_HOME/bin/jabba install graalvm@19.0.0
+        export JAVA_HOME="$JABBA_HOME/jdk/graalvm@19.0.0" && export PATH="$JAVA_HOME/bin:$PATH" && java -version
+        gu install native-image
+        sbt "^validateGraalVMNativeImage"
       if: type = pull_request OR (type = push AND branch = master)
       name: "scripted GraalVM native-image tests"
     - script: sbt "^validateJar"
@@ -73,28 +81,37 @@ jobs:
     - script: sbt "^validateDockerUnit"
       name: "scripted docker unit-tests"
       if: type = pull_request OR (type = push AND branch = master)
-    - script: sbt "^validateJdkPackagerTravis"
+      # below will install ZuluFX OpenJFX
+    - script: |
+          wget https://cdn.azul.com/zulu/bin/zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz
+          tar -xvf zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz -C $JAVA_HOME --strip 1
+          rm zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz
+          sbt "^validateJdkPackagerTravis"
       name: "scripted jdk-packager tests"
-      jdk: oraclejdk10 # jdk11 doesn't ship with javafx which is required by tests
       if: type = pull_request OR (type = push AND branch = master)
       # docker configuration as described in
       # https://docs.travis-ci.com/user/docker/
-    - script: sbt "^validateJlink"
+    - script: |
+          export TRAVIS_JDK=zulu@1.11.0-2
+          $JABBA_HOME/bin/jabba install $TRAVIS_JDK
+          export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK" && export PATH="$JAVA_HOME/bin:$PATH" && java -version
+          sbt "^validateJlink"
       name: "scripted jlink tests"
-      jdk: openjdk11
       if: type = pull_request OR (type = push AND branch = master)
-    - script: sbt "^validateJlink"
+    - script: |
+          export TRAVIS_JDK=zulu@1.12.0-1
+          $JABBA_HOME/bin/jabba install $TRAVIS_JDK
+          export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK" && export PATH="$JAVA_HOME/bin:$PATH" && java -version
+          sbt "^validateJlink"
       name: "scripted jlink tests"
-      jdk: openjdk12
       if: type = pull_request OR (type = push AND branch = master)
     - script: sbt "^validateDocker"
-      name: "scripted docker integration-tests"1239
+      name: "scripted docker integration-tests"
       if: type = pull_request OR (type = push AND branch = master)
       services: docker
       sudo: required
     - script: sbt "^validateOSX"
       name: "scripted osx tests"
-      jdk: openjdk11
       if: type = pull_request OR (type = push AND branch = master)
       os: osx
       osx_image: xcode8
