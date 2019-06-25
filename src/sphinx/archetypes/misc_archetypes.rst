@@ -50,14 +50,13 @@ The plugin analyzes the dependencies between packages using `jdeps`, and raises 
       "foo.bar" -> "bar.qux"
     )
 
-For large projects with a lot of dependencies this can get unwieldy. You can implement a more flexible ignore strategy:
+For large projects with a lot of dependencies this can get unwieldy. You can use a more flexible ignore strategy:
 
 .. code-block:: scala
 
-  jlinkIgnoreMissingDependency := {
-    case ("foo.bar", dependee) if dependee.startsWith("bar") => true
-    case _ => false
-  }
+  jlinkIgnoreMissingDependency := JlinkIgnore.byPackagePrefix(
+    "foo.bar" -> "bar"
+  )
 
 Otherwise you may opt out of the check altogether (which is not recommended):
 

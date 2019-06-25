@@ -202,5 +202,22 @@ object JlinkPlugin extends AutoPlugin {
     val nothing: ((String, String)) => Boolean = Function.const(false)
     val everything: ((String, String)) => Boolean = Function.const(true)
     def only(dependencies: (String, String)*): ((String, String)) => Boolean = dependencies.toSet.contains
+
+    /** This matches pairs by their respective ''package'' prefixes. This means that `"foo.bar"`
+      * matches `"foo.bar"`, `"foo.bar.baz"`, but not `"foo.barqux"`. Empty
+      * string matches anything.
+      */
+    def byPackagePrefix(prefixPairs: (String, String)*): ((String, String)) => Boolean = {
+      case (a, b) =>
+        prefixPairs.exists {
+          case (prefixA, prefixB) =>
+            packagePrefixMatches(prefixA, a) && packagePrefixMatches(prefixB, b)
+        }
+    }
+
+    private def packagePrefixMatches(prefix: String, s: String): Boolean =
+      prefix.isEmpty ||
+        s == prefix ||
+        s.startsWith(prefix + ".")
   }
 }
