@@ -129,10 +129,8 @@ object JlinkPlugin extends AutoPlugin {
       .pair(file => IO.relativize(dir, file))
 
   private def runJavaTool(jvm: Option[File], log: Logger)(exeName: String, args: Seq[String]): ProcessBuilder = {
-    val exe = jvm match {
-      case None     => exeName
-      case Some(jh) => (jh / "bin" / exeName).getAbsolutePath
-    }
+    val jh = jvm.getOrElse(file(sys.props.getOrElse("java.home", sys.error("no java.home"))))
+    val exe = (jh / "bin" / exeName).getAbsolutePath
 
     log.info("Running: " + (exe +: args).mkString(" "))
 
