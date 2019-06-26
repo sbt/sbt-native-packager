@@ -29,4 +29,7 @@ private[packager] trait JlinkKeys {
 
   val jlinkBuildImage =
     TaskKey[File]("jlinkBuildImage", "Runs jlink. Yields the directory with the runtime image")
+
+  val jlinkModulePath =
+    TaskKey[Seq[File]]("jlinkModulePath", "Module path to supply to jlink")
 }

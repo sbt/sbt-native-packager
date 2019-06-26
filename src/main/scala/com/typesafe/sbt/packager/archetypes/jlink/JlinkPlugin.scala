@@ -89,6 +89,10 @@ object JlinkPlugin extends AutoPlugin {
           module
       }.distinct
     },
+    jlinkModulePath := (jlinkModulePath ?? Nil).value,
+    jlinkModulePath ++= {
+      fullClasspath.in(jlinkBuildImage).value.map(_.data)
+    },
     jlinkOptions := (jlinkOptions ?? Nil).value,
     jlinkOptions ++= {
       val modules = jlinkModules.value
@@ -97,7 +101,11 @@ object JlinkPlugin extends AutoPlugin {
         sys.error("jlinkModules is empty")
       }
 
-      JlinkOptions(addModules = modules, output = Some(target.in(jlinkBuildImage).value))
+      JlinkOptions(
+        addModules = modules,
+        output = Some(target.in(jlinkBuildImage).value),
+        modulePath = jlinkModulePath.value
+      )
     },
     jlinkBuildImage := {
       val log = streams.value.log
@@ -129,10 +137,8 @@ object JlinkPlugin extends AutoPlugin {
       .pair(file => IO.relativize(dir, file))
 
   private def runJavaTool(jvm: Option[File], log: Logger)(exeName: String, args: Seq[String]): ProcessBuilder = {
-    val exe = jvm match {
-      case None     => exeName
-      case Some(jh) => (jh / "bin" / exeName).getAbsolutePath
-    }
+    val jh = jvm.getOrElse(file(sys.props.getOrElse("java.home", sys.error("no java.home"))))
+    val exe = (jh / "bin" / exeName).getAbsolutePath
 
     log.info("Running: " + (exe +: args).mkString(" "))
 
@@ -140,14 +146,19 @@ object JlinkPlugin extends AutoPlugin {
   }
 
   private object JlinkOptions {
+    @deprecated("1.3.24", "")
     def apply(addModules: Seq[String] = Nil, output: Option[File] = None): Seq[String] =
+      apply(addModules = addModules, output = output, modulePath = Nil)
+
+    def apply(addModules: Seq[String], output: Option[File], modulePath: Seq[File]): Seq[String] =
       option("--output", output) ++
-        list("--add-modules", addModules)
+        list("--add-modules", addModules) ++
+        list("--module-path", modulePath)
 
     private def option[A](arg: String, value: Option[A]): Seq[String] =
       value.toSeq.flatMap(a => Seq(arg, a.toString))
 
-    private def list(arg: String, values: Seq[String]): Seq[String] =
+    private def list[A](arg: String, values: Seq[A]): Seq[String] =
       if (values.nonEmpty) Seq(arg, values.mkString(",")) else Nil
   }
 
@@ -204,5 +215,22 @@ object JlinkPlugin extends AutoPlugin {
     val nothing: ((String, String)) => Boolean = Function.const(false)
     val everything: ((String, String)) => Boolean = Function.const(true)
     def only(dependencies: (String, String)*): ((String, String)) => Boolean = dependencies.toSet.contains
+
+    /** This matches pairs by their respective ''package'' prefixes. This means that `"foo.bar"`
+      * matches `"foo.bar"`, `"foo.bar.baz"`, but not `"foo.barqux"`. Empty
+      * string matches anything.
+      */
+    def byPackagePrefix(prefixPairs: (String, String)*): ((String, String)) => Boolean = {
+      case (a, b) =>
+        prefixPairs.exists {
+          case (prefixA, prefixB) =>
+            packagePrefixMatches(prefixA, a) && packagePrefixMatches(prefixB, b)
+        }
+    }
+
+    private def packagePrefixMatches(prefix: String, s: String): Boolean =
+      prefix.isEmpty ||
+        s == prefix ||
+        s.startsWith(prefix + ".")
   }
 }
