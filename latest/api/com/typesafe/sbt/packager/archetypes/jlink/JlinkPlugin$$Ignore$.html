@@ -343,6 +343,25 @@ application as a runtime image using the standard <code>jlink</code> utility.</p
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.jlink.JlinkPlugin.Ignore#byPackagePrefix" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="byPackagePrefix(prefixPairs:(String,String)*):((String,String))=&gt;Boolean"></a><a id="byPackagePrefix((String,String)*):((String,String))⇒Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/jlink/JlinkPlugin$$Ignore$.html#byPackagePrefix(prefixPairs:(String,String)*):((String,String))=&gt;Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">byPackagePrefix</span><span class="params">(<span name="prefixPairs">prefixPairs: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)*</span>)</span><span class="result">: ((<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This matches pairs by their respective <i>package</i> prefixes.</p><div class="fullcomment"><div class="comment cmt"><p>This matches pairs by their respective <i>package</i> prefixes. This means that <code>&quot;foo.bar&quot;</code>
+matches <code>&quot;foo.bar&quot;</code>, <code>&quot;foo.bar.baz&quot;</code>, but not <code>&quot;foo.barqux&quot;</code>. Empty
+string matches anything.
+</p></div></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">

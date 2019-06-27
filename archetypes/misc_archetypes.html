@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Configuration Archetypes &mdash; sbt-native-packager 1.3.23 documentation</title>
+  <title>Configuration Archetypes &mdash; sbt-native-packager 1.3.24 documentation</title>
   
 
   
@@ -521,11 +521,10 @@ provide a means of creating, say, Windows installers on MacOS, or MacOS on Linux
 <span class="o">)</span>
 </pre></div>
 </div>
-<p>For large projects with a lot of dependencies this can get unwieldy. You can implement a more flexible ignore strategy:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">jlinkIgnoreMissingDependency</span> <span class="o">:=</span> <span class="o">{</span>
-  <span class="k">case</span> <span class="o">(</span><span class="s">&quot;foo.bar&quot;</span><span class="o">,</span> <span class="n">dependee</span><span class="o">)</span> <span class="k">if</span> <span class="n">dependee</span><span class="o">.</span><span class="n">startsWith</span><span class="o">(</span><span class="s">&quot;bar&quot;</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="kc">true</span>
-  <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="kc">false</span>
-<span class="o">}</span>
+<p>For large projects with a lot of dependencies this can get unwieldy. You can use a more flexible ignore strategy:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">jlinkIgnoreMissingDependency</span> <span class="o">:=</span> <span class="nc">JlinkIgnore</span><span class="o">.</span><span class="n">byPackagePrefix</span><span class="o">(</span>
+  <span class="s">&quot;foo.bar&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span>
+<span class="o">)</span>
 </pre></div>
 </div>
 <p>Otherwise you may opt out of the check altogether (which is not recommended):</p>
