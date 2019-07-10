@@ -1,0 +1,3 @@
+# These tasks can be aggregated, but running them one by one means
+# more granular output in case of a failure.
+> issue1243/runChecks
