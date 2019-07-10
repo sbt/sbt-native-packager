@@ -71,6 +71,7 @@ object JlinkPlugin extends AutoPlugin {
         }
         .filterNot(shouldIgnore)
         .distinct
+        .sorted
 
       if (missingDeps.nonEmpty) {
         log.error(
