@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.archetypes
 package jlink
 
-import scala.sys.process.{Process, ProcessBuilder}
+import scala.sys.process.{BasicIO, Process, ProcessBuilder}
 import sbt._
 import sbt.Keys._
 import com.typesafe.sbt.SbtNativePackager.{Debian, Universal}
@@ -55,7 +55,7 @@ object JlinkPlugin extends AutoPlugin {
 
       // Jdeps has a few convenient options (like --print-module-deps), but those
       // are not flexible enough - we need to parse the full output.
-      val output = run("jdeps", "-R" +: paths) !! log
+      val output = runForOutput(run("jdeps", "-R" +: paths), log)
 
       val deps = output.linesIterator
       // There are headers in some of the lines - ignore those.
@@ -114,7 +114,7 @@ object JlinkPlugin extends AutoPlugin {
 
       IO.delete(outDir)
 
-      run("jlink", jlinkOptions.value) !! log
+      runForOutput(run("jlink", jlinkOptions.value), log)
 
       outDir
     },
@@ -143,6 +143,21 @@ object JlinkPlugin extends AutoPlugin {
     log.info("Running: " + (exe +: args).mkString(" "))
 
     Process(exe, args)
+  }
+
+  // Like `ProcessBuilder.!!`, but this logs the output in case of a non-zero
+  // exit code. We need this since some Java tools write their errors to stdout.
+  // This uses `scala.sys.process.ProcessLogger` instead of the SBT `Logger`
+  // to make it a drop-in replacement for `ProcessBuilder.!!`.
+  private def runForOutput(builder: ProcessBuilder, log: scala.sys.process.ProcessLogger): String = {
+    val buffer = new StringBuffer
+    val code = builder.run(BasicIO(false, buffer, Some(log))).exitValue()
+
+    if (code == 0) buffer.toString
+    else {
+      log.out(buffer.toString)
+      scala.sys.error("Nonzero exit value: " + code)
+    }
   }
 
   private object JlinkOptions {
