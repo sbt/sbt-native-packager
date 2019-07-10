@@ -49,15 +49,31 @@ object JlinkPlugin extends AutoPlugin {
     jlinkModules := (jlinkModules ?? Nil).value,
     jlinkModules ++= {
       val log = streams.value.log
-      val run = runJavaTool(javaHome.in(jlinkBuildImage).value, log) _
+      val javaHome0 = javaHome.in(jlinkBuildImage).value.getOrElse(defaultJavaHome)
+      val run = runJavaTool(javaHome0, log) _
       val paths = fullClasspath.in(jlinkBuildImage).value.map(_.data.getPath)
       val shouldIgnore = jlinkIgnoreMissingDependency.value
 
+      // We can find the java toolchain version by parsing the `release` file. This
+      // only works for Java 9+, but so does this whole plugin.
+      // Alternatives:
+      // - Parsing `java -version` output - the format is not standardized, so there
+      // are a lot of weird incompatibilities.
+      // - Parsing `java -XshowSettings:properties` output - the format is nicer,
+      // but the command itself is subject to change without notice.
+      val releaseFile = javaHome0 / "release"
+      val javaVersion = IO
+        .readLines(releaseFile)
+        .collectFirst {
+          case javaVersionPattern(feature) => feature
+        }
+        .getOrElse(sys.error("JAVA_VERSION not found in ${releaseFile.getAbsolutePath}"))
+
       // Jdeps has a few convenient options (like --print-module-deps), but those
       // are not flexible enough - we need to parse the full output.
-      val output = runForOutput(run("jdeps", "-R" +: paths), log)
+      val jdepsOutput = runForOutput(run("jdeps", "--multi-release" +: javaVersion +: "-R" +: paths), log)
 
-      val deps = output.linesIterator
+      val deps = jdepsOutput.linesIterator
       // There are headers in some of the lines - ignore those.
         .flatMap(PackageDependency.parse(_).iterator)
         .toSeq
@@ -109,7 +125,8 @@ object JlinkPlugin extends AutoPlugin {
     },
     jlinkBuildImage := {
       val log = streams.value.log
-      val run = runJavaTool(javaHome.in(jlinkBuildImage).value, log) _
+      val javaHome0 = javaHome.in(jlinkBuildImage).value.getOrElse(defaultJavaHome)
+      val run = runJavaTool(javaHome0, log) _
       val outDir = target.in(jlinkBuildImage).value
 
       IO.delete(outDir)
@@ -130,15 +147,22 @@ object JlinkPlugin extends AutoPlugin {
     mappings in Universal ++= mappings.in(jlinkBuildImage).value
   )
 
+  // Extracts java version from a release file line (`JAVA_VERSION` property):
+  // - if the feature version is 1, yield the minor version number (e.g. 1.9.0 -> 9);
+  // - otherwise yield the major version number (e.g. 11.0.3 -> 11).
+  private[jlink] val javaVersionPattern = """JAVA_VERSION="(?:1\.)?(\d+).*?"""".r
+
   // TODO: deduplicate with UniversalPlugin and DebianPlugin
   /** Finds all files in a directory. */
   private def findFiles(dir: File): Seq[(File, String)] =
     ((PathFinder(dir) ** AllPassFilter) --- dir)
       .pair(file => IO.relativize(dir, file))
 
-  private def runJavaTool(jvm: Option[File], log: Logger)(exeName: String, args: Seq[String]): ProcessBuilder = {
-    val jh = jvm.getOrElse(file(sys.props.getOrElse("java.home", sys.error("no java.home"))))
-    val exe = (jh / "bin" / exeName).getAbsolutePath
+  private lazy val defaultJavaHome: File =
+    file(sys.props.getOrElse("java.home", sys.error("no java.home")))
+
+  private def runJavaTool(jvm: File, log: Logger)(exeName: String, args: Seq[String]): ProcessBuilder = {
+    val exe = (jvm / "bin" / exeName).getAbsolutePath
 
     log.info("Running: " + (exe +: args).mkString(" "))
 
