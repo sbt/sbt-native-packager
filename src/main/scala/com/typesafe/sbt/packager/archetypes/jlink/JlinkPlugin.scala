@@ -186,20 +186,16 @@ object JlinkPlugin extends AutoPlugin {
   }
 
   private object JlinkOptions {
-    @deprecated("1.3.24", "")
-    def apply(addModules: Seq[String] = Nil, output: Option[File] = None): Seq[String] =
-      apply(addModules = addModules, output = output, modulePath = Nil)
-
     def apply(addModules: Seq[String], output: Option[File], modulePath: Seq[File]): Seq[String] =
       option("--output", output) ++
-        list("--add-modules", addModules) ++
-        list("--module-path", modulePath)
+        list("--add-modules", addModules, ",") ++
+        list("--module-path", modulePath, ":")
 
     private def option[A](arg: String, value: Option[A]): Seq[String] =
       value.toSeq.flatMap(a => Seq(arg, a.toString))
 
-    private def list[A](arg: String, values: Seq[A]): Seq[String] =
-      if (values.nonEmpty) Seq(arg, values.mkString(",")) else Nil
+    private def list[A](arg: String, values: Seq[A], separator: String): Seq[String] =
+      if (values.nonEmpty) Seq(arg, values.mkString(separator)) else Nil
   }
 
   // Jdeps output row
