@@ -108,9 +108,11 @@ object RpmHelper {
       // RPM outputs to standard error in non-error cases. So just collect all the output, then dump
       // it all to either error log or info log depending on the exit status
       val outputBuffer = collection.mutable.ArrayBuffer.empty[String]
-      (sys.process.Process(args, Some(specsDir)) ! sys.process
-        .ProcessLogger(o => outputBuffer.append(o))) match {
+      sys.process.Process(args, Some(specsDir)) ! sys.process.ProcessLogger(o => outputBuffer.append(o)) match {
         case 0 =>
+          println("-------- OUTPUT BUFFER START")
+          println(outputBuffer)
+          println("-------- OUTPUT BUFFER END")
           outputBuffer.foreach(log.info(_))
         case code =>
           outputBuffer.foreach(log.error(_))
