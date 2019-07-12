@@ -100,16 +100,30 @@ object JlinkPlugin extends AutoPlugin {
         sys.error("Missing package dependencies")
       }
 
-      // Collect all the found modules
-      deps.collect {
+      val detectedModuleDeps = deps.collect {
         case PackageDependency(_, _, PackageDependency.Module(module)) =>
           module
-      }.distinct
+      }.toSet
+
+      // Some JakartaEE artifacts use `java.*` module names, even though
+      // they are not a part of the platform anymore.
+      // https://github.com/eclipse-ee4j/ee4j/issues/34
+      // This requires special handling on our part when deciding if the module
+      // is a part of the platform or not.
+      // At least the new modules shouldn't be doing this...
+      val knownJakartaJavaModules = Set("java.xml.bind", "java.xml.soap", "java.ws.rs")
+
+      val filteredModuleDeps = detectedModuleDeps
+        .filter { m =>
+          m.startsWith("jdk.") || m.startsWith("java.")
+        }
+        .filterNot(knownJakartaJavaModules.contains)
+
+      // We always want `java.base`, and `jlink` requires at least one module.
+      (filteredModuleDeps + "java.base").toSeq
     },
+    // No external modules by default: see #1247.
     jlinkModulePath := (jlinkModulePath ?? Nil).value,
-    jlinkModulePath ++= {
-      fullClasspath.in(jlinkBuildImage).value.map(_.data)
-    },
     jlinkOptions := (jlinkOptions ?? Nil).value,
     jlinkOptions ++= {
       val modules = jlinkModules.value
@@ -186,20 +200,16 @@ object JlinkPlugin extends AutoPlugin {
   }
 
   private object JlinkOptions {
-    @deprecated("1.3.24", "")
-    def apply(addModules: Seq[String] = Nil, output: Option[File] = None): Seq[String] =
-      apply(addModules = addModules, output = output, modulePath = Nil)
-
     def apply(addModules: Seq[String], output: Option[File], modulePath: Seq[File]): Seq[String] =
       option("--output", output) ++
-        list("--add-modules", addModules) ++
-        list("--module-path", modulePath)
+        list("--add-modules", addModules, ",") ++
+        list("--module-path", modulePath, ":")
 
     private def option[A](arg: String, value: Option[A]): Seq[String] =
       value.toSeq.flatMap(a => Seq(arg, a.toString))
 
-    private def list[A](arg: String, values: Seq[A]): Seq[String] =
-      if (values.nonEmpty) Seq(arg, values.mkString(",")) else Nil
+    private def list[A](arg: String, values: Seq[A], separator: String): Seq[String] =
+      if (values.nonEmpty) Seq(arg, values.mkString(separator)) else Nil
   }
 
   // Jdeps output row
