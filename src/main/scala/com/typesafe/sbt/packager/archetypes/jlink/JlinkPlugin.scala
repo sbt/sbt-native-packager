@@ -100,16 +100,30 @@ object JlinkPlugin extends AutoPlugin {
         sys.error("Missing package dependencies")
       }
 
-      // Collect all the found modules
-      deps.collect {
+      val detectedModuleDeps = deps.collect {
         case PackageDependency(_, _, PackageDependency.Module(module)) =>
           module
-      }.distinct
+      }.toSet
+
+      // Some JakartaEE artifacts use `java.*` module names, even though
+      // they are not a part of the platform anymore.
+      // https://github.com/eclipse-ee4j/ee4j/issues/34
+      // This requires special handling on our part when deciding if the module
+      // is a part of the platform or not.
+      // At least the new modules shouldn't be doing this...
+      val knownJakartaJavaModules = Set("java.xml.bind", "java.xml.soap", "java.ws.rs")
+
+      val filteredModuleDeps = detectedModuleDeps
+        .filter { m =>
+          m.startsWith("jdk.") || m.startsWith("java.")
+        }
+        .filterNot(knownJakartaJavaModules.contains)
+
+      // We always want `java.base`, and `jlink` requires at least one module.
+      (filteredModuleDeps + "java.base").toSeq
     },
+    // No external modules by default: see #1247.
     jlinkModulePath := (jlinkModulePath ?? Nil).value,
-    jlinkModulePath ++= {
-      fullClasspath.in(jlinkBuildImage).value.map(_.data)
-    },
     jlinkOptions := (jlinkOptions ?? Nil).value,
     jlinkOptions ++= {
       val modules = jlinkModules.value
