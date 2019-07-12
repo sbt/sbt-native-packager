@@ -108,10 +108,17 @@ object RpmHelper {
       // RPM outputs to standard error in non-error cases. So just collect all the output, then dump
       // it all to either error log or info log depending on the exit status
       val outputBuffer = collection.mutable.ArrayBuffer.empty[String]
-      (sys.process.Process(args, Some(specsDir)) ! sys.process
-        .ProcessLogger(o => outputBuffer.append(o))) match {
+      sys.process.Process(args, Some(specsDir)) ! sys.process.ProcessLogger(o => outputBuffer.append(o)) match {
         case 0 =>
-          outputBuffer.foreach(log.info(_))
+          // Workaround for #1246 - random tests fail with a NullPointerException in the sbt ConsoleLogger
+          // I wasn't able to reproduce this locally and there aren't any user reports on this, so we catch
+          // the NPE and log via println
+          try {
+            outputBuffer.foreach(log.info(_))
+          } catch {
+            case e: NullPointerException =>
+              outputBuffer.foreach(println(_))
+          }
         case code =>
           outputBuffer.foreach(log.error(_))
           sys.error("Unable to run rpmbuild, check output for details. Errorcode " + code)
