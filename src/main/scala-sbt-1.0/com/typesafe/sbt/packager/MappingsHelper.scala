@@ -81,4 +81,10 @@ object MappingsHelper extends Mapper {
 	file -> s"$target/${file.getName}"
     }
 
+  /**
+    * Get the mappings for the given files relative to the given directories.
+    */
+  def relative(files: Seq[File], dirs: Seq[File]): Seq[(File, String)] = {
+    (files --- dirs) pair (relativeTo(dirs) | flat)
+  }
 }

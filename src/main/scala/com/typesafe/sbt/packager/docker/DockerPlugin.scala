@@ -106,7 +106,6 @@ object DockerPlugin extends AutoPlugin {
     },
     dockerEntrypoint := Seq(s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
     dockerCmd := Seq(),
-    dockerExecCommand := Seq("docker"),
     dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!).toOption
       .map(_.trim)
       .flatMap(DockerVersion.parse),
@@ -478,7 +477,7 @@ object DockerPlugin extends AutoPlugin {
     inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
   }
 
-  private[docker] def publishLocalLogger(log: Logger) =
+  private[packager] def publishLocalLogger(log: Logger) =
     new sys.process.ProcessLogger {
       override def err(err: => String): Unit =
         err match {
