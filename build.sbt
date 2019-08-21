@@ -115,7 +115,7 @@ addCommandAlias("validate", "; clean ; update ; validateFormatting ; test ; mima
 // List all scripted test separately to schedule them in different travis-ci jobs.
 // Travis-CI has hard timeouts for jobs, so we run them in smaller jobs as the scripted
 // tests take quite some time to run.
-// Ultimatley we should run only those tests that are necessary for a change
+// Ultimately we should run only those tests that are necessary for a change
 addCommandAlias("validateUniversal", "scripted universal/*")
 addCommandAlias("validateJar", "scripted jar/*")
 addCommandAlias("validateBash", "scripted bash/*")
