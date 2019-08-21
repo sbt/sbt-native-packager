@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>GraalVM Native Image Plugin &mdash; sbt-native-packager 1.3.25 documentation</title>
+  <title>GraalVM Native Image Plugin &mdash; sbt-native-packager 1.4.0 documentation</title>
   
 
   
@@ -263,7 +263,7 @@
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">GraalVM Native Image Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#quick-installation">Quick installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#native-image-quick-installation"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> quick installation</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#build">Build</a><ul>
@@ -271,9 +271,11 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#publishing-settings">Publishing Settings</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#graalvm-resources">GraalVM Resources</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tasks">Tasks</a></li>
 </ul>
 </li>
@@ -489,11 +491,15 @@
 <p>GraalVM’s <code class="docutils literal notranslate"><span class="pre">native-image</span></code> compiles Java programs AOT (ahead-of-time) into native binaries.</p>
 <blockquote>
 <div><a class="reference external" href="https://www.graalvm.org/docs/reference-manual/aot-compilation/">https://www.graalvm.org/docs/reference-manual/aot-compilation/</a> documents the AOT compilation of GraalVM.</div></blockquote>
+<p>The plugin supports both using a local installation of the GraalVM <code class="docutils literal notranslate"><span class="pre">native-image</span></code> utility, or building inside a
+Docker container. If you intend to run the native image on Linux, then building inside a Docker container is
+recommended since GraalVM native images can only be built for the platform they are built on. By building in a Docker
+container, you can build Linux native images not just on Linux but also on Windows and OSX.</p>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<p>You must have <code class="docutils literal notranslate"><span class="pre">native-image</span></code> of GraalVM in your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
-<div class="section" id="quick-installation">
-<h3>Quick installation<a class="headerlink" href="#quick-installation" title="Permalink to this headline">¶</a></h3>
+<p>To build using a local installation of GraalVM, you must have the <code class="docutils literal notranslate"><span class="pre">native-image</span></code> utility of GraalVM in your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
+<div class="section" id="native-image-quick-installation">
+<h3><code class="docutils literal notranslate"><span class="pre">native-image</span></code> quick installation<a class="headerlink" href="#native-image-quick-installation" title="Permalink to this headline">¶</a></h3>
 <p>To get started quickly, eg make <code class="docutils literal notranslate"><span class="pre">native-image</span></code> available in your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>,
 you may reuse the script that is used for sbt-native-packager’s continuous integration.
 To do so, run the following. It will install GraalVM 1.0.0-rc8.</p>
@@ -516,6 +522,42 @@ To do so, run the following. It will install GraalVM 1.0.0-rc8.</p>
 </div>
 <div class="section" id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="docker-image-build-settings">
+<h3>Docker Image Build Settings<a class="headerlink" href="#docker-image-build-settings" title="Permalink to this headline">¶</a></h3>
+<p>By default, a local build will be done, expecting the <code class="docutils literal notranslate"><span class="pre">native-image</span></code> command to be on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>. This can be
+customized using the following settings.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">graalVMNativeImageGraalVersion</span></code></dt>
+<dd><p class="first">Setting this enables generating a Docker container to build the native image, and then building it in that container.
+It must correspond to a valid version of the
+<a class="reference external" href="https://hub.docker.com/r/oracle/graalvm-ce/">Oracle GraalVM Community Edition Docker image</a>. This setting has no
+effect if <code class="docutils literal notranslate"><span class="pre">containerBuildImage</span></code> is explicitly set.</p>
+<p>For example:</p>
+<div class="last highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">graalVMNativeImageGraalVersion</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;19.1.1&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p><code class="docutils literal notranslate"><span class="pre">containerBuildImage</span></code></p>
+<blockquote>
+<div><p>Explicitly set a build image to use. The image must execute the Graal <code class="docutils literal notranslate"><span class="pre">native-image</span></code> command as its entry point.
+It can be configured like so:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">containerBuildImage</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;my-docker-username/graalvm-ce-native-image:19.1.1&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>A helper is provided to automatically generate a container build image from a base image that contains a Graal
+installation. For example, if you have a GraalVM enterprise edition docker image, you can turn it into a native
+image builder like so:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">containerBuildImage</span> <span class="o">:=</span> <span class="nc">GraalVMNativeImagePlugin</span><span class="o">.</span><span class="n">generateContainerBuildImage</span><span class="o">(</span><span class="s">&quot;example.com/my-username/graalvm-ee:latest&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>The plugin will not build the native image container builder if it finds it in the local Docker registry already.
+The native image builders tag name can be seen in the logs if you wish to delete it to force a rebuild, in the above
+case, the name will be <code class="docutils literal notranslate"><span class="pre">example.com-my-username-graalvm-ee:latest</span></code>.</p>
+</div></blockquote>
+</div></blockquote>
+</div>
 <div class="section" id="publishing-settings">
 <h3>Publishing Settings<a class="headerlink" href="#publishing-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
@@ -525,6 +567,13 @@ To do so, run the following. It will install GraalVM 1.0.0-rc8.</p>
 </dl>
 </div></blockquote>
 </div>
+</div>
+<div class="section" id="graalvm-resources">
+<h2>GraalVM Resources<a class="headerlink" href="#graalvm-resources" title="Permalink to this headline">¶</a></h2>
+<p>If you are building the image in a docker container, and you have any resources that need to be available to the
+<code class="docutils literal notranslate"><span class="pre">native-image</span></code> command, such as files passed to <code class="docutils literal notranslate"><span class="pre">-H:ResourceConfigurationFiles</span></code> or
+<code class="docutils literal notranslate"><span class="pre">-H:ReflectionConfigurationFiles</span></code>, you can place these in your projects <code class="docutils literal notranslate"><span class="pre">src/graal</span></code> directory. Any files in there
+will be made available to the <code class="docutils literal notranslate"><span class="pre">native-image</span></code> docker container under the path <code class="docutils literal notranslate"><span class="pre">/opt/graalvm/stage/resources</span></code>.</p>
 </div>
 <div class="section" id="tasks">
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>

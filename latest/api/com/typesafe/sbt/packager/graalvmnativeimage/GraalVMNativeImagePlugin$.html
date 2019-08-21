@@ -483,6 +483,25 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImagePlugin#generateContainerBuildImage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="generateContainerBuildImage(baseImage:String):sbt.Def.Initialize[sbt.Task[Option[String]]]"></a><a id="generateContainerBuildImage(String):sbt.Def.Initialize[Task[Option[String]]]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/graalvmnativeimage/GraalVMNativeImagePlugin$.html#generateContainerBuildImage(baseImage:String):sbt.Def.Initialize[sbt.Task[Option[String]]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateContainerBuildImage</span><span class="params">(<span name="baseImage">baseImage: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="sbt.internal.util.Init.Initialize">sbt.Def.Initialize</span>[<span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">This can be used to build a custom build image starting from a custom base image.</p><div class="fullcomment"><div class="comment cmt"><p>This can be used to build a custom build image starting from a custom base image. Can be used like so:</p><p><code><code><code>
+(containerBuildImage in GraalVMNativeImage) := generateContainerBuildImage(&quot;my-docker-hub-username/my-graalvm&quot;).value
+<code><code><code></code></code></code></code></code></code></p><p>The passed in docker image must have GraalVM installed and on the PATH, including the gu utility.
+</p></div></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -656,9 +675,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImagePlugin">GraalVMNativeImagePlugin</a> → AutoPlugin</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImagePlugin#projectSettings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:sbt.Task[java.io.File]withSeq[String]withjava.io.File&lt;:Object]]"></a><a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:Task[File]withSeq[String]withFile&lt;:AnyRef]]"></a>
+      <a id="projectSettings:Seq[sbt.Setting[_]]"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/graalvmnativeimage/GraalVMNativeImagePlugin$.html#projectSettings:Seq[sbt.Def.Setting[_&gt;:sbt.Task[java.io.File]withSeq[String]withjava.io.File&lt;:Object]]" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/graalvmnativeimage/GraalVMNativeImagePlugin$.html#projectSettings:Seq[sbt.Setting[_]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -667,11 +686,11 @@
         <span class="kind">lazy val</span>
       </span>
       <span class="symbol">
-        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.internal.util.Init.Setting">sbt.Def.Setting</span>[_ &gt;: <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="java.io.File">File</span>] with <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>] with <span class="extype" name="java.io.File">File</span> &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span>]]</span>
+        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../../sbt/index.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">sbt.Setting</a>[_]]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImagePlugin">GraalVMNativeImagePlugin</a> → AutoPlugin</dd></dl></div>
-    </li><li name="sbt.AutoPlugin#requires" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImagePlugin#requires" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="requires:sbt.Plugins"></a><a id="requires:Plugins"></a>
       <span class="permalink">
       <a href="../../../../../com/typesafe/sbt/packager/graalvmnativeimage/GraalVMNativeImagePlugin$.html#requires:sbt.Plugins" title="Permalink">
@@ -686,7 +705,7 @@
         <span class="name">requires</span><span class="result">: <span class="extype" name="sbt.Plugins">Plugins</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImagePlugin">GraalVMNativeImagePlugin</a> → AutoPlugin</dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">

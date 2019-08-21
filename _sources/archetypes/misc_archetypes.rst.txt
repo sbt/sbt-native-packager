@@ -30,6 +30,10 @@ This plugin builds on Java's `jlink`_ tool to embed a JVM image (a stripped-down
 into your package. It produces a JVM image containing only the modules that are referenced
 from the dependency classpath.
 
+Note: Current implementation only detects the platform modules (that is, the ones present in
+the JDK used to build the image). Modular JARs and directories are packaged as specified
+by the `UniversalPlugin`.
+
 .. code-block:: scala
 
   enablePlugins(JlinkPlugin)
