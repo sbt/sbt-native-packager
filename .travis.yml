@@ -62,6 +62,7 @@ jobs:
         gu install native-image
         sbt "^validateGraalVMNativeImage"
       if: type = pull_request OR (type = push AND branch = master)
+      services: docker
       name: "scripted GraalVM native-image tests"
     - script: sbt "^validateJar"
       name: "scripted jar tests"

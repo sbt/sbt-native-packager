@@ -19,4 +19,8 @@ trait UniversalKeys {
   val topLevelDirectory = SettingKey[Option[String]]("topLevelDirectory", "Top level dir in compressed output file.")
   val universalArchiveOptions =
     SettingKey[Seq[String]]("universal-archive-options", "Options passed to the tar/zip command. Scope by task")
+
+  val containerBuildImage = taskKey[Option[String]](
+    "For plugins that support building artifacts inside a docker container, if this is defined, this image will be used to do the building."
+  )
 }

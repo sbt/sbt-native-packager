@@ -68,7 +68,19 @@ mimaBinaryIssueFilters ++= {
     ProblemFilters.exclude[MissingTypesProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata$"),
     ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.apply"),
     ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.copy"),
-    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.this")
+    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.this"),
+    // added via #1251
+    ProblemFilters.exclude[ReversedMissingMethodProblem](
+      "com.typesafe.sbt.packager.universal.UniversalKeys.com$typesafe$sbt$packager$universal$UniversalKeys$_setter_$containerBuildImage_="
+    ),
+    ProblemFilters
+      .exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.universal.UniversalKeys.containerBuildImage"),
+    ProblemFilters.exclude[ReversedMissingMethodProblem](
+      "com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImageKeys.graalVMNativeImageGraalVersion"
+    ),
+    ProblemFilters.exclude[ReversedMissingMethodProblem](
+      "com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImageKeys.com$typesafe$sbt$packager$graalvmnativeimage$GraalVMNativeImageKeys$_setter_$graalVMNativeImageGraalVersion_="
+    )
   )
 }
 
