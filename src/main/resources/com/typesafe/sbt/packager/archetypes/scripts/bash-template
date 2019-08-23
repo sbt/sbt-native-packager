@@ -139,8 +139,9 @@ execRunner () {
   exec "$@"
 }
 addJava () {
-  dlog "[addJava] arg = '$1'"
-  java_args+=( "$1" )
+  local arg=$(eval echo "$1")
+  dlog "[addJava] arg = '$arg'"
+  java_args+=( "$arg" )
 }
 addApp () {
   dlog "[addApp] arg = '$1'"
