@@ -55,6 +55,38 @@ get_java_cmd() {
   fi
 }
 
+# Processes incoming arguments and places them in appropriate global variables.  called by the run method.
+process_args () {
+  local no_more_snp_opts=0
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+             --) shift && no_more_snp_opts=1 && break ;;
+       -h|-help) usage; exit 1 ;;
+    -v|-verbose) verbose=1 && shift ;;
+      -d|-debug) debug=1 && shift ;;
+
+    -no-version-check) no_version_check=1 && shift ;;
+
+           -mem) echo "!! WARNING !! -mem option is ignored. Please use -J-Xmx and -J-Xms" && shift 2 ;;
+     -jvm-debug) require_arg port "$1" "$2" && addDebugger $2 && shift 2 ;;
+
+          -main) custom_mainclass="$2" && shift 2 ;;
+
+     -java-home) require_arg path "$1" "$2" && jre=`eval echo $2` && java_cmd="$jre/bin/java" && shift 2 ;;
+
+ -D*|-agentlib*|-XX*) addJava "$1" && shift ;;
+                 -J*) addJava "${1:2}" && shift ;;
+                   *) addResidual "$1" && shift ;;
+    esac
+  done
+
+  if [[ no_more_snp_opts ]]; then
+    while [[ $# -gt 0 ]]; do
+      addResidual "$1" && shift
+    done
+  fi
+}
+
 real_script_path="$(realpath "$0")"
 app_home="$(realpath "$(dirname "$real_script_path")")"
 lib_dir="$(realpath "${app_home}/../lib")"
@@ -62,6 +94,8 @@ lib_dir="$(realpath "${app_home}/../lib")"
 app_mainclass=${{app_mainclass}}
 
 ${{template_declares}}
+
+process_args "$@"
 
 java_cmd="$(get_java_cmd)"
 
