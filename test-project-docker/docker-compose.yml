@@ -1,3 +1,5 @@
+version: '2'
+
 # docker-compose for testing the docker image build
 services:
   fooservice:
