@@ -140,7 +140,7 @@ object DockerPlugin extends AutoPlugin {
       val layers =
         fileGroupingsSorted.map {
           case (glob, layer) =>
-            makeCopySrcDest(s"$dockerBaseDirectory/lib/$glob", s"$dockerBaseDirectory/lib/$layer")
+            makeCopySrcDest(s"$dockerBaseDirectory/lib/$glob", s"$dockerBaseDirectory/lib/l$layer/")
         }
 
       val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
@@ -169,8 +169,8 @@ object DockerPlugin extends AutoPlugin {
             val copies = fileGroupingsSorted.map {
               case (_, layer) =>
                 makeCopyFromSrcDest(
-                  s"$dockerBaseDirectory/lib/$layer",
-                  s"$dockerBaseDirectory/lib/$layer",
+                  s"$dockerBaseDirectory/lib/l$layer/*",
+                  s"$dockerBaseDirectory/lib/",
                   stage0name,
                   user,
                   group
