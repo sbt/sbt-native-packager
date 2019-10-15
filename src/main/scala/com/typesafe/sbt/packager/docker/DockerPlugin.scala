@@ -125,6 +125,7 @@ object DockerPlugin extends AutoPlugin {
           case (_, path) if path.endsWith(".sh") => DockerChmodType.UserGroupPlusExecute -> path
         }
     },
+    dockerGroupFiles := Seq(("*" -> 0)),
     dockerCommands := {
       val strategy = dockerPermissionStrategy.value
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
@@ -134,6 +135,13 @@ object DockerPlugin extends AutoPlugin {
       val gidOpt = (daemonGroupGid in Docker).value
       val base = dockerBaseImage.value
       val addPerms = dockerAdditionalPermissions.value
+      val fileGroupingsSorted = dockerGroupFiles.value.sortBy(_._2)
+
+      val layers =
+        fileGroupingsSorted.map {
+          case (glob, layer) =>
+            makeCopySrcDest(s"$dockerBaseDirectory/lib/$glob", s"$dockerBaseDirectory/lib/$layer")
+        }
 
       val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
@@ -142,10 +150,9 @@ object DockerPlugin extends AutoPlugin {
           Seq(
             makeFromAs(base, stage0name),
             makeWorkdir(dockerBaseDirectory),
-            makeCopy(dockerBaseDirectory),
-            makeUser("root"),
-            makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))
-          ) ++
+            makeCopySrcDest(s"$dockerBaseDirectory/bin", s"$dockerBaseDirectory/bin")
+          ) ++ layers ++
+            Seq(makeUser("root"), makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
             (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) }) ++
             Seq(DockerStageBreak)
         case _ => Seq()
@@ -159,7 +166,18 @@ object DockerPlugin extends AutoPlugin {
         Seq(makeWorkdir(dockerBaseDirectory)) ++
         (strategy match {
           case DockerPermissionStrategy.MultiStage =>
-            Seq(makeCopyFrom(dockerBaseDirectory, stage0name, user, group))
+            val copies = fileGroupingsSorted.map {
+              case (_, layer) =>
+                makeCopyFromSrcDest(
+                  s"$dockerBaseDirectory/lib/$layer",
+                  s"$dockerBaseDirectory/lib/$layer",
+                  stage0name,
+                  user,
+                  group
+                )
+            }
+
+            Seq(makeCopyFromSrcDest(s"$dockerBaseDirectory/bin", s"$dockerBaseDirectory/bin", stage0name, user, group)) ++ copies
           case DockerPermissionStrategy.Run =>
             Seq(makeCopy(dockerBaseDirectory), makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
               (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
@@ -303,6 +321,11 @@ object DockerPlugin extends AutoPlugin {
     Cmd("COPY", s"$files /$files")
   }
 
+  private final def makeCopySrcDest(src: String, dest: String): CmdLike = {
+    val fromFiles = src.split(UnixSeparatorChar).tail.mkString(s"$UnixSeparatorChar")
+    Cmd("COPY", s"$fromFiles $dest")
+  }
+
   /**
     * @param dockerBaseDirectory the installation directory
     * @param from files are copied from the given build stage
@@ -315,6 +338,13 @@ object DockerPlugin extends AutoPlugin {
                                  daemonUser: String,
                                  daemonGroup: String): CmdLike =
     Cmd("COPY", s"--from=$from --chown=$daemonUser:$daemonGroup $dockerBaseDirectory $dockerBaseDirectory")
+
+  private final def makeCopyFromSrcDest(src: String,
+                                        dest: String,
+                                        from: String,
+                                        daemonUser: String,
+                                        daemonGroup: String): CmdLike =
+    Cmd("COPY", s"--from=$from --chown=$daemonUser:$daemonGroup $src $dest")
 
   /**
     * @param dockerBaseDirectory the installation directory

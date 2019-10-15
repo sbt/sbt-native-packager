@@ -51,4 +51,8 @@ private[packager] trait DockerKeysEx extends DockerKeys {
   lazy val dockerChmodType = settingKey[DockerChmodType]("The file permissions for the files copied into Docker image.")
   lazy val dockerAdditionalPermissions =
     taskKey[Seq[(DockerChmodType, String)]]("Explicit chmod calls to some of the paths.")
+  lazy val dockerGroupFiles =
+    settingKey[Seq[(String, Int)]](
+      "Order file mappings. Lower order means the file would be a part of an earlier layer. Keys are globs."
+    )
 }
