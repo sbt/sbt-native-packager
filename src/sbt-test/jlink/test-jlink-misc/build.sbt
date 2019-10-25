@@ -62,3 +62,21 @@ val issue1247JakartaJavaModules = project
     ),
     runChecks := jlinkBuildImage.value
   )
+
+// Should succeed for large classpaths.
+val issue1266 = project
+  .enablePlugins(JlinkPlugin)
+  .settings(
+    // An arbitrary JAR with a non-platform module.
+    libraryDependencies += "com.sun.xml.fastinfoset" % "FastInfoset" % "1.2.16",
+    // A lot of "dummy" dependencies, so that the resulting classpath is over
+    // the command line limit (2MB on my machine)
+    unmanagedJars in Compile ++= {
+      def mkPath(ix: Int) = target.value / s"there-is-no-such-file-$ix.jar"
+
+      1.to(300000).map(mkPath)
+    },
+    logLevel in jlinkModules := Level.Error,
+
+    runChecks := jlinkBuildImage.value
+  )
