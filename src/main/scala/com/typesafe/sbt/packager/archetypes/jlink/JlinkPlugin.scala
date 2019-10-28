@@ -71,7 +71,7 @@ object JlinkPlugin extends AutoPlugin {
 
       // Jdeps has a few convenient options (like --print-module-deps), but those
       // are not flexible enough - we need to parse the full output.
-      val jdepsOutput = runForOutput(run("jdeps", "--multi-release" +: javaVersion +: "-R" +: paths), log)
+      val jdepsOutput = run("jdeps", "--multi-release" +: javaVersion +: "-R" +: paths)
 
       val deps = jdepsOutput.linesIterator
       // There are headers in some of the lines - ignore those.
@@ -146,7 +146,7 @@ object JlinkPlugin extends AutoPlugin {
 
       IO.delete(outDir)
 
-      runForOutput(run("jlink", jlinkOptions.value), log)
+      run("jlink", jlinkOptions.value)
 
       outDir
     },
@@ -176,12 +176,26 @@ object JlinkPlugin extends AutoPlugin {
   private lazy val defaultJavaHome: File =
     file(sys.props.getOrElse("java.home", sys.error("no java.home")))
 
-  private def runJavaTool(jvm: File, log: Logger)(exeName: String, args: Seq[String]): ProcessBuilder = {
-    val exe = (jvm / "bin" / exeName).getAbsolutePath
+  private def runJavaTool(jvm: File, log: Logger)(toolName: String, args: Seq[String]): String = {
+    log.info("Running: " + (toolName +: args).mkString(" "))
 
-    log.info("Running: " + (exe +: args).mkString(" "))
+    val toolLauncherClass = classOf[ru.eldis.toollauncher.ToolLauncher]
+    val toolLauncherJar = file(
+      // This assumes that the code source is a file or a directory (as opposed
+      // to a remote URL) - but that should hold.
+      toolLauncherClass.getProtectionDomain.getCodeSource.getLocation.getPath
+    ).getAbsolutePath
 
-    Process(exe, args)
+    val javaExe = (jvm / "bin" / "java").getAbsolutePath
+
+    IO.withTemporaryFile(s"snp-$toolName-", "args") { argFile =>
+      IO.writeLines(argFile, args)
+
+      val argFileArg = "@" + argFile.getAbsolutePath
+      val builder = Process(Vector(javaExe, "-jar", toolLauncherJar, "-tool", toolName, argFileArg))
+
+      runForOutput(builder, log)
+    }
   }
 
   // Like `ProcessBuilder.!!`, but this logs the output in case of a non-zero
