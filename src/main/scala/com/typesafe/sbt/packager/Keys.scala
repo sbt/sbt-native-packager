@@ -55,6 +55,7 @@ object Keys
     with archetypes.JavaServerAppKeys
     with archetypes.jlink.JlinkKeys
     with archetypes.systemloader.SystemloaderKeys
+    with archetypes.scripts.AshStartScriptKeys
     with archetypes.scripts.BashStartScriptKeys
     with archetypes.scripts.BatStartScriptKeys
     with validation.ValidationKeys

@@ -1,105 +1,160 @@
 #!/bin/sh
 
-realpath () {
-(
-  TARGET_FILE="$1"
 
-  cd "$(dirname "$TARGET_FILE")"
-  TARGET_FILE=$(basename "$TARGET_FILE")
+export APP_NAME
+export APP_HOME
+export LIB_DIR
+export APP_JAVA_OPTS
+export APP_JAVA_ARGS
+export APP_MAINCLASS
+export JAVA_HOME
+export JAVA_CMD
+export JAVA_VERSION
+export JAVA_TOOL_OPTIONS
+export JAVA_OPTS
+export JAVA_ARGS
+export CLASSPATH
+export MAINCLASS
+export NO_VERSION_CHECK="false"
+export VERBOSE="false"
+export DEBUG="false"
 
-  COUNT=0
-  while [ -L "$TARGET_FILE" -a $COUNT -lt 100 ]
-  do
-      TARGET_FILE=$(readlink "$TARGET_FILE")
-      cd "$(dirname "$TARGET_FILE")"
-      TARGET_FILE=$(basename "$TARGET_FILE")
-      COUNT=$(($COUNT + 1))
-  done
 
-  if [ "$TARGET_FILE" = "." -o "$TARGET_FILE" = ".." ]; then
-    cd "$TARGET_FILE"
-    TARGET_FILEPATH=
-  else
-    TARGET_FILEPATH=/$TARGET_FILE
-  fi
-
-  echo "$(pwd -P)/$TARGET_FILE"
-)
+dlog() {
+  $DEBUG && echo "[debug] [$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
 }
 
-# Allow user and template_declares (see below) to add java options.
-addJava () {
-  java_opts="$java_opts $1"
+elog() {
+  echo "[error] [$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
 }
 
-# Allow user to specify java options. These get listed first per bash-template.
-if [ -n "$JAVA_OPTS" ]
-then
-  addJava "$JAVA_OPTS"
-fi
-
-# Loads a configuration file full of default command line options for this script.
-loadConfigFile() {
-  cat "$1" | sed '/^\#/d;s/\r$//' | sed 's/^-J-X/-X/' | tr '\r\n' ' '
+die() {
+  elog "$1"
+  exit "$2"
 }
 
-# Detect which JVM we should use.
-get_java_cmd() {
-  # High-priority override for Jlink images
-  if [ -n "$bundled_jvm" ];  then
-    echo "$bundled_jvm/bin/java"
-  elif [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ];  then
-    echo "$JAVA_HOME/bin/java"
-  else
-    echo "java"
-  fi
+resolve_primary_environment_variables() {
+  readonly APP_NAME="${0##*/}" || die "Error resolving APP_NAME" $?
+  readonly APP_HOME="$(dirname "$(realpath "$0")")" || die "Error resolving APP_HOME" $?
+  readonly LIB_DIR="$([ -n "$APP_HOME" ] && echo "$(dirname "$APP_HOME")/lib")" || die "Error resolving LIB_DIR" $?
 }
 
-# Processes incoming arguments and places them in appropriate global variables.  called by the run method.
-process_args () {
-  local no_more_snp_opts=0
-  while [[ $# -gt 0 ]]; do
+resolve_arguments() {
+  while [ $# -gt 0 ]; do
     case "$1" in
-             --) shift && no_more_snp_opts=1 && break ;;
-       -h|-help) usage; exit 1 ;;
-    -v|-verbose) verbose=1 && shift ;;
-      -d|-debug) debug=1 && shift ;;
-
-    -no-version-check) no_version_check=1 && shift ;;
-
-           -mem) echo "!! WARNING !! -mem option is ignored. Please use -J-Xmx and -J-Xms" && shift 2 ;;
-     -jvm-debug) require_arg port "$1" "$2" && addDebugger $2 && shift 2 ;;
-
-          -main) custom_mainclass="$2" && shift 2 ;;
-
-     -java-home) require_arg path "$1" "$2" && jre=`eval echo $2` && java_cmd="$jre/bin/java" && shift 2 ;;
-
- -D*|-agentlib*|-XX*) addJava "$1" && shift ;;
-                 -J*) addJava "${1:2}" && shift ;;
-                   *) addResidual "$1" && shift ;;
+      -h|-help) usage ;;
+      -v|-verbose) VERBOSE=true && shift ;;
+      -d|-debug) DEBUG=true && shift ;;
+      -no-version-check) NO_VERSION_CHECK=true && shift ;;
+      -mem) echo "!! WARNING !! -mem option is ignored. Please use -Xmx and -Xms" && shift 2 ;;
+      -java-home) [ -n "$2" -a "${2#-}" = "$2" ] || die "$1 requires <path> argument" &&\
+                   JAVA_HOME="$2" && shift 2 ;;
+      -main) [ -n "$2" -a "${2#-}" = "$2" ] || die "$1 requires <classname> argument" &&\
+              APP_MAINCLASS="$2" && shift 2 ;;
+      -D*|-agentlib*|-X*|-XX*) APP_JAVA_OPTS="$APP_JAVA_OPTS $1" && shift ;;
+      *) break;
     esac
   done
-
-  if [[ no_more_snp_opts ]]; then
-    while [[ $# -gt 0 ]]; do
-      addResidual "$1" && shift
-    done
+  if [ $# -gt 0 ]; then
+    APP_JAVA_ARGS="$@"
   fi
 }
 
-real_script_path="$(realpath "$0")"
-app_home="$(realpath "$(dirname "$real_script_path")")"
-lib_dir="$(realpath "${app_home}/../lib")"
+resolve_java() {
+  JAVA_CMD="$([ -n "$JAVA_HOME" -a -x "$JAVA_HOME/bin/java" ] && echo "$JAVA_HOME/bin/java" || echo "$(which java)")" || die "Error resolving java" $?
+  if [ -z "$JAVA_CMD" ]; then
+    printf "%s\n%s" "No java installations was detected." "Please go to http://www.java.com/getjava/ and download"
+    return 1
+  fi
+  JAVA_VERSION="$([ -n "$JAVA_CMD" ] && echo "$("$JAVA_CMD" -version 2>&1 | head -n 1 | cut -d'"' -f2)")" || die "Error resolving java version" $?
+  if $NO_VERSION_CHECK || [ -z "$JAVA_VERSION" -o "$(echo "$JAVA_VERSION" | cut -d'.' -f2)" -lt "6" ]; then
+    printf "%s\n%s\n%s\n\n%s\n%s\n" "The java installation you have is not up to date."\
+     "$APP_NAME requires at least version 1.6+, you have"\
+     "version $JAVA_VERSION"\
+     "Please go to http://www.java.com/getjava/ and download"
+     "a valid Java Runtime and install before running $APP_NAME."
+    return 1
+  fi
+}
 
-app_mainclass=${{app_mainclass}}
+usage() {
+cat << EOM
+Usage: $APP_NAME [-options] [args...]
 
-${{template_declares}}
+where options include:
+  -h | -help            print this message
+  -v | -verbose         this runner is chattier
+  -d | -debug           set log level to debug
+  -no-version-check     don't run java version check, the default
+  -main <classname>     define a custom main class
 
-process_args "$@"
+  # jvm options
+  -D<property>=<value>  set the system property value
+  -X<option>            pass -X option to jvm
+  -XX<option>           pass -XX option to jvm
+  -agentlib:<lib>       pass -agentlib option with lib native library agent to jvm
 
-java_cmd="$(get_java_cmd)"
+  # java home (currently $JAVA_HOME)
+  -java-home <path>     alternate JAVA_HOME environment variable
 
-# If a configuration file exist, read the contents to $opts
-[ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
 
-exec "$java_cmd" $java_opts -classpath $app_classpath $opts $app_mainclass "$@"
+where args are arguments passed to the main() method separated by spaces
+
+
+jvm environment variables
+  JAVA_HOME
+                       environment variable containing the path to java installation,
+                       if blank the application tries to locate available "java" command
+                       (currently: "$JAVA_HOME")
+  JAVA_TOOL_OPTIONS
+                       environment variable containing the options passed to jvm
+                       (currently: "$JAVA_TOOL_OPTIONS")
+  JAVA_OPTS
+                       same as JAVA_TOOL_OPTIONS, used if JAVA_TOOL_OPTIONS is blank
+                       (currently: "$JAVA_OPTS")
+  JAVA_ARGS
+                       arguments passed to the main() method separated by spaces
+                       (currently: "$JAVA_ARGS")
+
+
+In case of duplicated jvm options, in resolving precedence, the order is as follows:
+  1. Options passed to the script
+  2. JAVA_TOOL_OPTIONS
+  3. JAVA_OPTS
+
+
+In case of duplicated jvm args, in resolving precedence, the order is as follows:
+  1. Arguments passed to the script
+  2. JAVA_ARGS
+
+
+The custom main class passed by the -main option overrides the default.
+"${{available-mainclasses}}"
+EOM
+exit 0
+}
+
+execRunner () {
+  $VERBOSE || $DEBUG && dlog "Executing $@"
+  local_java_cmd="$1"
+  local_java_tool_options="$2"
+  local_classpath="$4"
+  local_java_args="$5"
+  exec $local_java_cmd $local_java_tool_options -cp "$local_classpath" $local_java_args
+}
+
+main() {
+  resolve_primary_environment_variables || die "Error resolving primary environment variables" $?
+  resolve_arguments "$@" || die "Error resolving arguments" $?
+  resolve_java || die "Error resolving java" $?
+
+  [ -n "$APP_JAVA_OPTS" ] && JAVA_TOOL_OPTIONS="$APP_JAVA_OPTS"
+  [ -z "$JAVA_TOOL_OPTIONS" -a -n "$JAVA_OPTS" ] && JAVA_TOOL_OPTIONS="$JAVA_OPTS"
+  [ -n "$APP_MAINCLASS" ] && MAINCLASS="$APP_MAINCLASS" || MAINCLASS="${{mainclass}}"
+  [ -n "$APP_JAVA_ARGS" ] && JAVA_ARGS="$APP_JAVA_ARGS"
+  CLASSPATH="${{classpath}}" || [ -n "$CLASSPATH" ] && CLASSPATH="$LIB_DIR/*" || die "Error resolving classpath"
+
+  execRunner "$JAVA_CMD" "$JAVA_TOOL_OPTIONS" "-cp" "$CLASSPATH" "$MAINCLASS" "$JAVA_ARGS"
+}
+
+main "$@"
