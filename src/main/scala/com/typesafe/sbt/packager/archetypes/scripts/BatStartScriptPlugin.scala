@@ -39,7 +39,6 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
   override protected[this] val executableBitValue: Boolean = false
 
   override val requires = JavaAppPackaging
-  override val trigger = AllRequirements
 
   object autoImport extends BatStartScriptKeys
   import autoImport._
@@ -131,7 +130,6 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
       ),
       (mainClass in (Compile, batScriptReplacements)).value,
       (discoveredMainClasses in Compile).value,
-      (target in Universal).value / "scripts",
       streams.value.log
     ),
     mappings in Universal ++= makeBatScripts.value

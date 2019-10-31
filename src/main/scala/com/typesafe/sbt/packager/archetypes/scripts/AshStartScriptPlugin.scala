@@ -36,7 +36,7 @@ import sbt._
   * == Configuration ==
   *
   * This plugin adds new configuration settings to your packaged application.
-  * The keys are defined in [[com.typesafe.sbt.packager.archetypes.scripts.AshStartScriptPlugin]].
+  * The keys are defined in [[com.typesafe.sbt.packager.archetypes.scripts.AshStartScriptKeys]].
   *
   * Enable this plugin in your `build.sbt` with
   *
@@ -58,7 +58,7 @@ object AshStartScriptPlugin extends AutoPlugin with CommonStartScriptGenerator {
     sealed trait Replacement {
       val templateKey: String
       val value: String
-      def replace: (String, String) = templateKey -> value
+      def replacement: (String, String) = templateKey -> value
     }
 
     case class Mainclass(override val value: String) extends Replacement {
@@ -87,21 +87,12 @@ object AshStartScriptPlugin extends AutoPlugin with CommonStartScriptGenerator {
   val templateName = "ash-template"
 
   override def requires: Plugins = JavaAppPackaging
-  override def trigger: PluginTrigger = allRequirements
 
   override protected[this] val scriptSuffix: String = ".sh"
   override protected[this] val forwarderTemplateName: String = "ash-forwarded-template"
   override protected[this] val eol: String = "\n"
   override protected[this] val keySurround: String => String = TemplateWriter.ashFriendlyKeySurround
   override protected[this] val executableBitValue: Boolean = true
-  override protected[this] def createReplacementsForMainScript(mainClass: String,
-                                                               mainClasses: Seq[String],
-                                                               config: SpecializedScriptConfig): Seq[(String, String)] =
-    Seq(
-      Mainclass(mainClass).replace,
-      AvailableMainclasses(if (mainClasses.nonEmpty) mainClasses.mkString("Available main classes:\n\t", "\n\t", "") else "").replace,
-      Classpath(config.scriptClasspath.mkString(":")).replace
-    )
 
   override def projectSettings: Seq[Setting[_]] = Seq(
     makeAshScripts := generateStartScripts(
@@ -113,21 +104,19 @@ object AshStartScriptPlugin extends AutoPlugin with CommonStartScriptGenerator {
       ),
       (mainClass in Compile).value,
       (discoveredMainClasses in Compile).value,
-      (target in Universal).value / "scripts",
       streams.value.log
     ),
     ashScriptTemplateName := templateName,
     ashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashScriptTemplateName.value),
-    ashScriptReplacements := createReplacementsForMainScript(
-      (mainClass in Compile).value.getOrElse(""),
-      (discoveredMainClasses in Compile).value,
-      AshScriptConfig(
-        executableScriptName = executableScriptName.value,
-        scriptClasspath = scriptClasspath.value,
-        replacements = Seq(),
-        templateLocation = ashScriptTemplateLocation.value
-      )
-    ),
+    ashScriptReplacements :=
+      Seq(
+        Mainclass((mainClass in Compile).value.getOrElse("")).replacement,
+        AvailableMainclasses {
+          val mainClasses = (discoveredMainClasses in Compile).value
+          if (mainClasses.nonEmpty) mainClasses.mkString("Available main classes:\n\t", "\n\t", "") else ""
+        }.replacement,
+        Classpath("$LIB_DIR/*").replacement
+      ),
     mappings in Universal ++= makeAshScripts.value
   )
 

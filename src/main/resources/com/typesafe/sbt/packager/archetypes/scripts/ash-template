@@ -67,7 +67,7 @@ resolve_java() {
     return 1
   fi
   JAVA_VERSION="$([ -n "$JAVA_CMD" ] && echo "$("$JAVA_CMD" -version 2>&1 | head -n 1 | cut -d'"' -f2)")" || die "Error resolving java version" $?
-  if $NO_VERSION_CHECK || [ -z "$JAVA_VERSION" -o "$(echo "$JAVA_VERSION" | cut -d'.' -f2)" -lt "6" ]; then
+  if $NO_VERSION_CHECK || [ -z "$JAVA_VERSION" ] && [ "$(echo "$JAVA_VERSION" | cut -d'.' -f1)" = "1" -a "$(echo "$JAVA_VERSION" | cut -d'.' -f2)" -lt "6" ]; then
     printf "%s\n%s\n%s\n\n%s\n%s\n" "The java installation you have is not up to date."\
      "$APP_NAME requires at least version 1.6+, you have"\
      "version $JAVA_VERSION"\
