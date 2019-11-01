@@ -1,3 +1,9 @@
+import collection.JavaConverters._
+
 object MainApp extends App {
-  println(args.mkString("|"))
+  val jvmOptions = java.lang.management.ManagementFactory.getRuntimeMXBean.getInputArguments.asScala.mkString(" ")
+  val arguments = args.mkString(" ")
+
+  println(jvmOptions + " " + arguments)
+
 }

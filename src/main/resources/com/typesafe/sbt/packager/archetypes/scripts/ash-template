@@ -10,7 +10,6 @@ export APP_MAINCLASS
 export JAVA_HOME
 export JAVA_CMD
 export JAVA_VERSION
-export JAVA_TOOL_OPTIONS
 export JAVA_OPTS
 export JAVA_ARGS
 export CLASSPATH
@@ -106,11 +105,8 @@ jvm environment variables
                        environment variable containing the path to java installation,
                        if blank the application tries to locate available "java" command
                        (currently: "$JAVA_HOME")
-  JAVA_TOOL_OPTIONS
-                       environment variable containing the options passed to jvm
-                       (currently: "$JAVA_TOOL_OPTIONS")
   JAVA_OPTS
-                       same as JAVA_TOOL_OPTIONS, used if JAVA_TOOL_OPTIONS is blank
+                       environment variable containing the options passed to jvm
                        (currently: "$JAVA_OPTS")
   JAVA_ARGS
                        arguments passed to the main() method separated by spaces
@@ -119,7 +115,6 @@ jvm environment variables
 
 In case of duplicated jvm options, in resolving precedence, the order is as follows:
   1. Options passed to the script
-  2. JAVA_TOOL_OPTIONS
   3. JAVA_OPTS
 
 
@@ -137,10 +132,11 @@ exit 0
 execRunner () {
   $VERBOSE || $DEBUG && dlog "Executing $@"
   local_java_cmd="$1"
-  local_java_tool_options="$2"
+  local_java_opts="$2"
   local_classpath="$4"
-  local_java_args="$5"
-  exec $local_java_cmd $local_java_tool_options -cp "$local_classpath" $local_java_args
+  local_mainclass="$5"
+  local_java_args="$6"
+  exec $local_java_cmd $local_java_opts -cp "$local_classpath" $local_mainclass $local_java_args
 }
 
 main() {
@@ -148,13 +144,12 @@ main() {
   resolve_arguments "$@" || die "Error resolving arguments" $?
   resolve_java || die "Error resolving java" $?
 
-  [ -n "$APP_JAVA_OPTS" ] && JAVA_TOOL_OPTIONS="$APP_JAVA_OPTS"
-  [ -z "$JAVA_TOOL_OPTIONS" -a -n "$JAVA_OPTS" ] && JAVA_TOOL_OPTIONS="$JAVA_OPTS"
+  [ -n "$APP_JAVA_OPTS" ] && JAVA_OPTS="$APP_JAVA_OPTS"
   [ -n "$APP_MAINCLASS" ] && MAINCLASS="$APP_MAINCLASS" || MAINCLASS="${{mainclass}}"
   [ -n "$APP_JAVA_ARGS" ] && JAVA_ARGS="$APP_JAVA_ARGS"
-  CLASSPATH="${{classpath}}" || [ -n "$CLASSPATH" ] && CLASSPATH="$LIB_DIR/*" || die "Error resolving classpath"
+  CLASSPATH="${{classpath}}" || [ -z "$CLASSPATH" ] && CLASSPATH="$LIB_DIR/*"
 
-  execRunner "$JAVA_CMD" "$JAVA_TOOL_OPTIONS" "-cp" "$CLASSPATH" "$MAINCLASS" "$JAVA_ARGS"
+  execRunner "$JAVA_CMD" "$JAVA_OPTS" "-cp" "$CLASSPATH" "$MAINCLASS" "$JAVA_ARGS"
 }
 
 main "$@"

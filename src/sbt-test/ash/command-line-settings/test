@@ -1,4 +1,4 @@
 # Run the staging and check the script.
 > stage
-$ exists target/universal/stage/bin/command-line-app
+$ exists target/universal/stage/bin/command-line-app.sh
 > runCheck

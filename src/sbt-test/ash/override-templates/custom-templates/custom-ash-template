@@ -2,5 +2,6 @@
 
 # this is the custom bash template
 
-app_mainclass=${{app_mainclass}}
-${{template_declares}}
+MAINCLASS=${{mainclass}}
+CLASSPATH=${{classpath}}
+AVAILIALBLE_MAINCLASSES=${{available-mainclasses}}

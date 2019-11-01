@@ -1,3 +1,4 @@
 # Run the staging and check the script.
 > stage
-> runCheckAsh
+$ exists target/universal/stage/bin/override-templates.sh
+> runCheck
