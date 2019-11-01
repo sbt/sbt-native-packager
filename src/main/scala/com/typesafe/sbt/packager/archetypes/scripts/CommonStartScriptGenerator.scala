@@ -62,29 +62,31 @@ trait CommonStartScriptGenerator {
   protected[this] def generateStartScripts(config: SpecializedScriptConfig,
                                            mainClass: Option[String],
                                            discoveredMainClasses: Seq[String],
+                                           targetDir: File,
                                            log: sbt.Logger): Seq[(File, String)] =
     StartScriptMainClassConfig.from(mainClass, discoveredMainClasses) match {
       case NoMain =>
         log.warn("You have no main class in your project. No start script will be generated.")
         Seq.empty
       case SingleMain(main) =>
-        Seq(createMainScript(main, config, Seq(main)))
+        Seq(createMainScript(main, config, targetDir, Seq(main)))
       case MultipleMains(mains) =>
-        generateMainScripts(mains, config, log)
+        generateMainScripts(mains, config, targetDir, log)
       case ExplicitMainWithAdditional(main, additional) =>
-        createMainScript(main, config, discoveredMainClasses) +:
-          createForwarderScripts(config.executableScriptName, additional, config, log)
+        createMainScript(main, config, targetDir, discoveredMainClasses) +:
+          createForwarderScripts(config.executableScriptName, additional, targetDir, config, log)
     }
 
   private[this] def generateMainScripts(discoveredMainClasses: Seq[String],
                                         config: SpecializedScriptConfig,
+                                        targetDir: File,
                                         log: sbt.Logger): Seq[(File, String)] = {
     val classAndScriptNames = ScriptUtils.createScriptNames(discoveredMainClasses)
     ScriptUtils.warnOnScriptNameCollision(classAndScriptNames, log)
     classAndScriptNames.map {
       case (qualifiedClassName, scriptName) =>
         val newConfig = config.withScriptName(scriptName)
-        createMainScript(qualifiedClassName, newConfig, discoveredMainClasses)
+        createMainScript(qualifiedClassName, newConfig, targetDir, discoveredMainClasses)
     }
   }
 
@@ -95,17 +97,19 @@ trait CommonStartScriptGenerator {
     *
     * @param mainClass - Main class added to the java command
     * @param config - Config data for this script
+    * @param targetDir - Target directory for this script
     * @param mainClasses - Discovered main classes
     * @return File pointing to the created main script
     */
   private[this] def createMainScript(mainClass: String,
                                      config: SpecializedScriptConfig,
+                                     targetDir: File,
                                      mainClasses: Seq[String]): (File, String) = {
     val template = resolveTemplate(config.templateLocation)
     val replacements = createReplacementsForMainScript(mainClass, mainClasses, config)
     val scriptContent = TemplateWriter.generateScript(template, replacements, eol, keySurround)
     val scriptNameWithSuffix = mainScriptName(config)
-    val script = new File(scriptTargetFolder) / scriptNameWithSuffix
+    val script = targetDir / scriptTargetFolder / scriptNameWithSuffix
 
     IO.write(script, scriptContent)
     // TODO - Better control over this!
@@ -119,15 +123,17 @@ trait CommonStartScriptGenerator {
 
   private[this] def createForwarderScripts(executableScriptName: String,
                                            discoveredMainClasses: Seq[String],
+                                           targetDir: File,
                                            config: ScriptConfig,
                                            log: sbt.Logger): Seq[(File, String)] = {
+    val tmp = targetDir / scriptTargetFolder
     val forwarderTemplate = getClass.getResource(forwarderTemplateName)
     val classAndScriptNames = ScriptUtils.createScriptNames(discoveredMainClasses)
     ScriptUtils.warnOnScriptNameCollision(classAndScriptNames :+ ("<main script>" -> mainScriptName(config)), log)
     classAndScriptNames.map {
       case (qualifiedClassName, scriptNameWithoutSuffix) =>
         val scriptName = scriptNameWithoutSuffix + scriptSuffix
-        val file = new File(scriptTargetFolder) / scriptName
+        val file = tmp / scriptName
 
         val replacements = Seq("startScript" -> mainScriptName(config), "qualifiedClassName" -> qualifiedClassName)
         val scriptContent = TemplateWriter.generateScript(forwarderTemplate, replacements, eol, keySurround)

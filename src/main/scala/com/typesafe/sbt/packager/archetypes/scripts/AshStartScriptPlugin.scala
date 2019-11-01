@@ -104,6 +104,7 @@ object AshStartScriptPlugin extends AutoPlugin with CommonStartScriptGenerator {
       ),
       (mainClass in Compile).value,
       (discoveredMainClasses in Compile).value,
+      (target in Universal).value / "scripts",
       streams.value.log
     ),
     ashScriptTemplateName := templateName,

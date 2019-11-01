@@ -81,6 +81,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       ),
       (mainClass in (Compile, bashScriptDefines)).value,
       (discoveredMainClasses in Compile).value,
+      (target in Universal).value / "scripts",
       streams.value.log
     ),
     mappings in Universal ++= makeBashScripts.value

@@ -130,6 +130,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
       ),
       (mainClass in (Compile, batScriptReplacements)).value,
       (discoveredMainClasses in Compile).value,
+      (target in Universal).value / "scripts",
       streams.value.log
     ),
     mappings in Universal ++= makeBatScripts.value
