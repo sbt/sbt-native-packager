@@ -1,0 +1,7 @@
+> stage
+$ exists target/universal/stage/bin/single-main-with-additional.sh
+$ exists target/universal/stage/bin/foo.sh
+$ exists target/universal/stage/bin/bar.sh
+> runCheckMainApp
+> runCheckFoo
+> runCheckBar

@@ -34,8 +34,8 @@ die() {
 
 resolve_primary_environment_variables() {
   readonly APP_NAME="${0##*/}" || die "Error resolving APP_NAME" $?
-  readonly APP_HOME="$(dirname "$(realpath "$0")")" || die "Error resolving APP_HOME" $?
-  readonly LIB_DIR="$([ -n "$APP_HOME" ] && echo "$(dirname "$APP_HOME")/lib")" || die "Error resolving LIB_DIR" $?
+  readonly APP_HOME="$(dirname $(dirname "$(realpath "$0")"))" || die "Error resolving APP_HOME" $?
+  readonly LIB_DIR="$([ -n "$APP_HOME" ] && echo "$APP_HOME/lib")" || die "Error resolving LIB_DIR" $?
 }
 
 resolve_arguments() {

@@ -89,10 +89,12 @@ object AshStartScriptPlugin extends AutoPlugin with CommonStartScriptGenerator {
   override def requires: Plugins = JavaAppPackaging
 
   override protected[this] val scriptSuffix: String = ".sh"
-  override protected[this] val forwarderTemplateName: String = "ash-forwarded-template"
+  override protected[this] val forwarderTemplateName: String = "ash-forwarder-template"
   override protected[this] val eol: String = "\n"
   override protected[this] val keySurround: String => String = TemplateWriter.ashFriendlyKeySurround
   override protected[this] val executableBitValue: Boolean = true
+  override protected def createReplacementsForMainScript(mainClass: String, mainClasses: Seq[String], config: AshScriptConfig): Seq[(String, String)] =
+    Mainclass(mainClass).replacement +: config.replacements
 
   override def projectSettings: Seq[Setting[_]] = Seq(
     makeAshScripts := generateStartScripts(
@@ -111,7 +113,6 @@ object AshStartScriptPlugin extends AutoPlugin with CommonStartScriptGenerator {
     ashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashScriptTemplateName.value),
     ashScriptReplacements :=
       Seq(
-        Mainclass((mainClass in Compile).value.getOrElse("")).replacement,
         AvailableMainclasses {
           val mainClasses = (discoveredMainClasses in Compile).value
           if (mainClasses.nonEmpty) mainClasses.mkString("Available main classes:\n\t", "\n\t", "") else ""
