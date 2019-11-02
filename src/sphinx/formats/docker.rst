@@ -19,9 +19,10 @@ Requirements
 You need the version 1.10 or higher of the docker console client installed.
 SBT Native Packager doesn't use the REST API, but instead uses the CLI directly.
 
-It is currently not possible to provide authentication for Docker repositories from within the build.
-The ``docker`` binary used by the build should already have been configured with the appropriate
-authentication details. See https://docs.docker.com/engine/reference/commandline/login/.
+It is `currently not possible <https://github.com/sbt/sbt-native-packager/issues/654>`_ to provide authentication
+for Docker repositories from within the build. The ``docker`` binary used by the build should already have been configured
+with the appropriate authentication details. See https://docs.docker.com/engine/reference/commandline/login/ how to login
+to a Docker registry with username and password.
 
 
 Build
