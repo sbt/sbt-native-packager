@@ -38,6 +38,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
   override protected[this] val executableBitValue: Boolean = true
 
   override val requires = JavaAppPackaging
+  override val trigger = AllRequirements
 
   object autoImport extends BashStartScriptKeys
 

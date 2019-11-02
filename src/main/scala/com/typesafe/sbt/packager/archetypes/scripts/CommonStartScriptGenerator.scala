@@ -41,7 +41,7 @@ trait CommonStartScriptGenerator {
 
   protected[this] def createReplacementsForMainScript(mainClass: String,
                                                       mainClasses: Seq[String],
-                                                      config: SpecializedScriptConfig): Seq[(String, String)] = config.replacements
+                                                      config: SpecializedScriptConfig): Seq[(String, String)]
 
   protected[this] trait ScriptConfig {
     val executableScriptName: String

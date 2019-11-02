@@ -8,8 +8,7 @@ import com.typesafe.sbt.packager.archetypes.{JavaAppPackaging, TemplateWriter}
 import sbt.Keys._
 import sbt._
 
- /**
-  * == AshStartScript Plugin ==
+ /**== AshStartScript Plugin ==
   *
   * This class is an alternate to JavaAppPackaging designed to support the ash shell.  JavaAppPackaging
   * generates bash-specific code that is not compatible with ash, a very stripped-down, lightweight shell
@@ -22,11 +21,11 @@ import sbt._
   * in a highly-constrained environment like ash+BusyBox.  Something much simpler will do, for example:
   *
   * {{{
-  * #!/usr/bin/env sh
+  * #!/bin/sh
   *
   * APP_PATH="\u0024(realpath "\u00240")"
-  * APP_HOME="\u0024(realpath "\u0024(dirname "\u0024APP_PATH")")"
-  * LIB_DIR="\u0024(realpath "\u0024APP_HOME/lib")"
+  * APP_HOME="\u0024(dirname "\u0024(dirname "\u0024APP_PATH")")"
+  * LIB_DIR="\u0024APP_HOME/lib"
   * CLASSPATH="\u0024LIB_DIR/\u2731"
   * MAINCLASS="\u0024{{mainclass}}"
   *
@@ -48,7 +47,8 @@ import sbt._
   *
   */
 object AshStartScriptPlugin extends AutoPlugin with CommonStartScriptGenerator {
-
+  // TODO: Make this plugin to comply with bash/bat usage or vice versa
+  // TODO: Add to documentation
   override protected[this] type SpecializedScriptConfig = AshScriptConfig
 
   object autoImport extends AshStartScriptKeys
