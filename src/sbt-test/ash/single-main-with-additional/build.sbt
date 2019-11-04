@@ -4,7 +4,7 @@ name := "single-main-with-additional"
 
 version := "0.1.0-SNAPSHOT"
 
-Compile / mainClass := Some("MainApp")
+mainClass in Compile := Some("MainApp")
 
 TaskKey[Unit]("runCheckMainApp") := {
   val cwd = (stagingDirectory in Universal).value / "bin"
