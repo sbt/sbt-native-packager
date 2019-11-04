@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# this is the custom bash template
+# this is the custom ash template
 
 MAINCLASS=${{mainclass}}
 CLASSPATH=${{classpath}}

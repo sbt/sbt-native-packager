@@ -8,7 +8,7 @@ import com.typesafe.sbt.packager.archetypes.{JavaAppPackaging, TemplateWriter}
 import sbt.Keys._
 import sbt._
 
- /**== AshStartScript Plugin ==
+/**== AshStartScript Plugin ==
   *
   * This class is an alternate to JavaAppPackaging designed to support the ash shell.  JavaAppPackaging
   * generates bash-specific code that is not compatible with ash, a very stripped-down, lightweight shell
@@ -78,7 +78,8 @@ object AshStartScriptPlugin extends AutoPlugin with CommonStartScriptGenerator {
   protected[this] case class AshScriptConfig(override val executableScriptName: String,
                                              override val scriptClasspath: Seq[String],
                                              override val replacements: Seq[(String, String)],
-                                             override val templateLocation: File) extends ScriptConfig {
+                                             override val templateLocation: File)
+      extends ScriptConfig {
     override def withScriptName(scriptName: String): AshScriptConfig = copy(executableScriptName = scriptName)
   }
 
@@ -93,7 +94,9 @@ object AshStartScriptPlugin extends AutoPlugin with CommonStartScriptGenerator {
   override protected[this] val eol: String = "\n"
   override protected[this] val keySurround: String => String = TemplateWriter.ashFriendlyKeySurround
   override protected[this] val executableBitValue: Boolean = true
-  override protected def createReplacementsForMainScript(mainClass: String, mainClasses: Seq[String], config: AshScriptConfig): Seq[(String, String)] =
+  override protected def createReplacementsForMainScript(mainClass: String,
+                                                         mainClasses: Seq[String],
+                                                         config: AshScriptConfig): Seq[(String, String)] =
     Mainclass(mainClass).replacement +: config.replacements
 
   override def projectSettings: Seq[Setting[_]] = Seq(
@@ -112,13 +115,10 @@ object AshStartScriptPlugin extends AutoPlugin with CommonStartScriptGenerator {
     ashScriptTemplateName := templateName,
     ashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashScriptTemplateName.value),
     ashScriptReplacements :=
-      Seq(
-        AvailableMainclasses {
-          val mainClasses = (discoveredMainClasses in Compile).value
-          if (mainClasses.nonEmpty) mainClasses.mkString("Available main classes:\n\t", "\n\t", "") else ""
-        }.replacement,
-        Classpath("$LIB_DIR/*").replacement
-      ),
+      Seq(AvailableMainclasses {
+        val mainClasses = (discoveredMainClasses in Compile).value
+        if (mainClasses.nonEmpty) mainClasses.mkString("Available main classes:\n\t", "\n\t", "") else ""
+      }.replacement, Classpath("$LIB_DIR/*").replacement),
     mappings in Universal ++= makeAshScripts.value
   )
 
