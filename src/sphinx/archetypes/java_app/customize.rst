@@ -123,6 +123,7 @@ The default configuration looks like this
     bashScriptConfigLocation := Some("${app_home}/../conf/application.ini")
     batScriptConfigLocation := Some("%APP_HOME%\\conf\\application.ini")
 
+.. _add-code-to-the-start-scripts:
 
 Add code to the start scripts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
