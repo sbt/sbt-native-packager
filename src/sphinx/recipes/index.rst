@@ -17,5 +17,6 @@ This section provides recipes for common configurations. If you can't find what 
    scalajs
    package_configuration
    embedded-jvm
+   umask
 
 .. _sbt-native-packager examples: https://github.com/muuki88/sbt-native-packager-examples
