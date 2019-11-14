@@ -307,7 +307,7 @@ Usage: $script_name [options]
 
   -h | -help         print this message
   -v | -verbose      this runner is chattier
-  -d | -debug        set sbt log level to debug
+  -d | -debug        enable debug output for the launcher script
   -no-version-check  Don't run the java version check.
   -main <classname>  Define a custom main class
   -jvm-debug <port>  Turn on JVM debugging, open at the given port.
