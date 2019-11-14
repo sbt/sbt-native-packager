@@ -1,6 +1,7 @@
 package com.typesafe.sbt.packager.docker
 
 import java.io.File
+import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 
 import sbt._
@@ -96,6 +97,7 @@ object DockerPlugin extends AutoPlugin {
       Option((version in Docker).value)
     ),
     dockerUpdateLatest := false,
+    dockerAutoremoveMultiStageIntermediateImages := true,
     dockerAliases := {
       val alias = dockerAlias.value
       if (dockerUpdateLatest.value) {
@@ -134,6 +136,7 @@ object DockerPlugin extends AutoPlugin {
       val gidOpt = (daemonGroupGid in Docker).value
       val base = dockerBaseImage.value
       val addPerms = dockerAdditionalPermissions.value
+      val uniqueDockerfileId = UUID.randomUUID().toString
 
       val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
@@ -141,6 +144,8 @@ object DockerPlugin extends AutoPlugin {
         case DockerPermissionStrategy.MultiStage =>
           Seq(
             makeFromAs(base, stage0name),
+            makeLabel("sbt-native-packager-multi-stage" -> "intermediate"),
+            makeLabel("sbt-native-packager-multi-stage-id" -> uniqueDockerfileId),
             makeWorkdir(dockerBaseDirectory),
             makeCopy(dockerBaseDirectory),
             makeUser("root"),
@@ -180,7 +185,7 @@ object DockerPlugin extends AutoPlugin {
         // Seq(ExecCmd("RUN", Seq("ls", "-l", "/opt/docker/bin/"): _*)) ++
         Seq(makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
 
-      stage0 ++ stage1
+      Seq(makeComment(s"id=${uniqueDockerfileId}")) ++ stage0 ++ stage1
     }
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
     Seq(
@@ -190,7 +195,14 @@ object DockerPlugin extends AutoPlugin {
       packageName := packageName.value,
       publishLocal := {
         val log = streams.value.log
-        publishLocalDocker(stage.value, dockerBuildCommand.value, log)
+        publishLocalDocker(
+          stage.value,
+          dockerBuildCommand.value,
+          dockerExecCommand.value,
+          dockerPermissionStrategy.value,
+          dockerAutoremoveMultiStageIntermediateImages.value,
+          log
+        )
         log.info(
           s"Built image ${dockerAlias.value.withTag(None).toString} with tags [${dockerAliases.value.flatMap(_.tag).mkString(", ")}]"
         )
@@ -241,6 +253,13 @@ object DockerPlugin extends AutoPlugin {
       }
     )
   )
+
+  /**
+    * @param comment
+    * @return # comment
+    */
+  private final def makeComment(comment: String): CmdLike =
+    Comment(comment)
 
   /**
     * @param maintainer (optional)
@@ -497,11 +516,43 @@ object DockerPlugin extends AutoPlugin {
       override def buffer[T](f: => T): T = f
     }
 
-  def publishLocalDocker(context: File, buildCommand: Seq[String], log: Logger): Unit = {
+  def publishLocalDocker(context: File,
+                         buildCommand: Seq[String],
+                         execCommand: Seq[String],
+                         strategy: DockerPermissionStrategy,
+                         removeIntermediateImages: Boolean,
+                         log: Logger): Unit = {
     log.debug("Executing Native " + buildCommand.mkString(" "))
     log.debug("Working directory " + context.toString)
 
     val ret = sys.process.Process(buildCommand, context) ! publishLocalLogger(log)
+
+    // First let's see if there was a comment that tells us the id of the generated dockerfile
+    val headComments = IO.readLines(context / "Dockerfile").takeWhile(_.startsWith("# ")).map(_.substring(2))
+
+    if (removeIntermediateImages) {
+      strategy match {
+        case DockerPermissionStrategy.MultiStage =>
+          headComments.find(_.startsWith("id=")).map(_.substring(3).trim) match {
+            // No matter if the build process succeeded or failed, we try to remove the intermediate images
+            case Some(id) => {
+              val label = s"sbt-native-packager-multi-stage-id=${id}"
+              log.info(s"""Removing intermediate image(s) (labeled "${label}") """)
+              val retImageClean = sys.process.Process(
+                execCommand ++ s"image prune -f --filter label=${label}".split(" ")
+              ) ! publishLocalLogger(log)
+              // FYI: "docker image prune" returns 0 (success) no matter if images were removed or not
+              if (retImageClean != 0)
+                log.err("Something went wrong while removing multi-stage intermediate image(s)") // no exception, just let the user know
+            }
+            case None =>
+              log.info(
+                """Not removing multi-stage intermediate image(s) because id is missing in Dockerfile (Comment: "# id=...")"""
+              )
+          }
+        case _ => // Intermediate images are not generated when using other strategies
+      }
+    }
 
     if (ret != 0)
       throw new RuntimeException("Nonzero exit value: " + ret)

@@ -80,6 +80,13 @@ case class CombinedCmd(cmd: String, arg: CmdLike) extends CmdLike {
 }
 
 /**
+  * A comment
+  */
+case class Comment(comment: String) extends CmdLike {
+  def makeContent: String = "# %s\n" format (comment)
+}
+
+/**
   * A break in Dockerfile to express multi-stage build.
   * https://docs.docker.com/develop/develop-images/multistage-build/
   */
