@@ -82,6 +82,16 @@ mimaBinaryIssueFilters ++= {
     ),
     ProblemFilters.exclude[ReversedMissingMethodProblem](
       "com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImageKeys.com$typesafe$sbt$packager$graalvmnativeimage$GraalVMNativeImageKeys$_setter_$graalVMNativeImageGraalVersion_="
+    ),
+    // added via #1279
+    ProblemFilters.exclude[ReversedMissingMethodProblem](
+      "com.typesafe.sbt.packager.docker.DockerKeys.com$typesafe$sbt$packager$docker$DockerKeys$_setter_$dockerAutoremoveMultiStageIntermediateImages_="
+    ),
+    ProblemFilters.exclude[ReversedMissingMethodProblem](
+      "com.typesafe.sbt.packager.docker.DockerKeys.dockerAutoremoveMultiStageIntermediateImages"
+    ),
+    ProblemFilters.exclude[DirectMissingMethodProblem](
+      "com.typesafe.sbt.packager.docker.DockerPlugin.publishLocalDocker"
     )
   )
 }

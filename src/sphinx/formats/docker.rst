@@ -182,6 +182,13 @@ Publishing Settings
     Overrides the default Docker rmi command. This may be used if force flags or other options need to be passed to the command ``docker rmi``.
     Defaults to ``Seq("[dockerExecCommand]", "rmi")`` and will be directly appended with the image name and tag.
 
+  ``dockerAutoremoveMultiStageIntermediateImages``
+    If intermediate images should be automatically removed when ``MultiStage`` strategy is used.
+    Intermediate images usually aren't needed after packaging is finished and therefore defaults to ``true``.
+    All intermediate images are labeled ``snp-multi-stage=intermediate``.
+    If set to ``false`` and you want to remove all intermediate images at a later point, you can therefore do that by filtering for this label:
+    ``docker image prune -f --filter label=snp-multi-stage=intermediate``
+
 Tasks
 -----
 The Docker plugin provides the following commands:
