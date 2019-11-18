@@ -1,13 +1,13 @@
 # First make sure we start clean
-$ exec bash -c 'docker image prune -f --filter label=sbt-native-packager-multi-stage=intermediate'
+$ exec bash -c 'docker image prune -f --filter label=snp-multi-stage=intermediate'
 # Generate the Docker image locally
 > docker:publishLocal
 # By default intermediate images will be removed
--$ exec bash -c 'docker images --filter label=sbt-native-packager-multi-stage=intermediate | grep -q "<none>"'
+-$ exec bash -c 'docker images --filter label=snp-multi-stage=intermediate | grep -q "<none>"'
 # Now lets change the default so we keep those images
 > set dockerAutoremoveMultiStageIntermediateImages := false
 > docker:publishLocal
-$ exec bash -c 'docker images --filter label=sbt-native-packager-multi-stage=intermediate | grep -q "<none>"'
+$ exec bash -c 'docker images --filter label=snp-multi-stage=intermediate | grep -q "<none>"'
 # Alright, now let's remove them by hand
-$ exec bash -c 'docker image prune -f --filter label=sbt-native-packager-multi-stage=intermediate'
--$ exec bash -c 'docker images --filter label=sbt-native-packager-multi-stage=intermediate | grep -q "<none>"'
+$ exec bash -c 'docker image prune -f --filter label=snp-multi-stage=intermediate'
+-$ exec bash -c 'docker images --filter label=snp-multi-stage=intermediate | grep -q "<none>"'

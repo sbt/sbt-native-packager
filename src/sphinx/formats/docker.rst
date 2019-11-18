@@ -185,9 +185,9 @@ Publishing Settings
   ``dockerAutoremoveMultiStageIntermediateImages``
     If intermediate images should be automatically removed when ``MultiStage`` strategy is used.
     Intermediate images usually aren't needed after packaging is finished and therefore defaults to ``true``.
-    All intermediate images are labeled ``sbt-native-packager-multi-stage=intermediate``.
+    All intermediate images are labeled ``snp-multi-stage=intermediate``.
     If set to ``false`` and you want to remove all intermediate images at a later point, you can therefore do that by filtering for this label:
-    ``docker image prune -f --filter label=sbt-native-packager-multi-stage=intermediate``
+    ``docker image prune -f --filter label=snp-multi-stage=intermediate``
 
 Tasks
 -----

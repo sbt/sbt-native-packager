@@ -136,7 +136,7 @@ object DockerPlugin extends AutoPlugin {
       val gidOpt = (daemonGroupGid in Docker).value
       val base = dockerBaseImage.value
       val addPerms = dockerAdditionalPermissions.value
-      val uniqueDockerfileId = UUID.randomUUID().toString
+      val multiStageId = UUID.randomUUID().toString
 
       val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
@@ -144,8 +144,8 @@ object DockerPlugin extends AutoPlugin {
         case DockerPermissionStrategy.MultiStage =>
           Seq(
             makeFromAs(base, stage0name),
-            makeLabel("sbt-native-packager-multi-stage" -> "intermediate"),
-            makeLabel("sbt-native-packager-multi-stage-id" -> uniqueDockerfileId),
+            makeLabel("snp-multi-stage" -> "intermediate"),
+            makeLabel("snp-multi-stage-id" -> multiStageId),
             makeWorkdir(dockerBaseDirectory),
             makeCopy(dockerBaseDirectory),
             makeUser("root"),
@@ -185,7 +185,7 @@ object DockerPlugin extends AutoPlugin {
         // Seq(ExecCmd("RUN", Seq("ls", "-l", "/opt/docker/bin/"): _*)) ++
         Seq(makeEntrypoint(dockerEntrypoint.value), makeCmd(dockerCmd.value))
 
-      Seq(makeComment(s"id=${uniqueDockerfileId}")) ++ stage0 ++ stage1
+      stage0 ++ stage1
     }
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
     Seq(
@@ -527,16 +527,17 @@ object DockerPlugin extends AutoPlugin {
 
     val ret = sys.process.Process(buildCommand, context) ! publishLocalLogger(log)
 
-    // First let's see if there was a comment that tells us the id of the generated dockerfile
-    val headComments = IO.readLines(context / "Dockerfile").takeWhile(_.startsWith("# ")).map(_.substring(2))
-
     if (removeIntermediateImages) {
+      val labelKey = "snp-multi-stage-id"
+      val labelCmd = s"LABEL ${labelKey}="
       strategy match {
         case DockerPermissionStrategy.MultiStage =>
-          headComments.find(_.startsWith("id=")).map(_.substring(3).trim) match {
+          IO.readLines(context / "Dockerfile")
+            .find(_.startsWith(labelCmd))
+            .map(_.substring(labelCmd.size).stripPrefix("\"").stripSuffix("\"")) match {
             // No matter if the build process succeeded or failed, we try to remove the intermediate images
             case Some(id) => {
-              val label = s"sbt-native-packager-multi-stage-id=${id}"
+              val label = s"${labelKey}=${id}"
               log.info(s"""Removing intermediate image(s) (labeled "${label}") """)
               val retImageClean = sys.process.Process(
                 execCommand ++ s"image prune -f --filter label=${label}".split(" ")
