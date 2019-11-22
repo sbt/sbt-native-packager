@@ -5,3 +5,4 @@
 > issue1247ExternalModule/runChecks
 > issue1247JakartaJavaModules/runChecks
 > issue1266/runChecks
+-> issue1284/runFailingChecks
