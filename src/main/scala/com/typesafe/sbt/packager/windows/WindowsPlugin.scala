@@ -113,10 +113,7 @@ object WindowsPlugin extends AutoPlugin {
       IO.copy(for ((f, to) <- mappings.value) yield (f, target.value / to))
 
       // Now compile WIX
-      val wixdir = Option(System.getenv("WIX")) getOrElse sys.error(
-        "WIX environment not found.  Please ensure WIX is installed on this computer."
-      )
-      val candleCmd = (wixdir + "\\bin\\candle.exe") +:
+      val candleCmd = findWixExecutable("candle") +:
         wsxFiles.map(_.getAbsolutePath) ++:
         candleOptions.value
       val wixobjFiles = wsxFiles.map { wsx =>
@@ -130,9 +127,8 @@ object WindowsPlugin extends AutoPlugin {
       }
 
       // Now create MSI
-      val lightCmd = List(wixdir + "\\bin\\light.exe", "-out", msi.getAbsolutePath) ++ wixobjFiles.map(
-        _.getAbsolutePath
-      ) ++
+      val lightCmd = List(findWixExecutable("light"), "-out", msi.getAbsolutePath) ++ wixobjFiles
+        .map(_.getAbsolutePath) ++
         lightOptions.value
 
       streams.value.log.debug(lightCmd mkString " ")
@@ -197,6 +193,16 @@ object WindowsPlugin extends AutoPlugin {
       )
     // TODO - Add feature for shortcuts to binary scripts.
     Seq(corePackage, addBinToPath, menuLinks)
+  }
+
+  private def findWixExecutable(name: String): String = {
+    val wixDir = Option(System.getenv("WIX"))
+      .map(file)
+      .getOrElse(sys.error("WIX environment not found. Please ensure WIX is installed on this computer."))
+
+    val candidates = List(wixDir / (name + ".exe"), wixDir / "bin" / (name + ".exe"))
+
+    candidates.find(_.exists).getOrElse(sys.error(s"WIX executable $name.exe was not found in $wixDir")).getAbsolutePath
   }
 }
 
