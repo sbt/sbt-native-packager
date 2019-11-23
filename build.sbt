@@ -20,7 +20,7 @@ libraryDependencies ++= Seq(
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.5",
   // workaround for the command line size limit
-  "com.github.eldis" % "tool-launcher" % "0.2.1",
+  "com.github.eldis" % "tool-launcher" % "0.2.2",
   "org.scalatest" %% "scalatest" % "3.0.5" % Test
 )
 
