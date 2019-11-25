@@ -99,7 +99,7 @@ SBT is a java process, which means you can start it with system properties and u
 This pattern may be useful in other scopes as well. First we define an *AutoPlugin* that sets a build environment.
 
 .. code-block :: scala
-
+    // A working example of this is available at https://github.com/ryanberckmans/sbt-optimize-prod-with-build-env-plugin-example
     import sbt._
     import sbt.Keys._
     import sbt.plugins.JvmPlugin
