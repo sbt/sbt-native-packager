@@ -98,7 +98,7 @@ For a bash script this could look like this.
         """addJava "-Xmx2048m""""
      )
 
-For information take a look at the :doc:` customize section for java apps </archetypes/java_app/customize>`
+For more information take a look at the :ref:`according documentation<add-code-to-the-start-scripts>`.
 
 File - application.ini or etc-default
 -------------------------------------

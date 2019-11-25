@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Docker Plugin &mdash; sbt-native-packager 1.4.0 documentation</title>
+  <title>Docker Plugin &mdash; sbt-native-packager 1.5.1 documentation</title>
   
 
   
@@ -418,6 +418,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/umask.html">Setting the umask for your process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/umask.html#within-the-start-script">Within the start script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recipes/umask.html#system-v-systemd">System V/systemd</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -502,9 +507,10 @@
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <p>You need the version 1.10 or higher of the docker console client installed.
 SBT Native Packager doesn’t use the REST API, but instead uses the CLI directly.</p>
-<p>It is currently not possible to provide authentication for Docker repositories from within the build.
-The <code class="docutils literal notranslate"><span class="pre">docker</span></code> binary used by the build should already have been configured with the appropriate
-authentication details. See <a class="reference external" href="https://docs.docker.com/engine/reference/commandline/login/">https://docs.docker.com/engine/reference/commandline/login/</a>.</p>
+<p>It is <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/654">currently not possible</a> to provide authentication
+for Docker repositories from within the build. The <code class="docutils literal notranslate"><span class="pre">docker</span></code> binary used by the build should already have been configured
+with the appropriate authentication details. See <a class="reference external" href="https://docs.docker.com/engine/reference/commandline/login/">https://docs.docker.com/engine/reference/commandline/login/</a> how to login
+to a Docker registry with username and password.</p>
 </div>
 <div class="section" id="build">
 <h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
@@ -634,6 +640,12 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&qu
 <dt><code class="docutils literal notranslate"><span class="pre">dockerRmiCommand</span></code></dt>
 <dd>Overrides the default Docker rmi command. This may be used if force flags or other options need to be passed to the command <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">rmi</span></code>.
 Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;[dockerExecCommand]&quot;,</span> <span class="pre">&quot;rmi&quot;)</span></code> and will be directly appended with the image name and tag.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerAutoremoveMultiStageIntermediateImages</span></code></dt>
+<dd>If intermediate images should be automatically removed when <code class="docutils literal notranslate"><span class="pre">MultiStage</span></code> strategy is used.
+Intermediate images usually aren’t needed after packaging is finished and therefore defaults to <code class="docutils literal notranslate"><span class="pre">true</span></code>.
+All intermediate images are labeled <code class="docutils literal notranslate"><span class="pre">snp-multi-stage=intermediate</span></code>.
+If set to <code class="docutils literal notranslate"><span class="pre">false</span></code> and you want to remove all intermediate images at a later point, you can therefore do that by filtering for this label:
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">image</span> <span class="pre">prune</span> <span class="pre">-f</span> <span class="pre">--filter</span> <span class="pre">label=snp-multi-stage=intermediate</span></code></dd>
 </dl>
 </div></blockquote>
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Application and runtime configuration &mdash; sbt-native-packager 1.4.0 documentation</title>
+  <title>Application and runtime configuration &mdash; sbt-native-packager 1.5.1 documentation</title>
   
 
   
@@ -418,6 +418,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../recipes/embedded-jvm.html#application-configuration">Application Configuration</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../recipes/umask.html">Setting the umask for your process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/umask.html#within-the-start-script">Within the start script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../recipes/umask.html#system-v-systemd">System V/systemd</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -595,7 +600,7 @@ The default configuration looks like this</p>
 </div>
 </div>
 <div class="section" id="add-code-to-the-start-scripts">
-<h2>Add code to the start scripts<a class="headerlink" href="#add-code-to-the-start-scripts" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>Add code to the start scripts<a class="headerlink" href="#add-code-to-the-start-scripts" title="Permalink to this headline">¶</a></h2>
 <p>The second option is to add code to the generated start scripts via these settings.</p>
 <blockquote>
 <div><dl class="docutils">
