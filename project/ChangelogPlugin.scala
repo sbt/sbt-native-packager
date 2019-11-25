@@ -70,7 +70,7 @@ object ChangelogPlugin extends AutoPlugin {
     Seq(generateChangelogToken := None, generateChangelog := {
       val log = streams.value.log
       val parameters = githubChangeLogParser.parsed
-      Seq("github_changelog_generator", "--token", parameters.token) ! log match {
+      Seq("github_changelog_generator", "--user", "sbt", "--project", "sbt-native-packager", "--token", parameters.token) ! log match {
         case 0 => log.success("CHANGELOG.md updated successfully")
         case n => sys.error(s"Failed updating CHANGELOG.md. Process existed with status code $n")
       }
