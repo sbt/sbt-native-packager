@@ -1,5 +1,6 @@
 name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
+homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / scalaVersion := "2.12.7"
 
@@ -19,7 +20,7 @@ libraryDependencies ++= Seq(
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.5",
   // workaround for the command line size limit
-  "com.github.eldis" % "tool-launcher" % "0.2.1",
+  "com.github.eldis" % "tool-launcher" % "0.2.2",
   "org.scalatest" %% "scalatest" % "3.0.5" % Test
 )
 
@@ -82,6 +83,16 @@ mimaBinaryIssueFilters ++= {
     ),
     ProblemFilters.exclude[ReversedMissingMethodProblem](
       "com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImageKeys.com$typesafe$sbt$packager$graalvmnativeimage$GraalVMNativeImageKeys$_setter_$graalVMNativeImageGraalVersion_="
+    ),
+    // added via #1279
+    ProblemFilters.exclude[ReversedMissingMethodProblem](
+      "com.typesafe.sbt.packager.docker.DockerKeys.com$typesafe$sbt$packager$docker$DockerKeys$_setter_$dockerAutoremoveMultiStageIntermediateImages_="
+    ),
+    ProblemFilters.exclude[ReversedMissingMethodProblem](
+      "com.typesafe.sbt.packager.docker.DockerKeys.dockerAutoremoveMultiStageIntermediateImages"
+    ),
+    ProblemFilters.exclude[DirectMissingMethodProblem](
+      "com.typesafe.sbt.packager.docker.DockerPlugin.publishLocalDocker"
     )
   )
 }

@@ -5,6 +5,7 @@ import scala.sys.process.Process
 import com.typesafe.sbt.packager.Compat._
 
 val runChecks = taskKey[Unit]("Run checks for a specific issue")
+val runFailingChecks = taskKey[Unit]("Run checks for a specific issue, expecting them to fail")
 
 // Exclude Scala by default to simplify the test.
 autoScalaLibrary in ThisBuild := false
@@ -79,4 +80,12 @@ val issue1266 = project
     logLevel in jlinkModules := Level.Error,
 
     runChecks := jlinkBuildImage.value
+  )
+
+// Should fail for invalid jlink inputs
+val issue1284 = project
+  .enablePlugins(JlinkPlugin)
+  .settings(
+    jlinkModules := List("no-such-module"),
+    runFailingChecks := jlinkBuildImage.value
   )

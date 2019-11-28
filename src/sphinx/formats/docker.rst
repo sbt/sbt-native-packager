@@ -19,9 +19,10 @@ Requirements
 You need the version 1.10 or higher of the docker console client installed.
 SBT Native Packager doesn't use the REST API, but instead uses the CLI directly.
 
-It is currently not possible to provide authentication for Docker repositories from within the build.
-The ``docker`` binary used by the build should already have been configured with the appropriate
-authentication details. See https://docs.docker.com/engine/reference/commandline/login/.
+It is `currently not possible <https://github.com/sbt/sbt-native-packager/issues/654>`_ to provide authentication
+for Docker repositories from within the build. The ``docker`` binary used by the build should already have been configured
+with the appropriate authentication details. See https://docs.docker.com/engine/reference/commandline/login/ how to login
+to a Docker registry with username and password.
 
 
 Build
@@ -180,6 +181,13 @@ Publishing Settings
   ``dockerRmiCommand``
     Overrides the default Docker rmi command. This may be used if force flags or other options need to be passed to the command ``docker rmi``.
     Defaults to ``Seq("[dockerExecCommand]", "rmi")`` and will be directly appended with the image name and tag.
+
+  ``dockerAutoremoveMultiStageIntermediateImages``
+    If intermediate images should be automatically removed when ``MultiStage`` strategy is used.
+    Intermediate images usually aren't needed after packaging is finished and therefore defaults to ``true``.
+    All intermediate images are labeled ``snp-multi-stage=intermediate``.
+    If set to ``false`` and you want to remove all intermediate images at a later point, you can therefore do that by filtering for this label:
+    ``docker image prune -f --filter label=snp-multi-stage=intermediate``
 
 Tasks
 -----

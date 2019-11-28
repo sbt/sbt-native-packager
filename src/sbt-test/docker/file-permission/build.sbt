@@ -13,9 +13,12 @@ lazy val root = (project in file("."))
     checkDockerfileDefaults := {
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
-      assertEquals(lines,
+      assertEquals(lines.take(2),
         """FROM fabric8/java-centos-openjdk8-jdk as stage0
-          |WORKDIR /opt/docker
+          |LABEL snp-multi-stage="intermediate"""".stripMargin.linesIterator.toList)
+      assert(lines(2).substring(0, 25) == "LABEL snp-multi-stage-id=") // random generated id is hard to test
+      assertEquals(lines.drop(3),
+        """WORKDIR /opt/docker
           |COPY opt /opt
           |USER root
           |RUN ["chmod", "-R", "u=rX,g=rX", "/opt/docker"]
@@ -90,9 +93,12 @@ lazy val root = (project in file("."))
     checkDockerfileWithWriteExecute := {
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
-      assertEquals(lines,
+      assertEquals(lines.take(2),
         """FROM fabric8/java-centos-openjdk8-jdk as stage0
-          |WORKDIR /opt/docker
+          |LABEL snp-multi-stage="intermediate"""".stripMargin.linesIterator.toList)
+      assert(lines(2).substring(0, 25) == "LABEL snp-multi-stage-id=") // random generated id is hard to test
+      assertEquals(lines.drop(3),
+        """WORKDIR /opt/docker
           |COPY opt /opt
           |USER root
           |RUN ["chmod", "-R", "u=rwX,g=rwX", "/opt/docker"]
