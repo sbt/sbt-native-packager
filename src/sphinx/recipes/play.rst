@@ -9,8 +9,8 @@ application.
     - `play deploying`_
     - `play prod configuration`_
 
-.. _play deploying: https://playframework.com/documentation/2.5.x/Deploying
-.. _play prod configuration: https://playframework.com/documentation/2.5.x/ProductionConfiguration
+.. _play deploying: https://playframework.com/documentation/latest/Deploying
+.. _play prod configuration: https://playframework.com/documentation/latest/ProductionConfiguration
 
 Build Configuration
 -------------------
