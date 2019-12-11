@@ -1,5 +1,20 @@
 # Changelog
 
+## [v1.5.2](https://github.com/sbt/sbt-native-packager/tree/v1.5.2) (2019-12-11)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.5.1...v1.5.2)
+
+**Closed issues:**
+
+- Issue building graalvm-native-image [\#1288](https://github.com/sbt/sbt-native-packager/issues/1288)
+- missing files cause 'java.io.IOException: This archive contains unclosed entries.' [\#1035](https://github.com/sbt/sbt-native-packager/issues/1035)
+
+**Merged pull requests:**
+
+- Improve error handling in ZIP utilities [\#1290](https://github.com/sbt/sbt-native-packager/pull/1290) ([retronym](https://github.com/retronym))
+- Update outdated links [\#1289](https://github.com/sbt/sbt-native-packager/pull/1289) ([mkurz](https://github.com/mkurz))
+- Add link to working example of BuildEnvPlugin [\#1283](https://github.com/sbt/sbt-native-packager/pull/1283) ([ryanberckmans](https://github.com/ryanberckmans))
+
 ## [v1.5.1](https://github.com/sbt/sbt-native-packager/tree/v1.5.1) (2019-11-25)
 
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.5.0...v1.5.1)
@@ -1835,6 +1850,7 @@
 - Let bash-template work when the directory contains spaces. [\#267](https://github.com/sbt/sbt-native-packager/pull/267) ([darabos](https://github.com/darabos))
 - Adding experimental osx travis-ci support [\#257](https://github.com/sbt/sbt-native-packager/pull/257) ([muuki88](https://github.com/muuki88))
 - FIX \#249. Systemd support for Debian and Rpm [\#256](https://github.com/sbt/sbt-native-packager/pull/256) ([kardapoltsev](https://github.com/kardapoltsev))
+- support RPM 'Prefix'.   [\#242](https://github.com/sbt/sbt-native-packager/pull/242) ([jayaras](https://github.com/jayaras))
 
 ## [v0.7.2-RC1](https://github.com/sbt/sbt-native-packager/tree/v0.7.2-RC1) (2014-05-22)
 
@@ -1896,7 +1912,6 @@
 - FIX \#211 and \#232. Checking $java\_args\[@\] for memory settings, too. [\#246](https://github.com/sbt/sbt-native-packager/pull/246) ([muuki88](https://github.com/muuki88))
 - ability to specify java server app start up order in debian implemented [\#245](https://github.com/sbt/sbt-native-packager/pull/245) ([kardapoltsev](https://github.com/kardapoltsev))
 - Fix typos [\#244](https://github.com/sbt/sbt-native-packager/pull/244) ([Blaisorblade](https://github.com/Blaisorblade))
-- support RPM 'Prefix'.   [\#242](https://github.com/sbt/sbt-native-packager/pull/242) ([jayaras](https://github.com/jayaras))
 - New setting daemonShell.  [\#237](https://github.com/sbt/sbt-native-packager/pull/237) ([muuki88](https://github.com/muuki88))
 - Adding documentation in universal getting started guide. [\#233](https://github.com/sbt/sbt-native-packager/pull/233) ([muuki88](https://github.com/muuki88))
 - Add Debian script header [\#231](https://github.com/sbt/sbt-native-packager/pull/231) ([dax](https://github.com/dax))
@@ -1960,7 +1975,6 @@
 - testing for /var/run/app\_name directory instead of file existence in debian and rpm templates [\#201](https://github.com/sbt/sbt-native-packager/pull/201) ([kardapoltsev](https://github.com/kardapoltsev))
 - Ensure /var/run/app\_name/ exists when starting [\#200](https://github.com/sbt/sbt-native-packager/pull/200) ([nemunaire](https://github.com/nemunaire))
 - Fix \#195 Adding rpmBrpJavaRepackJars setting  [\#199](https://github.com/sbt/sbt-native-packager/pull/199) ([muuki88](https://github.com/muuki88))
-- Unify linux script replacements \#182 [\#192](https://github.com/sbt/sbt-native-packager/pull/192) ([muuki88](https://github.com/muuki88))
 
 ## [v0.7.0-RC1](https://github.com/sbt/sbt-native-packager/tree/v0.7.0-RC1) (2014-03-12)
 
@@ -1987,6 +2001,7 @@
 
 **Merged pull requests:**
 
+- Unify linux script replacements \#182 [\#192](https://github.com/sbt/sbt-native-packager/pull/192) ([muuki88](https://github.com/muuki88))
 - Adding some test for overriding debian templates [\#190](https://github.com/sbt/sbt-native-packager/pull/190) ([muuki88](https://github.com/muuki88))
 - Removing `normalizedKey` in packagerSettings. \#188 [\#189](https://github.com/sbt/sbt-native-packager/pull/189) ([muuki88](https://github.com/muuki88))
 - Adding additional features for rpm [\#187](https://github.com/sbt/sbt-native-packager/pull/187) ([muuki88](https://github.com/muuki88))
