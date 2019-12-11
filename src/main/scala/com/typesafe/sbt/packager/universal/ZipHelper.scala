@@ -113,9 +113,17 @@ object ZipHelper {
           // Now check to see if we have permissions for this sucker.
           mode foreach (entry.setUnixMode)
           output putArchiveEntry entry
-          // TODO - Write file into output?
-          IOUtils.copy(new java.io.FileInputStream(file), output)
-          output.closeArchiveEntry()
+          val fis = new java.io.FileInputStream(file)
+          try {
+            try {
+              // TODO - Write file into output?
+              IOUtils.copy(fis, output)
+            } finally {
+              output.closeArchiveEntry()
+            }
+          } finally {
+            fis.close()
+          }
         }
       }
     }
@@ -126,7 +134,13 @@ object ZipHelper {
   private def withZipOutput(file: File)(f: ZipArchiveOutputStream => Unit): Unit = {
     val zipOut = new ZipArchiveOutputStream(file)
     zipOut setLevel Deflater.BEST_COMPRESSION
-    try { f(zipOut) } finally {
+    try {
+      f(zipOut)
+    } catch {
+      case t: Throwable =>
+        IOUtils.closeQuietly(zipOut)
+        throw t
+    } finally {
       zipOut.close()
     }
   }
