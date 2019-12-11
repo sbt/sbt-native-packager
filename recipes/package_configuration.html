@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Build the same package with different configs &mdash; sbt-native-packager 1.5.1 documentation</title>
+  <title>Build the same package with different configs &mdash; sbt-native-packager 1.5.2 documentation</title>
   
 
   
@@ -571,52 +571,6 @@ sbt testPackage/universal:packageBin
 <h2>SBT parameters and Build Environment<a class="headerlink" href="#sbt-parameters-and-build-environment" title="Permalink to this headline">¶</a></h2>
 <p>SBT is a java process, which means you can start it with system properties and use these in your build.
 This pattern may be useful in other scopes as well. First we define an <em>AutoPlugin</em> that sets a build environment.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">sbt._</span>
-<span class="k">import</span> <span class="nn">sbt.Keys._</span>
-<span class="k">import</span> <span class="nn">sbt.plugins.JvmPlugin</span>
-
-<span class="cm">/** sets the build environment */</span>
-<span class="k">object</span> <span class="nc">BuildEnvPlugin</span> <span class="k">extends</span> <span class="nc">AutoPlugin</span> <span class="o">{</span>
-
-  <span class="c1">// make sure it triggers automatically</span>
-  <span class="k">override</span> <span class="k">def</span> <span class="n">trigger</span> <span class="k">=</span> <span class="nc">AllRequirements</span>
-  <span class="k">override</span> <span class="k">def</span> <span class="k">requires</span> <span class="k">=</span> <span class="nc">JvmPlugin</span>
-
-  <span class="k">object</span> <span class="nc">autoImport</span> <span class="o">{</span>
-    <span class="k">object</span> <span class="nc">BuildEnv</span> <span class="k">extends</span> <span class="nc">Enumeration</span> <span class="o">{</span>
-      <span class="k">val</span> <span class="nc">Production</span><span class="o">,</span> <span class="nc">Stage</span><span class="o">,</span> <span class="nc">Test</span><span class="o">,</span> <span class="nc">Developement</span> <span class="k">=</span> <span class="nc">Value</span>
-    <span class="o">}</span>
-
-    <span class="k">val</span> <span class="n">buildEnv</span> <span class="k">=</span> <span class="n">settingKey</span><span class="o">[</span><span class="kt">BuildEnv.Value</span><span class="o">](</span><span class="s">&quot;the current build environment&quot;</span><span class="o">)</span>
-  <span class="o">}</span>
-  <span class="k">import</span> <span class="nn">autoImport._</span>
-
-  <span class="k">override</span> <span class="k">def</span> <span class="n">projectSettings</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Setting</span><span class="o">[</span><span class="k">_</span><span class="o">]]</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
-    <span class="n">buildEnv</span> <span class="o">:=</span> <span class="o">{</span>
-      <span class="n">sys</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;env&quot;</span><span class="o">)</span>
-         <span class="o">.</span><span class="n">orElse</span><span class="o">(</span><span class="n">sys</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;BUILD_ENV&quot;</span><span class="o">))</span>
-         <span class="o">.</span><span class="n">flatMap</span> <span class="o">{</span>
-           <span class="k">case</span> <span class="s">&quot;prod&quot;</span> <span class="k">=&gt;</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Production</span><span class="o">)</span>
-           <span class="k">case</span> <span class="s">&quot;stage&quot;</span> <span class="k">=&gt;</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Stage</span><span class="o">)</span>
-           <span class="k">case</span> <span class="s">&quot;test&quot;</span> <span class="k">=&gt;</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Test</span><span class="o">)</span>
-           <span class="k">case</span> <span class="s">&quot;dev&quot;</span> <span class="k">=&gt;</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Developement</span><span class="o">)</span>
-           <span class="k">case</span> <span class="n">unkown</span> <span class="k">=&gt;</span> <span class="nc">None</span>
-         <span class="o">}</span>
-         <span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="nc">BuildEnv</span><span class="o">.</span><span class="nc">Developement</span><span class="o">)</span>
-    <span class="o">},</span>
-    <span class="c1">// give feed back</span>
-    <span class="n">onLoadMessage</span> <span class="o">:=</span> <span class="o">{</span>
-      <span class="c1">// depend on the old message as well</span>
-      <span class="k">val</span> <span class="n">defaultMessage</span> <span class="k">=</span> <span class="n">onLoadMessage</span><span class="o">.</span><span class="n">value</span>
-      <span class="k">val</span> <span class="n">env</span> <span class="k">=</span> <span class="n">buildEnv</span><span class="o">.</span><span class="n">value</span>
-      <span class="s">s&quot;&quot;&quot;|</span><span class="si">$defaultMessage</span><span class="s"></span>
-<span class="s">          |Running in build environment: </span><span class="si">$env</span><span class="s">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">stripMargin</span>
-    <span class="o">}</span>
-  <span class="o">)</span>
-
-<span class="o">}</span>
-</pre></div>
-</div>
 <p>This plugin allows you to start sbt for example like</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt -Denv<span class="o">=</span>prod
 <span class="o">[</span>info<span class="o">]</span> Set current project to my-app <span class="o">(</span>in build file: ...<span class="o">)</span>

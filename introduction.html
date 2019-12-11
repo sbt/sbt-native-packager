@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; sbt-native-packager 1.5.1 documentation</title>
+  <title>Introduction &mdash; sbt-native-packager 1.5.2 documentation</title>
   
 
   
@@ -627,7 +627,7 @@ scopes.</p>
 <h3>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline">¶</a></h3>
 <p>Mappings are the heart of native packager. This task defines what files in your build should be mapped where on the
 target system. The type signature for the mappings task is</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span><span class="k">:</span> <span class="kt">TaskKey</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[(</span><span class="kt">File</span>, <span class="kt">String</span><span class="o">)]]</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span><span class="k">:</span> <span class="kt">TaskKey</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[(</span><span class="kt">File</span><span class="p">,</span> <span class="kt">String</span><span class="o">)]]</span>
 </pre></div>
 </div>
 <p>The <em>file</em> part of the tuple must be available during the packaging phase. The String part represents the path inside
