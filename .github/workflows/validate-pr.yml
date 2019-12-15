@@ -9,10 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Validate
       run: sbt "^validate"
   
@@ -20,10 +20,10 @@ jobs:
     runs-on: [ macos, ubuntu-latest, windows ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Validate
       run: sbt "^validateUniversal
         
@@ -31,10 +31,10 @@ jobs:
     runs-on: [ macos, ubuntu-latest, windows ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Validate
       run: sbt "^validateJar"       
 
@@ -42,10 +42,10 @@ jobs:
     runs-on: [ macos, ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Validate
       run: sbt "^validateBash"
 
@@ -53,10 +53,10 @@ jobs:
     runs-on: [ macos, ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Validate
       run: sbt "^validateAsh"
 
@@ -65,10 +65,10 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Validate
       run: sbt "^validateRpm"
 
@@ -76,10 +76,10 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Validate
       run: sbt "^validateDebian"
         
@@ -101,10 +101,10 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Validate
       run: sbt "^validateDocker" "^validateDockerUnit"
 
@@ -113,9 +113,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Set up JDK 1.11.0-2
-      uses: actions/setup-java@v1
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 11.35.15
+        java-version: zulu@1.11
     - name: Validate
       run: sbt "^validateJlink"
         
@@ -124,10 +124,10 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Setup GraalVM environment
       uses: DeLaGuardo/setup-graalvm@2.0
       with:
@@ -137,15 +137,14 @@ jobs:
     - name: Validate
       run: sbt "^validateGraalVMNativeImage"
 
-  # FIXME sbt is missing on macos
   scripted-osx:
     runs-on: [ macos ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Validate
       run: sbt "^validateOSX"
         
@@ -153,9 +152,9 @@ jobs:
     runs-on: [ windows ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: Set up Azul JDK 1.8 and SBT
+      uses: olafurpg/setup-scala@v7
       with:
-        java-version: 1.8
+        java-version: zulu@1.8
     - name: Validate
       run: sbt "^validateWindows"
