@@ -138,7 +138,6 @@ or provide a richer API for a single packaging format.
 - Alexey Kardapoltsev (@kardapoltsev)
 - Derek Wickern (@dwickern)
 - Felix Satyaputra (@fsat)
-- @nigredo-tori
 
 ## Credits ##
 
