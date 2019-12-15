@@ -91,9 +91,12 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+        # the standard zulu dist doesn't include javafx
+        jdkFile: 'https://cdn.azul.com/zulu/bin/zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz'
     - name: Validate
       run: sbt "^validateJdkPackagerTravis"
 
+  # FIXME github actions uses docker 3.0.8, which is too old for native-packager
   scripted-docker:
     runs-on: [ ubuntu-latest ]
     steps:
@@ -112,7 +115,7 @@ jobs:
     - name: Set up JDK 1.11.0-2
       uses: actions/setup-java@v1
       with:
-        java-version: 1.11.0-2
+        java-version: 11.35.15
     - name: Validate
       run: sbt "^validateJlink"
         
@@ -128,12 +131,13 @@ jobs:
     - name: Setup GraalVM environment
       uses: DeLaGuardo/setup-graalvm@2.0
       with:
-        graalvm-version: 19.0.0
+        graalvm-version: '19.0.0.java8'
     - name: Install native-image
       run: gu install native-image
     - name: Validate
       run: sbt "^validateGraalVMNativeImage"
 
+  # FIXME sbt is missing on macos
   scripted-osx:
     runs-on: [ macos ]
     steps:
