@@ -18,7 +18,7 @@ jobs:
     - uses: actions/cache@v1
       with:
         path: ~/.ivy2/cache
-        key: ${{ runner.os }}-sbt-${{ hashFiles('**/ivy*.xml') }}
+        key: ${{ runner.os }}-sbt-${{ hashFiles('**/*.sbt') }}
         restore-keys: |
           ${{ runner.os }}-sbt-
     - name: Set up Azul JDK 1.8 and SBT

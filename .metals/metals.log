@@ -4,3 +4,6 @@ INFORMATION: Unsupported notification method: $/setTraceNotification
 INFO  shutting down Metals
 INFO  time: initialize in 0.96s
 INFO  skipping build import with status 'Requested'
+INFO  shutting down Metals
+INFO  time: initialize in 0.96s
+INFO  skipping build import with status 'Requested'
