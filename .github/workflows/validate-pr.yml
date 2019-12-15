@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: uses: olafurpg/setup-scala@v7
+    - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
@@ -20,7 +20,7 @@ jobs:
     runs-on: [ macos, ubuntu-latest, windows ]
     steps:
     - uses: actions/checkout@v1
-    - name: uses: olafurpg/setup-scala@v7
+    - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
@@ -31,7 +31,7 @@ jobs:
     runs-on: [ macos, ubuntu-latest, windows ]
     steps:
     - uses: actions/checkout@v1
-    - name: uses: olafurpg/setup-scala@v7
+    - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
@@ -42,7 +42,7 @@ jobs:
     runs-on: [ macos, ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: uses: olafurpg/setup-scala@v7
+    - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
@@ -53,7 +53,7 @@ jobs:
     runs-on: [ macos, ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: uses: olafurpg/setup-scala@v7
+    - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
@@ -65,7 +65,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: uses: olafurpg/setup-scala@v7
+    - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
@@ -76,7 +76,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: uses: olafurpg/setup-scala@v7
+    - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
@@ -101,7 +101,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: uses: olafurpg/setup-scala@v7
+    - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
@@ -124,7 +124,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v1
-    - name: uses: olafurpg/setup-scala@v7
+    - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
@@ -141,7 +141,7 @@ jobs:
     runs-on: [ macos ]
     steps:
     - uses: actions/checkout@v1
-    - name: uses: olafurpg/setup-scala@v7
+    - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
