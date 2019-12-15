@@ -16,3 +16,12 @@ jobs:
     - name: Validate
       run: sbt "^validate"
   
+  scripted-universal:
+    runs-on: [ macos, ubuntu-latest, windows ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      with:
+        java-version: 1.8
+    - name: Validate
+      run: sbt "^validateUniversal
