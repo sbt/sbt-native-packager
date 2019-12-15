@@ -5,7 +5,7 @@ on: [pull_request]
 jobs:
   validate:
     
-    runs-on: [ macos-latest, ubuntu-latest, windows-latest ]
+    runs-on: ubuntu-latest 
     strategy:
       fail-fast: false
 
@@ -76,7 +76,7 @@ jobs:
 
 
   scripted-rpm:
-    runs-on: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -90,7 +90,7 @@ jobs:
       run: sbt "^validateRpm"
 
   scripted-debian:
-    runs-on: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -104,7 +104,7 @@ jobs:
       run: sbt "^validateDebian"
         
   scripted-jdk-packager:
-    runs-on: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -123,7 +123,7 @@ jobs:
 
   # FIXME github actions uses docker 3.0.8, which is too old for native-packager
   scripted-docker:
-    runs-on: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -137,7 +137,7 @@ jobs:
       run: sbt "^validateDocker" "^validateDockerUnit"
 
   scripted-jlink:
-    runs-on: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -152,7 +152,7 @@ jobs:
         
 
   scripted-graavlvm:
-    runs-on: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -172,7 +172,7 @@ jobs:
       run: sbt "^validateGraalVMNativeImage"
 
   scripted-osx:
-    runs-on: [ macos-latest ]
+    runs-on: macos-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -183,10 +183,10 @@ jobs:
       with:
         java-version: zulu@1.8
     - name: Validate
-      run: sbt "^validateOSX"
+      run: sbt ^validate" "^validateOSX"
         
   scripted-windows:
-    runs-on: [ windows-latest ]
+    runs-on: windows-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -197,4 +197,4 @@ jobs:
       with:
         java-version: zulu@1.8
     - name: Validate
-      run: sbt "^validateWindows"
+      run: sbt "^validate" "^validateWindows"
