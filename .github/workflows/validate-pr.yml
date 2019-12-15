@@ -21,6 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
       with:
         java-version: 1.8
     - name: Validate
@@ -31,6 +32,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
       with:
         java-version: 1.8
     - name: Validate
@@ -41,6 +43,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
       with:
         java-version: 1.8
     - name: Validate
@@ -51,7 +54,104 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
       with:
         java-version: 1.8
     - name: Validate
       run: sbt "^validateAsh"
+
+
+  scripted-rpm:
+    runs-on: [ ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Validate
+      run: sbt "^validateRpm"
+
+  scripted-debian:
+    runs-on: [ ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Validate
+      run: sbt "^validateDebian"
+        
+  scripted-jdk-packager:
+    runs-on: [ ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Validate
+      run: sbt "^validateJdkPackagerTravis"
+
+  scripted-docker:
+    runs-on: [ ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Validate
+      run: sbt "^validateDocker" "^validateDockerUnit"
+
+  scripted-jlink:
+    runs-on: [ ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.11.0-2
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.11.0-2
+    - name: Validate
+      run: sbt "^validateJlink"
+        
+
+  scripted-graavlvm:
+    runs-on: [ ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Setup GraalVM environment
+      uses: DeLaGuardo/setup-graalvm@2.0
+      with:
+        graalvm-version: 19.0.0
+    - name: Install native-image
+      run: gu install native-image
+    - name: Validate
+      run: sbt "^validateGraalVMNativeImage"
+
+  scripted-osx:
+    runs-on: [ macos ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Validate
+      run: sbt "^validateOSX"
+        
+  scripted-windows:
+    runs-on: [ windows ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Validate
+      run: sbt "^validateWindows"
