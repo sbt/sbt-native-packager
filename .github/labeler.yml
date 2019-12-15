@@ -23,5 +23,6 @@ jlink:
   - src/main/scala/com/typesafe/sbt/packager/archetypes/jlink/*
 
 docs:
+  - README.md
   - src/sphinx/*
   - src/site/*
