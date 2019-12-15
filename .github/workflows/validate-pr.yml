@@ -5,7 +5,7 @@ on: [pull_request]
 jobs:
   validate:
     
-    runs-on: [ macos, ubuntu-latest, windows ]
+    runs-on: [ macos-latest, ubuntu-latest, windows-latest ]
     strategy:
       fail-fast: false
 
@@ -19,7 +19,7 @@ jobs:
       run: sbt "^validate"
   
   scripted-universal:
-    runs-on: [ macos, ubuntu-latest, windows ]
+    runs-on: [ macos-latest, ubuntu-latest, windows-latest ]
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -33,7 +33,7 @@ jobs:
       run: sbt "^validateUniversal
         
   scripted-jar:
-    runs-on: [ macos, ubuntu-latest, windows ]
+    runs-on: [ macos-latest, ubuntu-latest, windows-latest ]
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -47,7 +47,7 @@ jobs:
       run: sbt "^validateJar"       
 
   scripted-bash:
-    runs-on: [ macos, ubuntu-latest ]
+    runs-on: [ macos-latest, ubuntu-latest ]
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -61,7 +61,7 @@ jobs:
       run: sbt "^validateBash"
 
   scripted-ash:
-    runs-on: [ macos, ubuntu-latest ]
+    runs-on: [ macos-latest, ubuntu-latest ]
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -172,7 +172,7 @@ jobs:
       run: sbt "^validateGraalVMNativeImage"
 
   scripted-osx:
-    runs-on: [ macos ]
+    runs-on: [ macos-latest ]
     strategy:
       fail-fast: false
     needs: [ validate ]
