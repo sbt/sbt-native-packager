@@ -25,3 +25,33 @@ jobs:
         java-version: 1.8
     - name: Validate
       run: sbt "^validateUniversal
+        
+  scripted-jar:
+    runs-on: [ macos, ubuntu-latest, windows ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      with:
+        java-version: 1.8
+    - name: Validate
+      run: sbt "^validateJar"       
+
+  scripted-bash:
+    runs-on: [ macos, ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      with:
+        java-version: 1.8
+    - name: Validate
+      run: sbt "^validateBash"
+
+  scripted-ash:
+    runs-on: [ macos, ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      with:
+        java-version: 1.8
+    - name: Validate
+      run: sbt "^validateAsh"
