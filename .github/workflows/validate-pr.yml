@@ -163,9 +163,9 @@ jobs:
       with:
         java-version: zulu@1.8
     - name: Setup GraalVM environment
-      uses: DeLaGuardo/setup-graalvm@2.0
+      uses: olafurpg/setup-scala@v7
       with:
-        graalvm-version: '19.0.0.java8'
+        java-version: graalvm@19.0.0
     - name: Install native-image
       run: gu install native-image
     - name: Validate
