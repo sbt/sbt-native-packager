@@ -1,3 +1,6 @@
 INFO  time: initialize in 0.67s
 Dez 15, 2019 1:37:19 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 INFORMATION: Unsupported notification method: $/setTraceNotification
+INFO  shutting down Metals
+INFO  time: initialize in 0.96s
+INFO  skipping build import with status 'Requested'
