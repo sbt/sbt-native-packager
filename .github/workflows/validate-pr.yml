@@ -189,7 +189,7 @@ jobs:
       with:
         java-version: zulu@1.8
     - name: Validate
-      run: sbt ^validate" "^validateOSX"
+      run: sbt "^validate" "^validateOSX"
         
   scripted-windows:
     runs-on: windows-latest
