@@ -1,6 +1,10 @@
 name: Validate PR
 
-on: [pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
   validate:
