@@ -22,6 +22,7 @@ jobs:
     runs-on: [ macos, ubuntu-latest, windows ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Azul JDK 1.8 and SBT
@@ -35,6 +36,7 @@ jobs:
     runs-on: [ macos, ubuntu-latest, windows ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Azul JDK 1.8 and SBT
@@ -48,6 +50,7 @@ jobs:
     runs-on: [ macos, ubuntu-latest ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Azul JDK 1.8 and SBT
@@ -61,6 +64,7 @@ jobs:
     runs-on: [ macos, ubuntu-latest ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Azul JDK 1.8 and SBT
@@ -75,6 +79,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Azul JDK 1.8 and SBT
@@ -88,6 +93,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Azul JDK 1.8 and SBT
@@ -101,6 +107,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Download JDK 1.8
@@ -119,6 +126,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Azul JDK 1.8 and SBT
@@ -132,6 +140,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up JDK 1.11.0-2
@@ -146,6 +155,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Azul JDK 1.8 and SBT
@@ -165,6 +175,7 @@ jobs:
     runs-on: [ macos ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Azul JDK 1.8 and SBT
@@ -178,6 +189,7 @@ jobs:
     runs-on: [ windows-latest ]
     strategy:
       fail-fast: false
+    needs: [ validate ]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Azul JDK 1.8 and SBT
