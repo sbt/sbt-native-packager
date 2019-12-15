@@ -1,2 +1,27 @@
 docker:
-  - example2/*
+  - src/main/scala/com/typesafe/sbt/packager/docker/*
+
+universal:
+  - src/main/scala/com/typesafe/sbt/packager/universal/*
+
+debian:
+  - src/main/scala/com/typesafe/sbt/packager/debian/*
+
+rpm:
+  - src/main/scala/com/typesafe/sbt/packager/rpm/*
+
+windows:
+  - src/main/scala/com/typesafe/sbt/packager/windows/*
+
+graalvm:
+  - src/main/scala/com/typesafe/sbt/packager/graalvmnativeimage/*
+
+jdkpackager:
+  - src/main/scala/com/typesafe/sbt/packager/jdkpackager/*
+
+jlink:
+  - src/main/scala/com/typesafe/sbt/packager/archetypes/jlink/*
+
+docs:
+  - src/sphinx/*
+  - src/site/*
