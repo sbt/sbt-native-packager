@@ -11,6 +11,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/cache@v1
+      with:
+        path: ~/.ivy2/cache
+        key: ${{ runner.os }}-sbt-${{ hashFiles('**/ivy*.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-
     - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
