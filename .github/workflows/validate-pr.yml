@@ -48,7 +48,7 @@ jobs:
       with:
         java-version: zulu@1.8
     - name: Validate
-      run: sbt "^validateUniversal
+      run: sbt "^validateUniversal"
         
   scripted-jar:
     runs-on: ubuntu-latest
