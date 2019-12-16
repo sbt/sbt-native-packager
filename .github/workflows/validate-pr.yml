@@ -29,7 +29,7 @@ jobs:
       run: sbt "^validate"
   
   scripted-universal:
-    runs-on: [ macos-latest, ubuntu-latest, windows-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -43,7 +43,7 @@ jobs:
       run: sbt "^validateUniversal
         
   scripted-jar:
-    runs-on: [ macos-latest, ubuntu-latest, windows-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -57,7 +57,7 @@ jobs:
       run: sbt "^validateJar"       
 
   scripted-bash:
-    runs-on: [ macos-latest, ubuntu-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -71,7 +71,7 @@ jobs:
       run: sbt "^validateBash"
 
   scripted-ash:
-    runs-on: [ macos-latest, ubuntu-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
