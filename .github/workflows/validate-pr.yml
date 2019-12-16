@@ -1,6 +1,10 @@
 name: Validate PR
 
-on: [pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
   validate:
@@ -11,6 +15,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/cache@v1
+      with:
+        path: ~/.ivy2/cache
+        key: ${{ runner.os }}-sbt-${{ hashFiles('**/*.sbt') }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-
     - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
@@ -19,7 +29,7 @@ jobs:
       run: sbt "^validate"
   
   scripted-universal:
-    runs-on: [ macos-latest, ubuntu-latest, windows-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -33,7 +43,7 @@ jobs:
       run: sbt "^validateUniversal
         
   scripted-jar:
-    runs-on: [ macos-latest, ubuntu-latest, windows-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -47,7 +57,7 @@ jobs:
       run: sbt "^validateJar"       
 
   scripted-bash:
-    runs-on: [ macos-latest, ubuntu-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -61,7 +71,7 @@ jobs:
       run: sbt "^validateBash"
 
   scripted-ash:
-    runs-on: [ macos-latest, ubuntu-latest ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     needs: [ validate ]
@@ -183,7 +193,7 @@ jobs:
       with:
         java-version: zulu@1.8
     - name: Validate
-      run: sbt ^validate" "^validateOSX"
+      run: sbt "^validate" "^validateOSX"
         
   scripted-windows:
     runs-on: windows-latest
