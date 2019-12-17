@@ -53,3 +53,15 @@ Caused by: java.lang.UnsupportedOperationException
 
 INFO  time: initialize in 0.78s
 INFO  skipping build import with status 'Requested'
+INFO  time: initialize in 0.3s
+INFO  running embedded 'bloop bsp --protocol local --socket /tmp/bsp9103847096958356196/-13z0sqiop66bh.socket'
+WARN  no build target: /home/muki/dev/git/github/sbt-native-packager/project/ChangelogPlugin.scala
+The server is listening for incoming connections at local:///tmp/bsp9103847096958356196/-13z0sqiop66bh.socket...
+Accepted incoming BSP client connection at local:///tmp/bsp9103847096958356196/-13z0sqiop66bh.socket
+INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/muki/.cache/metals/bsp.trace.json
+request received: build/initialize
+INFO  time: connected to build server in 3.04s
+BSP initialization handshake complete.
+INFO  time: imported build in 0.3s
+INFO  time: indexed workspace in 4.34s
+WARN  no build target: /home/muki/dev/git/github/sbt-native-packager/project/ChangelogPlugin.scala
