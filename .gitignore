@@ -10,3 +10,5 @@ log/
 target/
 .cache
 .ensime*
+.bloop/*
+.metals/*
