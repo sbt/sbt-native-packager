@@ -89,3 +89,36 @@ val issue1284 = project
     jlinkModules := List("no-such-module"),
     runFailingChecks := jlinkBuildImage.value
   )
+
+// We should be able to make the whole thing work for modules that depend
+// on automatic modules - at least by manually setting `jlinkModulePath`.
+val issue1293 = project
+  .enablePlugins(JlinkPlugin)
+  .settings(
+    libraryDependencies ++= Seq(
+      // This has a module dependency on `paranamer`, which is not an explicit module.
+      "com.fasterxml.jackson.module" % "jackson-module-paranamer" % "2.10.1",
+      // Make sure that JARs with "bad" names are excluded.
+      "org.typelevel" % "cats-core_2.12" % "2.0.0",
+
+      // Two dependencies with overlapping packages - just to make sure we don't inadvertedly
+      // put them into the module path.
+      "org.openoffice" % "unoil" % "4.1.2",
+      "org.openoffice" % "ridl" % "4.1.2"
+    ),
+    jlinkIgnoreMissingDependency := JlinkIgnore.everything,
+    // Use `paramaner` (and only it) as an automatic module
+    jlinkModulePath := {
+      // Get the full classpath with all the resolved dependencies.
+      fullClasspath.in(jlinkBuildImage).value
+        // Find the ones that have `paranamer` as their artifact names.
+        .filter { item =>
+          item.get(moduleID.key).exists { modId =>
+            modId.name == "paranamer"
+          }
+        }
+        // Get raw `File` objects.
+        .map(_.data)
+    },
+    runChecks := jlinkBuildImage.value
+  )
