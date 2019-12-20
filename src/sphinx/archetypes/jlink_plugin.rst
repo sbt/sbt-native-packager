@@ -45,6 +45,32 @@ Otherwise you may opt out of the check altogether (which is not recommended):
 
    jlinkIgnoreMissingDependency := JlinkIgnore.everything
 
+Known issues
+------------
+
+Adding some library dependencies can lead to errors like this:
+
+::
+
+   java.lang.module.FindException: Module paranamer not found, required by com.fasterxml.jackson.module.paranamer
+
+This is often caused by depending on automatic modules. In the example above, `com.faterxml.jackson.module.paranamer` is an explicit module (as in, it is a JAR with a module descriptor) that defines a dependency on the `paranamer` module. However, there is no explicit `paranamer` module - instead, Jackson expects us to use the `paranamer` JAR file as an automatic module. To do this, the JAR has to be on the module path. At the moment `JlinkPlugin` does not put it there automatically, so we have to do that ourselves:
+
+.. code-block:: scala
+
+   jlinkModulePath := {
+     // Get the full classpath with all the resolved dependencies.
+     fullClasspath.in(jlinkBuildImage).value
+       // Find the ones that have `paranamer` as their names.
+       .filter { item =>
+         item.get(moduleID.key).exists { modId =>
+           modId.name == "paranamer"
+         }
+       }
+       // Get raw `File` objects.
+       .map(_.data)
+   }
+
 Further reading
 ---------------
 
