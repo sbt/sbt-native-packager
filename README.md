@@ -18,8 +18,7 @@ different archetypes for common configurations, such as simple Java apps or serv
 ## Issues/Discussions ##
 
 *  **Discussion/Questions**:
-  If you wish to ask questions about the native packager, we have a [mailinglist](https://groups.google.com/forum/#!forum/sbt-native-packager) and
-  we're very active on [Stack Overflow](http://stackoverflow.com/questions/tagged/sbt). You can either use the `sbt` tag or the
+  If you wish to ask questions about the native packager we're active on [Stack Overflow](http://stackoverflow.com/questions/tagged/sbt). You can either use the `sbt` tag or the
   `sbt-native-packager` tag.  They also have far better search support for working around issues.
 * **Docs**:
   [Our docs are available online](http://sbt-native-packager.readthedocs.org/en/latest/).  If you'd like to help improve the docs, they're part of this
