@@ -17,4 +17,5 @@ of them to choose from.
    Java Server Application <java_server/index.rst>
    Systemloaders <systemloaders.rst>
    Configuration Archetypes <misc_archetypes.rst>
+   Jlink Plugin <jlink_plugin.rst>
    An archetype cheatsheet <cheatsheet.rst>
