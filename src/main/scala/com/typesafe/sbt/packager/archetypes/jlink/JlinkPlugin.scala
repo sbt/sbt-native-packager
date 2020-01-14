@@ -52,6 +52,7 @@ object JlinkPlugin extends AutoPlugin {
       val javaHome0 = javaHome.in(jlinkBuildImage).value.getOrElse(defaultJavaHome)
       val run = runJavaTool(javaHome0, log) _
       val paths = fullClasspath.in(jlinkBuildImage).value.map(_.data.getPath)
+      val modulePath = jlinkModulePath.in(jlinkModules).value
       val shouldIgnore = jlinkIgnoreMissingDependency.value
 
       // We can find the java toolchain version by parsing the `release` file. This
@@ -69,9 +70,13 @@ object JlinkPlugin extends AutoPlugin {
         }
         .getOrElse(sys.error("JAVA_VERSION not found in ${releaseFile.getAbsolutePath}"))
 
+      val modulePathOpts = if (modulePath.nonEmpty) {
+        Vector("--module-path", modulePath.mkString(":"))
+      } else Vector.empty
+
       // Jdeps has a few convenient options (like --print-module-deps), but those
       // are not flexible enough - we need to parse the full output.
-      val jdepsOutput = run("jdeps", "--multi-release" +: javaVersion +: "-R" +: paths)
+      val jdepsOutput = run("jdeps", "--multi-release" +: javaVersion +: modulePathOpts ++: "-R" +: paths)
 
       val deps = jdepsOutput.linesIterator
       // There are headers in some of the lines - ignore those.
@@ -135,7 +140,7 @@ object JlinkPlugin extends AutoPlugin {
       JlinkOptions(
         addModules = modules,
         output = Some(target.in(jlinkBuildImage).value),
-        modulePath = jlinkModulePath.value
+        modulePath = jlinkModulePath.in(jlinkBuildImage).value
       )
     },
     jlinkBuildImage := {
