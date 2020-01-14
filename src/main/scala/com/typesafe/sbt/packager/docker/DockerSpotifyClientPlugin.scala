@@ -78,7 +78,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
   def dockerServerApiVersion: Def.Initialize[Task[Option[DockerApiVersion]]] = Def.task {
     val docker = new DockerClientTask()
-    docker.dockerApiVersion()
+    docker.dockerServerApiVersion()
   }
 
 }
