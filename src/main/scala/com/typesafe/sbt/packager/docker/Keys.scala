@@ -38,7 +38,6 @@ trait DockerKeys {
   )
   val dockerExecCommand = SettingKey[Seq[String]]("dockerExecCommand", "The shell command used to exec Docker")
   val dockerVersion = TaskKey[Option[DockerVersion]]("dockerVersion", "The docker server version")
-  val dockerApiVersion = TaskKey[Option[DockerApiVersion]]("dockerApiVersion", "The docker server api version")
   val dockerBuildOptions = SettingKey[Seq[String]]("dockerBuildOptions", "Options used for the Docker build")
   val dockerBuildCommand = SettingKey[Seq[String]]("dockerBuildCommand", "Command for building the Docker image")
   val dockerLabels = SettingKey[Map[String, String]]("dockerLabels", "Labels applied to the Docker image")
@@ -57,4 +56,5 @@ private[packager] trait DockerKeysEx extends DockerKeys {
   lazy val dockerChmodType = settingKey[DockerChmodType]("The file permissions for the files copied into Docker image.")
   lazy val dockerAdditionalPermissions =
     taskKey[Seq[(DockerChmodType, String)]]("Explicit chmod calls to some of the paths.")
+  val dockerApiVersion = TaskKey[Option[DockerApiVersion]]("dockerApiVersion", "The docker server api version")
 }
