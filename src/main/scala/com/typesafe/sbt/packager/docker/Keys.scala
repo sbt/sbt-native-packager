@@ -56,4 +56,5 @@ private[packager] trait DockerKeysEx extends DockerKeys {
   lazy val dockerChmodType = settingKey[DockerChmodType]("The file permissions for the files copied into Docker image.")
   lazy val dockerAdditionalPermissions =
     taskKey[Seq[(DockerChmodType, String)]]("Explicit chmod calls to some of the paths.")
+  val dockerApiVersion = TaskKey[Option[DockerApiVersion]]("dockerApiVersion", "The docker server api version")
 }

@@ -52,7 +52,12 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
   override lazy val projectSettings: Seq[Setting[_]] = inConfig(Docker)(clientSettings)
 
-  def clientSettings = Seq(publishLocal := publishLocalDocker.value, dockerVersion := dockerServerVersion.value)
+  def clientSettings =
+    Seq(
+      publishLocal := publishLocalDocker.value,
+      dockerVersion := dockerServerVersion.value,
+      dockerApiVersion := dockerServerApiVersion.value
+    )
 
   def publishLocalDocker: Def.Initialize[Task[Unit]] = Def.task {
     val context = stage.value
@@ -69,6 +74,11 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
   def dockerServerVersion: Def.Initialize[Task[Option[DockerVersion]]] = Def.task {
     val docker = new DockerClientTask()
     docker.dockerServerVersion()
+  }
+
+  def dockerServerApiVersion: Def.Initialize[Task[Option[DockerApiVersion]]] = Def.task {
+    val docker = new DockerClientTask()
+    docker.dockerServerApiVersion()
   }
 
 }
@@ -110,5 +120,10 @@ private class DockerClientTask {
   def dockerServerVersion(): Option[DockerVersion] = {
     val docker: DockerClient = DefaultDockerClient.fromEnv().build()
     DockerVersion.parse(docker.version().version())
+  }
+
+  def dockerServerApiVersion(): Option[DockerApiVersion] = {
+    val docker: DockerClient = DefaultDockerClient.fromEnv().build()
+    DockerApiVersion.parse(docker.version().apiVersion())
   }
 }

@@ -111,6 +111,11 @@ object DockerPlugin extends AutoPlugin {
     dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!).toOption
       .map(_.trim)
       .flatMap(DockerVersion.parse),
+    dockerApiVersion := Try(
+      Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.APIVersion}}'")).!!
+    ).toOption
+      .map(_.trim)
+      .flatMap(DockerApiVersion.parse),
     dockerBuildOptions := Seq("--force-rm") ++ dockerAliases.value.flatMap { alias =>
       Seq("-t", alias.toString)
     },
@@ -243,8 +248,8 @@ object DockerPlugin extends AutoPlugin {
         nonEmptyMappings((mappings in Docker).value),
         filesExist((mappings in Docker).value),
         validateExposedPorts(dockerExposedPorts.value, dockerExposedUdpPorts.value),
-        validateDockerVersion(dockerVersion.value),
-        validateDockerPermissionStrategy(dockerPermissionStrategy.value, dockerVersion.value)
+        validateDockerVersion(dockerApiVersion.value),
+        validateDockerPermissionStrategy(dockerPermissionStrategy.value, dockerVersion.value, dockerApiVersion.value)
       ),
       dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
       dockerGenerateConfig := {
@@ -638,8 +643,8 @@ object DockerPlugin extends AutoPlugin {
     }
   }
 
-  private[this] def validateDockerVersion(dockerVersion: Option[DockerVersion]): Validation.Validator = () => {
-    dockerVersion match {
+  private[this] def validateDockerVersion(dockerApiVersion: Option[DockerApiVersion]): Validation.Validator = () => {
+    dockerApiVersion match {
       case Some(_) => List.empty
       case None =>
         List(
@@ -649,7 +654,7 @@ object DockerPlugin extends AutoPlugin {
             howToFix = """|sbt-native packager tries to parse the `docker version` output. This can fail if
              |
              |  - the output has changed:
-             |    $ docker version --format '{{.Server.Version}}'
+             |    $ docker version --format '{{.Server.APIVersion}}'
              |
              |  - no `docker` executable is available
              |    $ which docker
@@ -658,12 +663,12 @@ object DockerPlugin extends AutoPlugin {
              |
              |You can display the parsed docker version in the sbt console with:
              |
-             |  sbt:your-project> show dockerVersion
+             |  sbt:your-project> show dockerApiVersion
              |
              |As a last resort you could hard code the docker version, but it's not recommended!!
              |
-             |  import com.typesafe.sbt.packager.docker.DockerVersion
-             |  dockerVersion := Some(DockerVersion(18, 9, 0, Some("ce"))
+             |  import com.typesafe.sbt.packager.docker.DockerApiVersion
+             |  dockerApiVersion := Some(DockerApiVersion(1, 40))
           """.stripMargin
           )
         )
@@ -671,39 +676,40 @@ object DockerPlugin extends AutoPlugin {
   }
 
   private[this] def validateDockerPermissionStrategy(strategy: DockerPermissionStrategy,
-                                                     dockerVersion: Option[DockerVersion]): Validation.Validator =
+                                                     dockerVersion: Option[DockerVersion],
+                                                     dockerApiVersion: Option[DockerApiVersion]): Validation.Validator =
     () => {
-      (strategy, dockerVersion) match {
-        case (DockerPermissionStrategy.MultiStage, Some(ver)) if !DockerSupport.multiStage(ver) =>
+      (strategy, dockerVersion, dockerApiVersion) match {
+        case (DockerPermissionStrategy.MultiStage, Some(ver), Some(apiVer)) if !DockerSupport.multiStage(ver, apiVer) =>
           List(
             ValidationError(
               description =
                 s"The detected Docker version $ver is not compatible with DockerPermissionStrategy.MultiStage",
               howToFix =
                 """|sbt-native packager tries to parse the `docker version` output.
-             |To use multi-stage build, upgrade your Docker, pick another strategy, or override dockerVersion:
+             |To use multi-stage build, upgrade your Docker, pick another strategy, or override dockerApiVersion:
              |
              |  import com.typesafe.sbt.packager.docker.DockerPermissionStrategy
              |  dockerPermissionStrategy := DockerPermissionStrategy.Run
              |
-             |  import com.typesafe.sbt.packager.docker.DockerVersion
-             |  dockerVersion := Some(DockerVersion(18, 9, 0, Some("ce"))
+             |  import com.typesafe.sbt.packager.docker.DockerApiVersion
+             |  dockerApiVersion := Some(DockerApiVersion(1, 40))
           """.stripMargin
             )
           )
-        case (DockerPermissionStrategy.CopyChown, Some(ver)) if !DockerSupport.chownFlag(ver) =>
+        case (DockerPermissionStrategy.CopyChown, Some(ver), Some(apiVer)) if !DockerSupport.chownFlag(ver, apiVer) =>
           List(
             ValidationError(
               description =
                 s"The detected Docker version $ver is not compatible with DockerPermissionStrategy.CopyChown",
               howToFix = """|sbt-native packager tries to parse the `docker version` output.
-             |To use --chown flag, upgrade your Docker, pick another strategy, or override dockerVersion:
+             |To use --chown flag, upgrade your Docker, pick another strategy, or override dockerApiVersion:
              |
              |  import com.typesafe.sbt.packager.docker.DockerPermissionStrategy
              |  dockerPermissionStrategy := DockerPermissionStrategy.Run
              |
-             |  import com.typesafe.sbt.packager.docker.DockerVersion
-             |  dockerVersion := Some(DockerVersion(18, 9, 0, Some("ce"))
+             |  import com.typesafe.sbt.packager.docker.DockerApiVersion
+             |  dockerApiVersion := Some(DockerApiVersion(1, 40))
           """.stripMargin
             )
           )
