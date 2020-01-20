@@ -137,7 +137,6 @@ addCommandAlias("validateGraalVMNativeImage", "scripted graalvm-native-image/*")
 addCommandAlias("validateRpm", "scripted rpm/*")
 addCommandAlias("validateDebian", "scripted debian/*")
 addCommandAlias("validateDocker", "scripted docker/*")
-addCommandAlias("validateDockerUnit", "scripted docker/staging docker/entrypoint docker/ports docker/volumes")
 addCommandAlias("validateJdkPackager", "scripted jdkpackager/*")
 // travis ci's jdk8 version doesn't support nested association elements.
 // error: Caused by: class com.sun.javafx.tools.ant.Info doesn't support the nested "association" element.
