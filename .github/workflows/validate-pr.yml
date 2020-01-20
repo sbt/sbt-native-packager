@@ -199,7 +199,7 @@ jobs:
       with:
         java-version: zulu@1.8
     - name: Validate
-      run: sbt "^validateDockerUnit" "^validateDocker"
+      run: sbt "^validateDocker"
 
   scripted-jlink:
     runs-on: ubuntu-latest
