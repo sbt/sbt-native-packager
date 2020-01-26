@@ -3,6 +3,7 @@ package com.typesafe.sbt.packager.rpm
 import sbt._
 import com.typesafe.sbt.packager.Compat._
 import com.typesafe.sbt.packager.linux.LinuxSymlink
+import sbt.Keys.{artifactPath, packageBin}
 
 object RpmHelper {
 
@@ -26,6 +27,9 @@ object RpmHelper {
     workArea
   }
 
+  private[rpm] def defaultRpmArtifactPath(stagingArea: File, meta: RpmMetadata): File =
+    stagingArea / "RPMS" / meta.arch / s"${meta.name}-${meta.version}-${meta.release}.${meta.arch}.rpm"
+
   /**
     * Build the rpm package
     *
@@ -36,9 +40,12 @@ object RpmHelper {
     */
   def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger): File = {
     buildPackage(stagingArea, spec, log)
-    // We should probably return the File that was created.
-    val rpmname = "%s-%s-%s.%s.rpm" format (spec.meta.name, spec.meta.version, spec.meta.release, spec.meta.arch)
-    stagingArea / "RPMS" / spec.meta.arch / rpmname
+    // buildPackage uses rpmbuild command which always generates the file at defaultRpmArtifactPath
+    // If the artifactPath is not the default value then we need to copy the file.
+    val defaultPath = defaultRpmArtifactPath(stagingArea, spec.meta)
+    val path = (artifactPath in (RpmPlugin.autoImport.Rpm, packageBin)).value
+    if (path.getCanonicalFile != defaultPath.getCanonicalFile) IO.copyFile(defaultPath, path)
+    path
   }
 
   private[this] def copyFiles(spec: RpmSpec, workArea: File, log: sbt.Logger): Unit = {

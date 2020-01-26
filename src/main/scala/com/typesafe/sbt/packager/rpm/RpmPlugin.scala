@@ -165,6 +165,8 @@ object RpmPlugin extends AutoPlugin {
       (defaultLinuxInstallLocation in Rpm).value
     ),
     stage in Rpm := RpmHelper.stage(rpmSpecConfig.value, (target in Rpm).value, streams.value.log),
+    artifactPath in (Rpm, packageBin) := RpmHelper
+      .defaultRpmArtifactPath((stage in Rpm).value, rpmSpecConfig.value.meta),
     packageBin in Rpm := RpmHelper.buildRpm(rpmSpecConfig.value, (stage in Rpm).value, streams.value.log),
     rpmLint := {
       sys.process.Process(Seq("rpmlint", "-v", (packageBin in Rpm).value.getAbsolutePath)) ! streams.value.log match {
