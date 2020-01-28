@@ -36,13 +36,9 @@ object RpmHelper {
     * @param log Logger
     * @return The rpm package
     */
-  def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger, artifactPath: File): File = {
+  def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger): File = {
     buildPackage(stagingArea, spec, log)
-    // buildPackage uses rpmbuild command which always generates the file at defaultRpmArtifactPath
-    // If the artifactPath is not the default value then we need to copy the file.
-    val defaultPath = defaultRpmArtifactPath(stagingArea, spec.meta)
-    if (artifactPath.getCanonicalFile != defaultPath.getCanonicalFile) IO.copyFile(defaultPath, artifactPath)
-    artifactPath
+    defaultRpmArtifactPath(stagingArea, spec.meta)
   }
 
   private[this] def copyFiles(spec: RpmSpec, workArea: File, log: sbt.Logger): Unit = {

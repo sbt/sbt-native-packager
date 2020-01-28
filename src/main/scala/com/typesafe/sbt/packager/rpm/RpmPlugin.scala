@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.rpm
 
 import sbt._
-import sbt.Keys._
+import sbt.Keys.{artifactPath, _}
 import java.nio.charset.Charset
 
 import com.typesafe.sbt.SbtNativePackager.Linux
@@ -166,12 +166,14 @@ object RpmPlugin extends AutoPlugin {
     ),
     stage in Rpm := RpmHelper.stage(rpmSpecConfig.value, (target in Rpm).value, streams.value.log),
     artifactPath in (Rpm, packageBin) := RpmHelper.defaultRpmArtifactPath((target in Rpm).value, rpmMetadata.value),
-    packageBin in Rpm := RpmHelper.buildRpm(
-      rpmSpecConfig.value,
-      (stage in Rpm).value,
-      streams.value.log,
-      (artifactPath in (Rpm, packageBin)).value
-    ),
+    packageBin in Rpm := {
+      val defaultPath = RpmHelper.buildRpm(rpmSpecConfig.value, (stage in Rpm).value, streams.value.log)
+      // `file` points to where buildRpm created the rpm. However we want it to be at `artifactPath`.
+      // If `artifactPath` is not the default value then we need to copy the file.
+      val path = (artifactPath in (Rpm, packageBin)).value
+      if (path.getCanonicalFile != defaultPath.getCanonicalFile) IO.copyFile(defaultPath, path)
+      path
+    },
     rpmLint := {
       sys.process.Process(Seq("rpmlint", "-v", (packageBin in Rpm).value.getAbsolutePath)) ! streams.value.log match {
         case 0 => ()
