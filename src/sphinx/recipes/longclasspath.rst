@@ -4,7 +4,7 @@ Dealing with long classpaths
 ============================
 
 By default, when the native packager generates a script for starting your application, it will generate an invocation
-of java that that passes every library on the classpath to the classpath argument, ``-cp``.  If you have a lot of
+of java that passes every library on the classpath to the classpath argument, ``-cp``.  If you have a lot of
 dependencies, this may result in a very long command being executed, which, aside from being aesthetically unpleasing
 and difficult to work with when using tools like ``ps``, causes problems on some platforms, notably Windows, that have
 limits to how long commands can be.
