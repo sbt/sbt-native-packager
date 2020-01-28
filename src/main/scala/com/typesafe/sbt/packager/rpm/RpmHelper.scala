@@ -1,9 +1,7 @@
 package com.typesafe.sbt.packager.rpm
 
 import sbt._
-import com.typesafe.sbt.packager.Compat._
 import com.typesafe.sbt.packager.linux.LinuxSymlink
-import sbt.Keys.{artifactPath, packageBin}
 
 object RpmHelper {
 
@@ -38,14 +36,13 @@ object RpmHelper {
     * @param log Logger
     * @return The rpm package
     */
-  def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger): File = {
+  def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger, artifactPath: File): File = {
     buildPackage(stagingArea, spec, log)
     // buildPackage uses rpmbuild command which always generates the file at defaultRpmArtifactPath
     // If the artifactPath is not the default value then we need to copy the file.
     val defaultPath = defaultRpmArtifactPath(stagingArea, spec.meta)
-    val path = (artifactPath in (RpmPlugin.autoImport.Rpm, packageBin)).value
-    if (path.getCanonicalFile != defaultPath.getCanonicalFile) IO.copyFile(defaultPath, path)
-    path
+    if (artifactPath.getCanonicalFile != defaultPath.getCanonicalFile) IO.copyFile(defaultPath, artifactPath)
+    artifactPath
   }
 
   private[this] def copyFiles(spec: RpmSpec, workArea: File, log: sbt.Logger): Unit = {
