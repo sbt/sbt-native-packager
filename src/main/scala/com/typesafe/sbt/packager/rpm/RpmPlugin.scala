@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.rpm
 
 import sbt._
-import sbt.Keys.{artifactPath, _}
+import sbt.Keys._
 import java.nio.charset.Charset
 
 import com.typesafe.sbt.SbtNativePackager.Linux

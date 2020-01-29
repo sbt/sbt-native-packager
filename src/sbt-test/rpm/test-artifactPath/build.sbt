@@ -8,7 +8,7 @@ maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 
 packageSummary := "Test rpm package"
 
-packageName in Rpm := "rpm-package"
+packageName in Linux := "rpm-package"
 
 artifactPath in (Rpm, packageBin) := target.value / s"${(packageName in Rpm).value}-${(version in Rpm).value}.rpm"
 
