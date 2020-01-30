@@ -170,6 +170,10 @@
                         <a class="class" href="DockerAlias.html" title="This class represents a Docker alias."></a>
                         <a href="DockerAlias.html" title="This class represents a Docker alias.">DockerAlias</a>
                       </li><li class="current-entities indented5">
+                        <a class="object" href="DockerApiVersion$.html" title=""></a>
+                        <a class="class" href="DockerApiVersion.html" title=""></a>
+                        <a href="DockerApiVersion.html" title="">DockerApiVersion</a>
+                      </li><li class="current-entities indented5">
                         <a class="object" href="DockerChmodType$.html" title=""></a>
                         <a class="trait" href="DockerChmodType.html" title="This represents a type of file permission changes to run on the working directory."></a>
                         <a href="DockerChmodType.html" title="This represents a type of file permission changes to run on the working directory.">DockerChmodType</a>
@@ -359,9 +363,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerSupport#chownFlag" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="chownFlag(version:com.typesafe.sbt.packager.docker.DockerVersion):Boolean"></a><a id="chownFlag(DockerVersion):Boolean"></a>
+      <a id="chownFlag(version:com.typesafe.sbt.packager.docker.DockerVersion,apiVersion:com.typesafe.sbt.packager.docker.DockerApiVersion):Boolean"></a><a id="chownFlag(DockerVersion,DockerApiVersion):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerSupport$.html#chownFlag(version:com.typesafe.sbt.packager.docker.DockerVersion):Boolean" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerSupport$.html#chownFlag(version:com.typesafe.sbt.packager.docker.DockerVersion,apiVersion:com.typesafe.sbt.packager.docker.DockerApiVersion):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -370,7 +374,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">chownFlag</span><span class="params">(<span name="version">version: <a href="DockerVersion.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerVersion">DockerVersion</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">chownFlag</span><span class="params">(<span name="version">version: <a href="DockerVersion.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerVersion">DockerVersion</a></span>, <span name="apiVersion">apiVersion: <a href="DockerApiVersion.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerApiVersion">DockerApiVersion</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
       
@@ -507,9 +511,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerSupport#multiStage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="multiStage(version:com.typesafe.sbt.packager.docker.DockerVersion):Boolean"></a><a id="multiStage(DockerVersion):Boolean"></a>
+      <a id="multiStage(version:com.typesafe.sbt.packager.docker.DockerVersion,apiVersion:com.typesafe.sbt.packager.docker.DockerApiVersion):Boolean"></a><a id="multiStage(DockerVersion,DockerApiVersion):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerSupport$.html#multiStage(version:com.typesafe.sbt.packager.docker.DockerVersion):Boolean" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerSupport$.html#multiStage(version:com.typesafe.sbt.packager.docker.DockerVersion,apiVersion:com.typesafe.sbt.packager.docker.DockerApiVersion):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -518,7 +522,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">multiStage</span><span class="params">(<span name="version">version: <a href="DockerVersion.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerVersion">DockerVersion</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">multiStage</span><span class="params">(<span name="version">version: <a href="DockerVersion.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerVersion">DockerVersion</a></span>, <span name="apiVersion">apiVersion: <a href="DockerApiVersion.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerApiVersion">DockerApiVersion</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
       
@@ -682,7 +686,48 @@
 
         
 
-        
+        <div class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="com.typesafe.sbt.packager.docker.DockerSupport#chownFlag" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="chownFlag(version:com.typesafe.sbt.packager.docker.DockerVersion):Boolean"></a><a id="chownFlag(DockerVersion):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerSupport$.html#chownFlag(version:com.typesafe.sbt.packager.docker.DockerVersion):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: ">chownFlag</span><span class="params">(<span name="version">version: <a href="DockerVersion.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerVersion">DockerVersion</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerSupport#multiStage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="multiStage(version:com.typesafe.sbt.packager.docker.DockerVersion):Boolean"></a><a id="multiStage(DockerVersion):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerSupport$.html#multiStage(version:com.typesafe.sbt.packager.docker.DockerVersion):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: ">multiStage</span><span class="params">(<span name="version">version: <a href="DockerVersion.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerVersion">DockerVersion</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
+    </li></ol>
+            </div>
         </div>
 
         <div id="inheritedMembers">

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Configuration Archetypes &mdash; sbt-native-packager 1.6.1 documentation</title>
+  <title>Jlink Plugin &mdash; sbt-native-packager 1.6.1 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Jlink Plugin" href="jlink_plugin.html" />
-    <link rel="prev" title="Systemloaders" href="systemloaders.html" /> 
+    <link rel="next" title="Archetype Cheatsheet" href="cheatsheet.html" />
+    <link rel="prev" title="Configuration Archetypes" href="misc_archetypes.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -334,14 +334,14 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Configuration Archetypes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#ashscript-plugin">AshScript Plugin</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc_archetypes.html">Configuration Archetypes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="jlink_plugin.html">Jlink Plugin</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="jlink_plugin.html#known-issues">Known issues</a></li>
-<li class="toctree-l3"><a class="reference internal" href="jlink_plugin.html#further-reading">Further reading</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Jlink Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#known-issues">Known issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-reading">Further reading</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="cheatsheet.html">An archetype cheatsheet</a><ul>
@@ -476,13 +476,13 @@
         
           <li><a href="index.html">Project Archetypes</a> &raquo;</li>
         
-      <li>Configuration Archetypes</li>
+      <li>Jlink Plugin</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/archetypes/misc_archetypes.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/archetypes/jlink_plugin.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -495,22 +495,68 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="configuration-archetypes">
-<span id="config-archetypes"></span><h1>Configuration Archetypes<a class="headerlink" href="#configuration-archetypes" title="Permalink to this headline">¶</a></h1>
-<p>This is a small collection of additional archetypes that provide smaller enhancements.</p>
-<div class="section" id="ashscript-plugin">
-<h2>AshScript Plugin<a class="headerlink" href="#ashscript-plugin" title="Permalink to this headline">¶</a></h2>
-<p>This class is an alternate to JavaAppPackaging designed to support the ash shell. <a class="reference internal" href="java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a>
-generates bash-specific code that is not compatible with ash, a very stripped-down, lightweight shell
-used by popular micro base Docker images like BusyBox.  The AshScriptPlugin will generate simple
-ash-compatible output.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">AshScriptPlugin</span><span class="o">)</span>
+  <div class="section" id="jlink-plugin">
+<span id="id1"></span><h1>Jlink Plugin<a class="headerlink" href="#jlink-plugin" title="Permalink to this headline">¶</a></h1>
+<p>This plugin builds on Java’s <a class="reference external" href="https://docs.oracle.com/en/java/javase/11/tools/jlink.html">jlink</a> tool to embed a JVM image (a stripped-down JRE)
+into your package. It produces a JVM image containing only the modules that are referenced
+from the dependency classpath.</p>
+<p>Note: Current implementation only detects the platform modules (that is, the ones present in
+the JDK used to build the image). Modular JARs and directories are packaged as specified
+by the <cite>UniversalPlugin</cite>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JlinkPlugin</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>The plugin requires Oracle JDK 11 or OpenJDK 11. Although <cite>jlink</cite> and <cite>jdeps</cite> are also
+a part of the older JDK versions, those lack some of the newer features, which was not
+addressed in the current plugin version.</p>
+<p>This plugin must be run on the platform of the target installer. The tooling does <em>not</em>
+provide a means of creating, say, Windows installers on MacOS, or MacOS on Linux, etc.</p>
+<p>The plugin analyzes the dependencies between packages using <cite>jdeps</cite>, and raises an error in case of a missing dependency (e.g. for a provided transitive dependency). The missing dependencies can be suppressed on a case-by-case basis (e.g. if you are sure the missing dependency is properly handled):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">jlinkIgnoreMissingDependency</span> <span class="o">:=</span> <span class="nc">JlinkIgnore</span><span class="o">.</span><span class="n">only</span><span class="o">(</span>
+  <span class="s">&quot;foo.bar&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar.baz&quot;</span><span class="o">,</span>
+  <span class="s">&quot;foo.bar&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar.qux&quot;</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>For large projects with a lot of dependencies this can get unwieldy. You can use a more flexible ignore strategy:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">jlinkIgnoreMissingDependency</span> <span class="o">:=</span> <span class="nc">JlinkIgnore</span><span class="o">.</span><span class="n">byPackagePrefix</span><span class="o">(</span>
+  <span class="s">&quot;foo.bar&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>Otherwise you may opt out of the check altogether (which is not recommended):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">jlinkIgnoreMissingDependency</span> <span class="o">:=</span> <span class="nc">JlinkIgnore</span><span class="o">.</span><span class="n">everything</span>
+</pre></div>
+</div>
+<div class="section" id="known-issues">
+<h2>Known issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
+<p>Adding some library dependencies can lead to errors like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="n">FindException</span><span class="p">:</span> <span class="n">Module</span> <span class="n">paranamer</span> <span class="ow">not</span> <span class="n">found</span><span class="p">,</span> <span class="n">required</span> <span class="n">by</span> <span class="n">com</span><span class="o">.</span><span class="n">fasterxml</span><span class="o">.</span><span class="n">jackson</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="n">paranamer</span>
+</pre></div>
+</div>
+<p>This is often caused by depending on automatic modules. In the example above, <cite>com.faterxml.jackson.module.paranamer</cite> is an explicit module (as in, it is a JAR with a module descriptor) that defines a dependency on the <cite>paranamer</cite> module. However, there is no explicit <cite>paranamer</cite> module - instead, Jackson expects us to use the <cite>paranamer</cite> JAR file as an automatic module. To do this, the JAR has to be on the module path. At the moment <cite>JlinkPlugin</cite> does not put it there automatically, so we have to do that ourselves:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">jlinkModulePath</span> <span class="o">:=</span> <span class="o">{</span>
+  <span class="c1">// Get the full classpath with all the resolved dependencies.</span>
+  <span class="n">fullClasspath</span><span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">jlinkBuildImage</span><span class="o">).</span><span class="n">value</span>
+    <span class="c1">// Find the ones that have `paranamer` as their names.</span>
+    <span class="o">.</span><span class="n">filter</span> <span class="o">{</span> <span class="n">item</span> <span class="k">=&gt;</span>
+      <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="n">moduleID</span><span class="o">.</span><span class="n">key</span><span class="o">).</span><span class="n">exists</span> <span class="o">{</span> <span class="n">modId</span> <span class="k">=&gt;</span>
+        <span class="n">modId</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&quot;paranamer&quot;</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="c1">// Get raw `File` objects.</span>
+    <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">data</span><span class="o">)</span>
+<span class="o">}</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="classpathjar-launcherjar-plugin">
-<h2>ClasspathJar &amp; LauncherJar Plugin<a class="headerlink" href="#classpathjar-launcherjar-plugin" title="Permalink to this headline">¶</a></h2>
-<p>See the <a class="reference internal" href="../recipes/longclasspath.html#long-classpaths"><span class="std std-ref">Dealing with long classpaths</span></a> section for usage of these plugins.</p>
+<div class="section" id="further-reading">
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h2>
+<p>For further details on the capabilities of <cite>jlink</cite>, see the
+<a class="reference external" href="https://docs.oracle.com/en/java/javase/11/tools/jlink.html">jlink</a> and
+<a class="reference external" href="https://docs.oracle.com/en/java/javase/11/tools/jdeps.html">jdeps</a> references.
+(Note: only some of the possible settings are exposed through this plugin. Please submit a
+<a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues">Github</a> issue or pull request if something specific is desired.)</p>
 </div>
 </div>
 
@@ -522,10 +568,10 @@ ash-compatible output.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="jlink_plugin.html" class="btn btn-neutral float-right" title="Jlink Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="cheatsheet.html" class="btn btn-neutral float-right" title="Archetype Cheatsheet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="systemloaders.html" class="btn btn-neutral float-left" title="Systemloaders" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="misc_archetypes.html" class="btn btn-neutral float-left" title="Configuration Archetypes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

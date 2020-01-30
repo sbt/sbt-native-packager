@@ -202,6 +202,10 @@
                         <a class="class" href="DockerAlias.html" title="This class represents a Docker alias."></a>
                         <a href="DockerAlias.html" title="This class represents a Docker alias.">DockerAlias</a>
                       </li><li class="current-entities indented5">
+                        <a class="object" href="DockerApiVersion$.html" title=""></a>
+                        <a class="class" href="DockerApiVersion.html" title=""></a>
+                        <a href="DockerApiVersion.html" title="">DockerApiVersion</a>
+                      </li><li class="current-entities indented5">
                         <a class="object" href="DockerChmodType$.html" title=""></a>
                         <a class="trait" href="DockerChmodType.html" title="This represents a type of file permission changes to run on the working directory."></a>
                         <a href="DockerChmodType.html" title="This represents a type of file permission changes to run on the working directory.">DockerChmodType</a>
@@ -510,6 +514,22 @@ e.g. <i>my-registry.com:1234/my-user/my-service:1.0.0</i> or just <i>my-service:
 [REGISTRY_HOST/][USERNAME/]NAME[:TAG]
 }}}
 e.g. <i>my-registry.com:1234/my-user/my-service:1.0.0</i> or just <i>my-service:1.0.0</i>.</p></div><dl class="paramcmts block"><dt class="param">registryHost</dt><dd class="cmt"><p>Optional hostname of the registry (including port if applicable)</p></dd><dt class="param">username</dt><dd class="cmt"><p>Optional username or other qualifier</p></dd><dt class="param">name</dt><dd class="cmt"><p>Name of the image, e.g. the artifact name</p></dd><dt class="param">tag</dt><dd class="cmt"><p>Optional tag for the image, e.g. the version</p></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerApiVersion" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DockerApiVersionextendsProductwithSerializable"></a><a id="DockerApiVersion:DockerApiVersion"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/index.html#DockerApiVersionextendsProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="DockerApiVersion.html"><span class="name">DockerApiVersion</span></a><span class="params">(<span name="major">major: <span class="extype" name="scala.Int">Int</span></span>, <span name="minor">minor: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.typesafe.sbt.packager.docker.DockerChmodType" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="DockerChmodTypeextendsAnyRef"></a><a id="DockerChmodType:DockerChmodType"></a>
       <span class="permalink">
@@ -625,7 +645,23 @@ Note that group file mode bits must be effective to be OpenShift compatible.
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="com.typesafe.sbt.packager.docker.DockerChmodType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+                <li name="com.typesafe.sbt.packager.docker.DockerApiVersion" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DockerApiVersion"></a><a id="DockerApiVersion:DockerApiVersion"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/index.html#DockerApiVersion" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="DockerApiVersion$.html"><span class="name">DockerApiVersion</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.typesafe.sbt.packager.docker.DockerChmodType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="DockerChmodType"></a><a id="DockerChmodType:DockerChmodType"></a>
       <span class="permalink">
       <a href="../../../../../com/typesafe/sbt/packager/docker/index.html#DockerChmodType" title="Permalink">

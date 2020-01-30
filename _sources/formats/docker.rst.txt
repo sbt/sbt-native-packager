@@ -142,6 +142,9 @@ Environment Settings
   ``dockerVersion``
     The docker server version. Used to leverage new docker features while maintaining backwards compatibility.
 
+  ``dockerApiVersion``
+    The docker server API version. Used to leverage new docker features while maintaining backwards compatibility.
+
 Publishing Settings
 ~~~~~~~~~~~~~~~~~~~
 

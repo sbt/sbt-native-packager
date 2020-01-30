@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Docker Plugin &mdash; sbt-native-packager 1.5.2 documentation</title>
+  <title>Docker Plugin &mdash; sbt-native-packager 1.6.1 documentation</title>
   
 
   
@@ -337,7 +337,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../archetypes/misc_archetypes.html">Configuration Archetypes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#ashscript-plugin">AshScript Plugin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#classpathjar-launcherjar-plugin">ClasspathJar &amp; LauncherJar Plugin</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../archetypes/misc_archetypes.html#jlink-plugin">Jlink Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../archetypes/jlink_plugin.html">Jlink Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/jlink_plugin.html#known-issues">Known issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../archetypes/jlink_plugin.html#further-reading">Further reading</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../archetypes/cheatsheet.html">An archetype cheatsheet</a><ul>
@@ -605,6 +609,8 @@ Defaults to the bash executable script, available at <code class="docutils liter
 <dd>Additional permissions typically used to give <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">+x</span></code> rights for the executable files. By default generated Bash scripts are given <code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupPlusExecute</span></code>.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">dockerVersion</span></code></dt>
 <dd>The docker server version. Used to leverage new docker features while maintaining backwards compatibility.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerApiVersion</span></code></dt>
+<dd>The docker server API version. Used to leverage new docker features while maintaining backwards compatibility.</dd>
 </dl>
 </div></blockquote>
 </div>
