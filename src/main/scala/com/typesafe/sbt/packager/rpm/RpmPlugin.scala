@@ -165,7 +165,15 @@ object RpmPlugin extends AutoPlugin {
       (defaultLinuxInstallLocation in Rpm).value
     ),
     stage in Rpm := RpmHelper.stage(rpmSpecConfig.value, (target in Rpm).value, streams.value.log),
-    packageBin in Rpm := RpmHelper.buildRpm(rpmSpecConfig.value, (stage in Rpm).value, streams.value.log),
+    artifactPath in (Rpm, packageBin) := RpmHelper.defaultRpmArtifactPath((target in Rpm).value, rpmMetadata.value),
+    packageBin in Rpm := {
+      val defaultPath = RpmHelper.buildRpm(rpmSpecConfig.value, (stage in Rpm).value, streams.value.log)
+      // `file` points to where buildRpm created the rpm. However we want it to be at `artifactPath`.
+      // If `artifactPath` is not the default value then we need to copy the file.
+      val path = (artifactPath in (Rpm, packageBin)).value
+      if (path.getCanonicalFile != defaultPath.getCanonicalFile) IO.copyFile(defaultPath, path)
+      path
+    },
     rpmLint := {
       sys.process.Process(Seq("rpmlint", "-v", (packageBin in Rpm).value.getAbsolutePath)) ! streams.value.log match {
         case 0 => ()

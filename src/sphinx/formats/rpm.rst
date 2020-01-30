@@ -129,6 +129,9 @@ Informational Settings
     used, and in the event of a tie it will fall back to comparing the version and
     release.
 
+  ``artifactPath in (Rpm, packageBin)``
+    The location of the generated RPM.
+
 Dependency Settings
 ~~~~~~~~~~~~~~~~~~~
 
