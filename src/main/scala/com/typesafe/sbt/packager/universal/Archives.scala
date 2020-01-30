@@ -93,7 +93,7 @@ object Archives {
   /**
     * Makes a dmg file in the given target directory using the given name.
     *
-    *  Note:  Only works on OSX
+    *  Note:  Only works on macOS
     *
     *  @param target folder to build package in
     *  @param name of output (without extension)
@@ -111,7 +111,7 @@ object Archives {
   /**
     * Makes a dmg file in the given target directory using the given name.
     *
-    *  Note:  Only works on OSX
+    *  Note:  Only works on macOS
     *
     *  @param target folder to build package in
     *  @param name of output (without extension)
@@ -247,7 +247,7 @@ object Archives {
       // create the working directory
       IO.createDirectory(workingDirectory)
       IO.copy(temporaryMappings)
-      // setExecutable does not always work. There are known issues with macOSx where
+      // setExecutable does not always work. There are known issues with macOS where
       // the executable flags is missing after compression.
       for ((from, to) <- temporaryMappings if (to.getAbsolutePath contains "/bin/") || from.canExecute) {
         println("Making " + to.getAbsolutePath + " executable")

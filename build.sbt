@@ -101,7 +101,7 @@ mimaBinaryIssueFilters ++= {
 publishMavenStyle := false
 
 // The release task doesn't run any tests. We rely on travis.ci and appveyor,
-// because it's impossible to run all tests (linux, macosx, windows) on a single computer.
+// because it's impossible to run all tests (linux, macos, windows) on a single computer.
 import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
@@ -144,7 +144,7 @@ addCommandAlias(
   "validateJdkPackagerTravis",
   "scripted jdkpackager/test-package-minimal jdkpackager/test-package-mappings"
 )
-addCommandAlias("validateOSX", "; validate ; validateUniversal")
+addCommandAlias("validateMacOS", "; validate ; validateUniversal")
 
 // TODO check the cygwin scripted tests and run them on appveyor
 addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted universal/dist universal/stage windows/*")

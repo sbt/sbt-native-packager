@@ -10,7 +10,7 @@ GraalVM's ``native-image`` compiles Java programs AOT (ahead-of-time) into nativ
 The plugin supports both using a local installation of the GraalVM ``native-image`` utility, or building inside a
 Docker container. If you intend to run the native image on Linux, then building inside a Docker container is
 recommended since GraalVM native images can only be built for the platform they are built on. By building in a Docker
-container, you can build Linux native images not just on Linux but also on Windows and OSX.
+container, you can build Linux native images not just on Linux but also on Windows and macOS.
 
 Requirements
 ------------
