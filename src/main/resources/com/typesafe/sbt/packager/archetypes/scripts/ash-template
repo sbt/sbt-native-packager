@@ -58,7 +58,7 @@ get_java_cmd() {
 # Processes incoming arguments and places them in appropriate global variables.  called by the run method.
 process_args () {
   local no_more_snp_opts=0
-  while [[ $# -gt 0 ]]; do
+  while [ $# -gt 0 ]; do
     case "$1" in
              --) shift && no_more_snp_opts=1 && break ;;
        -h|-help) usage; exit 1 ;;
@@ -80,8 +80,8 @@ process_args () {
     esac
   done
 
-  if [[ no_more_snp_opts ]]; then
-    while [[ $# -gt 0 ]]; do
+  if [ $no_more_snp_opts ]; then
+    while [ $# -gt 0 ]; do
       addResidual "$1" && shift
     done
   fi
