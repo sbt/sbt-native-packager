@@ -52,7 +52,7 @@ object ZipHelper {
   /**
     * Creates a zip file with the apache commons compressor library.
     *
-    * Note: This is known to have some odd issues on MacOSX whereby executable permissions
+    * Note: This is known to have some odd issues on macOS whereby executable permissions
     * are not actually discovered, even though the Info-Zip headers exist and work on
     * many variants of linux.  Yay Apple.
     *

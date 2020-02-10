@@ -35,12 +35,12 @@ different archetypes for common configurations, such as simple Java apps or serv
 * Build [native packages][formats] for different systems
   * Universal `zip`,`tar.gz`, `xz` archives
   * `deb` and `rpm` packages for Debian/RHEL based systems
-  * `dmg` for OSX
+  * `dmg` for macOS
   * `msi` for Windows
   * `docker` images
   * `graalvm` native images
 * Provide archetypes for common use cases
-  * [Java application][] with start scripts for Linux, OSX and Windows
+  * [Java application][] with start scripts for Linux, macOS and Windows
   * [Java server application][] adds support for service managers:s
     * Systemd
     * Systemv

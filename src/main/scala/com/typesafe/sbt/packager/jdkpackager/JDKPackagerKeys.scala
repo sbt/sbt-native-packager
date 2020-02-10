@@ -24,10 +24,10 @@ trait JDKPackagerKeys {
       |    * `all`: Runs all of the installers for the platform on which it is running,
       |      and creates a disk image for the application.
       |    * `installer`: Runs all of the installers for the platform on which it is running.
-      |    * `image`: Creates a disk image for the application. On OS X, the image is
+      |    * `image`: Creates a disk image for the application. On macOS, the image is
       |      the .app file. On Linux, the image is the directory that gets installed.
-      |    * `dmg`: Generates a DMG file for OS X.
-      |    * `pkg`: Generates a .pkg package for OS X.
+      |    * `dmg`: Generates a DMG file for macOS.
+      |    * `pkg`: Generates a .pkg package for macOS.
       |    * `mac.appStore`: Generates a package for the Mac App Store.
       |    * `rpm`: Generates an RPM package for Linux.
       |    * `deb`: Generates a Debian package for Linux.

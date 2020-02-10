@@ -132,7 +132,7 @@ Tasks
     for some types of archives.
 
   ``universal:package-osx-dmg``
-    Creates the ``dmg`` universal package.  This only work on OSX or systems with ``hdiutil``.
+    Creates the ``dmg`` universal package.  This only work on macOS or systems with ``hdiutil``.
 
   ``universal-docs:package-bin``
     Creates the ``zip`` universal documentation package.
