@@ -1,0 +1,32 @@
+#!/bin/sh
+
+
+export START_SCRIPT
+export QUALIFIED_CLASS_NAME
+export DEBUG="false"
+
+
+dlog() {
+  $DEBUG && echo "[debug] [$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
+}
+
+elog() {
+  echo "[error] [$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
+}
+
+die() {
+  elog "$1"
+  exit "$2"
+}
+
+resolve_primary_environment_variables() {
+  readonly START_SCRIPT="$(dirname $(realpath $0))/${{startScript}}" || die "Error resolving START_SCRIPT" $?
+  readonly QUALIFIED_CLASS_NAME="${{qualifiedClassName}}" || die "Error resolving QUALIFIED_CLASS_NAME" $?
+}
+
+main() {
+  resolve_primary_environment_variables || die "Error resolving primary environment variables" $?
+  exec "$START_SCRIPT" -main "$QUALIFIED_CLASS_NAME" "$@"
+}
+
+main "$@"

@@ -98,6 +98,7 @@ trait CommonStartScriptGenerator {
     * @param mainClass - Main class added to the java command
     * @param config - Config data for this script
     * @param targetDir - Target directory for this script
+    * @param mainClasses - Discovered main classes
     * @return File pointing to the created main script
     */
   private[this] def createMainScript(mainClass: String,
@@ -134,7 +135,7 @@ trait CommonStartScriptGenerator {
         val scriptName = scriptNameWithoutSuffix + scriptSuffix
         val file = tmp / scriptName
 
-        val replacements = Seq("startScript" -> executableScriptName, "qualifiedClassName" -> qualifiedClassName)
+        val replacements = Seq("startScript" -> mainScriptName(config), "qualifiedClassName" -> qualifiedClassName)
         val scriptContent = TemplateWriter.generateScript(forwarderTemplate, replacements, eol, keySurround)
 
         IO.write(file, scriptContent)

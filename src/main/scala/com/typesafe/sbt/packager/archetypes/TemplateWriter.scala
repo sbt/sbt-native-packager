@@ -28,6 +28,8 @@ object TemplateWriter {
   def defaultCharset: java.nio.charset.Charset =
     java.nio.charset.Charset.forName("UTF-8")
 
+  def ashFriendlyKeySurround(key: String) =
+    "\\$\\{\\{" + key + "\\}\\}"
   def bashFriendlyKeySurround(key: String) =
     "\\$\\{\\{" + key + "\\}\\}"
   def batFriendlyKeySurround(key: String) =

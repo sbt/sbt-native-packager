@@ -69,9 +69,11 @@ import sbt._
   *  enablePlugins(AshScriptPlugin)
   * }}}
   */
+@deprecated("Use AshStartScriptPlugin", "1.4.1")
 object AshScriptPlugin extends AutoPlugin {
 
   override def requires = JavaAppPackaging && BashStartScriptPlugin
+  override def trigger = noTrigger
 
   val ashTemplate = "ash-template"
 

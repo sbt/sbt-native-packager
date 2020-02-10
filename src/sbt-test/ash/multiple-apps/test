@@ -1,0 +1,5 @@
+> stage
+$ exists target/universal/stage/bin/foo.sh
+$ exists target/universal/stage/bin/bar.sh
+> runCheckFoo
+> runCheckBar
