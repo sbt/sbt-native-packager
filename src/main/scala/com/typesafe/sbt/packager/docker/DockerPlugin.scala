@@ -201,12 +201,12 @@ object DockerPlugin extends AutoPlugin {
   ) ++ inConfig(Docker)(
     Seq(
       executableScriptName := executableScriptName.value,
-      mappings ++= dockerPackageMappings.value,
       mappings := mappingsInDocker(
         (mappings in Universal).value,
         defaultLinuxInstallLocation.value,
         dockerLayerGrouping.value
       ),
+      mappings ++= dockerPackageMappings.value,
       name := name.value,
       packageName := packageName.value,
       publishLocal := {
