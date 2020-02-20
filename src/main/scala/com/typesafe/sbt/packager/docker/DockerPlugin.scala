@@ -5,7 +5,7 @@ import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 
 import sbt._
-import sbt.Keys.{clean, mappings, name, publish, publishLocal, sourceDirectory, streams, target, version}
+import sbt.Keys.{clean, mappings, name, projectID, publish, publishLocal, sourceDirectory, streams, target, version}
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{daemonUser, defaultLinuxInstallLocation}
 import com.typesafe.sbt.packager.universal.UniversalPlugin
@@ -56,6 +56,7 @@ object DockerPlugin extends AutoPlugin {
   }
 
   import autoImport._
+  import DockerJarLayers._
 
   /**
     * The separator used by makeCopy should be always forced to UNIX separator.
@@ -142,7 +143,6 @@ object DockerPlugin extends AutoPlugin {
       val base = dockerBaseImage.value
       val addPerms = dockerAdditionalPermissions.value
       val multiStageId = UUID.randomUUID().toString
-
       val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
       val stage0: Seq[CmdLike] = strategy match {
@@ -169,7 +169,10 @@ object DockerPlugin extends AutoPlugin {
         Seq(makeWorkdir(dockerBaseDirectory)) ++
         (strategy match {
           case DockerPermissionStrategy.MultiStage =>
-            Seq(makeCopyFrom(dockerBaseDirectory, stage0name, user, group))
+            Seq(
+              makeCopyFrom(dockerBaseDirectory + "/" + DependencyLib, dockerBaseDirectory, stage0name, user, group),
+              makeCopyFrom(dockerBaseDirectory + "/" + AppLib, dockerBaseDirectory, stage0name, user, group)
+            )
           case DockerPermissionStrategy.Run =>
             Seq(makeCopy(dockerBaseDirectory), makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
               (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
@@ -192,9 +195,13 @@ object DockerPlugin extends AutoPlugin {
 
       stage0 ++ stage1
     }
-  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
+  ) ++ inConfig(Docker)(
     Seq(
       executableScriptName := executableScriptName.value,
+      mappings := splitAppFromDependencies(
+        mappingsInDocker((mappings in Universal).value, defaultLinuxInstallLocation.value),
+        moveToAppIfOrganizationMatches(projectID.value.organization)
+      ),
       mappings ++= dockerPackageMappings.value,
       name := name.value,
       packageName := packageName.value,
@@ -328,21 +335,21 @@ object DockerPlugin extends AutoPlugin {
   }
 
   /**
-    * @param dockerBaseDirectory the installation directory
-    * @param from files are copied from the given build stage
+    * @param src the installation directory
+    * @param stage files are copied from the given build stage
     * @param daemonUser
     * @param daemonGroup
     * @return COPY command copying all files inside the directory from another build stage.
     */
-  private final def makeCopyFrom(dockerBaseDirectory: String,
-                                 from: String,
+  private final def makeCopyFrom(src: String,
+                                 dest: String,
+                                 stage: String,
                                  daemonUser: String,
                                  daemonGroup: String): CmdLike =
-    Cmd("COPY", s"--from=$from --chown=$daemonUser:$daemonGroup $dockerBaseDirectory $dockerBaseDirectory")
+    Cmd("COPY", s"--from=$stage --chown=$daemonUser:$daemonGroup $src $dest")
 
   /**
     * @param dockerBaseDirectory the installation directory
-    * @param from files are copied from the given build stage
     * @param daemonUser
     * @param daemonGroup
     * @return COPY command copying all files inside the directory from another build stage.
@@ -488,18 +495,15 @@ object DockerPlugin extends AutoPlugin {
   }
 
   /**
-    * uses the `mappings in Universal` to generate the
-    * `mappings in Docker`.
+    * Uses the `mappings in Universal` to generate the `mappings in Docker`.
     */
-  def mapGenericFilesToDocker: Seq[Setting[_]] = {
-    def renameDests(from: Seq[(File, String)], dest: String) =
-      for {
-        (f, path) <- from
-        newPath = "%s/%s" format (dest, path)
-      } yield (f, newPath)
-
-    inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
-  }
+  private final def mappingsInDocker(universalMappings: Seq[(File, String)],
+                                     dockerBaseDirectory: String): Seq[(File, String)] =
+    for {
+      (f, path) <- universalMappings
+      pathInDocker = s"$dockerBaseDirectory/$path"
+      mappingInDocker = (f, pathInDocker)
+    } yield mappingInDocker
 
   private[packager] def publishLocalLogger(log: Logger) =
     new sys.process.ProcessLogger {
@@ -716,5 +720,23 @@ object DockerPlugin extends AutoPlugin {
         case _ => List.empty
       }
     }
+
+  object DockerJarLayers {
+    val AppLib = "app-lib"
+    val DependencyLib = "lib"
+
+    private[docker] final def moveToAppIfOrganizationMatches(organization: String) =
+      (path: String) => path.replace(s"/$DependencyLib/$organization", s"/$AppLib/$organization")
+
+    /**
+      * For all paths in `dockerMappings` it applies function that mighy or might not change the pat
+      * @param dockerMappings
+      * @param conditionallyMoveToApp
+      * @return mappings with App jars moved to `app-lib`
+      */
+    private[docker] final def splitAppFromDependencies(dockerMappings: Seq[(File, String)],
+                                                       conditionallyMoveToApp: String => String) =
+      dockerMappings.map { case (f, path) => (f, conditionallyMoveToApp(path)) }
+  }
 
 }
