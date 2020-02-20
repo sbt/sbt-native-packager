@@ -30,7 +30,7 @@ object JDKPackagerAntHelper {
       // Environment override
       sys.env.get("JDK_HOME").map(file),
       sys.env.get("JAVA_HOME").map(file),
-      // MacOS X
+      // macOS
       Try(sys.process.Process("/usr/libexec/java_home").!!.trim).toOption.map(file),
       // From system properties
       sys.props.get("java.home").map(file)

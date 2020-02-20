@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Absolute path to this script
-# OS X doesn't support "readlink -f"
+# macOS doesn't support "readlink -f"
 realpath () {
   TARGET_FILE="$1"
   CHECK_CYGWIN="$2"

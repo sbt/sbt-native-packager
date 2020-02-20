@@ -4,7 +4,7 @@ JDKPackager Plugin
 ==================
 
 This plugin builds on Oracle's `javapackager`_ tool to generate  native application
-launchers and installers for MacOS X, Windows, and Linux. This plugin takes the settings and staged output from
+launchers and installers for macOS, Windows, and Linux. This plugin takes the settings and staged output from
 :ref:`java-app-plugin` and passes them through ``javapackager``
 to create native formats per Oracle's provided features.
 
@@ -13,7 +13,7 @@ to create native formats per Oracle's provided features.
 The actual mechanism used by this plugin is the support provided by the ``lib/ant-javafx.jar`` Ant task library,
 which provides more capabilities than the ``javapackager`` command line version, but the idea is the same.
 
-This plugin's most relevant addition to the core `sbt-native-packager` capabilities is the generation of MacOS X App
+This plugin's most relevant addition to the core `sbt-native-packager` capabilities is the generation of macOS App
 bundles and associated ``.dmg`` and ``.pkg`` package formats.  With this plugin complete drag-and-drop installable
 application bundles are possible, including the embedding of the JRE.  It can also generate Windows ``.exe`` and ``.msi``
 installers provided the requisite tools are available on the Windows build platform (see below). While Linux package
@@ -83,9 +83,9 @@ Settings
 
   * ``all``: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.
   * ``installer``: Runs all of the installers for the platform on which it is running.
-  * ``image``: Creates a disk image for the application. On OS X, the image is the .app file. On Linux, the image is the directory that gets installed.
-  * ``dmg``: Generates a DMG file for OS X.
-  * ``pkg``: Generates a .pkg package for OS X.
+  * ``image``: Creates a disk image for the application. On macOS, the image is the .app file. On Linux, the image is the directory that gets installed.
+  * ``dmg``: Generates a DMG file for macOS.
+  * ``pkg``: Generates a .pkg package for macOS.
   * ``mac.appStore``: Generates a package for the Mac App Store.
   * ``rpm``: Generates an RPM package for Linux.
   * ``deb``: Generates a Debian package for Linux.
