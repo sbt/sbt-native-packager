@@ -56,7 +56,6 @@ object DockerPlugin extends AutoPlugin {
   }
 
   import autoImport._
-  import DockerJarLayers._
 
   /**
     * The separator used by makeCopy should be always forced to UNIX separator.
@@ -99,6 +98,7 @@ object DockerPlugin extends AutoPlugin {
     ),
     dockerUpdateLatest := false,
     dockerAutoremoveMultiStageIntermediateImages := true,
+    dockerLayerGrouping := Seq(s"lib/${projectID.value.organization}" -> 2, "lib/" -> 1, "bin/" -> 0),
     dockerAliases := {
       val alias = dockerAlias.value
       if (dockerUpdateLatest.value) {
@@ -169,10 +169,13 @@ object DockerPlugin extends AutoPlugin {
         Seq(makeWorkdir(dockerBaseDirectory)) ++
         (strategy match {
           case DockerPermissionStrategy.MultiStage =>
-            Seq(
-              makeCopyFrom(dockerBaseDirectory + "/" + DependencyLib, dockerBaseDirectory, stage0name, user, group),
-              makeCopyFrom(dockerBaseDirectory + "/" + AppLib, dockerBaseDirectory, stage0name, user, group)
-            )
+            val layerIdsAscending = dockerLayerGrouping.value
+              .map(_._2)
+              .distinct
+              .sorted(Ordering.Int)
+            layerIdsAscending.map { layerId =>
+              makeCopyFrom(dockerBaseDirectory + "/" + layerId, dockerBaseDirectory, stage0name, user, group)
+            }
           case DockerPermissionStrategy.Run =>
             Seq(makeCopy(dockerBaseDirectory), makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
               (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
@@ -198,11 +201,12 @@ object DockerPlugin extends AutoPlugin {
   ) ++ inConfig(Docker)(
     Seq(
       executableScriptName := executableScriptName.value,
-      mappings := splitAppFromDependencies(
-        mappingsInDocker((mappings in Universal).value, defaultLinuxInstallLocation.value),
-        moveToAppIfOrganizationMatches(projectID.value.organization)
-      ),
       mappings ++= dockerPackageMappings.value,
+      mappings := mappingsInDocker(
+        (mappings in Universal).value,
+        defaultLinuxInstallLocation.value,
+        dockerLayerGrouping.value
+      ),
       name := name.value,
       packageName := packageName.value,
       publishLocal := {
@@ -498,10 +502,16 @@ object DockerPlugin extends AutoPlugin {
     * Uses the `mappings in Universal` to generate the `mappings in Docker`.
     */
   private final def mappingsInDocker(universalMappings: Seq[(File, String)],
-                                     dockerBaseDirectory: String): Seq[(File, String)] =
+                                     dockerBaseDirectory: String,
+                                     dockerGroups: Seq[(String, Int)]): Seq[(File, String)] =
     for {
       (f, path) <- universalMappings
-      pathInDocker = s"$dockerBaseDirectory/$path"
+      layerIdx = dockerGroups
+        .find { case (prefix, _) => path.startsWith(prefix) }
+        .map(_._2)
+        .getOrElse(throw new RuntimeException(s"Unmapped layer $path"))
+      pathInDocker = s"$dockerBaseDirectory/$layerIdx/$path"
+      _ = println(pathInDocker + "  * " + layerIdx) //todo remove
       mappingInDocker = (f, pathInDocker)
     } yield mappingInDocker
 
@@ -720,23 +730,4 @@ object DockerPlugin extends AutoPlugin {
         case _ => List.empty
       }
     }
-
-  object DockerJarLayers {
-    val AppLib = "app-lib"
-    val DependencyLib = "lib"
-
-    private[docker] final def moveToAppIfOrganizationMatches(organization: String) =
-      (path: String) => path.replace(s"/$DependencyLib/$organization", s"/$AppLib/$organization")
-
-    /**
-      * For all paths in `dockerMappings` it applies function that mighy or might not change the pat
-      * @param dockerMappings
-      * @param conditionallyMoveToApp
-      * @return mappings with App jars moved to `app-lib`
-      */
-    private[docker] final def splitAppFromDependencies(dockerMappings: Seq[(File, String)],
-                                                       conditionallyMoveToApp: String => String) =
-      dockerMappings.map { case (f, path) => (f, conditionallyMoveToApp(path)) }
-  }
-
 }

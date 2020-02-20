@@ -57,4 +57,10 @@ private[packager] trait DockerKeysEx extends DockerKeys {
   lazy val dockerAdditionalPermissions =
     taskKey[Seq[(DockerChmodType, String)]]("Explicit chmod calls to some of the paths.")
   val dockerApiVersion = TaskKey[Option[DockerApiVersion]]("dockerApiVersion", "The docker server api version")
+  val dockerLayerGrouping = SettingKey[Seq[(String, Int)]](
+    "dockerLayerGrouping",
+    "Group files in layers by prefixes. " +
+      "Lower index means the file would be a part of an earlier layer. " +
+      "The prefixes are matched to file in order and at least one match per file is required"
+  )
 }
