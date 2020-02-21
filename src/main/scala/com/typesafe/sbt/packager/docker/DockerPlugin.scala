@@ -5,7 +5,7 @@ import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 
 import sbt._
-import sbt.Keys.{clean, mappings, name, projectID, publish, publishLocal, sourceDirectory, streams, target, version}
+import sbt.Keys.{clean, mappings, name, organization, publish, publishLocal, sourceDirectory, streams, target, version}
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{daemonUser, defaultLinuxInstallLocation}
 import com.typesafe.sbt.packager.universal.UniversalPlugin
@@ -98,7 +98,12 @@ object DockerPlugin extends AutoPlugin {
     ),
     dockerUpdateLatest := false,
     dockerAutoremoveMultiStageIntermediateImages := true,
-    dockerLayerGrouping := Seq(s"lib/${projectID.value.organization}" -> 2, "lib/" -> 1, "bin/" -> 0),
+    dockerLayerGrouping := {
+      case s if s.startsWith(s"lib/${organization.value}") => 2
+      case s if s.startsWith(s"bin/")                      => 1
+      case s if s.startsWith(s"lib/")                      => 0
+      case _                                               => 0
+    },
     dockerAliases := {
       val alias = dockerAlias.value
       if (dockerUpdateLatest.value) {
@@ -169,10 +174,7 @@ object DockerPlugin extends AutoPlugin {
         Seq(makeWorkdir(dockerBaseDirectory)) ++
         (strategy match {
           case DockerPermissionStrategy.MultiStage =>
-            val layerIdsAscending = dockerLayerGrouping.value
-              .map(_._2)
-              .distinct
-              .sorted(Ordering.Int)
+            val layerIdsAscending = (dockerLayerMappings in Docker).value.map(_._1).distinct.sorted(Ordering.Int)
             layerIdsAscending.map { layerId =>
               makeCopyFrom(dockerBaseDirectory + "/" + layerId, dockerBaseDirectory, stage0name, user, group)
             }
@@ -201,12 +203,9 @@ object DockerPlugin extends AutoPlugin {
   ) ++ inConfig(Docker)(
     Seq(
       executableScriptName := executableScriptName.value,
-      mappings := mappingsInDocker(
-        (mappings in Universal).value,
-        defaultLinuxInstallLocation.value,
-        dockerLayerGrouping.value
-      ),
-      mappings ++= dockerPackageMappings.value,
+      mappings := dockerLayerMappings.value.map {
+        case (_, file, path) => (file, path)
+      },
       name := name.value,
       packageName := packageName.value,
       publishLocal := {
@@ -245,6 +244,18 @@ object DockerPlugin extends AutoPlugin {
       stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
       stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (target in Docker).value / "stage",
+      dockerLayerMappings := {
+        val dockerGroups = dockerLayerGrouping.value
+        def buildDockerPaths(seq: Seq[(File, String)], prefix: String) =
+          for {
+            (file, path) <- seq
+            layerIdx = dockerGroups(path)
+            pathInDocker = s"$prefix/$layerIdx/$path"
+          } yield (layerIdx, file, pathInDocker)
+
+        buildDockerPaths((mappings in Universal).value, (defaultLinuxInstallLocation in Docker).value + "/") ++
+          buildDockerPaths(dockerPackageMappings.value, "")
+      },
       target := target.value / "docker",
       // pick a user name that's unlikely to exist in base images
       daemonUser := "demiourgos728",
@@ -497,23 +508,6 @@ object DockerPlugin extends AutoPlugin {
     IO.write(f, dockerContent)
     f
   }
-
-  /**
-    * Uses the `mappings in Universal` to generate the `mappings in Docker`.
-    */
-  private final def mappingsInDocker(universalMappings: Seq[(File, String)],
-                                     dockerBaseDirectory: String,
-                                     dockerGroups: Seq[(String, Int)]): Seq[(File, String)] =
-    for {
-      (f, path) <- universalMappings
-      layerIdx = dockerGroups
-        .find { case (prefix, _) => path.startsWith(prefix) }
-        .map(_._2)
-        .getOrElse(throw new RuntimeException(s"Unmapped layer $path"))
-      pathInDocker = s"$dockerBaseDirectory/$layerIdx/$path"
-      _ = println(pathInDocker + "  * " + layerIdx) //todo remove
-      mappingInDocker = (f, pathInDocker)
-    } yield mappingInDocker
 
   private[packager] def publishLocalLogger(log: Logger) =
     new sys.process.ProcessLogger {
