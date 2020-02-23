@@ -168,7 +168,9 @@ object DockerPlugin extends AutoPlugin {
             makeWorkdir(dockerBaseDirectory)
           ) ++
             layerIdsAscending.map(l => makeCopy(s"$l", s"/$l/")) ++
-            Seq(makeUser("root"), makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
+            Seq(makeUser("root")) ++ layerIdsAscending.map(
+            l => makeChmodRecursive(dockerChmodType.value, Seq(s"/$l$dockerBaseDirectory"))
+          ) ++
             (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) }) ++
             Seq(DockerStageBreak)
         case _ => Seq()
