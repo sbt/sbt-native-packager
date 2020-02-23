@@ -99,10 +99,18 @@ object DockerPlugin extends AutoPlugin {
     dockerUpdateLatest := false,
     dockerAutoremoveMultiStageIntermediateImages := true,
     dockerLayerGrouping := {
-      case s if s.startsWith(s"lib/${organization.value}") => 2
-      case s if s.startsWith(s"bin/")                      => 1
-      case s if s.startsWith(s"lib/")                      => 0
-      case _                                               => 0
+      val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
+      (path: String) =>
+        {
+          val pathInWorkdir = path.stripPrefix(dockerBaseDirectory)
+          if (pathInWorkdir.startsWith(s"/lib/${organization.value}"))
+            2
+          else if (pathInWorkdir.startsWith("/lib/"))
+            1
+          else if (pathInWorkdir.startsWith("/bin/"))
+            1
+          else 0
+        }
     },
     dockerAliases := {
       val alias = dockerAlias.value
@@ -129,13 +137,13 @@ object DockerPlugin extends AutoPlugin {
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerAdditionalPermissions := {
       val basePath = (defaultLinuxInstallLocation in Docker).value
-      (mappings in Docker).value
+      (dockerLayerMappings in Docker).value
         .collect {
           // by default we assume everything in the bin/ folder should be executable that is not a .bat file
-          case (_, path) if path.startsWith(s"$basePath/bin/") && !path.endsWith(".bat") =>
+          case (_, _, path) if path.contains(s"$basePath/bin/") && !path.endsWith(".bat") =>
             DockerChmodType.UserGroupPlusExecute -> path
           // sh files should also be marked as executable
-          case (_, path) if path.endsWith(".sh") => DockerChmodType.UserGroupPlusExecute -> path
+          case (_, _, path) if path.endsWith(".sh") => DockerChmodType.UserGroupPlusExecute -> path
         }
     },
     dockerCommands := {
@@ -150,17 +158,17 @@ object DockerPlugin extends AutoPlugin {
       val multiStageId = UUID.randomUUID().toString
       val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
+      val layerIdsAscending = (dockerLayerMappings in Docker).value.map(_._1).distinct.sorted
       val stage0: Seq[CmdLike] = strategy match {
         case DockerPermissionStrategy.MultiStage =>
           Seq(
             makeFromAs(base, stage0name),
             makeLabel("snp-multi-stage" -> "intermediate"),
             makeLabel("snp-multi-stage-id" -> multiStageId),
-            makeWorkdir(dockerBaseDirectory),
-            makeCopy(dockerBaseDirectory),
-            makeUser("root"),
-            makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))
+            makeWorkdir(dockerBaseDirectory)
           ) ++
+            layerIdsAscending.map(l => makeCopy(s"$l", s"/$l/")) ++
+            Seq(makeUser("root"), makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
             (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) }) ++
             Seq(DockerStageBreak)
         case _ => Seq()
@@ -174,9 +182,9 @@ object DockerPlugin extends AutoPlugin {
         Seq(makeWorkdir(dockerBaseDirectory)) ++
         (strategy match {
           case DockerPermissionStrategy.MultiStage =>
-            val layerIdsAscending = (dockerLayerMappings in Docker).value.map(_._1).distinct.sorted(Ordering.Int)
+            val layerIdsAscending = (dockerLayerMappings in Docker).value.map(_._1).distinct.sorted
             layerIdsAscending.map { layerId =>
-              makeCopyFrom(dockerBaseDirectory + "/" + layerId, dockerBaseDirectory, stage0name, user, group)
+              makeCopyFrom(s"/$layerId$dockerBaseDirectory", dockerBaseDirectory, stage0name, user, group)
             }
           case DockerPermissionStrategy.Run =>
             Seq(makeCopy(dockerBaseDirectory), makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
@@ -203,9 +211,8 @@ object DockerPlugin extends AutoPlugin {
   ) ++ inConfig(Docker)(
     Seq(
       executableScriptName := executableScriptName.value,
-      mappings := dockerLayerMappings.value.map {
-        case (_, file, path) => (file, path)
-      },
+      mappings := mappingsInDocker((mappings in Universal).value, defaultLinuxInstallLocation.value),
+      mappings ++= dockerPackageMappings.value,
       name := name.value,
       packageName := packageName.value,
       publishLocal := {
@@ -241,20 +248,20 @@ object DockerPlugin extends AutoPlugin {
         }
       },
       sourceDirectory := sourceDirectory.value / "docker",
-      stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
+      stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, dockerLayerMappings.value.map {
+        case (_, file, path) => (file, path)
+      }),
       stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (target in Docker).value / "stage",
       dockerLayerMappings := {
         val dockerGroups = dockerLayerGrouping.value
-        def buildDockerPaths(seq: Seq[(File, String)], prefix: String) =
-          for {
-            (file, path) <- seq
-            layerIdx = dockerGroups(path)
-            pathInDocker = s"$prefix/$layerIdx/$path"
-          } yield (layerIdx, file, pathInDocker)
+        val dockerFinalFiles = (mappings in Docker).value
+        for {
+          (file, path) <- dockerFinalFiles
+          layerIdx = dockerGroups(path)
+          dockerLayerPath = s"/$layerIdx$path"
+        } yield (layerIdx, file, dockerLayerPath)
 
-        buildDockerPaths((mappings in Universal).value, (defaultLinuxInstallLocation in Docker).value + "/") ++
-          buildDockerPaths(dockerPackageMappings.value, "")
       },
       target := target.value / "docker",
       // pick a user name that's unlikely to exist in base images
@@ -348,6 +355,14 @@ object DockerPlugin extends AutoPlugin {
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
     Cmd("COPY", s"$files /$files")
   }
+
+  private final def makeCopy(src: String, dest: String): CmdLike =
+    /**
+      * This is the file path of the file in the Docker image, and does not depend on the OS where the image
+      * is being built. This means that it needs to be the Unix file separator even when the image is built
+      * on e.g. Windows systems.
+      */
+    Cmd("COPY", s"$src $dest")
 
   /**
     * @param src the installation directory
@@ -508,6 +523,14 @@ object DockerPlugin extends AutoPlugin {
     IO.write(f, dockerContent)
     f
   }
+
+  private final def mappingsInDocker(universalMappings: Seq[(File, String)],
+                                     dockerBaseDirectory: String): Seq[(File, String)] =
+    for {
+      (f, path) <- universalMappings
+      pathInDocker = s"$dockerBaseDirectory/$path"
+      mappingInDocker = (f, pathInDocker)
+    } yield mappingInDocker
 
   private[packager] def publishLocalLogger(log: Logger) =
     new sys.process.ProcessLogger {
