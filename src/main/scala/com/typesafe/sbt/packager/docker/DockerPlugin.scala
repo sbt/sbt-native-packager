@@ -140,10 +140,11 @@ object DockerPlugin extends AutoPlugin {
       (dockerLayerMappings in Docker).value
         .collect {
           // by default we assume everything in the bin/ folder should be executable that is not a .bat file
-          case (_, _, path) if path.contains(s"$basePath/bin/") && !path.endsWith(".bat") =>
-            DockerChmodType.UserGroupPlusExecute -> path
+          case (layerIdx, _, path) if path.startsWith(s"$basePath/bin/") && !path.endsWith(".bat") =>
+            DockerChmodType.UserGroupPlusExecute -> pathInLayer(path, layerIdx)
           // sh files should also be marked as executable
-          case (_, _, path) if path.endsWith(".sh") => DockerChmodType.UserGroupPlusExecute -> path
+          case (layerIdx, _, path) if path.endsWith(".sh") =>
+            DockerChmodType.UserGroupPlusExecute -> pathInLayer(path, layerIdx)
         }
     },
     dockerCommands := {
@@ -250,7 +251,7 @@ object DockerPlugin extends AutoPlugin {
       },
       sourceDirectory := sourceDirectory.value / "docker",
       stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, dockerLayerMappings.value.map {
-        case (_, file, path) => (file, path)
+        case (layerIdx, file, path) => (file, pathInLayer(path, layerIdx))
       }),
       stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (target in Docker).value / "stage",
@@ -260,9 +261,7 @@ object DockerPlugin extends AutoPlugin {
         for {
           (file, path) <- dockerFinalFiles
           layerIdx = dockerGroups(path)
-          dockerLayerPath = s"/$layerIdx$path"
-        } yield (layerIdx, file, dockerLayerPath)
-
+        } yield (layerIdx, file, path)
       },
       target := target.value / "docker",
       // pick a user name that's unlikely to exist in base images
@@ -533,6 +532,8 @@ object DockerPlugin extends AutoPlugin {
 
     inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
   }
+
+  private final def pathInLayer(path: String, layer: Int) = s"/$layer$path"
 
   private[packager] def publishLocalLogger(log: Logger) =
     new sys.process.ProcessLogger {
