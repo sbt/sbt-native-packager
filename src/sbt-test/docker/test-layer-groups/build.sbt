@@ -5,7 +5,7 @@ organization := "com.example"
 name := "docker-groups"
 version := "0.1.0"
 
-Docker / dockerLayerGrouping := {
+dockerLayerGrouping in Docker := {
   val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
   (path: String) =>
   {
