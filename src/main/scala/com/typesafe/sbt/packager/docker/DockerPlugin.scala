@@ -210,10 +210,9 @@ object DockerPlugin extends AutoPlugin {
 
       stage0 ++ stage1
     }
-  ) ++ inConfig(Docker)(
+  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
     Seq(
       executableScriptName := executableScriptName.value,
-      mappings := mappingsInDocker((mappings in Universal).value, defaultLinuxInstallLocation.value),
       mappings ++= dockerPackageMappings.value,
       name := name.value,
       packageName := packageName.value,
@@ -359,11 +358,6 @@ object DockerPlugin extends AutoPlugin {
   }
 
   private final def makeCopy(src: String, dest: String): CmdLike =
-    /**
-      * This is the file path of the file in the Docker image, and does not depend on the OS where the image
-      * is being built. This means that it needs to be the Unix file separator even when the image is built
-      * on e.g. Windows systems.
-      */
     Cmd("COPY", s"$src $dest")
 
   /**
@@ -526,13 +520,19 @@ object DockerPlugin extends AutoPlugin {
     f
   }
 
-  private final def mappingsInDocker(universalMappings: Seq[(File, String)],
-                                     dockerBaseDirectory: String): Seq[(File, String)] =
-    for {
-      (f, path) <- universalMappings
-      pathInDocker = s"$dockerBaseDirectory/$path"
-      mappingInDocker = (f, pathInDocker)
-    } yield mappingInDocker
+  /**
+    * uses the `mappings in Universal` to generate the
+    * `mappings in Docker`.
+    */
+  def mapGenericFilesToDocker: Seq[Setting[_]] = {
+    def renameDests(from: Seq[(File, String)], dest: String) =
+      for {
+        (f, path) <- from
+        newPath = "%s/%s" format (dest, path)
+      } yield (f, newPath)
+
+    inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
+  }
 
   private[packager] def publishLocalLogger(log: Logger) =
     new sys.process.ProcessLogger {
