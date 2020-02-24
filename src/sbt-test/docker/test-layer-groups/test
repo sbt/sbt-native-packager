@@ -5,4 +5,4 @@ $ exists target/docker/stage/123/opt/docker/bin/docker-groups
 $ exists target/docker/stage/0
 $ exists target/docker/stage/2
 
-$ exec bash -c 'docker run --entrypoint=ls docker-groups:0.1.0 |tr '\n' ',' | grep -q "bin,lib"'
+$ exec bash -c 'docker run --entrypoint=ls docker-groups:0.1.0 |tr "\n" "," | grep -q "bin,lib"'
