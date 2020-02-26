@@ -62,5 +62,5 @@ private[packager] trait DockerKeysEx extends DockerKeys {
       "Lower index means the file would be a part of an earlier layer."
   )
   val dockerLayerMappings =
-    taskKey[Seq[(Int, File, String)]]("List of layer, source file and destination in Docker image.")
+    taskKey[Seq[LayeredMapping]]("List of layer, source file and destination in Docker image.")
 }
