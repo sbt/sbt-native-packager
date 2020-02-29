@@ -4,7 +4,7 @@ import java.io.File
 
 /**
   * Mapping of file to layers
- *
+  *
   * @param layerId The identifier in the layer used to increase cache hits in
   *                docker caching. LayerId is present in docker:stage directory structure
   *                and in intermediate image produced in the multi-stage docker build.
