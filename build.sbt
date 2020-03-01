@@ -91,8 +91,14 @@ mimaBinaryIssueFilters ++= {
     ProblemFilters.exclude[ReversedMissingMethodProblem](
       "com.typesafe.sbt.packager.docker.DockerKeys.dockerAutoremoveMultiStageIntermediateImages"
     ),
-    ProblemFilters.exclude[DirectMissingMethodProblem](
-      "com.typesafe.sbt.packager.docker.DockerPlugin.publishLocalDocker"
+    ProblemFilters
+      .exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.docker.DockerPlugin.publishLocalDocker"),
+    // added via #1312
+    ProblemFilters.exclude[ReversedMissingMethodProblem](
+      "com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImageKeys.graalVMNativeImageCommand"
+    ),
+    ProblemFilters.exclude[ReversedMissingMethodProblem](
+      "com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImageKeys.com$typesafe$sbt$packager$graalvmnativeimage$GraalVMNativeImageKeys$_setter_$graalVMNativeImageCommand_="
     )
   )
 }
