@@ -104,7 +104,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     targetDirectory.mkdirs()
     val command = {
       val nativeImageArguments = {
-        val classpath = classpathJars.mkString(System.getProperty("path.separator"))
+        val classpath = classpathJars.mkString(java.io.File.pathSeparator)
         Seq("--class-path", classpath, s"-H:Name=$binaryName") ++ extraOptions ++ Seq(className)
       }
       Seq(nativeImageCommand) ++ nativeImageArguments
