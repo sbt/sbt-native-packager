@@ -2,7 +2,7 @@
 > docker:publishLocal
 $ exists target/docker/stage/Dockerfile
 $ exists target/docker/stage/123/opt/docker/bin/docker-groups
-$ exists target/docker/stage/0
+$ exists target/docker/stage/opt
 $ exists target/docker/stage/2
 
 $ exec bash -c 'docker run --entrypoint=ls docker-groups:0.1.0 |tr "\n" "," | grep -q "bin,lib"'

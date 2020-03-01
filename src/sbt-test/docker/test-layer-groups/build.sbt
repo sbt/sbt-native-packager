@@ -11,9 +11,9 @@ dockerLayerGrouping in Docker := {
   {
     val pathInWorkdir = path.stripPrefix(dockerBaseDirectory)
     if (pathInWorkdir.startsWith(s"/lib/${organization.value}"))
-      2
+      Some(2)
     else if (pathInWorkdir.startsWith("/bin/"))
-      123
-    else 0
+      Some(123)
+    else None
   }
 }

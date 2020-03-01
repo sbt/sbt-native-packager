@@ -104,12 +104,12 @@ object DockerPlugin extends AutoPlugin {
         {
           val pathInWorkdir = path.stripPrefix(dockerBaseDirectory)
           if (pathInWorkdir.startsWith(s"/lib/${organization.value}"))
-            2
+            Some(2)
           else if (pathInWorkdir.startsWith("/lib/"))
-            1
+            Some(1)
           else if (pathInWorkdir.startsWith("/bin/"))
-            1
-          else 0
+            Some(1)
+          else None
         }
     },
     dockerAliases := {
@@ -168,9 +168,9 @@ object DockerPlugin extends AutoPlugin {
             makeLabel("snp-multi-stage-id" -> multiStageId),
             makeWorkdir(dockerBaseDirectory)
           ) ++
-            layerIdsAscending.map(l => makeCopy(s"$l", s"/$l/")) ++
+            layerIdsAscending.map(l => makeCopy(l, dockerBaseDirectory)) ++
             Seq(makeUser("root")) ++ layerIdsAscending.map(
-            l => makeChmodRecursive(dockerChmodType.value, Seq(s"/$l$dockerBaseDirectory"))
+            l => makeChmodRecursive(dockerChmodType.value, Seq(pathInLayer(dockerBaseDirectory, l)))
           ) ++ {
             val layerToPath = (dockerLayerGrouping in Docker).value
             addPerms map {
@@ -352,7 +352,7 @@ object DockerPlugin extends AutoPlugin {
     * @param dockerBaseDirectory the installation directory
     * @return COPY command copying all files inside the installation directory
     */
-  private final def makeCopyLayer(layerId: Int, dockerBaseDirectory: String): CmdLike = {
+  private final def makeCopyLayer(layerId: Option[Int], dockerBaseDirectory: String): CmdLike = {
 
     /**
       * This is the file path of the file in the Docker image, and does not depend on the OS where the image
@@ -360,11 +360,15 @@ object DockerPlugin extends AutoPlugin {
       * on e.g. Windows systems.
       */
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
-    Cmd("COPY", s"$layerId/$files /$files")
+    val path = layerId.map(i => s"$i/$files").getOrElse(s"$files")
+    Cmd("COPY", s"$path /$files")
   }
 
-  private final def makeCopy(src: String, dest: String): CmdLike =
-    Cmd("COPY", s"$src $dest")
+  private final def makeCopy(layerId: Option[Int], dockerBaseDirectory: String): CmdLike = {
+    val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
+    val path = layerId.map(i => s"$i/$files").getOrElse(s"$files")
+    Cmd("COPY", s"$path /$path")
+  }
 
   /**
     * @param src the installation directory
@@ -386,7 +390,7 @@ object DockerPlugin extends AutoPlugin {
     * @param daemonGroup
     * @return COPY command copying all files inside the directory from another build stage.
     */
-  private final def makeCopyChown(layerId: Int,
+  private final def makeCopyChown(layerId: Option[Int],
                                   dockerBaseDirectory: String,
                                   daemonUser: String,
                                   daemonGroup: String): CmdLike = {
@@ -397,7 +401,8 @@ object DockerPlugin extends AutoPlugin {
       * on e.g. Windows systems.
       */
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
-    Cmd("COPY", s"--chown=$daemonUser:$daemonGroup $layerId/$files /$files")
+    val path = layerId.map(i => s"$i/$files").getOrElse(s"$files")
+    Cmd("COPY", s"--chown=$daemonUser:$daemonGroup $path /$files")
   }
 
   /**
@@ -543,7 +548,7 @@ object DockerPlugin extends AutoPlugin {
     inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
   }
 
-  private final def pathInLayer(path: String, layer: Int) = s"/$layer$path"
+  private final def pathInLayer(path: String, layer: Option[Int]) = layer.map(i => s"/$i$path").getOrElse(path)
 
   private[packager] def publishLocalLogger(log: Logger) =
     new sys.process.ProcessLogger {

@@ -19,8 +19,8 @@ lazy val root = (project in file("."))
       assert(lines(2).substring(0, 25) == "LABEL snp-multi-stage-id=") // random generated id is hard to test
       assertEquals(lines.drop(3),
         """WORKDIR /opt/docker
-          |COPY 1 /1/
-          |COPY 2 /2/
+          |COPY 1/opt /1/opt
+          |COPY 2/opt /2/opt
           |USER root
           |RUN ["chmod", "-R", "u=rX,g=rX", "/1/opt/docker"]
           |RUN ["chmod", "-R", "u=rX,g=rX", "/2/opt/docker"]
@@ -106,8 +106,8 @@ lazy val root = (project in file("."))
       assert(lines(2).substring(0, 25) == "LABEL snp-multi-stage-id=") // random generated id is hard to test
       assertEquals(lines.drop(3),
         """WORKDIR /opt/docker
-          |COPY 1 /1/
-          |COPY 2 /2/
+          |COPY 1/opt /1/opt
+          |COPY 2/opt /2/opt
           |USER root
           |RUN ["chmod", "-R", "u=rwX,g=rwX", "/1/opt/docker"]
           |RUN ["chmod", "-R", "u=rwX,g=rwX", "/2/opt/docker"]

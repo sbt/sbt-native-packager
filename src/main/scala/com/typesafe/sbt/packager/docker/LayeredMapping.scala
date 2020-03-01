@@ -11,4 +11,4 @@ import java.io.File
   * @param file The file produced by universal/stage to be moved into docker/stage directory.
   * @param path The path in the final image
   */
-case class LayeredMapping(layerId: Int, file: File, path: String)
+case class LayeredMapping(layerId: Option[Int], file: File, path: String)
