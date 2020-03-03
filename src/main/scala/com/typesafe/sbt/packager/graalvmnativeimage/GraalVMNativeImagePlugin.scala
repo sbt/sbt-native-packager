@@ -21,7 +21,7 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin
   */
 object GraalVMNativeImagePlugin extends AutoPlugin {
 
-  object autoImport extends GraalVMNativeImageKeys {
+  object autoImport extends GraalVMNativeImageKeysEx {
     val GraalVMNativeImage: Configuration = config("graalvm-native-image")
   }
 
