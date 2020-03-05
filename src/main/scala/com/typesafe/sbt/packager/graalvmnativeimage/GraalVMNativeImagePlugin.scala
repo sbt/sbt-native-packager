@@ -21,14 +21,13 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin
   */
 object GraalVMNativeImagePlugin extends AutoPlugin {
 
-  object autoImport extends GraalVMNativeImageKeys {
+  object autoImport extends GraalVMNativeImageKeysEx {
     val GraalVMNativeImage: Configuration = config("graalvm-native-image")
   }
 
   import autoImport._
 
   private val GraalVMBaseImage = "oracle/graalvm-ce"
-  private val NativeImageCommand = "native-image"
 
   override def requires: Plugins = JavaAppPackaging
 
@@ -38,6 +37,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     target in GraalVMNativeImage := target.value / "graalvm-native-image",
     graalVMNativeImageOptions := Seq.empty,
     graalVMNativeImageGraalVersion := None,
+    graalVMNativeImageCommand := "native-image",
     resourceDirectory in GraalVMNativeImage := sourceDirectory.value / "graal",
     mainClass in GraalVMNativeImage := (mainClass in Compile).value
   ) ++ inConfig(GraalVMNativeImage)(scopedSettings)
@@ -55,6 +55,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     packageBin := {
       val targetDirectory = target.value
       val binaryName = name.value
+      val nativeImageCommand = graalVMNativeImageCommand.value
       val className = mainClass.value.getOrElse(sys.error("Could not find a main class."))
       val classpathJars = scriptClasspathOrdering.value
       val extraOptions = graalVMNativeImageOptions.value
@@ -65,7 +66,15 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
       UniversalPlugin.autoImport.containerBuildImage.value match {
         case None =>
-          buildLocal(targetDirectory, binaryName, className, classpathJars.map(_._1), extraOptions, streams.log)
+          buildLocal(
+            targetDirectory,
+            binaryName,
+            nativeImageCommand,
+            className,
+            classpathJars.map(_._1),
+            extraOptions,
+            streams.log
+          )
 
         case Some(image) =>
           val resourceMappings = MappingsHelper.relative(graalResources, graalResourceDirectories)
@@ -87,6 +96,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
   private def buildLocal(targetDirectory: File,
                          binaryName: String,
+                         nativeImageCommand: String,
                          className: String,
                          classpathJars: Seq[File],
                          extraOptions: Seq[String],
@@ -94,11 +104,12 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     targetDirectory.mkdirs()
     val command = {
       val nativeImageArguments = {
-        val classpath = classpathJars.mkString(":")
+        val classpath = classpathJars.mkString(java.io.File.pathSeparator)
         Seq("--class-path", classpath, s"-H:Name=$binaryName") ++ extraOptions ++ Seq(className)
       }
-      Seq(NativeImageCommand) ++ nativeImageArguments
+      Seq(nativeImageCommand) ++ nativeImageArguments
     }
+
     sys.process.Process(command, targetDirectory) ! log match {
       case 0 => targetDirectory / binaryName
       case x => sys.error(s"Failed to run $command, exit status: " + x)

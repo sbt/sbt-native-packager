@@ -91,9 +91,8 @@ mimaBinaryIssueFilters ++= {
     ProblemFilters.exclude[ReversedMissingMethodProblem](
       "com.typesafe.sbt.packager.docker.DockerKeys.dockerAutoremoveMultiStageIntermediateImages"
     ),
-    ProblemFilters.exclude[DirectMissingMethodProblem](
-      "com.typesafe.sbt.packager.docker.DockerPlugin.publishLocalDocker"
-    )
+    ProblemFilters
+      .exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.docker.DockerPlugin.publishLocalDocker")
   )
 }
 
