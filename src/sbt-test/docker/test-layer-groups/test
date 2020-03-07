@@ -4,13 +4,14 @@ $ exists target/docker/stage/Dockerfile
 $ exists target/docker/stage/123/opt/docker/bin/docker-groups
 $ exists target/docker/stage/opt
 $ exists target/docker/stage/2
+$ exists target/docker/stage/54/opt/docker/spark
 
-$ exec bash -c 'docker run --rm --entrypoint=ls docker-groups:0.1.0 |tr "\n" "," | grep -q "bin,lib"'
+$ exec bash -c 'docker run --rm --entrypoint=ls docker-groups:0.1.0 |tr "\n" "," | grep -q "bin,lib,spark"'
 $ exec bash -c 'docker rmi docker-groups:0.1.0'
 
 $ copy-file changes/nolayers.sbt layers.sbt
 > reload
 > docker:publishLocal
 $ exists target/docker/stage/opt/docker/bin
-$ exec bash -c 'docker run --rm --entrypoint=ls docker-groups:0.1.0 |tr "\n" "," | grep -q "bin,lib"'
-$ exec bash -c 'docker rmi docker-groups:0.1.0'
+$ exists target/docker/stage/opt/docker/spark
+$ exec bash -c 'docker run --rm --entrypoint=ls docker-groups:0.1.0 |tr "\n" "," | grep -q "bin,lib,spark"'
