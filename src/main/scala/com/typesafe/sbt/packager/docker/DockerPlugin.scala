@@ -58,7 +58,7 @@ object DockerPlugin extends AutoPlugin {
   import autoImport._
 
   /**
-    * The separator used by makeCopy should be always forced to UNIX separator.
+    * The separator used by makeCopyLayerIntermediate should be always forced to UNIX separator.
     * The separator doesn't depend on the OS where Dockerfile is being built.
     */
   val UnixSeparatorChar = '/'
@@ -168,7 +168,7 @@ object DockerPlugin extends AutoPlugin {
             makeLabel("snp-multi-stage-id" -> multiStageId),
             makeWorkdir(dockerBaseDirectory)
           ) ++
-            layerIdsAscending.map(l => makeCopy(l, dockerBaseDirectory)) ++
+            layerIdsAscending.map(l => makeCopyLayerIntermediate(l, dockerBaseDirectory)) ++
             Seq(makeUser("root")) ++ layerIdsAscending.map(
             l => makeChmodRecursive(dockerChmodType.value, Seq(pathInLayer(dockerBaseDirectory, l)))
           ) ++ {
@@ -195,13 +195,13 @@ object DockerPlugin extends AutoPlugin {
               makeCopyFrom(pathInLayer(dockerBaseDirectory, layerId), dockerBaseDirectory, stage0name, user, group)
             }
           case DockerPermissionStrategy.Run =>
-            layerIdsAscending.map(layerId => makeCopyLayer(layerId, dockerBaseDirectory)) ++
+            layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory)) ++
               Seq(makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
               (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
           case DockerPermissionStrategy.CopyChown =>
             layerIdsAscending.map(layerId => makeCopyChown(layerId, dockerBaseDirectory, user, group))
           case DockerPermissionStrategy.None =>
-            layerIdsAscending.map(layerId => makeCopyLayer(layerId, dockerBaseDirectory))
+            layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory))
         })
       } ++
         dockerLabels.value.map(makeLabel) ++
@@ -352,7 +352,7 @@ object DockerPlugin extends AutoPlugin {
     * @param dockerBaseDirectory the installation directory
     * @return COPY command copying all files inside the installation directory
     */
-  private final def makeCopyLayer(layerId: Option[Int], dockerBaseDirectory: String): CmdLike = {
+  private final def makeCopyLayerDirect(layerId: Option[Int], dockerBaseDirectory: String): CmdLike = {
 
     /**
       * This is the file path of the file in the Docker image, and does not depend on the OS where the image
@@ -364,7 +364,7 @@ object DockerPlugin extends AutoPlugin {
     Cmd("COPY", s"$path /$files")
   }
 
-  private final def makeCopy(layerId: Option[Int], dockerBaseDirectory: String): CmdLike = {
+  private final def makeCopyLayerIntermediate(layerId: Option[Int], dockerBaseDirectory: String): CmdLike = {
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
     val path = layerId.map(i => s"$i/$files").getOrElse(s"$files")
     Cmd("COPY", s"$path /$path")

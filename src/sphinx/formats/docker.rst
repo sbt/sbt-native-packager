@@ -151,6 +151,7 @@ Environment Settings
     The main idea behind this is to COPY dependencies *.jar's first as they should change rarely.
     In separate command COPY the application *.jar's that should change more often.
     Defaults to detect whether the file name starts with ``ThisBuild / organization``.
+    To disable layers map all files to no layer using ``dockerLayerGrouping in Docker  := (_ => None)``.
 
 Publishing Settings
 ~~~~~~~~~~~~~~~~~~~
