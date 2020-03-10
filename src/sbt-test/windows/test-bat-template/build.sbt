@@ -56,7 +56,6 @@ TaskKey[Unit]("checkScript") := {
     val pr = new StringBuilder()
     val logger = ProcessLogger((o: String) => pr.append(o + "\n"), (e: String) => pr.append("error < " + e + "\n"))
     val cmd = Seq("cmd", "/c", script.getAbsolutePath) ++ args
-//    val cmd = Seq("cmd", "/c", script.getAbsolutePath, "-Dtest.hoge=C:\\Program Files\\Java", "'C:\\Program Files\\Java'")
     val result = sys.process.Process(cmd, None, env.toSeq: _*) ! logger
     if (result != expectedRC) {
       pr.append("error code: " + result + "\n")
