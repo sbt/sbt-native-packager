@@ -1,4 +1,5 @@
 project/project
+project/metals.sbt
 .classpath
 .project
 .settings/
