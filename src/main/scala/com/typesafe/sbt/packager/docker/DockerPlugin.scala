@@ -157,7 +157,7 @@ object DockerPlugin extends AutoPlugin {
       val base = dockerBaseImage.value
       val addPerms = dockerAdditionalPermissions.value
       val multiStageId = UUID.randomUUID().toString
-      val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
+      val generalCommands = makeFromAs(base, "mainstage") +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
       val layerIdsAscending = (dockerLayerMappings in Docker).value.map(_.layerId).distinct.sorted
       val stage0: Seq[CmdLike] = strategy match {
@@ -308,13 +308,6 @@ object DockerPlugin extends AutoPlugin {
     */
   private final def makeMaintainer(maintainer: String): Option[CmdLike] =
     if (maintainer.isEmpty) None else Some(makeLabel(Tuple2("MAINTAINER", maintainer)))
-
-  /**
-    * @param dockerBaseImage
-    * @return FROM command
-    */
-  private final def makeFrom(dockerBaseImage: String): CmdLike =
-    Cmd("FROM", dockerBaseImage)
 
   /**
     * @param dockerBaseImage
