@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>JDKPackager Plugin &mdash; sbt-native-packager 1.6.1 documentation</title>
+  <title>JDKPackager Plugin &mdash; sbt-native-packager 1.7.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.0
+                1.7
               </div>
             
           
@@ -271,6 +271,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="graalvm-native-image.html#settings">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -498,12 +499,12 @@
   <div class="section" id="jdkpackager-plugin">
 <span id="id1"></span><h1>JDKPackager Plugin<a class="headerlink" href="#jdkpackager-plugin" title="Permalink to this headline">¶</a></h1>
 <p>This plugin builds on Oracle’s <a class="reference external" href="https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/packager.html#CCHIHIIJ">javapackager</a> tool to generate  native application
-launchers and installers for MacOS X, Windows, and Linux. This plugin takes the settings and staged output from
+launchers and installers for macOS, Windows, and Linux. This plugin takes the settings and staged output from
 <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> and passes them through <code class="docutils literal notranslate"><span class="pre">javapackager</span></code>
 to create native formats per Oracle’s provided features.</p>
 <p>The actual mechanism used by this plugin is the support provided by the <code class="docutils literal notranslate"><span class="pre">lib/ant-javafx.jar</span></code> Ant task library,
 which provides more capabilities than the <code class="docutils literal notranslate"><span class="pre">javapackager</span></code> command line version, but the idea is the same.</p>
-<p>This plugin’s most relevant addition to the core <cite>sbt-native-packager</cite> capabilities is the generation of MacOS X App
+<p>This plugin’s most relevant addition to the core <cite>sbt-native-packager</cite> capabilities is the generation of macOS App
 bundles and associated <code class="docutils literal notranslate"><span class="pre">.dmg</span></code> and <code class="docutils literal notranslate"><span class="pre">.pkg</span></code> package formats.  With this plugin complete drag-and-drop installable
 application bundles are possible, including the embedding of the JRE.  It can also generate Windows <code class="docutils literal notranslate"><span class="pre">.exe</span></code> and <code class="docutils literal notranslate"><span class="pre">.msi</span></code>
 installers provided the requisite tools are available on the Windows build platform (see below). While Linux package
@@ -561,9 +562,9 @@ creating, say, Windows installers on MacOS, or MacOS on Linux, etc.</p>
 <ul class="last simple">
 <li><code class="docutils literal notranslate"><span class="pre">all</span></code>: Runs all of the installers for the platform on which it is running, and creates a disk image for the application.</li>
 <li><code class="docutils literal notranslate"><span class="pre">installer</span></code>: Runs all of the installers for the platform on which it is running.</li>
-<li><code class="docutils literal notranslate"><span class="pre">image</span></code>: Creates a disk image for the application. On OS X, the image is the .app file. On Linux, the image is the directory that gets installed.</li>
-<li><code class="docutils literal notranslate"><span class="pre">dmg</span></code>: Generates a DMG file for OS X.</li>
-<li><code class="docutils literal notranslate"><span class="pre">pkg</span></code>: Generates a .pkg package for OS X.</li>
+<li><code class="docutils literal notranslate"><span class="pre">image</span></code>: Creates a disk image for the application. On macOS, the image is the .app file. On Linux, the image is the directory that gets installed.</li>
+<li><code class="docutils literal notranslate"><span class="pre">dmg</span></code>: Generates a DMG file for macOS.</li>
+<li><code class="docutils literal notranslate"><span class="pre">pkg</span></code>: Generates a .pkg package for macOS.</li>
 <li><code class="docutils literal notranslate"><span class="pre">mac.appStore</span></code>: Generates a package for the Mac App Store.</li>
 <li><code class="docutils literal notranslate"><span class="pre">rpm</span></code>: Generates an RPM package for Linux.</li>
 <li><code class="docutils literal notranslate"><span class="pre">deb</span></code>: Generates a Debian package for Linux.</li>

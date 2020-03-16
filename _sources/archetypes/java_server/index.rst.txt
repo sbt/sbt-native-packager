@@ -3,7 +3,7 @@
 Java Server Application Archetype
 #################################
 
-.. hint:: Supports only **deb** and **rpm** packaging. No support for Windows or OSX
+.. hint:: Supports only **deb** and **rpm** packaging. No support for Windows or macOS
 
 In the :ref:`java-app-plugin` section we described how to build and customize settings related to an application.
 The server archetype adds additional features you may need when running your application as a service on a server.

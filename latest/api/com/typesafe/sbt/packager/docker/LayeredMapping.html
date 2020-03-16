@@ -182,7 +182,7 @@
                         <a class="trait" href="DockerKeys.html" title="Docker settings"></a>
                         <a href="DockerKeys.html" title="Docker settings">DockerKeys</a>
                       </li><li class="current-entities indented5">
-                        <a class="object" href="" title=""></a>
+                        <a class="object" href="DockerPermissionStrategy$.html" title=""></a>
                         <a class="trait" href="DockerPermissionStrategy.html" title="This represents a strategy to change the file permissions."></a>
                         <a href="DockerPermissionStrategy.html" title="This represents a strategy to change the file permissions.">DockerPermissionStrategy</a>
                       </li><li class="current-entities indented5">
@@ -215,43 +215,45 @@
                         <a href="ExecCmd.html" title="Executable command">ExecCmd</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="LayeredMapping.html" title="Mapping of file to intermediate layers."></a>
-                        <a href="LayeredMapping.html" title="Mapping of file to intermediate layers.">LayeredMapping</a>
+                        <a class="class" href="" title="Mapping of file to intermediate layers."></a>
+                        <a href="" title="Mapping of file to intermediate layers.">LayeredMapping</a>
                       </li>
               </ul>
             </div>
           </div>
           <div id="content">
-            <body class="object value">
+            <body class="class type">
       <div id="definition">
-        <a href="DockerPermissionStrategy.html" title="See companion trait"><div class="big-circle object-companion-trait">o</div></a>
+        <div class="big-circle class">c</div>
         <p id="owner"><a href="../../../../index.html" class="extype" name="com">com</a>.<a href="../../../index.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../../index.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="../index.html" class="extype" name="com.typesafe.sbt.packager">packager</a>.<a href="index.html" class="extype" name="com.typesafe.sbt.packager.docker">docker</a></p>
-        <h1><a href="DockerPermissionStrategy.html" title="See companion trait">DockerPermissionStrategy</a><span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html" title="Permalink">
+        <h1>LayeredMapping<span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
-        <h3><span class="morelinks"><div>
-            Companion <a href="DockerPermissionStrategy.html" title="See companion trait">trait DockerPermissionStrategy</a>
-          </div></span></h3>
+        <h3><span class="morelinks"></span></h3>
       </div>
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">DockerPermissionStrategy</span>
+        <span class="name">LayeredMapping</span><span class="params">(<span name="layerId">layerId: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="file">file: <span class="extype" name="java.io.File">File</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Mapping of file to intermediate layers.
+</p></div><dl class="paramcmts block"><dt class="param">layerId</dt><dd class="cmt"><p>The identifier in the layer used to increase cache hits in
+               docker caching. LayerId is present in docker:stage directory structure
+               and in intermediate image produced in the multi-stage docker build.
+               None means the layering is skipped for this file.</p></dd><dt class="param">file</dt><dd class="cmt"><p>The file produced by universal/stage to be moved into <code>Docker / stage</code> directory.</p></dd><dt class="param">path</dt><dd class="cmt"><p>The path in the final image</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -277,7 +279,7 @@
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="com.typesafe.sbt.packager.docker.DockerPermissionStrategy"><span>DockerPermissionStrategy</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="com.typesafe.sbt.packager.docker.LayeredMapping"><span>LayeredMapping</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -295,7 +297,29 @@
 
       <div id="template">
         <div id="allMembers">
-        
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="com.typesafe.sbt.packager.docker.LayeredMapping#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(layerId:Option[Int],file:java.io.File,path:String):com.typesafe.sbt.packager.docker.LayeredMapping"></a><a id="&lt;init&gt;:LayeredMapping"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#&lt;init&gt;(layerId:Option[Int],file:java.io.File,path:String):com.typesafe.sbt.packager.docker.LayeredMapping" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">LayeredMapping</span><span class="params">(<span name="layerId">layerId: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="file">file: <span class="extype" name="java.io.File">File</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">layerId</dt><dd class="cmt"><p>The identifier in the layer used to increase cache hits in
+               docker caching. LayerId is present in docker:stage directory structure
+               and in intermediate image produced in the multi-stage docker build.
+               None means the layering is skipped for this file.</p></dd><dt class="param">file</dt><dd class="cmt"><p>The file produced by universal/stage to be moved into <code>Docker / stage</code> directory.</p></dd><dt class="param">path</dt><dd class="cmt"><p>The path in the final image</p></dd></dl></div>
+    </li></ol>
+            </div>
 
         
 
@@ -307,7 +331,7 @@
                 <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#!=(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#!=(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -323,7 +347,7 @@
     </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="##():Int"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html###():Int" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html###():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -339,7 +363,7 @@
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#==(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#==(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -355,7 +379,7 @@
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#asInstanceOf[T0]:T0" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#asInstanceOf[T0]:T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -371,7 +395,7 @@
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#clone():Object" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#clone():Object" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -395,7 +419,7 @@
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#eq(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -408,26 +432,26 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
+    </li><li name="com.typesafe.sbt.packager.docker.LayeredMapping#file" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="file:java.io.File"></a><a id="file:File"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#equals(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#file:java.io.File" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">file</span><span class="result">: <span class="extype" name="java.io.File">File</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#finalize():Unit" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#finalize():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -449,7 +473,7 @@
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#getClass():Class[_]" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#getClass():Class[_]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -465,29 +489,10 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#hashCode():Int" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
-                <span class="name">@native</span><span class="args">()</span>
-              
-        </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#isInstanceOf[T0]:Boolean" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#isInstanceOf[T0]:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -500,10 +505,26 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.LayeredMapping#layerId" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="layerId:Option[Int]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#layerId:Option[Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">layerId</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#ne(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -519,7 +540,7 @@
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#notify():Unit" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#notify():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -538,7 +559,7 @@
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#notifyAll():Unit" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#notifyAll():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -554,10 +575,26 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.LayeredMapping#path" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="path:String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#path:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">path</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -570,26 +607,10 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toString():String"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#toString():String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#wait():Unit" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#wait():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -611,7 +632,7 @@
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -633,7 +654,7 @@
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#wait(x$1:Long):Unit" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/LayeredMapping.html#wait(x$1:Long):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -654,84 +675,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.docker.DockerPermissionStrategy.CopyChown" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="CopyChown"></a><a id="CopyChown:CopyChown"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#CopyChown" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a title="CopyChown calls COPY --chown in the Dockerfile." href="DockerPermissionStrategy$$CopyChown$.html"><span class="name">CopyChown</span></a><span class="result"> extends <a href="DockerPermissionStrategy.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerPermissionStrategy">DockerPermissionStrategy</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      
-      <p class="shortcomment cmt"><code>CopyChown</code> calls <code>COPY --chown</code> in the <code>Dockerfile</code>.</p><div class="fullcomment"><div class="comment cmt"><p><code>CopyChown</code> calls <code>COPY --chown</code> in the <code>Dockerfile</code>.
-This option is provided for backward compatibility.
-This will inherit the host machine's file mode.
-Note that this option is not compatible with OpenShift which ignores
-USER command and uses an arbitrary user to run the container.
-</p></div></div>
-    </li><li name="com.typesafe.sbt.packager.docker.DockerPermissionStrategy.MultiStage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="MultiStage"></a><a id="MultiStage:MultiStage"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#MultiStage" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a title="MultiStage uses multi-stage Docker build to change the file permissions." href="DockerPermissionStrategy$$MultiStage$.html"><span class="name">MultiStage</span></a><span class="result"> extends <a href="DockerPermissionStrategy.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerPermissionStrategy">DockerPermissionStrategy</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      
-      <p class="shortcomment cmt"><code>MultiStage</code> uses multi-stage Docker build to change
-the file permissions.</p><div class="fullcomment"><div class="comment cmt"><p><code>MultiStage</code> uses multi-stage Docker build to change
-the file permissions.
-https://docs.docker.com/develop/develop-images/multistage-build/
-</p></div></div>
-    </li><li name="com.typesafe.sbt.packager.docker.DockerPermissionStrategy.None" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="None"></a><a id="None:None"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#None" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a title="None does not attempt to change the file permissions." href="DockerPermissionStrategy$$None$.html"><span class="name">None</span></a><span class="result"> extends <a href="DockerPermissionStrategy.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerPermissionStrategy">DockerPermissionStrategy</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      
-      <p class="shortcomment cmt"><code>None</code> does not attempt to change the file permissions.</p><div class="fullcomment"><div class="comment cmt"><p><code>None</code> does not attempt to change the file permissions.
-This will inherit the host machine's group bits.
-</p></div></div>
-    </li><li name="com.typesafe.sbt.packager.docker.DockerPermissionStrategy.Run" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Run"></a><a id="Run:Run"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPermissionStrategy$.html#Run" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a title="Run calls RUN in the Dockerfile." href="DockerPermissionStrategy$$Run$.html"><span class="name">Run</span></a><span class="result"> extends <a href="DockerPermissionStrategy.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerPermissionStrategy">DockerPermissionStrategy</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      
-      <p class="shortcomment cmt"><code>Run</code> calls <code>RUN</code> in the <code>Dockerfile</code>.</p><div class="fullcomment"><div class="comment cmt"><p><code>Run</code> calls <code>RUN</code> in the <code>Dockerfile</code>.
-This could double the size of the resulting Docker image
-because of the extra layer it creates.
-</p></div></div>
     </li>
               </ol>
             </div>
@@ -742,7 +685,15 @@ because of the extra layer it creates.
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

@@ -245,6 +245,10 @@
                         <span class="separator"></span>
                         <a class="class" href="ExecCmd.html" title="Executable command"></a>
                         <a href="ExecCmd.html" title="Executable command">ExecCmd</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="LayeredMapping.html" title="Mapping of file to intermediate layers."></a>
+                        <a href="LayeredMapping.html" title="Mapping of file to intermediate layers.">LayeredMapping</a>
                       </li><li name="com.typesafe.sbt.packager.graalvmnativeimage" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="graalvmnativeimage"></a><a id="graalvmnativeimage:graalvmnativeimage"></a>
       <span class="permalink">
@@ -616,6 +620,26 @@ Note that group file mode bits must be effective to be OpenShift compatible.
 </p></div><dl class="attributes block"> <div class="block">Examples:
                <ol><li class="cmt"><p></p><pre>ExecCmd(<span class="lit">"RUN"</span>, <span class="lit">"chown"</span>, <span class="lit">"-R"</span>, daemonUser, <span class="lit">"."</span>)</pre></li>, <li class="cmt"><p></p><pre>ExecCmd(<span class="lit">"ENTRYPOINT"</span>, <span class="lit">"bin/%s"</span> format execScript),</pre></li>, <li class="cmt"><p></p><pre>ExecCmd(<span class="lit">"CMD"</span>)</pre></li>, <li class="cmt"><p></p><pre>ExecCmd(<span class="lit">"VOLUME"</span>, exposedVolumes: _*)</pre></li></ol>
             </div></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.LayeredMapping" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="LayeredMappingextendsProductwithSerializable"></a><a id="LayeredMapping:LayeredMapping"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/index.html#LayeredMappingextendsProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="Mapping of file to intermediate layers." href="LayeredMapping.html"><span class="name">LayeredMapping</span></a><span class="params">(<span name="layerId">layerId: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="file">file: <span class="extype" name="java.io.File">File</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Mapping of file to intermediate layers.</p><div class="fullcomment"><div class="comment cmt"><p>Mapping of file to intermediate layers.
+</p></div><dl class="paramcmts block"><dt class="param">layerId</dt><dd class="cmt"><p>The identifier in the layer used to increase cache hits in
+               docker caching. LayerId is present in docker:stage directory structure
+               and in intermediate image produced in the multi-stage docker build.
+               None means the layering is skipped for this file.</p></dd><dt class="param">file</dt><dd class="cmt"><p>The file produced by universal/stage to be moved into <code>Docker / stage</code> directory.</p></dd><dt class="param">path</dt><dd class="cmt"><p>The path in the final image</p></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerKeys" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="DockerKeysextendsAnyRef"></a><a id="DockerKeys:DockerKeys"></a>
       <span class="permalink">
