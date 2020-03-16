@@ -1,5 +1,46 @@
 # Changelog
 
+## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.0...HEAD)
+
+**Closed issues:**
+
+- docker: introduce more layers for smaller images [\#1267](https://github.com/sbt/sbt-native-packager/issues/1267)
+
+## [v1.7.0](https://github.com/sbt/sbt-native-packager/tree/v1.7.0) (2020-03-16)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.6.2...v1.7.0)
+
+**Fixed bugs:**
+
+- Release of 1.6.2 failed [\#1313](https://github.com/sbt/sbt-native-packager/issues/1313)
+
+**Merged pull requests:**
+
+- Separate Docker Layers for Dependencies and App jars. [\#1310](https://github.com/sbt/sbt-native-packager/pull/1310) ([ppiotrow](https://github.com/ppiotrow))
+
+## [v1.6.2](https://github.com/sbt/sbt-native-packager/tree/v1.6.2) (2020-03-15)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.6.1...v1.6.2)
+
+**Fixed bugs:**
+
+- AshScriptPlugin uses bash syntax to process args [\#1302](https://github.com/sbt/sbt-native-packager/issues/1302)
+
+**Closed issues:**
+
+- how to hook proguard into dist [\#1309](https://github.com/sbt/sbt-native-packager/issues/1309)
+- docker:publishlocal use results from publishlocal? [\#1308](https://github.com/sbt/sbt-native-packager/issues/1308)
+
+**Merged pull requests:**
+
+- Fix windows / test-bat-template [\#1314](https://github.com/sbt/sbt-native-packager/pull/1314) ([sshark](https://github.com/sshark))
+- Fix for native-image to work in Windows [\#1312](https://github.com/sbt/sbt-native-packager/pull/1312) ([sshark](https://github.com/sshark))
+- please add sbt-kubeyml [\#1306](https://github.com/sbt/sbt-native-packager/pull/1306) ([vaslabs](https://github.com/vaslabs))
+- Fix ash template [\#1303](https://github.com/sbt/sbt-native-packager/pull/1303) ([gregsymons](https://github.com/gregsymons))
+- Change all references to macOS [\#1301](https://github.com/sbt/sbt-native-packager/pull/1301) ([dwijnand](https://github.com/dwijnand))
+
 ## [v1.6.1](https://github.com/sbt/sbt-native-packager/tree/v1.6.1) (2020-01-30)
 
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.6.0...v1.6.1)
@@ -125,7 +166,6 @@
 - Multiple issues building debian for Systemd from play application [\#1050](https://github.com/sbt/sbt-native-packager/issues/1050)
 - \[Idea\] JDK 9's jlink & sbt-native-packager? [\#1043](https://github.com/sbt/sbt-native-packager/issues/1043)
 - Systemd packaging doesn't support multiple `EnvironmentFile` options [\#968](https://github.com/sbt/sbt-native-packager/issues/968)
-- Created bin/ scripts fail if path where they are contains : [\#926](https://github.com/sbt/sbt-native-packager/issues/926)
 - Mappings are not contained in JDKPackager bundles [\#782](https://github.com/sbt/sbt-native-packager/issues/782)
 - option to exclude scala-library explicitly  [\#716](https://github.com/sbt/sbt-native-packager/issues/716)
 - Create integration tests [\#545](https://github.com/sbt/sbt-native-packager/issues/545)
@@ -966,6 +1006,7 @@
 - Expand the java home argument [\#822](https://github.com/sbt/sbt-native-packager/pull/822) ([cquiroz](https://github.com/cquiroz))
 - docker: tag -f is deprecated [\#821](https://github.com/sbt/sbt-native-packager/pull/821) ([sgrankin](https://github.com/sgrankin))
 - FIX \#762 Add native packager logo to docs and README [\#820](https://github.com/sbt/sbt-native-packager/pull/820) ([muuki88](https://github.com/muuki88))
+- typo fixed on Docker Plugin page [\#817](https://github.com/sbt/sbt-native-packager/pull/817) ([utgarda](https://github.com/utgarda))
 - Report compression issue with Debian Wheezy's python-apt [\#811](https://github.com/sbt/sbt-native-packager/pull/811) ([jpic](https://github.com/jpic))
 - fix typo rpmScriptletsDirectory [\#804](https://github.com/sbt/sbt-native-packager/pull/804) ([zoosky](https://github.com/zoosky))
 
@@ -1323,6 +1364,7 @@
 - Add note about JDeb adding dependencies [\#608](https://github.com/sbt/sbt-native-packager/pull/608) ([philwills](https://github.com/philwills))
 - tar --force-local on windows [\#604](https://github.com/sbt/sbt-native-packager/pull/604) ([sumkincpp](https://github.com/sumkincpp))
 - FIX \#590 fixed irritating windows documentation [\#592](https://github.com/sbt/sbt-native-packager/pull/592) ([muuki88](https://github.com/muuki88))
+- Use docker on windows \#573 [\#588](https://github.com/sbt/sbt-native-packager/pull/588) ([sjeandeaux](https://github.com/sjeandeaux))
 
 ## [v1.0.3](https://github.com/sbt/sbt-native-packager/tree/v1.0.3) (2015-06-16)
 
@@ -1353,7 +1395,6 @@
 - grammar fix for website [\#595](https://github.com/sbt/sbt-native-packager/pull/595) ([SethTisue](https://github.com/SethTisue))
 - Documented packageTemplateMappings [\#591](https://github.com/sbt/sbt-native-packager/pull/591) ([kodemaniak](https://github.com/kodemaniak))
 - Updated sbt plugin fragment version. [\#589](https://github.com/sbt/sbt-native-packager/pull/589) ([metasim](https://github.com/metasim))
-- Use docker on windows \#573 [\#588](https://github.com/sbt/sbt-native-packager/pull/588) ([sjeandeaux](https://github.com/sjeandeaux))
 
 ## [v1.0.2](https://github.com/sbt/sbt-native-packager/tree/v1.0.2) (2015-05-20)
 
@@ -1448,7 +1489,6 @@
 - Changing the default installation directory [\#506](https://github.com/sbt/sbt-native-packager/issues/506)
 - Unable to override akka-bash-template [\#426](https://github.com/sbt/sbt-native-packager/issues/426)
 - packageName in Docker not found [\#413](https://github.com/sbt/sbt-native-packager/issues/413)
-- Can't combine PlayJava with JDebPackaging plugin [\#407](https://github.com/sbt/sbt-native-packager/issues/407)
 - Specify default memory parameters of java\_application BASH script in the build [\#82](https://github.com/sbt/sbt-native-packager/issues/82)
 
 **Merged pull requests:**
@@ -1614,6 +1654,7 @@
 
 - Cannot publish to http \(or self-signed https\) docker registry [\#412](https://github.com/sbt/sbt-native-packager/issues/412)
 - Cannot pass dashed script options on windows [\#409](https://github.com/sbt/sbt-native-packager/issues/409)
+- Can't combine PlayJava with JDebPackaging plugin [\#407](https://github.com/sbt/sbt-native-packager/issues/407)
 - Cannot pack `templates/etc-default` into Docker container [\#398](https://github.com/sbt/sbt-native-packager/issues/398)
 - Publish universal tgz artifact only [\#349](https://github.com/sbt/sbt-native-packager/issues/349)
 - Ability to add to class path in the bash script [\#124](https://github.com/sbt/sbt-native-packager/issues/124)
