@@ -22,6 +22,13 @@ jobs:
         key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
         restore-keys: |
           ${{ runner.os }}-ivy-
+    - name: Loading coursier cache
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/coursier
+        key: ${{ runner.os }}-coursier-${{ hashFiles('**/*.sbt') }}
+        restore-keys: |
+          ${{ runner.os }}-coursier-
     - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
