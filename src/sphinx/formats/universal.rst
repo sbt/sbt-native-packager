@@ -195,7 +195,7 @@ The above does two things:
 1. It depends on ``packageBin in Compile`` which will generate a jar file form the project.
 2. It creates a *mapping* (a ``Tuple2[File, String]``) which denotes the file and the location in the distribution as a string.
 
-You can use this to pattern to add anything you desire to the package.
+You can use this pattern to add anything you desire to the package.
 
 **Note**
 
