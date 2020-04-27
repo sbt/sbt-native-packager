@@ -98,19 +98,25 @@ object DockerPlugin extends AutoPlugin {
     ),
     dockerUpdateLatest := false,
     dockerAutoremoveMultiStageIntermediateImages := true,
-    dockerLayerGrouping := {
+    dockerLayerGrouping := { _: String =>
+      None
+    },
+    dockerGroupLayers := {
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
-      (path: String) =>
-        {
-          val pathInWorkdir = path.stripPrefix(dockerBaseDirectory)
-          if (pathInWorkdir.startsWith(s"/lib/${organization.value}"))
-            Some(2)
-          else if (pathInWorkdir.startsWith("/lib/"))
-            Some(1)
-          else if (pathInWorkdir.startsWith("/bin/"))
-            Some(1)
-          else None
-        }
+      // Ensure this doesn't break even if the JvmPlugin isn't enabled.
+      val artifacts = projectDependencyArtifacts.?.value.getOrElse(Nil).map(_.data).toSet
+      val oldFunction = (dockerLayerGrouping in Docker).value
+
+      // By default we set this to a function that always returns None.
+      val oldPartialFunction = Function.unlift((tuple: (File, String)) => oldFunction(tuple._2))
+
+      val libDir = dockerBaseDirectory + "/lib/"
+      val binDir = dockerBaseDirectory + "/bin/"
+
+      oldPartialFunction.orElse {
+        case (file, _) if artifacts(file)                                    => 2
+        case (_, path) if path.startsWith(libDir) || path.startsWith(binDir) => 1
+      }
     },
     dockerAliases := {
       val alias = dockerAlias.value
@@ -159,7 +165,8 @@ object DockerPlugin extends AutoPlugin {
       val multiStageId = UUID.randomUUID().toString
       val generalCommands = makeFromAs(base, "mainstage") +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
-      val layerIdsAscending = (dockerLayerMappings in Docker).value.map(_.layerId).distinct.sorted
+      val layerMappings = (dockerLayerMappings in Docker).value
+      val layerIdsAscending = layerMappings.map(_.layerId).distinct.sorted
       val stage0: Seq[CmdLike] = strategy match {
         case DockerPermissionStrategy.MultiStage =>
           Seq(
@@ -172,10 +179,18 @@ object DockerPlugin extends AutoPlugin {
             Seq(makeUser("root")) ++ layerIdsAscending.map(
             l => makeChmodRecursive(dockerChmodType.value, Seq(pathInLayer(dockerBaseDirectory, l)))
           ) ++ {
-            val layerToPath = (dockerLayerGrouping in Docker).value
+            val layerToPath = (dockerGroupLayers in Docker).value
             addPerms map {
               case (tpe, v) =>
-                val layerId = layerToPath(v)
+                // Try and find the source file for the path from the mappings
+                val layerId = layerMappings
+                  .find(_.path == v)
+                  .map(_.layerId)
+                  .getOrElse {
+                    // We couldn't find a source file for the mapping, so try with a dummy source file,
+                    // in case there is an explicitly configured path based layer mapping, eg for a directory.
+                    layerToPath.lift((new File("/dev/null"), v))
+                  }
                 makeChmod(tpe, Seq(pathInLayer(v, layerId)))
             }
           } ++
@@ -263,11 +278,11 @@ object DockerPlugin extends AutoPlugin {
       stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (target in Docker).value / "stage",
       dockerLayerMappings := {
-        val dockerGroups = dockerLayerGrouping.value
+        val dockerGroups = dockerGroupLayers.value
         val dockerFinalFiles = (mappings in Docker).value
         for {
-          (file, path) <- dockerFinalFiles
-          layerIdx = dockerGroups(path)
+          mapping @ (file, path) <- dockerFinalFiles
+          layerIdx = dockerGroups.lift(mapping)
         } yield LayeredMapping(layerIdx, file, path)
       },
       target := target.value / "docker",
