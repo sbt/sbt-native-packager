@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>GraalVM Native Image Plugin &mdash; sbt-native-packager 1.7.0 documentation</title>
+  <title>GraalVM Native Image Plugin &mdash; sbt-native-packager 1.7.1 documentation</title>
   
 
   
@@ -534,7 +534,7 @@ To do so, run the following. It will install GraalVM 1.0.0-rc8.</p>
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="native-image-executable-command-pay-attention-if-you-are-using-windows-os">
 <h3><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)<a class="headerlink" href="#native-image-executable-command-pay-attention-if-you-are-using-windows-os" title="Permalink to this headline">¶</a></h3>
-<p>Putting <code class="docutils literal notranslate"><span class="pre">native-image</span></code> in <code class="docutils literal notranslate"><span class="pre">PATH</span></code> does not work for Windows. <code class="docutils literal notranslate"><span class="pre">native-image``is</span> <span class="pre">a</span> <span class="pre">batch</span> <span class="pre">file</span> <span class="pre">in</span> <span class="pre">Windows</span> <span class="pre">that</span> <span class="pre">calls</span> <span class="pre">another</span> <span class="pre">executable</span> <span class="pre">to</span> <span class="pre">compile</span> <span class="pre">the</span> <span class="pre">Java</span> <span class="pre">classes</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">standalone</span> <span class="pre">executable.</span> <span class="pre">Therefore,</span> <span class="pre">the</span> <span class="pre">full</span> <span class="pre">path</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">batch</span> <span class="pre">file</span> <span class="pre">e.g.</span> <span class="pre">``C:\Program</span> <span class="pre">Files\Java\graalvm\bin\native-image.cmd</span></code> must be provided. It is important to include <code class="docutils literal notranslate"><span class="pre">.cmd</span></code>.</p>
+<p>Putting <code class="docutils literal notranslate"><span class="pre">native-image</span></code> in <code class="docutils literal notranslate"><span class="pre">PATH</span></code> does not work for Windows. <code class="docutils literal notranslate"><span class="pre">native-image</span></code> is a batch file in Windows that calls another executable to compile the Java classes to a standalone executable. Therefore, the full path to the batch file e.g. <code class="docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files\Java\graalvm\bin\native-image.cmd</span></code> must be provided. It is important to include <code class="docutils literal notranslate"><span class="pre">.cmd</span></code>.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><code class="docutils literal notranslate"><span class="pre">graalVMNativeImageCommand</span></code></dt>
