@@ -2,11 +2,38 @@
 
 ## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
 
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.0...HEAD)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.1...HEAD)
+
+**Fixed bugs:**
+
+- AshScriptPlugin with DockerPlugin does not correctly pass arguments [\#1332](https://github.com/sbt/sbt-native-packager/issues/1332)
+
+## [v1.7.1](https://github.com/sbt/sbt-native-packager/tree/v1.7.1) (2020-05-04)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.0...v1.7.1)
+
+**Fixed bugs:**
+
+- missing libraries in final package [\#1028](https://github.com/sbt/sbt-native-packager/issues/1028)
 
 **Closed issues:**
 
+- Creating native-package for tests [\#1336](https://github.com/sbt/sbt-native-packager/issues/1336)
+- Version check not working for openjdk 11 [\#1331](https://github.com/sbt/sbt-native-packager/issues/1331)
+- input too long for win10 [\#1327](https://github.com/sbt/sbt-native-packager/issues/1327)
+- Customizing Docker image fails when container environment variables are used [\#1324](https://github.com/sbt/sbt-native-packager/issues/1324)
+- Cannot run windows:packageBin [\#1322](https://github.com/sbt/sbt-native-packager/issues/1322)
+- The second FROM stage should be named [\#1315](https://github.com/sbt/sbt-native-packager/issues/1315)
 - docker: introduce more layers for smaller images [\#1267](https://github.com/sbt/sbt-native-packager/issues/1267)
+
+**Merged pull requests:**
+
+- Fix argument passing in ash template [\#1334](https://github.com/sbt/sbt-native-packager/pull/1334) ([bentucker](https://github.com/bentucker))
+- Add space between inline-literal symbol and word [\#1328](https://github.com/sbt/sbt-native-packager/pull/1328) ([sshark](https://github.com/sshark))
+- Improved layer grouping [\#1326](https://github.com/sbt/sbt-native-packager/pull/1326) ([jroper](https://github.com/jroper))
+- Update universal.rst [\#1320](https://github.com/sbt/sbt-native-packager/pull/1320) ([jlncrnt](https://github.com/jlncrnt))
+- Remove docker sudo test from build [\#1318](https://github.com/sbt/sbt-native-packager/pull/1318) ([jroper](https://github.com/jroper))
+- Name the main docker stage [\#1316](https://github.com/sbt/sbt-native-packager/pull/1316) ([jroper](https://github.com/jroper))
 
 ## [v1.7.0](https://github.com/sbt/sbt-native-packager/tree/v1.7.0) (2020-03-16)
 
@@ -902,7 +929,6 @@
 - Replace deprecated java Docker image with openjdk [\#877](https://github.com/sbt/sbt-native-packager/pull/877) ([NeQuissimus](https://github.com/NeQuissimus))
 - Fixed wrong description of daemonGroup [\#876](https://github.com/sbt/sbt-native-packager/pull/876) ([PavelPenkov](https://github.com/PavelPenkov))
 - Updated dockerUpdateLatest documentation to indicate minimum docker v… [\#874](https://github.com/sbt/sbt-native-packager/pull/874) ([thrykol](https://github.com/thrykol))
-- Clarify and fix grammar for Formats docs [\#867](https://github.com/sbt/sbt-native-packager/pull/867) ([weedySeaDragon](https://github.com/weedySeaDragon))
 - Updated systemloaders.rst [\#865](https://github.com/sbt/sbt-native-packager/pull/865) ([martinstuder](https://github.com/martinstuder))
 - Introduction:  clarify and fix grammar [\#863](https://github.com/sbt/sbt-native-packager/pull/863) ([weedySeaDragon](https://github.com/weedySeaDragon))
 
@@ -936,6 +962,7 @@
 
 **Merged pull requests:**
 
+- Clarify and fix grammar for Formats docs [\#867](https://github.com/sbt/sbt-native-packager/pull/867) ([weedySeaDragon](https://github.com/weedySeaDragon))
 - Rename dockerTarget to dockerTag [\#851](https://github.com/sbt/sbt-native-packager/pull/851) ([makubi](https://github.com/makubi))
 - Fix: `exec` the java entrypoint in ash-template [\#850](https://github.com/sbt/sbt-native-packager/pull/850) ([yfyf](https://github.com/yfyf))
 - Issue 807 - add support to enable/disable service autostart [\#847](https://github.com/sbt/sbt-native-packager/pull/847) ([dpennell](https://github.com/dpennell))
@@ -1006,7 +1033,6 @@
 - Expand the java home argument [\#822](https://github.com/sbt/sbt-native-packager/pull/822) ([cquiroz](https://github.com/cquiroz))
 - docker: tag -f is deprecated [\#821](https://github.com/sbt/sbt-native-packager/pull/821) ([sgrankin](https://github.com/sgrankin))
 - FIX \#762 Add native packager logo to docs and README [\#820](https://github.com/sbt/sbt-native-packager/pull/820) ([muuki88](https://github.com/muuki88))
-- typo fixed on Docker Plugin page [\#817](https://github.com/sbt/sbt-native-packager/pull/817) ([utgarda](https://github.com/utgarda))
 - Report compression issue with Debian Wheezy's python-apt [\#811](https://github.com/sbt/sbt-native-packager/pull/811) ([jpic](https://github.com/jpic))
 - fix typo rpmScriptletsDirectory [\#804](https://github.com/sbt/sbt-native-packager/pull/804) ([zoosky](https://github.com/zoosky))
 
@@ -1364,7 +1390,6 @@
 - Add note about JDeb adding dependencies [\#608](https://github.com/sbt/sbt-native-packager/pull/608) ([philwills](https://github.com/philwills))
 - tar --force-local on windows [\#604](https://github.com/sbt/sbt-native-packager/pull/604) ([sumkincpp](https://github.com/sumkincpp))
 - FIX \#590 fixed irritating windows documentation [\#592](https://github.com/sbt/sbt-native-packager/pull/592) ([muuki88](https://github.com/muuki88))
-- Use docker on windows \#573 [\#588](https://github.com/sbt/sbt-native-packager/pull/588) ([sjeandeaux](https://github.com/sjeandeaux))
 
 ## [v1.0.3](https://github.com/sbt/sbt-native-packager/tree/v1.0.3) (2015-06-16)
 
@@ -1395,6 +1420,7 @@
 - grammar fix for website [\#595](https://github.com/sbt/sbt-native-packager/pull/595) ([SethTisue](https://github.com/SethTisue))
 - Documented packageTemplateMappings [\#591](https://github.com/sbt/sbt-native-packager/pull/591) ([kodemaniak](https://github.com/kodemaniak))
 - Updated sbt plugin fragment version. [\#589](https://github.com/sbt/sbt-native-packager/pull/589) ([metasim](https://github.com/metasim))
+- Use docker on windows \#573 [\#588](https://github.com/sbt/sbt-native-packager/pull/588) ([sjeandeaux](https://github.com/sjeandeaux))
 
 ## [v1.0.2](https://github.com/sbt/sbt-native-packager/tree/v1.0.2) (2015-05-20)
 
@@ -1489,6 +1515,7 @@
 - Changing the default installation directory [\#506](https://github.com/sbt/sbt-native-packager/issues/506)
 - Unable to override akka-bash-template [\#426](https://github.com/sbt/sbt-native-packager/issues/426)
 - packageName in Docker not found [\#413](https://github.com/sbt/sbt-native-packager/issues/413)
+- Can't combine PlayJava with JDebPackaging plugin [\#407](https://github.com/sbt/sbt-native-packager/issues/407)
 - Specify default memory parameters of java\_application BASH script in the build [\#82](https://github.com/sbt/sbt-native-packager/issues/82)
 
 **Merged pull requests:**
@@ -1654,7 +1681,6 @@
 
 - Cannot publish to http \(or self-signed https\) docker registry [\#412](https://github.com/sbt/sbt-native-packager/issues/412)
 - Cannot pass dashed script options on windows [\#409](https://github.com/sbt/sbt-native-packager/issues/409)
-- Can't combine PlayJava with JDebPackaging plugin [\#407](https://github.com/sbt/sbt-native-packager/issues/407)
 - Cannot pack `templates/etc-default` into Docker container [\#398](https://github.com/sbt/sbt-native-packager/issues/398)
 - Publish universal tgz artifact only [\#349](https://github.com/sbt/sbt-native-packager/issues/349)
 - Ability to add to class path in the bash script [\#124](https://github.com/sbt/sbt-native-packager/issues/124)
