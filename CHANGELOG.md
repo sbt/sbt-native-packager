@@ -1,12 +1,21 @@
 # Changelog
 
-## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+## [v1.7.2](https://github.com/sbt/sbt-native-packager/tree/v1.7.2) (2020-05-11)
 
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.1...HEAD)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.1...v1.7.2)
 
 **Fixed bugs:**
 
 - AshScriptPlugin with DockerPlugin does not correctly pass arguments [\#1332](https://github.com/sbt/sbt-native-packager/issues/1332)
+
+**Closed issues:**
+
+- JavaAppPackaging enables Docker packaging [\#1337](https://github.com/sbt/sbt-native-packager/issues/1337)
+- Docker Entrypoint does not consider mainClass option \(and resulted script name\) [\#1335](https://github.com/sbt/sbt-native-packager/issues/1335)
+
+**Merged pull requests:**
+
+- Add support for docker:publish in DockerSpotifyClientPlugin [\#1338](https://github.com/sbt/sbt-native-packager/pull/1338) ([pdalpra](https://github.com/pdalpra))
 
 ## [v1.7.1](https://github.com/sbt/sbt-native-packager/tree/v1.7.1) (2020-05-04)
 
@@ -929,6 +938,7 @@
 - Replace deprecated java Docker image with openjdk [\#877](https://github.com/sbt/sbt-native-packager/pull/877) ([NeQuissimus](https://github.com/NeQuissimus))
 - Fixed wrong description of daemonGroup [\#876](https://github.com/sbt/sbt-native-packager/pull/876) ([PavelPenkov](https://github.com/PavelPenkov))
 - Updated dockerUpdateLatest documentation to indicate minimum docker v… [\#874](https://github.com/sbt/sbt-native-packager/pull/874) ([thrykol](https://github.com/thrykol))
+- Clarify and fix grammar for Formats docs [\#867](https://github.com/sbt/sbt-native-packager/pull/867) ([weedySeaDragon](https://github.com/weedySeaDragon))
 - Updated systemloaders.rst [\#865](https://github.com/sbt/sbt-native-packager/pull/865) ([martinstuder](https://github.com/martinstuder))
 - Introduction:  clarify and fix grammar [\#863](https://github.com/sbt/sbt-native-packager/pull/863) ([weedySeaDragon](https://github.com/weedySeaDragon))
 
@@ -962,7 +972,6 @@
 
 **Merged pull requests:**
 
-- Clarify and fix grammar for Formats docs [\#867](https://github.com/sbt/sbt-native-packager/pull/867) ([weedySeaDragon](https://github.com/weedySeaDragon))
 - Rename dockerTarget to dockerTag [\#851](https://github.com/sbt/sbt-native-packager/pull/851) ([makubi](https://github.com/makubi))
 - Fix: `exec` the java entrypoint in ash-template [\#850](https://github.com/sbt/sbt-native-packager/pull/850) ([yfyf](https://github.com/yfyf))
 - Issue 807 - add support to enable/disable service autostart [\#847](https://github.com/sbt/sbt-native-packager/pull/847) ([dpennell](https://github.com/dpennell))
