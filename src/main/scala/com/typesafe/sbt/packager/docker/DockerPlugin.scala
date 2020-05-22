@@ -550,7 +550,8 @@ object DockerPlugin extends AutoPlugin {
     def renameDests(from: Seq[(File, String)], dest: String) =
       for {
         (f, path) <- from
-        newPath = "%s/%s" format (dest, path)
+        pathWithValidSeparator = if (Path.sep == '/') path else path.replace(Path.sep, '/')
+        newPath = "%s/%s" format (dest, pathWithValidSeparator)
       } yield (f, newPath)
 
     inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
