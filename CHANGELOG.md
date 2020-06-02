@@ -1,5 +1,29 @@
 # Changelog
 
+## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.3...HEAD)
+
+**Fixed bugs:**
+
+- Error due to path separator inconsistency on windows [\#1329](https://github.com/sbt/sbt-native-packager/issues/1329)
+
+## [v1.7.3](https://github.com/sbt/sbt-native-packager/tree/v1.7.3) (2020-06-02)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.2...v1.7.3)
+
+**Closed issues:**
+
+- universal:packageBin fails on Scala 2.13.2 [\#1342](https://github.com/sbt/sbt-native-packager/issues/1342)
+- ash-template doesn't have the addApp function like in bash template [\#862](https://github.com/sbt/sbt-native-packager/issues/862)
+
+**Merged pull requests:**
+
+- typo extra ` [\#1344](https://github.com/sbt/sbt-native-packager/pull/1344) ([l-konov](https://github.com/l-konov))
+- Normalize  paths when mapping generic files to docker [\#1343](https://github.com/sbt/sbt-native-packager/pull/1343) ([cchafer](https://github.com/cchafer))
+- rename task wix-file to wixFile [\#1340](https://github.com/sbt/sbt-native-packager/pull/1340) ([l-konov](https://github.com/l-konov))
+- Add addApp function to align with bash version [\#1339](https://github.com/sbt/sbt-native-packager/pull/1339) ([olsio](https://github.com/olsio))
+
 ## [v1.7.2](https://github.com/sbt/sbt-native-packager/tree/v1.7.2) (2020-05-11)
 
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.1...v1.7.2)
@@ -977,7 +1001,6 @@
 - Issue 807 - add support to enable/disable service autostart [\#847](https://github.com/sbt/sbt-native-packager/pull/847) ([dpennell](https://github.com/dpennell))
 - concners -\> connerns introduction.rst [\#837](https://github.com/sbt/sbt-native-packager/pull/837) ([hedefalk](https://github.com/hedefalk))
 - FIX \#770 add ExitStatusSuccess setting for systemd [\#834](https://github.com/sbt/sbt-native-packager/pull/834) ([muuki88](https://github.com/muuki88))
-- maintainer file names were missing [\#805](https://github.com/sbt/sbt-native-packager/pull/805) ([zoosky](https://github.com/zoosky))
 
 ## [v1.1.4](https://github.com/sbt/sbt-native-packager/tree/v1.1.4) (2016-07-17)
 
