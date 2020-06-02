@@ -57,7 +57,7 @@ Your ``build.sbt`` should contain:
 
 This will make possible to push the ``RPM`` with:
 
-  ```sbt rpm:publish``
+  ``sbt rpm:publish``
 
 Debian
 ~~~~~~

@@ -124,7 +124,7 @@ Tasks
   ``windows:packageBin``
     Creates the ``msi`` package.
 
-  ``wix-file``
+  ``wixFile``
     Generates the Wix xml file from `wixConfig` and `wixProductConfig` setings, unless overriden.
 
 
