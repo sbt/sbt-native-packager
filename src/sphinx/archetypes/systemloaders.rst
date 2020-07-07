@@ -80,6 +80,10 @@ Settings
     termination, in addition to the normal successful exit code ``0`` and the signals ``SIGHUP``, ``SIGINT``,
     ``SIGTERM``, and ``SIGPIPE``. Exit status definitions can either be numeric exit codes or termination signal names.
 
+  ``systemdIsServiceFileConfig``
+    Makes file app_name.service as non-config. It may be useful to escape making this file as '%config' in rpm package
+    for example.
+
 Upstart
 -------
 
