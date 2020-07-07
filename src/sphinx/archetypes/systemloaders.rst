@@ -81,8 +81,8 @@ Settings
     ``SIGTERM``, and ``SIGPIPE``. Exit status definitions can either be numeric exit codes or termination signal names.
 
   ``systemdIsServiceFileConfig``
-    Makes file app_name.service as non-config. It may be useful to escape making this file as '%config' in rpm package
-    for example.
+    Should file app_name.service be marked as config. Default is ``true``. If it is set to ``true``, file will be
+    marked ``%config`` in rpm package for example.
 
 Upstart
 -------
