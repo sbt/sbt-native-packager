@@ -233,13 +233,10 @@ object DockerPlugin extends AutoPlugin {
 
       stage0 ++ stage1
     }
-  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
-    Seq(
-      executableScriptName := executableScriptName.value,
-      mappings ++= dockerPackageMappings.value,
-      name := name.value,
-      packageName := packageName.value,
-      publishLocal := {
+  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)({
+
+    def publishLocalTask =
+      Def.task {
         val log = streams.value.log
         publishLocalDocker(
           stage.value,
@@ -252,8 +249,10 @@ object DockerPlugin extends AutoPlugin {
         log.info(
           s"Built image ${dockerAlias.value.withTag(None).toString} with tags [${dockerAliases.value.flatMap(_.tag).mkString(", ")}]"
         )
-      },
-      publish := {
+      } tag (Tags.Disk, Tags.Publish)
+
+    def publishTask =
+      Def.task {
         val _ = publishLocal.value
         val alias = dockerAliases.value
         val log = streams.value.log
@@ -261,16 +260,26 @@ object DockerPlugin extends AutoPlugin {
         alias.foreach { aliasValue =>
           publishDocker(execCommand, aliasValue.toString, log)
         }
-      },
-      clean := {
-        val alias = dockerAliases.value
-        val log = streams.value.log
-        val rmiCommand = dockerRmiCommand.value
-        // clean up images
-        alias.foreach { aliasValue =>
-          rmiDocker(rmiCommand, aliasValue.toString, log)
-        }
-      },
+      } tag (Tags.Network, Tags.Publish)
+
+    def cleanTask = Def.task {
+      val alias = dockerAliases.value
+      val log = streams.value.log
+      val rmiCommand = dockerRmiCommand.value
+      // clean up images
+      alias.foreach { aliasValue =>
+        rmiDocker(rmiCommand, aliasValue.toString, log)
+      }
+    }
+
+    Seq(
+      executableScriptName := executableScriptName.value,
+      mappings ++= dockerPackageMappings.value,
+      name := name.value,
+      packageName := packageName.value,
+      publishLocal := publishLocalTask.value,
+      publish := publishTask.value,
+      clean := cleanTask.value,
       sourceDirectory := sourceDirectory.value / "docker",
       stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, dockerLayerMappings.value.map {
         case LayeredMapping(layerIdx, file, path) => (file, pathInLayer(path, layerIdx))
@@ -308,7 +317,7 @@ object DockerPlugin extends AutoPlugin {
         generateDockerConfig(dockerCommands.value, stagingDirectory.value)
       }
     )
-  )
+  })
 
   /**
     * @param comment
