@@ -1,15 +1,18 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html4" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Universal Plugin &mdash; sbt-native-packager 1.7.3 documentation</title>
+  <title>Universal Plugin &mdash; sbt-native-packager 1.7.4 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
 
   
   
@@ -17,7 +20,9 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -29,10 +34,6 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Linux Plugin" href="linux.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> sbt-native-packager
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sbt-native-packager
           
 
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -435,6 +437,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -473,7 +476,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="index.html">Packaging Formats</a> &raquo;</li>
         
@@ -567,9 +570,9 @@ that is not tied to any particular platform it may require manual labor (more wo
 <p>Here is how the values for <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">packageName</span></code> are used by the three configurations:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="n">name</span><span class="o">.</span><span class="n">value</span>
 
-<span class="n">name</span> <span class="n">in</span> <span class="nc">UniversalDocs</span> <span class="o">&lt;&lt;=</span> <span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span>
+<span class="n">name</span> <span class="n">in</span> <span class="nc">UniversalDocs</span> <span class="o">:=</span> <span class="o">(</span><span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
 
-<span class="n">name</span> <span class="n">in</span> <span class="nc">UniversalSrc</span> <span class="o">&lt;&lt;=</span> <span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span>
+<span class="n">name</span> <span class="n">in</span> <span class="nc">UniversalSrc</span> <span class="o">:=</span> <span class="o">(</span><span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
 
 <span class="n">packageName</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="n">packageName</span><span class="o">.</span><span class="n">value</span>
 </pre></div>
@@ -579,13 +582,13 @@ that is not tied to any particular platform it may require manual labor (more wo
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <p>As we showed before, the universal packages are completely configured through the use of mappings.  Simply
 specify the desired mappings for a given configuration.  For example:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;+=</span> <span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="n">map</span> <span class="o">{</span> <span class="n">p</span> <span class="k">=&gt;</span> <span class="n">p</span> <span class="o">-&gt;</span> <span class="s">&quot;lib/foo.jar&quot;</span> <span class="o">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">+=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="s">&quot;lib/foo.jar&quot;</span>
 </pre></div>
 </div>
 <p>However, sometimes it may be advantageous to customize the files for each archive separately.  For example, perhaps
 the .tar.gz has an additional README plaintext file in addition to a README.html.  To add this just to the .tar.gz file,
 use the task-scope feature of sbt:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="n">in</span> <span class="n">package</span><span class="o">-</span><span class="n">zip</span><span class="o">-</span><span class="n">tarball</span> <span class="o">+=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;README&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;README&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="n">in</span> <span class="n">packageZipTarball</span> <span class="o">+=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;README&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;README&quot;</span>
 </pre></div>
 </div>
 <p>Besides <code class="docutils literal notranslate"><span class="pre">mappings</span></code>, the <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">sourceDirectory</span></code> and <code class="docutils literal notranslate"><span class="pre">target</span></code> configurations are all respected by universal packaging.</p>
@@ -647,7 +650,8 @@ in creating a distribution is to place files in this directory and organize them
 If your output format is a zip file, for example, although the distribution will consist of just one zip file, the files and directories within that zip file will reflect the same organization and structure as <code class="docutils literal notranslate"><span class="pre">src/universal</span></code>.</p>
 <p>To add files generated by the build task to a distribution, simply add a <em>mapping</em> to the <code class="docutils literal notranslate"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span></code> setting.  Let’s
 look at an example where we add the packaged jar of a project to the lib folder of a distribution:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;+=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="n">jar</span> <span class="k">=&gt;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">+=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">jar</span> <span class="k">=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span>
   <span class="n">jar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">jar</span><span class="o">.</span><span class="n">getName</span><span class="o">)</span>
 <span class="o">}</span>
 </pre></div>
@@ -713,11 +717,10 @@ the <code class="docutils literal notranslate"><span class="pre">bin</span></cod
 may be necessary to customize the native packaging for each platform.   This can be done by configuring those settings directly.</p>
 <p>For example, even using generic mapping, debian has a requirement for changelog files to be fully formed.  Using the above generic mapping, we can configure just this
 changelog in addition to the generic packaging by first defining a changelog in <code class="docutils literal notranslate"><span class="pre">src/debian/changelog</span></code> and then adding the following setting:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">&lt;+=</span> <span class="o">(</span><span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">,</span> <span class="n">sourceDirectory</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">dir</span><span class="o">)</span> <span class="k">=&gt;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span>
   <span class="o">(</span><span class="n">packageMapping</span><span class="o">(</span>
-    <span class="o">(</span><span class="n">dir</span> <span class="o">/</span> <span class="s">&quot;changelog&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;/usr/share/doc/sbt/changelog.gz&quot;</span>
+    <span class="o">((</span><span class="n">sourceDirectory</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">).</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;changelog&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;/usr/share/doc/sbt/changelog.gz&quot;</span>
   <span class="o">)</span> <span class="n">withUser</span> <span class="s">&quot;root&quot;</span> <span class="n">withGroup</span> <span class="s">&quot;root&quot;</span> <span class="n">withPerms</span> <span class="s">&quot;0644&quot;</span> <span class="n">gzipped</span><span class="o">)</span> <span class="n">asDocs</span><span class="o">()</span>
-<span class="o">}</span>
 </pre></div>
 </div>
 <p>Notice how we’re <em>only</em> modifying the package mappings for Debian linux packages.</p>
@@ -770,9 +773,9 @@ this behaviour, add this to your <code class="docutils literal notranslate"><spa
 
 <span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">contentOf</span><span class="o">(</span><span class="s">&quot;src/main/resources/docs&quot;</span><span class="o">)</span>
 
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;++=</span> <span class="n">sourceDirectory</span> <span class="n">map</span> <span class="o">(</span><span class="n">src</span> <span class="k">=&gt;</span> <span class="n">directory</span><span class="o">(</span><span class="n">src</span> <span class="o">/</span> <span class="s">&quot;main&quot;</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;cache&quot;</span><span class="o">))</span>
+<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">directory</span><span class="o">(</span><span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;main&quot;</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;cache&quot;</span><span class="o">)</span>
 
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;++=</span> <span class="n">sourceDirectory</span> <span class="n">map</span> <span class="o">(</span><span class="n">src</span> <span class="k">=&gt;</span> <span class="n">contentOf</span><span class="o">(</span><span class="n">src</span> <span class="o">/</span> <span class="s">&quot;main&quot;</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;docs&quot;</span><span class="o">))</span>
+<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">contentOf</span><span class="o">(</span><span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;main&quot;</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;docs&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
@@ -791,14 +794,13 @@ during the <code class="docutils literal notranslate"><span class="pre">packageB
 </pre></div>
 </div>
 <p>If you want to add everything in a directory where the path for the directory is dynamic, e.g. the <code class="docutils literal notranslate"><span class="pre">scala-2.10/api</span></code> directory that is nested under in the <code class="docutils literal notranslate"><span class="pre">target</span></code> directory, and <code class="docutils literal notranslate"><span class="pre">target</span></code> is defined in a task:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span> <span class="o">++</span> <span class="n">directory</span><span class="o">(</span><span class="n">target</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span><span class="o">)</span>
-<span class="o">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">)</span> <span class="o">~=</span> <span class="o">(</span><span class="k">_</span> <span class="o">++</span> <span class="n">directory</span><span class="o">(</span><span class="n">target</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span><span class="o">))</span>
 </pre></div>
 </div>
 <p>You can also use the following approach if, for example, you need more flexibility:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">target</span> <span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">target</span><span class="o">)</span> <span class="k">=&gt;</span>
-    <span class="k">val</span> <span class="n">dir</span> <span class="k">=</span> <span class="n">target</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span>
-    <span class="o">(</span><span class="n">dir</span><span class="o">.***)</span> <span class="n">pair</span> <span class="n">relativeTo</span><span class="o">(</span><span class="n">dir</span><span class="o">.</span><span class="n">getParentFile</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">)</span> <span class="o">++=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">dir</span> <span class="k">=</span> <span class="n">target</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span>
+    <span class="o">(</span><span class="n">dir</span> <span class="o">**</span> <span class="nc">AllPassFilter</span><span class="o">)</span> <span class="n">pair</span> <span class="n">relativeTo</span><span class="o">(</span><span class="n">dir</span><span class="o">.</span><span class="n">getParentFile</span><span class="o">)</span>
 <span class="o">}</span>
 </pre></div>
 </div>
@@ -833,9 +835,9 @@ second part is the just the path starting after <code class="docutils literal no
 </div>
 <div class="section" id="mapping-the-content-of-a-directory-excluding-the-directory-itself">
 <h4>Mapping the content of a directory (excluding the directory itself)<a class="headerlink" href="#mapping-the-content-of-a-directory-excluding-the-directory-itself" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;++=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">,</span> <span class="n">target</span> <span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">target</span><span class="o">)</span> <span class="k">=&gt;</span>
-    <span class="k">val</span> <span class="n">dir</span> <span class="k">=</span> <span class="n">target</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span>
-    <span class="o">(</span><span class="n">dir</span><span class="o">.***</span> <span class="o">---</span> <span class="n">dir</span><span class="o">)</span> <span class="n">pair</span> <span class="n">relativeTo</span><span class="o">(</span><span class="n">dir</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">dir</span> <span class="k">=</span> <span class="n">target</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span>
+    <span class="o">(</span><span class="n">dir</span> <span class="o">**</span> <span class="nc">AllPassFilter</span> <span class="o">---</span> <span class="n">dir</span><span class="o">)</span> <span class="n">pair</span> <span class="n">relativeTo</span><span class="o">(</span><span class="n">dir</span><span class="o">)</span>
 <span class="o">}</span>
 </pre></div>
 </div>
@@ -862,9 +864,6 @@ the convenience of the sbt native packager archetypes.</p>
     <span class="c1">// add the fat jar to our sequence of things that we&#39;ve filtered</span>
     <span class="n">filtered</span> <span class="o">:+</span> <span class="o">(</span><span class="n">fatJar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">fatJar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
 <span class="o">}</span>
-
-<span class="c1">// sbt 0.12 syntax</span>
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">&lt;&lt;=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">,</span> <span class="n">assembly</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">)</span> <span class="n">map</span> <span class="o">{</span> <span class="o">(</span><span class="n">universalMappings</span><span class="o">,</span> <span class="n">fatJar</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="cm">/* same logic */</span><span class="o">}</span>
 </pre></div>
 </div>
 <p>The complete <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> should contain these settings if you want a single assembled fat jar.</p>
@@ -916,11 +915,19 @@ the convenience of the sbt native packager archetypes.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2014 sbt-native-packager team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -931,7 +938,6 @@ the convenience of the sbt native packager archetypes.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
