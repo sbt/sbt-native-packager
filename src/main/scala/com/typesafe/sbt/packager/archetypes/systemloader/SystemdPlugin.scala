@@ -34,6 +34,8 @@ object SystemdPlugin extends AutoPlugin {
   object autoImport {
     val systemdSuccessExitStatus =
       settingKey[Seq[String]]("SuccessExitStatus property")
+    val systemdIsServiceFileConfig =
+      settingKey[Boolean]("Make app_name.service file as config.")
   }
 
   import autoImport._
@@ -51,12 +53,13 @@ object SystemdPlugin extends AutoPlugin {
     requiredStopFacilities := Some("network.target"),
     systemdSuccessExitStatus := Seq.empty,
     linuxStartScriptName := Some(packageName.value + ".service"),
+    systemdIsServiceFileConfig := true,
     // add systemloader to mappings
     linuxPackageMappings ++= startScriptMapping(
       linuxStartScriptName.value,
       linuxMakeStartScript.value,
       defaultLinuxStartScriptLocation.value,
-      isConf = true
+      systemdIsServiceFileConfig.value
     ),
     // add additional system configurations to script replacements
     linuxScriptReplacements += ("SuccessExitStatus" -> systemdSuccessExitStatus.value.mkString(" ")),
