@@ -60,26 +60,28 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
       dockerApiVersion := dockerServerApiVersion.value
     )
 
-  def publishLocalDocker: Def.Initialize[Task[Unit]] = Def.task {
-    val context = stage.value
-    val primaryAlias = dockerAlias.value
-    val aliases = dockerAliases.value
-    val log = streams.value.log
+  def publishLocalDocker: Def.Initialize[Task[Unit]] =
+    Def.task {
+      val context = stage.value
+      val primaryAlias = dockerAlias.value
+      val aliases = dockerAliases.value
+      val log = streams.value.log
 
-    val dockerDirectory = context.toString
+      val dockerDirectory = context.toString
 
-    val docker = new DockerClientTask()
-    docker.packageDocker(primaryAlias, aliases, dockerDirectory, log)
-  }
+      val docker = new DockerClientTask()
+      docker.packageDocker(primaryAlias, aliases, dockerDirectory, log)
+    } tag (Tags.Publish, Tags.Disk)
 
-  def publishDocker: Def.Initialize[Task[Unit]] = Def.task {
-    val _ = publishLocal.value
-    val aliases = dockerAliases.value
-    val log = streams.value.log
+  def publishDocker: Def.Initialize[Task[Unit]] =
+    Def.task {
+      val _ = publishLocal.value
+      val aliases = dockerAliases.value
+      val log = streams.value.log
 
-    val docker = new DockerClientTask()
-    docker.publishDocker(aliases, log)
-  }
+      val docker = new DockerClientTask()
+      docker.publishDocker(aliases, log)
+    } tag (Tags.Network, Tags.Publish)
 
   def dockerServerVersion: Def.Initialize[Task[Option[DockerVersion]]] = Def.task {
     val docker = new DockerClientTask()
