@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1](https://github.com/sbt/sbt-native-packager/tree/v1) (2020-07-08)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.4...v1)
+
 ## [v1.7.4](https://github.com/sbt/sbt-native-packager/tree/v1.7.4) (2020-07-08)
 
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.3...v1.7.4)
@@ -204,7 +208,6 @@
 - umask can also be set via bashScriptExtraDefines [\#1274](https://github.com/sbt/sbt-native-packager/pull/1274) ([mkurz](https://github.com/mkurz))
 - Add a workaround for lightbend/mima\#422 [\#1271](https://github.com/sbt/sbt-native-packager/pull/1271) ([nigredo-tori](https://github.com/nigredo-tori))
 - JlinkPlugin: add support for huge classpaths [\#1270](https://github.com/sbt/sbt-native-packager/pull/1270) ([nigredo-tori](https://github.com/nigredo-tori))
-- JlinkPlugin: Sort missing dependencies before logging [\#1245](https://github.com/sbt/sbt-native-packager/pull/1245) ([nigredo-tori](https://github.com/nigredo-tori))
 
 ## [v1.4.1](https://github.com/sbt/sbt-native-packager/tree/v1.4.1) (2019-08-29)
 
@@ -261,6 +264,7 @@
 
 **Merged pull requests:**
 
+- JlinkPlugin: Sort missing dependencies before logging [\#1245](https://github.com/sbt/sbt-native-packager/pull/1245) ([nigredo-tori](https://github.com/nigredo-tori))
 - JlinkPlugin: support multi-release dependencies [\#1244](https://github.com/sbt/sbt-native-packager/pull/1244) ([nigredo-tori](https://github.com/nigredo-tori))
 
 ## [v1.3.24](https://github.com/sbt/sbt-native-packager/tree/v1.3.24) (2019-06-26)
@@ -325,7 +329,6 @@
 - Bug \#1218: docker:publishLocal fails because of non-existent gid [\#1219](https://github.com/sbt/sbt-native-packager/pull/1219) ([NicolasRouquette](https://github.com/NicolasRouquette))
 - correct sbt console example [\#1214](https://github.com/sbt/sbt-native-packager/pull/1214) ([mcanlas](https://github.com/mcanlas))
 - Log rpm output to error or info depending on exit code [\#1212](https://github.com/sbt/sbt-native-packager/pull/1212) ([Falmarri](https://github.com/Falmarri))
-- FIX \#1205 undefined setting makeBashScripts with vanilla DockerPlugin [\#1207](https://github.com/sbt/sbt-native-packager/pull/1207) ([muuki88](https://github.com/muuki88))
 
 ## [v1.3.20](https://github.com/sbt/sbt-native-packager/tree/v1.3.20) (2019-03-29)
 
@@ -350,6 +353,10 @@
 - javaOptions in Universal doesn't have effect in custom plugin [\#1208](https://github.com/sbt/sbt-native-packager/issues/1208)
 - Is there a way to skip tests? [\#1204](https://github.com/sbt/sbt-native-packager/issues/1204)
 - Docker/stage generates different Dockerfile depending on docker version [\#1187](https://github.com/sbt/sbt-native-packager/issues/1187)
+
+**Merged pull requests:**
+
+- FIX \#1205 undefined setting makeBashScripts with vanilla DockerPlugin [\#1207](https://github.com/sbt/sbt-native-packager/pull/1207) ([muuki88](https://github.com/muuki88))
 
 ## [v1.3.18](https://github.com/sbt/sbt-native-packager/tree/v1.3.18) (2019-02-12)
 
