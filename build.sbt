@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "8.14.3" % Provided,
   "org.vafer" % "jdeb" % "1.7" % Provided artifacts Artifact("jdeb", "jar", "jar"),
-  "org.apache.commons" % "commons-compress" % "1.18",
+  "org.apache.commons" % "commons-compress" % "1.20",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.5",
   // workaround for the command line size limit
