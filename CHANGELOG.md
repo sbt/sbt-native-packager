@@ -1,5 +1,32 @@
 # Changelog
 
+## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.5...HEAD)
+
+**Fixed bugs:**
+
+- Security Issue - commons-compress 1.18 [\#1347](https://github.com/sbt/sbt-native-packager/issues/1347)
+
+**Closed issues:**
+
+- Producing Multiple Unique JARs from a Single Source Directory [\#1359](https://github.com/sbt/sbt-native-packager/issues/1359)
+
+## [v1.7.5](https://github.com/sbt/sbt-native-packager/tree/v1.7.5) (2020-08-14)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1...v1.7.5)
+
+**Closed issues:**
+
+- Version '1'? New SBT capability? [\#1356](https://github.com/sbt/sbt-native-packager/issues/1356)
+- Unable to use `-J--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED` in application.ini in Windows  [\#1354](https://github.com/sbt/sbt-native-packager/issues/1354)
+- sbt.compiler.EvalException: Type error in expression on dockerAliases [\#1353](https://github.com/sbt/sbt-native-packager/issues/1353)
+
+**Merged pull requests:**
+
+- Issue 1347: Upgrade common-compress to 1.20 [\#1358](https://github.com/sbt/sbt-native-packager/pull/1358) ([fsat](https://github.com/fsat))
+- Restore version in the README to 1.7.4 [\#1357](https://github.com/sbt/sbt-native-packager/pull/1357) ([ScalaWilliam](https://github.com/ScalaWilliam))
+
 ## [v1](https://github.com/sbt/sbt-native-packager/tree/v1) (2020-07-08)
 
 [Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.4...v1)
@@ -1492,6 +1519,7 @@
 - small typo [\#571](https://github.com/sbt/sbt-native-packager/pull/571) ([francisdb](https://github.com/francisdb))
 - updated docs related to \#568 on multiple main classes [\#570](https://github.com/sbt/sbt-native-packager/pull/570) ([francisdb](https://github.com/francisdb))
 - Wip/issue 21 multiple config files shortcuts [\#569](https://github.com/sbt/sbt-native-packager/pull/569) ([ezzarghili](https://github.com/ezzarghili))
+- Release preparations [\#550](https://github.com/sbt/sbt-native-packager/pull/550) ([muuki88](https://github.com/muuki88))
 
 ## [v1.0.1](https://github.com/sbt/sbt-native-packager/tree/v1.0.1) (2015-04-29)
 
@@ -1533,7 +1561,6 @@
 
 **Merged pull requests:**
 
-- Release preparations [\#550](https://github.com/sbt/sbt-native-packager/pull/550) ([muuki88](https://github.com/muuki88))
 - Fix warnings from rpm lint [\#547](https://github.com/sbt/sbt-native-packager/pull/547) ([dwhjames](https://github.com/dwhjames))
 - Fixing docs with newest changes [\#546](https://github.com/sbt/sbt-native-packager/pull/546) ([muuki88](https://github.com/muuki88))
 - fix for issue \#529 [\#544](https://github.com/sbt/sbt-native-packager/pull/544) ([dwhjames](https://github.com/dwhjames))
