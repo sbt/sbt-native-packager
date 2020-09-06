@@ -119,22 +119,7 @@ private class DockerClientTask {
 
     log.info(s"PublishLocal using Docker API ${docker.version().apiVersion()}")
 
-    <<<<<<< HEAD
-      docker.build(
-        Paths.get(dockerDirectory),
-        primaryAlias.toString,
-        new ProgressHandler {
-          override def progress(message: ProgressMessage): Unit =
-            Option(message.error()) match {
-              case Some(error) if error.nonEmpty => log.error(message.error())
-              case _                             => Option(message.stream()) foreach (v => log.info(v))
-            }
-        },
-        BuildParam.forceRm()
-      )
-    =======
     docker.build(Paths.get(dockerDirectory), primaryAlias.toString, progressHandler(log), BuildParam.forceRm())
-    >>>>>>> origin / master
 
     aliases.foreach { tag =>
       docker.tag(primaryAlias.toString, tag.toString, true)
