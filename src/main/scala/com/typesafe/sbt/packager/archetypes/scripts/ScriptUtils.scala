@@ -57,11 +57,10 @@ object ScriptUtils {
 
   def warnOnScriptNameCollision(classesAndScripts: Seq[(String, String)], log: sbt.Logger): Unit = {
     val duplicates = describeDuplicates(classesAndScripts)
-    if (duplicates.nonEmpty) {
+    if (duplicates.nonEmpty)
       log.warn(
         s"The resulting zip seems to contain duplicated script names for these classes: ${duplicates.mkString(", ")}"
       )
-    }
   }
 
   /**
@@ -74,30 +73,31 @@ object ScriptUtils {
     */
   def toLowerCase(qualifiedClassName: String): String = {
     // suppose list is not very huge, so no need in tail recursion
-    def split(chars: List[Char]): List[Char] = chars match {
-      case c1 :: c2 :: cs if c1.isLower && c2.isUpper =>
-        //  aClass   ->  a-Class
-        // anUITest  -> an-UITest
-        //  ^
-        c1 :: '-' :: split(c2 :: cs)
-      case c1 :: c2 :: c3 :: cs if c1.isUpper && c2.isUpper && c3.isLower =>
-        // UITest -> UI-Test
-        //  ^
-        c1 :: '-' :: split(c2 :: c3 :: cs)
-      case c1 :: c2 :: cs if c1.isLetter && c2.isDigit =>
-        // Test1 -> Test-1
-        //    ^
-        c1 :: '-' :: split(c2 :: cs)
-      case c1 :: c2 :: cs if c1.isDigit && c2.isLetter =>
-        // Test1Class -> Test-1-Class
-        //     ^              ^
-        // _not_ pkg1.Test
-        //          ^
-        c1 :: '-' :: split(c2 :: cs)
-      case c :: cs =>
-        c :: split(cs)
-      case Nil => Nil
-    }
+    def split(chars: List[Char]): List[Char] =
+      chars match {
+        case c1 :: c2 :: cs if c1.isLower && c2.isUpper =>
+          //  aClass   ->  a-Class
+          // anUITest  -> an-UITest
+          //  ^
+          c1 :: '-' :: split(c2 :: cs)
+        case c1 :: c2 :: c3 :: cs if c1.isUpper && c2.isUpper && c3.isLower =>
+          // UITest -> UI-Test
+          //  ^
+          c1 :: '-' :: split(c2 :: c3 :: cs)
+        case c1 :: c2 :: cs if c1.isLetter && c2.isDigit =>
+          // Test1 -> Test-1
+          //    ^
+          c1 :: '-' :: split(c2 :: cs)
+        case c1 :: c2 :: cs if c1.isDigit && c2.isLetter =>
+          // Test1Class -> Test-1-Class
+          //     ^              ^
+          // _not_ pkg1.Test
+          //          ^
+          c1 :: '-' :: split(c2 :: cs)
+        case c :: cs =>
+          c :: split(cs)
+        case Nil => Nil
+      }
     val sb = new StringBuilder
     sb ++= split(qualifiedClassName.toList).map(_.toLower)
     sb.result()

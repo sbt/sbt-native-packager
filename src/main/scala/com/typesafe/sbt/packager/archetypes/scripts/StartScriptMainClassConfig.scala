@@ -35,7 +35,6 @@ case class ExplicitMainWithAdditional(mainClass: String, additional: Seq[String]
 object StartScriptMainClassConfig {
 
   /**
-    *
     * @param mainClass optional main class, e.g. from (mainClass in Compile).value
     * @param discoveredMainClasses all discovered main classes, e.g. from (discoveredMainClasses in Compile).value
     * @return A start script configuration

@@ -2,6 +2,7 @@ name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
+Global / onChangedBuildSource := ReloadOnSourceChanges
 Global / scalaVersion := "2.12.12"
 
 // crossBuildingSettings
@@ -58,7 +59,7 @@ mimaPreviousArtifacts := {
   val m = organization.value %% moduleName.value % "1.3.15"
   val sbtBinV = (sbtBinaryVersion in pluginCrossBuild).value
   val scalaBinV = (scalaBinaryVersion in update).value
-  Set(Defaults.sbtPluginExtra(m cross CrossVersion.Disabled(), sbtBinV, scalaBinV))
+  Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
 }
 
 // Release configuration
@@ -84,9 +85,9 @@ releaseProcess := Seq[ReleaseStep](
 bintrayOrganization := Some("sbt")
 bintrayRepository := "sbt-plugin-releases"
 
-addCommandAlias("scalafmtAll", "; scalafmt ; test:scalafmt ; sbt:scalafmt")
+addCommandAlias("scalafmtFormatAll", "; scalafmtAll ; scalafmtSbt")
 // ci commands
-addCommandAlias("validateFormatting", "; scalafmt::test ; test:scalafmt::test ; sbt:scalafmt::test")
+addCommandAlias("validateFormatting", "; scalafmtCheckAll ; scalafmtSbtCheck")
 addCommandAlias("validate", "; clean ; update ; validateFormatting ; test ; mimaReportBinaryIssues")
 
 // List all scripted test separately to schedule them in different travis-ci jobs.

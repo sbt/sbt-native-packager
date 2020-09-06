@@ -113,9 +113,8 @@ object RpmHelper {
           // Workaround for #1246 - random tests fail with a NullPointerException in the sbt ConsoleLogger
           // I wasn't able to reproduce this locally and there aren't any user reports on this, so we catch
           // the NPE and log via println
-          try {
-            outputBuffer.foreach(log.info(_))
-          } catch {
+          try outputBuffer.foreach(log.info(_))
+          catch {
             case e: NullPointerException =>
               outputBuffer.foreach(println(_))
           }

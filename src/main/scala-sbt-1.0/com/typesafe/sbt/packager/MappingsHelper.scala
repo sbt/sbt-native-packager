@@ -38,7 +38,6 @@ object MappingsHelper extends Mapper {
     * Create mappings from your classpath. For example if you want to add additional
     * dependencies, like test or model.
     *
-    *
     * @example Add all test artifacts to a separated test folder
     * {{{
     * mappings in Universal ++= fromClasspath((managedClasspath in Test).value, target = "test")
@@ -65,26 +64,26 @@ object MappingsHelper extends Mapper {
     * )
     * }}}
     *
-    *
     * @param entries from where mappings should be created from
     * @param target folder, e.g. `model`. Must not end with a slash
     * @param includeArtifact function to determine if an artifact should result in a mapping
     * @param includeOnNoArtifact default is false. When there's no Artifact meta data remove it
     */
-  def fromClasspath(entries: Seq[Attributed[File]],
-		    target: String,
-		    includeArtifact: Artifact => Boolean,
-		    includeOnNoArtifact: Boolean = false): Seq[(File, String)] =
+  def fromClasspath(
+    entries: Seq[Attributed[File]],
+    target: String,
+    includeArtifact: Artifact => Boolean,
+    includeOnNoArtifact: Boolean = false
+  ): Seq[(File, String)] =
     entries.filter(attr => attr.get(sbt.Keys.artifact.key) map includeArtifact getOrElse includeOnNoArtifact).map {
       attribute =>
-	val file = attribute.data
-	file -> s"$target/${file.getName}"
+        val file = attribute.data
+        file -> s"$target/${file.getName}"
     }
 
   /**
     * Get the mappings for the given files relative to the given directories.
     */
-  def relative(files: Seq[File], dirs: Seq[File]): Seq[(File, String)] = {
+  def relative(files: Seq[File], dirs: Seq[File]): Seq[(File, String)] =
     (files --- dirs) pair (relativeTo(dirs) | flat)
-  }
 }

@@ -27,7 +27,6 @@ import DebianPlugin.autoImport._
   *
   * @author Nepomuk Seiler
   * @see [[https://github.com/tcurdt/jdeb/blob/master/src/main/java/org/vafer/jdeb/maven/DebMojo.java#L503]]
-  *
   */
 object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
@@ -35,72 +34,72 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
   override lazy val projectSettings: Seq[Setting[_]] = inConfig(Debian)(jdebSettings)
 
-  def jdebSettings = Seq(
-    // FIXME do nothing. Java7 posix needed
-    debianConffilesFile := {
-      target.value / Names.DebianMaintainerScripts / Names.Conffiles
-    },
-    // FIXME copied from the debian plugin. Java7 posix needed
-    debianControlFile := {
-      val data = debianPackageMetadata.value
-      val size = debianPackageInstallSize.value
-      if (data.info.description == null || data.info.description.isEmpty) {
-        sys.error("""packageDescription in Debian cannot be empty. Use
+  def jdebSettings =
+    Seq(
+      // FIXME do nothing. Java7 posix needed
+      debianConffilesFile := {
+        target.value / Names.DebianMaintainerScripts / Names.Conffiles
+      },
+      // FIXME copied from the debian plugin. Java7 posix needed
+      debianControlFile := {
+        val data = debianPackageMetadata.value
+        val size = debianPackageInstallSize.value
+        if (data.info.description == null || data.info.description.isEmpty)
+          sys.error("""packageDescription in Debian cannot be empty. Use
                  packageDescription in Debian := "My package Description"""")
-      }
-      val cfile = target.value / Names.DebianMaintainerScripts / Names.Control
-      IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
-      cfile
-    },
-    /**
-      * Depends on the 'debianExplodedPackage' task as this creates all the files
-      * which are defined in the mappings.
-      */
-    packageBin := {
-      val targetDir = target.value
-      val log = streams.value.log
-      val mappings = linuxPackageMappings.value
-      val symlinks = linuxPackageSymlinks.value
+        val cfile = target.value / Names.DebianMaintainerScripts / Names.Control
+        IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
+        cfile
+      },
+      /**
+        * Depends on the 'debianExplodedPackage' task as this creates all the files
+        * which are defined in the mappings.
+        */
+      packageBin := {
+        val targetDir = target.value
+        val log = streams.value.log
+        val mappings = linuxPackageMappings.value
+        val symlinks = linuxPackageSymlinks.value
 
-      // unused, but needed as dependency
-      val controlDir = targetDir / Names.DebianMaintainerScripts
-      val _ = debianControlFile.value
-      val conffile = debianConffilesFile.value
-      val replacements = debianMakeChownReplacements.value +: linuxScriptReplacements.value
+        // unused, but needed as dependency
+        val controlDir = targetDir / Names.DebianMaintainerScripts
+        val _ = debianControlFile.value
+        val conffile = debianConffilesFile.value
+        val replacements = debianMakeChownReplacements.value +: linuxScriptReplacements.value
 
-      val controlScripts = debianMaintainerScripts.value
-      for ((file, name) <- controlScripts) {
-        val targetFile = controlDir / name
-        copyFiles(file, targetFile, LinuxFileMetaData())
-        filterFiles(targetFile, replacements, LinuxFileMetaData())
-      }
+        val controlScripts = debianMaintainerScripts.value
+        for ((file, name) <- controlScripts) {
+          val targetFile = controlDir / name
+          copyFiles(file, targetFile, LinuxFileMetaData())
+          filterFiles(targetFile, replacements, LinuxFileMetaData())
+        }
 
-      log.info("Building debian package with java based implementation 'jdeb'")
-      val archive = archiveFilename(normalizedName.value, version.value, packageArchitecture.value)
-      val debianFile = targetDir.getParentFile / archive
-      val debMaker = new JDebPackagingTask()
-      debMaker.packageDebian(mappings, symlinks, debianFile, targetDir, log)
-      debianFile
-    },
-    packageBin := (packageBin dependsOn debianControlFile).value,
-    packageBin := (packageBin dependsOn debianConffilesFile).value,
-    // workaround for sbt-coursier
-    classpathTypes += "maven-plugin"
-  )
+        log.info("Building debian package with java based implementation 'jdeb'")
+        val archive = archiveFilename(normalizedName.value, version.value, packageArchitecture.value)
+        val debianFile = targetDir.getParentFile / archive
+        val debMaker = new JDebPackagingTask()
+        debMaker.packageDebian(mappings, symlinks, debianFile, targetDir, log)
+        debianFile
+      },
+      packageBin := (packageBin dependsOn debianControlFile).value,
+      packageBin := (packageBin dependsOn debianConffilesFile).value,
+      // workaround for sbt-coursier
+      classpathTypes += "maven-plugin"
+    )
 
   /**
     * The same as [[DebianPluginLike.copyAndFixPerms]] except chmod invocation (for windows compatibility).
     * Permissions will be handled by jDeb packager itself.
     */
   private def copyFiles(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit =
-    if (zipped) {
+    if (zipped)
       IO.withTemporaryDirectory { dir =>
         val tmp = dir / from.getName
         IO.copyFile(from, tmp)
         val zipped = Archives.gzip(tmp)
         IO.copyFile(zipped, to, preserveLastModified = true)
       }
-    } else IO.copyFile(from, to, preserveLastModified = true)
+    else IO.copyFile(from, to, preserveLastModified = true)
 
   /**
     * The same as [[DebianPluginLike.filterAndFixPerms]] except chmod invocation (for windows compatibility).
@@ -142,11 +141,13 @@ private class JDebPackagingTask {
   import org.vafer.jdeb.mapping._
   import org.vafer.jdeb.producers._
 
-  def packageDebian(mappings: Seq[LinuxPackageMapping],
-                    symlinks: Seq[LinuxSymlink],
-                    debianFile: File,
-                    targetDir: File,
-                    log: Logger): Unit = {
+  def packageDebian(
+    mappings: Seq[LinuxPackageMapping],
+    symlinks: Seq[LinuxSymlink],
+    debianFile: File,
+    targetDir: File,
+    log: Logger
+  ): Unit = {
     val debMaker = new DebMaker(
       new JDebConsole(log),
       (fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks)).asJava,
@@ -189,10 +190,11 @@ private class JDebPackagingTask {
   /**
     * Creating link producers for symlinks.
     */
-  private[debian] def linkProducers(symlinks: Seq[LinuxSymlink]): Seq[DataProducer] = symlinks map {
-    case LinuxSymlink(link, destination) =>
-      new DataProducerLink(link, destination, true, null, null, null)
-  }
+  private[debian] def linkProducers(symlinks: Seq[LinuxSymlink]): Seq[DataProducer] =
+    symlinks map {
+      case LinuxSymlink(link, destination) =>
+        new DataProducerLink(link, destination, true, null, null, null)
+    }
 
   /**
     * Creating the files which should be added as conffiles.

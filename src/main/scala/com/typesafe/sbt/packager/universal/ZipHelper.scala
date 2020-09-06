@@ -65,8 +65,9 @@ object ZipHelper {
       for {
         (file, name) <- sources.toSeq
         // TODO - Figure out if this is good enough....
-        perm = if (file.isDirectory || file.canExecute) oct"0755"
-        else oct"0644"
+        perm =
+          if (file.isDirectory || file.canExecute) oct"0755"
+          else oct"0644"
       } yield FileMapping(file, name, Some(perm))
     archive(mappings, outputZip)
   }
@@ -114,16 +115,11 @@ object ZipHelper {
           mode foreach (entry.setUnixMode)
           output putArchiveEntry entry
           val fis = new java.io.FileInputStream(file)
-          try {
-            try {
-              // TODO - Write file into output?
-              IOUtils.copy(fis, output)
-            } finally {
-              output.closeArchiveEntry()
-            }
-          } finally {
-            fis.close()
-          }
+          try try
+          // TODO - Write file into output?
+          IOUtils.copy(fis, output)
+          finally output.closeArchiveEntry()
+          finally fis.close()
         }
       }
     }
@@ -134,15 +130,12 @@ object ZipHelper {
   private def withZipOutput(file: File)(f: ZipArchiveOutputStream => Unit): Unit = {
     val zipOut = new ZipArchiveOutputStream(file)
     zipOut setLevel Deflater.BEST_COMPRESSION
-    try {
-      f(zipOut)
-    } catch {
+    try f(zipOut)
+    catch {
       case t: Throwable =>
         IOUtils.closeQuietly(zipOut)
         throw t
-    } finally {
-      zipOut.close()
-    }
+    } finally zipOut.close()
   }
 
   /**
@@ -173,11 +166,8 @@ object ZipHelper {
     val uri = new URI("jar", zipFile.toPath.toUri().toString(), null)
 
     val system = FileSystems.newFileSystem(uri, env)
-    try {
-      f(system)
-    } finally {
-      system.close()
-    }
+    try f(system)
+    finally system.close()
   }
 
 }

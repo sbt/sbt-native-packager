@@ -25,7 +25,6 @@ import sbt._
   * docker version
   * }}}
   *
-  *
   * @note this plugin is not intended to build very customizable docker images, but turn your mappings
   *       configuration in a docker image with almost no ''any'' configuration.
   *
@@ -59,27 +58,30 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
       dockerApiVersion := dockerServerApiVersion.value
     )
 
-  def publishLocalDocker: Def.Initialize[Task[Unit]] = Def.task {
-    val context = stage.value
-    val primaryAlias = dockerAlias.value
-    val aliases = dockerAliases.value
-    val log = streams.value.log
+  def publishLocalDocker: Def.Initialize[Task[Unit]] =
+    Def.task {
+      val context = stage.value
+      val primaryAlias = dockerAlias.value
+      val aliases = dockerAliases.value
+      val log = streams.value.log
 
-    val dockerDirectory = context.toString
+      val dockerDirectory = context.toString
 
-    val docker = new DockerClientTask()
-    docker.packageDocker(primaryAlias, aliases, dockerDirectory, log)
-  }
+      val docker = new DockerClientTask()
+      docker.packageDocker(primaryAlias, aliases, dockerDirectory, log)
+    }
 
-  def dockerServerVersion: Def.Initialize[Task[Option[DockerVersion]]] = Def.task {
-    val docker = new DockerClientTask()
-    docker.dockerServerVersion()
-  }
+  def dockerServerVersion: Def.Initialize[Task[Option[DockerVersion]]] =
+    Def.task {
+      val docker = new DockerClientTask()
+      docker.dockerServerVersion()
+    }
 
-  def dockerServerApiVersion: Def.Initialize[Task[Option[DockerApiVersion]]] = Def.task {
-    val docker = new DockerClientTask()
-    docker.dockerServerApiVersion()
-  }
+  def dockerServerApiVersion: Def.Initialize[Task[Option[DockerApiVersion]]] =
+    Def.task {
+      val docker = new DockerClientTask()
+      docker.dockerServerApiVersion()
+    }
 
 }
 
@@ -96,21 +98,28 @@ private class DockerClientTask {
   import com.spotify.docker.client.messages.ProgressMessage
   import com.spotify.docker.client.{DefaultDockerClient, DockerClient, ProgressHandler}
 
-  def packageDocker(primaryAlias: DockerAlias,
-                    aliases: Seq[DockerAlias],
-                    dockerDirectory: String,
-                    log: Logger): Unit = {
+  def packageDocker(
+    primaryAlias: DockerAlias,
+    aliases: Seq[DockerAlias],
+    dockerDirectory: String,
+    log: Logger
+  ): Unit = {
     val docker: DockerClient = DefaultDockerClient.fromEnv().build()
 
     log.info(s"PublishLocal using Docker API ${docker.version().apiVersion()}")
 
-    docker.build(Paths.get(dockerDirectory), primaryAlias.toString, new ProgressHandler {
-      override def progress(message: ProgressMessage): Unit =
-        Option(message.error()) match {
-          case Some(error) if error.nonEmpty => log.error(message.error())
-          case _                             => Option(message.stream()) foreach (v => log.info(v))
-        }
-    }, BuildParam.forceRm())
+    docker.build(
+      Paths.get(dockerDirectory),
+      primaryAlias.toString,
+      new ProgressHandler {
+        override def progress(message: ProgressMessage): Unit =
+          Option(message.error()) match {
+            case Some(error) if error.nonEmpty => log.error(message.error())
+            case _                             => Option(message.stream()) foreach (v => log.info(v))
+          }
+      },
+      BuildParam.forceRm()
+    )
 
     aliases.foreach { tag =>
       docker.tag(primaryAlias.toString, tag.toString, true)

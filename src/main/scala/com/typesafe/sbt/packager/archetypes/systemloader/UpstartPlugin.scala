@@ -30,24 +30,25 @@ object UpstartPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] =
     inConfig(Debian)(upstartSettings) ++ inConfig(Rpm)(upstartSettings)
 
-  def upstartSettings: Seq[Setting[_]] = Seq(
-    // used by other archetypes to define systemloader dependent behaviour
-    serverLoading := Some(ServerLoader.Upstart),
-    // Upstart settings
-    startRunlevels := Some("[2345]"),
-    stopRunlevels := Some("[016]"),
-    requiredStartFacilities := None,
-    requiredStopFacilities := None,
-    defaultLinuxStartScriptLocation := "/etc/init",
-    killTimeout := 5,
-    linuxStartScriptName := Some(packageName.value + ".conf"),
-    // add systemloader to mappings
-    linuxPackageMappings ++= startScriptMapping(
-      linuxStartScriptName.value,
-      linuxMakeStartScript.value,
-      defaultLinuxStartScriptLocation.value,
-      isConf = true
+  def upstartSettings: Seq[Setting[_]] =
+    Seq(
+      // used by other archetypes to define systemloader dependent behaviour
+      serverLoading := Some(ServerLoader.Upstart),
+      // Upstart settings
+      startRunlevels := Some("[2345]"),
+      stopRunlevels := Some("[016]"),
+      requiredStartFacilities := None,
+      requiredStopFacilities := None,
+      defaultLinuxStartScriptLocation := "/etc/init",
+      killTimeout := 5,
+      linuxStartScriptName := Some(packageName.value + ".conf"),
+      // add systemloader to mappings
+      linuxPackageMappings ++= startScriptMapping(
+        linuxStartScriptName.value,
+        linuxMakeStartScript.value,
+        defaultLinuxStartScriptLocation.value,
+        isConf = true
+      )
     )
-  )
 
 }

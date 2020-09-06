@@ -19,7 +19,6 @@ object Compat {
   type BuildDependencies = InternalBuildDependencies
 
   /**
-    *
     */
   type Process = sys.process.Process
 

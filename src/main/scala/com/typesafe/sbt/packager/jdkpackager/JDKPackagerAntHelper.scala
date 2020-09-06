@@ -82,11 +82,13 @@ object JDKPackagerAntHelper {
   type ApplicationDOM = Elem
 
   /** Create the `<fx:application>` definition. */
-  private[jdkpackager] def applicationDOM(name: String,
-                                          version: String,
-                                          mainClass: Option[String],
-                                          toolkit: JDKPackagerToolkit,
-                                          appArgs: Seq[String]): ApplicationDOM =
+  private[jdkpackager] def applicationDOM(
+    name: String,
+    version: String,
+    mainClass: Option[String],
+    toolkit: JDKPackagerToolkit,
+    appArgs: Seq[String]
+  ): ApplicationDOM =
     // format: OFF
     <fx:application id="app"
                     name={name}
@@ -104,11 +106,13 @@ object JDKPackagerAntHelper {
   type InfoDOM = Elem
 
   /** Create the `<fx:info>` definition. */
-  private[jdkpackager] def infoDOM(name: String,
-                                   description: String,
-                                   maintainer: String,
-                                   iconPath: Option[File],
-                                   associations: Seq[FileAssociation]): InfoDOM =
+  private[jdkpackager] def infoDOM(
+    name: String,
+    description: String,
+    maintainer: String,
+    iconPath: Option[File],
+    associations: Seq[FileAssociation]
+  ): InfoDOM =
     // format: OFF
     <fx:info id="info" title={name} description={description} vendor={maintainer}>
       {
@@ -127,11 +131,13 @@ object JDKPackagerAntHelper {
   type DeployDOM = Elem
 
   /** Create the `<fx:deploy>` definition. */
-  private[jdkpackager] def deployDOM(basename: String,
-                                     packageType: String,
-                                     mainJar: File,
-                                     outputDir: File,
-                                     infoDOM: InfoDOM): DeployDOM =
+  private[jdkpackager] def deployDOM(
+    basename: String,
+    packageType: String,
+    mainJar: File,
+    outputDir: File,
+    infoDOM: InfoDOM
+  ): DeployDOM =
     // format: OFF
     <fx:deploy outdir={outputDir.getAbsolutePath}
                outfile={basename}
@@ -164,22 +170,23 @@ object JDKPackagerAntHelper {
     *
     * see: https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html
     */
-  private[jdkpackager] def makeAntBuild(antTaskLib: Option[File],
-                                        antExtraClasspath: Seq[File],
-                                        name: String,
-                                        sourceDir: File,
-                                        mappings: Seq[(File, String)],
-                                        platformDOM: PlatformDOM,
-                                        applicationDOM: ApplicationDOM,
-                                        deployDOM: DeployDOM): BuildDOM = {
+  private[jdkpackager] def makeAntBuild(
+    antTaskLib: Option[File],
+    antExtraClasspath: Seq[File],
+    name: String,
+    sourceDir: File,
+    mappings: Seq[(File, String)],
+    platformDOM: PlatformDOM,
+    applicationDOM: ApplicationDOM,
+    deployDOM: DeployDOM
+  ): BuildDOM = {
 
-    if (antTaskLib.isEmpty) {
+    if (antTaskLib.isEmpty)
       sys.error(
         "Please set key `antPackagerTasks in JDKPackager` to `ant-javafx.jar` path, " +
           "which should be found in the `lib` directory of the Oracle JDK 8 installation. For example (Windows):\n" +
           """(antPackagerTasks in JDKPackager) := Some(file("C:\\Program Files\\Java\\jdk1.8.0_45\\lib\\ant-javafx.jar"))"""
       )
-    }
 
     val taskClassPath = antTaskLib.get +: antExtraClasspath
 
@@ -266,12 +273,13 @@ object JDKPackagerAntHelper {
     def taskFinished(event: BuildEvent): Unit = ()
     def targetFinished(event: BuildEvent): Unit = ()
     def taskStarted(event: BuildEvent): Unit = ()
-    def messageLogged(event: BuildEvent): Unit = event.getPriority match {
-      case AntProject.MSG_ERR ⇒ s.log.error(event.getMessage)
-      case AntProject.MSG_WARN ⇒ s.log.warn(event.getMessage)
-      case AntProject.MSG_INFO ⇒ s.log.info(event.getMessage)
-      case AntProject.MSG_VERBOSE ⇒ s.log.verbose(event.getMessage)
-      case _ ⇒ s.log.debug(event.getMessage)
-    }
+    def messageLogged(event: BuildEvent): Unit =
+      event.getPriority match {
+        case AntProject.MSG_ERR ⇒ s.log.error(event.getMessage)
+        case AntProject.MSG_WARN ⇒ s.log.warn(event.getMessage)
+        case AntProject.MSG_INFO ⇒ s.log.info(event.getMessage)
+        case AntProject.MSG_VERBOSE ⇒ s.log.verbose(event.getMessage)
+        case _ ⇒ s.log.debug(event.getMessage)
+      }
   }
 }

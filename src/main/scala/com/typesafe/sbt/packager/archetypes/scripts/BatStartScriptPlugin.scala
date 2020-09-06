@@ -14,7 +14,6 @@ import sbt._
   *
   * This plugins creates a start bat script to run an application built with the
   * [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]].
-  *
   */
 object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with CommonStartScriptGenerator {
 
@@ -44,31 +43,36 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
   object autoImport extends BatStartScriptKeys
   import autoImport._
 
-  protected[this] case class BatScriptConfig(override val executableScriptName: String,
-                                             override val scriptClasspath: Seq[String],
-                                             configLocation: Option[String],
-                                             extraDefines: Seq[String],
-                                             override val replacements: Seq[(String, String)],
-                                             override val templateLocation: File,
-                                             bundledJvmLocation: Option[String])
-      extends ScriptConfig {
+  protected[this] case class BatScriptConfig(
+    override val executableScriptName: String,
+    override val scriptClasspath: Seq[String],
+    configLocation: Option[String],
+    extraDefines: Seq[String],
+    override val replacements: Seq[(String, String)],
+    override val templateLocation: File,
+    bundledJvmLocation: Option[String]
+  ) extends ScriptConfig {
 
     @deprecated("1.3.21", "")
-    def this(executableScriptName: String,
-             scriptClasspath: Seq[String],
-             configLocation: Option[String],
-             extraDefines: Seq[String],
-             replacements: Seq[(String, String)],
-             templateLocation: File) =
+    def this(
+      executableScriptName: String,
+      scriptClasspath: Seq[String],
+      configLocation: Option[String],
+      extraDefines: Seq[String],
+      replacements: Seq[(String, String)],
+      templateLocation: File
+    ) =
       this(executableScriptName, scriptClasspath, configLocation, extraDefines, replacements, templateLocation, None)
 
     @deprecated("1.3.21", "")
-    def copy(executableScriptName: String = executableScriptName,
-             scriptClasspath: Seq[String] = scriptClasspath,
-             configLocation: Option[String] = configLocation,
-             extraDefines: Seq[String] = extraDefines,
-             replacements: Seq[(String, String)] = replacements,
-             templateLocation: File = templateLocation): BatScriptConfig =
+    def copy(
+      executableScriptName: String = executableScriptName,
+      scriptClasspath: Seq[String] = scriptClasspath,
+      configLocation: Option[String] = configLocation,
+      extraDefines: Seq[String] = extraDefines,
+      replacements: Seq[(String, String)] = replacements,
+      templateLocation: File = templateLocation
+    ): BatScriptConfig =
       BatScriptConfig(
         executableScriptName,
         scriptClasspath,
@@ -83,15 +87,19 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
   }
 
   object BatScriptConfig
-      extends scala.runtime.AbstractFunction6[String, Seq[String], Option[String], Seq[String], Seq[(String, String)], File, BatScriptConfig] {
+      extends scala.runtime.AbstractFunction6[String, Seq[String], Option[String], Seq[String], Seq[
+        (String, String)
+      ], File, BatScriptConfig] {
 
     @deprecated("1.3.21", "")
-    def apply(executableScriptName: String,
-              scriptClasspath: Seq[String],
-              configLocation: Option[String],
-              extraDefines: Seq[String],
-              replacements: Seq[(String, String)],
-              templateLocation: File): BatScriptConfig =
+    def apply(
+      executableScriptName: String,
+      scriptClasspath: Seq[String],
+      configLocation: Option[String],
+      extraDefines: Seq[String],
+      replacements: Seq[(String, String)],
+      templateLocation: File
+    ): BatScriptConfig =
       BatScriptConfig(
         executableScriptName,
         scriptClasspath,
@@ -106,36 +114,37 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
 
   override protected[this] type SpecializedScriptConfig = BatScriptConfig
 
-  override def projectSettings: Seq[Setting[_]] = Seq(
-    batScriptTemplateLocation := (sourceDirectory.value / "templates" / batTemplate),
-    batScriptConfigLocation := (batScriptConfigLocation ?? Some(appIniLocation)).value,
-    batScriptExtraDefines := Nil,
-    batScriptReplacements := Replacements(executableScriptName.value),
-    // Generating the application configuration
-    mappings in Universal := generateApplicationIni(
-      (mappings in Universal).value,
-      (javaOptions in Universal).value,
-      batScriptConfigLocation.value,
-      (target in Universal).value,
-      streams.value.log
-    ),
-    makeBatScripts := generateStartScripts(
-      BatScriptConfig(
-        executableScriptName = executableScriptName.value,
-        scriptClasspath = (scriptClasspath in batScriptReplacements).value,
-        configLocation = batScriptConfigLocation.value,
-        extraDefines = batScriptExtraDefines.value,
-        replacements = batScriptReplacements.value,
-        templateLocation = batScriptTemplateLocation.value,
-        bundledJvmLocation = bundledJvmLocation.value
+  override def projectSettings: Seq[Setting[_]] =
+    Seq(
+      batScriptTemplateLocation := (sourceDirectory.value / "templates" / batTemplate),
+      batScriptConfigLocation := (batScriptConfigLocation ?? Some(appIniLocation)).value,
+      batScriptExtraDefines := Nil,
+      batScriptReplacements := Replacements(executableScriptName.value),
+      // Generating the application configuration
+      mappings in Universal := generateApplicationIni(
+        (mappings in Universal).value,
+        (javaOptions in Universal).value,
+        batScriptConfigLocation.value,
+        (target in Universal).value,
+        streams.value.log
       ),
-      (mainClass in (Compile, batScriptReplacements)).value,
-      (discoveredMainClasses in Compile).value,
-      (target in Universal).value / "scripts",
-      streams.value.log
-    ),
-    mappings in Universal ++= makeBatScripts.value
-  )
+      makeBatScripts := generateStartScripts(
+        BatScriptConfig(
+          executableScriptName = executableScriptName.value,
+          scriptClasspath = (scriptClasspath in batScriptReplacements).value,
+          configLocation = batScriptConfigLocation.value,
+          extraDefines = batScriptExtraDefines.value,
+          replacements = batScriptReplacements.value,
+          templateLocation = batScriptTemplateLocation.value,
+          bundledJvmLocation = bundledJvmLocation.value
+        ),
+        (mainClass in (Compile, batScriptReplacements)).value,
+        (discoveredMainClasses in Compile).value,
+        (target in Universal).value / "scripts",
+        streams.value.log
+      ),
+      mappings in Universal ++= makeBatScripts.value
+    )
 
   /**
     * @param path that could be relative to APP_HOME
@@ -152,9 +161,11 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
     def apply(name: String): Seq[(String, String)] =
       Seq("APP_NAME" -> name, "APP_ENV_NAME" -> NameHelper.makeEnvFriendlyName(name))
 
-    def appDefines(mainClass: String,
-                   config: BatScriptConfig,
-                   replacements: Seq[(String, String)]): (String, String) = {
+    def appDefines(
+      mainClass: String,
+      config: BatScriptConfig,
+      replacements: Seq[(String, String)]
+    ): (String, String) = {
       val defines = Seq(makeWindowsRelativeClasspathDefine(config.scriptClasspath), Defines.mainClass(mainClass)) ++
         config.configLocation.map(Defines.configFileDefine) ++
         config.bundledJvmLocation.map(Defines.bundledJvmDefine) ++
@@ -196,9 +207,11 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
       }
   }
 
-  override protected[this] def createReplacementsForMainScript(mainClass: String,
-                                                               mainClasses: Seq[String],
-                                                               config: SpecializedScriptConfig): Seq[(String, String)] =
+  override protected[this] def createReplacementsForMainScript(
+    mainClass: String,
+    mainClasses: Seq[String],
+    config: SpecializedScriptConfig
+  ): Seq[(String, String)] =
     config.replacements :+ Replacements.appDefines(mainClass, config, config.replacements)
 
 }

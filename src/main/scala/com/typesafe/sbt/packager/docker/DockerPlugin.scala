@@ -100,29 +100,29 @@ object DockerPlugin extends AutoPlugin {
     dockerAutoremoveMultiStageIntermediateImages := true,
     dockerLayerGrouping := {
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
-      (path: String) =>
-        {
-          val pathInWorkdir = path.stripPrefix(dockerBaseDirectory)
-          if (pathInWorkdir.startsWith(s"/lib/${organization.value}"))
-            Some(2)
-          else if (pathInWorkdir.startsWith("/lib/"))
-            Some(1)
-          else if (pathInWorkdir.startsWith("/bin/"))
-            Some(1)
-          else None
-        }
+      (path: String) => {
+        val pathInWorkdir = path.stripPrefix(dockerBaseDirectory)
+        if (pathInWorkdir.startsWith(s"/lib/${organization.value}"))
+          Some(2)
+        else if (pathInWorkdir.startsWith("/lib/"))
+          Some(1)
+        else if (pathInWorkdir.startsWith("/bin/"))
+          Some(1)
+        else None
+      }
     },
     dockerAliases := {
       val alias = dockerAlias.value
-      if (dockerUpdateLatest.value) {
+      if (dockerUpdateLatest.value)
         Seq(alias, alias.withTag(Option("latest")))
-      } else {
+      else
         Seq(alias)
-      }
     },
     dockerEntrypoint := Seq(s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
     dockerCmd := Seq(),
-    dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!).toOption
+    dockerVersion := Try(
+      Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!
+    ).toOption
       .map(_.trim)
       .flatMap(DockerVersion.parse),
     dockerApiVersion := Try(
@@ -257,9 +257,13 @@ object DockerPlugin extends AutoPlugin {
         }
       },
       sourceDirectory := sourceDirectory.value / "docker",
-      stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, dockerLayerMappings.value.map {
-        case LayeredMapping(layerIdx, file, path) => (file, pathInLayer(path, layerIdx))
-      }),
+      stage := Stager.stage(Docker.name)(
+        streams.value,
+        stagingDirectory.value,
+        dockerLayerMappings.value.map {
+          case LayeredMapping(layerIdx, file, path) => (file, pathInLayer(path, layerIdx))
+        }
+      ),
       stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (target in Docker).value / "stage",
       dockerLayerMappings := {
@@ -377,11 +381,13 @@ object DockerPlugin extends AutoPlugin {
     * @param daemonGroup
     * @return COPY command copying all files inside the directory from another build stage.
     */
-  private final def makeCopyFrom(src: String,
-                                 dest: String,
-                                 stage: String,
-                                 daemonUser: String,
-                                 daemonGroup: String): CmdLike =
+  private final def makeCopyFrom(
+    src: String,
+    dest: String,
+    stage: String,
+    daemonUser: String,
+    daemonGroup: String
+  ): CmdLike =
     Cmd("COPY", s"--from=$stage --chown=$daemonUser:$daemonGroup $src $dest")
 
   /**
@@ -390,10 +396,12 @@ object DockerPlugin extends AutoPlugin {
     * @param daemonGroup
     * @return COPY command copying all files inside the directory from another build stage.
     */
-  private final def makeCopyChown(layerId: Option[Int],
-                                  dockerBaseDirectory: String,
-                                  daemonUser: String,
-                                  daemonGroup: String): CmdLike = {
+  private final def makeCopyChown(
+    layerId: Option[Int],
+    dockerBaseDirectory: String,
+    daemonUser: String,
+    daemonGroup: String
+  ): CmdLike = {
 
     /**
       * This is the file path of the file in the Docker image, and does not depend on the OS where the image
@@ -433,20 +441,22 @@ object DockerPlugin extends AutoPlugin {
     * @return useradd to create the daemon user with the given uidOpt and gidOpt after invoking groupadd to
     *         create the daemon group if the given gidOpt does not exists.
     */
-  private final def makeUserAdd(daemonUser: String,
-                                daemonGroup: String,
-                                uidOpt: Option[String],
-                                gidOpt: Option[String]): CmdLike =
+  private final def makeUserAdd(
+    daemonUser: String,
+    daemonGroup: String,
+    uidOpt: Option[String],
+    gidOpt: Option[String]
+  ): CmdLike =
     Cmd(
       "RUN",
       (List("id", "-u", daemonUser, "1>/dev/null", "2>&1", "||") :::
         (gidOpt.fold[List[String]](Nil)(
-        gid =>
-          List("((", "getent", "group", gid, "1>/dev/null", "2>&1", "||") :::
-            List("(", "type", "groupadd", "1>/dev/null", "2>&1", "&&") :::
-            List("groupadd", "-g", gid, daemonGroup, "||") :::
-            List("addgroup", "-g", gid, "-S", daemonGroup, "))", "&&")
-      )) :::
+          gid =>
+            List("((", "getent", "group", gid, "1>/dev/null", "2>&1", "||") :::
+              List("(", "type", "groupadd", "1>/dev/null", "2>&1", "&&") :::
+              List("groupadd", "-g", gid, daemonGroup, "||") :::
+              List("addgroup", "-g", gid, "-S", daemonGroup, "))", "&&")
+        )) :::
         List("(", "type", "useradd", "1>/dev/null", "2>&1", "&&") :::
         List("useradd", "--system", "--create-home") :::
         (uidOpt.fold[List[String]](Nil)(List("--uid", _))) :::
@@ -562,20 +572,23 @@ object DockerPlugin extends AutoPlugin {
           case s                    =>
         }
 
-      override def out(inf: => String): Unit = inf match {
-        case s if !s.trim.isEmpty => log.info(s)
-        case s                    =>
-      }
+      override def out(inf: => String): Unit =
+        inf match {
+          case s if !s.trim.isEmpty => log.info(s)
+          case s                    =>
+        }
 
       override def buffer[T](f: => T): T = f
     }
 
-  def publishLocalDocker(context: File,
-                         buildCommand: Seq[String],
-                         execCommand: Seq[String],
-                         strategy: DockerPermissionStrategy,
-                         removeIntermediateImages: Boolean,
-                         log: Logger): Unit = {
+  def publishLocalDocker(
+    context: File,
+    buildCommand: Seq[String],
+    execCommand: Seq[String],
+    strategy: DockerPermissionStrategy,
+    removeIntermediateImages: Boolean,
+    log: Logger
+  ): Unit = {
     log.debug("Executing Native " + buildCommand.mkString(" "))
     log.debug("Working directory " + context.toString)
 
@@ -590,7 +603,7 @@ object DockerPlugin extends AutoPlugin {
             .find(_.startsWith(labelCmd))
             .map(_.substring(labelCmd.size).stripPrefix("\"").stripSuffix("\"")) match {
             // No matter if the build process succeeded or failed, we try to remove the intermediate images
-            case Some(id) => {
+            case Some(id) =>
               val label = s"${labelKey}=${id}"
               log.info(s"""Removing intermediate image(s) (labeled "${label}") """)
               val retImageClean = sys.process.Process(
@@ -598,8 +611,9 @@ object DockerPlugin extends AutoPlugin {
               ) ! publishLocalLogger(log)
               // FYI: "docker image prune" returns 0 (success) no matter if images were removed or not
               if (retImageClean != 0)
-                log.err("Something went wrong while removing multi-stage intermediate image(s)") // no exception, just let the user know
-            }
+                log.err(
+                  "Something went wrong while removing multi-stage intermediate image(s)"
+                ) // no exception, just let the user know
             case None =>
               log.info(
                 """Not removing multi-stage intermediate image(s) because id is missing in Dockerfile (Comment: "# id=...")"""
@@ -614,16 +628,18 @@ object DockerPlugin extends AutoPlugin {
   }
 
   def rmiDocker(execCommand: Seq[String], tag: String, log: Logger): Unit = {
-    def rmiDockerLogger(log: Logger) = new sys.process.ProcessLogger {
-      override def err(err: => String): Unit = err match {
-        case s if !s.trim.isEmpty => log.error(s)
-        case s                    =>
+    def rmiDockerLogger(log: Logger) =
+      new sys.process.ProcessLogger {
+        override def err(err: => String): Unit =
+          err match {
+            case s if !s.trim.isEmpty => log.error(s)
+            case s                    =>
+          }
+
+        override def out(inf: => String): Unit = log.info(inf)
+
+        override def buffer[T](f: => T): T = f
       }
-
-      override def out(inf: => String): Unit = log.info(inf)
-
-      override def buffer[T](f: => T): T = f
-    }
 
     log.debug(s"Removing ${tag}")
 
@@ -642,10 +658,11 @@ object DockerPlugin extends AutoPlugin {
     def publishLogger(log: Logger) =
       new sys.process.ProcessLogger {
 
-        override def err(err: => String): Unit = err match {
-          case s if !s.trim.isEmpty => log.error(s)
-          case s                    =>
-        }
+        override def err(err: => String): Unit =
+          err match {
+            case s if !s.trim.isEmpty => log.error(s)
+            case s                    =>
+          }
 
         override def out(inf: => String): Unit =
           inf match {
@@ -672,12 +689,13 @@ object DockerPlugin extends AutoPlugin {
       log.info("Published image " + tag)
   }
 
-  private[this] def validateExposedPorts(ports: Seq[Int], udpPorts: Seq[Int]): Validation.Validator = () => {
-    if (ports.isEmpty && udpPorts.isEmpty) {
-      List(
-        ValidationWarning(
-          description = "There are no exposed ports for your docker image",
-          howToFix = """| Configure the `dockerExposedPorts` or `dockerExposedUdpPorts` setting. E.g.
+  private[this] def validateExposedPorts(ports: Seq[Int], udpPorts: Seq[Int]): Validation.Validator =
+    () => {
+      if (ports.isEmpty && udpPorts.isEmpty)
+        List(
+          ValidationWarning(
+            description = "There are no exposed ports for your docker image",
+            howToFix = """| Configure the `dockerExposedPorts` or `dockerExposedUdpPorts` setting. E.g.
              |
              | // standard tcp ports
              | dockerExposedPorts ++= Seq(9000, 9001)
@@ -685,22 +703,22 @@ object DockerPlugin extends AutoPlugin {
              | // for udp ports
              | dockerExposedUdpPorts += 4444
           """.stripMargin
+          )
         )
-      )
-    } else {
-      List.empty
+      else
+        List.empty
     }
-  }
 
-  private[this] def validateDockerVersion(dockerApiVersion: Option[DockerApiVersion]): Validation.Validator = () => {
-    dockerApiVersion match {
-      case Some(_) => List.empty
-      case None =>
-        List(
-          ValidationWarning(
-            description =
-              "sbt-native-packager wasn't able to identify the docker version. Some features may not be enabled",
-            howToFix = """|sbt-native packager tries to parse the `docker version` output. This can fail if
+  private[this] def validateDockerVersion(dockerApiVersion: Option[DockerApiVersion]): Validation.Validator =
+    () => {
+      dockerApiVersion match {
+        case Some(_) => List.empty
+        case None =>
+          List(
+            ValidationWarning(
+              description =
+                "sbt-native-packager wasn't able to identify the docker version. Some features may not be enabled",
+              howToFix = """|sbt-native packager tries to parse the `docker version` output. This can fail if
              |
              |  - the output has changed:
              |    $ docker version --format '{{.Server.APIVersion}}'
@@ -719,14 +737,16 @@ object DockerPlugin extends AutoPlugin {
              |  import com.typesafe.sbt.packager.docker.DockerApiVersion
              |  dockerApiVersion := Some(DockerApiVersion(1, 40))
           """.stripMargin
+            )
           )
-        )
+      }
     }
-  }
 
-  private[this] def validateDockerPermissionStrategy(strategy: DockerPermissionStrategy,
-                                                     dockerVersion: Option[DockerVersion],
-                                                     dockerApiVersion: Option[DockerApiVersion]): Validation.Validator =
+  private[this] def validateDockerPermissionStrategy(
+    strategy: DockerPermissionStrategy,
+    dockerVersion: Option[DockerVersion],
+    dockerApiVersion: Option[DockerApiVersion]
+  ): Validation.Validator =
     () => {
       (strategy, dockerVersion, dockerApiVersion) match {
         case (DockerPermissionStrategy.MultiStage, Some(ver), Some(apiVer)) if !DockerSupport.multiStage(ver, apiVer) =>
@@ -734,8 +754,7 @@ object DockerPlugin extends AutoPlugin {
             ValidationError(
               description =
                 s"The detected Docker version $ver is not compatible with DockerPermissionStrategy.MultiStage",
-              howToFix =
-                """|sbt-native packager tries to parse the `docker version` output.
+              howToFix = """|sbt-native packager tries to parse the `docker version` output.
              |To use multi-stage build, upgrade your Docker, pick another strategy, or override dockerApiVersion:
              |
              |  import com.typesafe.sbt.packager.docker.DockerPermissionStrategy

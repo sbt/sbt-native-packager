@@ -94,13 +94,15 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     }
   )
 
-  private def buildLocal(targetDirectory: File,
-                         binaryName: String,
-                         nativeImageCommand: String,
-                         className: String,
-                         classpathJars: Seq[File],
-                         extraOptions: Seq[String],
-                         log: ProcessLogger): File = {
+  private def buildLocal(
+    targetDirectory: File,
+    binaryName: String,
+    nativeImageCommand: String,
+    className: String,
+    classpathJars: Seq[File],
+    extraOptions: Seq[String],
+    log: ProcessLogger
+  ): File = {
     targetDirectory.mkdirs()
     val command = {
       val nativeImageArguments = {
@@ -116,15 +118,17 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     }
   }
 
-  private def buildInDockerContainer(targetDirectory: File,
-                                     binaryName: String,
-                                     className: String,
-                                     classpathJars: Seq[(File, String)],
-                                     extraOptions: Seq[String],
-                                     dockerCommand: Seq[String],
-                                     resources: Seq[(File, String)],
-                                     image: String,
-                                     streams: TaskStreams): File = {
+  private def buildInDockerContainer(
+    targetDirectory: File,
+    binaryName: String,
+    className: String,
+    classpathJars: Seq[(File, String)],
+    extraOptions: Seq[String],
+    dockerCommand: Seq[String],
+    resources: Seq[(File, String)],
+    image: String,
+    streams: TaskStreams
+  ): File = {
 
     stage(targetDirectory, classpathJars, resources, streams)
 
@@ -154,47 +158,49 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     *
     * The passed in docker image must have GraalVM installed and on the PATH, including the gu utility.
     */
-  def generateContainerBuildImage(baseImage: String): Def.Initialize[Task[Option[String]]] = Def.task {
-    val dockerCommand = (DockerPlugin.autoImport.dockerExecCommand in GraalVMNativeImage).value
-    val streams = Keys.streams.value
+  def generateContainerBuildImage(baseImage: String): Def.Initialize[Task[Option[String]]] =
+    Def.task {
+      val dockerCommand = (DockerPlugin.autoImport.dockerExecCommand in GraalVMNativeImage).value
+      val streams = Keys.streams.value
 
-    val (baseName, tag) = baseImage.split(":", 2) match {
-      case Array(n, t) => (n, t)
-      case Array(n)    => (n, "latest")
+      val (baseName, tag) = baseImage.split(":", 2) match {
+        case Array(n, t) => (n, t)
+        case Array(n)    => (n, "latest")
+      }
+
+      val imageName = s"${baseName.replace('/', '-')}-native-image:$tag"
+      import sys.process._
+      if ((dockerCommand ++ Seq("image", "ls", imageName, "--quiet")).!!.trim.isEmpty) {
+        streams.log.info(s"Generating new GraalVM native-image image based on $baseImage: $imageName")
+
+        val dockerContent = Dockerfile(
+          Cmd("FROM", baseImage),
+          Cmd("WORKDIR", "/opt/graalvm"),
+          ExecCmd("RUN", "gu", "install", "native-image"),
+          ExecCmd("ENTRYPOINT", "native-image")
+        ).makeContent
+
+        val command = dockerCommand ++ Seq("build", "-t", imageName, "-")
+
+        val ret = sys.process.Process(command) #<
+          new ByteArrayInputStream(dockerContent.getBytes()) !
+          DockerPlugin.publishLocalLogger(streams.log)
+
+        if (ret != 0)
+          throw new RuntimeException("Nonzero exit value when generating GraalVM container build image: " + ret)
+
+      } else
+        streams.log.info(s"Using existing GraalVM native-image image: $imageName")
+
+      Some(imageName)
     }
 
-    val imageName = s"${baseName.replace('/', '-')}-native-image:$tag"
-    import sys.process._
-    if ((dockerCommand ++ Seq("image", "ls", imageName, "--quiet")).!!.trim.isEmpty) {
-      streams.log.info(s"Generating new GraalVM native-image image based on $baseImage: $imageName")
-
-      val dockerContent = Dockerfile(
-        Cmd("FROM", baseImage),
-        Cmd("WORKDIR", "/opt/graalvm"),
-        ExecCmd("RUN", "gu", "install", "native-image"),
-        ExecCmd("ENTRYPOINT", "native-image")
-      ).makeContent
-
-      val command = dockerCommand ++ Seq("build", "-t", imageName, "-")
-
-      val ret = sys.process.Process(command) #<
-        new ByteArrayInputStream(dockerContent.getBytes()) !
-        DockerPlugin.publishLocalLogger(streams.log)
-
-      if (ret != 0)
-        throw new RuntimeException("Nonzero exit value when generating GraalVM container build image: " + ret)
-
-    } else {
-      streams.log.info(s"Using existing GraalVM native-image image: $imageName")
-    }
-
-    Some(imageName)
-  }
-
-  private def stage(targetDirectory: File,
-                    classpathJars: Seq[(File, String)],
-                    resources: Seq[(File, String)],
-                    streams: TaskStreams): File = {
+  private def stage(
+    targetDirectory: File,
+    classpathJars: Seq[(File, String)],
+    resources: Seq[(File, String)],
+    streams: TaskStreams
+  ): File = {
     val stageDir = targetDirectory / "stage"
     val mappings = classpathJars ++ resources.map {
       case (resource, path) => resource -> s"resources/$path"

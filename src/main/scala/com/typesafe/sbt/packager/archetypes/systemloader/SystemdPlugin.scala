@@ -41,27 +41,28 @@ object SystemdPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] =
     debianSettings ++ inConfig(Debian)(systemdSettings) ++ rpmSettings ++ inConfig(Rpm)(systemdSettings)
 
-  def systemdSettings: Seq[Setting[_]] = Seq(
-    // used by other archetypes to define systemloader dependent behaviour
-    serverLoading := Some(ServerLoader.Systemd),
-    // Systemd settings
-    startRunlevels := None,
-    stopRunlevels := None,
-    requiredStartFacilities := Some("network.target"),
-    requiredStopFacilities := Some("network.target"),
-    systemdSuccessExitStatus := Seq.empty,
-    linuxStartScriptName := Some(packageName.value + ".service"),
-    // add systemloader to mappings
-    linuxPackageMappings ++= startScriptMapping(
-      linuxStartScriptName.value,
-      linuxMakeStartScript.value,
-      defaultLinuxStartScriptLocation.value,
-      isConf = true
-    ),
-    // add additional system configurations to script replacements
-    linuxScriptReplacements += ("SuccessExitStatus" -> systemdSuccessExitStatus.value.mkString(" ")),
-    linuxScriptReplacements += ("TimeoutStopSec" -> killTimeout.value.toString)
-  )
+  def systemdSettings: Seq[Setting[_]] =
+    Seq(
+      // used by other archetypes to define systemloader dependent behaviour
+      serverLoading := Some(ServerLoader.Systemd),
+      // Systemd settings
+      startRunlevels := None,
+      stopRunlevels := None,
+      requiredStartFacilities := Some("network.target"),
+      requiredStopFacilities := Some("network.target"),
+      systemdSuccessExitStatus := Seq.empty,
+      linuxStartScriptName := Some(packageName.value + ".service"),
+      // add systemloader to mappings
+      linuxPackageMappings ++= startScriptMapping(
+        linuxStartScriptName.value,
+        linuxMakeStartScript.value,
+        defaultLinuxStartScriptLocation.value,
+        isConf = true
+      ),
+      // add additional system configurations to script replacements
+      linuxScriptReplacements += ("SuccessExitStatus" -> systemdSuccessExitStatus.value.mkString(" ")),
+      linuxScriptReplacements += ("TimeoutStopSec" -> killTimeout.value.toString)
+    )
 
   def debianSettings: Seq[Setting[_]] = inConfig(Debian)(defaultLinuxStartScriptLocation := "/lib/systemd/system")
 

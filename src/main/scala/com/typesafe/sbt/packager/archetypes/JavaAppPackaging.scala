@@ -41,58 +41,60 @@ object JavaAppPackaging extends AutoPlugin {
   override def requires: Plugins =
     debian.DebianPlugin && rpm.RpmPlugin && docker.DockerPlugin && windows.WindowsPlugin
 
-  override def projectSettings = Seq(
-    javaOptions in Universal := Nil,
-    // Here we record the classpath as it's added to the mappings separately, so
-    // we can use its order to generate the bash/bat scripts.
-    scriptClasspathOrdering := Nil,
-    // Note: This is sometimes on the classpath via dependencyClasspath in Runtime.
-    // We need to figure out why sometimes the Attributed[File] is correctly configured
-    // and sometimes not.
-    scriptClasspathOrdering += {
-      val jar = (packageBin in Compile).value
-      val id = projectID.value
-      val art = (artifact in Compile in packageBin).value
-      jar -> ("lib/" + makeJarName(id.organization, id.name, id.revision, art.name, art.classifier))
-    },
-    projectDependencyArtifacts := findProjectDependencyArtifacts.value,
-    scriptClasspathOrdering ++= universalDepMappings(
-      (dependencyClasspath in Runtime).value,
-      projectDependencyArtifacts.value
-    ),
-    scriptClasspathOrdering := scriptClasspathOrdering.value.distinct,
-    mappings in Universal ++= scriptClasspathOrdering.value,
-    scriptClasspath := makeRelativeClasspathNames(scriptClasspathOrdering.value),
-    linuxPackageMappings in Debian += {
-      val name = (packageName in Debian).value
-      val installLocation = defaultLinuxInstallLocation.value
-      val targetDir = (target in Debian).value
-      // create empty var/log directory
-      val d = targetDir / installLocation
-      d.mkdirs()
-      LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData())
-    },
-    bundledJvmLocation := (bundledJvmLocation ?? None).value
-  )
+  override def projectSettings =
+    Seq(
+      javaOptions in Universal := Nil,
+      // Here we record the classpath as it's added to the mappings separately, so
+      // we can use its order to generate the bash/bat scripts.
+      scriptClasspathOrdering := Nil,
+      // Note: This is sometimes on the classpath via dependencyClasspath in Runtime.
+      // We need to figure out why sometimes the Attributed[File] is correctly configured
+      // and sometimes not.
+      scriptClasspathOrdering += {
+        val jar = (packageBin in Compile).value
+        val id = projectID.value
+        val art = (artifact in Compile in packageBin).value
+        jar -> ("lib/" + makeJarName(id.organization, id.name, id.revision, art.name, art.classifier))
+      },
+      projectDependencyArtifacts := findProjectDependencyArtifacts.value,
+      scriptClasspathOrdering ++= universalDepMappings(
+        (dependencyClasspath in Runtime).value,
+        projectDependencyArtifacts.value
+      ),
+      scriptClasspathOrdering := scriptClasspathOrdering.value.distinct,
+      mappings in Universal ++= scriptClasspathOrdering.value,
+      scriptClasspath := makeRelativeClasspathNames(scriptClasspathOrdering.value),
+      linuxPackageMappings in Debian += {
+        val name = (packageName in Debian).value
+        val installLocation = defaultLinuxInstallLocation.value
+        val targetDir = (target in Debian).value
+        // create empty var/log directory
+        val d = targetDir / installLocation
+        d.mkdirs()
+        LinuxPackageMapping(Seq(d -> (installLocation + "/" + name)), LinuxFileMetaData())
+      },
+      bundledJvmLocation := (bundledJvmLocation ?? None).value
+    )
 
   private def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =
     for {
       (_, name) <- mappings
-    } yield {
-      // Here we want the name relative to the lib/ folder...
-      // For now we just cheat...
-      if (name startsWith "lib/") name drop 4
-      else "../" + name
-    }
+    } yield
+    // Here we want the name relative to the lib/ folder...
+    // For now we just cheat...
+    if (name startsWith "lib/") name drop 4
+    else "../" + name
 
   /**
     * Constructs a jar name from components...(ModuleID/Artifact)
     */
-  def makeJarName(org: String,
-                  name: String,
-                  revision: String,
-                  artifactName: String,
-                  artifactClassifier: Option[String]): String =
+  def makeJarName(
+    org: String,
+    name: String,
+    revision: String,
+    artifactName: String,
+    artifactClassifier: Option[String]
+  ): String =
     org + "." +
       name + "-" +
       Option(artifactName.replace(name, "")).filterNot(_.isEmpty).map(_ + "-").getOrElse("") +
@@ -104,11 +106,12 @@ object JavaAppPackaging extends AutoPlugin {
   // ivy metadata if available.
   private def getJarFullFilename(dep: Attributed[File]): String = {
     val filename: Option[String] = for {
-      module <- dep.metadata
-      // sbt 0.13.x key
-        .get(AttributeKey[ModuleID]("module-id"))
-        // sbt 1.x key
-        .orElse(dep.metadata.get(AttributeKey[ModuleID]("moduleID")))
+      module <-
+        dep.metadata
+          // sbt 0.13.x key
+          .get(AttributeKey[ModuleID]("module-id"))
+          // sbt 1.x key
+          .orElse(dep.metadata.get(AttributeKey[ModuleID]("moduleID")))
       artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
     } yield makeJarName(module.organization, module.name, module.revision, artifact.name, artifact.classifier)
     filename.getOrElse(dep.data.getName)
@@ -153,16 +156,14 @@ object JavaAppPackaging extends AutoPlugin {
       val artifactTask = extracted.get(packagedArtifacts in ref)
       for {
         arts <- artifactTask
-      } yield {
-        for {
-          (art, file) <- arts.toSeq // TODO -Filter!
-        } yield Attributed.blank(file).put(moduleID.key, module).put(artifact.key, art)
-      }
+      } yield for {
+        (art, file) <- arts.toSeq // TODO -Filter!
+      } yield Attributed.blank(file).put(moduleID.key, module).put(artifact.key, art)
     }
 
   private def findRealDep(dep: Attributed[File], projectArts: Seq[Attributed[File]]): Option[Attributed[File]] =
     if (dep.data.isFile) Some(dep)
-    else {
+    else
       projectArts.find { art =>
         // TODO - Why is the module not showing up for project deps?
         //(art.get(sbt.Keys.moduleID.key) ==  dep.get(sbt.Keys.moduleID.key)) &&
@@ -174,11 +175,12 @@ object JavaAppPackaging extends AutoPlugin {
           case _ => false
         }
       }
-    }
 
   // Converts a managed classpath into a set of lib mappings.
-  private def universalDepMappings(deps: Seq[Attributed[File]],
-                                   projectArts: Seq[Attributed[File]]): Seq[(File, String)] =
+  private def universalDepMappings(
+    deps: Seq[Attributed[File]],
+    projectArts: Seq[Attributed[File]]
+  ): Seq[(File, String)] =
     for {
       dep <- deps
       realDep <- findRealDep(dep, projectArts)

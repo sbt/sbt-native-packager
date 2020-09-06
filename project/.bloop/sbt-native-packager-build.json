@@ -26,7 +26,7 @@
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/scripted-plugin_2.12/1.3.13/scripted-plugin_2.12-1.3.13.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/jline/jline/2.14.6/jline-2.14.6.jar",
             "/home/muki/.cache/coursier/v1/https/repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.foundweekends/sbt-bintray/scala_2.12/sbt_1.0/0.5.4/jars/sbt-bintray.jar",
-            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lucidchart/sbt-scalafmt_2.12_1.0/1.15/sbt-scalafmt-1.15.jar",
+            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/sbt-scalafmt_2.12_1.0/2.4.2/sbt-scalafmt-2.4.2.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/typesafe/sbt-mima-plugin_2.12_1.0/0.7.0/sbt-mima-plugin-0.7.0.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/sbt/1.3.13/sbt-1.3.13.jar",
             "/home/muki/.sbt/boot/scala-2.12.10/lib/scala-library.jar",
@@ -43,16 +43,14 @@
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/ws/unfiltered/unfiltered-jetty_2.12/0.9.1/unfiltered-jetty_2.12-0.9.1.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/foundweekends/pamflet-library_2.12/0.7.1/pamflet-library_2.12-0.7.1.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/yaml/snakeyaml/1.13/snakeyaml-1.13.jar",
-            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/typesafe/config/1.3.3/config-1.3.3.jar",
+            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/typesafe/config/1.4.0/config-1.4.0.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/asciidoctor/asciidoctorj/1.5.6/asciidoctorj-1.5.6.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/asciidoctor/asciidoctorj-diagram/1.5.4.1/asciidoctorj-diagram-1.5.4.1.jar",
             "/home/muki/.cache/coursier/v1/https/repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.lightbend.paradox/sbt-paradox/scala_2.12/sbt_1.0/0.3.2/jars/sbt-paradox.jar",
             "/home/muki/.cache/coursier/v1/https/repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.planet42/laika-sbt/scala_2.12/sbt_1.0/0.8.0/jars/laika-sbt.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/foundweekends/bintry_2.12/0.5.2/bintry_2.12-0.5.2.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/slf4j-nop/1.7.7/slf4j-nop-1.7.7.jar",
-            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lucidchart/scalafmt-api/1.15/scalafmt-api-1.15.jar",
-            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/guava/guava/19.0/guava-19.0.jar",
-            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/michaelpollmeier/colordiff_2.12/0.8/colordiff_2.12-0.8.jar",
+            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/scalafmt-dynamic_2.12/2.6.4/scalafmt-dynamic_2.12-2.6.4.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/typesafe/mima-core_2.12/0.7.0/mima-core_2.12-0.7.0.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/main_2.12/1.3.13/main_2.12-1.3.13.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/io_2.12/1.3.4/io_2.12-1.3.4.jar",
@@ -73,7 +71,8 @@
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/planet42/laika-pdf_2.12/0.8.0/laika-pdf_2.12-0.8.0.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/net/databinder/dispatch/dispatch-json4s-native_2.12/0.12.0/dispatch-json4s-native_2.12-0.12.0.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.26/slf4j-api-1.7.26.jar",
-            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/googlecode/java-diff-utils/diffutils/1.3.0/diffutils-1.3.0.jar",
+            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/scalafmt-interfaces/2.6.4/scalafmt-interfaces-2.6.4.jar",
+            "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/io/get-coursier/interface/0.0.17/interface-0.0.17.jar",
             "/home/muki/.sbt/boot/scala-2.12.10/lib/scala-compiler.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/logic_2.12/1.3.13/logic_2.12-1.3.13.jar",
             "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/actions_2.12/1.3.13/actions_2.12-1.3.13.jar",
@@ -252,9 +251,9 @@
                 "import _root_.sbt._",
                 "import _root_.sbt.Keys._",
                 "import _root_.sbt.nio.Keys._",
-                "import _root_.sbt.ScriptedPlugin.autoImport._, _root_.bloop.integrations.sbt.BloopPlugin.autoImport._, _root_.net.virtualvoid.sbt.graph.DependencyGraphPlugin.autoImport._, _root_.com.typesafe.sbt.SbtPgp.autoImport._, _root_.com.typesafe.sbt.sbtghpages.GhpagesPlugin.autoImport._, _root_.com.typesafe.sbt.site.SitePlugin.autoImport._, _root_.com.typesafe.sbt.site.SitePreviewPlugin.autoImport._, _root_.com.typesafe.sbt.site.SiteScaladocPlugin.autoImport._, _root_.com.typesafe.sbt.site.asciidoctor.AsciidoctorPlugin.autoImport._, _root_.com.typesafe.sbt.site.gitbook.GitBookPlugin.autoImport._, _root_.com.typesafe.sbt.site.hugo.HugoPlugin.autoImport._, _root_.com.typesafe.sbt.site.jekyll.JekyllPlugin.autoImport._, _root_.com.typesafe.sbt.site.laika.LaikaSitePlugin.autoImport._, _root_.com.typesafe.sbt.site.nanoc.NanocPlugin.autoImport._, _root_.com.typesafe.sbt.site.pamflet.PamfletPlugin.autoImport._, _root_.com.typesafe.sbt.site.paradox.ParadoxSitePlugin.autoImport._, _root_.com.typesafe.sbt.site.preprocess.PreprocessPlugin.autoImport._, _root_.com.typesafe.sbt.site.sphinx.SphinxPlugin.autoImport._, _root_.sbtrelease.ReleasePlugin.autoImport._, _root_.sbtdynver.DynVerPlugin.autoImport._, _root_.io.crashbox.gpg.SbtGpg.autoImport._, _root_.bintray.BintrayPlugin.autoImport._, _root_.com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin.autoImport._, _root_.com.lucidchart.sbt.scalafmt.ScalafmtSbtPlugin.autoImport._, _root_.com.typesafe.tools.mima.plugin.MimaPlugin.autoImport._, _root_.com.typesafe.sbt.GitPlugin.autoImport._, _root_.com.lightbend.paradox.sbt.ParadoxPlugin.autoImport._, _root_.laika.sbt.LaikaPlugin.autoImport._, _root_.com.typesafe.sbt.web.SbtWeb.autoImport._",
+                "import _root_.sbt.ScriptedPlugin.autoImport._, _root_.bloop.integrations.sbt.BloopPlugin.autoImport._, _root_.net.virtualvoid.sbt.graph.DependencyGraphPlugin.autoImport._, _root_.com.typesafe.sbt.SbtPgp.autoImport._, _root_.com.typesafe.sbt.sbtghpages.GhpagesPlugin.autoImport._, _root_.com.typesafe.sbt.site.SitePlugin.autoImport._, _root_.com.typesafe.sbt.site.SitePreviewPlugin.autoImport._, _root_.com.typesafe.sbt.site.SiteScaladocPlugin.autoImport._, _root_.com.typesafe.sbt.site.asciidoctor.AsciidoctorPlugin.autoImport._, _root_.com.typesafe.sbt.site.gitbook.GitBookPlugin.autoImport._, _root_.com.typesafe.sbt.site.hugo.HugoPlugin.autoImport._, _root_.com.typesafe.sbt.site.jekyll.JekyllPlugin.autoImport._, _root_.com.typesafe.sbt.site.laika.LaikaSitePlugin.autoImport._, _root_.com.typesafe.sbt.site.nanoc.NanocPlugin.autoImport._, _root_.com.typesafe.sbt.site.pamflet.PamfletPlugin.autoImport._, _root_.com.typesafe.sbt.site.paradox.ParadoxSitePlugin.autoImport._, _root_.com.typesafe.sbt.site.preprocess.PreprocessPlugin.autoImport._, _root_.com.typesafe.sbt.site.sphinx.SphinxPlugin.autoImport._, _root_.sbtrelease.ReleasePlugin.autoImport._, _root_.sbtdynver.DynVerPlugin.autoImport._, _root_.io.crashbox.gpg.SbtGpg.autoImport._, _root_.bintray.BintrayPlugin.autoImport._, _root_.org.scalafmt.sbt.ScalafmtPlugin.autoImport._, _root_.com.typesafe.tools.mima.plugin.MimaPlugin.autoImport._, _root_.com.typesafe.sbt.GitPlugin.autoImport._, _root_.com.lightbend.paradox.sbt.ParadoxPlugin.autoImport._, _root_.laika.sbt.LaikaPlugin.autoImport._, _root_.com.typesafe.sbt.web.SbtWeb.autoImport._",
                 "import ChangelogPlugin.autoImport._, ReadmeReleasePlugin.autoImport._",
-                "import _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.SemanticdbPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.bloop.integrations.sbt.BloopPlugin, _root_.net.virtualvoid.sbt.graph.DependencyGraphPlugin, _root_.sbtprojectgraph.SbtProjectGraphPlugin, _root_.com.typesafe.sbt.SbtPgp, _root_.com.typesafe.sbt.sbtghpages.GhpagesPlugin, _root_.com.typesafe.sbt.site.SitePlugin, _root_.com.typesafe.sbt.site.SitePreviewPlugin, _root_.com.typesafe.sbt.site.SiteScaladocPlugin, _root_.com.typesafe.sbt.site.asciidoctor.AsciidoctorPlugin, _root_.com.typesafe.sbt.site.gitbook.GitBookPlugin, _root_.com.typesafe.sbt.site.hugo.HugoPlugin, _root_.com.typesafe.sbt.site.jekyll.JekyllPlugin, _root_.com.typesafe.sbt.site.laika.LaikaSitePlugin, _root_.com.typesafe.sbt.site.nanoc.NanocPlugin, _root_.com.typesafe.sbt.site.pamflet.PamfletPlugin, _root_.com.typesafe.sbt.site.paradox.ParadoxSitePlugin, _root_.com.typesafe.sbt.site.preprocess.PreprocessPlugin, _root_.com.typesafe.sbt.site.sphinx.SphinxPlugin, _root_.sbtrelease.ReleasePlugin, _root_.sbtdynver.DynVerPlugin, _root_.io.crashbox.gpg.SbtGpg, _root_.bintray.BintrayPlugin, _root_.com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin, _root_.com.lucidchart.sbt.scalafmt.ScalafmtPlugin, _root_.com.lucidchart.sbt.scalafmt.ScalafmtSbtPlugin, _root_.com.typesafe.tools.mima.plugin.MimaPlugin, _root_.com.typesafe.sbt.GitBranchPrompt, _root_.com.typesafe.sbt.GitPlugin, _root_.com.typesafe.sbt.GitVersioning, _root_.com.lightbend.paradox.sbt.ParadoxPlugin, _root_.laika.sbt.LaikaPlugin, _root_.com.typesafe.sbt.web.SbtWeb"
+                "import _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.SemanticdbPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.bloop.integrations.sbt.BloopPlugin, _root_.net.virtualvoid.sbt.graph.DependencyGraphPlugin, _root_.sbtprojectgraph.SbtProjectGraphPlugin, _root_.com.typesafe.sbt.SbtPgp, _root_.com.typesafe.sbt.sbtghpages.GhpagesPlugin, _root_.com.typesafe.sbt.site.SitePlugin, _root_.com.typesafe.sbt.site.SitePreviewPlugin, _root_.com.typesafe.sbt.site.SiteScaladocPlugin, _root_.com.typesafe.sbt.site.asciidoctor.AsciidoctorPlugin, _root_.com.typesafe.sbt.site.gitbook.GitBookPlugin, _root_.com.typesafe.sbt.site.hugo.HugoPlugin, _root_.com.typesafe.sbt.site.jekyll.JekyllPlugin, _root_.com.typesafe.sbt.site.laika.LaikaSitePlugin, _root_.com.typesafe.sbt.site.nanoc.NanocPlugin, _root_.com.typesafe.sbt.site.pamflet.PamfletPlugin, _root_.com.typesafe.sbt.site.paradox.ParadoxSitePlugin, _root_.com.typesafe.sbt.site.preprocess.PreprocessPlugin, _root_.com.typesafe.sbt.site.sphinx.SphinxPlugin, _root_.sbtrelease.ReleasePlugin, _root_.sbtdynver.DynVerPlugin, _root_.io.crashbox.gpg.SbtGpg, _root_.bintray.BintrayPlugin, _root_.org.scalafmt.sbt.ScalafmtPlugin, _root_.com.typesafe.tools.mima.plugin.MimaPlugin, _root_.com.typesafe.sbt.GitBranchPrompt, _root_.com.typesafe.sbt.GitPlugin, _root_.com.typesafe.sbt.GitVersioning, _root_.com.lightbend.paradox.sbt.ParadoxPlugin, _root_.laika.sbt.LaikaPlugin, _root_.com.typesafe.sbt.web.SbtWeb"
             ]
         },
         "test": {
@@ -439,14 +438,14 @@
                     ]
                 },
                 {
-                    "organization": "com.lucidchart",
+                    "organization": "org.scalameta",
                     "name": "sbt-scalafmt",
-                    "version": "1.15",
+                    "version": "2.4.2",
                     "configurations": "default",
                     "artifacts": [
                         {
                             "name": "sbt-scalafmt",
-                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lucidchart/sbt-scalafmt_2.12_1.0/1.15/sbt-scalafmt-1.15.jar"
+                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/sbt-scalafmt_2.12_1.0/2.4.2/sbt-scalafmt-2.4.2.jar"
                         }
                     ]
                 },
@@ -641,17 +640,12 @@
                 {
                     "organization": "com.typesafe",
                     "name": "config",
-                    "version": "1.3.3",
+                    "version": "1.4.0",
                     "configurations": "default",
                     "artifacts": [
                         {
                             "name": "config",
-                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/typesafe/config/1.3.3/config-1.3.3.jar"
-                        },
-                        {
-                            "name": "config",
-                            "classifier": "sources",
-                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/typesafe/config/1.3.3/config-1.3.3-sources.jar"
+                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/typesafe/config/1.4.0/config-1.4.0.jar"
                         }
                     ]
                 },
@@ -755,38 +749,14 @@
                     ]
                 },
                 {
-                    "organization": "com.lucidchart",
-                    "name": "scalafmt-api",
-                    "version": "1.15",
+                    "organization": "org.scalameta",
+                    "name": "scalafmt-dynamic_2.12",
+                    "version": "2.6.4",
                     "configurations": "default",
                     "artifacts": [
                         {
-                            "name": "scalafmt-api",
-                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lucidchart/scalafmt-api/1.15/scalafmt-api-1.15.jar"
-                        }
-                    ]
-                },
-                {
-                    "organization": "com.google.guava",
-                    "name": "guava",
-                    "version": "19.0",
-                    "configurations": "default",
-                    "artifacts": [
-                        {
-                            "name": "guava",
-                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/guava/guava/19.0/guava-19.0.jar"
-                        }
-                    ]
-                },
-                {
-                    "organization": "com.michaelpollmeier",
-                    "name": "colordiff_2.12",
-                    "version": "0.8",
-                    "configurations": "default",
-                    "artifacts": [
-                        {
-                            "name": "colordiff_2.12",
-                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/michaelpollmeier/colordiff_2.12/0.8/colordiff_2.12-0.8.jar"
+                            "name": "scalafmt-dynamic_2.12",
+                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/scalafmt-dynamic_2.12/2.6.4/scalafmt-dynamic_2.12-2.6.4.jar"
                         }
                     ]
                 },
@@ -1027,14 +997,26 @@
                     ]
                 },
                 {
-                    "organization": "com.googlecode.java-diff-utils",
-                    "name": "diffutils",
-                    "version": "1.3.0",
+                    "organization": "org.scalameta",
+                    "name": "scalafmt-interfaces",
+                    "version": "2.6.4",
                     "configurations": "default",
                     "artifacts": [
                         {
-                            "name": "diffutils",
-                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/com/googlecode/java-diff-utils/diffutils/1.3.0/diffutils-1.3.0.jar"
+                            "name": "scalafmt-interfaces",
+                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/scalafmt-interfaces/2.6.4/scalafmt-interfaces-2.6.4.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "io.get-coursier",
+                    "name": "interface",
+                    "version": "0.0.17",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "interface",
+                            "path": "/home/muki/.cache/coursier/v1/https/repo1.maven.org/maven2/io/get-coursier/interface/0.0.17/interface-0.0.17.jar"
                         }
                     ]
                 },

@@ -57,7 +57,6 @@ import sbt._
   *
   * java -classpath $app_classpath $app_mainclass $@
   *
-  *
   * == Configuration ==
   *
   * This plugin adds new settings to configure your packaged application.
@@ -75,15 +74,16 @@ object AshScriptPlugin extends AutoPlugin {
 
   val ashTemplate = "ash-template"
 
-  override def projectSettings = Seq(
-    bashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashTemplate),
-    bashScriptDefines := Defines(
-      (scriptClasspath in bashScriptDefines).value,
-      bashScriptConfigLocation.value,
-      bundledJvmLocation.value
-    ),
-    bashScriptDefines ++= bashScriptExtraDefines.value
-  )
+  override def projectSettings =
+    Seq(
+      bashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashTemplate),
+      bashScriptDefines := Defines(
+        (scriptClasspath in bashScriptDefines).value,
+        bashScriptConfigLocation.value,
+        bundledJvmLocation.value
+      ),
+      bashScriptDefines ++= bashScriptExtraDefines.value
+    )
 
   /**
     * Ash defines

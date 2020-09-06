@@ -5,11 +5,13 @@ package linux
 import sbt._
 import LinuxPlugin.Users
 
-case class LinuxFileMetaData(user: String = Users.Root,
-                             group: String = Users.Root,
-                             permissions: String = "755",
-                             config: String = "false",
-                             docs: Boolean = false) {
+case class LinuxFileMetaData(
+  user: String = Users.Root,
+  group: String = Users.Root,
+  permissions: String = "755",
+  config: String = "false",
+  docs: Boolean = false
+) {
 
   def withUser(u: String) = copy(user = u)
   def withGroup(g: String) = copy(group = g)
@@ -18,9 +20,11 @@ case class LinuxFileMetaData(user: String = Users.Root,
   def asDocs() = copy(docs = true)
 }
 
-case class LinuxPackageMapping(mappings: Traversable[(File, String)],
-                               fileData: LinuxFileMetaData = LinuxFileMetaData(),
-                               zipped: Boolean = false) {
+case class LinuxPackageMapping(
+  mappings: Traversable[(File, String)],
+  fileData: LinuxFileMetaData = LinuxFileMetaData(),
+  zipped: Boolean = false
+) {
 
   def withUser(user: String) = copy(fileData = fileData withUser user)
   def withGroup(group: String) = copy(fileData = fileData withGroup group)

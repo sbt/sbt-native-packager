@@ -38,7 +38,6 @@ import sbt.Keys.{name, normalizedName, packageBin, streams}
   * {{{
   *    enablePlugins(SbtNativePackager)
   * }}}
-  *
   */
 object SbtNativePackager extends AutoPlugin {
 
@@ -69,7 +68,6 @@ object SbtNativePackager extends AutoPlugin {
     * === NativePackagerHelper ===
     *
     * This object contains a set of helper methods for working with mappings.
-    *
     */
   object autoImport extends packager.NativePackagerKeys {
 

@@ -13,7 +13,6 @@ import sbt._
   *
   * This plugins creates a start bash script to run an application built with the
   * [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]].
-  *
   */
 object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with CommonStartScriptGenerator {
 
@@ -42,51 +41,53 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
 
   object autoImport extends BashStartScriptKeys
 
-  protected[this] case class BashScriptConfig(override val executableScriptName: String,
-                                              override val scriptClasspath: Seq[String],
-                                              override val replacements: Seq[(String, String)],
-                                              override val templateLocation: File)
-      extends ScriptConfig {
+  protected[this] case class BashScriptConfig(
+    override val executableScriptName: String,
+    override val scriptClasspath: Seq[String],
+    override val replacements: Seq[(String, String)],
+    override val templateLocation: File
+  ) extends ScriptConfig {
     override def withScriptName(scriptName: String): BashScriptConfig = copy(executableScriptName = scriptName)
   }
 
   override protected[this] type SpecializedScriptConfig = BashScriptConfig
 
-  override def projectSettings: Seq[Setting[_]] = Seq(
-    bashScriptTemplateLocation := (sourceDirectory.value / "templates" / bashTemplate),
-    bashScriptExtraDefines := Nil,
-    bashScriptDefines := Defines(
-      (scriptClasspath in bashScriptDefines).value,
-      bashScriptConfigLocation.value,
-      bundledJvmLocation.value
-    ),
-    bashScriptDefines ++= bashScriptExtraDefines.value,
-    bashScriptReplacements := generateScriptReplacements(bashScriptDefines.value),
-    // Create a bashConfigLocation if options are set in build.sbt
-    bashScriptConfigLocation := (bashScriptConfigLocation ?? Some(appIniLocation)).value,
-    bashScriptEnvConfigLocation := (bashScriptEnvConfigLocation ?? None).value,
-    // Generating the application configuration
-    mappings in Universal := generateApplicationIni(
-      (mappings in Universal).value,
-      (javaOptions in Universal).value,
-      bashScriptConfigLocation.value,
-      (target in Universal).value,
-      streams.value.log
-    ),
-    makeBashScripts := generateStartScripts(
-      BashScriptConfig(
-        executableScriptName = executableScriptName.value,
-        scriptClasspath = (scriptClasspath in bashScriptDefines).value,
-        replacements = bashScriptReplacements.value,
-        templateLocation = bashScriptTemplateLocation.value
+  override def projectSettings: Seq[Setting[_]] =
+    Seq(
+      bashScriptTemplateLocation := (sourceDirectory.value / "templates" / bashTemplate),
+      bashScriptExtraDefines := Nil,
+      bashScriptDefines := Defines(
+        (scriptClasspath in bashScriptDefines).value,
+        bashScriptConfigLocation.value,
+        bundledJvmLocation.value
       ),
-      (mainClass in (Compile, bashScriptDefines)).value,
-      (discoveredMainClasses in Compile).value,
-      (target in Universal).value / "scripts",
-      streams.value.log
-    ),
-    mappings in Universal ++= makeBashScripts.value
-  )
+      bashScriptDefines ++= bashScriptExtraDefines.value,
+      bashScriptReplacements := generateScriptReplacements(bashScriptDefines.value),
+      // Create a bashConfigLocation if options are set in build.sbt
+      bashScriptConfigLocation := (bashScriptConfigLocation ?? Some(appIniLocation)).value,
+      bashScriptEnvConfigLocation := (bashScriptEnvConfigLocation ?? None).value,
+      // Generating the application configuration
+      mappings in Universal := generateApplicationIni(
+        (mappings in Universal).value,
+        (javaOptions in Universal).value,
+        bashScriptConfigLocation.value,
+        (target in Universal).value,
+        streams.value.log
+      ),
+      makeBashScripts := generateStartScripts(
+        BashScriptConfig(
+          executableScriptName = executableScriptName.value,
+          scriptClasspath = (scriptClasspath in bashScriptDefines).value,
+          replacements = bashScriptReplacements.value,
+          templateLocation = bashScriptTemplateLocation.value
+        ),
+        (mainClass in (Compile, bashScriptDefines)).value,
+        (discoveredMainClasses in Compile).value,
+        (target in Universal).value / "scripts",
+        streams.value.log
+      ),
+      mappings in Universal ++= makeBashScripts.value
+    )
 
   private[this] def generateScriptReplacements(defines: Seq[String]): Seq[(String, String)] = {
     val defineString = defines mkString "\n"
@@ -142,8 +143,13 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
     else
       ""
 
-  override protected[this] def createReplacementsForMainScript(mainClass: String,
-                                                               mainClasses: Seq[String],
-                                                               config: SpecializedScriptConfig): Seq[(String, String)] =
-    Seq("app_mainclass" -> mainClass, "available_main_classes" -> usageMainClassReplacement(mainClasses)) ++ config.replacements
+  override protected[this] def createReplacementsForMainScript(
+    mainClass: String,
+    mainClasses: Seq[String],
+    config: SpecializedScriptConfig
+  ): Seq[(String, String)] =
+    Seq(
+      "app_mainclass" -> mainClass,
+      "available_main_classes" -> usageMainClassReplacement(mainClasses)
+    ) ++ config.replacements
 }
