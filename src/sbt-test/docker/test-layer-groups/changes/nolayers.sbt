@@ -1,1 +1,1 @@
-dockerLayerGrouping in Docker  := (_ => None)
+dockerGroupLayers in Docker := PartialFunction.empty

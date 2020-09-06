@@ -54,6 +54,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
   def clientSettings =
     Seq(
       publishLocal := publishLocalDocker.value,
+      publish := publishDocker.value,
       dockerVersion := dockerServerVersion.value,
       dockerApiVersion := dockerServerApiVersion.value
     )
@@ -69,7 +70,17 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
       val docker = new DockerClientTask()
       docker.packageDocker(primaryAlias, aliases, dockerDirectory, log)
-    }
+    } tag (Tags.Publish, Tags.Disk)
+
+  def publishDocker: Def.Initialize[Task[Unit]] =
+    Def.task {
+      val _ = publishLocal.value
+      val aliases = dockerAliases.value
+      val log = streams.value.log
+
+      val docker = new DockerClientTask()
+      docker.publishDocker(aliases, log)
+    } tag (Tags.Network, Tags.Publish)
 
   def dockerServerVersion: Def.Initialize[Task[Option[DockerVersion]]] =
     Def.task {
@@ -108,21 +119,35 @@ private class DockerClientTask {
 
     log.info(s"PublishLocal using Docker API ${docker.version().apiVersion()}")
 
-    docker.build(
-      Paths.get(dockerDirectory),
-      primaryAlias.toString,
-      new ProgressHandler {
-        override def progress(message: ProgressMessage): Unit =
-          Option(message.error()) match {
-            case Some(error) if error.nonEmpty => log.error(message.error())
-            case _                             => Option(message.stream()) foreach (v => log.info(v))
-          }
-      },
-      BuildParam.forceRm()
-    )
+    <<<<<<< HEAD
+      docker.build(
+        Paths.get(dockerDirectory),
+        primaryAlias.toString,
+        new ProgressHandler {
+          override def progress(message: ProgressMessage): Unit =
+            Option(message.error()) match {
+              case Some(error) if error.nonEmpty => log.error(message.error())
+              case _                             => Option(message.stream()) foreach (v => log.info(v))
+            }
+        },
+        BuildParam.forceRm()
+      )
+    =======
+    docker.build(Paths.get(dockerDirectory), primaryAlias.toString, progressHandler(log), BuildParam.forceRm())
+    >>>>>>> origin / master
 
     aliases.foreach { tag =>
       docker.tag(primaryAlias.toString, tag.toString, true)
+    }
+  }
+
+  def publishDocker(aliases: Seq[DockerAlias], log: Logger): Unit = {
+    val docker: DockerClient = DefaultDockerClient.fromEnv().build()
+
+    log.info(s"Publish using Docker API ${docker.version().apiVersion()}")
+
+    aliases.foreach { tag =>
+      docker.push(tag.toString, progressHandler(log))
     }
   }
 
@@ -135,4 +160,13 @@ private class DockerClientTask {
     val docker: DockerClient = DefaultDockerClient.fromEnv().build()
     DockerApiVersion.parse(docker.version().apiVersion())
   }
+
+  private def progressHandler(log: Logger) =
+    new ProgressHandler {
+      override def progress(message: ProgressMessage): Unit =
+        Option(message.error()) match {
+          case Some(error) if error.nonEmpty => log.error(message.error())
+          case _                             => Option(message.stream()) foreach (v => log.info(v))
+        }
+    }
 }

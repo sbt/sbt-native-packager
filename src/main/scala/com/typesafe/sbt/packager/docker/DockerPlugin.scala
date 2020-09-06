@@ -98,17 +98,24 @@ object DockerPlugin extends AutoPlugin {
     ),
     dockerUpdateLatest := false,
     dockerAutoremoveMultiStageIntermediateImages := true,
-    dockerLayerGrouping := {
+    dockerLayerGrouping := { _: String =>
+      None
+    },
+    dockerGroupLayers := {
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
-      (path: String) => {
-        val pathInWorkdir = path.stripPrefix(dockerBaseDirectory)
-        if (pathInWorkdir.startsWith(s"/lib/${organization.value}"))
-          Some(2)
-        else if (pathInWorkdir.startsWith("/lib/"))
-          Some(1)
-        else if (pathInWorkdir.startsWith("/bin/"))
-          Some(1)
-        else None
+      // Ensure this doesn't break even if the JvmPlugin isn't enabled.
+      val artifacts = projectDependencyArtifacts.?.value.getOrElse(Nil).map(_.data).toSet
+      val oldFunction = (dockerLayerGrouping in Docker).value
+
+      // By default we set this to a function that always returns None.
+      val oldPartialFunction = Function.unlift((tuple: (File, String)) => oldFunction(tuple._2))
+
+      val libDir = dockerBaseDirectory + "/lib/"
+      val binDir = dockerBaseDirectory + "/bin/"
+
+      oldPartialFunction.orElse {
+        case (file, _) if artifacts(file)                                    => 2
+        case (_, path) if path.startsWith(libDir) || path.startsWith(binDir) => 1
       }
     },
     dockerAliases := {
@@ -157,9 +164,10 @@ object DockerPlugin extends AutoPlugin {
       val base = dockerBaseImage.value
       val addPerms = dockerAdditionalPermissions.value
       val multiStageId = UUID.randomUUID().toString
-      val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
+      val generalCommands = makeFromAs(base, "mainstage") +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
-      val layerIdsAscending = (dockerLayerMappings in Docker).value.map(_.layerId).distinct.sorted
+      val layerMappings = (dockerLayerMappings in Docker).value
+      val layerIdsAscending = layerMappings.map(_.layerId).distinct.sorted
       val stage0: Seq[CmdLike] = strategy match {
         case DockerPermissionStrategy.MultiStage =>
           Seq(
@@ -172,10 +180,18 @@ object DockerPlugin extends AutoPlugin {
             Seq(makeUser("root")) ++ layerIdsAscending.map(
             l => makeChmodRecursive(dockerChmodType.value, Seq(pathInLayer(dockerBaseDirectory, l)))
           ) ++ {
-            val layerToPath = (dockerLayerGrouping in Docker).value
+            val layerToPath = (dockerGroupLayers in Docker).value
             addPerms map {
               case (tpe, v) =>
-                val layerId = layerToPath(v)
+                // Try and find the source file for the path from the mappings
+                val layerId = layerMappings
+                  .find(_.path == v)
+                  .map(_.layerId)
+                  .getOrElse {
+                    // We couldn't find a source file for the mapping, so try with a dummy source file,
+                    // in case there is an explicitly configured path based layer mapping, eg for a directory.
+                    layerToPath.lift((new File("/dev/null"), v))
+                  }
                 makeChmod(tpe, Seq(pathInLayer(v, layerId)))
             }
           } ++
@@ -218,13 +234,10 @@ object DockerPlugin extends AutoPlugin {
 
       stage0 ++ stage1
     }
-  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
-    Seq(
-      executableScriptName := executableScriptName.value,
-      mappings ++= dockerPackageMappings.value,
-      name := name.value,
-      packageName := packageName.value,
-      publishLocal := {
+  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)({
+
+    def publishLocalTask =
+      Def.task {
         val log = streams.value.log
         publishLocalDocker(
           stage.value,
@@ -237,8 +250,10 @@ object DockerPlugin extends AutoPlugin {
         log.info(
           s"Built image ${dockerAlias.value.withTag(None).toString} with tags [${dockerAliases.value.flatMap(_.tag).mkString(", ")}]"
         )
-      },
-      publish := {
+      } tag (Tags.Disk, Tags.Publish)
+
+    def publishTask =
+      Def.task {
         val _ = publishLocal.value
         val alias = dockerAliases.value
         val log = streams.value.log
@@ -246,8 +261,10 @@ object DockerPlugin extends AutoPlugin {
         alias.foreach { aliasValue =>
           publishDocker(execCommand, aliasValue.toString, log)
         }
-      },
-      clean := {
+      } tag (Tags.Network, Tags.Publish)
+
+    def cleanTask =
+      Def.task {
         val alias = dockerAliases.value
         val log = streams.value.log
         val rmiCommand = dockerRmiCommand.value
@@ -255,7 +272,16 @@ object DockerPlugin extends AutoPlugin {
         alias.foreach { aliasValue =>
           rmiDocker(rmiCommand, aliasValue.toString, log)
         }
-      },
+      }
+
+    Seq(
+      executableScriptName := executableScriptName.value,
+      mappings ++= dockerPackageMappings.value,
+      name := name.value,
+      packageName := packageName.value,
+      publishLocal := publishLocalTask.value,
+      publish := publishTask.value,
+      clean := cleanTask.value,
       sourceDirectory := sourceDirectory.value / "docker",
       stage := Stager.stage(Docker.name)(
         streams.value,
@@ -267,11 +293,11 @@ object DockerPlugin extends AutoPlugin {
       stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (target in Docker).value / "stage",
       dockerLayerMappings := {
-        val dockerGroups = dockerLayerGrouping.value
+        val dockerGroups = dockerGroupLayers.value
         val dockerFinalFiles = (mappings in Docker).value
         for {
-          (file, path) <- dockerFinalFiles
-          layerIdx = dockerGroups(path)
+          mapping @ (file, path) <- dockerFinalFiles
+          layerIdx = dockerGroups.lift(mapping)
         } yield LayeredMapping(layerIdx, file, path)
       },
       target := target.value / "docker",
@@ -297,7 +323,7 @@ object DockerPlugin extends AutoPlugin {
         generateDockerConfig(dockerCommands.value, stagingDirectory.value)
       }
     )
-  )
+  })
 
   /**
     * @param comment
@@ -312,13 +338,6 @@ object DockerPlugin extends AutoPlugin {
     */
   private final def makeMaintainer(maintainer: String): Option[CmdLike] =
     if (maintainer.isEmpty) None else Some(makeLabel(Tuple2("MAINTAINER", maintainer)))
-
-  /**
-    * @param dockerBaseImage
-    * @return FROM command
-    */
-  private final def makeFrom(dockerBaseImage: String): CmdLike =
-    Cmd("FROM", dockerBaseImage)
 
   /**
     * @param dockerBaseImage
@@ -552,7 +571,8 @@ object DockerPlugin extends AutoPlugin {
     def renameDests(from: Seq[(File, String)], dest: String) =
       for {
         (f, path) <- from
-        newPath = "%s/%s" format (dest, path)
+        pathWithValidSeparator = if (Path.sep == '/') path else path.replace(Path.sep, '/')
+        newPath = "%s/%s" format (dest, pathWithValidSeparator)
       } yield (f, newPath)
 
     inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
