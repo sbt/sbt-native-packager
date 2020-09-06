@@ -2,7 +2,7 @@ name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
-Global / scalaVersion := "2.12.7"
+Global / scalaVersion := "2.12.12"
 
 // crossBuildingSettings
 crossSbtVersions := Vector("0.13.17", "1.1.6")
