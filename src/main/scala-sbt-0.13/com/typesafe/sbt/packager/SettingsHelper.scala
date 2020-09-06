@@ -5,10 +5,12 @@ import sbt._
 
 object SettingsHelper {
 
-  def addPackage(config: Configuration,
-                 packageTask: TaskKey[File],
-                 extension: String,
-                 classifier: Option[String] = None): Seq[Setting[_]] =
+  def addPackage(
+    config: Configuration,
+    packageTask: TaskKey[File],
+    extension: String,
+    classifier: Option[String] = None
+  ): Seq[Setting[_]] =
     inConfig(config)(
       addArtifact(
         name apply (Artifact(
@@ -24,10 +26,12 @@ object SettingsHelper {
       )
     )
 
-  def makeDeploymentSettings(config: Configuration,
-                             packageTask: TaskKey[File],
-                             extension: String,
-                             classifier: Option[String] = None): Seq[Setting[_]] =
+  def makeDeploymentSettings(
+    config: Configuration,
+    packageTask: TaskKey[File],
+    extension: String,
+    classifier: Option[String] = None
+  ): Seq[Setting[_]] =
     inConfig(config)(Classpaths.ivyPublishSettings ++ Classpaths.jvmPublishSettings) ++ inConfig(config)(
       Seq(
         artifacts := Seq.empty,
@@ -63,24 +67,23 @@ object SettingsHelper {
           checksums = checksums.value,
           logging = UpdateLogging.DownloadOnly,
           overwrite = isSnapshot.value
-       )
+        )
       )
     ) ++ addPackage(config, packageTask, extension, classifier) ++ addResolver(config)
 
   /**
-   * SBT looks in the `otherResolvers` setting for resolvers defined in `publishTo`.
-   * If a user scopes a `publishTo`, e.g.
-   *
-   * {{{
-   * // publish the rpm to the target folder
-   * publishTo in Rpm := Some(Resolver.file("target-resolver", target.value / "rpm-repo" ))
-   * }}}
-   *
-   * then the resolver must also be present in the `otherResolvers`
-   *
-   * @param config the ivy configuration to look for resolvers
-   */
-  private def addResolver(config: Configuration): Seq[Setting[_]] = Seq(
-    otherResolvers ++= (publishTo in config).value.toSeq
-  )
+    * SBT looks in the `otherResolvers` setting for resolvers defined in `publishTo`.
+    * If a user scopes a `publishTo`, e.g.
+    *
+    * {{{
+    * // publish the rpm to the target folder
+    * publishTo in Rpm := Some(Resolver.file("target-resolver", target.value / "rpm-repo" ))
+    * }}}
+    *
+    * then the resolver must also be present in the `otherResolvers`
+    *
+    * @param config the ivy configuration to look for resolvers
+    */
+  private def addResolver(config: Configuration): Seq[Setting[_]] =
+    Seq(otherResolvers ++= (publishTo in config).value.toSeq)
 }
