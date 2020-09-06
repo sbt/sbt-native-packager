@@ -146,7 +146,7 @@ object UniversalDeployPlugin extends AutoPlugin {
 
   import UniversalPlugin.autoImport._
 
-  override def requires = UniversalPlugin
+  override def requires: Plugins = UniversalPlugin
 
   override def projectSettings: Seq[Setting[_]] =
     SettingsHelper.makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++

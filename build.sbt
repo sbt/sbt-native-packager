@@ -2,7 +2,7 @@ name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
-Global / scalaVersion := "2.12.7"
+Global / scalaVersion := "2.12.12"
 
 // crossBuildingSettings
 crossSbtVersions := Vector("0.13.17", "1.1.6")
@@ -59,41 +59,6 @@ mimaPreviousArtifacts := {
   val sbtBinV = (sbtBinaryVersion in pluginCrossBuild).value
   val scalaBinV = (scalaBinaryVersion in update).value
   Set(Defaults.sbtPluginExtra(m cross CrossVersion.Disabled(), sbtBinV, scalaBinV))
-}
-mimaBinaryIssueFilters ++= {
-  import com.typesafe.tools.mima.core._
-  List(
-    // added via #1179
-    ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmKeys.rpmEpoch"),
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.rpm.RpmKeys.com$typesafe$sbt$packager$rpm$RpmKeys$_setter_$rpmEpoch_="
-    ),
-    ProblemFilters.exclude[MissingTypesProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata$"),
-    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.apply"),
-    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.copy"),
-    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.this"),
-    // added via #1251
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.universal.UniversalKeys.com$typesafe$sbt$packager$universal$UniversalKeys$_setter_$containerBuildImage_="
-    ),
-    ProblemFilters
-      .exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.universal.UniversalKeys.containerBuildImage"),
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImageKeys.graalVMNativeImageGraalVersion"
-    ),
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImageKeys.com$typesafe$sbt$packager$graalvmnativeimage$GraalVMNativeImageKeys$_setter_$graalVMNativeImageGraalVersion_="
-    ),
-    // added via #1279
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.docker.DockerKeys.com$typesafe$sbt$packager$docker$DockerKeys$_setter_$dockerAutoremoveMultiStageIntermediateImages_="
-    ),
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.docker.DockerKeys.dockerAutoremoveMultiStageIntermediateImages"
-    ),
-    ProblemFilters
-      .exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.docker.DockerPlugin.publishLocalDocker")
-  )
 }
 
 // Release configuration
