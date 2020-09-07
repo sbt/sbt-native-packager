@@ -13,9 +13,11 @@ package object systemloader {
 
   private val LOADER_FUNCTIONS = "loader-functions"
 
-  def linuxStartScriptUrl(sourceDirectory: File,
-                          loaderOpt: Option[ServerLoader],
-                          name: String = "start-template"): URL = {
+  def linuxStartScriptUrl(
+    sourceDirectory: File,
+    loaderOpt: Option[ServerLoader],
+    name: String = "start-template"
+  ): URL = {
     val loader = loaderOpt.getOrElse(
       sys.error("No serverLoader defined. Enable a systemloader, e.g. with `enablePlugins(UpstartPlugin)`")
     )
@@ -33,11 +35,13 @@ package object systemloader {
     replacement.getOrElse(sys.error(s"Loader functions could not be loaded for ${loaderOpt}"))
   }
 
-  def makeStartScript(template: URL,
-                      replacements: Seq[(String, String)],
-                      target: File,
-                      path: String,
-                      name: String): Option[File] = {
+  def makeStartScript(
+    template: URL,
+    replacements: Seq[(String, String)],
+    target: File,
+    path: String,
+    name: String
+  ): Option[File] = {
     val scriptBits = TemplateWriter generateScript (template, replacements)
     val script = target / "tmp" / path / name
     IO.write(script, scriptBits)
@@ -51,10 +55,12 @@ package object systemloader {
     * @param location - target destination from `defaultLinuxStartScriptLocation.value`
     * @param isConf - if the start script should be registered as a config file
     */
-  def startScriptMapping(scriptName: Option[String],
-                         script: Option[File],
-                         location: String,
-                         isConf: Boolean): Seq[LinuxPackageMapping] = {
+  def startScriptMapping(
+    scriptName: Option[String],
+    script: Option[File],
+    location: String,
+    isConf: Boolean
+  ): Seq[LinuxPackageMapping] = {
     val name = scriptName.getOrElse(
       sys.error(
         """No linuxStartScriptName defined. Add `linuxStartScriptName in <PackageFormat> := Some("name.service")"""

@@ -4,7 +4,6 @@ package docker
 
 /**
   * a single line in a dockerfile. See subclasses for more detail
-  *
   */
 trait CmdLike {
 

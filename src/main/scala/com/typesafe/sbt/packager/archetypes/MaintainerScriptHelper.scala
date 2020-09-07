@@ -58,7 +58,6 @@ trait MaintainerScriptHelper {
     * )
     * }}}
     *
-    *
     * @param current maintainer scripts
     * @param replacements (e.g. (linuxScriptReplacements in Debian).value)
     * @param scripts scriptName -> scriptContent pairs
@@ -87,7 +86,6 @@ trait MaintainerScriptHelper {
     *    Post -> (sourceDirectory.value / "rpm" / "posttrans")
     * )
     * }}}
-    *
     *
     * @param current maintainer scripts
     * @param scripts scriptName -> scriptFile pairs

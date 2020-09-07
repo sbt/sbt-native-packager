@@ -70,16 +70,17 @@ object JlinkPlugin extends AutoPlugin {
         }
         .getOrElse(sys.error("JAVA_VERSION not found in ${releaseFile.getAbsolutePath}"))
 
-      val modulePathOpts = if (modulePath.nonEmpty) {
-        Vector("--module-path", modulePath.mkString(":"))
-      } else Vector.empty
+      val modulePathOpts =
+        if (modulePath.nonEmpty)
+          Vector("--module-path", modulePath.mkString(":"))
+        else Vector.empty
 
       // Jdeps has a few convenient options (like --print-module-deps), but those
       // are not flexible enough - we need to parse the full output.
       val jdepsOutput = run("jdeps", "--multi-release" +: javaVersion +: modulePathOpts ++: "-R" +: paths)
 
       val deps = jdepsOutput.linesIterator
-      // There are headers in some of the lines - ignore those.
+        // There are headers in some of the lines - ignore those.
         .flatMap(PackageDependency.parse(_).iterator)
         .toSeq
 
@@ -133,9 +134,8 @@ object JlinkPlugin extends AutoPlugin {
     jlinkOptions ++= {
       val modules = jlinkModules.value
 
-      if (modules.isEmpty) {
+      if (modules.isEmpty)
         sys.error("jlinkModules is empty")
-      }
 
       JlinkOptions(
         addModules = modules,
@@ -238,17 +238,18 @@ object JlinkPlugin extends AutoPlugin {
     sealed trait Source
 
     object Source {
-      def parse(s: String): Source = s match {
-        case "not found" => NotFound
-        // We have no foolproof way to separate jars from modules here, so
-        // we have to do something flaky.
-        case name
-            if name.toLowerCase.endsWith(".jar") ||
-              !name.contains('.') ||
-              name.contains(' ') =>
-          JarOrDir(name)
-        case name => Module(name)
-      }
+      def parse(s: String): Source =
+        s match {
+          case "not found" => NotFound
+          // We have no foolproof way to separate jars from modules here, so
+          // we have to do something flaky.
+          case name
+              if name.toLowerCase.endsWith(".jar") ||
+                !name.contains('.') ||
+                name.contains(' ') =>
+            JarOrDir(name)
+          case name => Module(name)
+        }
     }
 
     case object NotFound extends Source
@@ -273,11 +274,12 @@ object JlinkPlugin extends AutoPlugin {
     // foo.jar -> not found
     private val pattern = """^\s+([^\s]+)\s+->\s+([^\s]+)\s+([^\s].*?)\s*$""".r
 
-    def parse(s: String): Option[PackageDependency] = s match {
-      case pattern(dependent, dependee, source) =>
-        Some(PackageDependency(dependent, dependee, Source.parse(source)))
-      case _ => None
-    }
+    def parse(s: String): Option[PackageDependency] =
+      s match {
+        case pattern(dependent, dependee, source) =>
+          Some(PackageDependency(dependent, dependee, Source.parse(source)))
+        case _ => None
+      }
   }
 
   object Ignore {

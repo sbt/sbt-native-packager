@@ -16,7 +16,7 @@ libraryDependencies += "jline" % "jline" % "2.11"
 addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.4")
 
 // For code formatting
-addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.15")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 
 // binary compatibility checks
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.3.0")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.7.0")

@@ -15,17 +15,34 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+
+    - name: "Running shasum for cache invalidation"
+      run: |
+        shasum build.sbt \
+          project/plugins.sbt \
+          project/build.properties > gha.cache.tmp
+
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
         path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
+        key: ${{ runner.os }}-ivy-${{ hashFiles('gha.cache.tmp') }}
         restore-keys: |
           ${{ runner.os }}-ivy-
+
+    - name: Loading coursier cache
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/coursier
+        key: ${{ runner.os }}-coursier-${{ hashFiles('gha.cache.tmp') }}
+        restore-keys: |
+          ${{ runner.os }}-coursier-
+
     - name: Set up Azul JDK 1.8 and SBT
       uses: olafurpg/setup-scala@v7
       with:
         java-version: zulu@1.8
+
     - name: Validate
       run: sbt "^validate"
   

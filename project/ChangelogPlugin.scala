@@ -62,19 +62,29 @@ object ChangelogPlugin extends AutoPlugin {
 
   private case class GithubChangeLogParameters(token: String)
 
-  private val githubChangeLogParser: Parser[GithubChangeLogParameters] = {
+  private val githubChangeLogParser: Parser[GithubChangeLogParameters] =
     (Space ~ token("--token") ~ Space ~> StringBasic).map(GithubChangeLogParameters)
-  }
 
   override def projectSettings: Seq[Setting[_]] =
-    Seq(generateChangelogToken := None, generateChangelog := {
-      val log = streams.value.log
-      val parameters = githubChangeLogParser.parsed
-      Seq("github_changelog_generator", "--user", "sbt", "--project", "sbt-native-packager", "--token", parameters.token) ! log match {
-        case 0 => log.success("CHANGELOG.md updated successfully")
-        case n => sys.error(s"Failed updating CHANGELOG.md. Process existed with status code $n")
+    Seq(
+      generateChangelogToken := None,
+      generateChangelog := {
+        val log = streams.value.log
+        val parameters = githubChangeLogParser.parsed
+        Seq(
+          "github_changelog_generator",
+          "--user",
+          "sbt",
+          "--project",
+          "sbt-native-packager",
+          "--token",
+          parameters.token
+        ) ! log match {
+          case 0 => log.success("CHANGELOG.md updated successfully")
+          case n => sys.error(s"Failed updating CHANGELOG.md. Process existed with status code $n")
+        }
       }
-    })
+    )
 
   private def generateChangelogStep(state: State): State = {
     val extracted = Project.extract(state)
@@ -101,11 +111,10 @@ object ChangelogPlugin extends AutoPlugin {
 
     vcs(state).add(relativePath) !! log
     val vcsAddOutput = (vcs(state).status !!).trim
-    if (vcsAddOutput.isEmpty) {
+    if (vcsAddOutput.isEmpty)
       state.log.info("CHANGELOG.md hasn't been changed.")
-    } else {
+    else
       vcs(state).commit("Update changelog", sign, signOff) ! log
-    }
 
     state
   }
@@ -130,13 +139,14 @@ object ChangelogPlugin extends AutoPlugin {
     * @param state
     * @return a process logger
     */
-  private def toProcessLogger(state: State): ProcessLogger = new ProcessLogger {
-    override def err(s: => String): Unit = state.log.info(s)
-    override def out(s: => String): Unit = state.log.info(s)
-    override def buffer[T](f: => T): T = state.log.buffer(f)
-  }
+  private def toProcessLogger(state: State): ProcessLogger =
+    new ProcessLogger {
+      override def err(s: => String): Unit = state.log.info(s)
+      override def out(s: => String): Unit = state.log.info(s)
+      override def buffer[T](f: => T): T = state.log.buffer(f)
+    }
 
-  private def readToken(predefinedToken: Option[String]): String = 
+  private def readToken(predefinedToken: Option[String]): String =
     predefinedToken
       // https://github.com/github-changelog-generator/github-changelog-generator#github-token
       .orElse(sys.env.get("CHANGELOG_GITHUB_TOKEN"))
@@ -145,6 +155,6 @@ object ChangelogPlugin extends AutoPlugin {
         case Some(input) if input.trim.isEmpty => sys.error("No token provided")
         case Some(input)                       => input
         case None                              => sys.error("No token provided")
-     })
+      })
 
 }

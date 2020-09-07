@@ -10,11 +10,13 @@ trait ApplicationIniGenerator {
     * @return the existing mappings plus a generated application.ini
     *         if custom javaOptions are specified
     */
-  def generateApplicationIni(universalMappings: Seq[(File, String)],
-                             javaOptions: Seq[String],
-                             bashScriptConfigLocation: Option[String],
-                             tmpDir: File,
-                             log: Logger): Seq[(File, String)] =
+  def generateApplicationIni(
+    universalMappings: Seq[(File, String)],
+    javaOptions: Seq[String],
+    bashScriptConfigLocation: Option[String],
+    tmpDir: File,
+    log: Logger
+  ): Seq[(File, String)] =
     bashScriptConfigLocation
       .collect {
         case location if javaOptions.nonEmpty =>

@@ -25,7 +25,6 @@ import sbt._
   * docker version
   * }}}
   *
-  *
   * @note this plugin is not intended to build very customizable docker images, but turn your mappings
   *       configuration in a docker image with almost no ''any'' configuration.
   *
@@ -83,15 +82,17 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
       docker.publishDocker(aliases, log)
     } tag (Tags.Network, Tags.Publish)
 
-  def dockerServerVersion: Def.Initialize[Task[Option[DockerVersion]]] = Def.task {
-    val docker = new DockerClientTask()
-    docker.dockerServerVersion()
-  }
+  def dockerServerVersion: Def.Initialize[Task[Option[DockerVersion]]] =
+    Def.task {
+      val docker = new DockerClientTask()
+      docker.dockerServerVersion()
+    }
 
-  def dockerServerApiVersion: Def.Initialize[Task[Option[DockerApiVersion]]] = Def.task {
-    val docker = new DockerClientTask()
-    docker.dockerServerApiVersion()
-  }
+  def dockerServerApiVersion: Def.Initialize[Task[Option[DockerApiVersion]]] =
+    Def.task {
+      val docker = new DockerClientTask()
+      docker.dockerServerApiVersion()
+    }
 
 }
 
@@ -108,10 +109,12 @@ private class DockerClientTask {
   import com.spotify.docker.client.messages.ProgressMessage
   import com.spotify.docker.client.{DefaultDockerClient, DockerClient, ProgressHandler}
 
-  def packageDocker(primaryAlias: DockerAlias,
-                    aliases: Seq[DockerAlias],
-                    dockerDirectory: String,
-                    log: Logger): Unit = {
+  def packageDocker(
+    primaryAlias: DockerAlias,
+    aliases: Seq[DockerAlias],
+    dockerDirectory: String,
+    log: Logger
+  ): Unit = {
     val docker: DockerClient = DefaultDockerClient.fromEnv().build()
 
     log.info(s"PublishLocal using Docker API ${docker.version().apiVersion()}")
@@ -143,11 +146,12 @@ private class DockerClientTask {
     DockerApiVersion.parse(docker.version().apiVersion())
   }
 
-  private def progressHandler(log: Logger) = new ProgressHandler {
-    override def progress(message: ProgressMessage): Unit =
-      Option(message.error()) match {
-        case Some(error) if error.nonEmpty => log.error(message.error())
-        case _                             => Option(message.stream()) foreach (v => log.info(v))
-      }
-  }
+  private def progressHandler(log: Logger) =
+    new ProgressHandler {
+      override def progress(message: ProgressMessage): Unit =
+        Option(message.error()) match {
+          case Some(error) if error.nonEmpty => log.error(message.error())
+          case _                             => Option(message.stream()) foreach (v => log.info(v))
+        }
+    }
 }

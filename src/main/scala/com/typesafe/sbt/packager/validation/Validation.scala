@@ -15,7 +15,6 @@ object Validation {
   /**
     * A validator is a function that returns a list of validation results.
     *
-    *
     * @example Usually a validator is a function that captures some setting or task value, e.g.
     * {{{
     *   validatePackageValidators += {
@@ -27,19 +26,18 @@ object Validation {
     * }}}
     *
     * The `validation` package object contains various standard validators.
-    *
     */
   type Validator = () => List[ValidationResult]
 
   /**
-    *
     * @param validators a list of validators that produce a `Validation` result
     * @return aggregated result of all validator function
     */
-  def apply(validators: Seq[Validator]): Validation = validators.flatMap(_.apply()).foldLeft(Validation(Nil, Nil)) {
-    case (validation, error: ValidationError)     => validation.copy(errors = validation.errors :+ error)
-    case (validation, warning: ValidationWarning) => validation.copy(warnings = validation.warnings :+ warning)
-  }
+  def apply(validators: Seq[Validator]): Validation =
+    validators.flatMap(_.apply()).foldLeft(Validation(Nil, Nil)) {
+      case (validation, error: ValidationError)     => validation.copy(errors = validation.errors :+ error)
+      case (validation, warning: ValidationWarning) => validation.copy(warnings = validation.warnings :+ warning)
+    }
 
   /**
     * Runs a list of validators and throws an exception after printing all
@@ -63,9 +61,8 @@ object Validation {
         log.error(error.howToFix)
     }
 
-    if (errors.nonEmpty) {
+    if (errors.nonEmpty)
       sys.error(s"${errors.length} error(s) found")
-    }
 
     log.success("All package validations passed")
   }

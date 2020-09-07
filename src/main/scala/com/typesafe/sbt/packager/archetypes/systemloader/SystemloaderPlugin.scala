@@ -47,39 +47,40 @@ object SystemloaderPlugin extends AutoPlugin {
     inConfig(Debian)(systemloaderSettings) ++ debianSettings ++
       inConfig(Rpm)(systemloaderSettings) ++ rpmSettings
 
-  def systemloaderSettings: Seq[Setting[_]] = Seq(
-    serverLoading := None,
-    serviceAutostart := true,
-    linuxStartScriptName := Some(packageName.value),
-    // defaults, may be override by concrete systemloader
-    retries := 0,
-    retryTimeout := 60,
-    killTimeout := 5,
-    termTimeout := 5,
-    // add loader-functions to script replacements
-    linuxScriptReplacements += loaderFunctionsReplacement(sourceDirectory.value, serverLoading.value),
-    linuxScriptReplacements ++= makeStartScriptReplacements(
-      requiredStartFacilities = requiredStartFacilities.value,
-      requiredStopFacilities = requiredStopFacilities.value,
-      startRunlevels = startRunlevels.value,
-      stopRunlevels = stopRunlevels.value,
-      termTimeout = termTimeout.value,
-      killTimeout = killTimeout.value,
-      retries = retries.value,
-      retryTimeout = retryTimeout.value,
-      loader = serverLoading.value
-    ),
-    // set the template
-    linuxStartScriptTemplate := linuxStartScriptUrl(sourceDirectory.value, serverLoading.value),
-    // define task to generate the systemloader script
-    linuxMakeStartScript := makeStartScript(
-      linuxStartScriptTemplate.value,
-      linuxScriptReplacements.value,
-      (target in Universal).value,
-      defaultLinuxStartScriptLocation.value,
-      linuxStartScriptName.value.getOrElse(sys.error("`linuxStartScriptName` is not defined"))
+  def systemloaderSettings: Seq[Setting[_]] =
+    Seq(
+      serverLoading := None,
+      serviceAutostart := true,
+      linuxStartScriptName := Some(packageName.value),
+      // defaults, may be override by concrete systemloader
+      retries := 0,
+      retryTimeout := 60,
+      killTimeout := 5,
+      termTimeout := 5,
+      // add loader-functions to script replacements
+      linuxScriptReplacements += loaderFunctionsReplacement(sourceDirectory.value, serverLoading.value),
+      linuxScriptReplacements ++= makeStartScriptReplacements(
+        requiredStartFacilities = requiredStartFacilities.value,
+        requiredStopFacilities = requiredStopFacilities.value,
+        startRunlevels = startRunlevels.value,
+        stopRunlevels = stopRunlevels.value,
+        termTimeout = termTimeout.value,
+        killTimeout = killTimeout.value,
+        retries = retries.value,
+        retryTimeout = retryTimeout.value,
+        loader = serverLoading.value
+      ),
+      // set the template
+      linuxStartScriptTemplate := linuxStartScriptUrl(sourceDirectory.value, serverLoading.value),
+      // define task to generate the systemloader script
+      linuxMakeStartScript := makeStartScript(
+        linuxStartScriptTemplate.value,
+        linuxScriptReplacements.value,
+        (target in Universal).value,
+        defaultLinuxStartScriptLocation.value,
+        linuxStartScriptName.value.getOrElse(sys.error("`linuxStartScriptName` is not defined"))
+      )
     )
-  )
 
   def addAndStartService(autostart: Boolean, pad: String = ""): String = {
     val addService =
@@ -138,15 +139,17 @@ object SystemloaderPlugin extends AutoPlugin {
       )
     )
 
-  private[this] def makeStartScriptReplacements(requiredStartFacilities: Option[String],
-                                                requiredStopFacilities: Option[String],
-                                                startRunlevels: Option[String],
-                                                stopRunlevels: Option[String],
-                                                termTimeout: Int,
-                                                killTimeout: Int,
-                                                retries: Int,
-                                                retryTimeout: Int,
-                                                loader: Option[ServerLoader]): Seq[(String, String)] = {
+  private[this] def makeStartScriptReplacements(
+    requiredStartFacilities: Option[String],
+    requiredStopFacilities: Option[String],
+    startRunlevels: Option[String],
+    stopRunlevels: Option[String],
+    termTimeout: Int,
+    killTimeout: Int,
+    retries: Int,
+    retryTimeout: Int,
+    loader: Option[ServerLoader]
+  ): Seq[(String, String)] = {
 
     // Upstart cannot handle empty values
     val (startOn, stopOn) = loader match {

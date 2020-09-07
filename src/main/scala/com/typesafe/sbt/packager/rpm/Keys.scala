@@ -78,11 +78,8 @@ trait RpmKeys {
     "Directory where all debian control scripts reside. Default is 'src/rpm/scriptlets'"
   )
 
-  val rpmBrpJavaRepackJars = SettingKey[Boolean](
-    "brp-java-repack-jars",
-    """Overrides the __os_post_install scriptlet
-      http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build/ for details"""
-  )
+  val rpmBrpJavaRepackJars = SettingKey[Boolean]("brp-java-repack-jars", """Overrides the __os_post_install scriptlet
+      http://swaeku.github.io/blog/2013/08/05/how-to-disable-brp-java-repack-jars-during-rpm-build/ for details""")
 
   // Building
   val rpmLint = TaskKey[Unit]("rpm-lint", "Runs rpmlint program against the generated RPM, if available.")

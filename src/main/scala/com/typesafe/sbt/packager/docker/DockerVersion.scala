@@ -10,9 +10,14 @@ object DockerVersion {
   def parse(version: String): Option[DockerVersion] =
     Option(version).collect {
       case DockerVersionPattern(major, minor, patch, _, release) =>
-        new DockerVersion(major.toInt, minor.toInt, Option(patch) match {
-          case Some(p) => p.drop(1).toInt
-          case _       => 0
-        }, Option(release))
+        new DockerVersion(
+          major.toInt,
+          minor.toInt,
+          Option(patch) match {
+            case Some(p) => p.drop(1).toInt
+            case _       => 0
+          },
+          Option(release)
+        )
     }
 }

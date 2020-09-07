@@ -36,7 +36,7 @@ object JavaServerAppPackaging extends AutoPlugin {
   val ENV_CONFIG_REPLACEMENT = "env_config"
   val ETC_DEFAULT = "etc-default"
 
-  /** These settings will be provided by this archetype*/
+  /** These settings will be provided by this archetype */
   def javaServerSettings: Seq[Setting[_]] =
     linuxSettings ++ debianSettings ++ rpmSettings
 
@@ -47,27 +47,28 @@ object JavaServerAppPackaging extends AutoPlugin {
     * - logging directory
     * - config directory
     */
-  def linuxSettings: Seq[Setting[_]] = Seq(
-    javaOptions in Linux := (javaOptions in Universal).value,
-    // === logging directory mapping ===
-    linuxPackageMappings += {
-      packageTemplateMapping(defaultLinuxLogsLocation.value + "/" + (packageName in Linux).value)()
-        .withUser((daemonUser in Linux).value)
-        .withGroup((daemonGroup in Linux).value)
-        .withPerms("755")
-    },
-    linuxPackageSymlinks += {
-      val name = (packageName in Linux).value
-      LinuxSymlink(
-        defaultLinuxInstallLocation.value + "/" + name + "/logs",
-        defaultLinuxLogsLocation.value + "/" + name
-      )
-    },
-    // === etc config mapping ===
-    bashScriptEnvConfigLocation := Some("/etc/default/" + (packageName in Linux).value),
-    linuxStartScriptName := None,
-    daemonStdoutLogFile := None
-  )
+  def linuxSettings: Seq[Setting[_]] =
+    Seq(
+      javaOptions in Linux := (javaOptions in Universal).value,
+      // === logging directory mapping ===
+      linuxPackageMappings += {
+        packageTemplateMapping(defaultLinuxLogsLocation.value + "/" + (packageName in Linux).value)()
+          .withUser((daemonUser in Linux).value)
+          .withGroup((daemonGroup in Linux).value)
+          .withPerms("755")
+      },
+      linuxPackageSymlinks += {
+        val name = (packageName in Linux).value
+        LinuxSymlink(
+          defaultLinuxInstallLocation.value + "/" + name + "/logs",
+          defaultLinuxLogsLocation.value + "/" + name
+        )
+      },
+      // === etc config mapping ===
+      bashScriptEnvConfigLocation := Some("/etc/default/" + (packageName in Linux).value),
+      linuxStartScriptName := None,
+      daemonStdoutLogFile := None
+    )
 
   /* etcDefaultConfig is dependent on serverLoading (systemd, systemv, etc.),
    * and is therefore distro specific. As such, these settings cannot be defined
@@ -174,9 +175,12 @@ object JavaServerAppPackaging extends AutoPlugin {
 
   // Used to tell our packager to install our /etc/default/{{appName}} config file.
   protected def etcDefaultMapping(conf: Option[File], envLocation: Option[String]): Seq[LinuxPackageMapping] = {
-    val mapping = for (path <- envLocation;
-                       c <- conf)
-      yield LinuxPackageMapping(Seq(c -> path), LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()
+    val mapping =
+      for (
+        path <- envLocation;
+        c <- conf
+      )
+        yield LinuxPackageMapping(Seq(c -> path), LinuxFileMetaData(Users.Root, Users.Root, "644")).withConfig()
 
     mapping.toSeq
   }
@@ -189,8 +193,9 @@ object JavaServerAppPackaging extends AutoPlugin {
     * @param scriptName that should be loaded
     * @return script lines
     */
-  private[this] def getScriptContent(config: Configuration,
-                                     replacements: Seq[(String, String)])(scriptName: String): Seq[String] =
+  private[this] def getScriptContent(config: Configuration, replacements: Seq[(String, String)])(
+    scriptName: String
+  ): Seq[String] =
     JavaServerBashScript(scriptName, ARCHETYPE, config, replacements).toSeq
 
   /**
@@ -204,10 +209,12 @@ object JavaServerAppPackaging extends AutoPlugin {
     *
     * @return Some(file: File)
     */
-  protected def makeEtcDefaultScript(name: String,
-                                     tmpDir: File,
-                                     source: java.net.URL,
-                                     replacements: Seq[(String, String)]): Option[File] = {
+  protected def makeEtcDefaultScript(
+    name: String,
+    tmpDir: File,
+    source: java.net.URL,
+    replacements: Seq[(String, String)]
+  ): Option[File] = {
     val scriptBits = TemplateWriter.generateScript(source, replacements)
     val script = tmpDir / "tmp" / "etc" / "default" / name
     IO.write(script, scriptBits)
@@ -215,15 +222,15 @@ object JavaServerAppPackaging extends AutoPlugin {
   }
 
   /**
-    *
-    *
     * @param scriptDirectory
     * @param scripts
     * @param replacements
     */
-  protected def rpmScriptletContents(scriptDirectory: File,
-                                     scripts: Map[String, Seq[String]],
-                                     replacements: Seq[(String, String)]): Map[String, Seq[String]] = {
+  protected def rpmScriptletContents(
+    scriptDirectory: File,
+    scripts: Map[String, Seq[String]],
+    replacements: Seq[(String, String)]
+  ): Map[String, Seq[String]] = {
     import RpmConstants._
     val predefined = List(Pre, Post, Preun, Postun)
     val predefinedScripts = predefined.foldLeft(scripts) {
