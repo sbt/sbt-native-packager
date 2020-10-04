@@ -167,7 +167,10 @@ object DockerPlugin extends AutoPlugin {
       val generalCommands = makeFromAs(base, "mainstage") +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
       val layerMappings = (dockerLayerMappings in Docker).value
-      val layerIdsAscending = layerMappings.map(_.layerId).distinct.sorted
+      val layerIdsAscending = layerMappings.map(_.layerId).distinct.sortWith { (a, b) =>
+        // Make the None (unspecified) layer the last layer
+        a.getOrElse(Int.MaxValue) < b.getOrElse(Int.MaxValue)
+      }
       val stage0: Seq[CmdLike] = strategy match {
         case DockerPermissionStrategy.MultiStage =>
           Seq(
