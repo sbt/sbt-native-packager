@@ -12,6 +12,7 @@ $ exists target/docker/stage/54/opt/docker/spark
 
 $ exec bash -c 'docker run --rm --entrypoint=ls docker-groups:0.1.0 |tr "\n" "," | grep -q "bin,lib,other,spark"'
 $ exec bash -c 'docker rmi docker-groups:0.1.0'
+> checkDockerfile
 
 $ copy-file changes/nolayers.sbt layers.sbt
 > reload
@@ -25,3 +26,4 @@ $ exists target/docker/stage/opt/docker/spark
 $ exists target/docker/stage/opt/docker/lib/org.slf4j.slf4j-api-1.7.30.jar
 $ exists target/docker/stage/opt/docker/lib/com.example.docker-groups-0.1.0.jar
 $ exec bash -c 'docker run --rm --entrypoint=ls docker-groups:0.1.0 |tr "\n" "," | grep -q "bin,lib,other,spark"'
+> checkDockerfileWithNoLayers
