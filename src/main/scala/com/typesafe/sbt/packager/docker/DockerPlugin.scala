@@ -592,13 +592,31 @@ object DockerPlugin extends AutoPlugin {
           case s if s.startsWith("Sending build context") =>
             log.debug(s) // 1.0
           case s if !s.trim.isEmpty => log.error(s)
-          case s                    =>
+          case _                    =>
         }
 
       override def out(inf: => String): Unit =
         inf match {
           case s if !s.trim.isEmpty => log.info(s)
-          case s                    =>
+          case _                    =>
+        }
+
+      override def buffer[T](f: => T): T = f
+    }
+
+  // BuildKit ouputs everything to stderr, so we redirect it
+  private[this] def publishLocalBuildkitLogger(log: Logger) =
+    new sys.process.ProcessLogger {
+      override def err(err: => String): Unit =
+        err match {
+          case s if !s.trim.isEmpty => log.info(s)
+          case _                    =>
+        }
+
+      override def out(inf: => String): Unit =
+        inf match {
+          case s if !s.trim.isEmpty => log.info(s)
+          case _                    =>
         }
 
       override def buffer[T](f: => T): T = f
@@ -615,7 +633,12 @@ object DockerPlugin extends AutoPlugin {
     log.debug("Executing Native " + buildCommand.mkString(" "))
     log.debug("Working directory " + context.toString)
 
-    val ret = sys.process.Process(buildCommand, context) ! publishLocalLogger(log)
+    val logger = sys.env
+      .get("DOCKER_BUILDKIT")
+      .filter(_ == "1")
+      .map(_ => publishLocalBuildkitLogger(log))
+      .getOrElse(publishLocalLogger(log))
+    val ret = sys.process.Process(buildCommand, context) ! logger
 
     if (removeIntermediateImages) {
       val labelKey = "snp-multi-stage-id"
@@ -629,9 +652,8 @@ object DockerPlugin extends AutoPlugin {
             case Some(id) =>
               val label = s"${labelKey}=${id}"
               log.info(s"""Removing intermediate image(s) (labeled "${label}") """)
-              val retImageClean = sys.process.Process(
-                execCommand ++ s"image prune -f --filter label=${label}".split(" ")
-              ) ! publishLocalLogger(log)
+              val retImageClean =
+                sys.process.Process(execCommand ++ s"image prune -f --filter label=${label}".split(" ")) ! logger
               // FYI: "docker image prune" returns 0 (success) no matter if images were removed or not
               if (retImageClean != 0)
                 log.err(
