@@ -117,13 +117,28 @@ object JlinkPlugin extends AutoPlugin {
       // This requires special handling on our part when deciding if the module
       // is a part of the platform or not.
       // At least the new modules shouldn't be doing this...
-      val knownJakartaJavaModules = Set("java.xml.bind", "java.xml.soap", "java.ws.rs")
+      val knownJakartaJavaModules = Set("java.annotation", "java.xml.bind", "java.xml.soap", "java.ws.rs")
+
+      // Java platform modules that were officially removed.
+      // https://www.oracle.com/java/technologies/javase/jdk-11-relnote.html#JDK-8190378
+      val removedJavaModules = Set(
+        "java.xml.ws",
+        "java.xml.bind",
+        "java.activation",
+        "java.xml.ws.annotation",
+        "java.corba",
+        "java.transaction",
+        "java.se.ee",
+        "jdk.xml.ws",
+        "jdk.xml.bind"
+      )
 
       val filteredModuleDeps = detectedModuleDeps
         .filter { m =>
           m.startsWith("jdk.") || m.startsWith("java.")
         }
         .filterNot(knownJakartaJavaModules.contains)
+        .filterNot(removedJavaModules.contains)
 
       // We always want `java.base`, and `jlink` requires at least one module.
       (filteredModuleDeps + "java.base").toSeq
