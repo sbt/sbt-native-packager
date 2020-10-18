@@ -2,15 +2,54 @@
 
 ## [Unreleased](https://github.com/sbt/sbt-native-packager/tree/HEAD)
 
-[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.5...HEAD)
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.6...HEAD)
+
+**Closed issues:**
+
+- BUILDKIT output is logged as error [\#1371](https://github.com/sbt/sbt-native-packager/issues/1371)
+
+**Merged pull requests:**
+
+- Omit removed Java modules from detected jlinkModules [\#1374](https://github.com/sbt/sbt-native-packager/pull/1374) ([nigredo-tori](https://github.com/nigredo-tori))
+- Redirect docker buildkit stderr to info [\#1373](https://github.com/sbt/sbt-native-packager/pull/1373) ([LeonardMeyer](https://github.com/LeonardMeyer))
+
+## [v1.7.6](https://github.com/sbt/sbt-native-packager/tree/v1.7.6) (2020-10-05)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.7...v1.7.6)
+
+## [v1.7.7](https://github.com/sbt/sbt-native-packager/tree/v1.7.7) (2020-10-05)
+
+[Full Changelog](https://github.com/sbt/sbt-native-packager/compare/v1.7.5...v1.7.7)
 
 **Fixed bugs:**
 
 - Security Issue - commons-compress 1.18 [\#1347](https://github.com/sbt/sbt-native-packager/issues/1347)
+- System properties not working in Ash Script [\#878](https://github.com/sbt/sbt-native-packager/issues/878)
+- Duplicate mappings for scala-library-2.10.3.jar with sbt-native-packager 0.7+, Play 2.2.6 and Scala 2.10 [\#657](https://github.com/sbt/sbt-native-packager/issues/657)
 
 **Closed issues:**
 
+- Bad root server path after docker containerization. [\#1366](https://github.com/sbt/sbt-native-packager/issues/1366)
+- `sbt stage` fails when `sbt compile` succeeds [\#1364](https://github.com/sbt/sbt-native-packager/issues/1364)
+- docker image from `sbt docker:publishLocal` fails with "Failed to create parent directories for \[/opt/docker/./logs/application.json\]" [\#1361](https://github.com/sbt/sbt-native-packager/issues/1361)
+- Reference to undefined setting: Universal / mappings from Universal / mappings \(rootProject/publish.sbt\) [\#1360](https://github.com/sbt/sbt-native-packager/issues/1360)
 - Producing Multiple Unique JARs from a Single Source Directory [\#1359](https://github.com/sbt/sbt-native-packager/issues/1359)
+- Windows: Product info feature request [\#1355](https://github.com/sbt/sbt-native-packager/issues/1355)
+- dockerLayerGrouping in Docker  := \(\_ =\> None\) does not work [\#1341](https://github.com/sbt/sbt-native-packager/issues/1341)
+- Docker packaging fails under Ubuntu 18.04.3 LTS [\#1258](https://github.com/sbt/sbt-native-packager/issues/1258)
+- Permission issues when running on AWS ECS with latest version \(works with 1.3.15\) [\#1206](https://github.com/sbt/sbt-native-packager/issues/1206)
+- sbt packageZipTarball is slower than sbt dist [\#1182](https://github.com/sbt/sbt-native-packager/issues/1182)
+- `sbt docker:publishLocal` sporadically builds with the wrong version [\#1164](https://github.com/sbt/sbt-native-packager/issues/1164)
+- dockerUpdateLatest doesn't update latest [\#1141](https://github.com/sbt/sbt-native-packager/issues/1141)
+- Renaming compiled artifact in package \(feature\) [\#864](https://github.com/sbt/sbt-native-packager/issues/864)
+- Overriden `artifactName` produces image with .jar with wrong content [\#638](https://github.com/sbt/sbt-native-packager/issues/638)
+- Add plugin/support for AWS Elastic Beanstalk Docker environments [\#632](https://github.com/sbt/sbt-native-packager/issues/632)
+
+**Merged pull requests:**
+
+- docker: make None the last layer group [\#1370](https://github.com/sbt/sbt-native-packager/pull/1370) ([pawitp](https://github.com/pawitp))
+- Describe dockerGroupLayers and how to disable it [\#1369](https://github.com/sbt/sbt-native-packager/pull/1369) ([DieBauer](https://github.com/DieBauer))
+- Update to sbt 1.3.13 [\#1319](https://github.com/sbt/sbt-native-packager/pull/1319) ([muuki88](https://github.com/muuki88))
 
 ## [v1.7.5](https://github.com/sbt/sbt-native-packager/tree/v1.7.5) (2020-08-14)
 
@@ -141,7 +180,6 @@
 - Fix for native-image to work in Windows [\#1312](https://github.com/sbt/sbt-native-packager/pull/1312) ([sshark](https://github.com/sshark))
 - please add sbt-kubeyml [\#1306](https://github.com/sbt/sbt-native-packager/pull/1306) ([vaslabs](https://github.com/vaslabs))
 - Fix ash template [\#1303](https://github.com/sbt/sbt-native-packager/pull/1303) ([gregsymons](https://github.com/gregsymons))
-- Change all references to macOS [\#1301](https://github.com/sbt/sbt-native-packager/pull/1301) ([dwijnand](https://github.com/dwijnand))
 
 ## [v1.6.1](https://github.com/sbt/sbt-native-packager/tree/v1.6.1) (2020-01-30)
 
@@ -154,6 +192,7 @@
 
 **Merged pull requests:**
 
+- Change all references to macOS [\#1301](https://github.com/sbt/sbt-native-packager/pull/1301) ([dwijnand](https://github.com/dwijnand))
 - Fix little typo in longclasspath.rst [\#1300](https://github.com/sbt/sbt-native-packager/pull/1300) ([romankarlstetter](https://github.com/romankarlstetter))
 - Introduce RPM / packageBin / artifactPath setting. [\#1299](https://github.com/sbt/sbt-native-packager/pull/1299) ([Lasering](https://github.com/Lasering))
 - Enable docker for github actions, remove a bunch of travis jobs [\#1298](https://github.com/sbt/sbt-native-packager/pull/1298) ([muuki88](https://github.com/muuki88))
@@ -780,6 +819,7 @@
 
 - Wrap docker labels with " character [\#1014](https://github.com/sbt/sbt-native-packager/pull/1014) ([kimxogus](https://github.com/kimxogus))
 - Dependency updates: [\#1012](https://github.com/sbt/sbt-native-packager/pull/1012) ([golem131](https://github.com/golem131))
+- Rpm Metadata Small Typo Fix "vaid" changed back to "valid" [\#1009](https://github.com/sbt/sbt-native-packager/pull/1009) ([ChristopherDavenport](https://github.com/ChristopherDavenport))
 - Cross build with sbt 1.0 [\#1000](https://github.com/sbt/sbt-native-packager/pull/1000) ([muuki88](https://github.com/muuki88))
 
 ## [v1.2.2-RC2](https://github.com/sbt/sbt-native-packager/tree/v1.2.2-RC2) (2017-08-07)
@@ -808,7 +848,6 @@
 
 **Merged pull requests:**
 
-- Rpm Metadata Small Typo Fix "vaid" changed back to "valid" [\#1009](https://github.com/sbt/sbt-native-packager/pull/1009) ([ChristopherDavenport](https://github.com/ChristopherDavenport))
 - strip snapshot suffix safely \(\#1004\) [\#1005](https://github.com/sbt/sbt-native-packager/pull/1005) ([colin-lamed](https://github.com/colin-lamed))
 - Fix a bug which cause upgrade failing because of no restartService [\#1003](https://github.com/sbt/sbt-native-packager/pull/1003) ([buster84](https://github.com/buster84))
 - sbt 0.13.15. fix warnings [\#998](https://github.com/sbt/sbt-native-packager/pull/998) ([xuwei-k](https://github.com/xuwei-k))
@@ -1454,9 +1493,9 @@
 
 **Merged pull requests:**
 
-- Added CombinedCmd and removed EnvCmd [\#628](https://github.com/sbt/sbt-native-packager/pull/628) ([ipsq](https://github.com/ipsq))
-- Added EnvCmd [\#627](https://github.com/sbt/sbt-native-packager/pull/627) ([ipsq](https://github.com/ipsq))
-- Better formatting for message [\#626](https://github.com/sbt/sbt-native-packager/pull/626) ([ipsq](https://github.com/ipsq))
+- Added CombinedCmd and removed EnvCmd [\#628](https://github.com/sbt/sbt-native-packager/pull/628) ([mhriemers](https://github.com/mhriemers))
+- Added EnvCmd [\#627](https://github.com/sbt/sbt-native-packager/pull/627) ([mhriemers](https://github.com/mhriemers))
+- Better formatting for message [\#626](https://github.com/sbt/sbt-native-packager/pull/626) ([mhriemers](https://github.com/mhriemers))
 - use autopluging system in deployments docs [\#615](https://github.com/sbt/sbt-native-packager/pull/615) ([szimano](https://github.com/szimano))
 - Deployment section, documentation fix [\#614](https://github.com/sbt/sbt-native-packager/pull/614) ([szimano](https://github.com/szimano))
 - Correct the way to give additional informations for Play apps [\#613](https://github.com/sbt/sbt-native-packager/pull/613) ([nremond](https://github.com/nremond))
@@ -1519,7 +1558,6 @@
 - small typo [\#571](https://github.com/sbt/sbt-native-packager/pull/571) ([francisdb](https://github.com/francisdb))
 - updated docs related to \#568 on multiple main classes [\#570](https://github.com/sbt/sbt-native-packager/pull/570) ([francisdb](https://github.com/francisdb))
 - Wip/issue 21 multiple config files shortcuts [\#569](https://github.com/sbt/sbt-native-packager/pull/569) ([ezzarghili](https://github.com/ezzarghili))
-- Release preparations [\#550](https://github.com/sbt/sbt-native-packager/pull/550) ([muuki88](https://github.com/muuki88))
 
 ## [v1.0.1](https://github.com/sbt/sbt-native-packager/tree/v1.0.1) (2015-04-29)
 
@@ -1561,6 +1599,7 @@
 
 **Merged pull requests:**
 
+- Release preparations [\#550](https://github.com/sbt/sbt-native-packager/pull/550) ([muuki88](https://github.com/muuki88))
 - Fix warnings from rpm lint [\#547](https://github.com/sbt/sbt-native-packager/pull/547) ([dwhjames](https://github.com/dwhjames))
 - Fixing docs with newest changes [\#546](https://github.com/sbt/sbt-native-packager/pull/546) ([muuki88](https://github.com/muuki88))
 - fix for issue \#529 [\#544](https://github.com/sbt/sbt-native-packager/pull/544) ([dwhjames](https://github.com/dwhjames))
