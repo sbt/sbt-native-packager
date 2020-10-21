@@ -71,13 +71,9 @@ import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   runTest,
-  releaseStepCommandAndRemaining("^ publish"),
+  releaseStepCommandAndRemaining("^ publishSigned"),
   updateReadme,
   commitReadme,
-  pushChanges,
-  generateReleaseChangelog,
-  commitChangelog,
-  pushChanges,
   releaseStepTask(ghpagesPushSite)
 )
 
