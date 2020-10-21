@@ -9,9 +9,8 @@ import scala.sys.process._
 
 /**
   * == ReadmeRelease Plugin ==
-  * 
+  *
   * Changes the version in the README.md during a release.
-  * 
   */
 object ReadmeReleasePlugin extends AutoPlugin {
 
@@ -33,7 +32,6 @@ object ReadmeReleasePlugin extends AutoPlugin {
 
   }
 
-
   private def updateReadmeStep(state: State): State = {
     val extracted = Project.extract(state)
     val releaseVersion = extracted.get(version)
@@ -41,13 +39,9 @@ object ReadmeReleasePlugin extends AutoPlugin {
     val readmeFile = base / "README.md"
 
     val versionRegex = """(\d{1,2}\.\d{1,2}\.\d{1,2})""".r
-    val updatedReadmeContent = versionRegex.replaceAllIn(
-      IO.read(readmeFile),
-      releaseVersion
-    )
+    val updatedReadmeContent = versionRegex.replaceAllIn(IO.read(readmeFile), releaseVersion)
 
     IO.write(readmeFile, updatedReadmeContent)
-
 
     state
   }
@@ -67,11 +61,10 @@ object ReadmeReleasePlugin extends AutoPlugin {
 
     vcs(state).add(relativePath) !! log
     val vcsAddOutput = (vcs(state).status !!).trim
-    if (vcsAddOutput.isEmpty) {
+    if (vcsAddOutput.isEmpty)
       state.log.info("README.md hasn't been changed.")
-    } else {
+    else
       vcs(state).commit("Update release version in readme", sign, signOff) ! log
-    }
 
     state
   }
@@ -96,11 +89,11 @@ object ReadmeReleasePlugin extends AutoPlugin {
     * @param state
     * @return a process logger
     */
-  private def toProcessLogger(state: State): ProcessLogger = new ProcessLogger {
-    override def err(s: => String): Unit = state.log.info(s)
-    override def out(s: => String): Unit = state.log.info(s)
-    override def buffer[T](f: => T): T = state.log.buffer(f)
-  }
-
+  private def toProcessLogger(state: State): ProcessLogger =
+    new ProcessLogger {
+      override def err(s: => String): Unit = state.log.info(s)
+      override def out(s: => String): Unit = state.log.info(s)
+      override def buffer[T](f: => T): T = state.log.buffer(f)
+    }
 
 }

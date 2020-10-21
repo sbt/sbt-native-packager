@@ -63,16 +63,17 @@ object permissions {
     asString(user) + asString(group) + asString(other)
   }
 
-  private def asString(perm: Int): String = perm match {
-    case 0 => "---"
-    case 1 => "--x"
-    case 2 => "-w-"
-    case 3 => "-wx"
-    case 4 => "r--"
-    case 5 => "r-x"
-    case 6 => "rw-"
-    case 7 => "rwx"
-  }
+  private def asString(perm: Int): String =
+    perm match {
+      case 0 => "---"
+      case 1 => "--x"
+      case 2 => "-w-"
+      case 3 => "-wx"
+      case 4 => "r--"
+      case 5 => "r-x"
+      case 6 => "rw-"
+      case 7 => "rwx"
+    }
 
   /** Enriches string with `oct` interpolator, parsing string as base 8 integer. */
   implicit class OctalString(val sc: StringContext) extends AnyVal {

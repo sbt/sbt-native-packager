@@ -6,7 +6,7 @@ import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 
 import sbt._
-import sbt.Keys.{clean, mappings, name, publish, publishLocal, sourceDirectory, streams, target, version}
+import sbt.Keys.{clean, mappings, name, organization, publish, publishLocal, sourceDirectory, streams, target, version}
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{daemonUser, defaultLinuxInstallLocation}
 import com.typesafe.sbt.packager.universal.UniversalPlugin
@@ -59,7 +59,7 @@ object DockerPlugin extends AutoPlugin {
   import autoImport._
 
   /**
-    * The separator used by makeCopy should be always forced to UNIX separator.
+    * The separator used by makeCopyLayerIntermediate should be always forced to UNIX separator.
     * The separator doesn't depend on the OS where Dockerfile is being built.
     */
   val UnixSeparatorChar = '/'
@@ -99,17 +99,38 @@ object DockerPlugin extends AutoPlugin {
     ),
     dockerUpdateLatest := false,
     dockerAutoremoveMultiStageIntermediateImages := true,
+    dockerLayerGrouping := { _: String =>
+      None
+    },
+    dockerGroupLayers := {
+      val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
+      // Ensure this doesn't break even if the JvmPlugin isn't enabled.
+      val artifacts = projectDependencyArtifacts.?.value.getOrElse(Nil).map(_.data).toSet
+      val oldFunction = (dockerLayerGrouping in Docker).value
+
+      // By default we set this to a function that always returns None.
+      val oldPartialFunction = Function.unlift((tuple: (File, String)) => oldFunction(tuple._2))
+
+      val libDir = dockerBaseDirectory + "/lib/"
+      val binDir = dockerBaseDirectory + "/bin/"
+
+      oldPartialFunction.orElse {
+        case (file, _) if artifacts(file)                                    => 2
+        case (_, path) if path.startsWith(libDir) || path.startsWith(binDir) => 1
+      }
+    },
     dockerAliases := {
       val alias = dockerAlias.value
-      if (dockerUpdateLatest.value) {
+      if (dockerUpdateLatest.value)
         Seq(alias, alias.withTag(Option("latest")))
-      } else {
+      else
         Seq(alias)
-      }
     },
     dockerEntrypoint := Seq(s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
     dockerCmd := Seq(),
-    dockerVersion := Try(Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!).toOption
+    dockerVersion := Try(
+      Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!
+    ).toOption
       .map(_.trim)
       .flatMap(DockerVersion.parse),
     dockerApiVersion := Try(
@@ -124,13 +145,14 @@ object DockerPlugin extends AutoPlugin {
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerAdditionalPermissions := {
       val basePath = (defaultLinuxInstallLocation in Docker).value
-      (mappings in Docker).value
+      (dockerLayerMappings in Docker).value
         .collect {
           // by default we assume everything in the bin/ folder should be executable that is not a .bat file
-          case (_, path) if path.startsWith(s"$basePath/bin/") && !path.endsWith(".bat") =>
+          case LayeredMapping(_, _, path) if path.startsWith(s"$basePath/bin/") && !path.endsWith(".bat") =>
             DockerChmodType.UserGroupPlusExecute -> path
           // sh files should also be marked as executable
-          case (_, path) if path.endsWith(".sh") => DockerChmodType.UserGroupPlusExecute -> path
+          case LayeredMapping(_, _, path) if path.endsWith(".sh") =>
+            DockerChmodType.UserGroupPlusExecute -> path
         }
     },
     dockerCommands := {
@@ -143,21 +165,40 @@ object DockerPlugin extends AutoPlugin {
       val base = dockerBaseImage.value
       val addPerms = dockerAdditionalPermissions.value
       val multiStageId = UUID.randomUUID().toString
-
-      val generalCommands = makeFrom(base) +: makeMaintainer((maintainer in Docker).value).toSeq
+      val generalCommands = makeFromAs(base, "mainstage") +: makeMaintainer((maintainer in Docker).value).toSeq
       val stage0name = "stage0"
+      val layerMappings = (dockerLayerMappings in Docker).value
+      val layerIdsAscending = layerMappings.map(_.layerId).distinct.sortWith { (a, b) =>
+        // Make the None (unspecified) layer the last layer
+        a.getOrElse(Int.MaxValue) < b.getOrElse(Int.MaxValue)
+      }
       val stage0: Seq[CmdLike] = strategy match {
         case DockerPermissionStrategy.MultiStage =>
           Seq(
             makeFromAs(base, stage0name),
             makeLabel("snp-multi-stage" -> "intermediate"),
             makeLabel("snp-multi-stage-id" -> multiStageId),
-            makeWorkdir(dockerBaseDirectory),
-            makeCopy(dockerBaseDirectory),
-            makeUser("root"),
-            makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))
+            makeWorkdir(dockerBaseDirectory)
           ) ++
-            (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) }) ++
+            layerIdsAscending.map(l => makeCopyLayerIntermediate(l, dockerBaseDirectory)) ++
+            Seq(makeUser("root")) ++ layerIdsAscending.map(
+            l => makeChmodRecursive(dockerChmodType.value, Seq(pathInLayer(dockerBaseDirectory, l)))
+          ) ++ {
+            val layerToPath = (dockerGroupLayers in Docker).value
+            addPerms map {
+              case (tpe, v) =>
+                // Try and find the source file for the path from the mappings
+                val layerId = layerMappings
+                  .find(_.path == v)
+                  .map(_.layerId)
+                  .getOrElse {
+                    // We couldn't find a source file for the mapping, so try with a dummy source file,
+                    // in case there is an explicitly configured path based layer mapping, eg for a directory.
+                    layerToPath.lift((new File("/dev/null"), v))
+                  }
+                makeChmod(tpe, Seq(pathInLayer(v, layerId)))
+            }
+          } ++
             Seq(DockerStageBreak)
         case _ => Seq()
       }
@@ -167,18 +208,22 @@ object DockerPlugin extends AutoPlugin {
           case Some(_) => Seq(makeUser("root"), makeUserAdd(user, group, uidOpt, gidOpt))
           case _       => Seq()
         }) ++
-        Seq(makeWorkdir(dockerBaseDirectory)) ++
+        Seq(makeWorkdir(dockerBaseDirectory)) ++ {
         (strategy match {
           case DockerPermissionStrategy.MultiStage =>
-            Seq(makeCopyFrom(dockerBaseDirectory, stage0name, user, group))
+            layerIdsAscending.map { layerId =>
+              makeCopyFrom(pathInLayer(dockerBaseDirectory, layerId), dockerBaseDirectory, stage0name, user, group)
+            }
           case DockerPermissionStrategy.Run =>
-            Seq(makeCopy(dockerBaseDirectory), makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
+            layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory)) ++
+              Seq(makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
               (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
           case DockerPermissionStrategy.CopyChown =>
-            Seq(makeCopyChown(dockerBaseDirectory, user, group))
+            layerIdsAscending.map(layerId => makeCopyChown(layerId, dockerBaseDirectory, user, group))
           case DockerPermissionStrategy.None =>
-            Seq(makeCopy(dockerBaseDirectory))
-        }) ++
+            layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory))
+        })
+      } ++
         dockerLabels.value.map(makeLabel) ++
         dockerEnvVars.value.map(makeEnvVar) ++
         makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
@@ -193,13 +238,10 @@ object DockerPlugin extends AutoPlugin {
 
       stage0 ++ stage1
     }
-  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)(
-    Seq(
-      executableScriptName := executableScriptName.value,
-      mappings ++= dockerPackageMappings.value,
-      name := name.value,
-      packageName := packageName.value,
-      publishLocal := {
+  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)({
+
+    def publishLocalTask =
+      Def.task {
         val log = streams.value.log
         publishLocalDocker(
           stage.value,
@@ -212,8 +254,10 @@ object DockerPlugin extends AutoPlugin {
         log.info(
           s"Built image ${dockerAlias.value.withTag(None).toString} with tags [${dockerAliases.value.flatMap(_.tag).mkString(", ")}]"
         )
-      },
-      publish := {
+      } tag (Tags.Disk, Tags.Publish)
+
+    def publishTask =
+      Def.task {
         val _ = publishLocal.value
         val alias = dockerAliases.value
         val log = streams.value.log
@@ -221,8 +265,10 @@ object DockerPlugin extends AutoPlugin {
         alias.foreach { aliasValue =>
           publishDocker(execCommand, aliasValue.toString, log)
         }
-      },
-      clean := {
+      } tag (Tags.Network, Tags.Publish)
+
+    def cleanTask =
+      Def.task {
         val alias = dockerAliases.value
         val log = streams.value.log
         val rmiCommand = dockerRmiCommand.value
@@ -230,11 +276,34 @@ object DockerPlugin extends AutoPlugin {
         alias.foreach { aliasValue =>
           rmiDocker(rmiCommand, aliasValue.toString, log)
         }
-      },
+      }
+
+    Seq(
+      executableScriptName := executableScriptName.value,
+      mappings ++= dockerPackageMappings.value,
+      name := name.value,
+      packageName := packageName.value,
+      publishLocal := publishLocalTask.value,
+      publish := publishTask.value,
+      clean := cleanTask.value,
       sourceDirectory := sourceDirectory.value / "docker",
-      stage := Stager.stage(Docker.name)(streams.value, stagingDirectory.value, mappings.value),
+      stage := Stager.stage(Docker.name)(
+        streams.value,
+        stagingDirectory.value,
+        dockerLayerMappings.value.map {
+          case LayeredMapping(layerIdx, file, path) => (file, pathInLayer(path, layerIdx))
+        }
+      ),
       stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (target in Docker).value / "stage",
+      dockerLayerMappings := {
+        val dockerGroups = dockerGroupLayers.value
+        val dockerFinalFiles = (mappings in Docker).value
+        for {
+          mapping @ (file, path) <- dockerFinalFiles
+          layerIdx = dockerGroups.lift(mapping)
+        } yield LayeredMapping(layerIdx, file, path)
+      },
       target := target.value / "docker",
       // pick a user name that's unlikely to exist in base images
       daemonUser := "demiourgos728",
@@ -260,7 +329,7 @@ object DockerPlugin extends AutoPlugin {
         generateDockerConfig(dockerCommands.value, stagingDirectory.value)
       }
     )
-  )
+  })
 
   /**
     * @param comment
@@ -275,13 +344,6 @@ object DockerPlugin extends AutoPlugin {
     */
   private final def makeMaintainer(maintainer: String): Option[CmdLike] =
     if (maintainer.isEmpty) None else Some(makeLabel(Tuple2("MAINTAINER", maintainer)))
-
-  /**
-    * @param dockerBaseImage
-    * @return FROM command
-    */
-  private final def makeFrom(dockerBaseImage: String): CmdLike =
-    Cmd("FROM", dockerBaseImage)
 
   /**
     * @param dockerBaseImage
@@ -319,7 +381,7 @@ object DockerPlugin extends AutoPlugin {
     * @param dockerBaseDirectory the installation directory
     * @return COPY command copying all files inside the installation directory
     */
-  private final def makeCopy(dockerBaseDirectory: String): CmdLike = {
+  private final def makeCopyLayerDirect(layerId: Option[Int], dockerBaseDirectory: String): CmdLike = {
 
     /**
       * This is the file path of the file in the Docker image, and does not depend on the OS where the image
@@ -327,30 +389,44 @@ object DockerPlugin extends AutoPlugin {
       * on e.g. Windows systems.
       */
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
-    Cmd("COPY", s"$files /$files")
+    val path = layerId.map(i => s"$i/$files").getOrElse(s"$files")
+    Cmd("COPY", s"$path /$files")
+  }
+
+  private final def makeCopyLayerIntermediate(layerId: Option[Int], dockerBaseDirectory: String): CmdLike = {
+    val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
+    val path = layerId.map(i => s"$i/$files").getOrElse(s"$files")
+    Cmd("COPY", s"$path /$path")
   }
 
   /**
-    * @param dockerBaseDirectory the installation directory
-    * @param from files are copied from the given build stage
+    * @param src the installation directory
+    * @param stage files are copied from the given build stage
     * @param daemonUser
     * @param daemonGroup
     * @return COPY command copying all files inside the directory from another build stage.
     */
-  private final def makeCopyFrom(dockerBaseDirectory: String,
-                                 from: String,
-                                 daemonUser: String,
-                                 daemonGroup: String): CmdLike =
-    Cmd("COPY", s"--from=$from --chown=$daemonUser:$daemonGroup $dockerBaseDirectory $dockerBaseDirectory")
+  private final def makeCopyFrom(
+    src: String,
+    dest: String,
+    stage: String,
+    daemonUser: String,
+    daemonGroup: String
+  ): CmdLike =
+    Cmd("COPY", s"--from=$stage --chown=$daemonUser:$daemonGroup $src $dest")
 
   /**
-    * @param dockerBaseDirectory the installation directory
-    * @param from files are copied from the given build stage
+    * @param layerId the intermediate layer
     * @param daemonUser
     * @param daemonGroup
     * @return COPY command copying all files inside the directory from another build stage.
     */
-  private final def makeCopyChown(dockerBaseDirectory: String, daemonUser: String, daemonGroup: String): CmdLike = {
+  private final def makeCopyChown(
+    layerId: Option[Int],
+    dockerBaseDirectory: String,
+    daemonUser: String,
+    daemonGroup: String
+  ): CmdLike = {
 
     /**
       * This is the file path of the file in the Docker image, and does not depend on the OS where the image
@@ -358,7 +434,8 @@ object DockerPlugin extends AutoPlugin {
       * on e.g. Windows systems.
       */
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
-    Cmd("COPY", s"--chown=$daemonUser:$daemonGroup $files /$files")
+    val path = layerId.map(i => s"$i/$files").getOrElse(s"$files")
+    Cmd("COPY", s"--chown=$daemonUser:$daemonGroup $path /$files")
   }
 
   /**
@@ -389,20 +466,22 @@ object DockerPlugin extends AutoPlugin {
     * @return useradd to create the daemon user with the given uidOpt and gidOpt after invoking groupadd to
     *         create the daemon group if the given gidOpt does not exists.
     */
-  private final def makeUserAdd(daemonUser: String,
-                                daemonGroup: String,
-                                uidOpt: Option[String],
-                                gidOpt: Option[String]): CmdLike =
+  private final def makeUserAdd(
+    daemonUser: String,
+    daemonGroup: String,
+    uidOpt: Option[String],
+    gidOpt: Option[String]
+  ): CmdLike =
     Cmd(
       "RUN",
       (List("id", "-u", daemonUser, "1>/dev/null", "2>&1", "||") :::
         (gidOpt.fold[List[String]](Nil)(
-        gid =>
-          List("((", "getent", "group", gid, "1>/dev/null", "2>&1", "||") :::
-            List("(", "type", "groupadd", "1>/dev/null", "2>&1", "&&") :::
-            List("groupadd", "-g", gid, daemonGroup, "||") :::
-            List("addgroup", "-g", gid, "-S", daemonGroup, "))", "&&")
-      )) :::
+          gid =>
+            List("((", "getent", "group", gid, "1>/dev/null", "2>&1", "||") :::
+              List("(", "type", "groupadd", "1>/dev/null", "2>&1", "&&") :::
+              List("groupadd", "-g", gid, daemonGroup, "||") :::
+              List("addgroup", "-g", gid, "-S", daemonGroup, "))", "&&")
+        )) :::
         List("(", "type", "useradd", "1>/dev/null", "2>&1", "&&") :::
         List("useradd", "--system", "--create-home") :::
         (uidOpt.fold[List[String]](Nil)(List("--uid", _))) :::
@@ -498,11 +577,14 @@ object DockerPlugin extends AutoPlugin {
     def renameDests(from: Seq[(File, String)], dest: String) =
       for {
         (f, path) <- from
-        newPath = "%s/%s" format (dest, path)
+        pathWithValidSeparator = if (Path.sep == '/') path else path.replace(Path.sep, '/')
+        newPath = "%s/%s" format (dest, pathWithValidSeparator)
       } yield (f, newPath)
 
     inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
   }
+
+  private final def pathInLayer(path: String, layer: Option[Int]) = layer.map(i => s"/$i$path").getOrElse(path)
 
   private[packager] def publishLocalLogger(log: Logger) =
     new sys.process.ProcessLogger {
@@ -513,27 +595,53 @@ object DockerPlugin extends AutoPlugin {
           case s if s.startsWith("Sending build context") =>
             log.debug(s) // 1.0
           case s if !s.trim.isEmpty => log.error(s)
-          case s                    =>
+          case _                    =>
         }
 
-      override def out(inf: => String): Unit = inf match {
-        case s if !s.trim.isEmpty => log.info(s)
-        case s                    =>
-      }
+      override def out(inf: => String): Unit =
+        inf match {
+          case s if !s.trim.isEmpty => log.info(s)
+          case _                    =>
+        }
 
       override def buffer[T](f: => T): T = f
     }
 
-  def publishLocalDocker(context: File,
-                         buildCommand: Seq[String],
-                         execCommand: Seq[String],
-                         strategy: DockerPermissionStrategy,
-                         removeIntermediateImages: Boolean,
-                         log: Logger): Unit = {
+  // BuildKit ouputs everything to stderr, so we redirect it
+  private[this] def publishLocalBuildkitLogger(log: Logger) =
+    new sys.process.ProcessLogger {
+      override def err(err: => String): Unit =
+        err match {
+          case s if !s.trim.isEmpty => log.info(s)
+          case _                    =>
+        }
+
+      override def out(inf: => String): Unit =
+        inf match {
+          case s if !s.trim.isEmpty => log.info(s)
+          case _                    =>
+        }
+
+      override def buffer[T](f: => T): T = f
+    }
+
+  def publishLocalDocker(
+    context: File,
+    buildCommand: Seq[String],
+    execCommand: Seq[String],
+    strategy: DockerPermissionStrategy,
+    removeIntermediateImages: Boolean,
+    log: Logger
+  ): Unit = {
     log.debug("Executing Native " + buildCommand.mkString(" "))
     log.debug("Working directory " + context.toString)
 
-    val ret = sys.process.Process(buildCommand, context) ! publishLocalLogger(log)
+    val logger = sys.env
+      .get("DOCKER_BUILDKIT")
+      .filter(_ == "1")
+      .map(_ => publishLocalBuildkitLogger(log))
+      .getOrElse(publishLocalLogger(log))
+    val ret = sys.process.Process(buildCommand, context) ! logger
 
     if (removeIntermediateImages) {
       val labelKey = "snp-multi-stage-id"
@@ -544,16 +652,16 @@ object DockerPlugin extends AutoPlugin {
             .find(_.startsWith(labelCmd))
             .map(_.substring(labelCmd.size).stripPrefix("\"").stripSuffix("\"")) match {
             // No matter if the build process succeeded or failed, we try to remove the intermediate images
-            case Some(id) => {
+            case Some(id) =>
               val label = s"${labelKey}=${id}"
               log.info(s"""Removing intermediate image(s) (labeled "${label}") """)
-              val retImageClean = sys.process.Process(
-                execCommand ++ s"image prune -f --filter label=${label}".split(" ")
-              ) ! publishLocalLogger(log)
+              val retImageClean =
+                sys.process.Process(execCommand ++ s"image prune -f --filter label=${label}".split(" ")) ! logger
               // FYI: "docker image prune" returns 0 (success) no matter if images were removed or not
               if (retImageClean != 0)
-                log.err("Something went wrong while removing multi-stage intermediate image(s)") // no exception, just let the user know
-            }
+                log.err(
+                  "Something went wrong while removing multi-stage intermediate image(s)"
+                ) // no exception, just let the user know
             case None =>
               log.info(
                 """Not removing multi-stage intermediate image(s) because id is missing in Dockerfile (Comment: "# id=...")"""
@@ -568,16 +676,18 @@ object DockerPlugin extends AutoPlugin {
   }
 
   def rmiDocker(execCommand: Seq[String], tag: String, log: Logger): Unit = {
-    def rmiDockerLogger(log: Logger) = new sys.process.ProcessLogger {
-      override def err(err: => String): Unit = err match {
-        case s if !s.trim.isEmpty => log.error(s)
-        case s                    =>
+    def rmiDockerLogger(log: Logger) =
+      new sys.process.ProcessLogger {
+        override def err(err: => String): Unit =
+          err match {
+            case s if !s.trim.isEmpty => log.error(s)
+            case s                    =>
+          }
+
+        override def out(inf: => String): Unit = log.info(inf)
+
+        override def buffer[T](f: => T): T = f
       }
-
-      override def out(inf: => String): Unit = log.info(inf)
-
-      override def buffer[T](f: => T): T = f
-    }
 
     log.debug(s"Removing ${tag}")
 
@@ -596,10 +706,11 @@ object DockerPlugin extends AutoPlugin {
     def publishLogger(log: Logger) =
       new sys.process.ProcessLogger {
 
-        override def err(err: => String): Unit = err match {
-          case s if !s.trim.isEmpty => log.error(s)
-          case s                    =>
-        }
+        override def err(err: => String): Unit =
+          err match {
+            case s if !s.trim.isEmpty => log.error(s)
+            case s                    =>
+          }
 
         override def out(inf: => String): Unit =
           inf match {
@@ -626,12 +737,13 @@ object DockerPlugin extends AutoPlugin {
       log.info("Published image " + tag)
   }
 
-  private[this] def validateExposedPorts(ports: Seq[Int], udpPorts: Seq[Int]): Validation.Validator = () => {
-    if (ports.isEmpty && udpPorts.isEmpty) {
-      List(
-        ValidationWarning(
-          description = "There are no exposed ports for your docker image",
-          howToFix = """| Configure the `dockerExposedPorts` or `dockerExposedUdpPorts` setting. E.g.
+  private[this] def validateExposedPorts(ports: Seq[Int], udpPorts: Seq[Int]): Validation.Validator =
+    () => {
+      if (ports.isEmpty && udpPorts.isEmpty)
+        List(
+          ValidationWarning(
+            description = "There are no exposed ports for your docker image",
+            howToFix = """| Configure the `dockerExposedPorts` or `dockerExposedUdpPorts` setting. E.g.
              |
              | // standard tcp ports
              | dockerExposedPorts ++= Seq(9000, 9001)
@@ -639,22 +751,22 @@ object DockerPlugin extends AutoPlugin {
              | // for udp ports
              | dockerExposedUdpPorts += 4444
           """.stripMargin
+          )
         )
-      )
-    } else {
-      List.empty
+      else
+        List.empty
     }
-  }
 
-  private[this] def validateDockerVersion(dockerApiVersion: Option[DockerApiVersion]): Validation.Validator = () => {
-    dockerApiVersion match {
-      case Some(_) => List.empty
-      case None =>
-        List(
-          ValidationWarning(
-            description =
-              "sbt-native-packager wasn't able to identify the docker version. Some features may not be enabled",
-            howToFix = """|sbt-native packager tries to parse the `docker version` output. This can fail if
+  private[this] def validateDockerVersion(dockerApiVersion: Option[DockerApiVersion]): Validation.Validator =
+    () => {
+      dockerApiVersion match {
+        case Some(_) => List.empty
+        case None =>
+          List(
+            ValidationWarning(
+              description =
+                "sbt-native-packager wasn't able to identify the docker version. Some features may not be enabled",
+              howToFix = """|sbt-native packager tries to parse the `docker version` output. This can fail if
              |
              |  - the output has changed:
              |    $ docker version --format '{{.Server.APIVersion}}'
@@ -673,14 +785,16 @@ object DockerPlugin extends AutoPlugin {
              |  import com.typesafe.sbt.packager.docker.DockerApiVersion
              |  dockerApiVersion := Some(DockerApiVersion(1, 40))
           """.stripMargin
+            )
           )
-        )
+      }
     }
-  }
 
-  private[this] def validateDockerPermissionStrategy(strategy: DockerPermissionStrategy,
-                                                     dockerVersion: Option[DockerVersion],
-                                                     dockerApiVersion: Option[DockerApiVersion]): Validation.Validator =
+  private[this] def validateDockerPermissionStrategy(
+    strategy: DockerPermissionStrategy,
+    dockerVersion: Option[DockerVersion],
+    dockerApiVersion: Option[DockerApiVersion]
+  ): Validation.Validator =
     () => {
       (strategy, dockerVersion, dockerApiVersion) match {
         case (DockerPermissionStrategy.MultiStage, Some(ver), Some(apiVer)) if !DockerSupport.multiStage(ver, apiVer) =>
@@ -688,8 +802,7 @@ object DockerPlugin extends AutoPlugin {
             ValidationError(
               description =
                 s"The detected Docker version $ver is not compatible with DockerPermissionStrategy.MultiStage",
-              howToFix =
-                """|sbt-native packager tries to parse the `docker version` output.
+              howToFix = """|sbt-native packager tries to parse the `docker version` output.
              |To use multi-stage build, upgrade your Docker, pick another strategy, or override dockerApiVersion:
              |
              |  import com.typesafe.sbt.packager.docker.DockerPermissionStrategy
@@ -719,5 +832,4 @@ object DockerPlugin extends AutoPlugin {
         case _ => List.empty
       }
     }
-
 }

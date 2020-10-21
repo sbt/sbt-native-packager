@@ -90,9 +90,9 @@ Here is how the values for ``name`` and ``packageName`` are used by the three co
 
     name in Universal := name.value
 
-    name in UniversalDocs <<= name in Universal
+    name in UniversalDocs := (name in Universal).value
 
-    name in UniversalSrc <<= name in Universal
+    name in UniversalSrc := (name in Universal).value
 
     packageName in Universal := packageName.value
 
@@ -103,7 +103,7 @@ specify the desired mappings for a given configuration.  For example:
 
 .. code-block:: scala
 
-    mappings in Universal <+= packageBin in Compile map { p => p -> "lib/foo.jar" }
+    mappings in Universal += (packageBin in Compile).value -> "lib/foo.jar"
 
 However, sometimes it may be advantageous to customize the files for each archive separately.  For example, perhaps
 the .tar.gz has an additional README plaintext file in addition to a README.html.  To add this just to the .tar.gz file,
@@ -111,7 +111,7 @@ use the task-scope feature of sbt:
 
 .. code-block:: scala
 
-    mappings in Universal in package-zip-tarball += file("README") -> "README"
+    mappings in Universal in packageZipTarball += file("README") -> "README"
 
 Besides ``mappings``, the ``name``, ``sourceDirectory`` and ``target`` configurations are all respected by universal packaging.
 
@@ -186,7 +186,8 @@ look at an example where we add the packaged jar of a project to the lib folder 
 
 .. code-block:: scala
 
-    mappings in Universal <+= (packageBin in Compile) map { jar =>
+    mappings in Universal += {
+      val jar = (packageBin in Compile).value
       jar -> ("lib/" + jar.getName)
     }
 
@@ -195,7 +196,7 @@ The above does two things:
 1. It depends on ``packageBin in Compile`` which will generate a jar file form the project.
 2. It creates a *mapping* (a ``Tuple2[File, String]``) which denotes the file and the location in the distribution as a string.
 
-You can use this to pattern to add anything you desire to the package.
+You can use this pattern to add anything you desire to the package.
 
 **Note**
 
@@ -277,11 +278,10 @@ changelog in addition to the generic packaging by first defining a changelog in 
 
 .. code-block:: scala
 
-    linuxPackageMappings in Debian <+= (name in Universal, sourceDirectory in Debian) map { (name, dir) =>
+    linuxPackageMappings in Debian +=
       (packageMapping(
-        (dir / "changelog") -> "/usr/share/doc/sbt/changelog.gz"
+        ((sourceDirectory in Debian).value / "changelog") -> "/usr/share/doc/sbt/changelog.gz"
       ) withUser "root" withGroup "root" withPerms "0644" gzipped) asDocs()
-    }
 
 Notice how we're *only* modifying the package mappings for Debian linux packages.
 
@@ -355,10 +355,10 @@ You get a set of methods which will help you to create mappings very easily.
     mappings in Universal ++= directory("src/main/resources/cache")
 
     mappings in Universal ++= contentOf("src/main/resources/docs")
+    
+    mappings in Universal ++= directory(sourceDirectory.value / "main" / "resources" / "cache")
 
-    mappings in Universal <++= sourceDirectory map (src => directory(src / "main" / "resources" / "cache"))
-
-    mappings in Universal <++= sourceDirectory map (src => contentOf(src / "main" / "resources" / "docs"))
+    mappings in Universal ++= contentOf(sourceDirectory.value / "main" / "resources" / "docs")
 
 
 .. _MappingsHelper: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MappingsHelper$
@@ -391,8 +391,7 @@ If you want to add everything in a directory where the path for the directory is
 
 .. code-block:: scala
 
-    mappings in Universal := (mappings in Universal).value ++ directory(target.value / "scala-2.10" / "api")
-    }
+    (mappings in Universal) ~= (_ ++ directory(target.value / "scala-2.10" / "api"))
 
 
 
@@ -400,9 +399,9 @@ You can also use the following approach if, for example, you need more flexibili
 
 .. code-block:: scala
 
-    mappings in Universal <++= (packageBin in Compile, target ) map { (_, target) =>
-        val dir = target / "scala-2.10" / "api"
-        (dir.***) pair relativeTo(dir.getParentFile)
+    (mappings in Universal) ++= {
+        val dir = target.value / "scala-2.10" / "api"
+        (dir ** AllPassFilter) pair relativeTo(dir.getParentFile)
     }
 
 Here is what happens in this code:
@@ -453,9 +452,9 @@ Mapping the content of a directory (excluding the directory itself)
 
 .. code-block:: scala
 
-    mappings in Universal <++= (packageBin in Compile, target ) map { (_, target) =>
-        val dir = target / "scala-2.10" / "api"
-        (dir.*** --- dir) pair relativeTo(dir)
+    mappings in Universal ++= {
+        val dir = target.value / "scala-2.10" / "api"
+        (dir ** AllPassFilter --- dir) pair relativeTo(dir)
     }
 
 The ``dir`` gets excluded and is used as root for ``relativeTo(dir)``.
@@ -488,10 +487,6 @@ tl;dr how to remove stuff
         // add the fat jar to our sequence of things that we've filtered
         filtered :+ (fatJar -> ("lib/" + fatJar.getName))
     }
-
-    // sbt 0.12 syntax
-    mappings in Universal <<= (mappings in Universal, assembly in Compile) map { (universalMappings, fatJar) => /* same logic */}
-
 
 The complete ``build.sbt`` should contain these settings if you want a single assembled fat jar.
 

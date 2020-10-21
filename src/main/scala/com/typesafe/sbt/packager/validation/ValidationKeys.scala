@@ -10,7 +10,6 @@ trait ValidationKeys {
     * - `sbt universal:packageBin::validatePackage`
     * - `sbt debian:packageBin::validatePackage`
     *
-    *
     * Each format should implement it's own validate.
     * Implemented in #1026
     */

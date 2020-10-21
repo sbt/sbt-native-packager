@@ -15,3 +15,7 @@ trait GraalVMNativeImageKeys {
     "Version of GraalVM to build with. Setting this has the effect of generating a container build image to build the native image with this version of GraalVM."
   )
 }
+
+trait GraalVMNativeImageKeysEx extends GraalVMNativeImageKeys {
+  val graalVMNativeImageCommand = settingKey[String]("GraalVM native-image executable command")
+}

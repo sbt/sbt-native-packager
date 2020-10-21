@@ -2,7 +2,8 @@ name := "sbt-native-packager"
 organization := "com.typesafe.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
-Global / scalaVersion := "2.12.7"
+Global / onChangedBuildSource := ReloadOnSourceChanges
+Global / scalaVersion := "2.12.12"
 
 // crossBuildingSettings
 crossSbtVersions := Vector("0.13.17", "1.1.6")
@@ -16,7 +17,7 @@ libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "8.14.3" % Provided,
   "org.vafer" % "jdeb" % "1.7" % Provided artifacts Artifact("jdeb", "jar", "jar"),
-  "org.apache.commons" % "commons-compress" % "1.18",
+  "org.apache.commons" % "commons-compress" % "1.20",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.5",
   // workaround for the command line size limit
@@ -58,43 +59,7 @@ mimaPreviousArtifacts := {
   val m = organization.value %% moduleName.value % "1.3.15"
   val sbtBinV = (sbtBinaryVersion in pluginCrossBuild).value
   val scalaBinV = (scalaBinaryVersion in update).value
-  Set(Defaults.sbtPluginExtra(m cross CrossVersion.Disabled(), sbtBinV, scalaBinV))
-}
-mimaBinaryIssueFilters ++= {
-  import com.typesafe.tools.mima.core._
-  List(
-    // added via #1179
-    ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmKeys.rpmEpoch"),
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.rpm.RpmKeys.com$typesafe$sbt$packager$rpm$RpmKeys$_setter_$rpmEpoch_="
-    ),
-    ProblemFilters.exclude[MissingTypesProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata$"),
-    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.apply"),
-    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.copy"),
-    ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.rpm.RpmMetadata.this"),
-    // added via #1251
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.universal.UniversalKeys.com$typesafe$sbt$packager$universal$UniversalKeys$_setter_$containerBuildImage_="
-    ),
-    ProblemFilters
-      .exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.universal.UniversalKeys.containerBuildImage"),
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImageKeys.graalVMNativeImageGraalVersion"
-    ),
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.graalvmnativeimage.GraalVMNativeImageKeys.com$typesafe$sbt$packager$graalvmnativeimage$GraalVMNativeImageKeys$_setter_$graalVMNativeImageGraalVersion_="
-    ),
-    // added via #1279
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.docker.DockerKeys.com$typesafe$sbt$packager$docker$DockerKeys$_setter_$dockerAutoremoveMultiStageIntermediateImages_="
-    ),
-    ProblemFilters.exclude[ReversedMissingMethodProblem](
-      "com.typesafe.sbt.packager.docker.DockerKeys.dockerAutoremoveMultiStageIntermediateImages"
-    ),
-    ProblemFilters.exclude[DirectMissingMethodProblem](
-      "com.typesafe.sbt.packager.docker.DockerPlugin.publishLocalDocker"
-    )
-  )
+  Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
 }
 
 // Release configuration
@@ -120,9 +85,9 @@ releaseProcess := Seq[ReleaseStep](
 bintrayOrganization := Some("sbt")
 bintrayRepository := "sbt-plugin-releases"
 
-addCommandAlias("scalafmtAll", "; scalafmt ; test:scalafmt ; sbt:scalafmt")
+addCommandAlias("scalafmtFormatAll", "; ^scalafmtAll ; scalafmtSbt")
 // ci commands
-addCommandAlias("validateFormatting", "; scalafmt::test ; test:scalafmt::test ; sbt:scalafmt::test")
+addCommandAlias("validateFormatting", "; scalafmtCheckAll ; scalafmtSbtCheck")
 addCommandAlias("validate", "; clean ; update ; validateFormatting ; test ; mimaReportBinaryIssues")
 
 // List all scripted test separately to schedule them in different travis-ci jobs.

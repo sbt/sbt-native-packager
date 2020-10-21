@@ -145,6 +145,14 @@ Environment Settings
   ``dockerApiVersion``
     The docker server API version. Used to leverage new docker features while maintaining backwards compatibility.
 
+  ``dockerGroupLayers``
+    The function mapping files into separate layers to increase docker cache hits.
+    Lower index means the file would be a part of an earlier layer.
+    The main idea behind this is to COPY dependencies *.jar's first as they should change rarely.
+    In separate command COPY the application *.jar's that should change more often.
+    Defaults to detect whether the file name starts with ``ThisBuild / organization``.
+    To disable layers map all files to no layer using ``dockerGroupLayers in Docker := PartialFunction.empty``.
+
 Publishing Settings
 ~~~~~~~~~~~~~~~~~~~
 

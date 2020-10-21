@@ -1,3 +1,0 @@
-# Generate the Docker image locally
-> docker:publishLocal
-$ exec bash -c 'docker run simple-sudo-docker:0.1.0 | grep -q "Hello world"'

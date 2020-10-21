@@ -8,35 +8,41 @@ import com.typesafe.sbt.packager.rpm.RpmPlugin.Names._
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import java.io.File
 
-case class RpmMetadata(name: String,
-                       version: String,
-                       release: String,
-                       prefix: Option[String] = None,
-                       arch: String,
-                       vendor: String,
-                       os: String,
-                       summary: String,
-                       description: String,
-                       autoprov: String,
-                       autoreq: String,
-                       epoch: Option[Int])
+case class RpmMetadata(
+  name: String,
+  version: String,
+  release: String,
+  prefix: Option[String] = None,
+  arch: String,
+  vendor: String,
+  os: String,
+  summary: String,
+  description: String,
+  autoprov: String,
+  autoreq: String,
+  epoch: Option[Int]
+)
 
 /**
   * The Description used to generate an RPM
   */
-case class RpmDescription(license: Option[String] = None,
-                          distribution: Option[String] = None,
-                          url: Option[String] = None,
-                          group: Option[String] = None,
-                          packager: Option[String] = None,
-                          icon: Option[String] = None,
-                          changelogFile: Option[String] = None)
+case class RpmDescription(
+  license: Option[String] = None,
+  distribution: Option[String] = None,
+  url: Option[String] = None,
+  group: Option[String] = None,
+  packager: Option[String] = None,
+  icon: Option[String] = None,
+  changelogFile: Option[String] = None
+)
 
-case class RpmDependencies(provides: Seq[String] = Seq.empty,
-                           requirements: Seq[String] = Seq.empty,
-                           prereq: Seq[String] = Seq.empty,
-                           obsoletes: Seq[String] = Seq.empty,
-                           conflicts: Seq[String] = Seq.empty) {
+case class RpmDependencies(
+  provides: Seq[String] = Seq.empty,
+  requirements: Seq[String] = Seq.empty,
+  prereq: Seq[String] = Seq.empty,
+  obsoletes: Seq[String] = Seq.empty,
+  conflicts: Seq[String] = Seq.empty
+) {
   def contents: String = {
     val sb = new StringBuilder
     def appendSetting(prefix: String, values: Seq[String]) =
@@ -53,13 +59,15 @@ case class RpmDependencies(provides: Seq[String] = Seq.empty,
 /**
   * Parameters stay because of binary compatibility.
   */
-case class RpmScripts(pretrans: Option[String] = None,
-                      pre: Option[String] = None,
-                      post: Option[String] = None,
-                      verifyscript: Option[String] = None,
-                      posttrans: Option[String] = None,
-                      preun: Option[String] = None,
-                      postun: Option[String] = None) {
+case class RpmScripts(
+  pretrans: Option[String] = None,
+  pre: Option[String] = None,
+  post: Option[String] = None,
+  verifyscript: Option[String] = None,
+  posttrans: Option[String] = None,
+  preun: Option[String] = None,
+  postun: Option[String] = None
+) {
 
   def pretransContent(): String = buildScript("pretrans", pretrans)
   def preContent(): String = buildScript("pre", pre)
@@ -94,8 +102,10 @@ case class RpmScripts(pretrans: Option[String] = None,
 
 object RpmScripts {
 
-  def fromMaintainerScripts(maintainerScripts: Map[String, Seq[String]],
-                            replacements: Seq[(String, String)]): RpmScripts = {
+  def fromMaintainerScripts(
+    maintainerScripts: Map[String, Seq[String]],
+    replacements: Seq[(String, String)]
+  ): RpmScripts = {
     val toContent = toContentWith(replacements) _
     RpmScripts(
       pretrans = maintainerScripts.get(Pretrans).map(toContent),
@@ -114,14 +124,16 @@ object RpmScripts {
 
 }
 
-case class RpmSpec(meta: RpmMetadata,
-                   desc: RpmDescription = RpmDescription(),
-                   deps: RpmDependencies = RpmDependencies(),
-                   setarch: Option[String],
-                   scriptlets: RpmScripts = RpmScripts(),
-                   mappings: Seq[LinuxPackageMapping] = Seq.empty,
-                   symlinks: Seq[LinuxSymlink] = Seq.empty,
-                   installLocation: String) {
+case class RpmSpec(
+  meta: RpmMetadata,
+  desc: RpmDescription = RpmDescription(),
+  deps: RpmDependencies = RpmDependencies(),
+  setarch: Option[String],
+  scriptlets: RpmScripts = RpmScripts(),
+  mappings: Seq[LinuxPackageMapping] = Seq.empty,
+  symlinks: Seq[LinuxSymlink] = Seq.empty,
+  installLocation: String
+) {
 
   def installDir: String =
     LinuxPlugin.chdir(installLocation, meta.name)

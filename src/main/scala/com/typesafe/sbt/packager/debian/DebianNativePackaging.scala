@@ -21,12 +21,10 @@ import sbt._
   * <li>dpkg-genchanges</li>
   * </ul>
   *
-  *
   * @example Enable the plugin in the `build.sbt`
   * {{{
   *    enablePlugins(DebianNativePackaging)
   * }}}
-  *
   */
 trait DebianNativePackaging extends DebianPluginLike {
 
@@ -61,7 +59,7 @@ trait DebianNativePackaging extends DebianPluginLike {
           val file = packageBin.value
           sys.process.Process(Seq("lintian", "-c", "-v", file.getName), Some(file.getParentFile)).!
         },
-        /** Implementation of the actual packaging  */
+        /** Implementation of the actual packaging */
         packageBin := buildPackage(
           name.value,
           version.value,
@@ -100,12 +98,14 @@ trait DebianNativePackaging extends DebianPluginLike {
     }
   }
 
-  private[this] def buildPackage(name: String,
-                                 version: String,
-                                 arch: String,
-                                 stageDir: File,
-                                 buildOptions: Seq[String],
-                                 log: Logger) = {
+  private[this] def buildPackage(
+    name: String,
+    version: String,
+    arch: String,
+    stageDir: File,
+    buildOptions: Seq[String],
+    log: Logger
+  ) = {
     log.info("Building debian package with native implementation")
     // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
     val archive = archiveFilename(name, version, arch)

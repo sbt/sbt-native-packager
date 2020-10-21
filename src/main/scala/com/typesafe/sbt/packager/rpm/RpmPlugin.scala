@@ -148,9 +148,8 @@ object RpmPlugin extends AutoPlugin {
         val pre = scripts.getOrElse(Names.Pre, Nil)
         val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
         scripts + (Names.Pre -> (pre :+ scriptBits))
-      } else {
+      } else
         scripts
-      }
     },
     rpmScripts := RpmScripts
       .fromMaintainerScripts((maintainerScripts in Rpm).value, (linuxScriptReplacements in Rpm).value),

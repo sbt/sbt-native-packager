@@ -70,16 +70,17 @@ object JlinkPlugin extends AutoPlugin {
         }
         .getOrElse(sys.error("JAVA_VERSION not found in ${releaseFile.getAbsolutePath}"))
 
-      val modulePathOpts = if (modulePath.nonEmpty) {
-        Vector("--module-path", modulePath.mkString(":"))
-      } else Vector.empty
+      val modulePathOpts =
+        if (modulePath.nonEmpty)
+          Vector("--module-path", modulePath.mkString(":"))
+        else Vector.empty
 
       // Jdeps has a few convenient options (like --print-module-deps), but those
       // are not flexible enough - we need to parse the full output.
       val jdepsOutput = run("jdeps", "--multi-release" +: javaVersion +: modulePathOpts ++: "-R" +: paths)
 
       val deps = jdepsOutput.linesIterator
-      // There are headers in some of the lines - ignore those.
+        // There are headers in some of the lines - ignore those.
         .flatMap(PackageDependency.parse(_).iterator)
         .toSeq
 
@@ -116,13 +117,28 @@ object JlinkPlugin extends AutoPlugin {
       // This requires special handling on our part when deciding if the module
       // is a part of the platform or not.
       // At least the new modules shouldn't be doing this...
-      val knownJakartaJavaModules = Set("java.xml.bind", "java.xml.soap", "java.ws.rs")
+      val knownJakartaJavaModules = Set("java.annotation", "java.xml.bind", "java.xml.soap", "java.ws.rs")
+
+      // Java platform modules that were officially removed.
+      // https://www.oracle.com/java/technologies/javase/jdk-11-relnote.html#JDK-8190378
+      val removedJavaModules = Set(
+        "java.xml.ws",
+        "java.xml.bind",
+        "java.activation",
+        "java.xml.ws.annotation",
+        "java.corba",
+        "java.transaction",
+        "java.se.ee",
+        "jdk.xml.ws",
+        "jdk.xml.bind"
+      )
 
       val filteredModuleDeps = detectedModuleDeps
         .filter { m =>
           m.startsWith("jdk.") || m.startsWith("java.")
         }
         .filterNot(knownJakartaJavaModules.contains)
+        .filterNot(removedJavaModules.contains)
 
       // We always want `java.base`, and `jlink` requires at least one module.
       (filteredModuleDeps + "java.base").toSeq
@@ -133,9 +149,8 @@ object JlinkPlugin extends AutoPlugin {
     jlinkOptions ++= {
       val modules = jlinkModules.value
 
-      if (modules.isEmpty) {
+      if (modules.isEmpty)
         sys.error("jlinkModules is empty")
-      }
 
       JlinkOptions(
         addModules = modules,
@@ -238,17 +253,18 @@ object JlinkPlugin extends AutoPlugin {
     sealed trait Source
 
     object Source {
-      def parse(s: String): Source = s match {
-        case "not found" => NotFound
-        // We have no foolproof way to separate jars from modules here, so
-        // we have to do something flaky.
-        case name
-            if name.toLowerCase.endsWith(".jar") ||
-              !name.contains('.') ||
-              name.contains(' ') =>
-          JarOrDir(name)
-        case name => Module(name)
-      }
+      def parse(s: String): Source =
+        s match {
+          case "not found" => NotFound
+          // We have no foolproof way to separate jars from modules here, so
+          // we have to do something flaky.
+          case name
+              if name.toLowerCase.endsWith(".jar") ||
+                !name.contains('.') ||
+                name.contains(' ') =>
+            JarOrDir(name)
+          case name => Module(name)
+        }
     }
 
     case object NotFound extends Source
@@ -273,11 +289,12 @@ object JlinkPlugin extends AutoPlugin {
     // foo.jar -> not found
     private val pattern = """^\s+([^\s]+)\s+->\s+([^\s]+)\s+([^\s].*?)\s*$""".r
 
-    def parse(s: String): Option[PackageDependency] = s match {
-      case pattern(dependent, dependee, source) =>
-        Some(PackageDependency(dependent, dependee, Source.parse(source)))
-      case _ => None
-    }
+    def parse(s: String): Option[PackageDependency] =
+      s match {
+        case pattern(dependent, dependee, source) =>
+          Some(PackageDependency(dependent, dependee, Source.parse(source)))
+        case _ => None
+      }
   }
 
   object Ignore {

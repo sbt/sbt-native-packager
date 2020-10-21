@@ -17,8 +17,8 @@ trait JDKPackagerKeys {
   val jdkPackagerBasename: SettingKey[String] =
     settingKey[String]("Filename sans extension for generated installer package.")
 
-  val jdkPackagerType: SettingKey[String] = settingKey[String](
-    """Value passed as the `native` attribute to `fx:deploy` task.
+  val jdkPackagerType: SettingKey[String] =
+    settingKey[String]("""Value passed as the `native` attribute to `fx:deploy` task.
       |Per `javapackager` documentation, this may be one of the following:
       |
       |    * `all`: Runs all of the installers for the platform on which it is running,
@@ -37,36 +37,31 @@ trait JDKPackagerKeys {
       | Default: `installer`.
       | Details:
       |   http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIABIFCI
-    """.stripMargin
-  )
+    """.stripMargin)
 
   val jdkPackagerToolkit: SettingKey[JDKPackagerToolkit] =
     settingKey[JDKPackagerToolkit]("GUI toolkit used in app. Either `JavaFXToolkit` (default) or `SwingToolkit`")
 
-  val jdkPackagerJVMArgs: SettingKey[Seq[String]] = settingKey[Seq[String]](
-    """Sequence of arguments to pass to the JVM.
+  val jdkPackagerJVMArgs: SettingKey[Seq[String]] = settingKey[Seq[String]]("""Sequence of arguments to pass to the JVM.
       |Default: `Seq("-Xmx768m")`.
       |Details:
       |   http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHJIJG
-    """.stripMargin
-  )
+    """.stripMargin)
 
-  val jdkPackagerAppArgs: SettingKey[Seq[String]] = settingKey[Seq[String]](
-    """List of command line arguments to pass to the application on launch.
+  val jdkPackagerAppArgs: SettingKey[Seq[String]] =
+    settingKey[Seq[String]]("""List of command line arguments to pass to the application on launch.
       |Default: `Seq.empty`
       |Details:
       |   http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACIJFHB
       |
-    """.stripMargin
-  )
+    """.stripMargin)
 
-  val jdkPackagerProperties: SettingKey[Map[String, String]] = settingKey[Map[String, String]](
-    """Map of `System` properties to define in application.
+  val jdkPackagerProperties: SettingKey[Map[String, String]] =
+    settingKey[Map[String, String]]("""Map of `System` properties to define in application.
       |Default: `Map.empty`
       |Details:
       |  http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHCIFJ
-    """.stripMargin
-  )
+    """.stripMargin)
 
   val jdkAppIcon: SettingKey[Option[File]] = settingKey[Option[File]]("""Path to platform-specific application icon:
       |    * `icns`: MacOS
@@ -76,15 +71,14 @@ trait JDKPackagerKeys {
       | Defaults to generic Java icon.
     """.stripMargin)
 
-  val jdkPackagerAssociations: SettingKey[Seq[FileAssociation]] = settingKey[Seq[FileAssociation]](
-    """Set of application file associations to register for the application.
+  val jdkPackagerAssociations: SettingKey[Seq[FileAssociation]] =
+    settingKey[Seq[FileAssociation]]("""Set of application file associations to register for the application.
       |Example: `jdkPackagerAssociations := Seq(FileAssociation("foo", "application/x-foo", Foo Data File", iconPath))
       |Default: `Seq.empty`
       |Note: Requires JDK >= 8 build 40.
       |Details:
       |  http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAIDHBJ
-    """.stripMargin
-  )
+    """.stripMargin)
 
   /** Config for scoping keys outside of Global . */
   val JDKPackager: Configuration = config("jdkPackager") extend SbtNativePackager.Universal

@@ -17,10 +17,11 @@ object Hashing {
     val in = new java.io.FileInputStream(file);
     val buffer = new Array[Byte](8192)
     try {
-      def read(): Unit = in.read(buffer) match {
-        case x if x <= 0 => ()
-        case size        => md.update(buffer, 0, size); read()
-      }
+      def read(): Unit =
+        in.read(buffer) match {
+          case x if x <= 0 => ()
+          case size        => md.update(buffer, 0, size); read()
+        }
       read()
     } finally in.close()
     convertToHex(md.digest)
@@ -33,8 +34,8 @@ object Hashing {
       if ((0 <= b) && (b <= 9)) ('0' + b).toChar
       else ('a' + (b - 10)).toChar
     for (i <- 0 until data.length) {
-      buf append byteToHex((data(i) >>> 4) & 0x0F)
-      buf append byteToHex(data(i) & 0x0F)
+      buf append byteToHex((data(i) >>> 4) & 0x0f)
+      buf append byteToHex(data(i) & 0x0f)
     }
     buf.toString
   }

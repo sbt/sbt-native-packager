@@ -19,16 +19,19 @@ lazy val root = (project in file("."))
       assert(lines(2).substring(0, 25) == "LABEL snp-multi-stage-id=") // random generated id is hard to test
       assertEquals(lines.drop(3),
         """WORKDIR /opt/docker
-          |COPY opt /opt
+          |COPY 1/opt /1/opt
+          |COPY 2/opt /2/opt
           |USER root
-          |RUN ["chmod", "-R", "u=rX,g=rX", "/opt/docker"]
-          |RUN ["chmod", "u+x,g+x", "/opt/docker/bin/file-permission-test"]
+          |RUN ["chmod", "-R", "u=rX,g=rX", "/1/opt/docker"]
+          |RUN ["chmod", "-R", "u=rX,g=rX", "/2/opt/docker"]
+          |RUN ["chmod", "u+x,g+x", "/1/opt/docker/bin/file-permission-test"]
           |
-          |FROM fabric8/java-centos-openjdk8-jdk
+          |FROM fabric8/java-centos-openjdk8-jdk as mainstage
           |USER root
           |RUN id -u demiourgos728 1>/dev/null 2>&1 || (( getent group 0 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 0 root || addgroup -g 0 -S root )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 || adduser -S -u 1001 -G root demiourgos728 ))
           |WORKDIR /opt/docker
-          |COPY --from=stage0 --chown=demiourgos728:root /opt/docker /opt/docker
+          |COPY --from=stage0 --chown=demiourgos728:root /1/opt/docker /opt/docker
+          |COPY --from=stage0 --chown=demiourgos728:root /2/opt/docker /opt/docker
           |USER 1001:0
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
@@ -38,11 +41,12 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM fabric8/java-centos-openjdk8-jdk
+        """FROM fabric8/java-centos-openjdk8-jdk as mainstage
           |USER root
           |RUN id -u demiourgos728 1>/dev/null 2>&1 || (( getent group 0 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 0 root || addgroup -g 0 -S root )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 || adduser -S -u 1001 -G root demiourgos728 ))
           |WORKDIR /opt/docker
-          |COPY opt /opt
+          |COPY 1/opt /opt
+          |COPY 2/opt /opt
           |USER 1001:0
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
@@ -52,11 +56,12 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM fabric8/java-centos-openjdk8-jdk
+        """FROM fabric8/java-centos-openjdk8-jdk as mainstage
           |USER root
           |RUN id -u demiourgos728 1>/dev/null 2>&1 || (( getent group 5000 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 5000 sbt || addgroup -g 5000 -S sbt )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 5000 demiourgos728 || adduser -S -u 1001 -G sbt demiourgos728 ))
           |WORKDIR /opt/docker
-          |COPY opt /opt
+          |COPY 1/opt /opt
+          |COPY 2/opt /opt
           |USER 1001:5000
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
@@ -66,11 +71,12 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM openjdk:8
+        """FROM openjdk:8 as mainstage
           |USER root
           |RUN id -u demiourgos728 1>/dev/null 2>&1 || (( getent group 0 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 0 root || addgroup -g 0 -S root )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 || adduser -S -u 1001 -G root demiourgos728 ))
           |WORKDIR /opt/docker
-          |COPY opt /opt
+          |COPY 1/opt /opt
+          |COPY 2/opt /opt
           |RUN ["chmod", "-R", "u=rX,g=rX", "/opt/docker"]
           |RUN ["chmod", "u+x,g+x", "/opt/docker/bin/file-permission-test"]
           |USER 1001:0
@@ -82,9 +88,10 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM fabric8/java-centos-openjdk8-jdk
+        """FROM fabric8/java-centos-openjdk8-jdk as mainstage
           |WORKDIR /opt/docker
-          |COPY --chown=daemon:root opt /opt
+          |COPY --chown=daemon:root 1/opt /opt
+          |COPY --chown=daemon:root 2/opt /opt
           |USER daemon
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)
@@ -99,16 +106,19 @@ lazy val root = (project in file("."))
       assert(lines(2).substring(0, 25) == "LABEL snp-multi-stage-id=") // random generated id is hard to test
       assertEquals(lines.drop(3),
         """WORKDIR /opt/docker
-          |COPY opt /opt
+          |COPY 1/opt /1/opt
+          |COPY 2/opt /2/opt
           |USER root
-          |RUN ["chmod", "-R", "u=rwX,g=rwX", "/opt/docker"]
-          |RUN ["chmod", "u+x,g+x", "/opt/docker/bin/file-permission-test"]
+          |RUN ["chmod", "-R", "u=rwX,g=rwX", "/1/opt/docker"]
+          |RUN ["chmod", "-R", "u=rwX,g=rwX", "/2/opt/docker"]
+          |RUN ["chmod", "u+x,g+x", "/1/opt/docker/bin/file-permission-test"]
           |
-          |FROM fabric8/java-centos-openjdk8-jdk
+          |FROM fabric8/java-centos-openjdk8-jdk as mainstage
           |USER root
           |RUN id -u demiourgos728 1>/dev/null 2>&1 || (( getent group 0 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 0 root || addgroup -g 0 -S root )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 || adduser -S -u 1001 -G root demiourgos728 ))
           |WORKDIR /opt/docker
-          |COPY --from=stage0 --chown=demiourgos728:root /opt/docker /opt/docker
+          |COPY --from=stage0 --chown=demiourgos728:root /1/opt/docker /opt/docker
+          |COPY --from=stage0 --chown=demiourgos728:root /2/opt/docker /opt/docker
           |USER 1001:0
           |ENTRYPOINT ["/opt/docker/bin/file-permission-test"]
           |CMD []""".stripMargin.linesIterator.toList)

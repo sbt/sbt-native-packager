@@ -3,14 +3,16 @@ package com.typesafe.sbt.packager.debian
 case class PackageInfo(name: String, version: String, maintainer: String, summary: String, description: String)
 
 /** Represents package meta used by debian when constructing packages. */
-case class PackageMetaData(info: PackageInfo,
-                           priority: String = "optional",
-                           architecture: String = "all",
-                           section: String = "java",
-                           conflicts: Seq[String] = Seq.empty,
-                           depends: Seq[String] = Seq.empty,
-                           provides: Seq[String] = Seq.empty,
-                           recommends: Seq[String] = Seq.empty) {
+case class PackageMetaData(
+  info: PackageInfo,
+  priority: String = "optional",
+  architecture: String = "all",
+  section: String = "java",
+  conflicts: Seq[String] = Seq.empty,
+  depends: Seq[String] = Seq.empty,
+  provides: Seq[String] = Seq.empty,
+  recommends: Seq[String] = Seq.empty
+) {
   def makeContent(installSizeEstimate: Long = 0L): String = {
     // TODO: Pretty print with line wrap.
     val sb = new StringBuilder

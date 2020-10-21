@@ -28,25 +28,26 @@ object SystemVPlugin extends AutoPlugin {
     inConfig(Debian)(systemVSettings) ++ debianSettings ++
       inConfig(Rpm)(systemVSettings) ++ rpmSettings
 
-  def systemVSettings: Seq[Setting[_]] = Seq(
-    // used by other archetypes to define systemloader dependent behaviour
-    serverLoading := Some(ServerLoader.SystemV),
-    // Systemd settings
-    startRunlevels := Some("2 3 4 5"),
-    stopRunlevels := Some("0 1 6"),
-    requiredStartFacilities := Some("$remote_fs $syslog"),
-    requiredStopFacilities := Some("$remote_fs $syslog"),
-    defaultLinuxStartScriptLocation := "/etc/init.d",
-    termTimeout := 60,
-    killTimeout := 30,
-    // add systemloader to mappings and override the isConf setting
-    linuxPackageMappings ++= startScriptMapping(
-      linuxStartScriptName.value,
-      linuxMakeStartScript.value,
-      defaultLinuxStartScriptLocation.value,
-      isConf = false
+  def systemVSettings: Seq[Setting[_]] =
+    Seq(
+      // used by other archetypes to define systemloader dependent behaviour
+      serverLoading := Some(ServerLoader.SystemV),
+      // Systemd settings
+      startRunlevels := Some("2 3 4 5"),
+      stopRunlevels := Some("0 1 6"),
+      requiredStartFacilities := Some("$remote_fs $syslog"),
+      requiredStopFacilities := Some("$remote_fs $syslog"),
+      defaultLinuxStartScriptLocation := "/etc/init.d",
+      termTimeout := 60,
+      killTimeout := 30,
+      // add systemloader to mappings and override the isConf setting
+      linuxPackageMappings ++= startScriptMapping(
+        linuxStartScriptName.value,
+        linuxMakeStartScript.value,
+        defaultLinuxStartScriptLocation.value,
+        isConf = false
+      )
     )
-  )
 
   def debianSettings: Seq[Setting[_]] =
     inConfig(Debian)(
