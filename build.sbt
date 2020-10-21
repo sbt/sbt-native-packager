@@ -112,4 +112,4 @@ addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted univer
 
 addCommandAlias("validateJlink", "scripted jlink/*")
 
-addCommandAlias("releaseFromTravis", "release with-defaults")
+addCommandAlias("ci-release", "release with-defaults")
