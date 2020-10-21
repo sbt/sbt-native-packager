@@ -71,13 +71,9 @@ import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   runTest,
-  releaseStepCommandAndRemaining("^ publish"),
+  releaseStepCommandAndRemaining("^ publishSigned"),
   updateReadme,
   commitReadme,
-  pushChanges,
-  generateReleaseChangelog,
-  commitChangelog,
-  pushChanges,
   releaseStepTask(ghpagesPushSite)
 )
 
@@ -116,4 +112,4 @@ addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted univer
 
 addCommandAlias("validateJlink", "scripted jlink/*")
 
-addCommandAlias("releaseFromTravis", "release with-defaults")
+addCommandAlias("ci-release", "release with-defaults")

@@ -1,0 +1,82 @@
+name: Release
+on:
+  push:
+    tags: ["*"]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      # https://stackoverflow.com/questions/58177786/get-the-current-pushed-tag-in-github-actions
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: show release version
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
+      - name: Cache SBT
+        uses: actions/cache@v2
+        with:
+          path: | 
+            ~/.ivy2/cache
+            ~/.sbt
+          key: ${{ runner.os }}-sbt-${{ hashFiles('**/*.sbt') }}
+      - uses: olafurpg/setup-scala@v10
+      - uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      # github_changelog_generator
+      - name: Generate changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issues: true
+          issuesWoLabels: true
+          pullRequests: true
+          prWoLabels: true
+          unreleased: true
+          cacheFile: '.github-changelog-cache'
+      - name: Push CHANGELOG.md
+        uses: EndBug/add-and-commit@v5
+        with:
+          add: 'CHANGELOG.md'
+          author_name: github-actions
+          author_email: github-actions@github.com
+          branch: master
+          message: 'Update CHANGELOG.md for release ${{ env.RELEASE_VERSION }}'
+          signoff: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # generate a github release
+      - name: Generate release changelog
+        id: changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          cacheFile: '.github-changelog-cache'
+          issues: true
+          issuesWoLabels: true
+          pullRequests: true
+          prWoLabels: true
+          unreleased: false
+          onlyLastTag: true
+          output: LATEST_RELEASE.md
+      - name: Read latest_release.md
+        id: release_changelog
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./LATEST_RELEASE.md
+      - name: Create Github Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ env.RELEASE_VERSION }}
+          body: ${{ steps.release_changelog.outputs.content }}
+          draft: false
+          prerelease: false
