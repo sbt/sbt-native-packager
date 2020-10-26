@@ -16,7 +16,7 @@ libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
 libraryDependencies += "jline" % "jline" % "2.11"
 
 // For our bintray publishing
-addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.4")
+addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.6.0")
 
 // For code formatting
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
