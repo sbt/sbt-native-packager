@@ -27,7 +27,7 @@ jobs:
 
       # this setup is all for the github pages deployment to work
       - name: install sphinx
-        run: pip install --user sphinx sphinx_rtd_theme
+        run: pip3 install --user sphinx sphinx_rtd_theme
 
       - name: setup git
         run: |
@@ -70,7 +70,7 @@ jobs:
       #     signoff: true
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
       # generate a github release
       - name: Generate release changelog
         id: changelog
