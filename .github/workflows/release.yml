@@ -70,6 +70,7 @@ jobs:
           prWoLabels: true
           unreleased: false
           onlyLastTag: true
+          maxIssues: 100
           output: LATEST_RELEASE.md
       - name: Read latest_release.md
         id: release_changelog
