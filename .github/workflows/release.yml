@@ -28,6 +28,9 @@ jobs:
 
       - name: sbt ci-release
         run: sbt ci-release
+        env:
+          BINTRAY_USER: ${{ secrets.BINTRAY_API_USER }}
+          BINTRAY_PASS: ${{ secrets.BINTRAY_API_KEY }}
 
       # github_changelog_generator
       # - name: Generate changelog
