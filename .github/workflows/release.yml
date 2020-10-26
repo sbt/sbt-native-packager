@@ -26,8 +26,8 @@ jobs:
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
 
-      #- name: install sphinx
-      #  run: pip install --user sphinx sphinx_rtd_theme
+      - name: install sphinx
+        run: pip install --user sphinx sphinx_rtd_theme
 
       - name: sbt ci-release
         run: sbt ci-release

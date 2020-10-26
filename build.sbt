@@ -73,8 +73,9 @@ releaseProcess := Seq[ReleaseStep](
   runTest,
   releaseStepCommandAndRemaining("^ publishSigned"),
   updateReadme,
-  commitReadme
-  //releaseStepTask(ghpagesPushSite)
+  commitReadme,
+  // https://github.com/sbt/sbt-native-packager/commit/97ddbbe8e199ceed37316547b238391edf5216b7
+  releaseStepTask(ghpagesPushSite)
 )
 
 // bintray config
