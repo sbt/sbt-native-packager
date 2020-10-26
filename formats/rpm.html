@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Rpm Plugin &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Rpm Plugin &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -506,15 +505,15 @@ it’s best to understand how the <code class="docutils literal notranslate"><sp
 is a good tutorial, but it focuses on building packages from <em>source.</em>  The sbt-native-packager assumes that SBT has built your source and generated
 <em>binary</em> packages.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The rpm plugin depends on the <a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a>.</p>
+<p class="admonition-title">Note</p>
+<p>The rpm plugin depends on the <a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a>.</p>
 </div>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <p>You need the following applications installed</p>
 <ul class="simple">
-<li>rpm</li>
-<li>rpm-build</li>
+<li><p>rpm</p></li>
+<li><p>rpm-build</p></li>
 </ul>
 </div>
 <div class="section" id="build">
@@ -556,117 +555,117 @@ on how to enable sbt native packager.</p>
 <div class="section" id="informational-settings">
 <h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
-<dd>The name of the package for the rpm.
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt><dd><p>The name of the package for the rpm.
 Its value defines the first component of the rpm file name
 (<code class="docutils literal notranslate"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></code>), as well as the <code class="docutils literal notranslate"><span class="pre">Name:</span></code>
 tag in the spec file.
-Its default value is drawn from <code class="docutils literal notranslate"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
-<dd>The version of the package for rpm.
+Its default value is drawn from <code class="docutils literal notranslate"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt><dd><p>The version of the package for rpm.
 Takes the form <code class="docutils literal notranslate"><span class="pre">x.y.z</span></code>, and note that there can be no dashes in this version string.
 It defines the second component of the rpm file name
 (<code class="docutils literal notranslate"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></code>), as well as the <code class="docutils literal notranslate"><span class="pre">Version:</span></code>
 tag in the spec file.
-Its default value is drawn from the project defined <code class="docutils literal notranslate"><span class="pre">version</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmRelease</span></code></dt>
-<dd>The release number is the package’s version. When the sofware is first packaged at a
+Its default value is drawn from the project defined <code class="docutils literal notranslate"><span class="pre">version</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmRelease</span></code></dt><dd><p>The release number is the package’s version. When the sofware is first packaged at a
 particular version, the release should be <code class="docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code>. If the software is repackaged at
 the same version, the release number should be incremented, and dropped back to <code class="docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code>
 when the software version is new.
 Its value defines the third component of the rpm file name
 (<code class="docutils literal notranslate"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></code>), as well as the <code class="docutils literal notranslate"><span class="pre">Release:</span></code>
 tag in the spec file.
-Its default value is <code class="docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">packageArchitecture</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
-<dd>The build architecture for the binary rpm.
+Its default value is <code class="docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">packageArchitecture</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt><dd><p>The build architecture for the binary rpm.
 Its value defines the fourth component of the rpm file name
 (<code class="docutils literal notranslate"><span class="pre">packageName-version-rpmRelease.packageArchitecture.rpm</span></code>), as well as the <code class="docutils literal notranslate"><span class="pre">BuildArch:</span></code>
 tag in the spec file.
-Its default value is <code class="docutils literal notranslate"><span class="pre">&quot;noarch&quot;</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
-<dd>A brief, one-line summary of the package.
+Its default value is <code class="docutils literal notranslate"><span class="pre">&quot;noarch&quot;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt><dd><p>A brief, one-line summary of the package.
 Note: the summary <strong>must not</strong> contain line separators or end in a period.
 Its value defines the <code class="docutils literal notranslate"><span class="pre">Summary:</span></code> tag in the spec file, and its default
-value is drawn from <code class="docutils literal notranslate"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">packageDescription</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
-<dd>A longer, multi-line description of the package.
+value is drawn from <code class="docutils literal notranslate"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">packageDescription</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt><dd><p>A longer, multi-line description of the package.
 Its value defines the <code class="docutils literal notranslate"><span class="pre">%description</span></code> block in the spec file, and its
-default value is drawn from <code class="docutils literal notranslate"><span class="pre">packageDescription</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmVendor</span></code></dt>
-<dd>The name of the company/user generating the RPM.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmUrl</span></code></dt>
-<dd>A url associated with the software in the RPM.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmLicense</span></code></dt>
-<dd>The license associated with software in the RPM.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmEpoch</span></code></dt>
-<dd>The epoch is the most significant number used when resolving different versions
+default value is drawn from <code class="docutils literal notranslate"><span class="pre">packageDescription</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmVendor</span></code></dt><dd><p>The name of the company/user generating the RPM.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmUrl</span></code></dt><dd><p>A url associated with the software in the RPM.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmLicense</span></code></dt><dd><p>The license associated with software in the RPM.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmEpoch</span></code></dt><dd><p>The epoch is the most significant number used when resolving different versions
 for the same RPM. For a given package, packages with the highest epoch will be
 used, and in the event of a tie it will fall back to comparing the version and
-release.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">artifactPath</span> <span class="pre">in</span> <span class="pre">(Rpm,</span> <span class="pre">packageBin)</span></code></dt>
-<dd>The location of the generated RPM.</dd>
+release.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">artifactPath</span> <span class="pre">in</span> <span class="pre">(Rpm,</span> <span class="pre">packageBin)</span></code></dt><dd><p>The location of the generated RPM.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="dependency-settings">
 <h3>Dependency Settings<a class="headerlink" href="#dependency-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">rpmAutoreq</span></code></dt>
-<dd>Enable or disable the automatic processing of required packages.
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">rpmAutoreq</span></code></dt><dd><p>Enable or disable the automatic processing of required packages.
 Takes the form <code class="docutils literal notranslate"><span class="pre">&quot;yes&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;no&quot;</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">&quot;yes&quot;</span></code>.
-Defines the <code class="docutils literal notranslate"><span class="pre">AutoReq:</span></code> tag in the spec file.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmRequirements</span></code></dt>
-<dd>The RPM packages that are required to be installed for this RPM to work.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmAutoprov</span></code></dt>
-<dd>Enable or disable the automatic processing of provided packages.
+Defines the <code class="docutils literal notranslate"><span class="pre">AutoReq:</span></code> tag in the spec file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmRequirements</span></code></dt><dd><p>The RPM packages that are required to be installed for this RPM to work.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmAutoprov</span></code></dt><dd><p>Enable or disable the automatic processing of provided packages.
 Takes the form <code class="docutils literal notranslate"><span class="pre">&quot;yes&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;no&quot;</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">&quot;yes&quot;</span></code>.
-Defines the <code class="docutils literal notranslate"><span class="pre">AutoProv:</span></code> tag in the spec file.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmProvides</span></code></dt>
-<dd>The RPM package names that this RPM provides.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmPrerequisites</span></code></dt>
-<dd>The RPM packages this RPM needs before installation</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmObsoletes</span></code></dt>
-<dd>The packages this RPM allows you to remove</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmConflcits</span></code></dt>
-<dd>The packages this RPM conflicts with and cannot be installed with.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmSetarch[SettingKey[Option[String]]]</span></code></dt>
-<dd>Run rpmbuild via Linux <code class="docutils literal notranslate"><span class="pre">setarch</span></code> command.  Use this for cross-platform builds.</dd>
+Defines the <code class="docutils literal notranslate"><span class="pre">AutoProv:</span></code> tag in the spec file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmProvides</span></code></dt><dd><p>The RPM package names that this RPM provides.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmPrerequisites</span></code></dt><dd><p>The RPM packages this RPM needs before installation</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmObsoletes</span></code></dt><dd><p>The packages this RPM allows you to remove</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmConflcits</span></code></dt><dd><p>The packages this RPM conflicts with and cannot be installed with.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmSetarch[SettingKey[Option[String]]]</span></code></dt><dd><p>Run rpmbuild via Linux <code class="docutils literal notranslate"><span class="pre">setarch</span></code> command.  Use this for cross-platform builds.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="meta-settings">
 <h3>Meta Settings<a class="headerlink" href="#meta-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">rpmPrefix</span></code></dt>
-<dd>The path passed set as the base for the revocable package</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmChangelogFile</span></code></dt>
-<dd>External file to be imported and used to generate the changelog of the RPM.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">rpmPrefix</span></code></dt><dd><p>The path passed set as the base for the revocable package</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmChangelogFile</span></code></dt><dd><p>External file to be imported and used to generate the changelog of the RPM.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="scriptlet-settings">
 <h3>Scriptlet Settings<a class="headerlink" href="#scriptlet-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt>
-<dd>Contains the scriptlets being injected into the specs file. Currently supports all
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code></dt><dd><p>Contains the scriptlets being injected into the specs file. Currently supports all
 previous scriptlets: <code class="docutils literal notranslate"><span class="pre">%pretrans</span></code>, <code class="docutils literal notranslate"><span class="pre">%pre</span></code>, <code class="docutils literal notranslate"><span class="pre">%verifyscript%</span></code>, <code class="docutils literal notranslate"><span class="pre">%post</span></code>, <code class="docutils literal notranslate"><span class="pre">%posttrans</span></code>,
-<code class="docutils literal notranslate"><span class="pre">%preun</span></code> and  <code class="docutils literal notranslate"><span class="pre">%postun</span></code></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpmBrpJavaRepackJars</span></code></dt>
-<dd>appends <code class="docutils literal notranslate"><span class="pre">__os_install_post</span></code> scriptlet to <code class="docutils literal notranslate"><span class="pre">rpmPre</span></code> avoiding jar repackaging</dd>
+<code class="docutils literal notranslate"><span class="pre">%preun</span></code> and  <code class="docutils literal notranslate"><span class="pre">%postun</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpmBrpJavaRepackJars</span></code></dt><dd><p>appends <code class="docutils literal notranslate"><span class="pre">__os_install_post</span></code> scriptlet to <code class="docutils literal notranslate"><span class="pre">rpmPre</span></code> avoiding jar repackaging</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="systemv-start-script-settings">
 <h3>SystemV Start Script Settings<a class="headerlink" href="#systemv-start-script-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">rpmDaemonLogFile</span></code></dt>
-<dd>File name of the log generated by application daemon.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">rpmDaemonLogFile</span></code></dt><dd><p>File name of the log generated by application daemon.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -675,11 +674,11 @@ previous scriptlets: <code class="docutils literal notranslate"><span class="pre
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
 <p>The Rpm plugin support grants the following commands:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">rpm:package-bin</span></code></dt>
-<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.rpm</span></code> package for this project.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">rpm:rpm-lint</span></code></dt>
-<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.rpm</span></code> file and runs the <code class="docutils literal notranslate"><span class="pre">rpmlint</span></code> command to look for issues in the package.  Useful for debugging.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">rpm:package-bin</span></code></dt><dd><p>Generates the <code class="docutils literal notranslate"><span class="pre">.rpm</span></code> package for this project.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rpm:rpm-lint</span></code></dt><dd><p>Generates the <code class="docutils literal notranslate"><span class="pre">.rpm</span></code> file and runs the <code class="docutils literal notranslate"><span class="pre">rpmlint</span></code> command to look for issues in the package.  Useful for debugging.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -722,8 +721,8 @@ the changelog file using the RPM conventions that are available here <a class="r
 <h3>Scriptlet Changes<a class="headerlink" href="#scriptlet-changes" title="Permalink to this headline">¶</a></h3>
 <p>Changing scriptlets can be done in two ways:</p>
 <ol class="arabic simple">
-<li>Override the <code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code>, or</li>
-<li>Place new scripts in the <code class="docutils literal notranslate"><span class="pre">src/rpm/scriptlets</span></code></li>
+<li><p>Override the <code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code>, or</p></li>
+<li><p>Place new scripts in the <code class="docutils literal notranslate"><span class="pre">src/rpm/scriptlets</span></code></p></li>
 </ol>
 <p>To <strong>override the ``maintainerScripts in Rpm``</strong> you can override the command string explicitly,
 create a command string using appends and/or replacements,
@@ -806,9 +805,10 @@ Repacking is turned off by default. In order to enable it, set:</p>
 <p>Note that this <em>appends</em> content to your <code class="docutils literal notranslate"><span class="pre">Pre</span></code> definition, so make sure not to override it.
 For more information on this topic follow these links:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/195">issue #195</a></li>
-<li><a class="reference external" href="https://github.com/sbt/sbt-native-packager/pull/199">pullrequest #199</a></li>
-<li><a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/215">OpenSuse issue</a></li>
+<li><p><a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/195">issue #195</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sbt/sbt-native-packager/pull/199">pullrequest #199</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/215">OpenSuse issue</a></p>
+</li>
 </ul>
 </div>
 <div class="section" id="marking-config-files-as-noreplace">

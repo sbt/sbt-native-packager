@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Java Application Archetype &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Java Application Archetype &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -511,8 +510,8 @@ init service loaders including Upstart, System V and SystemD.</p>
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <p>The <cite>JavaAppPackaging</cite> archetype contains the following features.</p>
 <ul class="simple">
-<li>Default application mappings (no fat jar)</li>
-<li>Executable bash/bat script</li>
+<li><p>Default application mappings (no fat jar)</p></li>
+<li><p>Executable bash/bat script</p></li>
 </ul>
 </div>
 <div class="section" id="usage">
@@ -566,25 +565,25 @@ java app archetype! For example you can build <em>zips</em>, <em>deb</em> or <em
 <p>This is a non extensive list of important settings and tasks this plugin provides. All settings
 have sensible defaults.</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">makeBashScript</span></code></dt>
-<dd>Creates or discovers the bash script used by this project.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">makeBatScript</span></code></dt>
-<dd>Creates or discovers the bat script used by this project.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">bashScriptTemplateLocation</span></code></dt>
-<dd>The location of the bash script template.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">batScriptTemplateLocation</span></code></dt>
-<dd>The location of the bat script template.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></dt>
-<dd>The location of the bash script on the target system.
-<strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">${app_home}/../conf/application.ini</span></code></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">batScriptConfigLocation</span></code></dt>
-<dd>The location of the bat script on the target system.
-<strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">%APP_HOME%\conf\application.ini</span></code></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code></dt>
-<dd>A list of extra definitions that should be written to the bash file template.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code></dt>
-<dd>A list of extra definitions that should be written to the bat file template.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">makeBashScript</span></code></dt><dd><p>Creates or discovers the bash script used by this project.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">makeBatScript</span></code></dt><dd><p>Creates or discovers the bat script used by this project.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bashScriptTemplateLocation</span></code></dt><dd><p>The location of the bash script template.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">batScriptTemplateLocation</span></code></dt><dd><p>The location of the bat script template.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></dt><dd><p>The location of the bash script on the target system.
+<strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">${app_home}/../conf/application.ini</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">batScriptConfigLocation</span></code></dt><dd><p>The location of the bat script on the target system.
+<strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">%APP_HOME%\conf\application.ini</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code></dt><dd><p>A list of extra definitions that should be written to the bash file template.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code></dt><dd><p>A list of extra definitions that should be written to the bat file template.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -592,32 +591,32 @@ have sensible defaults.</p>
 <h2>Start script options<a class="headerlink" href="#start-script-options" title="Permalink to this headline">¶</a></h2>
 <p>The start script provides a few standard options you can pass:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">-h</span> <span class="pre">|</span> <span class="pre">-help</span></code></dt>
-<dd>Prints script usage</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">|</span> <span class="pre">-verbose</span></code></dt>
-<dd>Prints out more information</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">-no-version-check</span></code></dt>
-<dd>Don’t run the java version check</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">-jvm-debug</span> <span class="pre">&lt;port&gt;</span></code></dt>
-<dd>Turn on JVM debugging, open at the given port</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">-java-home</span> <span class="pre">&lt;java</span> <span class="pre">home&gt;</span></code></dt>
-<dd>Override the default JVM home, it accept variable expansions, e.g.
-<code class="docutils literal notranslate"><span class="pre">-java-home</span> <span class="pre">${app_home}/../jre</span></code></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">-main</span></code></dt>
-<dd>Define a custom main class</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-h</span> <span class="pre">|</span> <span class="pre">-help</span></code></dt><dd><p>Prints script usage</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">|</span> <span class="pre">-verbose</span></code></dt><dd><p>Prints out more information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-no-version-check</span></code></dt><dd><p>Don’t run the java version check</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-jvm-debug</span> <span class="pre">&lt;port&gt;</span></code></dt><dd><p>Turn on JVM debugging, open at the given port</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-java-home</span> <span class="pre">&lt;java</span> <span class="pre">home&gt;</span></code></dt><dd><p>Override the default JVM home, it accept variable expansions, e.g.
+<code class="docutils literal notranslate"><span class="pre">-java-home</span> <span class="pre">${app_home}/../jre</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-main</span></code></dt><dd><p>Define a custom main class</p>
+</dd>
 </dl>
 </div></blockquote>
 <p>To configure the JVM these options are available</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">JAVA_OPTS</span></code></dt>
-<dd>environment variable, if unset uses “$java_opts”</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">-Dkey=val</span></code></dt>
-<dd>pass -Dkey=val directly to the java runtime</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">-J-X</span></code></dt>
-<dd>pass option -X directly to the java runtime (-J is stripped).
-E.g. <code class="docutils literal notranslate"><span class="pre">-J-Xmx1024</span></code></dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">JAVA_OPTS</span></code></dt><dd><p>environment variable, if unset uses “$java_opts”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-Dkey=val</span></code></dt><dd><p>pass -Dkey=val directly to the java runtime</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-J-X</span></code></dt><dd><p>pass option -X directly to the java runtime (-J is stripped).
+E.g. <code class="docutils literal notranslate"><span class="pre">-J-Xmx1024</span></code></p>
+</dd>
 </dl>
 </div></blockquote>
 <p>In order to pass <strong>application arguments</strong> you need to separate the jvm arguments from the
@@ -631,15 +630,15 @@ application arguments with <code class="docutils literal notranslate"><span clas
 <p>If you have multiple main classes then the <code class="docutils literal notranslate"><span class="pre">JavaAppPackaging</span></code> archetype provides you with two different ways of
 generating start scripts.</p>
 <ol class="arabic simple">
-<li>A start script for each entry point. This is the default behaviour, when no <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> is set</li>
-<li>One start script for the defined <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> and forwarding scripts for all other main classes.</li>
+<li><p>A start script for each entry point. This is the default behaviour, when no <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> is set</p></li>
+<li><p>One start script for the defined <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> and forwarding scripts for all other main classes.</p></li>
 </ol>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>What does <em>‘forwarder script’</em> mean?</p>
 <p>Native-packager’s start script provides a <cite>-main</cite> option to override the main class that should be executed.
 A <em>forwarder script</em> only overrides this attribute and forwards all other parameters to the normal start script.</p>
-<p class="last">All customization you implemented for the main script will also apply for the forwarder scripts.</p>
+<p>All customization you implemented for the main script will also apply for the forwarder scripts.</p>
 </div>
 <div class="section" id="multiple-start-scripts">
 <h3>Multiple start scripts<a class="headerlink" href="#multiple-start-scripts" title="Permalink to this headline">¶</a></h3>
@@ -682,7 +681,7 @@ version of the class name.</p>
 <h3>A note on script names<a class="headerlink" href="#a-note-on-script-names" title="Permalink to this headline">¶</a></h3>
 <p>When this plugin generates script names from main class names, it tries to generate readable and unique names:</p>
 <ol class="arabic">
-<li><p class="first">An heuristic is used to split the fully qualified class names into words:</p>
+<li><p>An heuristic is used to split the fully qualified class names into words:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pkg1.TestClass
 pkg2.AnUIMainClass
 pkg2.SomeXMLLoader
@@ -697,11 +696,11 @@ pkg-3.test-class
 </pre></div>
 </div>
 </li>
-<li><p class="first">Resulted lower-cased names are grouped by the simple class name.</p>
+<li><p>Resulted lower-cased names are grouped by the simple class name.</p>
 <ul class="simple">
-<li>Names from single-element groups are reduced to their lower-cased simple names.</li>
-<li>Names that would otherwise collide by their simple names are used as is (that is, full names)
-with dots replaced by underscores</li>
+<li><p>Names from single-element groups are reduced to their lower-cased simple names.</p></li>
+<li><p>Names that would otherwise collide by their simple names are used as is (that is, full names)
+with dots replaced by underscores</p></li>
 </ul>
 <p>So the final names will be:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pkg-1_test-class

@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Introduction &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="formats/graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="formats/graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="formats/graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="formats/graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -508,25 +507,25 @@ you to get started even quicker.</p>
 <span id="id2"></span><h2>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
 <p>Native packager defines project goals in order to set expectations and scope for this project.</p>
 <ol class="arabic simple">
-<li><dl class="first docutils">
-<dt>Native formats should build on their respective platform</dt>
-<dd>This allows native packager to support a wide range of formats as the packaging plugin serves as a wrapper around
+<li><dl class="simple">
+<dt>Native formats should build on their respective platform</dt><dd><p>This allows native packager to support a wide range of formats as the packaging plugin serves as a wrapper around
 the actual packaging tool. However, alternative packaging plugins maybe provided if a java/scala implementation
 exists. As an example <em>debian</em> packages should always build on debian systems, however native packager provides
-an additional plugin that integrates JDeb for a platform independent packaging strategy.</dd>
+an additional plugin that integrates JDeb for a platform independent packaging strategy.</p>
+</dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>Provide archetypes for zero configuration builds</dt>
-<dd>While packaging plugins provide the <em>how</em> a package is created, archetypes provide the configuration for <em>what</em> gets
+<li><dl class="simple">
+<dt>Provide archetypes for zero configuration builds</dt><dd><p>While packaging plugins provide the <em>how</em> a package is created, archetypes provide the configuration for <em>what</em> gets
 packaged. Archetypes configure your build to create a package for a certain purpose. While an archetype may not
-support all packaging formats, it should work without configuration for the supported formats.</dd>
+support all packaging formats, it should work without configuration for the supported formats.</p>
+</dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>Enforce best-practices</dt>
-<dd>There is no single way to create a package. Native packager <em>tries</em> to create packages following best practices,
-e.g. for file names, installation paths or script layouts.</dd>
+<li><dl class="simple">
+<dt>Enforce best-practices</dt><dd><p>There is no single way to create a package. Native packager <em>tries</em> to create packages following best practices,
+e.g. for file names, installation paths or script layouts.</p>
+</dd>
 </dl>
 </li>
 </ol>
@@ -542,17 +541,17 @@ the <a class="reference internal" href="formats/index.html#packaging-formats"><s
 deploy target.</p>
 <p>These things are <strong>out of native packagers scope</strong></p>
 <ol class="arabic simple">
-<li><dl class="first docutils">
-<dt>Providing application lifecyle management.</dt>
-<dd>The <a class="reference internal" href="archetypes/java_server/index.html#java-server-plugin"><span class="std std-ref">Java Server Application Archetype</span></a> provides <em>configurations</em> for common system-loaders like SystemV, Upstart or SystemD.
+<li><dl class="simple">
+<dt>Providing application lifecyle management.</dt><dd><p>The <a class="reference internal" href="archetypes/java_server/index.html#java-server-plugin"><span class="std std-ref">Java Server Application Archetype</span></a> provides <em>configurations</em> for common system-loaders like SystemV, Upstart or SystemD.
 However creating a custom solution which includes stop scripts, PID management, etc. are not part of native
-packager.</dd>
+packager.</p>
+</dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>Providing deployment configurations</dt>
-<dd>Native packager produces artifacts with the <code class="docutils literal notranslate"><span class="pre">packageBin</span></code> task. What you do with these is part of another step in
-your process.</dd>
+<li><dl class="simple">
+<dt>Providing deployment configurations</dt><dd><p>Native packager produces artifacts with the <code class="docutils literal notranslate"><span class="pre">packageBin</span></code> task. What you do with these is part of another step in
+your process.</p>
+</dd>
 </dl>
 </li>
 </ol>
@@ -562,15 +561,15 @@ your process.</dd>
 <p>Native packager is based on a few simple concepts. If you understand these, you will be able to customize your build,
 create own packaging formats and deploy more effectively.</p>
 <ol class="arabic">
-<li><p class="first"><strong>Separation of concerns</strong> with two kinds of plugins</p>
+<li><p><strong>Separation of concerns</strong> with two kinds of plugins</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">format plugins</span></a> define <strong>how</strong> a package is created</li>
-<li><a class="reference internal" href="archetypes/index.html#archetypes"><span class="std std-ref">archetype plugins</span></a> define <strong>what</strong> a package should contain</li>
+<li><p><a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">format plugins</span></a> define <strong>how</strong> a package is created</p></li>
+<li><p><a class="reference internal" href="archetypes/index.html#archetypes"><span class="std std-ref">archetype plugins</span></a> define <strong>what</strong> a package should contain</p></li>
 </ul>
 </div></blockquote>
 </li>
-<li><p class="first"><strong>Mappings</strong> define how your build files should be organized on the target system.</p>
+<li><p><strong>Mappings</strong> define how your build files should be organized on the target system.</p>
 <blockquote>
 <div><p><code class="docutils literal notranslate"><span class="pre">Mappings</span></code> are a <code class="docutils literal notranslate"><span class="pre">Seq[(File,</span> <span class="pre">String)]</span></code>, which translates to “a list of tuples,  where each tuple defines a source file that gets mapped to a path on the target system”.</p>
 </div></blockquote>
@@ -583,20 +582,20 @@ create own packaging formats and deploy more effectively.</p>
 <a class="reference internal" href="formats/debian.html#debian-plugin"><span class="std std-ref">Debian Plugin</span></a> provides a way to package debian packages. Each format plugin has its
 <a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">own documentation</span></a>. Each plugin provides a common set of features:</p>
 <ol class="arabic simple">
-<li><dl class="first docutils">
-<dt>Provide a new configuration scope</dt>
-<dd>Formats define their own configuration scope to be able to customize every shared setting or task.</dd>
+<li><dl class="simple">
+<dt>Provide a new configuration scope</dt><dd><p>Formats define their own configuration scope to be able to customize every shared setting or task.</p>
+</dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>Provide package format related settings and tasks</dt>
-<dd>Each format plugin may add additional settings or tasks that are only used by this plugin. Normally these settings
-start with the plugin name, e.g. <em>rpmXYZ</em>.</dd>
+<li><dl class="simple">
+<dt>Provide package format related settings and tasks</dt><dd><p>Each format plugin may add additional settings or tasks that are only used by this plugin. Normally these settings
+start with the plugin name, e.g. <em>rpmXYZ</em>.</p>
+</dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>Implement package task</dt>
-<dd><code class="docutils literal notranslate"><span class="pre">packageBin</span></code> or <code class="docutils literal notranslate"><span class="pre">publishLocal</span></code> tasks provide the actual action to create a package.</dd>
+<li><dl class="simple">
+<dt>Implement package task</dt><dd><p><code class="docutils literal notranslate"><span class="pre">packageBin</span></code> or <code class="docutils literal notranslate"><span class="pre">publishLocal</span></code> tasks provide the actual action to create a package.</p>
+</dd>
 </dl>
 </li>
 </ol>
@@ -613,11 +612,10 @@ for the format plugin’s specific settings.</p>
 scopes.</p>
 <p>A full list of archetypes can be found
 <a class="reference internal" href="archetypes/index.html#archetypes"><span class="std std-ref">here</span></a>.</p>
-<dl class="docutils">
-<dt>An archetype may provide the following:</dt>
-<dd><ol class="first last arabic simple">
-<li>Archetype related settings and tasks</li>
-<li>New files in your package</li>
+<dl class="simple">
+<dt>An archetype may provide the following:</dt><dd><ol class="arabic simple">
+<li><p>Archetype related settings and tasks</p></li>
+<li><p>New files in your package</p></li>
 </ol>
 </dd>
 </dl>
@@ -627,15 +625,15 @@ scopes.</p>
 </div>
 <p>all configuration changes will be applied as well as all supported format plugins will be enabled.</p>
 <div class="admonition tip">
-<p class="first admonition-title">Tip</p>
-<p class="last">An archetype plugin should be the starting point for creating packages!</p>
+<p class="admonition-title">Tip</p>
+<p>An archetype plugin should be the starting point for creating packages!</p>
 </div>
 </div>
 <div class="section" id="mappings">
 <h3>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline">¶</a></h3>
 <p>Mappings are the heart of native packager. This task defines what files in your build should be mapped where on the
 target system. The type signature for the mappings task is</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span><span class="k">:</span> <span class="kt">TaskKey</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[(</span><span class="kt">File</span><span class="p">,</span> <span class="kt">String</span><span class="o">)]]</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span><span class="k">:</span> <span class="kt">TaskKey</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[(</span><span class="kt">File</span>, <span class="kt">String</span><span class="o">)]]</span>
 </pre></div>
 </div>
 <p>The <em>file</em> part of the tuple must be available during the packaging phase. The String part represents the path inside

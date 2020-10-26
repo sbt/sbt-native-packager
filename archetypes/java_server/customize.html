@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Application Configuration &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Application Configuration &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -506,8 +505,8 @@
 <p>After <span class="xref std std-doc">creating a package</span>, the very next thing needed, usually, is the ability for users/ops to customize the application once it’s deployed.   Let’s add some configuration to the newly deployed application.</p>
 <p>There are generally two types of configurations:</p>
 <ul class="simple">
-<li>Configuring the JVM and the process</li>
-<li>Configuring the Application itself.</li>
+<li><p>Configuring the JVM and the process</p></li>
+<li><p>Configuring the Application itself.</p></li>
 </ul>
 <p>The server archetype provides you with a special feature to configure your application
 with a single file outside of customizing the <code class="docutils literal notranslate"><span class="pre">bash</span></code> or <code class="docutils literal notranslate"><span class="pre">bat</span></code> script for applications.
@@ -581,9 +580,9 @@ package.</p>
 <p>Some scripts are covered in the standard application type. Read more on <a class="reference internal" href="../java_app/customize.html"><span class="doc">Java Application Customization</span></a>.
 For the <code class="docutils literal notranslate"><span class="pre">java_server</span></code> package lifecycle scripts are customized to provide the following additional features</p>
 <ul class="simple">
-<li>Chowning directories and files correctly (if necessary)</li>
-<li>Create/Delete users and groups according to your mapping</li>
-<li>Register application at your init system</li>
+<li><p>Chowning directories and files correctly (if necessary)</p></li>
+<li><p>Create/Delete users and groups according to your mapping</p></li>
+<li><p>Register application at your init system</p></li>
 </ul>
 <p>For this purpose <em>sbt-native-packager</em> ships with some predefined templates. These can be
 overridden with different techniques, depending on the packaging system.</p>
@@ -603,47 +602,49 @@ service management scripts.</p>
 <p>RPM puts all scripts into one file. To override or append settings to your
 scriptlets use <code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code> or these <a href="#id1"><span class="problematic" id="id2">``</span></a>RpmConstants._``s:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">Pre</span></code></dt>
-<dd>%pre scriptlet</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Post</span></code></dt>
-<dd>%post scriptlet</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Pretrans</span></code></dt>
-<dd>%pretrans scriptlet</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Posttrans</span></code></dt>
-<dd>%posttrans scriptlet</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Preun</span></code></dt>
-<dd>“%preun scriptlet”</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Postun</span></code></dt>
-<dd>%postun scriptlet</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Verifyscript</span></code></dt>
-<dd>%verifyscript scriptlet</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">Pre</span></code></dt><dd><p>%pre scriptlet</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Post</span></code></dt><dd><p>%post scriptlet</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Pretrans</span></code></dt><dd><p>%pretrans scriptlet</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Posttrans</span></code></dt><dd><p>%posttrans scriptlet</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Preun</span></code></dt><dd><p>“%preun scriptlet”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Postun</span></code></dt><dd><p>%postun scriptlet</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Verifyscript</span></code></dt><dd><p>%verifyscript scriptlet</p>
+</dd>
 </dl>
 </div></blockquote>
 <p>If you want to have your files separated from the build definition use the
 default location for rpm scriptlets. To override default templates in a RPM
 build put the new scriptlets in the <code class="docutils literal notranslate"><span class="pre">rpmScriptletsDirectory</span></code> (by default <code class="docutils literal notranslate"><span class="pre">src/rpm/scriptlets</span></code>).</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">RpmConstants.Scriptlets</span></code></dt>
-<dd>By default to <code class="docutils literal notranslate"><span class="pre">src/rpm/scriptlets</span></code>. Place your templates here.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">RpmConstants.Scriptlets</span></code></dt><dd><p>By default to <code class="docutils literal notranslate"><span class="pre">src/rpm/scriptlets</span></code>. Place your templates here.</p>
+</dd>
 </dl>
 </div></blockquote>
 <p>Available templates are</p>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">post-rpm</span></code>
+<div><p><code class="docutils literal notranslate"><span class="pre">post-rpm</span></code>
 <code class="docutils literal notranslate"><span class="pre">pre-rpm</span></code>
 <code class="docutils literal notranslate"><span class="pre">postun-rpm</span></code>
-<code class="docutils literal notranslate"><span class="pre">preun-rpm</span></code></div></blockquote>
+<code class="docutils literal notranslate"><span class="pre">preun-rpm</span></code></p>
+</div></blockquote>
 <p>The corresponding maintainer file names are:</p>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">pretrans</span></code>
+<div><p><code class="docutils literal notranslate"><span class="pre">pretrans</span></code>
 <code class="docutils literal notranslate"><span class="pre">post</span></code>
 <code class="docutils literal notranslate"><span class="pre">pre</span></code>
 <code class="docutils literal notranslate"><span class="pre">postun</span></code>
 <code class="docutils literal notranslate"><span class="pre">preun</span></code>
 <code class="docutils literal notranslate"><span class="pre">verifyscript</span></code>
-<code class="docutils literal notranslate"><span class="pre">posttrans</span></code></div></blockquote>
+<code class="docutils literal notranslate"><span class="pre">posttrans</span></code></p>
+</div></blockquote>
 <div class="section" id="override-postinst-scriptlet">
 <h3>Override Postinst scriptlet<a class="headerlink" href="#override-postinst-scriptlet" title="Permalink to this headline">¶</a></h3>
 <p>By default the <code class="docutils literal notranslate"><span class="pre">post-rpm</span></code> template only starts the service, but doesn’t register it.</p>
@@ -667,25 +668,26 @@ service <span class="si">${</span><span class="p">{app_name</span><span class="s
 <p>To override default templates in a Debian build put the new control files in the
 <code class="docutils literal notranslate"><span class="pre">debianControlScriptsDirectory</span></code> (by default <code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code>).</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">debianControlScriptsDirectory</span></code></dt>
-<dd>By default to <code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code>. Place your templates here.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianMakePreinstScript</span></code></dt>
-<dd>creates or discovers the preinst script used by this project.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianMakePrermScript</span></code></dt>
-<dd>creates or discovers the prerm script used by this project.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianMakePostinstScript</span></code></dt>
-<dd>creates or discovers the postinst script used by this project.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianMakePostrmScript</span></code></dt>
-<dd>creates or discovers the postrm script used by this project.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">debianControlScriptsDirectory</span></code></dt><dd><p>By default to <code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code>. Place your templates here.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debianMakePreinstScript</span></code></dt><dd><p>creates or discovers the preinst script used by this project.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debianMakePrermScript</span></code></dt><dd><p>creates or discovers the prerm script used by this project.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debianMakePostinstScript</span></code></dt><dd><p>creates or discovers the postinst script used by this project.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debianMakePostrmScript</span></code></dt><dd><p>creates or discovers the postrm script used by this project.</p>
+</dd>
 </dl>
 </div></blockquote>
 <p>Available templates are</p>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">postinst</span></code>
+<div><p><code class="docutils literal notranslate"><span class="pre">postinst</span></code>
 <code class="docutils literal notranslate"><span class="pre">preinst</span></code>
 <code class="docutils literal notranslate"><span class="pre">postun</span></code>
-<code class="docutils literal notranslate"><span class="pre">preun</span></code></div></blockquote>
+<code class="docutils literal notranslate"><span class="pre">preun</span></code></p>
+</div></blockquote>
 </div>
 <div class="section" id="linux-replacements">
 <h2>Linux Replacements<a class="headerlink" href="#linux-replacements" title="Permalink to this headline">¶</a></h2>
@@ -704,11 +706,11 @@ service <span class="si">${</span><span class="p">{app_name</span><span class="s
 </div>
 </div></blockquote>
 <div class="admonition attention">
-<p class="first admonition-title">Attention</p>
+<p class="admonition-title">Attention</p>
 <p>Every replacement corresponds to a single setting or task. For the <cite>linuxScriptReplacements</cite> you need
 to override the setting/task in the <cite>in Linux</cite> scope. For example</p>
 <p><code class="docutils literal notranslate"><span class="pre">daemonUser</span> <span class="pre">in</span> <span class="pre">Linux</span> <span class="pre">:=</span> <span class="pre">&quot;new-user&quot;</span></code></p>
-<p class="last">overrides the <code class="docutils literal notranslate"><span class="pre">daemon_user</span></code> in the linuxScriptReplacements.</p>
+<p>overrides the <code class="docutils literal notranslate"><span class="pre">daemon_user</span></code> in the linuxScriptReplacements.</p>
 </div>
 </div>
 </div>

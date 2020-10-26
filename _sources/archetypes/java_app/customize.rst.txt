@@ -30,7 +30,7 @@ configuration file during execution. You can define the configuration file locat
 
 
 The configuration path is the path on the **target** system. This means that native-packager needs to process this path
-to create a valid ``universal:mapping``s entry.
+to create a valid ``universal:mapping`` s entry.
 
 * ``${app_home}/../`` is removed
 * ``%APP_HOME%`` is removed and ``\`` is being replaced with ``/``

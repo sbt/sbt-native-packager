@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Play 2 Packaging &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Play 2 Packaging &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -504,11 +503,11 @@
 <p>Although Play 2 supports Sbt Native Packager, it requires some additional steps to successfully package and run your
 application.</p>
 <div class="admonition tip">
-<p class="first admonition-title">Tip</p>
+<p class="admonition-title">Tip</p>
 <p>there are also two sections in the play documentation that describe deploying and configuring:</p>
-<ul class="last simple">
-<li><a class="reference external" href="https://playframework.com/documentation/latest/Deploying">play deploying</a></li>
-<li><a class="reference external" href="https://playframework.com/documentation/latest/ProductionConfiguration">play prod configuration</a></li>
+<ul class="simple">
+<li><p><a class="reference external" href="https://playframework.com/documentation/latest/Deploying">play deploying</a></p></li>
+<li><p><a class="reference external" href="https://playframework.com/documentation/latest/ProductionConfiguration">play prod configuration</a></p></li>
 </ul>
 </div>
 <div class="section" id="build-configuration">
@@ -525,8 +524,8 @@ For more information on service managers please refer to <a class="reference int
 <h2>Application Configuration<a class="headerlink" href="#application-configuration" title="Permalink to this headline">¶</a></h2>
 <p>In order to run your application in production you need to provide it with at least:</p>
 <ul class="simple">
-<li>Location where it can store its pidfile</li>
-<li>Production configuration</li>
+<li><p>Location where it can store its pidfile</p></li>
+<li><p>Production configuration</p></li>
 </ul>
 <p>One way to provide this information is to append the following content in your build definition:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">javaOptions</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
@@ -555,8 +554,8 @@ For more information on service managers please refer to <a class="reference int
 <p>This way you should either store your production configuration under <code class="docutils literal notranslate"><span class="pre">${{path_to_app_name}}/conf/production.conf</span></code>
 or put it under <code class="docutils literal notranslate"><span class="pre">/usr/share/${{app_name}}/conf/production.conf</span></code> by hand or using some configuration management system.</p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Your pid file must be called <strong>play.pid</strong></p>
+<p class="admonition-title">Warning</p>
+<p>Your pid file must be called <strong>play.pid</strong></p>
 </div>
 <div class="section" id="systemv">
 <h3>SystemV<a class="headerlink" href="#systemv" title="Permalink to this headline">¶</a></h3>

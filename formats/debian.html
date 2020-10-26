@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Debian Plugin &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Debian Plugin &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -505,23 +504,23 @@
 the underlying packaging system works.  <a class="reference external" href="http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/">Debian Binary Package Building HOWTO</a> by Chr. Clemens Lee is an excellent tutorial.</p>
 <p>SBT Native Packager provides two ways to build debian packages:</p>
 <ol class="arabic simple">
-<li>A native implementation, where you need <code class="docutils literal notranslate"><span class="pre">dpkg-deb</span></code> installed, or</li>
-<li>A java, platform independent approach with <a class="reference external" href="https://github.com/tcurdt/jdeb">jdeb</a>.</li>
+<li><p>A native implementation, where you need <code class="docutils literal notranslate"><span class="pre">dpkg-deb</span></code> installed, or</p></li>
+<li><p>A java, platform independent approach with <a class="reference external" href="https://github.com/tcurdt/jdeb">jdeb</a>.</p></li>
 </ol>
 <p>By default the <em>native</em> implementation is activated.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The debian plugin depends on the <a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a>.</p>
+<p class="admonition-title">Note</p>
+<p>The debian plugin depends on the <a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a>.</p>
 </div>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <p>If you use the <em>native</em>  debian package implementation you need the following applications installed:</p>
 <ul class="simple">
-<li>dpkg-deb</li>
-<li>dpkg-sig</li>
-<li>dpkg-genchanges</li>
-<li>lintian</li>
-<li>fakeroot</li>
+<li><p>dpkg-deb</p></li>
+<li><p>dpkg-sig</p></li>
+<li><p>dpkg-genchanges</p></li>
+<li><p>lintian</p></li>
+<li><p>fakeroot</p></li>
 </ul>
 </div>
 <div class="section" id="build">
@@ -572,36 +571,36 @@ one needs to specify JRE dependency using
 distributions as well) provides two families of virtual packages to do
 that:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">javaN-runtime</span></code></dt>
-<dd>Regular (full) JRE packages, with GUI support. Use this for
-applications requiring AWT/Swing support, OpenGL, sound, etc.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">javaN-runtime-headless</span></code></dt>
-<dd>Minimal JRE packages without GUI support, useful for server
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">javaN-runtime</span></code></dt><dd><p>Regular (full) JRE packages, with GUI support. Use this for
+applications requiring AWT/Swing support, OpenGL, sound, etc.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">javaN-runtime-headless</span></code></dt><dd><p>Minimal JRE packages without GUI support, useful for server
 installation to avoid pulling large set of X.org-related
 packages. Use this for console-only applications, services,
-networked / web applications, etc.</dd>
+networked / web applications, etc.</p>
+</dd>
 </dl>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">N</span></code> in <code class="docutils literal notranslate"><span class="pre">javaN</span></code> should be replaced with minimal JRE version
 required by the packaged application. It usually depends on a Scala
 version used:</p>
 <ul class="simple">
-<li>Scala 2.11.x or earlier requires Java 6</li>
-<li>Scala 2.12.x requires Java 8</li>
+<li><p>Scala 2.11.x or earlier requires Java 6</p></li>
+<li><p>Scala 2.12.x requires Java 8</p></li>
 </ul>
 <p>Note that these are <em>virtual</em> packages, which are provided by a set of
 real packages. This means, for example, while installing a .deb
 package that depends on <code class="docutils literal notranslate"><span class="pre">java6-runtime-headless</span></code>:</p>
 <ul class="simple">
-<li>If end-user has no suitable JRE installed, it would automatically
+<li><p>If end-user has no suitable JRE installed, it would automatically
 pull and install some “sane default” package which provides thing
-functionality (typically, it would be <code class="docutils literal notranslate"><span class="pre">openjdk-8-jre-headless</span></code>).</li>
-<li>If end-user does not like default suggested JRE for some reason,
-it’s possible to install any alternative implementation.</li>
-<li>If end-user has some existing JRE installation that is sufficient to
+functionality (typically, it would be <code class="docutils literal notranslate"><span class="pre">openjdk-8-jre-headless</span></code>).</p></li>
+<li><p>If end-user does not like default suggested JRE for some reason,
+it’s possible to install any alternative implementation.</p></li>
+<li><p>If end-user has some existing JRE installation that is sufficient to
 play that role (for example, <code class="docutils literal notranslate"><span class="pre">openjdk-9-jre</span></code>, which provides,
-along others, <code class="docutils literal notranslate"><span class="pre">java8-runtime-headless</span></code> too), it would be used.</li>
+along others, <code class="docutils literal notranslate"><span class="pre">java8-runtime-headless</span></code> too), it would be used.</p></li>
 </ul>
 <p>This dependency works equally well with both free/libre OpenJDK
 packages supplied by Debian, and non-free JDKs supplied by Oracle and
@@ -623,9 +622,9 @@ default. While this works great with tools such as apt and dpkg, un-compressed
 package installation is <a class="reference external" href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718330">bugged in python-apt 8.8 series</a>. This bug prevents
 installation of the generated debian package in the following configuration:</p>
 <ul class="simple">
-<li>installation using python-apt module, used by Ansible and SaltStack for
-example,</li>
-<li>being on python-apt 8.8 series that’s on Debian Wheezy and perhaps older</li>
+<li><p>installation using python-apt module, used by Ansible and SaltStack for
+example,</p></li>
+<li><p>being on python-apt 8.8 series that’s on Debian Wheezy and perhaps older</p></li>
 </ul>
 <p>It will fail with an error message like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">E</span><span class="p">:</span> <span class="n">This</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">DEB</span> <span class="n">archive</span><span class="p">,</span> <span class="n">it</span> <span class="n">has</span> <span class="n">no</span> <span class="s1">&#39;data.tar.gz&#39;</span><span class="p">,</span> <span class="s1">&#39;data.tar.bz2&#39;</span> <span class="ow">or</span> <span class="s1">&#39;data.tar.lzma&#39;</span> <span class="n">member</span>
@@ -633,10 +632,10 @@ example,</li>
 </div>
 <p>Solutions include:</p>
 <ul class="simple">
-<li>upgrading to Debian Jessie,</li>
-<li>upgrading python-apt, note that no official backport is known</li>
-<li>re-enabling package re-compression in sbt-native-packager, by overridding
-<cite>debianNativeBuildOptions</cite> as described above.</li>
+<li><p>upgrading to Debian Jessie,</p></li>
+<li><p>upgrading python-apt, note that no official backport is known</p></li>
+<li><p>re-enabling package re-compression in sbt-native-packager, by overridding
+<cite>debianNativeBuildOptions</cite> as described above.</p></li>
 </ul>
 </div>
 <div class="section" id="java-based-packaging">
@@ -664,32 +663,32 @@ that could slow your build times. This is the reason the dependency is marked as
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <p>Debian requires the following specific settings:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The name of the package for debian (if different from general linux name).</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The debian-friendly version of the package.   Should be of the form <code class="docutils literal notranslate"><span class="pre">x.y.z-build-aa</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianPackageConflicts</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The list of debian packages that this package conflicts with.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianPackageDependencies</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The list of debian packages that this package depends on.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianPackageProvides</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The list of debian packages that are provided by this package.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debianPackageRecommends</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>The list of debian packages that are recommended to be installed with this package.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>Debian requires a <code class="docutils literal notranslate"><span class="pre">/usr/share/doc/{package</span> <span class="pre">name}/changelog.gz</span></code> file that describes
-the version changes in this package. These should be appended to the base linux versions.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> (<code class="docutils literal notranslate"><span class="pre">debianMaintainerScripts</span></code>)</dt>
-<dd><em>DEPRECATED</em> use <code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> instead.
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt><dd><p>The name of the package for debian (if different from general linux name).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt><dd><p>The debian-friendly version of the package.   Should be of the form <code class="docutils literal notranslate"><span class="pre">x.y.z-build-aa</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debianPackageConflicts</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt><dd><p>The list of debian packages that this package conflicts with.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debianPackageDependencies</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt><dd><p>The list of debian packages that this package depends on.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debianPackageProvides</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt><dd><p>The list of debian packages that are provided by this package.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debianPackageRecommends</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt><dd><p>The list of debian packages that are recommended to be installed with this package.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt><dd><p>Debian requires a <code class="docutils literal notranslate"><span class="pre">/usr/share/doc/{package</span> <span class="pre">name}/changelog.gz</span></code> file that describes
+the version changes in this package. These should be appended to the base linux versions.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> (<code class="docutils literal notranslate"><span class="pre">debianMaintainerScripts</span></code>)</dt><dd><p><em>DEPRECATED</em> use <code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Debian</span></code> instead.
 These are the packaging scripts themselves used by <code class="docutils literal notranslate"><span class="pre">dpkg-deb</span></code> to build your debian.  These
 scripts are used when installing/uninstalling a debian, like prerm, postinstall, etc.  These scripts
 are placed in the <code class="docutils literal notranslate"><span class="pre">DEBIAN</span></code> file when building.    Some of these files can be autogenerated,
 for example when using a package archetype, like server_application.  However, any autogenerated file
-can be overridden by placing your own files in the <code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code> directory.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt>
-<dd>This is the changelog used by <code class="docutils literal notranslate"><span class="pre">dpkg-genchanges</span></code> to create the .changes file. This will allow you to
-upload the debian package to a mirror.</dd>
+can be overridden by placing your own files in the <code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code> directory.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">in</span> <span class="pre">Debian</span></code></dt><dd><p>This is the changelog used by <code class="docutils literal notranslate"><span class="pre">dpkg-genchanges</span></code> to create the .changes file. This will allow you to
+upload the debian package to a mirror.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -697,13 +696,13 @@ upload the debian package to a mirror.</dd>
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
 <p>The Debian support grants the following commands:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">debian:package-bin</span></code></dt>
-<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> package for this project.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debian:lintian</span></code></dt>
-<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> file and runs the <code class="docutils literal notranslate"><span class="pre">lintian</span></code> command to look for issues in the package.  Useful for debugging.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debian:gen-changes</span></code></dt>
-<dd>Generates the <code class="docutils literal notranslate"><span class="pre">.changes</span></code>, and therefore the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> package for this project.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">debian:package-bin</span></code></dt><dd><p>Generates the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> package for this project.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debian:lintian</span></code></dt><dd><p>Generates the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> file and runs the <code class="docutils literal notranslate"><span class="pre">lintian</span></code> command to look for issues in the package.  Useful for debugging.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">debian:gen-changes</span></code></dt><dd><p>Generates the <code class="docutils literal notranslate"><span class="pre">.changes</span></code>, and therefore the <code class="docutils literal notranslate"><span class="pre">.deb</span></code> package for this project.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>

@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Application and runtime configuration &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Application and runtime configuration &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -507,8 +506,8 @@
 <h1>Application and runtime configuration<a class="headerlink" href="#application-and-runtime-configuration" title="Permalink to this headline">¶</a></h1>
 <p>There are generally two types of configurations:</p>
 <ul class="simple">
-<li>Configuring the JVM and the process</li>
-<li>Configuring the application itself</li>
+<li><p>Configuring the JVM and the process</p></li>
+<li><p>Configuring the application itself</p></li>
 </ul>
 <p>You have two options to define your runtime and application configurations.</p>
 <div class="section" id="configuration-file">
@@ -516,27 +515,25 @@
 <p>The start scripts provided by the <code class="docutils literal notranslate"><span class="pre">BatStartScriptPlugin</span></code> and <code class="docutils literal notranslate"><span class="pre">BashStartScriptPlugin</span></code> can both load an external
 configuration file during execution. You can define the configuration file location for both with these two settings.</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></dt>
-<dd><p class="first">The location of the bash script on the target system.</p>
-<p class="last"><strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">${app_home}/../conf/application.ini</span></code></p>
+<div><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></dt><dd><p>The location of the bash script on the target system.</p>
+<p><strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">${app_home}/../conf/application.ini</span></code></p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">batScriptConfigLocation</span></code></dt>
-<dd><p class="first">The location of the bat script on the target system.</p>
-<p class="last"><strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">%APP_HOME%\conf\application.ini</span></code></p>
+<dt><code class="docutils literal notranslate"><span class="pre">batScriptConfigLocation</span></code></dt><dd><p>The location of the bat script on the target system.</p>
+<p><strong>Default</strong> <code class="docutils literal notranslate"><span class="pre">%APP_HOME%\conf\application.ini</span></code></p>
 </dd>
 </dl>
 </div></blockquote>
 <p>The configuration path is the path on the <strong>target</strong> system. This means that native-packager needs to process this path
-to create a valid <a href="#id1"><span class="problematic" id="id2">``</span></a>universal:mapping``s entry.</p>
+to create a valid <code class="docutils literal notranslate"><span class="pre">universal:mapping</span></code> s entry.</p>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">${app_home}/../</span></code> is removed</li>
-<li><code class="docutils literal notranslate"><span class="pre">%APP_HOME%</span></code> is removed and <code class="docutils literal notranslate"><span class="pre">\</span></code> is being replaced with <code class="docutils literal notranslate"><span class="pre">/</span></code></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">${app_home}/../</span></code> is removed</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%APP_HOME%</span></code> is removed and <code class="docutils literal notranslate"><span class="pre">\</span></code> is being replaced with <code class="docutils literal notranslate"><span class="pre">/</span></code></p></li>
 </ul>
 <p>This means you can either</p>
 <ol class="arabic simple">
-<li>Create a configuration path relative to the application directory (recommended)</li>
-<li>Create an absolute path that has to match your target <strong>and</strong> build system</li>
+<li><p>Create a configuration path relative to the application directory (recommended)</p></li>
+<li><p>Create an absolute path that has to match your target <strong>and</strong> build system</p></li>
 </ol>
 <p><strong>Example</strong></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// configure two different files for bash and bat</span>
@@ -608,14 +605,14 @@ The default configuration looks like this</p>
 </div>
 </div>
 <div class="section" id="add-code-to-the-start-scripts">
-<span id="id3"></span><h2>Add code to the start scripts<a class="headerlink" href="#add-code-to-the-start-scripts" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Add code to the start scripts<a class="headerlink" href="#add-code-to-the-start-scripts" title="Permalink to this headline">¶</a></h2>
 <p>The second option is to add code to the generated start scripts via these settings.</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code></dt>
-<dd>A list of extra definitions that should be written to the bash file template.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code></dt>
-<dd>A list of extra definitions that should be written to the bat file template.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code></dt><dd><p>A list of extra definitions that should be written to the bash file template.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code></dt><dd><p>A list of extra definitions that should be written to the bat file template.</p>
+</dd>
 </dl>
 </div></blockquote>
 <div class="section" id="bashscript-defines">
@@ -630,12 +627,12 @@ bash commands here, but for configurations you have two methods to add jvm and a
 </div>
 <p><strong>Syntax</strong></p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">${{template_declares}}</span></code></dt>
-<dd>Will be replaced with a series of <code class="docutils literal notranslate"><span class="pre">declare</span> <span class="pre">&lt;var&gt;</span></code> lines based on the <code class="docutils literal notranslate"><span class="pre">bashScriptDefines</span></code> key. These variables
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">${{template_declares}}</span></code></dt><dd><p>Will be replaced with a series of <code class="docutils literal notranslate"><span class="pre">declare</span> <span class="pre">&lt;var&gt;</span></code> lines based on the <code class="docutils literal notranslate"><span class="pre">bashScriptDefines</span></code> key. These variables
 are predefined:
 * <code class="docutils literal notranslate"><span class="pre">app_mainclass</span></code> - The main class entry point for the application.
-* <code class="docutils literal notranslate"><span class="pre">app_classpath</span></code> - The complete classpath for the application (in order).</dd>
+* <code class="docutils literal notranslate"><span class="pre">app_classpath</span></code> - The complete classpath for the application (in order).</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -687,13 +684,13 @@ start-script.</p>
 <div class="section" id="overriding-templates-bash-bat">
 <h1>Overriding Templates (Bash/Bat)<a class="headerlink" href="#overriding-templates-bash-bat" title="Permalink to this headline">¶</a></h1>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
+<p class="admonition-title">Warning</p>
 <p>Replacing the default templates should really only be done if:</p>
 <ol class="arabic simple">
-<li>There is a bug in one of the script templates you need to workaround</li>
-<li>There is a deficiency in the features of one of the templates you need to fix.</li>
+<li><p>There is a bug in one of the script templates you need to workaround</p></li>
+<li><p>There is a deficiency in the features of one of the templates you need to fix.</p></li>
 </ol>
-<p class="last">In general, the templates are intended to provide enough utility that customization is only necessary for truly custom
+<p>In general, the templates are intended to provide enough utility that customization is only necessary for truly custom
 scripts.</p>
 </div>
 <p>In order to override full templates, like the default bash script, you can create a file in

@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Deployment &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Deployment &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -504,8 +503,8 @@
 <p>This page shows you how to configure your build to deploy your build universal(zip, tgz, txz), rpm, debian or msi
 packages. For information on docker, please take a look at the docker page.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The deployment settings only add artifacts to your publish task. Native packager doesn’t provide any
+<p class="admonition-title">Note</p>
+<p>The deployment settings only add artifacts to your publish task. Native packager doesn’t provide any
 functionality for publishing to native repositories.</p>
 </div>
 <div class="section" id="setup-publish-task">
@@ -532,9 +531,9 @@ like this in your <code class="docutils literal notranslate"><span class="pre">b
 </div>
 <p>You are now able to publish your packaged application in both <code class="docutils literal notranslate"><span class="pre">tgz</span></code> and <code class="docutils literal notranslate"><span class="pre">zip</span></code> formats with:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">universal:publish</span></code></dt>
-<dd>Publish the <code class="docutils literal notranslate"><span class="pre">zip</span></code> (or <code class="docutils literal notranslate"><span class="pre">tgz</span></code>/<code class="docutils literal notranslate"><span class="pre">txz</span></code> depending on the configuration. Default is to publish <code class="docutils literal notranslate"><span class="pre">zip</span></code> along with <code class="docutils literal notranslate"><span class="pre">tgz</span></code>) package</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">universal:publish</span></code></dt><dd><p>Publish the <code class="docutils literal notranslate"><span class="pre">zip</span></code> (or <code class="docutils literal notranslate"><span class="pre">tgz</span></code>/<code class="docutils literal notranslate"><span class="pre">txz</span></code> depending on the configuration. Default is to publish <code class="docutils literal notranslate"><span class="pre">zip</span></code> along with <code class="docutils literal notranslate"><span class="pre">tgz</span></code>) package</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -550,7 +549,8 @@ deployment setup to a more specific one.</p>
 </div>
 <p>This will make possible to push the <code class="docutils literal notranslate"><span class="pre">RPM</span></code> with:</p>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">rpm:publish</span></code></div></blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">rpm:publish</span></code></p>
+</div></blockquote>
 </div>
 <div class="section" id="debian">
 <h3>Debian<a class="headerlink" href="#debian" title="Permalink to this headline">¶</a></h3>
@@ -560,7 +560,8 @@ deployment setup to a more specific one.</p>
 </div>
 <p>that will make possible to publish a <code class="docutils literal notranslate"><span class="pre">deb</span></code> package with:</p>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">deb:publish</span></code></div></blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">deb:publish</span></code></p>
+</div></blockquote>
 </div>
 <div class="section" id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
@@ -570,7 +571,8 @@ deployment setup to a more specific one.</p>
 </div>
 <p>Then, pushing the package is</p>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">windows:publish</span></code></div></blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">windows:publish</span></code></p>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="custom-configurations">

@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Custom Package Formats &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Custom Package Formats &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -679,8 +678,8 @@ location.</p>
 <p>Defining a custom mapping format is basically transforming these mappings into the format
 of you choice. To do so, we recommend the following steps</p>
 <ol class="arabic simple">
-<li>Create a new configuration <code class="docutils literal notranslate"><span class="pre">scope</span></code> for you packaging type</li>
-<li>Define a <code class="docutils literal notranslate"><span class="pre">packageBin</span></code> task in your new scope that transforms the mappings into a package</li>
+<li><p>Create a new configuration <code class="docutils literal notranslate"><span class="pre">scope</span></code> for you packaging type</p></li>
+<li><p>Define a <code class="docutils literal notranslate"><span class="pre">packageBin</span></code> task in your new scope that transforms the mappings into a package</p></li>
 </ol>
 <p>The following examples demonstrates how to create a simple <em>text format</em>, which lists all your
 mappings inside a package format. A minimal <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> would look like this</p>
@@ -720,9 +719,9 @@ mappings inside a package format. A minimal <code class="docutils literal notran
 </div>
 <p>If you want to read more about sbt configurations:</p>
 <ul class="simple">
-<li><a class="reference external" href="http://www.scala-sbt.org/0.13/docs/Tasks.html">sbt tasks</a></li>
-<li><a class="reference external" href="http://www.scala-sbt.org/0.13.5/docs/Detailed-Topics/Testing.html#additional-test-configurations-with-shared-sources">sbt configurations</a></li>
-<li><a class="reference external" href="http://stackoverflow.com/questions/18789477/define-custom-configuration-in-sbt">custom configuration</a></li>
+<li><p><a class="reference external" href="http://www.scala-sbt.org/0.13/docs/Tasks.html">sbt tasks</a></p></li>
+<li><p><a class="reference external" href="http://www.scala-sbt.org/0.13.5/docs/Detailed-Topics/Testing.html#additional-test-configurations-with-shared-sources">sbt configurations</a></p></li>
+<li><p><a class="reference external" href="http://stackoverflow.com/questions/18789477/define-custom-configuration-in-sbt">custom configuration</a></p></li>
 </ul>
 </div>
 </div>

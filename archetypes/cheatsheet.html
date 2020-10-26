@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Archetype Cheatsheet &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Archetype Cheatsheet &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../formats/graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -506,9 +505,9 @@
 <h2>Path Configurations<a class="headerlink" href="#path-configurations" title="Permalink to this headline">¶</a></h2>
 <p>This section describes where and how to configure different kind of paths settings like</p>
 <ul class="simple">
-<li>what is the installation location of my package</li>
-<li>where is the log directory created</li>
-<li>what is the name of my start script</li>
+<li><p>what is the installation location of my package</p></li>
+<li><p>where is the log directory created</p></li>
+<li><p>what is the name of my start script</p></li>
 </ul>
 <div class="section" id="quick-reference-table">
 <h3>Quick Reference Table<a class="headerlink" href="#quick-reference-table" title="Permalink to this headline">¶</a></h3>
@@ -517,90 +516,90 @@ Paths which do not begin with a <code class="docutils literal notranslate"><span
 The scopes are ordered from general to specific, so a more specific one will override
 the generic one. Only the listed scopes for a setting a relevant. Any changes in other
 scopes will have no effect!</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="42%" />
-<col width="14%" />
-<col width="16%" />
-<col width="28%" />
+<col style="width: 42%" />
+<col style="width: 14%" />
+<col style="width: 16%" />
+<col style="width: 28%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">output path</th>
-<th class="head">scopes</th>
-<th class="head">archetype</th>
-<th class="head">comment</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>output path</p></th>
+<th class="head"><p>scopes</p></th>
+<th class="head"><p>archetype</p></th>
+<th class="head"><p>comment</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>lib</td>
-<td>all</td>
-<td>JavaApp</td>
-<td>&#160;</td>
+<tbody>
+<tr class="row-even"><td><p>lib</p></td>
+<td><p>all</p></td>
+<td><p>JavaApp</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td>conf</td>
-<td>all</td>
-<td>JavaApp</td>
-<td>&#160;</td>
+<tr class="row-odd"><td><p>conf</p></td>
+<td><p>all</p></td>
+<td><p>JavaApp</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td>bin/<code class="docutils literal notranslate"><span class="pre">&lt;executableScriptName&gt;</span></code></td>
-<td>Global</td>
-<td>JavaApp</td>
-<td>&#160;</td>
+<tr class="row-even"><td><p>bin/<code class="docutils literal notranslate"><span class="pre">&lt;executableScriptName&gt;</span></code></p></td>
+<td><p>Global</p></td>
+<td><p>JavaApp</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td>bin/<code class="docutils literal notranslate"><span class="pre">&lt;executableScriptName&gt;</span></code>.bat</td>
-<td>Global</td>
-<td>JavaApp</td>
-<td>&#160;</td>
+<tr class="row-odd"><td><p>bin/<code class="docutils literal notranslate"><span class="pre">&lt;executableScriptName&gt;</span></code>.bat</p></td>
+<td><p>Global</p></td>
+<td><p>JavaApp</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td>bin/<code class="docutils literal notranslate"><span class="pre">&lt;executableScriptName&gt;</span></code></td>
-<td>Global</td>
-<td>&#160;</td>
-<td>Entrypoint DockerPlugin</td>
+<tr class="row-even"><td><p>bin/<code class="docutils literal notranslate"><span class="pre">&lt;executableScriptName&gt;</span></code></p></td>
+<td><p>Global</p></td>
+<td></td>
+<td><p>Entrypoint DockerPlugin</p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&lt;defaultLinuxInstallationLocation&gt;</span></code>/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></td>
-<td>Linux, Debian, Rpm</td>
-<td>JavaApp</td>
-<td>&#160;</td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;defaultLinuxInstallationLocation&gt;</span></code>/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></p></td>
+<td><p>Linux, Debian, Rpm</p></td>
+<td><p>JavaApp</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">&lt;defaultLinuxLogLocation&gt;</span></code>/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></td>
-<td>Linux</td>
-<td>JavaServerApplication</td>
-<td>&#160;</td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;defaultLinuxLogLocation&gt;</span></code>/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></p></td>
+<td><p>Linux</p></td>
+<td><p>JavaServerApplication</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td>logs</td>
-<td>Linux</td>
-<td>JavaServerApplication</td>
-<td>Symlink</td>
+<tr class="row-odd"><td><p>logs</p></td>
+<td><p>Linux</p></td>
+<td><p>JavaServerApplication</p></td>
+<td><p>Symlink</p></td>
 </tr>
-<tr class="row-even"><td>/etc/default/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></td>
-<td>Linux</td>
-<td>JavaServerApplication</td>
-<td>&#160;</td>
+<tr class="row-even"><td><p>/etc/default/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></p></td>
+<td><p>Linux</p></td>
+<td><p>JavaServerApplication</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td>/var/run/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></td>
-<td>Linux</td>
-<td>JavaServerApplication</td>
-<td>&#160;</td>
+<tr class="row-odd"><td><p>/var/run/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></p></td>
+<td><p>Linux</p></td>
+<td><p>JavaServerApplication</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td>/etc/init.d/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></td>
-<td>Linux, Debian, Rpm</td>
-<td>JavaServerApplication</td>
-<td>For SystemV</td>
+<tr class="row-even"><td><p>/etc/init.d/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></p></td>
+<td><p>Linux, Debian, Rpm</p></td>
+<td><p>JavaServerApplication</p></td>
+<td><p>For SystemV</p></td>
 </tr>
-<tr class="row-odd"><td>/etc/init/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></td>
-<td>Linux, Debian, Rpm</td>
-<td>JavaServerApplication</td>
-<td>For Upstart</td>
+<tr class="row-odd"><td><p>/etc/init/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code></p></td>
+<td><p>Linux, Debian, Rpm</p></td>
+<td><p>JavaServerApplication</p></td>
+<td><p>For Upstart</p></td>
 </tr>
-<tr class="row-even"><td>/usr/lib/systemd/system/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code>.service</td>
-<td>Linux, Debian, Rpm</td>
-<td>JavaServerApplication</td>
-<td>For Systemd</td>
+<tr class="row-even"><td><p>/usr/lib/systemd/system/<code class="docutils literal notranslate"><span class="pre">&lt;packageName&gt;</span></code>.service</p></td>
+<td><p>Linux, Debian, Rpm</p></td>
+<td><p>JavaServerApplication</p></td>
+<td><p>For Systemd</p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&lt;defaultLinuxInstallLocation&gt;</span></code></td>
-<td>Docker</td>
-<td>&#160;</td>
-<td>Installation path inside the container</td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;defaultLinuxInstallLocation&gt;</span></code></p></td>
+<td><p>Docker</p></td>
+<td></td>
+<td><p>Installation path inside the container</p></td>
 </tr>
 </tbody>
 </table>
@@ -609,17 +608,17 @@ scopes will have no effect!</p>
 <h3>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h3>
 <p>These settings configure the path behaviour</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt>
-<dd>Use for the normal jar generation process</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">packageName</span></code></dt>
-<dd>Defaults to <code class="docutils literal notranslate"><span class="pre">normalizedName</span></code>. Can be override in different scopes</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">executableScriptName</span></code></dt>
-<dd>Defaults to <code class="docutils literal notranslate"><span class="pre">normalizedName</span></code>. Sets the name of the executable starter script</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">defaultLinuxInstallLocation</span></code></dt>
-<dd>Defaults to <code class="docutils literal notranslate"><span class="pre">/usr/share/</span></code>. Used to determine the installation path for for linux packages (rpm, debian)</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">defaultLinuxLogsLocation</span></code></dt>
-<dd>Defaults to <code class="docutils literal notranslate"><span class="pre">/var/log/</span></code>. Used to determine the log path for linux packages (rpm, debian).</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>Use for the normal jar generation process</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">packageName</span></code></dt><dd><p>Defaults to <code class="docutils literal notranslate"><span class="pre">normalizedName</span></code>. Can be override in different scopes</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">executableScriptName</span></code></dt><dd><p>Defaults to <code class="docutils literal notranslate"><span class="pre">normalizedName</span></code>. Sets the name of the executable starter script</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">defaultLinuxInstallLocation</span></code></dt><dd><p>Defaults to <code class="docutils literal notranslate"><span class="pre">/usr/share/</span></code>. Used to determine the installation path for for linux packages (rpm, debian)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">defaultLinuxLogsLocation</span></code></dt><dd><p>Defaults to <code class="docutils literal notranslate"><span class="pre">/var/log/</span></code>. Used to determine the log path for linux packages (rpm, debian).</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -629,13 +628,13 @@ scopes will have no effect!</p>
 <p>JVM options can be added via different mechanisms. It depends on your use case which is most suitable.
 The available options are</p>
 <ul class="simple">
-<li>Adding via <code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code> and <code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code></li>
-<li>Providing a <code class="docutils literal notranslate"><span class="pre">application.ini</span></code> (JavaApp) or <code class="docutils literal notranslate"><span class="pre">etc-default</span></code> (JavaServer) file</li>
-<li>Set <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Universal</span></code> (JavaApp) or <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Linux</span></code> (JavaServer, linux only)</li>
+<li><p>Adding via <code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code> and <code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code></p></li>
+<li><p>Providing a <code class="docutils literal notranslate"><span class="pre">application.ini</span></code> (JavaApp) or <code class="docutils literal notranslate"><span class="pre">etc-default</span></code> (JavaServer) file</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Universal</span></code> (JavaApp) or <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Linux</span></code> (JavaServer, linux only)</p></li>
 </ul>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">If you want to change the location of your config keep in mind that the path in
+<p class="admonition-title">Warning</p>
+<p>If you want to change the location of your config keep in mind that the path in
 <strong>bashScriptConfigLocation</strong> should either
 - be <strong>absolute</strong> (e.g. <em>/etc/etc-default/my-config&lt;</em>) or
 - starting with <em>${app_home}/../</em> (e.g. <em>${app_home}/../conf/application.ini</em>)</p>
@@ -679,73 +678,73 @@ and add this to your <code class="docutils literal notranslate"><span class="pre
 This will generate files according to your archetype. The following table gives you an overview what
 you can use and how things will be behave if you mix different options. Options lower in the table
 are more specific and will thus override the any previous settings (if allowed).</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="4%" />
-<col width="5%" />
-<col width="12%" />
-<col width="5%" />
-<col width="4%" />
-<col width="71%" />
+<col style="width: 4%" />
+<col style="width: 5%" />
+<col style="width: 12%" />
+<col style="width: 5%" />
+<col style="width: 4%" />
+<col style="width: 71%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">javaOpts</th>
-<th class="head">Scope</th>
-<th class="head">bashScriptConfigLocation</th>
-<th class="head">Archetype</th>
-<th class="head">mappings</th>
-<th class="head">comment</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>javaOpts</p></th>
+<th class="head"><p>Scope</p></th>
+<th class="head"><p>bashScriptConfigLocation</p></th>
+<th class="head"><p>Archetype</p></th>
+<th class="head"><p>mappings</p></th>
+<th class="head"><p>comment</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>Nil</td>
-<td>Universal</td>
-<td>None</td>
-<td>JavaApp</td>
-<td>&#160;</td>
-<td>No jvm options</td>
+<tbody>
+<tr class="row-even"><td><p>Nil</p></td>
+<td><p>Universal</p></td>
+<td><p>None</p></td>
+<td><p>JavaApp</p></td>
+<td></td>
+<td><p>No jvm options</p></td>
 </tr>
-<tr class="row-odd"><td>Nil</td>
-<td>Universal</td>
-<td>Some(appIniLocation)</td>
-<td>JavaApp</td>
-<td>&#160;</td>
-<td>User provides the application.ini file in <code class="docutils literal notranslate"><span class="pre">src/universal/conf/application.ini</span></code></td>
+<tr class="row-odd"><td><p>Nil</p></td>
+<td><p>Universal</p></td>
+<td><p>Some(appIniLocation)</p></td>
+<td><p>JavaApp</p></td>
+<td></td>
+<td><p>User provides the application.ini file in <code class="docutils literal notranslate"><span class="pre">src/universal/conf/application.ini</span></code></p></td>
 </tr>
-<tr class="row-even"><td>opts</td>
-<td>Universal</td>
-<td>Some(_)</td>
-<td>JavaApp</td>
-<td>added</td>
-<td>creates <code class="docutils literal notranslate"><span class="pre">application.ini</span></code> but leaves <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code> unchanged</td>
+<tr class="row-even"><td><p>opts</p></td>
+<td><p>Universal</p></td>
+<td><p>Some(_)</p></td>
+<td><p>JavaApp</p></td>
+<td><p>added</p></td>
+<td><p>creates <code class="docutils literal notranslate"><span class="pre">application.ini</span></code> but leaves <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code> unchanged</p></td>
 </tr>
-<tr class="row-odd"><td>opts</td>
-<td>Universal</td>
-<td>None</td>
-<td>JavaApp</td>
-<td>added</td>
-<td>creates <code class="docutils literal notranslate"><span class="pre">application.ini</span></code> and sets <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code>. If <code class="docutils literal notranslate"><span class="pre">src/universal/conf/application.ini</span></code> is present it will be overridden</td>
+<tr class="row-odd"><td><p>opts</p></td>
+<td><p>Universal</p></td>
+<td><p>None</p></td>
+<td><p>JavaApp</p></td>
+<td><p>added</p></td>
+<td><p>creates <code class="docutils literal notranslate"><span class="pre">application.ini</span></code> and sets <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code>. If <code class="docutils literal notranslate"><span class="pre">src/universal/conf/application.ini</span></code> is present it will be overridden</p></td>
 </tr>
-<tr class="row-even"><td>Nil</td>
-<td>Linux</td>
-<td>None</td>
-<td>JavaServer</td>
-<td>added</td>
-<td>creates <code class="docutils literal notranslate"><span class="pre">etc-default</span></code> and sets <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></td>
+<tr class="row-even"><td><p>Nil</p></td>
+<td><p>Linux</p></td>
+<td><p>None</p></td>
+<td><p>JavaServer</p></td>
+<td><p>added</p></td>
+<td><p>creates <code class="docutils literal notranslate"><span class="pre">etc-default</span></code> and sets <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></p></td>
 </tr>
-<tr class="row-odd"><td>opts</td>
-<td>Linux</td>
-<td>None</td>
-<td>JavaServer</td>
-<td>added</td>
-<td>creates <code class="docutils literal notranslate"><span class="pre">etc-default</span></code>, appends <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Linux</span></code> and sets <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></td>
+<tr class="row-odd"><td><p>opts</p></td>
+<td><p>Linux</p></td>
+<td><p>None</p></td>
+<td><p>JavaServer</p></td>
+<td><p>added</p></td>
+<td><p>creates <code class="docutils literal notranslate"><span class="pre">etc-default</span></code>, appends <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Linux</span></code> and sets <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></p></td>
 </tr>
-<tr class="row-even"><td>opts</td>
-<td>Linux</td>
-<td>Some(_)</td>
-<td>JavaServer</td>
-<td>added</td>
-<td>creates <code class="docutils literal notranslate"><span class="pre">etc-default</span></code>, appends <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Linux</span></code> and overrides <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></td>
+<tr class="row-even"><td><p>opts</p></td>
+<td><p>Linux</p></td>
+<td><p>Some(_)</p></td>
+<td><p>JavaServer</p></td>
+<td><p>added</p></td>
+<td><p>creates <code class="docutils literal notranslate"><span class="pre">etc-default</span></code>, appends <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Linux</span></code> and overrides <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -763,9 +762,9 @@ generate the <code class="docutils literal notranslate"><span class="pre">.bat</
 <p><strong>Syntax</strong></p>
 <p><code class="docutils literal notranslate"><span class="pre">&#64;&#64;APP_ENV_NAME&#64;&#64;</span></code> - will be replaced with the script friendly name of your package.</p>
 <p><code class="docutils literal notranslate"><span class="pre">&#64;&#64;APP_NAME&#64;&#64;</span></code> - will be replaced with user friendly name of your package.</p>
-<dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">&#64;APP_DEFINES&#64;&#64;</span></code> - will be replaced with a set of variable definitions, like</dt>
-<dd><code class="docutils literal notranslate"><span class="pre">APP_MAIN_CLASS</span></code>, <code class="docutils literal notranslate"><span class="pre">APP_MAIN_CLASS</span></code>.</dd>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">&#64;APP_DEFINES&#64;&#64;</span></code> - will be replaced with a set of variable definitions, like</dt><dd><p><code class="docutils literal notranslate"><span class="pre">APP_MAIN_CLASS</span></code>, <code class="docutils literal notranslate"><span class="pre">APP_MAIN_CLASS</span></code>.</p>
+</dd>
 </dl>
 <p>You can define additional variable definitions using <code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code>.</p>
 </div>
@@ -779,8 +778,8 @@ universal distribution</p>
 lines based on the <code class="docutils literal notranslate"><span class="pre">bashScriptDefines</span></code> key.  You can add more defines to
 the <code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code> that will be used in addition to the default set:</p>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">app_mainclass</span></code> - The main class entry point for the application.</li>
-<li><code class="docutils literal notranslate"><span class="pre">app_classpath</span></code> - The complete classpath for the application (in order).</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">app_mainclass</span></code> - The main class entry point for the application.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">app_classpath</span></code> - The complete classpath for the application (in order).</p></li>
 </ul>
 </div>
 <div class="section" id="service-manager-templates">
@@ -790,34 +789,34 @@ These templates vary by loader type. Create a file <code class="docutils literal
 and it will be used instead.</p>
 <p>Possible values:</p>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">$loader</span></code> - <code class="docutils literal notranslate"><span class="pre">upstart</span></code>, <code class="docutils literal notranslate"><span class="pre">systemv</span></code> or <code class="docutils literal notranslate"><span class="pre">systemd</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">$template</span></code> -
+<li><p><code class="docutils literal notranslate"><span class="pre">$loader</span></code> - <code class="docutils literal notranslate"><span class="pre">upstart</span></code>, <code class="docutils literal notranslate"><span class="pre">systemv</span></code> or <code class="docutils literal notranslate"><span class="pre">systemd</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$template</span></code> -
 * <code class="docutils literal notranslate"><span class="pre">systemv</span></code> - <code class="docutils literal notranslate"><span class="pre">loader-functions</span></code>, <code class="docutils literal notranslate"><span class="pre">start-debian-template</span></code>, or <code class="docutils literal notranslate"><span class="pre">start-rpm-template</span></code>
 * <code class="docutils literal notranslate"><span class="pre">systemd</span></code> - <code class="docutils literal notranslate"><span class="pre">loader-functions</span></code> or <code class="docutils literal notranslate"><span class="pre">start-template</span></code>
-* <code class="docutils literal notranslate"><span class="pre">upstart</span></code> - <code class="docutils literal notranslate"><span class="pre">loader-functions</span></code> or <code class="docutils literal notranslate"><span class="pre">start-template</span></code></li>
+* <code class="docutils literal notranslate"><span class="pre">upstart</span></code> - <code class="docutils literal notranslate"><span class="pre">loader-functions</span></code> or <code class="docutils literal notranslate"><span class="pre">start-template</span></code></p></li>
 </ul>
 <p><strong>Syntax</strong></p>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">${{variable_name}}</span></code> to reference variables when writing your script.  The default set of variables is:</p>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">author</span></code> - The name of the author; defined by <code class="docutils literal notranslate"><span class="pre">maintainer</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">descr</span></code> - The short description of the service; defined by <code class="docutils literal notranslate"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">exec</span></code> - The script/binary to execute when starting the service; defined by <code class="docutils literal notranslate"><span class="pre">executableScriptName</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">chdir</span></code> - The working directory for the service; defined by <code class="docutils literal notranslate"><span class="pre">defaultLinuxInstallLocation/(packageName</span> <span class="pre">in</span> <span class="pre">Linux)</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">retries</span></code> - The number of times to retry starting the server; defined to be the constant <code class="docutils literal notranslate"><span class="pre">0</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">retryTimeout</span></code> - The amount of time to wait before trying to run the server; defined to be the constant <code class="docutils literal notranslate"><span class="pre">60</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">app_name</span></code> - The name of the application (linux friendly); defined by <code class="docutils literal notranslate"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">version</span></code> - The software version; defined by <code class="docutils literal notranslate"><span class="pre">version</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">daemon_user</span></code> - The user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonUser</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">daemon_user_uid</span></code> - The user ID of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonUserUid</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">daemon_group</span></code> - The group of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonGroup</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">daemon_group_gid</span></code> - The group ID of the group of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonGroupGid</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">daemon_shell</span></code> - The shell of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonShell</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">term_timeout</span></code> - The timeout for the service to respond to a TERM signal; defined by <code class="docutils literal notranslate"><span class="pre">termTimeout</span> <span class="pre">in</span> <span class="pre">Linux</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">60</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">kill_timeout</span></code> - The timeout for the service to respond to a KILL signal; defined by <code class="docutils literal notranslate"><span class="pre">killTimeout</span> <span class="pre">in</span> <span class="pre">Linux</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">30</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">start_facilities</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Required-Start:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</li>
-<li><code class="docutils literal notranslate"><span class="pre">stop_facilities</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Required-Stop:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</li>
-<li><code class="docutils literal notranslate"><span class="pre">start_runlevels</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Default-Start:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</li>
-<li><code class="docutils literal notranslate"><span class="pre">stop_runlevels</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Default-Stop:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">author</span></code> - The name of the author; defined by <code class="docutils literal notranslate"><span class="pre">maintainer</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">descr</span></code> - The short description of the service; defined by <code class="docutils literal notranslate"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exec</span></code> - The script/binary to execute when starting the service; defined by <code class="docutils literal notranslate"><span class="pre">executableScriptName</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chdir</span></code> - The working directory for the service; defined by <code class="docutils literal notranslate"><span class="pre">defaultLinuxInstallLocation/(packageName</span> <span class="pre">in</span> <span class="pre">Linux)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">retries</span></code> - The number of times to retry starting the server; defined to be the constant <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">retryTimeout</span></code> - The amount of time to wait before trying to run the server; defined to be the constant <code class="docutils literal notranslate"><span class="pre">60</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">app_name</span></code> - The name of the application (linux friendly); defined by <code class="docutils literal notranslate"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">version</span></code> - The software version; defined by <code class="docutils literal notranslate"><span class="pre">version</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_user</span></code> - The user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonUser</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_user_uid</span></code> - The user ID of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonUserUid</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_group</span></code> - The group of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonGroup</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_group_gid</span></code> - The group ID of the group of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonGroupGid</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_shell</span></code> - The shell of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonShell</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">term_timeout</span></code> - The timeout for the service to respond to a TERM signal; defined by <code class="docutils literal notranslate"><span class="pre">termTimeout</span> <span class="pre">in</span> <span class="pre">Linux</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">60</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kill_timeout</span></code> - The timeout for the service to respond to a KILL signal; defined by <code class="docutils literal notranslate"><span class="pre">killTimeout</span> <span class="pre">in</span> <span class="pre">Linux</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">30</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">start_facilities</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Required-Start:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stop_facilities</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Required-Stop:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">start_runlevels</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Default-Start:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stop_runlevels</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Default-Stop:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</p></li>
 </ul>
 </div>
 <div class="section" id="server-app-config-src-templates-etc-default-systemv-systemd">
@@ -826,10 +825,10 @@ and it will be used instead.</p>
 for the corresponding loader.</p>
 <p>The file <cite>/etc/default/&lt;application&gt;</cite> is used as follows given the loader:</p>
 <ul class="simple">
-<li><em>systemv</em>: sourced as a bourne script.</li>
-<li><em>systemd</em>: used as an EnvironmentFile directive parameter (see <em>man systemd.exec</em>, section <em>EnvironmentFile</em> for a
-description of the expected file format).</li>
-<li><em>upstart</em>: presently ignored.</li>
+<li><p><em>systemv</em>: sourced as a bourne script.</p></li>
+<li><p><em>systemd</em>: used as an EnvironmentFile directive parameter (see <em>man systemd.exec</em>, section <em>EnvironmentFile</em> for a
+description of the expected file format).</p></li>
+<li><p><em>upstart</em>: presently ignored.</p></li>
 </ul>
 <p>If you’re only overriding <cite>JAVA_OPTS</cite>, your environment file could be compatible
 with both systemv and systemd loaders; if such is the case, you can specify a

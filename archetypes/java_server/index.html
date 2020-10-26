@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Java Server Application Archetype &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Java Server Application Archetype &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../formats/graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -502,8 +501,8 @@
   <div class="section" id="java-server-application-archetype">
 <span id="java-server-plugin"></span><h1>Java Server Application Archetype<a class="headerlink" href="#java-server-application-archetype" title="Permalink to this headline">¶</a></h1>
 <div class="admonition hint">
-<p class="first admonition-title">Hint</p>
-<p class="last">Supports only <strong>deb</strong> and <strong>rpm</strong> packaging. No support for Windows or macOS</p>
+<p class="admonition-title">Hint</p>
+<p>Supports only <strong>deb</strong> and <strong>rpm</strong> packaging. No support for Windows or macOS</p>
 </div>
 <p>In the <a class="reference internal" href="../java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> section we described how to build and customize settings related to an application.
 The server archetype adds additional features you may need when running your application as a service on a server.
@@ -513,11 +512,11 @@ managers.</p>
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <p>The <em>JavaServerAppPackaging</em> archetype depends on the <a class="reference internal" href="../java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> and adds the following features</p>
 <ul class="simple">
-<li>daemon user/group support</li>
-<li>default mappings for server applications
+<li><p>daemon user/group support</p></li>
+<li><p>default mappings for server applications
 * <code class="docutils literal notranslate"><span class="pre">/var/log/&lt;pkg&gt;</span></code> is symlinked from <code class="docutils literal notranslate"><span class="pre">&lt;install&gt;/logs</span></code>
-* <code class="docutils literal notranslate"><span class="pre">/var/run/&lt;pkg&gt;</span></code> owned by <code class="docutils literal notranslate"><span class="pre">daemonUser</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">etc-default</span></code> support</li>
+* <code class="docutils literal notranslate"><span class="pre">/var/run/&lt;pkg&gt;</span></code> owned by <code class="docutils literal notranslate"><span class="pre">daemonUser</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">etc-default</span></code> support</p></li>
 </ul>
 </div>
 <div class="section" id="usage">
@@ -527,8 +526,8 @@ managers.</p>
 </div>
 <p>Everything else works the same way as the <a class="reference internal" href="../java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a>.</p>
 <div class="admonition tip">
-<p class="first admonition-title">Tip</p>
-<p class="last">If you want your application to be registered as a service enable a <a class="reference internal" href="../systemloaders.html#systemloaders"><span class="std std-ref">Systemloaders</span></a> plugin.</p>
+<p class="admonition-title">Tip</p>
+<p>If you want your application to be registered as a service enable a <a class="reference internal" href="../systemloaders.html#systemloaders"><span class="std std-ref">Systemloaders</span></a> plugin.</p>
 </div>
 </div>
 <div class="section" id="settings-tasks">
@@ -536,19 +535,19 @@ managers.</p>
 <p>This is a non extensive list of important settings and tasks this plugin provides. All settings
 have sensible defaults.</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">daemonUser</span></code></dt>
-<dd>User to start application daemon</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">daemonUserUid</span></code></dt>
-<dd>UID of daemonUser</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">daemonGroup</span></code></dt>
-<dd>Group to place daemonUser to</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">daemonGroupGid</span></code></dt>
-<dd>GID of daemonGroup</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">daemonShell</span></code></dt>
-<dd>Shell provided for the daemon user</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">daemonStdoutLogFile</span></code></dt>
-<dd>Filename stdout/stderr of application daemon. Now it’s supported only in SystemV</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">daemonUser</span></code></dt><dd><p>User to start application daemon</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">daemonUserUid</span></code></dt><dd><p>UID of daemonUser</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">daemonGroup</span></code></dt><dd><p>Group to place daemonUser to</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">daemonGroupGid</span></code></dt><dd><p>GID of daemonGroup</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">daemonShell</span></code></dt><dd><p>Shell provided for the daemon user</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">daemonStdoutLogFile</span></code></dt><dd><p>Filename stdout/stderr of application daemon. Now it’s supported only in SystemV</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -556,45 +555,45 @@ have sensible defaults.</p>
 <h2>Default Mappings<a class="headerlink" href="#default-mappings" title="Permalink to this headline">¶</a></h2>
 <p>The java server archetype creates a default package structure with the following access rights. <strong>&lt;package&gt;</strong> is a
 placeholder for your actual application name. By default this is <code class="docutils literal notranslate"><span class="pre">normalizedName</span></code>.</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="29%" />
-<col width="6%" />
-<col width="10%" />
-<col width="55%" />
+<col style="width: 29%" />
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 55%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Folder</th>
-<th class="head">User</th>
-<th class="head">Permissions</th>
-<th class="head">Purpose</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Folder</p></th>
+<th class="head"><p>User</p></th>
+<th class="head"><p>Permissions</p></th>
+<th class="head"><p>Purpose</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>/usr/share/<strong>&lt;package&gt;</strong></td>
-<td>root</td>
-<td>755 / (655)</td>
-<td>static, non-changeable files</td>
+<tbody>
+<tr class="row-even"><td><p>/usr/share/<strong>&lt;package&gt;</strong></p></td>
+<td><p>root</p></td>
+<td><p>755 / (655)</p></td>
+<td><p>static, non-changeable files</p></td>
 </tr>
-<tr class="row-odd"><td>/etc/default/<strong>&lt;package&gt;</strong></td>
-<td>root</td>
-<td>644</td>
-<td>default config file</td>
+<tr class="row-odd"><td><p>/etc/default/<strong>&lt;package&gt;</strong></p></td>
+<td><p>root</p></td>
+<td><p>644</p></td>
+<td><p>default config file</p></td>
 </tr>
-<tr class="row-even"><td>/etc/<strong>&lt;package&gt;</strong></td>
-<td>root</td>
-<td>644</td>
-<td>config folder -&gt; link to /usr/share/<strong>&lt;package-name&gt;</strong>/conf</td>
+<tr class="row-even"><td><p>/etc/<strong>&lt;package&gt;</strong></p></td>
+<td><p>root</p></td>
+<td><p>644</p></td>
+<td><p>config folder -&gt; link to /usr/share/<strong>&lt;package-name&gt;</strong>/conf</p></td>
 </tr>
-<tr class="row-odd"><td>/var/run/<strong>&lt;package&gt;</strong></td>
-<td>daemon</td>
-<td>644</td>
-<td>if the application generates a pid on its own</td>
+<tr class="row-odd"><td><p>/var/run/<strong>&lt;package&gt;</strong></p></td>
+<td><p>daemon</p></td>
+<td><p>644</p></td>
+<td><p>if the application generates a pid on its own</p></td>
 </tr>
-<tr class="row-even"><td>/var/log/<strong>&lt;package&gt;</strong></td>
-<td>daemon</td>
-<td>644</td>
-<td>log folder -&gt; symlinked from /usr/share/<strong>&lt;package&gt;</strong>/log</td>
+<tr class="row-even"><td><p>/var/log/<strong>&lt;package&gt;</strong></p></td>
+<td><p>daemon</p></td>
+<td><p>644</p></td>
+<td><p>log folder -&gt; symlinked from /usr/share/<strong>&lt;package&gt;</strong>/log</p></td>
 </tr>
 </tbody>
 </table>

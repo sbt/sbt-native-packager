@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Docker Plugin &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Docker Plugin &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -508,8 +507,8 @@
 </div></blockquote>
 <p>sbt-native-packager focuses on creating a Docker image which can “just run” the application built by SBT.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The docker plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>.</p>
+<p class="admonition-title">Note</p>
+<p>The docker plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>.</p>
 </div>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
@@ -557,112 +556,110 @@ that could slow your build times. This is the reason the dependency is marked as
 <div class="section" id="informational-settings">
 <h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt>
-<dd>The name of the package for Docker (if different from general name).
-This will only affect the image name.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt>
-<dd>The version of the package for Docker (if different from general version).  Often takes the form <code class="docutils literal notranslate"><span class="pre">x.y.z</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">maintainer</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt>
-<dd>The maintainer of the package, recommended by the Dockerfile format.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt><dd><p>The name of the package for Docker (if different from general name).
+This will only affect the image name.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt><dd><p>The version of the package for Docker (if different from general version).  Often takes the form <code class="docutils literal notranslate"><span class="pre">x.y.z</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">maintainer</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt><dd><p>The maintainer of the package, recommended by the Dockerfile format.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="environment-settings">
 <h3>Environment Settings<a class="headerlink" href="#environment-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">dockerBaseImage</span></code></dt>
-<dd>The image to use as a base for running the application. It should include binaries on the path for <code class="docutils literal notranslate"><span class="pre">chown</span></code>, <code class="docutils literal notranslate"><span class="pre">mkdir</span></code>, have a discoverable <code class="docutils literal notranslate"><span class="pre">java</span></code> binary, and include the user configured by <code class="docutils literal notranslate"><span class="pre">daemonUser</span></code> (<code class="docutils literal notranslate"><span class="pre">daemon</span></code>, by default).</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">daemonUser</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt>
-<dd>The user to use when executing the application. Files below the install path also have their ownership set to this user.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerExposedPorts</span></code></dt>
-<dd>A list of TCP ports to expose from the Docker image.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerExposedUdpPorts</span></code></dt>
-<dd>A list of UDP ports to expose from the Docker image.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerExposedVolumes</span></code></dt>
-<dd>A list of data volumes to make available in the Docker image.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerLabels</span></code></dt>
-<dd>A map of labels that will be applied to the Docker image.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerEnvVars</span></code></dt>
-<dd>A map of environment variables that will be applied to the Docker image.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerEntrypoint</span></code></dt>
-<dd>Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
-Defaults to the bash executable script, available at <code class="docutils literal notranslate"><span class="pre">bin/&lt;script</span> <span class="pre">name&gt;</span></code> in the current <code class="docutils literal notranslate"><span class="pre">WORKDIR</span></code> of <code class="docutils literal notranslate"><span class="pre">/opt/docker</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerPermissionStrategy</span></code></dt>
-<dd><p class="first">The strategy that decides how file permissions are set for the working directory inside the Docker image</p>
-<ul class="last simple">
-<li><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.MultiStage</span></code> (default) uses multi-stage Docker build to call chmod ahead of time.</li>
-<li><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.None</span></code> does not attempt to change the file permissions, and use the host machine’s file mode bits.</li>
-<li><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.Run</span></code> calls <code class="docutils literal notranslate"><span class="pre">RUN</span></code> in the Dockerfile. This has regression on the resulting Docker image file size.</li>
-<li><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.CopyChown</span></code> calls <code class="docutils literal notranslate"><span class="pre">COPY</span> <span class="pre">--chown</span></code> in the Dockerfile. Provided as a backward compatibility.</li>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">dockerBaseImage</span></code></dt><dd><p>The image to use as a base for running the application. It should include binaries on the path for <code class="docutils literal notranslate"><span class="pre">chown</span></code>, <code class="docutils literal notranslate"><span class="pre">mkdir</span></code>, have a discoverable <code class="docutils literal notranslate"><span class="pre">java</span></code> binary, and include the user configured by <code class="docutils literal notranslate"><span class="pre">daemonUser</span></code> (<code class="docutils literal notranslate"><span class="pre">daemon</span></code>, by default).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">daemonUser</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt><dd><p>The user to use when executing the application. Files below the install path also have their ownership set to this user.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerExposedPorts</span></code></dt><dd><p>A list of TCP ports to expose from the Docker image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerExposedUdpPorts</span></code></dt><dd><p>A list of UDP ports to expose from the Docker image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerExposedVolumes</span></code></dt><dd><p>A list of data volumes to make available in the Docker image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerLabels</span></code></dt><dd><p>A map of labels that will be applied to the Docker image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerEnvVars</span></code></dt><dd><p>A map of environment variables that will be applied to the Docker image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerEntrypoint</span></code></dt><dd><p>Overrides the default entrypoint for docker-specific service discovery tasks before running the application.
+Defaults to the bash executable script, available at <code class="docutils literal notranslate"><span class="pre">bin/&lt;script</span> <span class="pre">name&gt;</span></code> in the current <code class="docutils literal notranslate"><span class="pre">WORKDIR</span></code> of <code class="docutils literal notranslate"><span class="pre">/opt/docker</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerPermissionStrategy</span></code></dt><dd><p>The strategy that decides how file permissions are set for the working directory inside the Docker image</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.MultiStage</span></code> (default) uses multi-stage Docker build to call chmod ahead of time.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.None</span></code> does not attempt to change the file permissions, and use the host machine’s file mode bits.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.Run</span></code> calls <code class="docutils literal notranslate"><span class="pre">RUN</span></code> in the Dockerfile. This has regression on the resulting Docker image file size.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DockerPermissionStrategy.CopyChown</span></code> calls <code class="docutils literal notranslate"><span class="pre">COPY</span> <span class="pre">--chown</span></code> in the Dockerfile. Provided as a backward compatibility.</p></li>
 </ul>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerChmodType</span></code></dt>
-<dd><p class="first">The file permissions for the files copied into Docker image when <code class="docutils literal notranslate"><span class="pre">MultiStage</span></code> or <code class="docutils literal notranslate"><span class="pre">Run</span></code> strategy is used.</p>
-<ul class="last simple">
-<li><code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupReadExecute</span></code> (default): chmod u=rX,g=rX</li>
-<li><code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupRead</span></code>: chmod u=r,g=r</li>
-<li><code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupWriteExecute</span></code>: chmod u=rwX,g=rwX</li>
-<li><code class="docutils literal notranslate"><span class="pre">DockerChmodType.SyncGroupToUser</span></code>: chmod g=u</li>
-<li><code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupPlusExecute</span></code>: chmod u+x,g+x (This is for <code class="docutils literal notranslate"><span class="pre">dockerAdditionalPermissions</span></code>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">DockerChmodType.Custom</span></code>: Custom argument provided by the user.</li>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerChmodType</span></code></dt><dd><p>The file permissions for the files copied into Docker image when <code class="docutils literal notranslate"><span class="pre">MultiStage</span></code> or <code class="docutils literal notranslate"><span class="pre">Run</span></code> strategy is used.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupReadExecute</span></code> (default): chmod u=rX,g=rX</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupRead</span></code>: chmod u=r,g=r</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupWriteExecute</span></code>: chmod u=rwX,g=rwX</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DockerChmodType.SyncGroupToUser</span></code>: chmod g=u</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupPlusExecute</span></code>: chmod u+x,g+x (This is for <code class="docutils literal notranslate"><span class="pre">dockerAdditionalPermissions</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DockerChmodType.Custom</span></code>: Custom argument provided by the user.</p></li>
 </ul>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerAdditionalPermissions</span></code></dt>
-<dd>Additional permissions typically used to give <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">+x</span></code> rights for the executable files. By default generated Bash scripts are given <code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupPlusExecute</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerVersion</span></code></dt>
-<dd>The docker server version. Used to leverage new docker features while maintaining backwards compatibility.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerApiVersion</span></code></dt>
-<dd>The docker server API version. Used to leverage new docker features while maintaining backwards compatibility.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerLayerGrouping</span></code></dt>
-<dd>The function mapping files into separate layers to increase docker cache hits.
+<dt><code class="docutils literal notranslate"><span class="pre">dockerAdditionalPermissions</span></code></dt><dd><p>Additional permissions typically used to give <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">+x</span></code> rights for the executable files. By default generated Bash scripts are given <code class="docutils literal notranslate"><span class="pre">DockerChmodType.UserGroupPlusExecute</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerVersion</span></code></dt><dd><p>The docker server version. Used to leverage new docker features while maintaining backwards compatibility.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerApiVersion</span></code></dt><dd><p>The docker server API version. Used to leverage new docker features while maintaining backwards compatibility.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerGroupLayers</span></code></dt><dd><p>The function mapping files into separate layers to increase docker cache hits.
 Lower index means the file would be a part of an earlier layer.
 The main idea behind this is to COPY dependencies <a href="#id2"><span class="problematic" id="id3">*</span></a>.jar’s first as they should change rarely.
 In separate command COPY the application <a href="#id4"><span class="problematic" id="id5">*</span></a>.jar’s that should change more often.
 Defaults to detect whether the file name starts with <code class="docutils literal notranslate"><span class="pre">ThisBuild</span> <span class="pre">/</span> <span class="pre">organization</span></code>.
-To disable layers map all files to no layer using <code class="docutils literal notranslate"><span class="pre">dockerLayerGrouping</span> <span class="pre">in</span> <span class="pre">Docker</span>&#160; <span class="pre">:=</span> <span class="pre">(_</span> <span class="pre">=&gt;</span> <span class="pre">None)</span></code>.</dd>
+To disable layers map all files to no layer using <code class="docutils literal notranslate"><span class="pre">dockerGroupLayers</span> <span class="pre">in</span> <span class="pre">Docker</span> <span class="pre">:=</span> <span class="pre">PartialFunction.empty</span></code>.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
 <div class="section" id="publishing-settings">
 <h3>Publishing Settings<a class="headerlink" href="#publishing-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">dockerRepository</span></code></dt>
-<dd>The repository to which the image is pushed when the <code class="docutils literal notranslate"><span class="pre">docker:publish</span></code> task is run. This should be of the form  <code class="docutils literal notranslate"><span class="pre">[repository.host[:repository.port]]</span></code> (assumes use of the <code class="docutils literal notranslate"><span class="pre">index.docker.io</span></code> repository) or <code class="docutils literal notranslate"><span class="pre">[repository.host[:repository.port]][/username]</span></code> (discouraged, but available for backwards compatibilty.).</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerUsername</span></code></dt>
-<dd>The username or organization to which the image is pushed when the <code class="docutils literal notranslate"><span class="pre">docker:publish</span></code> task is run. This should be of the form <code class="docutils literal notranslate"><span class="pre">[username]</span></code> or <code class="docutils literal notranslate"><span class="pre">[organization]</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerUpdateLatest</span></code></dt>
-<dd>The flag to automatic update the latest tag when the <code class="docutils literal notranslate"><span class="pre">docker:publish</span></code> task is run. Default value is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>.  In order to use this setting, the minimum docker console version required is 1.10. See <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/871">https://github.com/sbt/sbt-native-packager/issues/871</a> for a detailed explanation.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerAlias</span></code></dt>
-<dd>The alias to be used for tagging the resulting image of the Docker build.
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">dockerRepository</span></code></dt><dd><p>The repository to which the image is pushed when the <code class="docutils literal notranslate"><span class="pre">docker:publish</span></code> task is run. This should be of the form  <code class="docutils literal notranslate"><span class="pre">[repository.host[:repository.port]]</span></code> (assumes use of the <code class="docutils literal notranslate"><span class="pre">index.docker.io</span></code> repository) or <code class="docutils literal notranslate"><span class="pre">[repository.host[:repository.port]][/username]</span></code> (discouraged, but available for backwards compatibilty.).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerUsername</span></code></dt><dd><p>The username or organization to which the image is pushed when the <code class="docutils literal notranslate"><span class="pre">docker:publish</span></code> task is run. This should be of the form <code class="docutils literal notranslate"><span class="pre">[username]</span></code> or <code class="docutils literal notranslate"><span class="pre">[organization]</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerUpdateLatest</span></code></dt><dd><p>The flag to automatic update the latest tag when the <code class="docutils literal notranslate"><span class="pre">docker:publish</span></code> task is run. Default value is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>.  In order to use this setting, the minimum docker console version required is 1.10. See <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/871">https://github.com/sbt/sbt-native-packager/issues/871</a> for a detailed explanation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerAlias</span></code></dt><dd><p>The alias to be used for tagging the resulting image of the Docker build.
 The type of the setting key is <code class="docutils literal notranslate"><span class="pre">DockerAlias</span></code>.
-Defaults to <code class="docutils literal notranslate"><span class="pre">[dockerRepository/][dockerUsername/][packageName]:[version]</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerAliases</span></code></dt>
-<dd>The list of aliases to be used for tagging the resulting image of the Docker build.
+Defaults to <code class="docutils literal notranslate"><span class="pre">[dockerRepository/][dockerUsername/][packageName]:[version]</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerAliases</span></code></dt><dd><p>The list of aliases to be used for tagging the resulting image of the Docker build.
 The type of the setting key is <code class="docutils literal notranslate"><span class="pre">Seq[DockerAlias]</span></code>.
 Alias values are in format of <code class="docutils literal notranslate"><span class="pre">[dockerRepository/][dockerUsername/][packageName]:[tag]</span></code> where tags are list of including your project version and <code class="docutils literal notranslate"><span class="pre">latest</span></code> tag(if <code class="docutils literal notranslate"><span class="pre">dockerUpdateLatest</span></code> is enabled).
 To append additional aliases to this list, you can add them by extending <code class="docutils literal notranslate"><span class="pre">dockerAlias</span></code>.
-<code class="docutils literal notranslate"><span class="pre">dockerAliases</span> <span class="pre">++=</span> <span class="pre">Seq(dockerAlias.value.withTag(Option(&quot;stable&quot;)),</span> <span class="pre">dockerAlias.value.withRegistryHost(Option(&quot;registry.internal.yourdomain.com&quot;)))</span></code></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerBuildOptions</span></code></dt>
-<dd>Overrides the default Docker build options.
-Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;--force-rm&quot;,</span> <span class="pre">&quot;-t&quot;,</span> <span class="pre">&quot;[dockerAlias]&quot;)</span></code>. This default is expanded if <code class="docutils literal notranslate"><span class="pre">dockerUpdateLatest</span></code> is set to true.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerExecCommand</span></code></dt>
-<dd>Overrides the default Docker exec command.
-Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;docker&quot;)</span></code></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerBuildCommand</span></code></dt>
-<dd>Overrides the default Docker build command. The reason for this is that many systems restrict docker execution to root, and while the accepted guidance is to alias the docker command <code class="docutils literal notranslate"><span class="pre">alias</span> <span class="pre">docker='/usr/bin/docker'</span></code>, neither Java nor Scala support passing aliases to sub-processes, and most build systems run builds using a non-login, non-interactive shell, which also have limited support for aliases, which means that the only viable option is to use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">docker</span></code> directly.
-Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;[dockerExecCommand]&quot;,</span> <span class="pre">&quot;build&quot;,</span> <span class="pre">&quot;[dockerBuildOptions]&quot;,</span> <span class="pre">&quot;.&quot;)</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerRmiCommand</span></code></dt>
-<dd>Overrides the default Docker rmi command. This may be used if force flags or other options need to be passed to the command <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">rmi</span></code>.
-Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;[dockerExecCommand]&quot;,</span> <span class="pre">&quot;rmi&quot;)</span></code> and will be directly appended with the image name and tag.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerAutoremoveMultiStageIntermediateImages</span></code></dt>
-<dd>If intermediate images should be automatically removed when <code class="docutils literal notranslate"><span class="pre">MultiStage</span></code> strategy is used.
+<code class="docutils literal notranslate"><span class="pre">dockerAliases</span> <span class="pre">++=</span> <span class="pre">Seq(dockerAlias.value.withTag(Option(&quot;stable&quot;)),</span> <span class="pre">dockerAlias.value.withRegistryHost(Option(&quot;registry.internal.yourdomain.com&quot;)))</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerBuildOptions</span></code></dt><dd><p>Overrides the default Docker build options.
+Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;--force-rm&quot;,</span> <span class="pre">&quot;-t&quot;,</span> <span class="pre">&quot;[dockerAlias]&quot;)</span></code>. This default is expanded if <code class="docutils literal notranslate"><span class="pre">dockerUpdateLatest</span></code> is set to true.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerExecCommand</span></code></dt><dd><p>Overrides the default Docker exec command.
+Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;docker&quot;)</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerBuildCommand</span></code></dt><dd><p>Overrides the default Docker build command. The reason for this is that many systems restrict docker execution to root, and while the accepted guidance is to alias the docker command <code class="docutils literal notranslate"><span class="pre">alias</span> <span class="pre">docker='/usr/bin/docker'</span></code>, neither Java nor Scala support passing aliases to sub-processes, and most build systems run builds using a non-login, non-interactive shell, which also have limited support for aliases, which means that the only viable option is to use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">docker</span></code> directly.
+Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;[dockerExecCommand]&quot;,</span> <span class="pre">&quot;build&quot;,</span> <span class="pre">&quot;[dockerBuildOptions]&quot;,</span> <span class="pre">&quot;.&quot;)</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerRmiCommand</span></code></dt><dd><p>Overrides the default Docker rmi command. This may be used if force flags or other options need to be passed to the command <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">rmi</span></code>.
+Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;[dockerExecCommand]&quot;,</span> <span class="pre">&quot;rmi&quot;)</span></code> and will be directly appended with the image name and tag.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerAutoremoveMultiStageIntermediateImages</span></code></dt><dd><p>If intermediate images should be automatically removed when <code class="docutils literal notranslate"><span class="pre">MultiStage</span></code> strategy is used.
 Intermediate images usually aren’t needed after packaging is finished and therefore defaults to <code class="docutils literal notranslate"><span class="pre">true</span></code>.
 All intermediate images are labeled <code class="docutils literal notranslate"><span class="pre">snp-multi-stage=intermediate</span></code>.
 If set to <code class="docutils literal notranslate"><span class="pre">false</span></code> and you want to remove all intermediate images at a later point, you can therefore do that by filtering for this label:
-<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">image</span> <span class="pre">prune</span> <span class="pre">-f</span> <span class="pre">--filter</span> <span class="pre">label=snp-multi-stage=intermediate</span></code></dd>
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">image</span> <span class="pre">prune</span> <span class="pre">-f</span> <span class="pre">--filter</span> <span class="pre">label=snp-multi-stage=intermediate</span></code></p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -671,15 +668,15 @@ If set to <code class="docutils literal notranslate"><span class="pre">false</sp
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
 <p>The Docker plugin provides the following commands:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">docker:stage</span></code></dt>
-<dd>Generates a directory with the Dockerfile and environment prepared for creating a Docker image.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">docker:publishLocal</span></code></dt>
-<dd>Builds an image using the local Docker server.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">docker:publish</span></code></dt>
-<dd>Builds an image using the local Docker server, and pushes it to the configured remote repository.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">docker:clean</span></code></dt>
-<dd>Removes the built image from the local Docker server.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">docker:stage</span></code></dt><dd><p>Generates a directory with the Dockerfile and environment prepared for creating a Docker image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">docker:publishLocal</span></code></dt><dd><p>Builds an image using the local Docker server.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">docker:publish</span></code></dt><dd><p>Builds an image using the local Docker server, and pushes it to the configured remote repository.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">docker:clean</span></code></dt><dd><p>Removes the built image from the local Docker server.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>

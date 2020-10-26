@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Linux Plugin &mdash; sbt-native-packager 1.7.5 documentation</title>
+  <title>Linux Plugin &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
   
 
   
@@ -26,10 +26,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -273,7 +273,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="graalvm-native-image.html#settings">Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#native-image-executable-command-pay-attention-if-you-are-using-windows-os"><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#docker-image-build-settings">Docker Image Build Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="graalvm-native-image.html#publishing-settings">Publishing Settings</a></li>
 </ul>
@@ -503,14 +502,14 @@
 <span id="id1"></span><h1>Linux Plugin<a class="headerlink" href="#linux-plugin" title="Permalink to this headline">¶</a></h1>
 <p>The native packager plugin is designed so that linux packages look similar but can contain distribution specific information.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The linux plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>.</p>
+<p class="admonition-title">Note</p>
+<p>The linux plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>.</p>
 </div>
 <div class="section" id="related-plugins">
 <h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference internal" href="debian.html#debian-plugin"><span class="std std-ref">Debian Plugin</span></a></li>
-<li><a class="reference internal" href="rpm.html#rpm-plugin"><span class="std std-ref">Rpm Plugin</span></a></li>
+<li><p><a class="reference internal" href="debian.html#debian-plugin"><span class="std std-ref">Debian Plugin</span></a></p></li>
+<li><p><a class="reference internal" href="rpm.html#rpm-plugin"><span class="std std-ref">Rpm Plugin</span></a></p></li>
 </ul>
 </div>
 <div class="section" id="build">
@@ -554,19 +553,19 @@ you have these settings in your build:</p>
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <p>The required fields for any linux distribution are:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Linux</span></code></dt>
-<dd>The name given the package for installation.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">maintainer</span></code></dt>
-<dd>The name of the maintainer of the package (important for ownership and signing).</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">packageSummary</span></code></dt>
-<dd>A one-sentence short summary of what the package does.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">packageDescription</span></code></dt>
-<dd>A longer description of what the package does and what it includes.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code></dt>
-<dd>A list of files and their desired installation locations for the package, as well as other metainformation.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">fileDescriptorLimit</span></code></dt>
-<dd>Maximum number of open file descriptors for the spawned application. The default value is 1024.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Linux</span></code></dt><dd><p>The name given the package for installation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">maintainer</span></code></dt><dd><p>The name of the maintainer of the package (important for ownership and signing).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">packageSummary</span></code></dt><dd><p>A one-sentence short summary of what the package does.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">packageDescription</span></code></dt><dd><p>A longer description of what the package does and what it includes.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code></dt><dd><p>A list of files and their desired installation locations for the package, as well as other metainformation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">fileDescriptorLimit</span></code></dt><dd><p>Maximum number of open file descriptors for the spawned application. The default value is 1024.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -578,8 +577,9 @@ you have these settings in your build:</p>
 reside as well as information about that file. Package mappings allow the specification of file ownership, permissions and whether or not
 the file can be considered “configuration”.</p>
 <blockquote>
-<div>Note that while the <code class="docutils literal notranslate"><span class="pre">sbt-native-packager</span></code> plugin allows you to specify all of this information, not all platforms will make use of the
-information.  It’s best to be specific about how you want files handled and run tests on each platform you wish to deploy to.</div></blockquote>
+<div><p>Note that while the <code class="docutils literal notranslate"><span class="pre">sbt-native-packager</span></code> plugin allows you to specify all of this information, not all platforms will make use of the
+information.  It’s best to be specific about how you want files handled and run tests on each platform you wish to deploy to.</p>
+</div></blockquote>
 <p>A package mapping takes this general form</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">packageMapping</span><span class="o">(</span>
     <span class="n">file</span> <span class="o">-&gt;</span> <span class="s">&quot;/usr/share/man/man1/sbt.1.gz&quot;</span>
@@ -588,23 +588,23 @@ information.  It’s best to be specific about how you want files handled and ru
 </div>
 <p>Let’s look at each of the methods supported in the packageMapping ‘library’.</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">packageMapping(mappings:</span> <span class="pre">(File,</span> <span class="pre">String)*)</span></code></dt>
-<dd>This method takes a variable number of <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">String</span></code> pairs.  The <code class="docutils literal notranslate"><span class="pre">File</span></code> should be a locally available file that can be bundled,
-and the <code class="docutils literal notranslate"><span class="pre">String</span></code> is the installation location on disk for that file.  This returns a new <code class="docutils literal notranslate"><span class="pre">PackageMapping</span></code> that supports the remaining methods.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">withPerms(mask:</span> <span class="pre">String)</span></code></dt>
-<dd>This function adjusts the installation permissions of the associated files.  The flags passed should be of the form of a mask, e.g. <code class="docutils literal notranslate"><span class="pre">0755</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">gzipped</span></code></dt>
-<dd>This ensures that the files are written in compressed format to the destination.  This is a convenience for distributions that want files zipped.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">asDocs</span></code></dt>
-<dd>This denotes that the mapped files are documentation files.  <em>Note: I believe these are only used for ``RPM``s.</em></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">withConfig(value:String=&quot;true&quot;)</span></code></dt>
-<dd>This denotes whether or not a <code class="docutils literal notranslate"><span class="pre">%config</span></code> attribute is attached to the given files in the generated rpm SPEC.  Any value other than <code class="docutils literal notranslate"><span class="pre">&quot;true&quot;</span></code> will be
-placed inside the <code class="docutils literal notranslate"><span class="pre">%config()</span></code> definition.  For example <code class="docutils literal notranslate"><span class="pre">withConfig(&quot;noreplace&quot;)</span></code> results in <code class="docutils literal notranslate"><span class="pre">%config(noreplace)</span></code> attribute in the rpm spec.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">withUser(user:String)</span></code></dt>
-<dd>This denotes which user should be the owner of the given files in the resulting package.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">withGroup(group:String)</span></code></dt>
-<dd>This denotes which group should be the owner of the given files in the resulting package.</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">packageMapping(mappings:</span> <span class="pre">(File,</span> <span class="pre">String)*)</span></code></dt><dd><p>This method takes a variable number of <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">String</span></code> pairs.  The <code class="docutils literal notranslate"><span class="pre">File</span></code> should be a locally available file that can be bundled,
+and the <code class="docutils literal notranslate"><span class="pre">String</span></code> is the installation location on disk for that file.  This returns a new <code class="docutils literal notranslate"><span class="pre">PackageMapping</span></code> that supports the remaining methods.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">withPerms(mask:</span> <span class="pre">String)</span></code></dt><dd><p>This function adjusts the installation permissions of the associated files.  The flags passed should be of the form of a mask, e.g. <code class="docutils literal notranslate"><span class="pre">0755</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gzipped</span></code></dt><dd><p>This ensures that the files are written in compressed format to the destination.  This is a convenience for distributions that want files zipped.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">asDocs</span></code></dt><dd><p>This denotes that the mapped files are documentation files.  <em>Note: I believe these are only used for ``RPM``s.</em></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">withConfig(value:String=&quot;true&quot;)</span></code></dt><dd><p>This denotes whether or not a <code class="docutils literal notranslate"><span class="pre">%config</span></code> attribute is attached to the given files in the generated rpm SPEC.  Any value other than <code class="docutils literal notranslate"><span class="pre">&quot;true&quot;</span></code> will be
+placed inside the <code class="docutils literal notranslate"><span class="pre">%config()</span></code> definition.  For example <code class="docutils literal notranslate"><span class="pre">withConfig(&quot;noreplace&quot;)</span></code> results in <code class="docutils literal notranslate"><span class="pre">%config(noreplace)</span></code> attribute in the rpm spec.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">withUser(user:String)</span></code></dt><dd><p>This denotes which user should be the owner of the given files in the resulting package.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">withGroup(group:String)</span></code></dt><dd><p>This denotes which group should be the owner of the given files in the resulting package.</p>
+</dd>
 </dl>
 </div></blockquote>
 </div>
@@ -614,13 +614,13 @@ placed inside the <code class="docutils literal notranslate"><span class="pre">%
 instances yourself you have to add <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">com.typesafe.sbt.packager.linux._</span></code> to your build file.</p>
 <p>A <code class="docutils literal notranslate"><span class="pre">LinuxPackageMapping</span></code> contains the following fields:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">mappings:</span> <span class="pre">Traversable[(File,</span> <span class="pre">String)]</span></code></dt>
-<dd>A list of mappings aggregated by this LinuxPackageMapping</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">fileData:</span> <span class="pre">LinuxFileMetaData</span></code></dt>
-<dd>Permissions for all the defined mappings. Default = “root:root 755”</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">zipped:</span> <span class="pre">Boolean</span></code></dt>
-<dd>Are the mappings zipped? Default = false</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">mappings:</span> <span class="pre">Traversable[(File,</span> <span class="pre">String)]</span></code></dt><dd><p>A list of mappings aggregated by this LinuxPackageMapping</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">fileData:</span> <span class="pre">LinuxFileMetaData</span></code></dt><dd><p>Permissions for all the defined mappings. Default = “root:root 755”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">zipped:</span> <span class="pre">Boolean</span></code></dt><dd><p>Are the mappings zipped? Default = false</p>
+</dd>
 </dl>
 </div></blockquote>
 <p>All mappings are stored in the task <code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code> which returns a <code class="docutils literal notranslate"><span class="pre">Seq[LinuxPackageMapping]</span></code>. To display the contents (value),
@@ -630,27 +630,27 @@ open the sbt console and call</p>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">LinuxFileMetaData</span></code> has the following fields</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">user:</span> <span class="pre">String</span></code></dt>
-<dd>The user owning all the mappings. Default = “root”</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">group:</span> <span class="pre">String</span></code></dt>
-<dd>The group owning all the mappings. Default = “root”</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">permissions:</span> <span class="pre">String</span></code></dt>
-<dd>Access permissions for all the mappings. Default = “755”</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">config:</span> <span class="pre">String</span></code></dt>
-<dd>Are the mappings config files. Default = “false”</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">docs:</span> <span class="pre">Boolean</span></code></dt>
-<dd>Are the mappings docs. Default = false</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">user:</span> <span class="pre">String</span></code></dt><dd><p>The user owning all the mappings. Default = “root”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">group:</span> <span class="pre">String</span></code></dt><dd><p>The group owning all the mappings. Default = “root”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">permissions:</span> <span class="pre">String</span></code></dt><dd><p>Access permissions for all the mappings. Default = “755”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">config:</span> <span class="pre">String</span></code></dt><dd><p>Are the mappings config files. Default = “false”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">docs:</span> <span class="pre">Boolean</span></code></dt><dd><p>Are the mappings docs. Default = false</p>
+</dd>
 </dl>
 </div></blockquote>
 <p>Last but not least there are the <code class="docutils literal notranslate"><span class="pre">linuxPackageSymlinks</span></code>, which encapsulate symlinks on your
 destination system. A <code class="docutils literal notranslate"><span class="pre">LinuxSymlink</span></code> contains only  two fields</p>
 <blockquote>
-<div><dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">link:</span> <span class="pre">String</span></code></dt>
-<dd>The actual link that points to <code class="docutils literal notranslate"><span class="pre">destination</span></code></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">destination:</span> <span class="pre">String</span></code></dt>
-<dd>The link destination</dd>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">link:</span> <span class="pre">String</span></code></dt><dd><p>The actual link that points to <code class="docutils literal notranslate"><span class="pre">destination</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">destination:</span> <span class="pre">String</span></code></dt><dd><p>The link destination</p>
+</dd>
 </dl>
 </div></blockquote>
 <p>You can see all currently configured symlinks with this simple command.
