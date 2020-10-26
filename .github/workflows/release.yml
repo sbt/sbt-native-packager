@@ -13,9 +13,7 @@ jobs:
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: show release version
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
+        run: echo ${{ env.RELEASE_VERSION }}
       - name: Cache SBT
         uses: actions/cache@v2
         with:
@@ -27,6 +25,9 @@ jobs:
       - uses: crazy-max/ghaction-import-gpg@v3
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - name: sbt ci-release
+        run: sbt ci-release
 
       # github_changelog_generator
       - name: Generate changelog
