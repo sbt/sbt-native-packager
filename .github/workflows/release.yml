@@ -23,6 +23,11 @@ jobs:
       - name: install sphinx
         run: pip install --user sphinx sphinx_rtd_theme
 
+      - name: setup git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
       - name: sbt ci-release
         run: sbt ci-release
         env:
