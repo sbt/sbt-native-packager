@@ -73,8 +73,8 @@ releaseProcess := Seq[ReleaseStep](
   runTest,
   releaseStepCommandAndRemaining("^ publishSigned"),
   updateReadme,
-  commitReadme,
-  releaseStepTask(ghpagesPushSite)
+  commitReadme
+  //releaseStepTask(ghpagesPushSite)
 )
 
 // bintray config
