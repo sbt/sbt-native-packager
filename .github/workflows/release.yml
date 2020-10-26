@@ -30,27 +30,27 @@ jobs:
         run: sbt ci-release
 
       # github_changelog_generator
-      - name: Generate changelog
-        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issues: true
-          issuesWoLabels: true
-          pullRequests: true
-          prWoLabels: true
-          unreleased: true
-          cacheFile: '.github-changelog-cache'
-      - name: Push CHANGELOG.md
-        uses: EndBug/add-and-commit@v5
-        with:
-          add: 'CHANGELOG.md'
-          author_name: github-actions
-          author_email: github-actions@github.com
-          branch: master
-          message: 'Update CHANGELOG.md for release ${{ env.RELEASE_VERSION }}'
-          signoff: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Generate changelog
+      #   uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     issues: true
+      #     issuesWoLabels: true
+      #     pullRequests: true
+      #     prWoLabels: true
+      #     unreleased: true
+      #     cacheFile: '.github-changelog-cache'
+      # - name: Push CHANGELOG.md
+      #   uses: EndBug/add-and-commit@v5
+      #   with:
+      #     add: 'CHANGELOG.md'
+      #     author_name: github-actions
+      #     author_email: github-actions@github.com
+      #     branch: master
+      #     message: 'Update CHANGELOG.md for release ${{ env.RELEASE_VERSION }}'
+      #     signoff: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # generate a github release
       - name: Generate release changelog
         id: changelog
