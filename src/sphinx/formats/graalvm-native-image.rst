@@ -1,7 +1,7 @@
 .. _graalvm-native-image-plugin:
 
 GraalVM Native Image Plugin
-=============
+===========================
 
 GraalVM's ``native-image`` compiles Java programs AOT (ahead-of-time) into native binaries.
 
@@ -48,7 +48,7 @@ Settings
 --------
 
 ``native-image`` Executable Command (Pay attention if you are using Windows OS)
-~~~~
+
 Putting ``native-image`` in ``PATH`` does not work for Windows. ``native-image`` is a batch file in Windows that calls another executable to compile the Java classes to a standalone executable. Therefore, the full path to the batch file e.g. ``C:\Program Files\Java\graalvm\bin\native-image.cmd`` must be provided. It is important to include ``.cmd``.
 
   ``graalVMNativeImageCommand``

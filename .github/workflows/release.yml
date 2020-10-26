@@ -12,7 +12,10 @@ jobs:
       # parse the release version from the github ref
       # https://stackoverflow.com/questions/58177786/get-the-current-pushed-tag-in-github-actions
       - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: |
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo "$HOME/.local/bin/" >> $GITHUB_PATH
+
       - name: show release version
         run: echo ${{ env.RELEASE_VERSION }}
       
@@ -27,7 +30,9 @@ jobs:
 
       # this setup is all for the github pages deployment to work
       - name: install sphinx
-        run: pip3 install --user sphinx sphinx_rtd_theme
+        run: |
+          pip3 install --user sphinx sphinx_rtd_theme
+          which sphinx-build
 
       - name: setup git
         run: |
