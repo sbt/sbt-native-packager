@@ -1,0 +1,46 @@
+
+name-template: 'Prebid $RESOLVED_VERSION Release'
+tag-template: '$RESOLVED_VERSION'
+categories:
+  - title: '🚀 New Features'
+    label: 
+      - 'feature'
+      - 'feature request'
+  - title: '🐳 Docker'
+    label: 'docker'
+  - title: '📦 GraalVM'
+    label: 'graalvm'
+  - title: '📦 Universal (zip, tar, gz)'
+    label: 'universal'
+  - title: '📦 Debian'
+    label: 'debian'
+  - title: '📦 Jlink'
+    label: 'jlink'
+  - title: '📦 JDK Packager'
+    label: 'jdkpackager'    
+  - title: '📦 DMG (MacOSX)'
+    label: 'macosx'         
+  - title: '📦 RPM'
+    label: 'rpm'     
+  - title: '📦 Windows'
+    label: 'window'    
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+change-template: '- $TITLE (#$NUMBER)'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+template: |
+  ## In This Release
+  $CHANGES
