@@ -1,6 +1,6 @@
 
-name-template: 'Prebid $RESOLVED_VERSION Release'
-tag-template: '$RESOLVED_VERSION'
+name-template: '$RESOLVED_VERSION SBT Native Packager 📦'
+tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🚀 New Features'
     label: 
