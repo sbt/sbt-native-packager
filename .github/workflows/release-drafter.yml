@@ -1,7 +1,6 @@
 name: Release Drafter
 
 on:
-  pull_request:
   push:
     # branches to consider in the event; optional, defaults to all
     branches:
