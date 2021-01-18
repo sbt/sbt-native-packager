@@ -93,7 +93,7 @@ trait DebianNativePackaging extends DebianPluginLike {
         } catch {
           case e: Exception =>
             import scala.compat.Platform.EOL
-            sys.error("Failure generating changes file." +  e.getStackTrace.mkString("", EOL, EOL))
+            sys.error("Failure generating changes file." + e.getStackTrace.mkString("", EOL, EOL))
         }
         changesFile
     }
