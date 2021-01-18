@@ -25,7 +25,7 @@ object Stager {
     val copies = mappings map {
       case (file, path) => file -> (stageDirectory / path)
     }
-    Sync(cache, FileInfo.hash, FileInfo.exists)(copies)
+    Sync.sync(cache, FileInfo.hash)(copies)
     // Now set scripts to executable using Java's lack of understanding of permissions.
     // TODO - Config file user-readable permissions....
     for {
