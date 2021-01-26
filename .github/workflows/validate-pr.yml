@@ -258,7 +258,7 @@ jobs:
     - name: Setup GraalVM environment
       uses: olafurpg/setup-scala@v10
       with:
-        java-version: graalvm@21.0.0
+        java-version: graalvm@20.3.0
     - name: Install native-image
       run: gu install native-image
     - name: Validate
