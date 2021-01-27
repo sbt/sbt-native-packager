@@ -1,0 +1,109 @@
+name: Release
+on:
+  push:
+    tags: ["*"]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      # parse the release version from the github ref
+      # https://stackoverflow.com/questions/58177786/get-the-current-pushed-tag-in-github-actions
+      - name: Set env
+        run: |
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo "$HOME/.local/bin/" >> $GITHUB_PATH
+
+      - name: show release version
+        run: echo ${{ env.RELEASE_VERSION }}
+      
+      # setup build environment
+      - uses: coursier/cache-action@v5
+      - uses: olafurpg/setup-scala@v10
+
+      # enables signing for our packages
+      - uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      # this setup is all for the github pages deployment to work
+      - name: install sphinx
+        run: |
+          pip3 install --user sphinx sphinx_rtd_theme
+          which sphinx-build
+
+      - name: setup git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+      
+      # finally we can call the release stuff
+      - name: sbt ci-release
+        run: sbt ci-release
+        env:
+          BINTRAY_USER: ${{ secrets.BINTRAY_API_USER }}
+          BINTRAY_PASS: ${{ secrets.BINTRAY_API_KEY }}
+
+      # TODO figure out how to minimize API requests. The cache doesn't seem to work
+      # github_changelog_generator
+      # - name: Generate changelog
+      #   uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     issues: true
+      #     issuesWoLabels: true
+      #     pullRequests: true
+      #     prWoLabels: true
+      #     unreleased: true
+      #     cacheFile: '.github-changelog-cache'
+      # - name: Push CHANGELOG.md
+      #   uses: EndBug/add-and-commit@v5
+      #   with:
+      #     add: 'CHANGELOG.md'
+      #     author_name: github-actions
+      #     author_email: github-actions@github.com
+      #     branch: master
+      #     message: 'Update CHANGELOG.md for release ${{ env.RELEASE_VERSION }}'
+      #     signoff: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # generate a github release
+      - name: Generate release changelog
+        id: changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          cacheFile: '.github-changelog-cache'
+          issues: true
+          issuesWoLabels: true
+          pullRequests: true
+          prWoLabels: true
+          unreleased: false
+          onlyLastTag: true
+          maxIssues: 100
+          output: LATEST_RELEASE.md
+      - name: Read latest_release.md
+        id: release_changelog
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./LATEST_RELEASE.md
+      - name: Create Github Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ env.RELEASE_VERSION }}
+          body: ${{ steps.release_changelog.outputs.content }}
+          draft: false
+          prerelease: false

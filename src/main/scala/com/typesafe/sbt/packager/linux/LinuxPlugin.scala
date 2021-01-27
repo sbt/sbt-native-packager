@@ -217,16 +217,17 @@ object LinuxPlugin extends AutoPlugin {
     rename: String => String
   ): Seq[LinuxPackageMapping] = {
     val (directories, nondirectories) = mappings.partition(_._1.isDirectory)
-    val (binaries, nonbinaries) = nondirectories.partition(_._1.canExecute)
-    val (manPages, nonManPages) = nonbinaries partition {
+    val (configFiles, nonConfigFiles) = nondirectories partition {
+      case (_, destination) => (destination contains "etc/") || (destination contains "conf/")
+    }
+    val (binaries, nonbinaries) = nonConfigFiles.partition(_._1.canExecute)
+    val (manPages, remaining) = nonbinaries partition {
       case (_, destination) => (destination contains "man/") && (destination endsWith ".1")
     }
     val compressedManPages =
       for ((file, name) <- manPages)
         yield file -> (name + ".gz")
-    val (configFiles, remaining) = nonManPages partition {
-      case (_, destination) => (destination contains "etc/") || (destination contains "conf/")
-    }
+
     def packageMappingWithRename(mappings: (File, String)*): LinuxPackageMapping = {
       val renamed =
         for ((file, name) <- mappings)

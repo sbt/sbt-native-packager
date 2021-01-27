@@ -4,7 +4,7 @@
 Application Configuration
 =========================
 
-After :doc:`creating a package <my-first-project>`, the very next thing needed, usually, is the ability for users/ops to customize the application once it's deployed.   Let's add some configuration to the newly deployed application.
+After :doc:`creating a package <java_app/index.rst>`, the very next thing needed, usually, is the ability for users/ops to customize the application once it's deployed.   Let's add some configuration to the newly deployed application.
 
 There are generally two types of configurations:
 

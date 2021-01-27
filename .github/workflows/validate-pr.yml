@@ -1,9 +1,6 @@
 name: Validate PR
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
 
 jobs:
@@ -39,7 +36,7 @@ jobs:
           ${{ runner.os }}-coursier-
 
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
 
@@ -61,7 +58,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
     - name: Validate
@@ -82,7 +79,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
     - name: Validate
@@ -103,7 +100,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
     - name: Validate
@@ -124,7 +121,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
     - name: Validate
@@ -145,7 +142,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
     - name: Validate
@@ -166,7 +163,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
     - name: Validate
@@ -212,7 +209,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
     - name: Validate
@@ -233,7 +230,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up JDK 1.11.0-2
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.11
     - name: Validate
@@ -255,11 +252,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
     - name: Setup GraalVM environment
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: graalvm@19.0.0
     - name: Install native-image
@@ -282,7 +279,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
     - name: Validate
@@ -303,7 +300,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v7
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: zulu@1.8
     - name: Validate

@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "org.vafer" % "jdeb" % "1.7" % Provided artifacts Artifact("jdeb", "jar", "jar"),
   "org.apache.commons" % "commons-compress" % "1.20",
   // for jdkpackager
-  "org.apache.ant" % "ant" % "1.10.5",
+  "org.apache.ant" % "ant" % "1.10.9",
   // workaround for the command line size limit
   "com.github.eldis" % "tool-launcher" % "0.2.2",
   "org.scalatest" %% "scalatest" % "3.0.5" % Test
@@ -71,13 +71,10 @@ import ReleaseTransformations._
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   runTest,
-  releaseStepCommandAndRemaining("^ publish"),
+  releaseStepCommandAndRemaining("^ publishSigned"),
   updateReadme,
   commitReadme,
-  pushChanges,
-  generateReleaseChangelog,
-  commitChangelog,
-  pushChanges,
+  // https://github.com/sbt/sbt-native-packager/commit/97ddbbe8e199ceed37316547b238391edf5216b7
   releaseStepTask(ghpagesPushSite)
 )
 
@@ -116,4 +113,4 @@ addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted univer
 
 addCommandAlias("validateJlink", "scripted jlink/*")
 
-addCommandAlias("releaseFromTravis", "release with-defaults")
+addCommandAlias("ci-release", "release with-defaults")
