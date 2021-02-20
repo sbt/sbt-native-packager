@@ -68,4 +68,8 @@ private[packager] trait DockerKeysEx extends DockerKeys {
   )
   val dockerLayerMappings =
     taskKey[Seq[LayeredMapping]]("List of layer, source file and destination in Docker image.")
+  val chownUser =
+    SettingKey[Option[String]]("chown-user", "Optional alternative user to use in chown in COPY command")
+  val chownGroup =
+    SettingKey[Option[String]]("chown-group", "Optional alternative group to use in chown in COPY command")
 }

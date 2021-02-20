@@ -99,6 +99,12 @@ Environment Settings
   ``daemonUser in Docker``
     The user to use when executing the application. Files below the install path also have their ownership set to this user.
 
+  ``chownUser in Docker``
+    Optionally overrides user value used for applying to ``chown`` in ``COPY`` commands.
+
+  ``chownGroup in Docker``
+    Optionally overrides group value used for applying to ``chown`` in ``COPY`` commands.
+
   ``dockerExposedPorts``
     A list of TCP ports to expose from the Docker image.
 

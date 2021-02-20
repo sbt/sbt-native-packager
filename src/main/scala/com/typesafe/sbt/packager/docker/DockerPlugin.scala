@@ -161,6 +161,8 @@ object DockerPlugin extends AutoPlugin {
       val uidOpt = (daemonUserUid in Docker).value
       val group = (daemonGroup in Docker).value
       val gidOpt = (daemonGroupGid in Docker).value
+      val cUser = (chownUser in Docker).value.getOrElse((daemonUser in Docker).value)
+      val cGroup = (chownGroup in Docker).value.getOrElse((daemonGroup in Docker).value)
       val base = dockerBaseImage.value
       val addPerms = dockerAdditionalPermissions.value
       val multiStageId = UUID.randomUUID().toString
@@ -211,14 +213,14 @@ object DockerPlugin extends AutoPlugin {
         (strategy match {
           case DockerPermissionStrategy.MultiStage =>
             layerIdsAscending.map { layerId =>
-              makeCopyFrom(pathInLayer(dockerBaseDirectory, layerId), dockerBaseDirectory, stage0name, user, group)
+              makeCopyFrom(pathInLayer(dockerBaseDirectory, layerId), dockerBaseDirectory, stage0name, cUser, cGroup)
             }
           case DockerPermissionStrategy.Run =>
             layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory)) ++
               Seq(makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
               (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
           case DockerPermissionStrategy.CopyChown =>
-            layerIdsAscending.map(layerId => makeCopyChown(layerId, dockerBaseDirectory, user, group))
+            layerIdsAscending.map(layerId => makeCopyChown(layerId, dockerBaseDirectory, cUser, cGroup))
           case DockerPermissionStrategy.None =>
             layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory))
         })
@@ -310,6 +312,8 @@ object DockerPlugin extends AutoPlugin {
       daemonUserUid := Some("1001"),
       daemonGroup := "root",
       daemonGroupGid := Some("0"),
+      chownUser := None,
+      chownGroup := None,
       defaultLinuxInstallLocation := "/opt/docker",
       validatePackage := Validation
         .runAndThrow(validatePackageValidators.value, streams.value.log),
