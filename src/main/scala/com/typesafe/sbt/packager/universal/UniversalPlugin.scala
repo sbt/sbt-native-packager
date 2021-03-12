@@ -47,13 +47,14 @@ object UniversalPlugin extends AutoPlugin {
   override def projectConfigurations: Seq[Configuration] =
     Seq(Universal, UniversalDocs, UniversalSrc)
 
-  override lazy val buildSettings: Seq[Setting[_]] = Seq[Setting[_]](
-    // Since more than just the docker plugin uses the docker command, we define this in the universal plugin
-    // so that it can be configured once and shared by all plugins without requiring the docker plugin. Also, make it
-    // a build settings so that it can be overridden once, at the build level.
-    DockerPlugin.autoImport.dockerExecCommand := Seq("docker"),
-    containerBuildImage := None
-  )
+  override def globalSettings: Seq[Def.Setting[_]] =
+    Seq[Setting[_]](
+      // Since more than just the docker plugin uses the docker command, we define this in the universal plugin
+      // so that it can be configured once and shared by all plugins without requiring the docker plugin.
+      DockerPlugin.autoImport.dockerExecCommand := Seq("docker")
+    )
+
+  override lazy val buildSettings: Seq[Setting[_]] = Seq[Setting[_]](containerBuildImage := None)
 
   /** The basic settings for the various packaging types. */
   override lazy val projectSettings: Seq[Setting[_]] = Seq[Setting[_]](
