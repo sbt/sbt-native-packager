@@ -30,7 +30,9 @@ object Stager {
     // TODO - Config file user-readable permissions....
     for {
       (from, to) <- copies
-      if from.canExecute
+      // Only set executable permission if it needs to be set. Note: calling to.setExecutable(true) if it's already
+      // executable is undesirable for a developer using inotify to watch this file as it will trigger events again
+      if from.canExecute && !to.canExecute
     } to.setExecutable(true)
     stageDirectory
   }
