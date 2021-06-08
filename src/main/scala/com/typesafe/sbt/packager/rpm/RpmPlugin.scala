@@ -67,7 +67,7 @@ object RpmPlugin extends AutoPlugin {
     rpmOs := "Linux", // TODO - default to something else?
     rpmRelease := (if (isSnapshot.value) "SNAPSHOT" else "1"),
     rpmPrefix := None,
-    rpmVendor := "", // TODO - Maybe pull in organization?
+    rpmVendor in Rpm := "", // TODO - Maybe pull in organization?
     rpmLicense := None,
     rpmEpoch := None,
     rpmDistribution := None,
@@ -118,7 +118,7 @@ object RpmPlugin extends AutoPlugin {
       rpmRelease.value,
       rpmPrefix.value,
       (packageArchitecture in Rpm).value,
-      rpmVendor.value,
+      (rpmVendor in Rpm).value,
       rpmOs.value,
       (packageSummary in Rpm).value,
       (packageDescription in Rpm).value,

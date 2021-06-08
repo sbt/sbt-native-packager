@@ -15,7 +15,7 @@ packageDescription := """A fun package description of our software,
 
 rpmRelease := "1"
 
-rpmVendor := "typesafe"
+rpmVendor in Rpm := "typesafe"
 
 rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
