@@ -154,10 +154,10 @@ case class RpmSpec(
       Seq(
         ensureOr(meta.name, "`name in Rpm` is empty.  Please provide one.", isNonEmpty),
         ensureOr(meta.version, "`version in Rpm` is empty.  Please provide a valid version for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.release, "`rpmRelease in Rpm` is empty.  Please provide a valid release number for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.arch, "`packageArchitecture in Rpm` is empty.  Please provide a valid archiecture for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.vendor, "`rpmVendor in Rpm` is empty.  Please provide a valid vendor for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.os, "`rpmOs in Rpm` is empty.  Please provide a valid os vaue for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.release, "`rpmRelease` is empty.  Please provide a valid release number for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.arch, "`packageArchitecture in Rpm` is empty.  Please provide a valid architecture for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.vendor, "`rpmVendor` is empty.  Please provide a valid vendor for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.os, "`rpmOs` is empty.  Please provide a valid os value for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.summary, "`packageSummary in Rpm` is empty.  Please provide a valid summary for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.description, "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty)
       )
