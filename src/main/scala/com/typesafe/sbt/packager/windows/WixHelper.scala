@@ -6,6 +6,7 @@ import Keys._
 import sbt._
 
 import collection.mutable.ArrayBuffer
+import scala.collection.mutable
 
 case class WindowsProductInfo(
   id: String, // UUID of the package
@@ -167,13 +168,13 @@ object WixHelper {
           ComponentInfo(id, xml)
       }
 
-    val componentMap =
-      (for (f <- features) yield {
-        // TODO - we need to support more than "Component File".
-        val componentInfos =
-          f.components map makeComponentInfo
-        f.id -> componentInfos
-      }).toMap
+    val componentMap = mutable.LinkedHashMap[String, Seq[ComponentInfo]]()
+    (for (f <- features) {
+      // TODO - we need to support more than "Component File".
+      val componentInfos =
+        f.components map makeComponentInfo
+      componentMap(f.id) = componentInfos
+    })
 
     val removeId =
       cleanStringWithPostfix("ApplicationProgramsFolderRemove", 67, "")
