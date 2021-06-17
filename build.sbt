@@ -57,8 +57,8 @@ scriptedLaunchOpts += "-Dproject.version=" + version.value
 // binary compatibility settings
 mimaPreviousArtifacts := {
   val m = organization.value %% moduleName.value % "1.3.15"
-  val sbtBinV = (sbtBinaryVersion in pluginCrossBuild).value
-  val scalaBinV = (scalaBinaryVersion in update).value
+  val sbtBinV = (pluginCrossBuild / sbtBinaryVersion).value
+  val scalaBinV = (update / scalaBinaryVersion).value
   Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
 }
 
@@ -69,13 +69,7 @@ sonatypeProfileName := "io.github.sbt.sbt-native-packager"
 licenses := Seq("BSD-2-Clause" -> url("https://opensource.org/licenses/BSD-2-Clause"))
 homepage := Some(url("https://github.com/muuki88/sbt-graphql"))
 
-scmInfo := Some(
-  ScmInfo(
-    url("https://github.com/muuki88/sbt-graphql"),
-    "scm:git@github.com:muuki88/sbt-graphql.git"
-  )
-)
-
+scmInfo := Some(ScmInfo(url("https://github.com/muuki88/sbt-graphql"), "scm:git@github.com:muuki88/sbt-graphql.git"))
 developers := List(
   Developer(
     id = "muuki88",
@@ -83,14 +77,8 @@ developers := List(
     email = "nepomuk.seiler@gmail.com",
     url = url("https://github.com/muuki88")
   ),
-  Developer(
-    id = "jsuereth",
-    name = "Josh Suereth",
-    email = "jsuereth",
-    url = url("https://github.com/jsuereth")
-  )
+  Developer(id = "jsuereth", name = "Josh Suereth", email = "jsuereth", url = url("https://github.com/jsuereth"))
 )
-
 
 addCommandAlias("scalafmtFormatAll", "; ^scalafmtAll ; scalafmtSbt")
 // ci commands
