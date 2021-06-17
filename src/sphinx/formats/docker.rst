@@ -156,7 +156,7 @@ Environment Settings
     Lower index means the file would be a part of an earlier layer.
     The main idea behind this is to COPY dependencies *.jar's first as they should change rarely.
     In separate command COPY the application *.jar's that should change more often.
-    Defaults to detect whether the file name starts with ``ThisBuild / organization``.
+    Defaults to map the project artifacts and its dependencies to separate layers.
     To disable layers map all files to no layer using ``dockerGroupLayers in Docker := PartialFunction.empty``.
 
 Publishing Settings

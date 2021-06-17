@@ -78,10 +78,7 @@ object DockerPlugin extends AutoPlugin {
     // Instead of making dockerPermissionStrategy dependent on the Docker version, what we do instead is to
     // run validation, and warn the build users if the strategy is not compatible with `docker` that's in scope.
     dockerPermissionStrategy := DockerPermissionStrategy.MultiStage,
-    dockerChmodType := DockerChmodType.UserGroupReadExecute
-  )
-
-  override lazy val projectSettings: Seq[Setting[_]] = Seq(
+    dockerChmodType := DockerChmodType.UserGroupReadExecute,
     dockerBaseImage := "openjdk:8",
     dockerExposedPorts := Seq(),
     dockerExposedUdpPorts := Seq(),
@@ -90,14 +87,18 @@ object DockerPlugin extends AutoPlugin {
     dockerEnvVars := Map(),
     dockerRepository := None,
     dockerUsername := None,
+    dockerUpdateLatest := false,
+    dockerAutoremoveMultiStageIntermediateImages := true,
+    dockerCmd := Seq()
+  )
+
+  override lazy val projectSettings: Seq[Setting[_]] = Seq(
     dockerAlias := DockerAlias(
       (dockerRepository in Docker).value,
       (dockerUsername in Docker).value,
       (packageName in Docker).value,
       Option((version in Docker).value)
     ),
-    dockerUpdateLatest := false,
-    dockerAutoremoveMultiStageIntermediateImages := true,
     dockerLayerGrouping := { _: String =>
       None
     },
@@ -126,7 +127,6 @@ object DockerPlugin extends AutoPlugin {
         Seq(alias)
     },
     dockerEntrypoint := Seq(s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
-    dockerCmd := Seq(),
     dockerVersion := Try(
       Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!
     ).toOption
