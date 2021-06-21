@@ -56,7 +56,7 @@ scriptedLaunchOpts += "-Dproject.version=" + version.value
 
 // binary compatibility settings
 mimaPreviousArtifacts := {
-  val m = organization.value %% moduleName.value % "1.3.15"
+  val m = "com.typesafe.sbt" %% moduleName.value % "1.3.15"
   val sbtBinV = (pluginCrossBuild / sbtBinaryVersion).value
   val scalaBinV = (update / scalaBinaryVersion).value
   Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
