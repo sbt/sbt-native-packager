@@ -1,5 +1,5 @@
 name := "sbt-native-packager"
-organization := "io.github.sbt.sbt-native-packager"
+organization := "com.github.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
