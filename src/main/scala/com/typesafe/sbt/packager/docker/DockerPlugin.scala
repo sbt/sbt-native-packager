@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import sbt._
 import sbt.Keys.{clean, mappings, name, organization, publish, publishLocal, sourceDirectory, streams, target, version}
 import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.archetypes.jar.ClasspathJarPlugin
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{daemonUser, defaultLinuxInstallLocation}
 import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stage
@@ -105,7 +106,13 @@ object DockerPlugin extends AutoPlugin {
     dockerGroupLayers := {
       val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
       // Ensure this doesn't break even if the JvmPlugin isn't enabled.
-      val artifacts = projectDependencyArtifacts.?.value.getOrElse(Nil).map(_.data).toSet
+      var artifacts = projectDependencyArtifacts.?.value.getOrElse(Nil).map(_.data).toSet
+
+      ClasspathJarPlugin.autoImport.packageJavaClasspathJar.?.value match {
+        case Some(p) => artifacts += p
+        case _       =>
+      }
+
       val oldFunction = (dockerLayerGrouping in Docker).value
 
       // By default we set this to a function that always returns None.
@@ -113,10 +120,16 @@ object DockerPlugin extends AutoPlugin {
 
       val libDir = dockerBaseDirectory + "/lib/"
       val binDir = dockerBaseDirectory + "/bin/"
+      val jreDir = dockerBaseDirectory + "/jre/"
+      val confDir = dockerBaseDirectory + "/conf/"
 
       oldPartialFunction.orElse {
-        case (file, _) if artifacts(file)                                    => 2
-        case (_, path) if path.startsWith(libDir) || path.startsWith(binDir) => 1
+        // bin directory contains start scripts which are containing artifacts / classpath jar,
+        // so should be together with actual artifacts
+        case (file, path) if artifacts(file) || path.startsWith(binDir) => 4
+        case (_, path) if path.startsWith(jreDir)                       => 3
+        case (_, path) if path.startsWith(libDir)                       => 2
+        case (_, path) if path.startsWith(confDir)                      => 1
       }
     },
     dockerAliases := {
