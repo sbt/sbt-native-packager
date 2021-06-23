@@ -62,9 +62,8 @@ mimaPreviousArtifacts := {
   if (scalaBinV == "2.10") {
     println(s"Skip MiMa check for SBT binary version ${sbtBinV} as scala ${scalaBinV} is not supported")
     Set.empty
-  } else {
+  } else
     Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
-  }
 }
 
 // Release configuration
