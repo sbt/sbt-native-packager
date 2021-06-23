@@ -59,7 +59,12 @@ mimaPreviousArtifacts := {
   val m = "com.typesafe.sbt" %% moduleName.value % "1.3.15"
   val sbtBinV = (pluginCrossBuild / sbtBinaryVersion).value
   val scalaBinV = (update / scalaBinaryVersion).value
-  Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
+  if (scalaBinV == "2.10") {
+    println(s"Skip MiMa check for SBT binary version ${sbtBinV} as scala ${scalaBinV} is not supported")
+    Set.empty
+  } else {
+    Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
+  }
 }
 
 // Release configuration
