@@ -157,7 +157,7 @@ Dependency Settings
   ``rpmObsoletes``
     The packages this RPM allows you to remove
 
-  ``rpmConflcits``
+  ``rpmConflicts``
     The packages this RPM conflicts with and cannot be installed with.
 
   ``rpmSetarch[SettingKey[Option[String]]]``

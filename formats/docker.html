@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Docker Plugin &mdash; sbt-native-packager 1.8.0-RC12+0-41cd4384+20201026-2033 documentation</title>
+  <title>Docker Plugin &mdash; sbt-native-packager 1.9.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.8
+                1.9
               </div>
             
           
@@ -616,7 +616,7 @@ Defaults to the bash executable script, available at <code class="docutils liter
 Lower index means the file would be a part of an earlier layer.
 The main idea behind this is to COPY dependencies <a href="#id2"><span class="problematic" id="id3">*</span></a>.jar’s first as they should change rarely.
 In separate command COPY the application <a href="#id4"><span class="problematic" id="id5">*</span></a>.jar’s that should change more often.
-Defaults to detect whether the file name starts with <code class="docutils literal notranslate"><span class="pre">ThisBuild</span> <span class="pre">/</span> <span class="pre">organization</span></code>.
+Defaults to map the project artifacts and its dependencies to separate layers.
 To disable layers map all files to no layer using <code class="docutils literal notranslate"><span class="pre">dockerGroupLayers</span> <span class="pre">in</span> <span class="pre">Docker</span> <span class="pre">:=</span> <span class="pre">PartialFunction.empty</span></code>.</p>
 </dd>
 </dl>

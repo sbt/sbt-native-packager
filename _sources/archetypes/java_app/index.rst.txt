@@ -89,10 +89,10 @@ Settings & Tasks
 This is a non extensive list of important settings and tasks this plugin provides. All settings
 have sensible defaults.
 
-  ``makeBashScript``
+  ``makeBashScripts``
     Creates or discovers the bash script used by this project.
 
-  ``makeBatScript``
+  ``makeBatScripts``
     Creates or discovers the bat script used by this project.
 
   ``bashScriptTemplateLocation``
