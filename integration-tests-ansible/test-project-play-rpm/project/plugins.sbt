@@ -7,7 +7,7 @@ libraryDependencies <+= Def.setting[ModuleID] {
       (sbtBinaryVersion in update).value,
       (scalaBinaryVersion in update).value
     )
-    .exclude("com.typesafe.sbt", "sbt-native-packager")
+    .exclude("com.github.sbt", "sbt-native-packager")
 }
 
 lazy val root = Project("plugins", file(".")) dependsOn (packager)
