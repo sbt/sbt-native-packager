@@ -108,6 +108,8 @@ object DockerPlugin extends AutoPlugin {
       // Ensure this doesn't break even if the JvmPlugin isn't enabled.
       var artifacts = projectDependencyArtifacts.?.value.getOrElse(Nil).map(_.data).toSet
 
+      // add the classpath jar to the project artifacts to improve layer caching as it is created by
+      // the ClasspathJarPlugin and is not part of the projectDependencyArtifacts
       ClasspathJarPlugin.autoImport.packageJavaClasspathJar.?.value match {
         case Some(p) => artifacts += p
         case _       =>
