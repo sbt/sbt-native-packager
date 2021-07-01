@@ -69,7 +69,6 @@ mimaPreviousArtifacts := {
 // Release configuration
 publishMavenStyle := true
 // project meta data
-sonatypeProfileName := "io.github.sbt.sbt-native-packager"
 licenses := Seq("BSD-2-Clause" -> url("https://opensource.org/licenses/BSD-2-Clause"))
 homepage := Some(url("https://github.com/muuki88/sbt-graphql"))
 
