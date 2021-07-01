@@ -4,5 +4,5 @@
     throw new RuntimeException("""|The system property 'project.version' is not defined.
                |Specify this property using the scriptedLaunchOpts -D.""".stripMargin)
   else
-    addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % sys.props("project.version"))
+    addSbtPlugin("com.github.sbt" % "sbt-native-packager" % sys.props("project.version"))
 }
