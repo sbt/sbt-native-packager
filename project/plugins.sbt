@@ -1,24 +1,16 @@
-// https://github.com/lightbend/mima/issues/422
-resolvers += sbt.Resolver.bintrayIvyRepo("typesafe", "sbt-plugins")
-
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.3")
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.4.0")
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.13")
-addSbtPlugin("com.dwijnand" % "sbt-dynver" % "4.1.1")
 
-// addSbtPlugin("io.crashbox" % "sbt-gpg" % "0.2.1")
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.1")
+// releasing
+addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.7")
 
 libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
 
 // Scripted plugin needs to declare this as a dependency
 libraryDependencies += "jline" % "jline" % "2.11"
 
-// For our bintray publishing
-addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.6.0")
-
 // For code formatting
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 
 // binary compatibility checks
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.7.0")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.9.2")

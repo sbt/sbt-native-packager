@@ -1,5 +1,5 @@
 name := "sbt-native-packager"
-organization := "com.typesafe.sbt"
+organization := "com.github.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
@@ -56,31 +56,33 @@ scriptedLaunchOpts += "-Dproject.version=" + version.value
 
 // binary compatibility settings
 mimaPreviousArtifacts := {
-  val m = organization.value %% moduleName.value % "1.3.15"
-  val sbtBinV = (sbtBinaryVersion in pluginCrossBuild).value
-  val scalaBinV = (scalaBinaryVersion in update).value
-  Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
+  val m = "com.typesafe.sbt" %% moduleName.value % "1.3.15"
+  val sbtBinV = (pluginCrossBuild / sbtBinaryVersion).value
+  val scalaBinV = (update / scalaBinaryVersion).value
+  if (scalaBinV == "2.10") {
+    println(s"Skip MiMa check for SBT binary version ${sbtBinV} as scala ${scalaBinV} is not supported")
+    Set.empty
+  } else
+    Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
 }
 
 // Release configuration
-publishMavenStyle := false
+publishMavenStyle := true
+// project meta data
+sonatypeProfileName := "io.github.sbt.sbt-native-packager"
+licenses := Seq("BSD-2-Clause" -> url("https://opensource.org/licenses/BSD-2-Clause"))
+homepage := Some(url("https://github.com/muuki88/sbt-graphql"))
 
-// The release task doesn't run any tests. We rely on travis.ci and appveyor,
-// because it's impossible to run all tests (linux, macos, windows) on a single computer.
-import ReleaseTransformations._
-releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,
-  runTest,
-  releaseStepCommandAndRemaining("^ publishSigned"),
-  updateReadme,
-  commitReadme,
-  // https://github.com/sbt/sbt-native-packager/commit/97ddbbe8e199ceed37316547b238391edf5216b7
-  releaseStepTask(ghpagesPushSite)
+scmInfo := Some(ScmInfo(url("https://github.com/muuki88/sbt-graphql"), "scm:git@github.com:muuki88/sbt-graphql.git"))
+developers := List(
+  Developer(
+    id = "muuki88",
+    name = "Nepomuk Seiler",
+    email = "nepomuk.seiler@gmail.com",
+    url = url("https://github.com/muuki88")
+  ),
+  Developer(id = "jsuereth", name = "Josh Suereth", email = "jsuereth", url = url("https://github.com/jsuereth"))
 )
-
-// bintray config
-bintrayOrganization := Some("sbt")
-bintrayRepository := "sbt-plugin-releases"
 
 addCommandAlias("scalafmtFormatAll", "; ^scalafmtAll ; scalafmtSbt")
 // ci commands
@@ -108,7 +110,6 @@ addCommandAlias(
 )
 addCommandAlias("validateMacOS", "; validate ; validateUniversal")
 
-// TODO check the cygwin scripted tests and run them on appveyor
 addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted universal/dist universal/stage windows/*")
 
 addCommandAlias("validateJlink", "scripted jlink/*")
