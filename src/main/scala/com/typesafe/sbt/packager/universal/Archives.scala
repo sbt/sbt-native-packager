@@ -200,7 +200,7 @@ object Archives {
     */
   def xz(f: File): File = {
     val par = f.getParentFile
-    sys.process.Process(Seq("xz", /*"-9e",*/ "-S", ".xz", f.getAbsolutePath), Some(par)).! match {
+    sys.process.Process(Seq("xz", "-S", ".xz", f.getAbsolutePath), Some(par)).! match {
       case 0 => ()
       case n => sys.error("Error xz-ing " + f + ". Exit code: " + n)
     }
