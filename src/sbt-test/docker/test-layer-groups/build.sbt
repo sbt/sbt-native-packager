@@ -15,8 +15,8 @@ TaskKey[Unit]("checkDockerfile") := {
   val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
   val copyLines = dockerfile.linesIterator.toList.filter(_.startsWith("COPY --from=stage0"))
   assertEquals(copyLines,
-    """COPY --from=stage0 --chown=demiourgos728:root /1/opt/docker /opt/docker
-      |COPY --from=stage0 --chown=demiourgos728:root /2/opt/docker /opt/docker
+    """COPY --from=stage0 --chown=demiourgos728:root /2/opt/docker /opt/docker
+      |COPY --from=stage0 --chown=demiourgos728:root /4/opt/docker /opt/docker
       |COPY --from=stage0 --chown=demiourgos728:root /54/opt/docker /opt/docker
       |COPY --from=stage0 --chown=demiourgos728:root /opt/docker /opt/docker""".stripMargin.linesIterator.toList)
 }
