@@ -605,13 +605,13 @@ object DockerPlugin extends AutoPlugin {
             log.debug(s) // pre-1.0
           case s if s.startsWith("Sending build context") =>
             log.debug(s) // 1.0
-          case s if !s.trim.isEmpty => log.error(s)
+          case s if s.trim.nonEmpty => log.error(s)
           case _                    =>
         }
 
       override def out(inf: => String): Unit =
         inf match {
-          case s if !s.trim.isEmpty => log.info(s)
+          case s if s.trim.nonEmpty => log.info(s)
           case _                    =>
         }
 
@@ -623,13 +623,13 @@ object DockerPlugin extends AutoPlugin {
     new sys.process.ProcessLogger {
       override def err(err: => String): Unit =
         err match {
-          case s if !s.trim.isEmpty => log.info(s)
+          case s if s.trim.nonEmpty => log.info(s)
           case _                    =>
         }
 
       override def out(inf: => String): Unit =
         inf match {
-          case s if !s.trim.isEmpty => log.info(s)
+          case s if s.trim.nonEmpty => log.info(s)
           case _                    =>
         }
 
@@ -691,7 +691,7 @@ object DockerPlugin extends AutoPlugin {
       new sys.process.ProcessLogger {
         override def err(err: => String): Unit =
           err match {
-            case s if !s.trim.isEmpty => log.error(s)
+            case s if s.trim.nonEmpty => log.error(s)
             case s                    =>
           }
 
@@ -719,7 +719,7 @@ object DockerPlugin extends AutoPlugin {
 
         override def err(err: => String): Unit =
           err match {
-            case s if !s.trim.isEmpty => log.error(s)
+            case s if s.trim.nonEmpty => log.error(s)
             case s                    =>
           }
 
@@ -727,7 +727,7 @@ object DockerPlugin extends AutoPlugin {
           inf match {
             case s if s.startsWith("Please login") =>
               loginRequired.compareAndSet(false, true)
-            case s if !loginRequired.get && !s.trim.isEmpty => log.info(s)
+            case s if !loginRequired.get && s.trim.nonEmpty => log.info(s)
             case s                                          =>
           }
 
