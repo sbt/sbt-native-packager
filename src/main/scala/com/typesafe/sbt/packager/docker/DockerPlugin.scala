@@ -51,6 +51,7 @@ object DockerPlugin extends AutoPlugin {
   object autoImport extends DockerKeysEx {
     val Docker: Configuration = config("docker")
 
+    // IntelliJ dies with the proper type annotation ¯\_(ツ)_/¯
     val DockerAlias = com.typesafe.sbt.packager.docker.DockerAlias
   }
 
