@@ -222,6 +222,7 @@ object DockerPlugin extends AutoPlugin {
           case Some(_) => Seq(makeUser("root"), makeUserAdd(user, group, uidOpt, gidOpt))
           case _       => Seq()
         }) ++
+      (Docker / dockerCommandsPrepend).value ++
         Seq(makeWorkdir(dockerBaseDirectory)) ++ {
         (strategy match {
           case DockerPermissionStrategy.MultiStage =>
