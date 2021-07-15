@@ -661,7 +661,7 @@ object DockerPlugin extends AutoPlugin {
         case DockerPermissionStrategy.MultiStage =>
           IO.readLines(context / "Dockerfile")
             .find(_.startsWith(labelCmd))
-            .map(_.substring(labelCmd.size).stripPrefix("\"").stripSuffix("\"")) match {
+            .map(_.substring(labelCmd.length).stripPrefix("\"").stripSuffix("\"")) match {
             // No matter if the build process succeeded or failed, we try to remove the intermediate images
             case Some(id) =>
               val label = s"${labelKey}=${id}"
