@@ -1,21 +1,19 @@
 package com.typesafe.sbt.packager.docker
 
-import java.io.File
-import java.util.UUID
-import java.util.concurrent.atomic.AtomicBoolean
-
-import sbt._
-import sbt.Keys.{clean, mappings, name, organization, publish, publishLocal, sourceDirectory, streams, target, version}
+import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.archetypes.jar.ClasspathJarPlugin
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{daemonUser, defaultLinuxInstallLocation}
 import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stage
-import com.typesafe.sbt.SbtNativePackager.Universal
-import com.typesafe.sbt.packager.Compat._
 import com.typesafe.sbt.packager.validation._
 import com.typesafe.sbt.packager.{MappingsHelper, Stager}
+import sbt.Keys._
+import sbt._
 
+import java.io.File
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
 import scala.sys.process.Process
 import scala.util.Try
 
