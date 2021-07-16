@@ -152,9 +152,10 @@ object DockerPlugin extends AutoPlugin {
     ).toOption
       .map(_.trim)
       .flatMap(DockerApiVersion.parse),
+    dockerBuildInit := false,
     dockerBuildOptions := Seq("--force-rm") ++ dockerAliases.value.flatMap { alias =>
       Seq("-t", alias.toString)
-    },
+    } ++ { if (dockerBuildInit.value) List("--init") else Nil },
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerAdditionalPermissions := {

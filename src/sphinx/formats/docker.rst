@@ -177,9 +177,13 @@ Publishing Settings
     To append additional aliases to this list, you can add them by extending ``dockerAlias``.
     ``dockerAliases ++= Seq(dockerAlias.value.withTag(Option("stable")), dockerAlias.value.withRegistryHost(Option("registry.internal.yourdomain.com")))``
 
+  ``dockerBuildInit``
+    Whether the ``--init`` build option should be passed to the Docker build. See :ref:`Init support` for when this may be useful.
+    Defaults to ``false``.
+
   ``dockerBuildOptions``
     Overrides the default Docker build options.
-    Defaults to ``Seq("--force-rm", "-t", "[dockerAlias]")``. This default is expanded if ``dockerUpdateLatest`` is set to true.
+    Defaults to ``Seq("--force-rm", "-t", "[dockerAlias]")``. This default is expanded if either ``dockerUpdateLatest`` or ``dockerBuildInit`` is set to true.
 
   ``dockerExecCommand``
     Overrides the default Docker exec command.
@@ -423,3 +427,23 @@ Just like for :ref:`java-app-plugin`, you have the option of overriding the defa
 your own ``src/templates/ash-template`` file.  When overriding the file don't forget to include
 ``${{template_declares}}`` somewhere to populate ``$app_classpath $app_mainclass`` from your sbt project.
 You'll likely need these to launch your program.
+
+Init support
+~~~~~~~~~~~~
+
+By default, Java will run with PID 1 when you run your docker container. The JVM behaves differently when its PID is 1
+compared to other PIDs, most notably, it doesn't respond to some signals. These include the signals usually used to
+instruct a Java process to dump its threads or its heap. If you want to be able to debug a running Java container, the
+inability to take thread or heap dumps can be a problem.
+
+Docker has a convenient solution to this, it can configure a separate init process for you. This process will start
+your Java process, and it will also do some other useful things that init processes are meant to do like cleaning up
+orphaned processes in the container. But most importantly it will ensure that your Java process is not PID 1, which
+will in turn ensure that your Java process is able to respond to signals for debugging. The command docker uses is
+`tini <https://github.com/krallin/tini>`_, which as its name suggests, is tiny, only 23kb in size.
+
+To tell docker to configure a separate init process using tini, set the `dockerBuildInit` setting to `true`:
+
+.. code-block:: scala
+
+  dockerBuildInit := true
