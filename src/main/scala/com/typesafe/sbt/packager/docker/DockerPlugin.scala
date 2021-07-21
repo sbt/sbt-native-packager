@@ -99,7 +99,7 @@ object DockerPlugin extends AutoPlugin {
       (Docker / packageName).value,
       Option((version).value)
     ),
-    Docker / dockerLayerGrouping := { _: String =>
+    dockerLayerGrouping := { _: String =>
       None
     },
     dockerGroupLayers := {
