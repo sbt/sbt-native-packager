@@ -114,7 +114,7 @@ object DockerPlugin extends AutoPlugin {
         case _       =>
       }
 
-      val oldFunction = (Docker / dockerLayerGrouping).value
+      val oldFunction = dockerLayerGrouping.value
 
       // By default we set this to a function that always returns None.
       val oldPartialFunction = Function.unlift((tuple: (File, String)) => oldFunction(tuple._2))
