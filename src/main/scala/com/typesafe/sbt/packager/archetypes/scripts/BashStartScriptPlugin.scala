@@ -124,7 +124,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
     private[this] def makeClasspathDefine(cp: Seq[String]): String = {
       val fullString = cp map (
         n =>
-          if (n.startsWith(File.separator)) n
+          if (n.startsWith("/")) n
           else "$lib_dir/" + n
       ) mkString ":"
       "declare -r app_classpath=\"" + fullString + "\"\n"
