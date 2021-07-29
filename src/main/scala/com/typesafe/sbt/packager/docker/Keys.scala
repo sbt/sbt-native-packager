@@ -68,7 +68,7 @@ private[packager] trait DockerKeysEx extends DockerKeys {
   )
   val dockerLayerMappings =
     taskKey[Seq[LayeredMapping]]("List of layer, source file and destination in Docker image.")
-   val dockerBuildInit = SettingKey[Boolean](
+  val dockerBuildInit = SettingKey[Boolean](
     "dockerBuildInit",
     "Whether the --init flag should be passed to Docker when building. " +
       "Setting to true will cause Docker to bundle a tini in the container, to run as the init process, which is recommended for JVM apps. " +
