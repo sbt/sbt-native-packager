@@ -38,12 +38,6 @@ trait DockerKeys {
   )
   val dockerExecCommand = SettingKey[Seq[String]]("dockerExecCommand", "The shell command used to exec Docker")
   val dockerVersion = TaskKey[Option[DockerVersion]]("dockerVersion", "The docker server version")
-  val dockerBuildInit = SettingKey[Boolean](
-    "dockerBuildInit",
-    "Whether the --init flag should be passed to Docker when building. " +
-      "Setting to true will cause Docker to bundle a tini in the container, to run as the init process, which is recommended for JVM apps. " +
-      "Requires Docker API version 1.25+"
-  )
   val dockerBuildOptions = SettingKey[Seq[String]]("dockerBuildOptions", "Options used for the Docker build")
   val dockerBuildCommand = SettingKey[Seq[String]]("dockerBuildCommand", "Command for building the Docker image")
   val dockerLabels = SettingKey[Map[String, String]]("dockerLabels", "Labels applied to the Docker image")
@@ -74,4 +68,10 @@ private[packager] trait DockerKeysEx extends DockerKeys {
   )
   val dockerLayerMappings =
     taskKey[Seq[LayeredMapping]]("List of layer, source file and destination in Docker image.")
+   val dockerBuildInit = SettingKey[Boolean](
+    "dockerBuildInit",
+    "Whether the --init flag should be passed to Docker when building. " +
+      "Setting to true will cause Docker to bundle a tini in the container, to run as the init process, which is recommended for JVM apps. " +
+      "Requires Docker API version 1.25+"
+  )
 }
