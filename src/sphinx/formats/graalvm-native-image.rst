@@ -69,7 +69,7 @@ customized using the following settings.
   ``graalVMNativeImageGraalVersion``
     Setting this enables generating a Docker container to build the native image, and then building it in that container.
     It must correspond to a valid version of the
-    `Oracle GraalVM Community Edition Docker image <https://hub.docker.com/r/oracle/graalvm-ce/>`_. This setting has no
+    `Oracle GraalVM Community Edition Docker image <https://github.com/graalvm/container/pkgs/container/graalvm-ce/>`_. This setting has no
     effect if ``containerBuildImage`` is explicitly set.
 
     For example:
