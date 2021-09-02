@@ -18,12 +18,14 @@ realpath () {
 
   if [ "$TARGET_FILE" = "." -o "$TARGET_FILE" = ".." ]; then
     cd "$TARGET_FILE"
-    TARGET_FILEPATH=
-  else
-    TARGET_FILEPATH=/$TARGET_FILE
   fi
-
-  echo "$(pwd -P)/$TARGET_FILE"
+  TARGET_DIR="$(pwd -P)"
+  if [ "$TARGET_DIR" = "/" ]; then
+    TARGET_FILE="/$TARGET_FILE"
+  else
+    TARGET_FILE="$TARGET_DIR/$TARGET_FILE"
+  fi
+  echo "$TARGET_FILE"
 )
 }
 
