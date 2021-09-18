@@ -671,7 +671,7 @@ object DockerPlugin extends AutoPlugin {
                 sys.process.Process(execCommand ++ s"image prune -f --filter label=${label}".split(" ")) ! logger
               // FYI: "docker image prune" returns 0 (success) no matter if images were removed or not
               if (retImageClean != 0)
-                log.err(
+                log.error(
                   "Something went wrong while removing multi-stage intermediate image(s)"
                 ) // no exception, just let the user know
             case None =>
