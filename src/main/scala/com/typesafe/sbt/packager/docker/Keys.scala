@@ -46,7 +46,8 @@ trait DockerKeys {
   val dockerRmiCommand =
     SettingKey[Seq[String]]("dockerRmiCommand", "Command for removing the Docker image from the local registry")
 
-  val dockerCommandsPrepend = TaskKey[Seq[CmdLike]]("dockerCommandsPrepend", "List of docker commands that are run first in the final stage.")
+  val dockerCommandsPrepend =
+    TaskKey[Seq[CmdLike]]("dockerCommandsPrepend", "List of docker commands that are run first in the final stage.")
   val dockerCommands = TaskKey[Seq[CmdLike]]("dockerCommands", "List of docker commands that form the Dockerfile")
 }
 
@@ -69,4 +70,10 @@ private[packager] trait DockerKeysEx extends DockerKeys {
   )
   val dockerLayerMappings =
     taskKey[Seq[LayeredMapping]]("List of layer, source file and destination in Docker image.")
+  val dockerBuildInit = SettingKey[Boolean](
+    "dockerBuildInit",
+    "Whether the --init flag should be passed to Docker when building. " +
+      "Setting to true will cause Docker to bundle a tini in the container, to run as the init process, which is recommended for JVM apps. " +
+      "Requires Docker API version 1.25+"
+  )
 }
