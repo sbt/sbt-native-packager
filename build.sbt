@@ -76,7 +76,9 @@ publishMavenStyle := true
 licenses := Seq("BSD-2-Clause" -> url("https://opensource.org/licenses/BSD-2-Clause"))
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
-scmInfo := Some(ScmInfo(url("https://github.com/sbt/sbt-native-packager"), "scm:git@github.com:sbt/sbt-native-packager.git"))
+scmInfo := Some(
+  ScmInfo(url("https://github.com/sbt/sbt-native-packager"), "scm:git@github.com:sbt/sbt-native-packager.git")
+)
 developers := List(
   Developer(
     id = "muuki88",
