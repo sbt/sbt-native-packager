@@ -129,6 +129,10 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     image: String,
     streams: TaskStreams
   ): File = {
+    val (_, tag) = image.split(":", 2) match {
+      case Array(n, t) => (n, t)
+      case Array(n)    => (n, "latest")
+    }
 
     stage(targetDirectory, classpathJars, resources, streams)
 
@@ -136,10 +140,10 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
       "run",
       "--rm",
       "-v",
-      s"${targetDirectory.getAbsolutePath}:/opt/graalvm",
+      s"${targetDirectory.getAbsolutePath}:/opt/graalvm-ce-$tag",
       image,
       "-cp",
-      classpathJars.map(jar => "/opt/graalvm/stage/" + jar._2).mkString(":"),
+      classpathJars.map(jar => s"/opt/graalvm-ce-$tag/stage/" + jar._2).mkString(":"),
       s"-H:Name=$binaryName"
     ) ++ extraOptions ++ Seq(className)
 
@@ -175,7 +179,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
         val dockerContent = Dockerfile(
           Cmd("FROM", baseImage),
-          Cmd("WORKDIR", "/opt/graalvm"),
+          Cmd("WORKDIR", s"/opt/graalvm-ce-$tag"),
           ExecCmd("RUN", "gu", "install", "native-image"),
           ExecCmd("ENTRYPOINT", "native-image")
         ).makeContent
