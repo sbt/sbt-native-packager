@@ -107,7 +107,13 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     val command = {
       val nativeImageArguments = {
         val classpath = classpathJars.mkString(java.io.File.pathSeparator)
-        Seq("--class-path", classpath, s"-H:Name=$binaryName") ++ extraOptions ++ Seq(className)
+        val cpArgs = if (scala.util.Properties.isWin) {
+          IO.withTemporaryFile("native-image-classpath", ".txt", keepFile = true) { file =>
+            IO.write(file, s"--class-path $classpath")
+            Seq(s"@${file.absolutePath}")
+          }
+        } else Seq("--class-path", classpath)
+        cpArgs ++ Seq(s"-H:Name=$binaryName") ++ extraOptions ++ Seq(className)
       }
       Seq(nativeImageCommand) ++ nativeImageArguments
     }
