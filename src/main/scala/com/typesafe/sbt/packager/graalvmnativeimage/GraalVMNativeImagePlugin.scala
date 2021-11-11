@@ -37,7 +37,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     target in GraalVMNativeImage := target.value / "graalvm-native-image",
     graalVMNativeImageOptions := Seq.empty,
     graalVMNativeImageGraalVersion := None,
-    graalVMNativeImageCommand := "native-image",
+    graalVMNativeImageCommand := (if (scala.util.Properties.isWin) "native-image.cmd" else "native-image"),
     resourceDirectory in GraalVMNativeImage := sourceDirectory.value / "graal",
     mainClass in GraalVMNativeImage := (mainClass in Compile).value
   ) ++ inConfig(GraalVMNativeImage)(scopedSettings)
