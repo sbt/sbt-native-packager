@@ -56,7 +56,7 @@ Add the following to your `project/plugins.sbt` file:
 
 ```scala
 // for autoplugins
-addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.9.4")
+addSbtPlugin("com.github.sbt" %% "sbt-native-packager" % "1.9.4")
 ```
 
 In your `build.sbt` enable the plugin you want. For example the
