@@ -11,7 +11,7 @@ Sbt-native-packager is an *AutoPlugin*. Add it to your ``plugins.sbt``
 
 .. code-block:: scala
 
-  addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "x.y.z")
+  addSbtPlugin("com.github.sbt" %% "sbt-native-packager" % "x.y.z")
 
 
 Native Tools
