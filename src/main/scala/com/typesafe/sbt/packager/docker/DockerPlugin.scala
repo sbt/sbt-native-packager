@@ -344,13 +344,6 @@ object DockerPlugin extends AutoPlugin {
   })
 
   /**
-    * @param comment
-    * @return # comment
-    */
-  private final def makeComment(comment: String): CmdLike =
-    Comment(comment)
-
-  /**
     * @param maintainer (optional)
     * @return LABEL MAINTAINER if defined
     */
