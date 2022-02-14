@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
 
     - name: "Running shasum for cache invalidation"
       run: |
@@ -49,7 +49,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -70,7 +70,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -91,7 +91,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -112,7 +112,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -133,7 +133,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -154,7 +154,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -175,7 +175,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -200,7 +200,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -221,7 +221,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -243,7 +243,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -270,7 +270,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
@@ -291,7 +291,7 @@ jobs:
       fail-fast: false
     needs: [ validate ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Loading ivy cache
       uses: actions/cache@v1
       with:
