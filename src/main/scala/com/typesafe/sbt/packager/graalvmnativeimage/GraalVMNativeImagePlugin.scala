@@ -141,6 +141,8 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
     val command = dockerCommand ++ Seq(
       "run",
+      "--workdir",
+      "/opt/graalvm",
       "--rm",
       "-v",
       s"${targetDirectory.getAbsolutePath}:/opt/graalvm",
