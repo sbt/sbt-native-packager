@@ -186,6 +186,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
           Cmd("FROM", baseImage),
           Cmd("WORKDIR", "/opt/graalvm"),
           ExecCmd("RUN", "gu", "install", "native-image"),
+          ExecCmd("RUN", "ln", "-s", s"/opt/graalvm-ce-*/bin/native-image", "/usr/local/bin/native-image"),
           ExecCmd("ENTRYPOINT", "native-image")
         ).makeContent
 
