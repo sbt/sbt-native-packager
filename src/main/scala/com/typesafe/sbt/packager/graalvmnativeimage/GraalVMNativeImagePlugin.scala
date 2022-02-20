@@ -37,7 +37,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     target in GraalVMNativeImage := target.value / "graalvm-native-image",
     graalVMNativeImageOptions := Seq.empty,
     graalVMNativeImageGraalVersion := None,
-    graalVMNativeImageCommand := "native-image",
+    graalVMNativeImageCommand := (if (scala.util.Properties.isWin) "native-image.cmd" else "native-image"),
     resourceDirectory in GraalVMNativeImage := sourceDirectory.value / "graal",
     mainClass in GraalVMNativeImage := (mainClass in Compile).value
   ) ++ inConfig(GraalVMNativeImage)(scopedSettings)
@@ -107,7 +107,14 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     val command = {
       val nativeImageArguments = {
         val classpath = classpathJars.mkString(java.io.File.pathSeparator)
-        Seq("--class-path", classpath, s"-H:Name=$binaryName") ++ extraOptions ++ Seq(className)
+        val cpArgs =
+          if (scala.util.Properties.isWin)
+            IO.withTemporaryFile("native-image-classpath", ".txt", keepFile = true) { file =>
+              IO.write(file, s"--class-path $classpath")
+              Seq(s"@${file.absolutePath}")
+            }
+          else Seq("--class-path", classpath)
+        cpArgs ++ Seq(s"-H:Name=$binaryName") ++ extraOptions ++ Seq(className)
       }
       Seq(nativeImageCommand) ++ nativeImageArguments
     }
@@ -134,6 +141,8 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
     val command = dockerCommand ++ Seq(
       "run",
+      "--workdir",
+      "/opt/graalvm",
       "--rm",
       "-v",
       s"${targetDirectory.getAbsolutePath}:/opt/graalvm",

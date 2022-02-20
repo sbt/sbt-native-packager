@@ -6,7 +6,7 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 Global / scalaVersion := "2.12.12"
 
 // crossBuildingSettings
-crossSbtVersions := Vector("0.13.17", "1.1.6")
+crossSbtVersions := Vector("1.1.6")
 
 Compile / scalacOptions ++= Seq("-deprecation")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
@@ -74,9 +74,11 @@ mimaPreviousArtifacts := {
 publishMavenStyle := true
 // project meta data
 licenses := Seq("BSD-2-Clause" -> url("https://opensource.org/licenses/BSD-2-Clause"))
-homepage := Some(url("https://github.com/muuki88/sbt-graphql"))
+homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
-scmInfo := Some(ScmInfo(url("https://github.com/muuki88/sbt-graphql"), "scm:git@github.com:muuki88/sbt-graphql.git"))
+scmInfo := Some(
+  ScmInfo(url("https://github.com/sbt/sbt-native-packager"), "scm:git@github.com:sbt/sbt-native-packager.git")
+)
 developers := List(
   Developer(
     id = "muuki88",

@@ -95,16 +95,16 @@ object DockerPlugin extends AutoPlugin {
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
     dockerAlias := DockerAlias(
-      (dockerRepository in Docker).value,
-      (dockerUsername in Docker).value,
-      (packageName in Docker).value,
-      Option((version).value)
+      (Docker / dockerRepository).value,
+      (Docker / dockerUsername).value,
+      (Docker / packageName).value,
+      Option((Docker / version).value)
     ),
     dockerLayerGrouping := { _: String =>
       None
     },
     dockerGroupLayers := {
-      val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
+      val dockerBaseDirectory = (Docker / defaultLinuxInstallLocation).value
       // Ensure this doesn't break even if the JvmPlugin isn't enabled.
       var artifacts = projectDependencyArtifacts.?.value.getOrElse(Nil).map(_.data).toSet
 
@@ -141,7 +141,7 @@ object DockerPlugin extends AutoPlugin {
       else
         Seq(alias)
     },
-    dockerEntrypoint := Seq(s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
+    dockerEntrypoint := Seq(s"${(Docker / defaultLinuxInstallLocation).value}/bin/${executableScriptName.value}"),
     dockerVersion := Try(
       Process(dockerExecCommand.value ++ Seq("version", "--format", "'{{.Server.Version}}'")).!!
     ).toOption
@@ -159,8 +159,8 @@ object DockerPlugin extends AutoPlugin {
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerAdditionalPermissions := {
-      val basePath = (defaultLinuxInstallLocation in Docker).value
-      (dockerLayerMappings in Docker).value
+      val basePath = (Docker / defaultLinuxInstallLocation).value
+      (Docker / dockerLayerMappings).value
         .collect {
           // by default we assume everything in the bin/ folder should be executable that is not a .bat file
           case LayeredMapping(_, _, path) if path.startsWith(s"$basePath/bin/") && !path.endsWith(".bat") =>
@@ -172,17 +172,17 @@ object DockerPlugin extends AutoPlugin {
     },
     dockerCommands := {
       val strategy = dockerPermissionStrategy.value
-      val dockerBaseDirectory = (defaultLinuxInstallLocation in Docker).value
-      val user = (daemonUser in Docker).value
-      val uidOpt = (daemonUserUid in Docker).value
-      val group = (daemonGroup in Docker).value
-      val gidOpt = (daemonGroupGid in Docker).value
+      val dockerBaseDirectory = (Docker / defaultLinuxInstallLocation).value
+      val user = (Docker / daemonUser).value
+      val uidOpt = (Docker / daemonUserUid).value
+      val group = (Docker / daemonGroup).value
+      val gidOpt = (Docker / daemonGroupGid).value
       val base = dockerBaseImage.value
       val addPerms = dockerAdditionalPermissions.value
       val multiStageId = UUID.randomUUID().toString
-      val generalCommands = makeFromAs(base, "mainstage") +: makeMaintainer((maintainer in Docker).value).toSeq
+      val generalCommands = makeFromAs(base, "mainstage") +: makeMaintainer((Docker / maintainer).value).toSeq
       val stage0name = "stage0"
-      val layerMappings = (dockerLayerMappings in Docker).value
+      val layerMappings = (Docker / dockerLayerMappings).value
       val layerIdsAscending = layerMappings.map(_.layerId).distinct.sortWith { (a, b) =>
         // Make the None (unspecified) layer the last layer
         a.getOrElse(Int.MaxValue) < b.getOrElse(Int.MaxValue)
@@ -199,7 +199,7 @@ object DockerPlugin extends AutoPlugin {
             Seq(makeUser("root")) ++ layerIdsAscending.map(
             l => makeChmodRecursive(dockerChmodType.value, Seq(pathInLayer(dockerBaseDirectory, l)))
           ) ++ {
-            val layerToPath = (dockerGroupLayers in Docker).value
+            val layerToPath = (Docker / dockerGroupLayers).value
             addPerms map {
               case (tpe, v) =>
                 // Try and find the source file for the path from the mappings
@@ -311,10 +311,10 @@ object DockerPlugin extends AutoPlugin {
         }
       ),
       stage := (stage dependsOn dockerGenerateConfig).value,
-      stagingDirectory := (target in Docker).value / "stage",
+      stagingDirectory := (Docker / target).value / "stage",
       dockerLayerMappings := {
         val dockerGroups = dockerGroupLayers.value
-        val dockerFinalFiles = (mappings in Docker).value
+        val dockerFinalFiles = (Docker / mappings).value
         for {
           mapping @ (file, path) <- dockerFinalFiles
           layerIdx = dockerGroups.lift(mapping)
@@ -331,8 +331,8 @@ object DockerPlugin extends AutoPlugin {
       validatePackage := Validation
         .runAndThrow(validatePackageValidators.value, streams.value.log),
       validatePackageValidators := Seq(
-        nonEmptyMappings((mappings in Docker).value),
-        filesExist((mappings in Docker).value),
+        nonEmptyMappings((Docker / mappings).value),
+        filesExist((Docker / mappings).value),
         validateExposedPorts(dockerExposedPorts.value, dockerExposedUdpPorts.value),
         validateDockerVersion(dockerApiVersion.value),
         validateDockerPermissionStrategy(dockerPermissionStrategy.value, dockerVersion.value, dockerApiVersion.value)
@@ -344,13 +344,6 @@ object DockerPlugin extends AutoPlugin {
       }
     )
   })
-
-  /**
-    * @param comment
-    * @return # comment
-    */
-  private final def makeComment(comment: String): CmdLike =
-    Comment(comment)
 
   /**
     * @param maintainer (optional)
@@ -585,7 +578,7 @@ object DockerPlugin extends AutoPlugin {
 
   /**
     * uses the `mappings in Universal` to generate the
-    * `mappings in Docker`.
+    * `Docker / mappings`.
     */
   def mapGenericFilesToDocker: Seq[Setting[_]] = {
     def renameDests(from: Seq[(File, String)], dest: String) =
