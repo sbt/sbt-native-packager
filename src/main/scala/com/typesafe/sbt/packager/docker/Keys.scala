@@ -46,8 +46,10 @@ trait DockerKeys {
   val dockerRmiCommand =
     SettingKey[Seq[String]]("dockerRmiCommand", "Command for removing the Docker image from the local registry")
 
-  val dockerCommandsPrepend =
-    TaskKey[Map[String,Seq[CmdLike]]]("dockerCommandsPrepend", "List of docker commands that are run first in the final stage.")
+  val dockerCommandsCustom = TaskKey[Map[String, Seq[CmdLike]]](
+    "dockerCommandsCustom",
+    "List of docker commands that are run at various points."
+  )
   val dockerCommands = TaskKey[Seq[CmdLike]]("dockerCommands", "List of docker commands that form the Dockerfile")
 }
 

@@ -90,7 +90,7 @@ object DockerPlugin extends AutoPlugin {
     dockerUpdateLatest := false,
     dockerAutoremoveMultiStageIntermediateImages := true,
     dockerCmd := Seq(),
-    dockerCommandsPrepend := Map()
+    dockerCommandsCustom := Map()
   )
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
@@ -189,12 +189,14 @@ object DockerPlugin extends AutoPlugin {
       }
       val stage0: Seq[CmdLike] = strategy match {
         case DockerPermissionStrategy.MultiStage =>
-          Seq(
-            makeFromAs(base, stage0name),
-            makeLabel("snp-multi-stage" -> "intermediate"),
-            makeLabel("snp-multi-stage-id" -> multiStageId),
-            makeWorkdir(dockerBaseDirectory)
-          ) ++
+          Seq(makeFromAs(base, stage0name)) ++
+            (Docker / dockerCommandsCustom).value.getOrElse("stage0:after:from", Seq()) ++
+            Seq(
+              makeLabel("snp-multi-stage" -> "intermediate"),
+              makeLabel("snp-multi-stage-id" -> multiStageId),
+              makeWorkdir(dockerBaseDirectory)
+            ) ++
+            (Docker / dockerCommandsCustom).value.getOrElse("stage0:after:workdir", Seq()) ++
             layerIdsAscending.map(l => makeCopyLayerIntermediate(l, dockerBaseDirectory)) ++
             Seq(makeUser("root")) ++ layerIdsAscending.map(
             l => makeChmodRecursive(dockerChmodType.value, Seq(pathInLayer(dockerBaseDirectory, l)))
@@ -223,9 +225,10 @@ object DockerPlugin extends AutoPlugin {
           case Some(_) => Seq(makeUser("root"), makeUserAdd(user, group, uidOpt, gidOpt))
           case _       => Seq()
         }) ++
-        (Docker / dockerCommandsPrepend).value.getOrElse("test", Seq()) ++
-        Seq(makeWorkdir(dockerBaseDirectory)) ++ {
-        (strategy match {
+        (Docker / dockerCommandsCustom).value.getOrElse("image:after:from", Seq()) ++
+        Seq(makeWorkdir(dockerBaseDirectory)) ++
+        (Docker / dockerCommandsCustom).value.getOrElse("image:after:workdir", Seq()) ++ {
+        strategy match {
           case DockerPermissionStrategy.MultiStage =>
             layerIdsAscending.map { layerId =>
               makeCopyFrom(pathInLayer(dockerBaseDirectory, layerId), dockerBaseDirectory, stage0name, user, group)
@@ -238,7 +241,7 @@ object DockerPlugin extends AutoPlugin {
             layerIdsAscending.map(layerId => makeCopyChown(layerId, dockerBaseDirectory, user, group))
           case DockerPermissionStrategy.None =>
             layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory))
-        })
+        }
       } ++
         dockerLabels.value.map(makeLabel) ++
         dockerEnvVars.value.map(makeEnvVar) ++
