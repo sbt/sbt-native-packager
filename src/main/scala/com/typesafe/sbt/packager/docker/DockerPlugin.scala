@@ -90,7 +90,7 @@ object DockerPlugin extends AutoPlugin {
     dockerUpdateLatest := false,
     dockerAutoremoveMultiStageIntermediateImages := true,
     dockerCmd := Seq(),
-    dockerCommandsPrepend := Seq()
+    dockerCommandsPrepend := Map()
   )
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
@@ -223,7 +223,7 @@ object DockerPlugin extends AutoPlugin {
           case Some(_) => Seq(makeUser("root"), makeUserAdd(user, group, uidOpt, gidOpt))
           case _       => Seq()
         }) ++
-        (Docker / dockerCommandsPrepend).value ++
+        (Docker / dockerCommandsPrepend).value.getOrElse("test", Seq()) ++
         Seq(makeWorkdir(dockerBaseDirectory)) ++ {
         (strategy match {
           case DockerPermissionStrategy.MultiStage =>
