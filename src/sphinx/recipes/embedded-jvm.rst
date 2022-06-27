@@ -24,7 +24,7 @@ distribution
 
       ...
 
-      mappings in Universal ++= {
+      Universal / mappings ++= {
         val jresDir = Path.userHome / ".jre"
         val linux64Jre = jresDir.toPath.resolve("linux64")
         directory(linux64Jre.toFile).map { j =>
@@ -41,7 +41,7 @@ relative path.
 
 .. code-block:: scala
 
-  javaOptions in Universal ++= Seq(
+  Universal / javaOptions ++= Seq(
     // Your original options
 
    "-java-home ${app_home}/../jre"

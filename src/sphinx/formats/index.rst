@@ -31,7 +31,7 @@ looks like this
 
 .. code-block:: scala
 
-  mappings in Docker := (mappings in Universal).value
+  Docker / mappings := (Universal / mappings).value
 
 
 To learn more about a specific plugin, read the appropriate doc.

@@ -35,13 +35,13 @@ class with the following setting:
 
 .. code-block:: scala
 
-   mainClass in Compile := Some("foo.bar.Main")
+   Compile / mainClass := Some("foo.bar.Main")
    
 In order to generate launch scripts only for specified ``mainClass``, you will need to discard automatically found main classes:
 
 .. code-block:: scala
 
-   discoveredMainClasses in Compile := Seq()
+   Compile / discoveredMainClasses := Seq()
 
 To create a staging version of your package call
 
@@ -75,11 +75,11 @@ java app archetype! For example you can build *zips*, *deb* or *docker* by just 
 
   sbt
   # create a zip file
-  > universal:packageBin
+  > Universal / packageBin
   # create a deb file
-  > debian:packageBin
+  > Debian / packageBin
   # publish a docker image to your local registry
-  > docker:publishLocal
+  > Docker / publishLocal
 
 
 
@@ -167,8 +167,8 @@ Multiple Applications
 If you have multiple main classes then the ``JavaAppPackaging`` archetype provides you with two different ways of
 generating start scripts.
 
-1. A start script for each entry point. This is the default behaviour, when no ``mainClass in Compile`` is set
-2. One start script for the defined ``mainClass in Compile`` and forwarding scripts for all other main classes.
+1. A start script for each entry point. This is the default behaviour, when no ``Compile / mainClass`` is set
+2. One start script for the defined ``Compile / mainClass`` and forwarding scripts for all other main classes.
 
 .. note:: What does *'forwarder script'* mean?
 
@@ -180,7 +180,7 @@ generating start scripts.
 Multiple start scripts
 ----------------------
 
-No configuration is needed. SBT sets ``mainClass in Compile`` automatically to ``None`` if multiple main classes are
+No configuration is needed. SBT sets ``Compile / mainClass`` automatically to ``None`` if multiple main classes are
 discovered.
 
 **Example:**
@@ -199,8 +199,8 @@ For two main classes ``com.example.FooMain`` and ``com.example.BarMain`` ``sbt s
 Single start script with forwarders
 -----------------------------------
 
-Generates a single start script for the defined main class in ``mainClass in Compile`` and forwarding scripts for all
-other ``discoveredMainClasses in Compile``. The forwarder scripts call the defined start script and set the ``-main``
+Generates a single start script for the defined main class in ``Compile / mainClass`` and forwarding scripts for all
+other ``Compile / discoveredMainClasses``. The forwarder scripts call the defined start script and set the ``-main``
 parameter to the concrete main class.
 
 The start script name uses the ``executableScriptName`` setting for its name. The forwarder scripts use a simplified
@@ -214,7 +214,7 @@ The ``build.sbt`` has an explicit main class set.
 .. code-block:: scala
 
     name := "my-project"
-    mainClass in Compile := Some("com.example.FooMain")
+    Compile / mainClass := Some("com.example.FooMain")
 
 For two main classes ``com.example.FooMain`` and ``com.example.BarMain`` ``sbt stage`` will generate these scripts:
 

@@ -54,10 +54,10 @@ Create a package
 We can generate other packages via the following tasks. Note that each packaging format may needs some additional
 configuration and native tools available. Here's a complete list of current formats.
 
-* ``universal:packageBin`` - Generates a universal zip file
-* ``universal:packageZipTarball`` - Generates a universal tgz file
-* ``debian:packageBin`` - Generates a deb
-* ``docker:publishLocal`` - Builds a Docker image using the local Docker server
-* ``rpm:packageBin`` - Generates an rpm
-* ``universal:packageOsxDmg`` - Generates a DMG file with the same contents as the universal zip/tgz.
-* ``windows:packageBin`` - Generates an MSI
+* ``Universal/packageBin`` - Generates a universal zip file
+* ``Universal/packageZipTarball`` - Generates a universal tgz file
+* ``Debian/packageBin`` - Generates a deb
+* ``Docker/publishLocal`` - Builds a Docker image using the local Docker server
+* ``Rpm/packageBin`` - Generates an rpm
+* ``Universal/packageOsxDmg`` - Generates a DMG file with the same contents as the universal zip/tgz.
+* ``Windows/packageBin`` - Generates an MSI

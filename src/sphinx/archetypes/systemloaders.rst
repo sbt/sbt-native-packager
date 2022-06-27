@@ -111,7 +111,7 @@ In order to change the location of the systemloader script/config file you need 
 
 .. code-block:: scala
 
-  defaultLinuxStartScriptLocation in Debian := "/lib/systemd/system"
+  Debian / defaultLinuxStartScriptLocation := "/lib/systemd/system"
 
 
 You may need to change these paths according to your distribution. References are

@@ -13,7 +13,7 @@ In order to package all assets correctly, add this to your project
 
 .. code-block:: scala
 
-    (managedClasspath in Runtime) += (packageBin in previewJVM in Assets).value
+    Runtime / managedClasspath += (Assets / previewJVM / packageBin).value
 
 
 .. _issue-699: https://github.com/sbt/sbt-native-packager/issues/699

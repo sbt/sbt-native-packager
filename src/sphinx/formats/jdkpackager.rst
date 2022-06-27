@@ -29,7 +29,7 @@ Requirements
 The ``ant-javafx.jar`` library comes with *Oracle* JDK 8, found in the ``lib`` directory along with ``tools.jar``
 and friends. If `sbt` is running under the JVM in Oracle JDK 8, then the plugin should be able to find the path to
 ``ant-javafx.jar``. If `sbt` is running under a different JVM, then the path to the tool will have to be specified
-via the ``jdkPackager:antPackagerTasks`` setting.
+via the ``JdkPackager / antPackagerTasks`` setting.
 
 This plugin must be run on the platform of the target installer. The Oracle tooling does *not* provide a means of
 creating, say, Windows installers on MacOS, or MacOS on Linux, etc.
@@ -62,7 +62,7 @@ To use, first get your application working per :ref:`java-app-plugin` instructio
 
 .. code-block:: scala
 
-  sbt jdkPackager:packageBin
+  sbt JdkPackager/packageBin
 
 By default, the plugin makes the installer type that is native to the current build platform.  The installer is put in the directory
 ``target/jdkpackager/bundles``. The key ``jdkPackageType`` can be used to modify this behavior. Run
@@ -143,7 +143,7 @@ Settings
 Example
 -------
 
-To take it for a test spin, run ``sbt jdkPackager:packageBin`` in the ``test-project-jdkpackager`` directory of the `sbt-native-packager` source. Then look in the ``target/jdkpackager/bundles`` directory for the result (specific name depends on platform built).
+To take it for a test spin, run ``sbt JdkPackager/packageBin`` in the ``test-project-jdkpackager`` directory of the `sbt-native-packager` source. Then look in the ``target/jdkpackager/bundles`` directory for the result (specific name depends on platform built).
 
 Here's what the build file looks like:
 
@@ -159,7 +159,7 @@ Here's what the build file looks like:
         "com.typesafe" % "config" % "1.2.1"
     )
 
-    mainClass in Compile := Some("ExampleApp")
+    Compile / mainClass := Some("ExampleApp")
 
     enablePlugins(JDKPackagerPlugin)
 
@@ -191,7 +191,7 @@ Here's what the build file looks like:
     )
 
     // Example of specifying a fallback location of `ant-javafx.jar` if plugin can't find it.
-    (antPackagerTasks in JDKPackager) := (antPackagerTasks in JDKPackager).value orElse {
+    (JDKPackager / antPackagerTasks) := (JDKPackager / antPackagerTasks).value orElse {
       for {
         f <- Some(file("/usr/lib/jvm/java-8-oracle/lib/ant-javafx.jar")) if f.exists()
       } yield f
@@ -201,4 +201,4 @@ Here's what the build file looks like:
 Debugging
 ---------
 
-If you are having trouble figuring out how certain features affect the generated package, you can find the Ant-based build definition file in ``target/jdkpackager/build.xml``. You should be able to run Ant directly in that file assuming ``jdkPackager:packageBin`` has been run at least once.
+If you are having trouble figuring out how certain features affect the generated package, you can find the Ant-based build definition file in ``target/jdkpackager/build.xml``. You should be able to run Ant directly in that file assuming ``JdkPackager / packageBin`` has been run at least once.

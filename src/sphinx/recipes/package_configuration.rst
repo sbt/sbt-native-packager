@@ -49,9 +49,9 @@ Now that our application is defined in a module, we can add the three packaging 
       .enablePlugins(JavaAppPackaging)
       .settings(
 	// override the resource directory
-	resourceDirectory in Compile := (resourceDirectory in (app, Compile)).value,
-	mappings in Universal += {
-	  ((resourceDirectory in Compile).value / "test.conf") -> "conf/application.conf"
+	Compile / resourceDirectory := (app / compile / resourceDirectory).value,
+	Universal / mappings += {
+	  ((Compile / resourceDirectory).value / "test.conf") -> "conf/application.conf"
 	}
       )
       .dependsOn(app)
@@ -61,9 +61,9 @@ Now that our application is defined in a module, we can add the three packaging 
       .in(file("build/stage"))
       .enablePlugins(JavaAppPackaging)
       .settings(
-	resourceDirectory in Compile := (resourceDirectory in (app, Compile)).value,
-	mappings in Universal += {
-	  ((resourceDirectory in Compile).value / "stage.conf") -> "conf/application.conf"
+	Compile / resourceDirectory := (app / Compile / resourceDirectory).value,
+	Universal / mappings += {
+	  ((Compile / resourceDirectory).value / "stage.conf") -> "conf/application.conf"
 	}
       )
       .dependsOn(app)
@@ -72,9 +72,9 @@ Now that our application is defined in a module, we can add the three packaging 
       .in(file("build/prod"))
       .enablePlugins(JavaAppPackaging)
       .settings(
-	resourceDirectory in Compile := (resourceDirectory in (app, Compile)).value,
-	mappings in Universal += {
-	  ((resourceDirectory in Compile).value / "prod.conf") -> "conf/application.conf"
+	Compile / resourceDirectory := (app / Compile / resourceDirectory).value,
+	Universal / mappings += {
+	  ((Compile / resourceDirectory).value / "prod.conf") -> "conf/application.conf"
 	}
       )
       .dependsOn(app)
@@ -87,7 +87,7 @@ Now that you have your ``build.sbt`` set up, you can try building packages.
     testPackage/stage
 
     # creates a zip with the test configuration
-    sbt testPackage/universal:packageBin
+    sbt testPackage/Universal/packageBin
 
 
 This technique is a bit verbose, but communicates very clear what is being built and why.
@@ -157,18 +157,18 @@ This plugin allows you to start sbt for example like
   [info] Production
 
 Now we can use this ``buildEnv`` setting to change things. For example the ``mappings``. We recommend doing this in a
-plugin as it involes quite some logic. In this case we decide which configuration file to map as ``application.conf``.
+plugin as it involves quite some logic. In this case we decide which configuration file to map as ``application.conf``.
 
 .. code-block :: scala
 
-    mappings in Universal += {
+    Universal / mappings += {
       val confFile = buildEnv.value match {
 	case BuildEnv.Developement => "dev.conf"
 	case BuildEnv.Test => "test.conf"
 	case BuildEnv.Stage => "stage.conf"
 	case BuildEnv.Production => "prod.conf"
       }
-      ((resourceDirectory in Compile).value / confFile) -> "conf/application.conf"
+      ((Compile / resourceDirectory).value / confFile) -> "conf/application.conf"
     }
 
 Ofcourse you can change all other settings, package names, etc. as well. Building different output packages would look
@@ -176,15 +176,15 @@ like this
 
 .. code-block :: bash
 
-  sbt -Denv=test universal:packageBin
-  sbt -Denv=stage universal:packageBin
-  sbt -Denv=prod universal:packageBin
+  sbt -Denv=test Universal/packageBin
+  sbt -Denv=stage Universal/packageBin
+  sbt -Denv=prod Universal/packageBin
 
 
 SBT configuration scope (not recommended)
 -----------------------------------------
 
-The other option is to generate additional scopes in order to build a package like ``prod:packageBin``. Scopes behave
+The other option is to generate additional scopes in order to build a package like ``Prod / packageBin``. Scopes behave
 counter intuitive sometimes, why we don't recommend this technique.
 
 .. error:: This example is work in progress and doesn't work. Unless you are not very familiar with sbt we highly
@@ -206,7 +206,7 @@ A simple start may look like this
 	libraryDependencies += "com.typesafe" % "config" % "1.3.0"
       )
 
-You would expect ``prod:packageBin`` to work, but *extending* scopes doesn't imply inheriting tasks and settings. This
+You would expect ``Prod / packageBin`` to work, but *extending* scopes doesn't imply inheriting tasks and settings. This
 needs to be done manually. Append this to the ``app`` project.
 
 .. code-block :: scala
@@ -220,7 +220,7 @@ needs to be done manually. Append this to the ``app`` project.
       packageName := "my-prod-app",
       executableScriptName := "my-prod-app",
       // this is what we acutally want to change
-      mappings += ((resourceDirectory in Compile).value / "prod.conf") -> "conf/application.conf"
+      mappings += ((Compile / resourceDirectory).value / "prod.conf") -> "conf/application.conf"
     )))
 
 Note that you have to know more on native-packager internals than you should, because you override all the necessary
