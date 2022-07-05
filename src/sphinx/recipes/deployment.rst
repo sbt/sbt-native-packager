@@ -38,7 +38,7 @@ The easiest way is to add ``UniversalDeployPlugin`` to your ``build.sbt``
 
 You are now able to publish your packaged application in both ``tgz`` and ``zip`` formats with:
 
-  ``universal:publish``
+  ``Universal/publish``
     Publish the ``zip`` (or ``tgz``/``txz`` depending on the configuration. Default is to publish ``zip`` along with ``tgz``) package
 
 Custom Deployments
@@ -57,7 +57,7 @@ Your ``build.sbt`` should contain:
 
 This will make possible to push the ``RPM`` with:
 
-  ``sbt rpm:publish``
+  ``sbt Rpm/publish``
 
 Debian
 ~~~~~~
@@ -70,7 +70,7 @@ Enabled with:
 
 that will make possible to publish a ``deb`` package with:
 
-  ``sbt deb:publish``
+  ``sbt Deb/publish``
 
 Windows
 ~~~~~~~
@@ -83,7 +83,7 @@ If using an ``msi`` packaging you need to enable:
 
 Then, pushing the package is
 
-  ``sbt windows:publish``
+  ``sbt Windows/publish``
 
 Custom Configurations
 ---------------------
@@ -95,24 +95,24 @@ Debian
 
 .. code-block:: scala
 
-    makeDeploymentSettings(Debian, packageBin in Debian, "deb")
+    makeDeploymentSettings(Debian, Debian / packageBin, "deb")
 
     //if you want a changes file as well
-    makeDeploymentSettings(Debian, genChanges in Debian, "changes")
+    makeDeploymentSettings(Debian, Debian / genChanges, "changes")
 
 RPM
 ~~~
 
 .. code-block:: scala
 
-    makeDeploymentSettings(Rpm, packageBin in Rpm, "rpm")
+    makeDeploymentSettings(Rpm, Rpm / packageBin, "rpm")
 
 Windows
 ~~~~~~~
 
 .. code-block:: scala
 
-    makeDeploymentSettings(Windows, packageBin in Windows, "msi")
+    makeDeploymentSettings(Windows, Windows / packageBin, "msi")
 
 Universal
 ~~~~~~~~~
@@ -120,12 +120,12 @@ Universal
 .. code-block:: scala
 
     // zip
-    makeDeploymentSettings(Universal, packageBin in Universal, "zip")
+    makeDeploymentSettings(Universal, Universal / packageBin, "zip")
 
-    makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip")
+    makeDeploymentSettings(UniversalDocs, UniversalDocs / packageBin, "zip")
 
     // additional tgz
-    addPackage(Universal, packageZipTarball in Universal, "tgz")
+    addPackage(Universal, Universal / packageZipTarball, "tgz")
 
     // additional txz
-    addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz")
+    addPackage(UniversalDocs, UniversalDocs / packageXzTarball, "txz")

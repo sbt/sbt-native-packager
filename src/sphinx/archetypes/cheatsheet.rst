@@ -72,7 +72,7 @@ The available options are
 
 - Adding via ``bashScriptExtraDefines`` and ``batScriptExtraDefines``
 - Providing a ``application.ini`` (JavaApp) or ``etc-default`` (JavaServer) file
-- Set ``javaOptions in Universal`` (JavaApp) or ``javaOptions in Linux`` (JavaServer, linux only)
+- Set ``Universal / javaOptions`` (JavaApp) or ``Linux / javaOptions`` (JavaServer, linux only)
 
 .. warning:: If you want to change the location of your config keep in mind that the path in
     **bashScriptConfigLocation** should either
@@ -124,7 +124,7 @@ See :ref:`server-app-config`
 Setting - javaOptions
 ---------------------
 
-The last option to set your java options is using ``javaOptions in Universal`` (JavaApp and Server).
+The last option to set your java options is using ``Universal / javaOptions`` (JavaApp and Server).
 This will generate files according to your archetype. The following table gives you an overview what
 you can use and how things will be behave if you mix different options. Options lower in the table
 are more specific and will thus override the any previous settings (if allowed).
@@ -137,8 +137,8 @@ Nil       Universal  Some(appIniLocation)      JavaApp               User provid
 opts      Universal  Some(_)                   JavaApp     added     creates ``application.ini`` but leaves ``bashScriptConfigLocation`` unchanged
 opts      Universal  None                      JavaApp     added     creates ``application.ini`` and sets ``bashScriptConfigLocation``. If ``src/universal/conf/application.ini`` is present it will be overridden
 Nil       Linux      None                      JavaServer  added     creates ``etc-default`` and sets ``bashScriptConfigLocation``
-opts      Linux      None                      JavaServer  added     creates ``etc-default``, appends ``javaOptions in Linux`` and sets ``bashScriptConfigLocation``
-opts      Linux      Some(_)                   JavaServer  added     creates ``etc-default``, appends ``javaOptions in Linux`` and overrides ``bashScriptConfigLocation``
+opts      Linux      None                      JavaServer  added     creates ``etc-default``, appends ``Linux / javaOptions`` and sets ``bashScriptConfigLocation``
+opts      Linux      Some(_)                   JavaServer  added     creates ``etc-default``, appends ``Linux / javaOptions`` and overrides ``bashScriptConfigLocation``
 ========  =========  ========================  ==========  ========  =======
 
 
@@ -204,21 +204,21 @@ Possible values:
 
 You can use ``${{variable_name}}`` to reference variables when writing your script.  The default set of variables is:
 
-* ``author`` - The name of the author; defined by ``maintainer in Linux``.
-* ``descr`` - The short description of the service; defined by ``packageSummary in Linux``.
-* ``exec`` - The script/binary to execute when starting the service; defined by ``executableScriptName in Linux``.
-* ``chdir`` - The working directory for the service; defined by ``defaultLinuxInstallLocation/(packageName in Linux)``.
+* ``author`` - The name of the author; defined by ``Linux / maintainer``.
+* ``descr`` - The short description of the service; defined by ``Linux / packageSummary``.
+* ``exec`` - The script/binary to execute when starting the service; defined by ``Linux / executableScriptName``.
+* ``chdir`` - The working directory for the service; defined by ``defaultLinuxInstallLocation/(Linux / packageName)``.
 * ``retries`` - The number of times to retry starting the server; defined to be the constant ``0``.
 * ``retryTimeout`` - The amount of time to wait before trying to run the server; defined to be the constant ``60``.
-* ``app_name`` - The name of the application (linux friendly); defined by ``packageName in Linux``.
+* ``app_name`` - The name of the application (linux friendly); defined by ``Linux / packageName``.
 * ``version`` - The software version; defined by ``version``.
-* ``daemon_user`` - The user that the service should run as; defined by ``daemonUser in Linux``.
-* ``daemon_user_uid`` - The user ID of the user that the service should run as; defined by ``daemonUserUid in Linux``.
-* ``daemon_group`` - The group of the user that the service should run as; defined by ``daemonGroup in Linux``.
-* ``daemon_group_gid`` - The group ID of the group of the user that the service should run as; defined by ``daemonGroupGid in Linux``.
-* ``daemon_shell`` - The shell of the user that the service should run as; defined by ``daemonShell in Linux``.
-* ``term_timeout`` - The timeout for the service to respond to a TERM signal; defined by ``termTimeout in Linux``, defaults to ``60``.
-* ``kill_timeout`` - The timeout for the service to respond to a KILL signal; defined by ``killTimeout in Linux``, defaults to ``30``.
+* ``daemon_user`` - The user that the service should run as; defined by ``Linux / daemonUser``.
+* ``daemon_user_uid`` - The user ID of the user that the service should run as; defined by ``Linux / daemonUserUid``.
+* ``daemon_group`` - The group of the user that the service should run as; defined by ``Linux / daemonGroup``.
+* ``daemon_group_gid`` - The group ID of the group of the user that the service should run as; defined by ``Linux / daemonGroupGid``.
+* ``daemon_shell`` - The shell of the user that the service should run as; defined by ``Linux / daemonShell``.
+* ``term_timeout`` - The timeout for the service to respond to a TERM signal; defined by ``Linux / termTimeout``, defaults to ``60``.
+* ``kill_timeout`` - The timeout for the service to respond to a KILL signal; defined by ``Linux / killTimeout``, defaults to ``30``.
 * ``start_facilities`` - Intended for the ``Required-Start:`` line in the ``INIT INFO`` block. Its value is automatically generated with respect to the chosen system loader.
 * ``stop_facilities`` - Intended for the ``Required-Stop:`` line in the ``INIT INFO`` block. Its value is automatically generated with respect to the chosen system loader.
 * ``start_runlevels`` - Intended for the ``Default-Start:`` line in the ``INIT INFO`` block. Its value is automatically generated with respect to the chosen system loader.

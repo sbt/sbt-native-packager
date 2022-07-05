@@ -24,7 +24,7 @@ depending on the linux plugin.
 
 .. code-block:: bash
 
-  sbt "show linux:linuxPackageMappings"
+  sbt "show Linux / linuxPackageMappings"
 
 Required Settings
 ~~~~~~~~~~~~~~~~~
@@ -61,13 +61,13 @@ Settings and tasks inherited from parent plugins can be scoped with ``Linux``.
 
 .. code-block:: scala
 
-  name in Linux := name.value
+  Linux / name := name.value
 
 Settings
 --------
 The required fields for any linux distribution are:
 
-  ``name in Linux``
+  ``Linux / name``
     The name given the package for installation.
 
   ``maintainer``
@@ -279,12 +279,12 @@ To add an arbitrary file in your build path
 
 .. code-block:: scala
 
-    linuxPackageMappings in Debian += {
+    Debian / linuxPackageMappings += {
       val file = sourceDirectory.value / "resources" / "debian-somefile.txt"
       packageMapping( (file, "/absolute/path/somefile.txt") )
     }
 
-    linuxPackageMappings in Rpm += {
+    Rpm / linuxPackageMappings += {
       val file = sourceDirectory.value / "resources" / "rpm-somefile.txt"
       packageMapping( (file, "/absolute/path/somefile.txt") )
     }

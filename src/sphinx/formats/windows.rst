@@ -25,7 +25,7 @@ Build
 
 .. code-block:: bash
 
-  sbt windows:packageBin
+  sbt Windows/packageBin
 
 Required Settings
 ~~~~~~~~~~~~~~~~~
@@ -69,14 +69,14 @@ Settings and Tasks inherited from parent plugins can be scoped with ``Universal`
 
 .. code-block:: scala
 
-  mappings in Windows := (mappings in Universal).value
+  Windows / mappings := (Universal / mappings).value
 
 Now, let's look at the full set of windows settings.
 
 Settings
 --------
 
-  ``name in Windows``
+  ``Windows / name``
     The name of the generated msi file.
 
   ``candleOptions``
@@ -114,14 +114,14 @@ Settings
   ``wixFiles``
     WIX xml source files (``wxs``) that define the build.
 
-  ``mappings in packageMsi in Windows``
+  ``Windows / packageMsi / mappings ``
     A list of file->location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a ``cab`` or embedded ``cab`` for the ``msi``.
     The WIX xml should use the relative locations in this mappings when referencing files for the package.
 
 Tasks
 -----
 
-  ``windows:packageBin``
+  ``Windows/packageBin``
     Creates the ``msi`` package.
 
   ``wixFile``
@@ -175,13 +175,13 @@ Here's an example feature that installs a binary file (`cool.jar`) and a script 
           AddDirectoryToPath("bin"))
     )
 
-All file references should line up exactly with those found in the ``mappings in Windows`` configuration.   When generating a MSI, the plugin will first create
-a directory using all the ``mappings in Windows`` and configure this for inclusion in a ``cab`` file.  If you'd like to add files to include, these must *first*
+All file references should line up exactly with those found in the ``Windows / mappings`` configuration.   When generating a MSI, the plugin will first create
+a directory using all the ``Windows / mappings`` and configure this for inclusion in a ``cab`` file.  If you'd like to add files to include, these must *first*
 be added to the mappings, and then to a feature.   For example, if we complete the above setting to include file mappings, we'd have the following:
 
 .. code-block:: scala
 
-    mappings in Windows ++= (packageBin in Compile, sourceDirectory in Windows) map { (jar, dir) =>
+    Windows / mappings ++= (Compile / packageBin, Windows / sourceDirectory) map { (jar, dir) =>
       Seq(jar -> "lib/cool.jar", (dir / "cool.bat") -> "bin/cool.bat")
     }
 

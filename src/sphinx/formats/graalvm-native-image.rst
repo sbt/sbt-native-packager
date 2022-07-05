@@ -33,7 +33,7 @@ Build
 
 .. code-block:: bash
 
-  sbt 'show graalvm-native-image:packageBin'
+  sbt 'show GraalVMNativeImage/packageBin'
 
 
 Required Settings
@@ -116,5 +116,5 @@ Tasks
 -----
 The GraalVM Native Image plugin provides the following commands:
 
-  ``graalvm-native-image:packageBin``
+  ``GraalVMNativeImage / packageBin``
     Generates a native image using GraalVM.

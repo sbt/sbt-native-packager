@@ -30,7 +30,7 @@ Build
 
 .. code-block:: bash
 
-  sbt docker:publishLocal
+  sbt Docker/publishLocal
 
 
 Required Settings
@@ -69,7 +69,7 @@ Settings and Tasks inherited from parent plugins can be scoped with ``Docker``.
 
 .. code-block:: scala
 
-  mappings in Docker := mappings.value
+  Docker / mappings := mappings.value
 
 
 Settings
@@ -80,14 +80,14 @@ Informational Settings
 ~~~~~~~~~~~~~~~~~~~~~~
 
 
-  ``packageName in Docker``
+  ``Docker / packageName``
     The name of the package for Docker (if different from general name).
     This will only affect the image name.
 
-  ``version in Docker``
+  ``Docker / version``
     The version of the package for Docker (if different from general version).  Often takes the form ``x.y.z``.
 
-  ``maintainer in Docker``
+  ``Docker / maintainer``
     The maintainer of the package, recommended by the Dockerfile format.
 
 Environment Settings
@@ -96,7 +96,7 @@ Environment Settings
   ``dockerBaseImage``
     The image to use as a base for running the application. It should include binaries on the path for ``chown``, ``mkdir``, have a discoverable ``java`` binary, and include the user configured by ``daemonUser`` (``daemon``, by default).
 
-  ``daemonUser in Docker``
+  ``Docker / daemonUser``
     The user to use when executing the application. Files below the install path also have their ownership set to this user.
 
   ``dockerExposedPorts``
@@ -151,19 +151,19 @@ Environment Settings
     The main idea behind this is to COPY dependencies *.jar's first as they should change rarely.
     In separate command COPY the application *.jar's that should change more often.
     Defaults to map the project artifacts and its dependencies to separate layers.
-    To disable layers map all files to no layer using ``dockerGroupLayers in Docker := PartialFunction.empty``.
+    To disable layers map all files to no layer using ``Docker / dockerGroupLayers := PartialFunction.empty``.
 
 Publishing Settings
 ~~~~~~~~~~~~~~~~~~~
 
   ``dockerRepository``
-    The repository to which the image is pushed when the ``docker:publish`` task is run. This should be of the form  ``[repository.host[:repository.port]]`` (assumes use of the ``index.docker.io`` repository) or ``[repository.host[:repository.port]][/username]`` (discouraged, but available for backwards compatibilty.).
+    The repository to which the image is pushed when the ``Docker / publish`` task is run. This should be of the form  ``[repository.host[:repository.port]]`` (assumes use of the ``index.docker.io`` repository) or ``[repository.host[:repository.port]][/username]`` (discouraged, but available for backwards compatibilty.).
 
   ``dockerUsername``
-    The username or organization to which the image is pushed when the ``docker:publish`` task is run. This should be of the form ``[username]`` or ``[organization]``.
+    The username or organization to which the image is pushed when the ``Docker / publish`` task is run. This should be of the form ``[username]`` or ``[organization]``.
 
   ``dockerUpdateLatest``
-    The flag to automatic update the latest tag when the ``docker:publish`` task is run. Default value is ``FALSE``.  In order to use this setting, the minimum docker console version required is 1.10. See https://github.com/sbt/sbt-native-packager/issues/871 for a detailed explanation.
+    The flag to automatic update the latest tag when the ``Docker / publish`` task is run. Default value is ``FALSE``.  In order to use this setting, the minimum docker console version required is 1.10. See https://github.com/sbt/sbt-native-packager/issues/871 for a detailed explanation.
 
   ``dockerAlias``
     The alias to be used for tagging the resulting image of the Docker build.
@@ -208,16 +208,16 @@ Tasks
 -----
 The Docker plugin provides the following commands:
 
-  ``docker:stage``
+  ``Docker / stage``
     Generates a directory with the Dockerfile and environment prepared for creating a Docker image.
 
-  ``docker:publishLocal``
+  ``Docker / publishLocal``
     Builds an image using the local Docker server.
 
-  ``docker:publish``
+  ``Docker / publish``
     Builds an image using the local Docker server, and pushes it to the configured remote repository.
 
-  ``docker:clean``
+  ``Docker / clean``
     Removes the built image from the local Docker server.
 
 
@@ -234,9 +234,9 @@ Docker Image Name and Version
 
 .. code-block:: scala
 
-    packageName in Docker := packageName.value
+    Docker / packageName := packageName.value
 
-    version in Docker := version.value
+    Docker / version := version.value
 
 Docker Base Image
 ~~~~~~~~~~~~~~~~~
@@ -268,11 +268,11 @@ created (if they do not exist) and then chowned.
 Install Location
 ~~~~~~~~~~~~~~~~
 The path to which the application is written can be changed with the location setting.
-The files from ``mappings in Docker`` are extracted underneath this directory.
+The files from ``Docker / mappings`` are extracted underneath this directory.
 
 .. code-block:: scala
 
-  defaultLinuxInstallLocation in Docker := "/opt/docker"
+  Docker / defaultLinuxInstallLocation := "/opt/docker"
 
 Daemon User
 ~~~~~~~~~~~
@@ -283,8 +283,8 @@ The following can be used to emit ``USER daemon`` instead:
 
 .. code-block:: scala
 
-    daemonUserUid in Docker := None
-    daemonUser in Docker    := "daemon"
+    Docker / daemonUserUid := None
+    Docker / daemonUser    := "daemon"
 
 File Permission
 ~~~~~~~~~~~~~~~
@@ -369,14 +369,14 @@ Since ``dockerCommands`` is just a ``Sequence``, adding commands is straightforw
   import com.typesafe.sbt.packager.docker._
 
   // use += to add an item to a Sequence
-  dockerCommands += Cmd("USER", (daemonUser in Docker).value)
+  dockerCommands += Cmd("USER", (Docker / daemonUser).value)
 
   // use ++= to merge a sequence with an existing sequence
   dockerCommands ++= Seq(
     // setting the run script executable
     ExecCmd("RUN",
       "chmod", "u+x",
-       s"${(defaultLinuxInstallLocation in Docker).value}/bin/${executableScriptName.value}"),
+       s"${(Docker / defaultLinuxInstallLocation).value}/bin/${executableScriptName.value}"),
     // setting a daemon user
     Cmd("USER", "daemon")
   )

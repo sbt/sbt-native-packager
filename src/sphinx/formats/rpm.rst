@@ -25,7 +25,7 @@ Build
 
 .. code-block:: bash
 
-  sbt rpm:packageBin
+  sbt Rpm/packageBin
 
 Required Settings
 ~~~~~~~~~~~~~~~~~
@@ -62,7 +62,7 @@ Settings and Tasks inherited from parent plugins can be scoped with ``Rpm``.
 
 .. code-block:: scala
 
-  linuxPackageMappings in Rpm := linuxPackageMappings.value
+  Rpm / linuxPackageMappings := linuxPackageMappings.value
 
 Settings
 --------
@@ -71,14 +71,14 @@ Settings
 Informational Settings
 ~~~~~~~~~~~~~~~~~~~~~~
 
-  ``packageName in Rpm``
+  ``Rpm / packageName``
     The name of the package for the rpm.
     Its value defines the first component of the rpm file name
     (``packageName-version-rpmRelease.packageArchitecture.rpm``), as well as the ``Name:``
     tag in the spec file.
-    Its default value is drawn from ``packageName in Linux``.
+    Its default value is drawn from ``Linux / packageName``.
 
-  ``version in Rpm``
+  ``Rpm / version``
     The version of the package for rpm.
     Takes the form ``x.y.z``, and note that there can be no dashes in this version string.
     It defines the second component of the rpm file name
@@ -96,23 +96,23 @@ Informational Settings
     tag in the spec file.
     Its default value is ``"1"``.
 
-  ``packageArchitecture in Rpm``
+  ``Rpm / packageArchitecture``
     The build architecture for the binary rpm.
     Its value defines the fourth component of the rpm file name
     (``packageName-version-rpmRelease.packageArchitecture.rpm``), as well as the ``BuildArch:``
     tag in the spec file.
     Its default value is ``"noarch"``.
 
-  ``packageSummary in Rpm``
+  ``Rpm / packageSummary``
     A brief, one-line summary of the package.
     Note: the summary **must not** contain line separators or end in a period.
     Its value defines the ``Summary:`` tag in the spec file, and its default
-    value is drawn from ``packageSummary in Linux``.
+    value is drawn from ``Linux / packageSummary``.
 
-  ``packageDescription in Rpm``
+  ``Rpm / packageDescription``
     A longer, multi-line description of the package.
     Its value defines the ``%description`` block in the spec file, and its
-    default value is drawn from ``packageDescription in Linux``.
+    default value is drawn from ``Linux / packageDescription``.
 
   ``rpmVendor``
     The name of the company/user generating the RPM.
@@ -129,7 +129,7 @@ Informational Settings
     used, and in the event of a tie it will fall back to comparing the version and
     release.
 
-  ``artifactPath in (Rpm, packageBin)``
+  ``Rpm / packageBin / artifactPath``
     The location of the generated RPM.
 
 Dependency Settings
@@ -176,7 +176,7 @@ Meta Settings
 Scriptlet Settings
 ~~~~~~~~~~~~~~~~~~
 
-  ``maintainerScripts in Rpm``
+  ``Rpm / maintainerScripts``
     Contains the scriptlets being injected into the specs file. Currently supports all
     previous scriptlets: ``%pretrans``, ``%pre``, ``%verifyscript%``, ``%post``, ``%posttrans``,
     ``%preun`` and  ``%postun``
@@ -197,10 +197,10 @@ Tasks
 
 The Rpm plugin support grants the following commands:
 
-  ``rpm:package-bin``
+  ``Rpm/packageBin``
     Generates the ``.rpm`` package for this project.
 
-  ``rpm:rpm-lint``
+  ``Rpm/rpmLint``
     Generates the ``.rpm`` file and runs the ``rpmlint`` command to look for issues in the package.  Useful for debugging.
 
 
@@ -255,11 +255,11 @@ Scriptlet Changes
 
 Changing scriptlets can be done in two ways:
 
-1. Override the ``maintainerScripts in Rpm``, or
+1. Override the ``Rpm / maintainerScripts``, or
 
 2. Place new scripts in the ``src/rpm/scriptlets``
 
-To **override the ``maintainerScripts in Rpm``** you can override the command string explicitly,
+To **override the ``Rpm / maintainerScripts``** you can override the command string explicitly,
 create a command string using appends and/or replacements,
 or even get a command string from a file source.
 
@@ -269,7 +269,7 @@ For example:
 
    // overriding
    import RpmConstants._
-   maintainerScripts in Rpm := Map(
+   Rpm / maintainerScripts := Map(
      Pre -> Seq("""echo "pre-install""""),
      Post -> Seq("""echo "post-install""""),
      Pretrans -> Seq("""echo "pretrans""""),
@@ -280,14 +280,14 @@ For example:
 
    // appending with strings and replacements
    import RpmConstants._
-   maintainerScripts in Rpm := maintainerScriptsAppend((maintainerScripts in Rpm).value)(
+   Rpm / maintainerScripts := maintainerScriptsAppend((Rpm / maintainerScripts).value)(
       Pretrans -> "echo 'hello, world'",
-      Post -> s"echo 'installing ${(packageName in Rpm).value}'"
+      Post -> s"echo 'installing ${(Rpm / packageName).value}'"
    )
 
    // appending from a different file
    import RpmConstants._
-   maintainerScripts in Rpm := maintainerScriptsAppendFromFile((maintainerScripts in Rpm).value)(
+   Rpm / maintainerScripts := maintainerScriptsAppendFromFile((Rpm / maintainerScripts).value)(
       Pretrans -> (sourceDirectory.value / "rpm" / "pretrans"),
       Post -> (sourceDirectory.value / "rpm" / "posttrans")
    )
@@ -339,9 +339,9 @@ After
     // this gives you easy access to the correct keys
     import RpmConstants._
     // in order to append you have to pass the initial maintainerScripts map
-    maintainerScripts in Rpm := maintainerScriptsAppend((maintainerScripts in Rpm).value)(
+    Rpm / maintainerScripts := maintainerScriptsAppend((Rpm / maintainerScripts).value)(
        Pretrans -> "echo 'hello, world'",
-       Post -> s"echo 'installing ${(packageName in Rpm).value}'"
+       Post -> s"echo 'installing ${(Rpm / packageName).value}'"
     )
 
 
@@ -379,6 +379,6 @@ can be used to modify all config file mappings:
 
 .. code-block:: scala
 
-    linuxPackageMappings in Rpm := configWithNoReplace((linuxPackageMappings in Rpm).value)
+    Rpm / linuxPackageMappings := configWithNoReplace((Rpm / linuxPackageMappings).value)
 
 This will mark all config files as ``noreplace`` and prevent them from being changed during updates. Please note that the ``linuxPackageMappings`` are scoped to the ``Rpm`` plugin. This is necessary in order to catch all config files relevant to the rpm package and mark them correctly.
