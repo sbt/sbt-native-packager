@@ -11,6 +11,7 @@ import com.typesafe.sbt.packager.Compat._
 import com.typesafe.sbt.packager.archetypes.jlink._
 import com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptKeys
 import com.typesafe.sbt.packager.universal.UniversalPlugin
+import java.io.File
 
 /**
   * == Jlink Application ==
@@ -73,7 +74,7 @@ object JlinkPlugin extends AutoPlugin {
 
       val modulePathOpts =
         if (modulePath.nonEmpty)
-          Vector("--module-path", modulePath.mkString(":"))
+          Vector("--module-path", modulePath.mkString(File.pathSeparator))
         else Vector.empty
 
       // Jdeps has a few convenient options (like --print-module-deps), but those
@@ -239,7 +240,7 @@ object JlinkPlugin extends AutoPlugin {
     def apply(addModules: Seq[String], output: Option[File], modulePath: Seq[File]): Seq[String] =
       option("--output", output) ++
         list("--add-modules", addModules, ",") ++
-        list("--module-path", modulePath, ":")
+        list("--module-path", modulePath, File.pathSeparator)
 
     private def option[A](arg: String, value: Option[A]): Seq[String] =
       value.toSeq.flatMap(a => Seq(arg, a.toString))
