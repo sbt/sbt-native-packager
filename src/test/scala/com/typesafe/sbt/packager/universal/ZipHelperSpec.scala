@@ -31,7 +31,6 @@ class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with 
       zipSingleFile(ZipHelper.zip)
     }
 
-    // ignores empty directories
     "create a zip with nested directories" taggedAs (LinuxTag, WindowsTag) in {
       zipNestedFile(ZipHelper.zip)
     }
