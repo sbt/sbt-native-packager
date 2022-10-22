@@ -109,17 +109,19 @@ object ZipHelper {
       val outputDir = outputFile.getParentFile
       IO createDirectory outputDir
       withZipOutput(outputFile) { output =>
-        for (FileMapping(file, name, mode) <- sources; if !file.isDirectory) {
+        for (FileMapping(file, name, mode) <- sources) {
           val entry = new ZipArchiveEntry(file, normalizePath(name))
           // Now check to see if we have permissions for this sucker.
           mode foreach (entry.setUnixMode)
           output putArchiveEntry entry
-          val fis = new java.io.FileInputStream(file)
-          try try
-          // TODO - Write file into output?
-          IOUtils.copy(fis, output)
-          finally output.closeArchiveEntry()
-          finally fis.close()
+
+          try if (file.isFile) {
+            val fis = new java.io.FileInputStream(file)
+            try
+            // TODO - Write file into output?
+            IOUtils.copy(fis, output)
+            finally fis.close()
+          } finally output.closeArchiveEntry()
         }
       }
     }
