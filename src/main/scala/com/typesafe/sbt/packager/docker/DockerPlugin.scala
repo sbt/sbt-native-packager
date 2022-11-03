@@ -83,6 +83,7 @@ object DockerPlugin extends AutoPlugin {
     dockerExposedPorts := Seq(),
     dockerExposedUdpPorts := Seq(),
     dockerExposedVolumes := Seq(),
+    dockerBuildxPlatforms := Seq(),
     dockerLabels := Map(),
     dockerEnvVars := Map(),
     dockerRepository := None,
@@ -273,11 +274,21 @@ object DockerPlugin extends AutoPlugin {
     def publishTask =
       Def.task {
         val _ = publishLocal.value
-        val alias = dockerAliases.value
         val log = streams.value.log
-        val execCommand = dockerExecCommand.value
+        val alias = dockerAliases.value
+        val context = stage.value
+        val multiplatform = dockerBuildxPlatforms.value.nonEmpty
+        val execCommand =
+          if (multiplatform)
+            dockerExecCommand.value ++ Seq(
+              "buildx",
+              "build",
+              s"--platform=${dockerBuildxPlatforms.value.mkString(",")}",
+              "--push"
+            ) ++ dockerBuildOptions.value :+ "."
+          else dockerBuildCommand.value
         alias.foreach { aliasValue =>
-          publishDocker(execCommand, aliasValue.toString, log)
+          publishDocker(context, execCommand, aliasValue.toString, log, multiplatform)
         }
       } tag (Tags.Network, Tags.Publish)
 
@@ -377,7 +388,7 @@ object DockerPlugin extends AutoPlugin {
   }
 
   /**
-    * @param dockerBaseDirectory, the installation directory
+    * @param dockerBaseDirectory , the installation directory
     */
   private final def makeWorkdir(dockerBaseDirectory: String): CmdLike =
     Cmd("WORKDIR", dockerBaseDirectory)
@@ -705,7 +716,7 @@ object DockerPlugin extends AutoPlugin {
       log.info(s"Removed image ${tag}")
   }
 
-  def publishDocker(execCommand: Seq[String], tag: String, log: Logger): Unit = {
+  def publishDocker(context: File, execCommand: Seq[String], tag: String, log: Logger, multiplatform: Boolean): Unit = {
     val loginRequired = new AtomicBoolean(false)
 
     def publishLogger(log: Logger) =
@@ -728,11 +739,11 @@ object DockerPlugin extends AutoPlugin {
         override def buffer[T](f: => T): T = f
       }
 
-    val cmd = execCommand ++ Seq("push", tag)
+    val cmd = if (multiplatform) execCommand else execCommand ++ Seq("push", tag)
 
     log.debug("Executing " + cmd.mkString(" "))
 
-    val ret = sys.process.Process(cmd) ! publishLogger(log)
+    val ret = sys.process.Process(cmd, context) ! publishLogger(log)
 
     if (loginRequired.get)
       sys.error("""No credentials for repository, please run "docker login"""")
