@@ -286,7 +286,7 @@ object DockerPlugin extends AutoPlugin {
               s"--platform=${dockerBuildxPlatforms.value.mkString(",")}",
               "--push"
             ) ++ dockerBuildOptions.value :+ "."
-          else dockerBuildCommand.value
+          else dockerExecCommand.value
         alias.foreach { aliasValue =>
           publishDocker(context, execCommand, aliasValue.toString, log, multiplatform)
         }
