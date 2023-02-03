@@ -217,6 +217,7 @@ You can use ``${{variable_name}}`` to reference variables when writing your scri
 * ``daemon_group`` - The group of the user that the service should run as; defined by ``Linux / daemonGroup``.
 * ``daemon_group_gid`` - The group ID of the group of the user that the service should run as; defined by ``Linux / daemonGroupGid``.
 * ``daemon_shell`` - The shell of the user that the service should run as; defined by ``Linux / daemonShell``.
+* ``daemon_home`` - The home directory of the user that the service should run as; defined by ``Linux / daemonHome``.
 * ``term_timeout`` - The timeout for the service to respond to a TERM signal; defined by ``Linux / termTimeout``, defaults to ``60``.
 * ``kill_timeout`` - The timeout for the service to respond to a KILL signal; defined by ``Linux / killTimeout``, defaults to ``30``.
 * ``start_facilities`` - Intended for the ``Required-Start:`` line in the ``INIT INFO`` block. Its value is automatically generated with respect to the chosen system loader.

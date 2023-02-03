@@ -8,6 +8,7 @@
 # $3 = group
 # $4 = description
 # $5 = shell (defaults to /bin/false)
+# $6 = home directory (defaults to /var/lib/$user)
 addUser() {
     user="$1"
     if [ -z "$user" ]; then
@@ -23,10 +24,11 @@ addUser() {
     group=${3:-$user}
     descr=${4:-No description}
     shell=${5:-/bin/false}
+    homedir=${6:-/var/lib/$user}
     if ! getent passwd | grep -q "^$user:";
     then
         echo "Creating system user: $user in $group with $descr and shell $shell"
-        useradd $uid_flags --gid $group -r --shell $shell -c "$descr" $user
+        useradd $uid_flags --gid $group -r --shell $shell -c "$descr" -d "$homedir" -m $user
     fi
 }
 

@@ -19,7 +19,7 @@ TaskKey[Unit]("checkControlFiles") := {
   val postrm = IO.read(debian / "postrm")
   assert(postinst contains """addGroup daemongroup """"", "postinst misses addgroup for daemongroup: " + postinst)
   assert(
-    postinst contains """addUser daemonuser "" daemongroup "debian-test daemon-user" "/bin/false"""",
+    postinst contains """addUser daemonuser "" daemongroup "debian-test daemon-user" "/bin/false" "/var/lib/daemonuser""",
     "postinst misses useradd for daemonuser: " + postinst
   )
   assert(
