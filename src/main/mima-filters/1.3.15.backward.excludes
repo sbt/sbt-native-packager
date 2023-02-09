@@ -74,3 +74,4 @@ ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.do
 ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.docker.ExecCmd.apply")
 ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.docker.CombinedCmd.apply")
 ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.docker.Cmd.apply")
+ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.docker.DockerPlugin.publishDocker")

@@ -74,4 +74,6 @@ private[packager] trait DockerKeysEx extends DockerKeys {
       "Setting to true will cause Docker to bundle a tini in the container, to run as the init process, which is recommended for JVM apps. " +
       "Requires Docker API version 1.25+"
   )
+  val dockerBuildxPlatforms =
+    SettingKey[Seq[String]]("dockerBuildxPlatforms", "The docker image platforms for buildx multi-platform build")
 }
