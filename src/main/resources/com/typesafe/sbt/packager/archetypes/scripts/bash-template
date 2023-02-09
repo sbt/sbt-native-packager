@@ -246,6 +246,16 @@ run() {
     mainclass=("${app_mainclass[@]}")
   fi
 
+  # Fallback to custom mainclass if main class is not provided (this is the case if the JAR contains multiple apps)
+  if [ "$app_mainclass" = "" ] || [ $custom_mainclass ];then
+    if [ "$custom_mainclass" = "" ]; then
+      echo "You need to pass -main argument."
+      exit 1
+    fi
+
+    app_mainclass=$custom_mainclass
+  fi
+
   # Now we check to see if there are any java opts on the environment. These get listed first, with the script able to override them.
   if [[ "$JAVA_OPTS" != "" ]]; then
     java_opts="${JAVA_OPTS}"
