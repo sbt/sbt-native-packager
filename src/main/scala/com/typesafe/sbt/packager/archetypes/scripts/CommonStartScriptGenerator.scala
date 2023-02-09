@@ -89,11 +89,20 @@ trait CommonStartScriptGenerator {
   ): Seq[(File, String)] = {
     val classAndScriptNames = ScriptUtils.createScriptNames(discoveredMainClasses)
     ScriptUtils.warnOnScriptNameCollision(classAndScriptNames, log)
-    classAndScriptNames.map {
-      case (qualifiedClassName, scriptName) =>
-        val newConfig = config.withScriptName(scriptName)
-        createMainScript(qualifiedClassName, newConfig, targetDir, discoveredMainClasses)
-    }
+
+    classAndScriptNames
+      .find {
+        case (_, script) => script == config.executableScriptName
+      }
+      .map(_ => classAndScriptNames)
+      .getOrElse(
+        classAndScriptNames ++ Seq("" -> config.executableScriptName)
+      ) // empty string to enforce the custom class in scripts
+      .map {
+        case (qualifiedClassName, scriptName) =>
+          val newConfig = config.withScriptName(scriptName)
+          createMainScript(qualifiedClassName, newConfig, targetDir, discoveredMainClasses)
+      }
   }
 
   private[this] def mainScriptName(config: ScriptConfig): String =

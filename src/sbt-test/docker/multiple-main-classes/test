@@ -1,0 +1,3 @@
+# Stage the distribution and ensure files show up.
+> docker:stage
+$ exec grep -q -F 'RUN ["chmod", "u+x,g+x", "/4/opt/docker/bin/multi-main-name"]' target/docker/stage/Dockerfile
