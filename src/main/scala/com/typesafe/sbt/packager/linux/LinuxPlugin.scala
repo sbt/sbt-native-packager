@@ -68,6 +68,7 @@ object LinuxPlugin extends AutoPlugin {
       daemonGroup in Linux := daemonGroup.value,
       daemonGroupGid in Linux := None,
       daemonShell in Linux := "/bin/false",
+      daemonHome in Linux := s"/var/lib/${(daemonUser in Linux).value}",
       defaultLinuxInstallLocation := "/usr/share",
       defaultLinuxLogsLocation := "/var/log",
       defaultLinuxConfigLocation := "/etc",
@@ -93,6 +94,7 @@ object LinuxPlugin extends AutoPlugin {
         daemonGroup = (daemonGroup in Linux).value,
         daemonGroupGid = (daemonGroupGid in Linux).value,
         daemonShell = (daemonShell in Linux).value,
+        daemonHome = (daemonHome in Linux).value,
         fileDescriptorLimit = (fileDescriptorLimit in Linux).value
       ),
       linuxScriptReplacements += controlScriptFunctionsReplacement( /* Add key for control-functions */ ),
@@ -162,6 +164,7 @@ object LinuxPlugin extends AutoPlugin {
     daemonGroup: String,
     daemonGroupGid: Option[String],
     daemonShell: String,
+    daemonHome: String,
     fileDescriptorLimit: Option[String]
   ): Seq[(String, String)] =
     Seq(
@@ -177,6 +180,7 @@ object LinuxPlugin extends AutoPlugin {
       "daemon_group" -> daemonGroup,
       "daemon_group_gid" -> daemonGroupGid.getOrElse(""),
       "daemon_shell" -> daemonShell,
+      "daemon_home" -> daemonHome,
       "file_descriptor_limit" -> fileDescriptorLimit.getOrElse("")
     )
 

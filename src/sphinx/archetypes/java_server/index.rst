@@ -54,6 +54,9 @@ have sensible defaults.
   ``daemonShell``
     Shell provided for the daemon user
 
+  ``daemonHome``
+    Home directory provided for the daemon user
+
   ``daemonStdoutLogFile``
     Filename stdout/stderr of application daemon. Now it's supported only in SystemV
 
