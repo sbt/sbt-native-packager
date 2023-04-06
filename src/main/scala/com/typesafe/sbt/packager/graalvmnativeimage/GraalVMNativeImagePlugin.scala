@@ -73,7 +73,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
             className,
             classpathJars.map(_._1),
             extraOptions,
-            streams.log
+            UnbufferedProcessLogger(streams.log)
           )
 
         case Some(image) =>
@@ -152,7 +152,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
       s"-H:Name=$binaryName"
     ) ++ extraOptions ++ Seq(className)
 
-    sys.process.Process(command) ! streams.log match {
+    sys.process.Process(command) ! UnbufferedProcessLogger(streams.log) match {
       case 0 => targetDirectory / binaryName
       case x => sys.error(s"Failed to run $command, exit status: " + x)
     }
@@ -217,4 +217,12 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     }
     Stager.stage(GraalVMBaseImage)(streams, stageDir, mappings)
   }
+}
+
+private case class UnbufferedProcessLogger(logger: Logger) extends ProcessLogger {
+  override def out(s: => String): Unit = logger.out(s)
+
+  override def err(s: => String): Unit = logger.err(s)
+
+  override def buffer[T](f: => T): T = f
 }
