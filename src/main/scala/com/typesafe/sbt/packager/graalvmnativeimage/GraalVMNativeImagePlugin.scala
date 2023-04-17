@@ -139,16 +139,20 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
     stage(targetDirectory, classpathJars, resources, streams)
 
+    val graalDestDir = "/opt/graalvm"
+    val stageDestDir = s"$graalDestDir/stage"
+    val resourcesDestDir = s"$stageDestDir/resources"
+
     val command = dockerCommand ++ Seq(
       "run",
       "--workdir",
       "/opt/graalvm",
       "--rm",
       "-v",
-      s"${targetDirectory.getAbsolutePath}:/opt/graalvm",
+      s"${targetDirectory.getAbsolutePath}:$graalDestDir",
       image,
       "-cp",
-      classpathJars.map(jar => "/opt/graalvm/stage/" + jar._2).mkString(":"),
+      (resourcesDestDir +: classpathJars.map(jar => s"$stageDestDir/" + jar._2)).mkString(":"),
       s"-H:Name=$binaryName"
     ) ++ extraOptions ++ Seq(className)
 
