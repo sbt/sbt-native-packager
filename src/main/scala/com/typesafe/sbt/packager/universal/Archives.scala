@@ -186,6 +186,7 @@ object Archives {
     * NOTE: This will 'consume' the input file.
     */
   def gzip(f: File): File = {
+    sourceDateEpoch(f)
     val par = f.getParentFile
     sys.process.Process(Seq("gzip", "-9", f.getAbsolutePath), Some(par)).! match {
       case 0 => ()
@@ -199,6 +200,7 @@ object Archives {
     * NOTE: This will 'consume' the input file.
     */
   def xz(f: File): File = {
+    sourceDateEpoch(f)
     val par = f.getParentFile
     sys.process.Process(Seq("xz", "-S", ".xz", f.getAbsolutePath), Some(par)).! match {
       case 0 => ()
@@ -268,6 +270,8 @@ object Archives {
       val distdirs = topDirectory.map(_ :: Nil).getOrElse {
         IO.listFiles(workingDirectory).map(_.getName).toList // no top level dir, use all available
       }
+
+      sourceDateEpoch(workingDirectory)
 
       val temporaryTarFile = tempDirectory / (name + ".tar")
 

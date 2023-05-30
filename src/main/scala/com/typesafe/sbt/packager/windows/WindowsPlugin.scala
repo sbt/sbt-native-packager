@@ -8,6 +8,8 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.Compat._
 import com.typesafe.sbt.packager.SettingsHelper
 
+import com.typesafe.sbt.packager.sourceDateEpoch
+
 /**
   * == Windows Plugin ==
   *
@@ -55,8 +57,8 @@ object WindowsPlugin extends AutoPlugin {
       // Defaults so that our simplified building works
       candleOptions := Seq("-ext", "WixUtilExtension"),
       lightOptions := Seq("-ext", "WixUIExtension", "-ext", "WixUtilExtension", "-cultures:en-us"),
-      wixProductId := WixHelper.makeGUID,
-      wixProductUpgradeId := WixHelper.makeGUID,
+      wixProductId := WixHelper.makeGUID((packageName in Windows).value + "_wixProductId"),
+      wixProductUpgradeId := WixHelper.makeGUID((packageName in Windows).value + "_wixProductUpgradeId"),
       wixMajorVersion := 3,
       maintainer in Windows := maintainer.value,
       packageSummary in Windows := packageSummary.value,
@@ -120,11 +122,15 @@ object WindowsPlugin extends AutoPlugin {
         wsx.getParentFile / (wsx.base + ".wixobj")
       }
 
+      sourceDateEpoch(target.value)
+
       streams.value.log.debug(candleCmd mkString " ")
       sys.process.Process(candleCmd, Some(target.value)) ! streams.value.log match {
         case 0        => ()
         case exitCode => sys.error(s"Unable to run WIX compilation to wixobj. Exited with ${exitCode}")
       }
+
+      sourceDateEpoch(target.value)
 
       // Now create MSI
       val lightCmd = List(findWixExecutable("light"), "-out", msi.getAbsolutePath) ++ wixobjFiles
