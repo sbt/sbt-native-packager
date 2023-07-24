@@ -55,6 +55,20 @@ object WixHelper {
   /** Generates a windows friendly GUID for use in random locations in the build. */
   def makeGUID: String = java.util.UUID.randomUUID.toString
 
+  /**
+    * If the SOURCE_DATE_EPOCH environment variable is defined, create a reproducible
+    * name-based UUID using a provided name and the epoch. This assumes that all name passed
+    * to this function are unique. If the environment variable is not provided, his returns a
+    * random UUID
+    */
+  def makeGUID(name: String): String =
+    sys.env
+      .get("SOURCE_DATE_EPOCH")
+      .map { epoch =>
+        java.util.UUID.nameUUIDFromBytes((name + "_" + epoch).getBytes("UTF-8")).toString
+      }
+      .getOrElse(makeGUID)
+
   // TODO - Fragment out this function a bit so it's not so ugly/random.
   def makeWixProductConfig(
     name: String,
@@ -108,10 +122,9 @@ object WixHelper {
             if (dir.isEmpty) "%" + homeEnvVar + "%"
             else "[INSTALLDIR]" + dir.replaceAll("\\/", "\\\\")
           val id = cleanStringWithPostfix(dir, 64, "PathC")
-          val guid = makeGUID
           val xml =
             <DirectoryRef Id={dirRef}>
-            <Component Id={id} Guid={guid}>
+            <Component Id={id} Guid={makeGUID(id)}>
               <CreateFolder/>
               <Environment Id={homeEnvVar} Name={homeEnvVar} Value="[INSTALLDIR]" Permanent="no" Action="set" System="yes"/>
               <Environment Id="PATH" Name="PATH" Value={pathAddition} Permanent="no" Part="last" Action="set" System="yes"/>
@@ -126,7 +139,7 @@ object WixHelper {
           val id = cleanStringWithPostfix(uname, 66, "") // Room for "fl_"
           val xml =
             <DirectoryRef Id={dirRef}>
-            <Component Id={id} Guid={makeGUID}>
+            <Component Id={id} Guid={makeGUID(id)}>
               <File Id={"fl_" + id} Name={cleanFileName(fname)} DiskId='1' Source={cleanFileName(uname)}>
                 {
               if (editable)
@@ -148,10 +161,14 @@ object WixHelper {
         case AddShortCuts(targets, workingDir) =>
           val targetSize = targets.size.toString.size
           val id =
-            cleanStringWithPostfix("shortcut_" + makeGUID, 67 - targetSize, "") // Room for "_SC"+incremental number
+            cleanStringWithPostfix(
+              "shortcut_" + makeGUID(targets.mkString),
+              67 - targetSize,
+              ""
+            ) // Room for "_SC"+incremental number
           val xml =
             <DirectoryRef Id="ApplicationProgramsFolder">
-            <Component Id={id} Guid={makeGUID}>
+            <Component Id={id} Guid={makeGUID(id)}>
               {
               for ((target, i) <- targets.zipWithIndex) yield {
                 val name = simpleName(target)
@@ -183,7 +200,7 @@ object WixHelper {
       <Directory Id='TARGETDIR' Name='SourceDir'>
         <Directory Id="ProgramMenuFolder">
           <Directory Id="ApplicationProgramsFolder" Name={name}>
-            <Component Id={removeId} Guid={makeGUID}>
+            <Component Id={removeId} Guid={makeGUID(removeId)}>
               <RemoveFolder Id="ApplicationProgramsFolderRemove" On="uninstall"/>
               <RegistryValue Root="HKCU" Key={"Software\\" + product.maintainer + "\\" + name} Name="installed" Type="integer" Value="1" KeyPath="yes"/>
             </Component>

@@ -40,8 +40,11 @@ object ZipHelper {
         (src, target) <- files
         if src.canExecute
       } target.setExecutable(true, true)
+
+      sourceDateEpoch(zipDir)
+
       val dirFileNames = Option(zipDir.listFiles) getOrElse Array.empty[java.io.File] map (_.getName)
-      sys.process.Process(Seq("zip", "-r", name) ++ dirFileNames, zipDir).! match {
+      sys.process.Process(Seq("zip", "-o", "-r", name) ++ dirFileNames, zipDir).! match {
         case 0 => ()
         case n => sys.error("Failed to run native zip application!")
       }
@@ -111,6 +114,9 @@ object ZipHelper {
       withZipOutput(outputFile) { output =>
         for (FileMapping(file, name, mode) <- sources) {
           val entry = new ZipArchiveEntry(file, normalizePath(name))
+          sys.env.get("SOURCE_DATE_EPOCH") foreach { epoch =>
+            entry.setTime(epoch.toLong * 1000)
+          }
           // Now check to see if we have permissions for this sucker.
           mode foreach (entry.setUnixMode)
           output putArchiveEntry entry
