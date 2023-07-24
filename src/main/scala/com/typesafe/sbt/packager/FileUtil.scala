@@ -1,5 +1,6 @@
 package com.typesafe.sbt
 package packager
+import sbt._
 
 import java.io.File
 import java.nio.file.Files
@@ -80,4 +81,24 @@ object permissions {
     def oct(args: Any*) = Integer.parseInt(sc.s(args: _*), 8)
   }
 
+}
+
+object sourceDateEpoch {
+
+  /**
+    * If the SOURCE_DATE_EPOCH environment variable is defined, change the mtime of the file (and
+    * all children recursively) to the epoch value. This is useful when trying to create
+    * reproducible builds since some packaging tools (e.g. tar, gzip) embed last modified times
+    * in the package. If the environment variable is not defined, this does nothing.
+    */
+  def apply(file: File): Unit =
+    sys.env.get("SOURCE_DATE_EPOCH").foreach { epoch =>
+      val millis = epoch.toLong
+      val par = file.getParentFile
+      val allPaths = file.allPaths.get().map(_.getAbsolutePath)
+      sys.process.Process(Seq("touch", "-h", "-m", s"--date=@$epoch") ++ allPaths, Some(par)).! match {
+        case 0 => ()
+        case n => sys.error("Error setting SOURCE_DATE_EPOCH on " + file + ". Exit code: " + n)
+      }
+    }
 }
