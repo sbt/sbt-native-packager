@@ -76,6 +76,18 @@ customized using the following settings.
 
       graalVMNativeImageGraalVersion := Some("19.1.1")
 
+  ``graalVMNativeImagePlatformArch``
+    Setting this enables building the native image on a different platform architecture. Requires ``graalVMNativeImageGraalVersion``
+    to be set. Multiplatform builds is not supported. Defaults to the platform of the host.
+    If ``containerBuildImage`` is specified, ensure that your specified image has the same platform that you are targeting.
+
+    For example:
+
+    .. code-block:: scala
+
+      graalVMNativeImagePlatformArch := Some("arm64")
+      graalVMNativeImagePlatformArch := Some("amd64")
+
   ``containerBuildImage``
 
     Explicitly set a build image to use. The image must execute the Graal ``native-image`` command as its entry point.
