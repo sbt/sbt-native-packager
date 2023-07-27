@@ -254,7 +254,7 @@ jobs:
     - name: Setup GraalVM environment
       uses: graalvm/setup-graalvm@v1
       with:
-        java-version: 17
+        java-version: 17.0.8
         distribution: 'graalvm'
         cache: 'sbt'
     - name: Validate

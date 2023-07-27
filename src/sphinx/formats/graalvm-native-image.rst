@@ -74,7 +74,9 @@ customized using the following settings.
 
     .. code-block:: scala
 
-      graalVMNativeImageGraalVersion := Some("19.1.1")
+      graalVMNativeImageGraalVersion := Some("19.1.1") // Legacy GraalVM versions supported up to 22.3.3
+      graalVMNativeImageGraalVersion := Some("graalvm-ce:19.1.1") // Legacy GraalVM versions supported up to 22.3.3
+      graalVMNativeImageGraalVersion := Some("graalvm-community:17.0.8") // New GraalVM version scheme
 
   ``graalVMNativeImagePlatformArch``
     Setting this enables building the native image on a different platform architecture. Requires ``graalVMNativeImageGraalVersion``

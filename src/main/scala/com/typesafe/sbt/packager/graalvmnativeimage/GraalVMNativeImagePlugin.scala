@@ -27,7 +27,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
   import autoImport._
 
-  private val GraalVMBaseImage = "ghcr.io/graalvm/graalvm-ce"
+  private val GraalVMBaseImagePath = "ghcr.io/graalvm/"
 
   override def requires: Plugins = JavaAppPackaging
 
@@ -48,9 +48,20 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     includeFilter := "*",
     resources := resourceDirectories.value.descendantsExcept(includeFilter.value, excludeFilter.value).get,
     UniversalPlugin.autoImport.containerBuildImage := Def.taskDyn {
+      val splitPackageVersion = "(.*):(.*)".r
       graalVMNativeImageGraalVersion.value match {
-        case Some(tag) => generateContainerBuildImage(s"$GraalVMBaseImage:$tag", graalVMNativeImagePlatformArch.value)
-        case None      => Def.task(None: Option[String])
+        case Some(splitPackageVersion(packageName, tag)) =>
+          packageName match {
+            case "graalvm-community" => Def.task(Some(s"$GraalVMBaseImagePath$packageName:$tag"): Option[String])
+            case _ =>
+              generateContainerBuildImage(
+                s"${GraalVMBaseImagePath}graalvm-ce:$tag",
+                graalVMNativeImagePlatformArch.value
+              )
+          }
+        case Some(tag) =>
+          generateContainerBuildImage(s"${GraalVMBaseImagePath}graalvm-ce:$tag", graalVMNativeImagePlatformArch.value)
+        case None => Def.task(None: Option[String])
       }
     }.value,
     packageBin := {
@@ -140,21 +151,26 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     image: String,
     streams: TaskStreams
   ): File = {
-
+    import sys.process._
     stage(targetDirectory, classpathJars, resources, streams)
 
     val graalDestDir = "/opt/graalvm"
     val stageDestDir = s"$graalDestDir/stage"
     val resourcesDestDir = s"$stageDestDir/resources"
-    val platformFlag = platformArch.map(arch => Seq("--platform", arch)).getOrElse(Seq.empty)
+    val hostPlatform =
+      (dockerCommand ++ Seq("system", "info", "--format", "{{.OSType}}/{{.Architecture}}")).!!.trim
 
-    val command = dockerCommand ++ Seq("run") ++ platformFlag ++ Seq(
+    val command = dockerCommand ++ Seq(
+      "run",
       "--workdir",
       "/opt/graalvm",
       "--rm",
+      "--platform",
+      platformArch.getOrElse(hostPlatform),
       "-v",
       s"${targetDirectory.getAbsolutePath}:$graalDestDir",
       image,
+      "native-image",
       "-cp",
       (resourcesDestDir +: classpathJars.map(jar => s"$stageDestDir/" + jar._2)).mkString(":"),
       s"-H:Name=$binaryName"
@@ -180,9 +196,13 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     platformArch: Option[String] = None
   ): Def.Initialize[Task[Option[String]]] =
     Def.task {
+      import sys.process._
+
       val dockerCommand = (DockerPlugin.autoImport.dockerExecCommand in GraalVMNativeImage).value
       val streams = Keys.streams.value
-      val platformValue = platformArch.getOrElse("local")
+      val hostPlatform =
+        (dockerCommand ++ Seq("system", "info", "--format", "{{.OSType}}/{{.Architecture}}")).!!.trim
+      val platformValue = platformArch.getOrElse(hostPlatform)
 
       val (baseName, tag) = baseImage.split(":", 2) match {
         case Array(n, t) => (n, t)
@@ -208,7 +228,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
           Cmd("WORKDIR", "/opt/graalvm"),
           ExecCmd("RUN", "gu", "install", "native-image"),
           ExecCmd("RUN", "sh", "-c", "ln -s /opt/graalvm-ce-*/bin/native-image /usr/local/bin/native-image"),
-          ExecCmd("ENTRYPOINT", "native-image")
+          ExecCmd("CMD", "native-image")
         ).makeContent
 
         val command = dockerCommand ++ Seq(
@@ -246,7 +266,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     val mappings = classpathJars ++ resources.map {
       case (resource, path) => resource -> s"resources/$path"
     }
-    Stager.stage(GraalVMBaseImage)(streams, stageDir, mappings)
+    Stager.stage(GraalVMBaseImagePath)(streams, stageDir, mappings)
   }
 }
 
