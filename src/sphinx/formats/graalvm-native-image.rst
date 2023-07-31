@@ -76,11 +76,13 @@ customized using the following settings.
 
       graalVMNativeImageGraalVersion := Some("19.1.1") // Legacy GraalVM versions supported up to 22.3.3
       graalVMNativeImageGraalVersion := Some("graalvm-ce:19.1.1") // Legacy GraalVM versions supported up to 22.3.3
+      graalVMNativeImageGraalVersion := Some("native-image:19.1.1") // Uses the legacy native-image image from GraalVM directly
       graalVMNativeImageGraalVersion := Some("graalvm-community:17.0.8") // New GraalVM version scheme
+      graalVMNativeImageGraalVersion := Some("native-image-community:17.0.8") // Uses the native-image image from GraalVM directly
 
   ``graalVMNativeImagePlatformArch``
     Setting this enables building the native image on a different platform architecture. Requires ``graalVMNativeImageGraalVersion``
-    to be set. Multiplatform builds is not supported. Defaults to the platform of the host.
+    or ``containerBuildImage`` to be set. Multiplatform builds is not supported. Defaults to the platform of the host.
     If ``containerBuildImage`` is specified, ensure that your specified image has the same platform that you are targeting.
 
     For example:
