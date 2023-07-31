@@ -52,12 +52,14 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
       graalVMNativeImageGraalVersion.value match {
         case Some(splitPackageVersion(packageName, tag)) =>
           packageName match {
-            case "graalvm-community" => Def.task(Some(s"$GraalVMBaseImagePath$packageName:$tag"): Option[String])
-            case _ =>
+            case "native-image-community" | "native-image" =>
+              Def.task(Some(s"$GraalVMBaseImagePath$packageName:$tag"): Option[String])
+            case "graalvm-community" | "graalvm-ce" =>
               generateContainerBuildImage(
-                s"${GraalVMBaseImagePath}graalvm-ce:$tag",
+                s"${GraalVMBaseImagePath}$packageName:$tag",
                 graalVMNativeImagePlatformArch.value
               )
+            case _ => sys.error("Other ghcr.io/graalvm images are unsupported")
           }
         case Some(tag) =>
           generateContainerBuildImage(s"${GraalVMBaseImagePath}graalvm-ce:$tag", graalVMNativeImagePlatformArch.value)
@@ -170,7 +172,6 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
       "-v",
       s"${targetDirectory.getAbsolutePath}:$graalDestDir",
       image,
-      "native-image",
       "-cp",
       (resourcesDestDir +: classpathJars.map(jar => s"$stageDestDir/" + jar._2)).mkString(":"),
       s"-H:Name=$binaryName"
@@ -228,7 +229,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
           Cmd("WORKDIR", "/opt/graalvm"),
           ExecCmd("RUN", "gu", "install", "native-image"),
           ExecCmd("RUN", "sh", "-c", "ln -s /opt/graalvm-ce-*/bin/native-image /usr/local/bin/native-image"),
-          ExecCmd("CMD", "native-image")
+          ExecCmd("ENTRYPOINT", "native-image")
         ).makeContent
 
         val command = dockerCommand ++ Seq(
