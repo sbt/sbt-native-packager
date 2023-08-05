@@ -238,6 +238,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
           "build",
           "--platform",
           platformValue,
+          "--load",
           "--label",
           s"com.typesafe.sbt.packager.graalvmnativeimage.platform=$platformValue",
           "-t",
