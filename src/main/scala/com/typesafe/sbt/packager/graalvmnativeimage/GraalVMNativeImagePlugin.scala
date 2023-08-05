@@ -110,15 +110,13 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     }
   )
 
-  private def buildLocal(
-    targetDirectory: File,
-    binaryName: String,
-    nativeImageCommand: String,
-    className: String,
-    classpathJars: Seq[File],
-    extraOptions: Seq[String],
-    log: ProcessLogger
-  ): File = {
+  private def buildLocal(targetDirectory: File,
+                         binaryName: String,
+                         nativeImageCommand: String,
+                         className: String,
+                         classpathJars: Seq[File],
+                         extraOptions: Seq[String],
+                         log: ProcessLogger): File = {
     targetDirectory.mkdirs()
     val command = {
       val nativeImageArguments = {
@@ -128,8 +126,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
             IO.withTemporaryFile("native-image-classpath", ".txt", keepFile = true) { file =>
               IO.write(file, s"--class-path $classpath")
               Seq(s"@${file.absolutePath}")
-            }
-          else Seq("--class-path", classpath)
+            } else Seq("--class-path", classpath)
         cpArgs ++ Seq(s"-H:Name=$binaryName") ++ extraOptions ++ Seq(className)
       }
       Seq(nativeImageCommand) ++ nativeImageArguments
@@ -141,18 +138,16 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     }
   }
 
-  private def buildInDockerContainer(
-    targetDirectory: File,
-    binaryName: String,
-    className: String,
-    classpathJars: Seq[(File, String)],
-    extraOptions: Seq[String],
-    platformArch: Option[String],
-    dockerCommand: Seq[String],
-    resources: Seq[(File, String)],
-    image: String,
-    streams: TaskStreams
-  ): File = {
+  private def buildInDockerContainer(targetDirectory: File,
+                                     binaryName: String,
+                                     className: String,
+                                     classpathJars: Seq[(File, String)],
+                                     extraOptions: Seq[String],
+                                     platformArch: Option[String],
+                                     dockerCommand: Seq[String],
+                                     resources: Seq[(File, String)],
+                                     image: String,
+                                     streams: TaskStreams): File = {
     import sys.process._
     stage(targetDirectory, classpathJars, resources, streams)
 
@@ -161,6 +156,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     val resourcesDestDir = s"$stageDestDir/resources"
     val hostPlatform =
       (dockerCommand ++ Seq("system", "info", "--format", "{{.OSType}}/{{.Architecture}}")).!!.trim
+        .replace("x86_64", "amd64")
 
     val command = dockerCommand ++ Seq(
       "run",
@@ -192,10 +188,8 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     *
     * The passed in docker image must have GraalVM installed and on the PATH, including the gu utility.
     */
-  def generateContainerBuildImage(
-    baseImage: String,
-    platformArch: Option[String] = None
-  ): Def.Initialize[Task[Option[String]]] =
+  def generateContainerBuildImage(baseImage: String,
+                                  platformArch: Option[String] = None): Def.Initialize[Task[Option[String]]] =
     Def.task {
       import sys.process._
 
@@ -257,12 +251,10 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
       Some(imageName)
     }
 
-  private def stage(
-    targetDirectory: File,
-    classpathJars: Seq[(File, String)],
-    resources: Seq[(File, String)],
-    streams: TaskStreams
-  ): File = {
+  private def stage(targetDirectory: File,
+                    classpathJars: Seq[(File, String)],
+                    resources: Seq[(File, String)],
+                    streams: TaskStreams): File = {
     val stageDir = targetDirectory / "stage"
     val mappings = classpathJars ++ resources.map {
       case (resource, path) => resource -> s"resources/$path"
