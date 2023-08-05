@@ -204,6 +204,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
       val streams = Keys.streams.value
       val hostPlatform =
         (dockerCommand ++ Seq("system", "info", "--format", "{{.OSType}}/{{.Architecture}}")).!!.trim
+          .replace("x86_64", "amd64")
       val platformValue = platformArch.getOrElse(hostPlatform)
 
       val (baseName, tag) = baseImage.split(":", 2) match {
@@ -233,7 +234,16 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
           ExecCmd("ENTRYPOINT", "native-image")
         ).makeContent
 
-        val command = dockerCommand ++ Seq(
+        val buildCommand = dockerCommand ++ Seq(
+          "build",
+          "--label",
+          s"com.typesafe.sbt.packager.graalvmnativeimage.platform=$platformValue",
+          "-t",
+          imageName,
+          "-"
+        )
+
+        val buildxCommand = dockerCommand ++ Seq(
           "buildx",
           "build",
           "--platform",
@@ -246,7 +256,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
           "-"
         )
 
-        val ret = sys.process.Process(command) #<
+        val ret = sys.process.Process(platformArch.map(_ => buildxCommand).getOrElse(buildCommand)) #<
           new ByteArrayInputStream(dockerContent.getBytes()) !
           DockerPlugin.publishLocalLogger(streams.log)
 
