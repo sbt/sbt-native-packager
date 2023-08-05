@@ -6,7 +6,7 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 Global / scalaVersion := "2.12.13"
 
 // crossBuildingSettings
-crossSbtVersions := Vector("1.1.6")
+crossSbtVersions := Vector("1.9.3")
 
 Compile / scalacOptions ++= Seq("-deprecation")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
