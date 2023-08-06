@@ -5,17 +5,20 @@ GraalVM Native Image Plugin
 
 GraalVM's ``native-image`` compiles Java programs AOT (ahead-of-time) into native binaries.
 
-  https://www.graalvm.org/22.1/reference-manual/native-image/ documents the AOT compilation of GraalVM.
+  https://www.graalvm.org/latest/reference-manual/native-image/ documents the AOT compilation of GraalVM.
 
 The plugin supports both using a local installation of the GraalVM ``native-image`` utility, or building inside a
 Docker container. If you intend to run the native image on Linux, then building inside a Docker container is
 recommended since GraalVM native images can only be built for the platform they are built on. By building in a Docker
-container, you can build Linux native images not just on Linux but also on Windows and macOS.
+container, you can build Linux native images not only on Linux but also on Windows and macOS and for different architectures
+like amd64 or arm64.
 
 Requirements
 ------------
 
 To build using a local installation of GraalVM, you must have the ``native-image`` utility of GraalVM in your ``PATH``.
+To build using a docker container, you must have a working installation of docker.
+To build for a different architecture, you must have docker with the buildx plugin and QEMU set up for the target architecture.
 
 ``native-image`` quick installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,10 +68,16 @@ By default, a local build will be done, expecting the ``native-image`` command t
 customized using the following settings.
 
   ``graalVMNativeImageGraalVersion``
-    Setting this enables generating a Docker container to build the native image, and then building it in that container.
-    It must correspond to a valid version of the
-    `Oracle GraalVM Community Edition Docker image <https://github.com/graalvm/container/pkgs/container/graalvm-ce/>`_. This setting has no
-    effect if ``containerBuildImage`` is explicitly set.
+    Setting this enables using a Docker container to build the native image.
+    It should be in the format ``<packageName>:<tagName>``. `Supported packages <https://github.com/orgs/graalvm/packages?repo_name=container>`_ include:
+    * ``graalvm-ce`` - Versions prior to and including 22.3.3. An intermediate image will be created.
+    * ``native-image`` - Versions prior to and including 22.3.3. The docker image will be used directly.
+    * ``graalvm-community`` - Versions after and including 17.0.7. An intermediate image will be created.
+    * ``native-image-community`` - Versions after and including 17.0.7. The docker image will be used directly.
+
+    The legacy format of specifying the version number is supported up to 22.3.3
+
+    This setting has no effect if ``containerBuildImage`` is explicitly set.
 
     For example:
 
@@ -81,16 +90,19 @@ customized using the following settings.
       graalVMNativeImageGraalVersion := Some("native-image-community:17.0.8") // Uses the native-image image from GraalVM directly
 
   ``graalVMNativeImagePlatformArch``
-    Setting this enables building the native image on a different platform architecture. Requires ``graalVMNativeImageGraalVersion``
-    or ``containerBuildImage`` to be set. Multiplatform builds is not supported. Defaults to the platform of the host.
+    Setting this enables building the native image for a different platform architecture. Requires ``graalVMNativeImageGraalVersion``
+    or ``containerBuildImage`` to be set. Multiplatform builds are currently not supported. Defaults to the platform of the host.
     If ``containerBuildImage`` is specified, ensure that your specified image has the same platform that you are targeting.
+
+    Requires Docker buildx plugin with a valid builder and QEMU set up for the target platform architecture.
+    `See here for more information <https://docs.docker.com/build/building/multi-platform/#building-multi-platform-images>`_.
 
     For example:
 
     .. code-block:: scala
 
       graalVMNativeImagePlatformArch := Some("arm64")
-      graalVMNativeImagePlatformArch := Some("amd64")
+      graalVMNativeImagePlatformArch := Some("linux/amd64")
 
   ``containerBuildImage``
 
