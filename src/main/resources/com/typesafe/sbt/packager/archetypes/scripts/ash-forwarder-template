@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# Absolute path to this script
+# macOS doesn't support "readlink -f"
+realpath () {
+  TARGET_FILE="$1"
+  CHECK_CYGWIN="$2"
+
+  cd "$(dirname "$TARGET_FILE")"
+  TARGET_FILE=$(basename "$TARGET_FILE")
+
+  COUNT=0
+  while [ -L "$TARGET_FILE" -a $COUNT -lt 100 ]
+  do
+      TARGET_FILE=$(readlink "$TARGET_FILE")
+      cd "$(dirname "$TARGET_FILE")"
+      TARGET_FILE=$(basename "$TARGET_FILE")
+      COUNT=$(($COUNT + 1))
+  done
+
+  if [ "$TARGET_FILE" == "." -o "$TARGET_FILE" == ".." ]; then
+    cd "$TARGET_FILE"
+    TARGET_FILEPATH=
+  else
+    TARGET_FILEPATH=/$TARGET_FILE
+  fi
+
+  # make sure we grab the actual windows path, instead of cygwin's path.
+  if [[ "x$CHECK_CYGWIN" == "x" ]]; then
+    echo "$(pwd -P)/$TARGET_FILE"
+  else
+    echo $(cygwinpath "$(pwd -P)/$TARGET_FILE")
+  fi
+}
+
+# Uses uname to detect if we're in the odd cygwin environment.
+is_cygwin() {
+  local os=$(uname -s)
+  case "$os" in
+    CYGWIN*) return 0 ;;
+    *)  return 1 ;;
+  esac
+}
+
+# This can fix cygwin style /cygdrive paths so we get the
+# windows style paths.
+cygwinpath() {
+  local file="$1"
+  if is_cygwin; then
+    echo $(cygpath -w $file)
+  else
+    echo $file
+  fi
+}
+
+# get the absolute path for the current script
+SCRIPT=$(realpath "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+
+# execute the main start script
+$SCRIPTPATH/${{startScript}} -main ${{qualifiedClassName}} "$@"
