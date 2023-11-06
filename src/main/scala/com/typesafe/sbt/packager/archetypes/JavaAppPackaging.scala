@@ -8,6 +8,7 @@ import com.typesafe.sbt.packager.Keys.packageName
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{defaultLinuxInstallLocation, linuxPackageMappings}
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.archetypes.scripts.{BashStartScriptPlugin, BatStartScriptPlugin}
 
 /**
   * == Java Application ==
@@ -39,7 +40,7 @@ object JavaAppPackaging extends AutoPlugin {
   import JavaAppPackaging.autoImport._
 
   override def requires: Plugins =
-    debian.DebianPlugin && rpm.RpmPlugin && docker.DockerPlugin && windows.WindowsPlugin
+    debian.DebianPlugin && rpm.RpmPlugin && docker.DockerPlugin && windows.WindowsPlugin && BashStartScriptPlugin && BatStartScriptPlugin
 
   override def projectSettings =
     Seq(
