@@ -5,9 +5,6 @@ homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 Global / onChangedBuildSource := ReloadOnSourceChanges
 Global / scalaVersion := "2.12.12"
 
-// crossBuildingSettings
-crossSbtVersions := Vector("1.1.6")
-
 Compile / scalacOptions ++= Seq("-deprecation")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
