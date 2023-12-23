@@ -578,7 +578,12 @@ object DockerPlugin extends AutoPlugin {
     * @return Dockerfile
     */
   private[this] final def generateDockerConfig(commands: Seq[CmdLike], target: File): File = {
-    val dockerContent = makeDockerContent(commands)
+    val (labelCommands, remaining) = commands.partition {
+      case cmd: Cmd => cmd.cmd.trim.toUpperCase == "LABEL"
+      case _        => false
+    }
+
+    val dockerContent = makeDockerContent(remaining ++ labelCommands)
 
     val f = target / "Dockerfile"
     IO.write(f, dockerContent)
@@ -658,6 +663,7 @@ object DockerPlugin extends AutoPlugin {
       .map(_ => publishLocalBuildkitLogger(log))
       .getOrElse(publishLocalLogger(log))
     val ret = sys.process.Process(buildCommand, context) ! logger
+    val execPruneImg: String => Seq[String] = label => execCommand ++ s"image prune -f --filter label=$label".split(" ")
 
     if (removeIntermediateImages) {
       val labelKey = "snp-multi-stage-id"
@@ -670,11 +676,13 @@ object DockerPlugin extends AutoPlugin {
             // No matter if the build process succeeded or failed, we try to remove the intermediate images
             case Some(id) =>
               val label = s"${labelKey}=${id}"
-              log.info(s"""Removing intermediate image(s) (labeled "${label}") """)
-              val retImageClean =
-                sys.process.Process(execCommand ++ s"image prune -f --filter label=${label}".split(" ")) ! logger
+              val label2 = s"snp-multi-stage=intermediate"
+              log.info(s"""Removing intermediate image(s) (labeled "$label" and "$label2") """)
+              val multiStageIdCleanResponse = sys.process.Process(execPruneImg(label)) ! logger
+              val multiStageCleanResponse = sys.process.Process(execPruneImg(label2)) ! logger
+
               // FYI: "docker image prune" returns 0 (success) no matter if images were removed or not
-              if (retImageClean != 0)
+              if (multiStageIdCleanResponse != 0 || multiStageCleanResponse != 0)
                 log.error(
                   "Something went wrong while removing multi-stage intermediate image(s)"
                 ) // no exception, just let the user know
