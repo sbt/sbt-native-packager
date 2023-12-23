@@ -13,7 +13,7 @@ trait BatStartScriptKeys {
     TaskKey[File]("batScriptTemplateLocation", "The location of the bat script template.")
 
   val batForwarderTemplateLocation =
-    TaskKey[Option[File]]("bashForwarderTemplateLocation", "The location of the bat forwarder script template.")
+    TaskKey[Option[File]]("batForwarderTemplateLocation", "The location of the bat forwarder script template.")
 
   val batScriptReplacements = TaskKey[Seq[(String, String)]](
     "batScriptReplacements",

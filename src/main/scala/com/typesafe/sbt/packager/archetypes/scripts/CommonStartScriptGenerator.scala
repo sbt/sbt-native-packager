@@ -133,9 +133,9 @@ trait CommonStartScriptGenerator {
     script -> s"$scriptTargetFolder/$scriptNameWithSuffix"
   }
 
-  private[this] def resolveTemplate(defaultTemplateLocation: File): URL =
-    if (defaultTemplateLocation.exists) defaultTemplateLocation.toURI.toURL
-    else getClass.getResource(defaultTemplateLocation.getName)
+  private[this] def resolveTemplate(templateLocation: File): URL =
+    if (templateLocation.exists) templateLocation.toURI.toURL
+    else getClass.getResource(templateLocation.getName)
 
   private[this] def createForwarderScripts(
     executableScriptName: String,
