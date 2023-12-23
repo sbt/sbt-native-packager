@@ -237,7 +237,7 @@ jobs:
       run: sbt "^validateJlink"
         
 
-  scripted-graavlvm:
+  scripted-graalvm:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
