@@ -135,23 +135,21 @@ exit /B 0
 rem Processes incoming arguments and places them in appropriate global variables
 :process_args
   :param_loop
-  call set _PARAM1=%%1
-  set "_TEST_PARAM=%~1"
+  shift
+  call set _PARAM1=%%0
+  set "_TEST_PARAM=%~0"
 
   if ["!_PARAM1!"]==[""] goto param_afterloop
 
+  if "!_TEST_PARAM!"=="-main" (
+    call set CUSTOM_MAIN_CLASS=%%1
+    shift
+    goto param_loop
+  )
 
-  rem ignore arguments that do not start with '-'
-  if "%_TEST_PARAM:~0,1%"=="-" goto param_java_check
-  set _APP_ARGS=!_APP_ARGS! !_PARAM1!
-  shift
-  goto param_loop
-
-  :param_java_check
   if "!_TEST_PARAM:~0,2!"=="-J" (
     rem strip -J prefix
     set _JAVA_PARAMS=!_JAVA_PARAMS! !_TEST_PARAM:~2!
-    shift
     goto param_loop
   )
 
@@ -160,22 +158,18 @@ rem Processes incoming arguments and places them in appropriate global variables
     for /F "delims== tokens=1,*" %%G in ("!_TEST_PARAM!") DO (
       if not ["%%H"] == [""] (
         set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
-      ) else if [%2] neq [] (
+      ) else if [%1] neq [] (
         rem it was a normal property: -Dprop=42 or -Drop="42"
-        call set _PARAM1=%%1=%%2
+        call set _PARAM1=%%0=%%1
         set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
         shift
       )
     )
-  ) else (
-    if "!_TEST_PARAM!"=="-main" (
-      call set CUSTOM_MAIN_CLASS=%%2
-      shift
-    ) else (
-      set _APP_ARGS=!_APP_ARGS! !_PARAM1!
-    )
+    goto param_loop
   )
-  shift
+
+  set _APP_ARGS=!_APP_ARGS! !_PARAM1!
+
   goto param_loop
   :param_afterloop
 
