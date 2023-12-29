@@ -149,7 +149,15 @@ rem Processes incoming arguments and places them in appropriate global variables
 
   if "!_TEST_PARAM:~0,2!"=="-J" (
     rem strip -J prefix
-    set _JAVA_PARAMS=!_JAVA_PARAMS! !_TEST_PARAM:~2!
+    call set _TEST_PARAM=!_TEST_PARAM:~2!
+    if not "!_TEST_PARAM:~0,5!" == "-XX:+" if not "!_TEST_PARAM:~0,5!" == "-XX:-" if "!_TEST_PARAM:~0,3!" == "-XX" (
+      rem special handling for -J-XX since '=' gets parsed away
+      for /F "delims== tokens=1,*" %%G in ("!_TEST_PARAM!") DO (
+        call set _TEST_PARAM=!_TEST_PARAM!=%%1
+        shift
+      )
+    )
+    set _JAVA_PARAMS=!_JAVA_PARAMS! !_TEST_PARAM!
     goto param_loop
   )
 
