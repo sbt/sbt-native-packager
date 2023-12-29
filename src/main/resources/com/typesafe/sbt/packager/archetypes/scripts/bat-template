@@ -57,6 +57,11 @@ if defined BUNDLED_JVM (
 
 if "%_JAVACMD%"=="" set _JAVACMD=java
 
+rem if configuration files exist, prepend their contents to the script arguments so it can be processed by this runner
+call :parse_config "%SCRIPT_CONF_FILE%" SCRIPT_CONF_ARGS
+
+call :process_args %SCRIPT_CONF_ARGS% %%*
+
 rem Detect if this java is ok to use.
 for /F %%j in ('"%_JAVACMD%" -version  2^>^&1') do (
   if %%~j==java set JAVAINSTALLED=1
@@ -85,11 +90,6 @@ if "%JAVAOK%"=="false" (
   if defined DOUBLECLICKED pause
   exit /B 1
 )
-
-rem if configuration files exist, prepend their contents to the script arguments so it can be processed by this runner
-call :parse_config "%SCRIPT_CONF_FILE%" SCRIPT_CONF_ARGS
-
-call :process_args %SCRIPT_CONF_ARGS% %%*
 
 set _JAVA_OPTS=!_JAVA_OPTS! !_JAVA_PARAMS!
 
@@ -143,6 +143,13 @@ rem Processes incoming arguments and places them in appropriate global variables
 
   if "!_TEST_PARAM!"=="-main" (
     call set CUSTOM_MAIN_CLASS=%%1
+    shift
+    goto param_loop
+  )
+
+  if "!_TEST_PARAM!"=="-java-home" (
+    set "JAVA_HOME=%~1"
+    set "_JAVACMD=%~1\bin\java.exe"
     shift
     goto param_loop
   )
