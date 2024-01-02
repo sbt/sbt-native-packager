@@ -284,7 +284,7 @@ object DockerPlugin extends AutoPlugin {
               "buildx",
               "build",
               s"--platform=${dockerBuildxPlatforms.value.mkString(",")}",
-              "--push"
+              "--output=type=registry"
             ) ++ dockerBuildOptions.value :+ "."
           else dockerExecCommand.value
         alias.foreach { aliasValue =>
