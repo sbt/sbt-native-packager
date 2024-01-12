@@ -183,6 +183,7 @@ object JavaAppPackaging extends AutoPlugin {
   ): Seq[(File, String)] =
     for {
       dep <- deps
+      if dep.data.ext == "jar"
       realDep <- findRealDep(dep, projectArts)
     } yield realDep.data -> ("lib/" + getJarFullFilename(realDep))
 }
