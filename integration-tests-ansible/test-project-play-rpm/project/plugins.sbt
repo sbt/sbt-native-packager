@@ -1,5 +1,3 @@
-resolvers += Resolver.typesafeRepo("releases")
-
 libraryDependencies <+= Def.setting[ModuleID] {
   Defaults
     .sbtPluginExtra(
