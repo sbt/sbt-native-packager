@@ -44,7 +44,7 @@ libraryDependencies ++= {
         // and gets published with Scala 2.12, therefore we need to stay at the same major version
         // like the 2.12.x Scala compiler, otherwise we run into conflicts when using sbt 1.5+
         // See https://github.com/scala/scala/pull/9743
-        "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2", // Do not upgrade beyond 1.x
+        "org.scala-lang.modules" %% "scala-parser-combinators" % "2.3.0", // Do not upgrade beyond 1.x
         "org.scala-lang.modules" %% "scala-xml" % "2.1.0"
       )
   }
