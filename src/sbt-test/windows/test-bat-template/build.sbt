@@ -101,6 +101,12 @@ TaskKey[Unit]("checkScript") := {
     Map("show-vmargs" -> "true")
   )
   checkOutput(
+    "with -J-XX java-opts",
+    Seq("-J-XX:+UseG1GC", "-J-XX:-UnlockExperimentalVMOptions", "-J-XX:MaxGCPauseMillis=500"),
+    "vmarg #0 is [-XX:+UseG1GC]\nvmarg #1 is [-XX:-UnlockExperimentalVMOptions]\nvmarg #2 is [-XX:MaxGCPauseMillis=500]\nSUCCESS!",
+    Map("show-vmargs" -> "true")
+  )
+  checkOutput(
     "include space",
     Seq("""-Dtest.hoge=C:\Program Files\Java""", """"C:\Program Files\Java""""),
     "arg #0 is [C:\\Program Files\\Java]\nproperty(test.hoge) is [C:\\Program Files\\Java]\nSUCCESS!"
