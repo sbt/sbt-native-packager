@@ -29,6 +29,11 @@ realpath () {
 )
 }
 
+# ash-template is not designed to be used with Cygwin
+is_cygwin() {
+  return 1
+}
+
 # Allow user and template_declares (see below) to add java options.
 addJava () {
   java_opts="$java_opts $1"
