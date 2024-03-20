@@ -1,9 +1,7 @@
 package com.typesafe.sbt.packager.archetypes.scripts
 
-import java.io.File
-
 import com.typesafe.sbt.packager.Keys._
-import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
+import com.typesafe.sbt.packager.archetypes.{JavaAppPackaging, TemplateWriter}
 import sbt.Keys.sourceDirectory
 import sbt._
 
@@ -68,11 +66,16 @@ import sbt._
   *  enablePlugins(AshScriptPlugin)
   * }}}
   */
-object AshScriptPlugin extends AutoPlugin {
+object AshScriptPlugin extends AutoPlugin with LinuxStartScriptGenerator {
 
   override def requires = JavaAppPackaging && BashStartScriptPlugin
 
   val ashTemplate = "ash-template"
+
+  /**
+    * Name of the bash forwarder template if user wants to provide custom one
+    */
+  override protected[this] val forwarderTemplateName = "ash-forwarder-template"
 
   override def projectSettings =
     Seq(
