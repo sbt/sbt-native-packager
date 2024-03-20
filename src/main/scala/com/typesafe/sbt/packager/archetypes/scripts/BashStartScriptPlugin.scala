@@ -45,7 +45,8 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
     override val executableScriptName: String,
     override val scriptClasspath: Seq[String],
     override val replacements: Seq[(String, String)],
-    override val templateLocation: File
+    override val templateLocation: File,
+    override val forwarderTemplateLocation: Option[File]
   ) extends ScriptConfig {
     override def withScriptName(scriptName: String): BashScriptConfig = copy(executableScriptName = scriptName)
   }
@@ -55,6 +56,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
   override def projectSettings: Seq[Setting[_]] =
     Seq(
       bashScriptTemplateLocation := (sourceDirectory.value / "templates" / bashTemplate),
+      bashForwarderTemplateLocation := Some(sourceDirectory.value / "templates" / forwarderTemplateName),
       bashScriptExtraDefines := Nil,
       bashScriptDefines := Defines(
         (scriptClasspath in bashScriptDefines).value,
@@ -79,7 +81,8 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
           executableScriptName = executableScriptName.value,
           scriptClasspath = (scriptClasspath in bashScriptDefines).value,
           replacements = bashScriptReplacements.value,
-          templateLocation = bashScriptTemplateLocation.value
+          templateLocation = bashScriptTemplateLocation.value,
+          forwarderTemplateLocation = bashForwarderTemplateLocation.value
         ),
         (mainClass in (Compile, bashScriptDefines)).value,
         (discoveredMainClasses in Compile).value,

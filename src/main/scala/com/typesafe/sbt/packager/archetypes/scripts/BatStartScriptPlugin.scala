@@ -50,7 +50,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
     extraDefines: Seq[String],
     override val replacements: Seq[(String, String)],
     override val templateLocation: File,
-    bundledJvmLocation: Option[String]
+    bundledJvmLocation: Option[String],
+    override val forwarderTemplateLocation: Option[File]
   ) extends ScriptConfig {
 
     @deprecated("1.3.21", "")
@@ -62,7 +63,16 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
       replacements: Seq[(String, String)],
       templateLocation: File
     ) =
-      this(executableScriptName, scriptClasspath, configLocation, extraDefines, replacements, templateLocation, None)
+      this(
+        executableScriptName,
+        scriptClasspath,
+        configLocation,
+        extraDefines,
+        replacements,
+        templateLocation,
+        None,
+        None
+      )
 
     @deprecated("1.3.21", "")
     def copy(
@@ -80,7 +90,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
         extraDefines,
         replacements,
         templateLocation,
-        bundledJvmLocation
+        bundledJvmLocation,
+        forwarderTemplateLocation
       )
 
     override def withScriptName(scriptName: String): BatScriptConfig = copy(executableScriptName = scriptName)
@@ -107,6 +118,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
         extraDefines,
         replacements,
         templateLocation,
+        None,
         None
       )
 
@@ -117,6 +129,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
   override def projectSettings: Seq[Setting[_]] =
     Seq(
       batScriptTemplateLocation := (sourceDirectory.value / "templates" / batTemplate),
+      batForwarderTemplateLocation := Some(sourceDirectory.value / "templates" / forwarderTemplateName),
       batScriptConfigLocation := (batScriptConfigLocation ?? Some(appIniLocation)).value,
       batScriptExtraDefines := Nil,
       batScriptReplacements := Replacements(executableScriptName.value),
@@ -136,7 +149,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
           extraDefines = batScriptExtraDefines.value,
           replacements = batScriptReplacements.value,
           templateLocation = batScriptTemplateLocation.value,
-          bundledJvmLocation = bundledJvmLocation.value
+          bundledJvmLocation = bundledJvmLocation.value,
+          forwarderTemplateLocation = batForwarderTemplateLocation.value
         ),
         (mainClass in (Compile, batScriptReplacements)).value,
         (discoveredMainClasses in Compile).value,

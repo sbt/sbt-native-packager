@@ -79,3 +79,14 @@ ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.do
 ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.linux.LinuxKeys.com$typesafe$sbt$packager$linux$LinuxKeys$_setter_$daemonHome_=")
 ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.linux.LinuxKeys.daemonHome")
 ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.linux.LinuxPlugin.makeReplacements")
+
+# added via #1557
+ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptKeys.com$typesafe$sbt$packager$archetypes$scripts$BashStartScriptKeys$_setter_$bashForwarderTemplateLocation_=")
+ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptKeys.bashForwarderTemplateLocation")
+ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin#BashScriptConfig.copy")
+ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin#BashScriptConfig.this")
+ProblemFilters.exclude[MissingTypesProblem]("com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin$BashScriptConfig$")
+ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin#BashScriptConfig.apply")
+ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptKeys.com$typesafe$sbt$packager$archetypes$scripts$BatStartScriptKeys$_setter_$batForwarderTemplateLocation_=")
+ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptKeys.batForwarderTemplateLocation")
+ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.archetypes.scripts.CommonStartScriptGenerator#ScriptConfig.forwarderTemplateLocation")
