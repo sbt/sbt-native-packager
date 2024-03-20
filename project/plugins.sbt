@@ -1,5 +1,5 @@
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.3")
-addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.4.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.4.1")
 
 // releasing
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.7")
