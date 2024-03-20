@@ -85,7 +85,7 @@ process_args () {
            -mem) echo "!! WARNING !! -mem option is ignored. Please use -J-Xmx and -J-Xms" && shift 2 ;;
      -jvm-debug) require_arg port "$1" "$2" && addDebugger $2 && shift 2 ;;
 
-          -main) custom_mainclass="$2" && shift 2 ;;
+          -main) app_mainclass="$2" && shift 2 ;;
 
      -java-home) require_arg path "$1" "$2" && jre=`eval echo $2` && java_cmd="$jre/bin/java" && shift 2 ;;
 
@@ -129,4 +129,4 @@ java_cmd="$(get_java_cmd)"
 # If a configuration file exist, read the contents to $opts
 [ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
 
-eval "exec $java_cmd $java_opts -classpath $app_classpath $opts $app_mainclass $app_commands $residual_args"
+eval "exec $java_cmd $opts $java_opts -classpath $app_classpath $app_mainclass $app_commands $residual_args"
