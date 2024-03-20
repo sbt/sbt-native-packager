@@ -252,11 +252,15 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ivy-
     - name: Setup GraalVM environment
-      uses: olafurpg/setup-scala@v10
+      uses: graalvm/setup-graalvm@v1
       with:
-        java-version: graalvm@22.0.0=tgz+https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.0.0.2/graalvm-ce-java11-linux-amd64-22.0.0.2.tar.gz
-    - name: Install native-image
-      run: gu install native-image
+        java-version: 17.0.8
+        distribution: 'graalvm'
+        cache: 'sbt'
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+    - name: Docker Setup Buildx
+      uses: docker/setup-buildx-action@v2.9.1
     - name: Validate
       run: sbt "^validateGraalVMNativeImage"
 

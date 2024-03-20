@@ -18,4 +18,8 @@ trait GraalVMNativeImageKeys {
 
 trait GraalVMNativeImageKeysEx extends GraalVMNativeImageKeys {
   val graalVMNativeImageCommand = settingKey[String]("GraalVM native-image executable command")
+
+  val graalVMNativeImagePlatformArch = settingKey[Option[String]](
+    "Platform architecture of GraalVM to build with. This only works when building the native image with a container."
+  )
 }
