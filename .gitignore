@@ -13,3 +13,4 @@ target/
 .ensime*
 .bloop/*
 .metals/*
+.bsp/

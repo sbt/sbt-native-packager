@@ -10,8 +10,6 @@ scalacOptions in ThisBuild ++= Seq(
   "-Xlint"
 )
 
-resolvers in ThisBuild += Resolver.typesafeRepo("releases")
-
 name := "test-project-play-rpm"
 
 description := "Demo of RPM packaging"
