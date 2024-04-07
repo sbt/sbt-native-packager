@@ -144,7 +144,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       ""
 
   private[this] def shellEscape(s: String): String =
-    if (s.startsWith("-jar"))
+    if (s.startsWith("-jar "))
       s
     else
       s"'${s.replace("'", "'\\''")}'"
