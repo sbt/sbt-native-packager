@@ -129,4 +129,4 @@ java_cmd="$(get_java_cmd)"
 # If a configuration file exist, read the contents to $opts
 [ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
 
-eval "exec $java_cmd $java_opts -classpath $app_classpath $opts $app_mainclass $app_commands $residual_args"
+exec $java_cmd $java_opts -classpath $app_classpath $opts $app_mainclass $app_commands $residual_args
