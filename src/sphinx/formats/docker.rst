@@ -185,6 +185,12 @@ Publishing Settings
     Overrides the default Docker build options.
     Defaults to ``Seq("--force-rm", "-t", "[dockerAlias]")``. This default is expanded if either ``dockerUpdateLatest`` or ``dockerBuildInit`` is set to true.
 
+  ``dockerBuildEnvVars``
+    The environment variables passed to the Docker build.
+    Defaults to empty.
+    For example, to disable Docker BuildKit:
+    ``dockerBuildEnvVars += "DOCKER_BUILDKIT" -> "0"``
+
   ``dockerExecCommand``
     Overrides the default Docker exec command.
     Defaults to ``Seq("docker")``
