@@ -23,7 +23,7 @@ TaskKey[Unit]("checkResidual") := {
 }
 
 TaskKey[Unit]("checkComplexResidual") := {
-  val args = Seq("arg1", "arg 2")
+  val args = Seq("arg1", "arg 2", "\"", "$foo", "'")
   val cwd = (stagingDirectory in Universal).value
   val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath) ++ args
 
