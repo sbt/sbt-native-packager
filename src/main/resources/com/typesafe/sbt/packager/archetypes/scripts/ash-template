@@ -42,9 +42,12 @@ addJava () {
 addApp () {
   app_commands="$app_commands $1"
 }
+shellEscape () {
+  printf \'%s\' "$(printf %s "$1" | sed "s/'/'\\\\''/")"
+}
 
 addResidual () {
-  residual_args="$residual_args '$(printf %s "$1" | sed "s/'/'\\\\''/")'"
+  residual_args="$residual_args $(shellEscape "$1")"
 }
 
 # Allow user to specify java options. These get listed first per bash-template.
