@@ -42,6 +42,7 @@ addJava () {
 addApp () {
   app_commands="$app_commands $1"
 }
+
 shellEscape () {
   printf \'%s\' "$(printf %s "$1" | sed "s/'/'\\\\''/")"
 }
