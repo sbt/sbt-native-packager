@@ -7,6 +7,7 @@ import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import sbt.Keys.sourceDirectory
 import sbt._
 
+// format: off
 /**
   * ==Java Application==
   *
@@ -21,20 +22,36 @@ import sbt._
   *
   * #!/usr/bin/env sh
   *
-  * realpath () { ( TARGET_FILE="$1"
+  * realpath () {
+  * (
+  *   TARGET_FILE="$1"
   *
-  * cd "$(dirname "$TARGET_FILE")" TARGET_FILE=$(basename "$TARGET_FILE")
+  *   cd "$(dirname "$TARGET_FILE")"
+  *   TARGET_FILE=$(basename "$TARGET_FILE")
   *
-  * COUNT=0 while [ -L "$TARGET_FILE" -a $COUNT -lt 100 ] do TARGET_FILE=$(readlink "$TARGET_FILE") cd "$(dirname
-  * "$TARGET_FILE")" TARGET_FILE=$(basename "$TARGET_FILE") COUNT=$(($COUNT + 1)) done
+  *   COUNT=0
+  *   while [ -L "$TARGET_FILE" -a $COUNT -lt 100 ]
+  *   do
+  *       TARGET_FILE=$(readlink "$TARGET_FILE")
+  *       cd "$(dirname "$TARGET_FILE")"
+  *       TARGET_FILE=$(basename "$TARGET_FILE")
+  *       COUNT=$(($COUNT + 1))
+  *   done
   *
-  * if [ "$TARGET_FILE" == "." -o "$TARGET_FILE" == ".." ]; then cd "$TARGET_FILE" TARGET_FILEPATH= else
-  * TARGET_FILEPATH=/$TARGET_FILE fi
+  *   if [ "$TARGET_FILE" == "." -o "$TARGET_FILE" == ".." ]; then
+  *     cd "$TARGET_FILE"
+  *     TARGET_FILEPATH=
+  *   else
+  *     TARGET_FILEPATH=/$TARGET_FILE
+  *   fi
   *
-  * echo "$(pwd -P)/$TARGET_FILE" ) }
+  *   echo "$(pwd -P)/$TARGET_FILE"
+  * )
+  * }
   *
-  * real_script_path="$(realpath "$0")" app_home="$(realpath "$(dirname "$real_script_path")")" lib_dir="$(realpath
-  * "${app_home}/../lib")"
+  * real_script_path="$(realpath "$0")"
+  * app_home="$(realpath "$(dirname "$real_script_path")")"
+  * lib_dir="$(realpath "${app_home}/../lib")"
   *
   * ${{template_declares}}
   *
@@ -52,6 +69,7 @@ import sbt._
   *  enablePlugins(AshScriptPlugin)
   * }}}
   */
+// format: on
 object AshScriptPlugin extends AutoPlugin {
 
   override def requires = JavaAppPackaging && BashStartScriptPlugin

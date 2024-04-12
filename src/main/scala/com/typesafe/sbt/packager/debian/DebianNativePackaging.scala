@@ -14,8 +14,10 @@ import sbt._
   *
   * ==Requirements==
   *
-  * You need the debian dpkg toolchain installed. This includes <ul> <li>fakeroot</li> <li>dpkg-deb</li>
-  * <li>dpkg-genchanges</li> </ul>
+  * You need the debian dpkg toolchain installed. This includes
+  *   - fakeroot
+  *   - dpkg-deb
+  *   - dpkg-genchanges
   *
   * @example
   *   Enable the plugin in the `build.sbt`

@@ -22,8 +22,9 @@ trait NativePackagerKeys {
 }
 
 /**
-  * This Keys object can be used for <ul> <li>non autoplugin builds</li> <li>import single keys, which are not inside
-  * the autoImport</li> </ul>
+  * This Keys object can be used for
+  *   - non autoplugin builds
+  *   - import single keys, which are not inside the autoImport
   *
   * ==Non autoplugin builds==
   *

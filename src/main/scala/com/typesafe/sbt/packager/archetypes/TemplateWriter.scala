@@ -3,8 +3,8 @@ package com.typesafe.sbt.packager.archetypes
 /**
   * This object provides methods to generate scripts from templates. This involves
   *
-  * <ol> <li>procesing - replacing a placeholders with actual values</li> <li>TODO: validating - check the script if
-  * there are no remaining placeholders</li> </ol>
+  *   1. procesing - replacing a placeholders with actual values
+  *   1. TODO: validating - check the script if there are no remaining placeholders
   *
   * @example
   *   a bash script can be generated like this

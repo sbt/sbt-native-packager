@@ -12,18 +12,13 @@ object Stager {
     * create a cache and sync files if needed
     *
     * @param config
-    *   \- create a configuration specific cache directory
+    *   create a configuration specific cache directory
     * @param cacheDirectory
-    *   \- e.g. streams.value.cacheDirectory
+    *   e.g. streams.value.cacheDirectory
     * @param stageDirectory
-    *   \- staging directory
+    *   staging directory
     * @param mappings
-    *   \- staging content
-    *
-    * @example
-    *   {{{
-    *
-    * }}}
+    *   staging content
     */
   def stageFiles(config: String)(cacheDirectory: File, stageDirectory: File, mappings: Seq[(File, String)]): File = {
     val cache = cacheDirectory / ("packager-mappings-" + config)

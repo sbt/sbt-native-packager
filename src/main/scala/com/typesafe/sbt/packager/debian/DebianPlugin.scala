@@ -416,9 +416,9 @@ trait DebianPluginLike {
     * While adding the chown commands it checks if the users and groups have valid names.
     *
     * @param mappings
-    *   \- all mapped files
+    *   all mapped files
     * @param streams
-    *   \- logging
+    *   logging
     * @return
     *   (CHOWN_REPLACEMENT -> ".. list of chown commands")
     */

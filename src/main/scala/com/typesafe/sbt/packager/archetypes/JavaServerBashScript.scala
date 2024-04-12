@@ -4,8 +4,9 @@ import sbt._
 import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader._
 
 /**
-  * Loads scripts from the resource path that are associated with <ul> <li>an archetype</li> <li>a
-  * sbt.Configuration</li> </ul>
+  * Loads scripts from the resource path that are associated with
+  *   - an archetype
+  *   - a sbt.Configuration
   *
   * @example
   *   {{{
@@ -27,15 +28,15 @@ object JavaServerBashScript {
 
   /**
     * @param script
-    *   \- script name
+    *   script name
     * @param templateName
-    *   \- DebianPlugin.Names for maintainer scripts and "start"
+    *   DebianPlugin.Names for maintainer scripts and "start"
     * @param loader
-    *   \- which startup system
+    *   which startup system
     * @param replacements
-    *   \- default replacements
+    *   default replacements
     * @param template
-    *   \- if specified, it will override the default one
+    *   if specified, it will override the default one
     */
   def apply(
     script: String,
@@ -74,9 +75,9 @@ object JavaServerLoaderScript {
     * The functions script resides in "[archetype]/[loader]/functions"
     *
     * @param loader
-    *   \- Upstart, SystemV, SystemD
+    *   Upstart, SystemV, SystemD
     * @param script
-    *   \- default is "functions"
+    *   default is "functions"
     * @return
     *   functions - addService/stopService with resolved variables
     */

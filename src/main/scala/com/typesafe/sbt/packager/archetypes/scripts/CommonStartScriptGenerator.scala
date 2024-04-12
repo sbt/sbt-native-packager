@@ -109,11 +109,11 @@ trait CommonStartScriptGenerator {
 
   /**
     * @param mainClass
-    *   \- Main class added to the java command
+    *   Main class added to the java command
     * @param config
-    *   \- Config data for this script
+    *   Config data for this script
     * @param targetDir
-    *   \- Target directory for this script
+    *   Target directory for this script
     * @return
     *   File pointing to the created main script
     */

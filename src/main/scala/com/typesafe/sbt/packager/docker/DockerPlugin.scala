@@ -407,7 +407,7 @@ object DockerPlugin extends AutoPlugin {
 
   /**
     * @param dockerBaseDirectory
-    *   , the installation directory
+    *   the installation directory
     */
   private final def makeWorkdir(dockerBaseDirectory: String): CmdLike =
     Cmd("WORKDIR", dockerBaseDirectory)

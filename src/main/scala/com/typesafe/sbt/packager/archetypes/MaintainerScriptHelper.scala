@@ -14,12 +14,16 @@ trait MaintainerScriptHelper {
     * Use this method to override preexisting configurations with custom file definitions.
     *
     * @example
-    *   {{{ import DebianConstants._ maintainerScripts in Debian := maintainerScriptsFromDirectory(
-    *   sourceDirectory.value / DebianSource / DebianMaintainerScripts, Seq(Preinst, Postinst, Prerm, Postrm) ) }}}
+    *   {{{
+    * import DebianConstants._
+    * maintainerScripts in Debian := maintainerScriptsFromDirectory(
+    *   sourceDirectory.value / DebianSource / DebianMaintainerScripts, Seq(Preinst, Postinst, Prerm, Postrm)
+    * )
+    *   }}}
     * @param dir
     *   from where to load files
     * @param scripts
-    *   \- a list of script names that should be used
+    *   a list of script names that should be used
     * @return
     *   filename to content mapping
     */

@@ -208,10 +208,12 @@ object LinuxPlugin extends AutoPlugin {
   /**
     * Maps linux file format from the universal from the conventions:
     *
-    * `<project>/src/linux` files are mapped directly into linux packages. `<universal>` files are placed under
-    * `/usr/share/<package-name>` `<universal>/bin` files are given symlinks in `/usr/bin` `<universal>/conf` directory
-    * is given a symlink to `/etc/<package-name>` Files in `conf/` or `etc/` directories are automatically marked as
-    * configuration. `../man/...1` files are automatically compressed into .gz files.
+    *   - `<project>/src/linux` files are mapped directly into linux packages.
+    *   - `<universal>` files are placed under `/usr/share/<package-name>`
+    *   - `<universal>/bin` files are given symlinks in `/usr/bin`
+    *   - `<universal>/conf` directory is given a symlink to `/etc/<package-name>`
+    *   - Files in `conf/` or `etc/` directories are automatically marked as configuration.
+    *   - `../man/...1` files are automatically compressed into .gz files.
     */
   def mapGenericMappingsToLinux(mappings: Seq[(File, String)], user: String, group: String)(
     rename: String => String

@@ -9,7 +9,7 @@ trait LinuxMappingDSL {
 
   /**
     * @param dir
-    *   \- use some directory, e.g. target.value
+    *   use some directory, e.g. target.value
     * @param files
     */
   def packageTemplateMapping(files: String*)(dir: File = new File(sys.props("java.io.tmpdir"))) =
@@ -20,7 +20,7 @@ trait LinuxMappingDSL {
     * @see
     *   #mapDirectoryAndContents
     * @param dirs
-    *   \- directories to map
+    *   directories to map
     */
   def packageDirectoryAndContentsMapping(dirs: (File, String)*) =
     LinuxPackageMapping(mapDirectoryAndContents(dirs: _*))
@@ -29,7 +29,7 @@ trait LinuxMappingDSL {
     * This method includes files and directories.
     *
     * @param dirs
-    *   \- directories to map
+    *   directories to map
     */
   def mapDirectoryAndContents(dirs: (File, String)*): Seq[(File, String)] =
     for {

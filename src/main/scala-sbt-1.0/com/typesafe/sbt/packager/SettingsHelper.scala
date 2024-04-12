@@ -6,8 +6,9 @@ import sbt.librarymanagement.{IvyFileConfiguration, PublishConfiguration}
 import com.typesafe.sbt.packager.Compat._
 
 /**
-  * TODO write tests for the SettingsHelper TODO document methods properly TODO document the sbt internal stuff that is
-  * used
+  *   - TODO write tests for the SettingsHelper
+  *   - TODO document methods properly
+  *   - TODO document the sbt internal stuff that is used
   */
 object SettingsHelper {
 

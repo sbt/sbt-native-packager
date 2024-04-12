@@ -221,7 +221,8 @@ object JDKPackagerAntHelper {
   }
 
   /**
-    * Locate the generated packge. TODO: replace with something significantly more intelligent.
+    * Locate the generated packge.
+    *   - TODO: replace with something significantly more intelligent.
     * @param output
     *   output directory
     * @return

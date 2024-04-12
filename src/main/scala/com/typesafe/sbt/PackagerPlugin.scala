@@ -15,7 +15,9 @@ import sbt.Keys.{name, normalizedName, packageBin, streams}
   *
   * Currently you can choose between
   *
-  * <ul> <li>JavaAppPackaging</li> <li>JavaServerPackaging</li> <li>AkkaAppPackging</li> </ul>
+  *   - JavaAppPackaging
+  *   - JavaServerPackaging
+  *   - AkkaAppPackging
   *
   * ==Configuration==
   *

@@ -21,7 +21,8 @@ import com.typesafe.sbt.packager.sourceDateEpoch
   *
   * ==Requirements==
   *
-  * <ul> <li>Windows System</li> <li>Wix Toolset ([[http://wixtoolset.org/]]) installed </ul>
+  *   - Windows System
+  *   - Wix Toolset ([[http://wixtoolset.org/]]) installed
   *
   * @example
   *   Enable the plugin in the `build.sbt`
@@ -156,9 +157,9 @@ object WindowsPlugin extends AutoPlugin {
     * Generates the wix configuration features
     *
     * @param name
-    *   \- title of the core package
+    *   title of the core package
     * @param mappings
-    *   \- use to generate different features
+    *   use to generate different features
     * @return
     *   windows features
     */

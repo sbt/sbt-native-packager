@@ -20,16 +20,16 @@ trait CmdLike {
   * Executable command
   *
   * @example
-  *   {{{ ExecCmd("RUN", "chown", "-R", daemonUser, ".") }}}
+  *   {{{ExecCmd("RUN", "chown", "-R", daemonUser, ".")}}}
   *
   * @example
-  *   {{{ ExecCmd("ENTRYPOINT", "bin/%s" format execScript), }}}
+  *   {{{ExecCmd("ENTRYPOINT", "bin/%s" format execScript),}}}
   *
   * @example
-  *   {{{ ExecCmd("CMD") }}}
+  *   {{{ExecCmd("CMD")}}}
   *
   * @example
-  *   {{{ ExecCmd("VOLUME", exposedVolumes: _*) }}}
+  *   {{{ExecCmd("VOLUME", exposedVolumes: _*)}}}
   */
 case class ExecCmd(cmd: String, args: String*) extends CmdLike {
   def makeContent: String =
