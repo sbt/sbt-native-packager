@@ -8,31 +8,29 @@ import sbt.Keys._
 import sbt._
 
 /**
-  * == Native Packaging ==
+  * ==Native Packaging==
   *
   * This provides a dpkg based implementation for debian packaging.
   *
-  * == Requirements ==
+  * ==Requirements==
   *
   * You need the debian dpkg toolchain installed. This includes
-  * <ul>
-  * <li>fakeroot</li>
-  * <li>dpkg-deb</li>
-  * <li>dpkg-genchanges</li>
-  * </ul>
+  *   - fakeroot
+  *   - dpkg-deb
+  *   - dpkg-genchanges
   *
-  * @example Enable the plugin in the `build.sbt`
-  * {{{
+  * @example
+  *   Enable the plugin in the `build.sbt`
+  *   {{{
   *    enablePlugins(DebianNativePackaging)
-  * }}}
+  *   }}}
   */
 trait DebianNativePackaging extends DebianPluginLike {
 
   import DebianPlugin.Names
 
   /**
-    * Using the native installed dpkg-build tools to build the debian
-    * package.
+    * Using the native installed dpkg-build tools to build the debian package.
     */
   private[debian] def debianNativeSettings: Seq[Setting[_]] =
     inConfig(Debian)(

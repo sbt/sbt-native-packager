@@ -28,7 +28,7 @@ object Hashing {
   }
 
   def convertToHex(data: Array[Byte]): String = {
-    //TODO - use java.lang.Integer.toHexString()  ?
+    // TODO - use java.lang.Integer.toHexString()  ?
     val buf = new StringBuffer
     def byteToHex(b: Int) =
       if ((0 <= b) && (b <= 9)) ('0' + b).toChar

@@ -3,8 +3,8 @@ package com.typesafe.sbt.packager.archetypes
 import sbt._
 
 /**
-  * Available settings/tasks for the [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]]
-  * and all depending archetypes.
+  * Available settings/tasks for the [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]] and all depending
+  * archetypes.
   */
 trait JavaAppKeys {
 

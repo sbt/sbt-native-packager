@@ -9,11 +9,16 @@ object Archives {
 
   /**
     * Makes a zip file in the given target directory using the given name.
-    * @param target folder to build package in
-    * @param name of output (without extension)
-    * @param mappings included in the output
-    * @param top level directory
-    * @return zip file
+    * @param target
+    *   folder to build package in
+    * @param name
+    *   of output (without extension)
+    * @param mappings
+    *   included in the output
+    * @param top
+    *   level directory
+    * @return
+    *   zip file
     */
   @deprecated(
     "Use [[com.typesafe.sbt.packager.universal.Archives.makeZip(File, String, Seq[(File, String)], Option[String], Seq[String]): File]]",
@@ -25,12 +30,18 @@ object Archives {
   /**
     * Makes a zip file in the given target directory using the given name.
     *
-    * @param target folder to build package in
-    * @param name of output (without extension)
-    * @param mappings included in the output
-    * @param top level directory
-    * @param options  NOT USED
-    * @return zip file
+    * @param target
+    *   folder to build package in
+    * @param name
+    *   of output (without extension)
+    * @param mappings
+    *   included in the output
+    * @param top
+    *   level directory
+    * @param options
+    *   NOT USED
+    * @return
+    *   zip file
     */
   def makeZip(
     target: File,
@@ -53,11 +64,16 @@ object Archives {
   /**
     * Makes a zip file in the given target directory using the given name.
     *
-    * @param target folder to build package in
-    * @param name of output (without extension)
-    * @param mappings included in the output
-    * @param top level directory
-    * @return zip file
+    * @param target
+    *   folder to build package in
+    * @param name
+    *   of output (without extension)
+    * @param mappings
+    *   included in the output
+    * @param top
+    *   level directory
+    * @return
+    *   zip file
     */
   @deprecated(
     "Use [[com.typesafe.sbt.packager.universal.Archives.makeNativeZip(File, String, Seq[(File, String)], Option[String], Seq[String]): File]]",
@@ -69,12 +85,18 @@ object Archives {
   /**
     * Makes a zip file in the given target directory using the given name.
     *
-    * @param target folder to build package in
-    * @param name of output (without extension)
-    * @param mappings included in the output
-    * @param top level directory
-    * @param options  NOT USED
-    * @return zip file
+    * @param target
+    *   folder to build package in
+    * @param name
+    *   of output (without extension)
+    * @param mappings
+    *   included in the output
+    * @param top
+    *   level directory
+    * @param options
+    *   NOT USED
+    * @return
+    *   zip file
     */
   def makeNativeZip(
     target: File,
@@ -97,13 +119,18 @@ object Archives {
   /**
     * Makes a dmg file in the given target directory using the given name.
     *
-    *  Note:  Only works on macOS
+    * Note: Only works on macOS
     *
-    *  @param target folder to build package in
-    *  @param name of output (without extension)
-    *  @param mappings included in the output
-    *  @param top level directory : NOT USED
-    *  @return dmg file
+    * @param target
+    *   folder to build package in
+    * @param name
+    *   of output (without extension)
+    * @param mappings
+    *   included in the output
+    * @param top
+    *   level directory : NOT USED
+    * @return
+    *   dmg file
     */
   @deprecated(
     "Use [[com.typesafe.sbt.packager.universal.Archives.makeDmg(target: File, name: String, mappings: Seq[(File, String)], top: Option[String], options: Seq[String]): File]]",
@@ -115,14 +142,20 @@ object Archives {
   /**
     * Makes a dmg file in the given target directory using the given name.
     *
-    *  Note:  Only works on macOS
+    * Note: Only works on macOS
     *
-    *  @param target folder to build package in
-    *  @param name of output (without extension)
-    *  @param mappings included in the output
-    *  @param top level directory : NOT USED
-    *  @param options  NOT USED
-    *  @return dmg file
+    * @param target
+    *   folder to build package in
+    * @param name
+    *   of output (without extension)
+    * @param mappings
+    *   included in the output
+    * @param top
+    *   level directory : NOT USED
+    * @param options
+    *   NOT USED
+    * @return
+    *   dmg file
     */
   def makeDmg(
     target: File,
@@ -182,8 +215,7 @@ object Archives {
   }
 
   /**
-    * GZips a file.  Returns the new gzipped file.
-    * NOTE: This will 'consume' the input file.
+    * GZips a file. Returns the new gzipped file. NOTE: This will 'consume' the input file.
     */
   def gzip(f: File): File = {
     sourceDateEpoch(f)
@@ -196,8 +228,7 @@ object Archives {
   }
 
   /**
-    * xz compresses a file.  Returns the new xz compressed file.
-    * NOTE: This will 'consume' the input file.
+    * xz compresses a file. Returns the new xz compressed file. NOTE: This will 'consume' the input file.
     */
   def xz(f: File): File = {
     sourceDateEpoch(f)
@@ -213,13 +244,18 @@ object Archives {
   val makeTgz = makeTarballWithOptions(gzip, ".tgz") _
 
   /**
-    * Helper method used to construct tar-related compression functions with `--force-local` and `-pvcf` option specified
-    * as default.
-    * @param target folder to build package in
-    * @param name of output (without extension)
-    * @param mappings included in the output
-    * @param top level directory
-    * @return tar file
+    * Helper method used to construct tar-related compression functions with `--force-local` and `-pvcf` option
+    * specified as default.
+    * @param target
+    *   folder to build package in
+    * @param name
+    *   of output (without extension)
+    * @param mappings
+    *   included in the output
+    * @param top
+    *   level directory
+    * @return
+    *   tar file
     */
   def makeTarball(
     compressor: File => File,
@@ -229,12 +265,18 @@ object Archives {
 
   /**
     * Helper method used to construct tar-related compression functions.
-    * @param target folder to build package in
-    * @param name of output (without extension)
-    * @param mappings included in the output
-    * @param topDirectory level directory
-    * @param options for tar command
-    * @return tar file
+    * @param target
+    *   folder to build package in
+    * @param name
+    *   of output (without extension)
+    * @param mappings
+    *   included in the output
+    * @param topDirectory
+    *   level directory
+    * @param options
+    *   for tar command
+    * @return
+    *   tar file
     */
   def makeTarballWithOptions(compressor: File => File, ext: String)(
     target: File,

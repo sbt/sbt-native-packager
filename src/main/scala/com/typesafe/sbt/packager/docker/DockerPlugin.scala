@@ -18,33 +18,34 @@ import scala.sys.process.Process
 import scala.util.Try
 
 /**
-  * == Docker Plugin ==
+  * ==Docker Plugin==
   *
   * This plugin helps you build docker containers.
   *
-  * == Configuration ==
+  * ==Configuration==
   *
   * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.docker.DockerKeys]]
   *
-  * == Requirements ==
+  * ==Requirements==
   *
-  * You need docker to have docker installed on your system and be able to execute commands.
-  * Check with a single command:
+  * You need docker to have docker installed on your system and be able to execute commands. Check with a single
+  * command:
   *
   * {{{
   * docker version
   * }}}
   *
-  * Future versions of the Docker Plugin may use the REST API, so you don't need docker installed
-  * locally.
+  * Future versions of the Docker Plugin may use the REST API, so you don't need docker installed locally.
   *
-  * @note this plugin is not intended to build very customizable docker images, but turn your mappings
-  * configuration in a docker image with almost no ''any'' configuration.
+  * @note
+  *   this plugin is not intended to build very customizable docker images, but turn your mappings configuration in a
+  *   docker image with almost no ''any'' configuration.
   *
-  * @example Enable the plugin in the `build.sbt`
-  * {{{
+  * @example
+  *   Enable the plugin in the `build.sbt`
+  *   {{{
   *    enablePlugins(DockerPlugin)
-  * }}}
+  *   }}}
   */
 object DockerPlugin extends AutoPlugin {
 
@@ -58,8 +59,8 @@ object DockerPlugin extends AutoPlugin {
   import autoImport._
 
   /**
-    * The separator used by makeCopyLayerIntermediate should be always forced to UNIX separator.
-    * The separator doesn't depend on the OS where Dockerfile is being built.
+    * The separator used by makeCopyLayerIntermediate should be always forced to UNIX separator. The separator doesn't
+    * depend on the OS where Dockerfile is being built.
     */
   val UnixSeparatorChar = '/'
 
@@ -207,12 +208,11 @@ object DockerPlugin extends AutoPlugin {
             makeWorkdir(dockerBaseDirectory)
           ) ++
             layerIdsAscending.map(l => makeCopyLayerIntermediate(l, dockerBaseDirectory)) ++
-            Seq(makeUser("root")) ++ layerIdsAscending.map(
-            l => makeChmodRecursive(dockerChmodType.value, Seq(pathInLayer(dockerBaseDirectory, l)))
-          ) ++ {
-            val layerToPath = (Docker / dockerGroupLayers).value
-            addPerms map {
-              case (tpe, v) =>
+            Seq(makeUser("root")) ++ layerIdsAscending.map(l =>
+              makeChmodRecursive(dockerChmodType.value, Seq(pathInLayer(dockerBaseDirectory, l)))
+            ) ++ {
+              val layerToPath = (Docker / dockerGroupLayers).value
+              addPerms map { case (tpe, v) =>
                 // Try and find the source file for the path from the mappings
                 val layerId = layerMappings
                   .find(_.path == v)
@@ -223,8 +223,8 @@ object DockerPlugin extends AutoPlugin {
                     layerToPath.lift((new File("/dev/null"), v))
                   }
                 makeChmod(tpe, Seq(pathInLayer(v, layerId)))
-            }
-          } ++
+              }
+            } ++
             Seq(DockerStageBreak)
         case _ => Seq()
       }
@@ -235,21 +235,21 @@ object DockerPlugin extends AutoPlugin {
           case _       => Seq()
         }) ++
         Seq(makeWorkdir(dockerBaseDirectory)) ++ {
-        (strategy match {
-          case DockerPermissionStrategy.MultiStage =>
-            layerIdsAscending.map { layerId =>
-              makeCopyFrom(pathInLayer(dockerBaseDirectory, layerId), dockerBaseDirectory, stage0name, user, group)
-            }
-          case DockerPermissionStrategy.Run =>
-            layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory)) ++
-              Seq(makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
-              (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
-          case DockerPermissionStrategy.CopyChown =>
-            layerIdsAscending.map(layerId => makeCopyChown(layerId, dockerBaseDirectory, user, group))
-          case DockerPermissionStrategy.None =>
-            layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory))
-        })
-      } ++
+          (strategy match {
+            case DockerPermissionStrategy.MultiStage =>
+              layerIdsAscending.map { layerId =>
+                makeCopyFrom(pathInLayer(dockerBaseDirectory, layerId), dockerBaseDirectory, stage0name, user, group)
+              }
+            case DockerPermissionStrategy.Run =>
+              layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory)) ++
+                Seq(makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
+                (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
+            case DockerPermissionStrategy.CopyChown =>
+              layerIdsAscending.map(layerId => makeCopyChown(layerId, dockerBaseDirectory, user, group))
+            case DockerPermissionStrategy.None =>
+              layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory))
+          })
+        } ++
         dockerLabels.value.map(makeLabel) ++
         dockerEnvVars.value.map(makeEnvVar) ++
         makeExposePorts(dockerExposedPorts.value, dockerExposedUdpPorts.value) ++
@@ -328,8 +328,8 @@ object DockerPlugin extends AutoPlugin {
       stage := Stager.stage(Docker.name)(
         streams.value,
         stagingDirectory.value,
-        dockerLayerMappings.value.map {
-          case LayeredMapping(layerIdx, file, path) => (file, pathInLayer(path, layerIdx))
+        dockerLayerMappings.value.map { case LayeredMapping(layerIdx, file, path) =>
+          (file, pathInLayer(path, layerIdx))
         }
       ),
       stage := (stage dependsOn dockerGenerateConfig).value,
@@ -368,8 +368,10 @@ object DockerPlugin extends AutoPlugin {
   })
 
   /**
-    * @param maintainer (optional)
-    * @return LABEL MAINTAINER if defined
+    * @param maintainer
+    *   (optional)
+    * @return
+    *   LABEL MAINTAINER if defined
     */
   private final def makeMaintainer(maintainer: String): Option[CmdLike] =
     if (maintainer.isEmpty) None else Some(makeLabel(Tuple2("MAINTAINER", maintainer)))
@@ -377,14 +379,16 @@ object DockerPlugin extends AutoPlugin {
   /**
     * @param dockerBaseImage
     * @param name
-    * @return FROM command
+    * @return
+    *   FROM command
     */
   private final def makeFromAs(dockerBaseImage: String, name: String): CmdLike =
     Cmd("FROM", dockerBaseImage, "as", name)
 
   /**
     * @param label
-    * @return LABEL command
+    * @return
+    *   LABEL command
     */
   private final def makeLabel(label: (String, String)): CmdLike = {
     val (variable, value) = label
@@ -393,7 +397,8 @@ object DockerPlugin extends AutoPlugin {
 
   /**
     * @param envVar
-    * @return ENV command
+    * @return
+    *   ENV command
     */
   private final def makeEnvVar(envVar: (String, String)): CmdLike = {
     val (variable, value) = envVar
@@ -401,21 +406,24 @@ object DockerPlugin extends AutoPlugin {
   }
 
   /**
-    * @param dockerBaseDirectory , the installation directory
+    * @param dockerBaseDirectory
+    *   the installation directory
     */
   private final def makeWorkdir(dockerBaseDirectory: String): CmdLike =
     Cmd("WORKDIR", dockerBaseDirectory)
 
   /**
-    * @param dockerBaseDirectory the installation directory
-    * @return COPY command copying all files inside the installation directory
+    * @param dockerBaseDirectory
+    *   the installation directory
+    * @return
+    *   COPY command copying all files inside the installation directory
     */
   private final def makeCopyLayerDirect(layerId: Option[Int], dockerBaseDirectory: String): CmdLike = {
 
     /**
-      * This is the file path of the file in the Docker image, and does not depend on the OS where the image
-      * is being built. This means that it needs to be the Unix file separator even when the image is built
-      * on e.g. Windows systems.
+      * This is the file path of the file in the Docker image, and does not depend on the OS where the image is being
+      * built. This means that it needs to be the Unix file separator even when the image is built on e.g. Windows
+      * systems.
       */
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
     val path = layerId.map(i => s"$i/$files").getOrElse(s"$files")
@@ -429,11 +437,14 @@ object DockerPlugin extends AutoPlugin {
   }
 
   /**
-    * @param src the installation directory
-    * @param stage files are copied from the given build stage
+    * @param src
+    *   the installation directory
+    * @param stage
+    *   files are copied from the given build stage
     * @param daemonUser
     * @param daemonGroup
-    * @return COPY command copying all files inside the directory from another build stage.
+    * @return
+    *   COPY command copying all files inside the directory from another build stage.
     */
   private final def makeCopyFrom(
     src: String,
@@ -445,10 +456,12 @@ object DockerPlugin extends AutoPlugin {
     Cmd("COPY", s"--from=$stage --chown=$daemonUser:$daemonGroup $src $dest")
 
   /**
-    * @param layerId the intermediate layer
+    * @param layerId
+    *   the intermediate layer
     * @param daemonUser
     * @param daemonGroup
-    * @return COPY command copying all files inside the directory from another build stage.
+    * @return
+    *   COPY command copying all files inside the directory from another build stage.
     */
   private final def makeCopyChown(
     layerId: Option[Int],
@@ -458,9 +471,9 @@ object DockerPlugin extends AutoPlugin {
   ): CmdLike = {
 
     /**
-      * This is the file path of the file in the Docker image, and does not depend on the OS where the image
-      * is being built. This means that it needs to be the Unix file separator even when the image is built
-      * on e.g. Windows systems.
+      * This is the file path of the file in the Docker image, and does not depend on the OS where the image is being
+      * built. This means that it needs to be the Unix file separator even when the image is built on e.g. Windows
+      * systems.
       */
     val files = dockerBaseDirectory.split(UnixSeparatorChar)(1)
     val path = layerId.map(i => s"$i/$files").getOrElse(s"$files")
@@ -470,19 +483,22 @@ object DockerPlugin extends AutoPlugin {
   /**
     * @param daemonUser
     * @param daemonGroup
-    * @return chown command, owning the installation directory with the daemonuser
+    * @return
+    *   chown command, owning the installation directory with the daemonuser
     */
   private final def makeChown(daemonUser: String, daemonGroup: String, directories: Seq[String]): CmdLike =
     ExecCmd("RUN", Seq("chown", "-R", s"$daemonUser:$daemonGroup") ++ directories: _*)
 
   /**
-    * @return chmod command
+    * @return
+    *   chmod command
     */
   private final def makeChmod(chmodType: DockerChmodType, files: Seq[String]): CmdLike =
     ExecCmd("RUN", Seq("chmod", chmodType.argument) ++ files: _*)
 
   /**
-    * @return chmod command recursively
+    * @return
+    *   chmod command recursively
     */
   private final def makeChmodRecursive(chmodType: DockerChmodType, directories: Seq[String]): CmdLike =
     ExecCmd("RUN", Seq("chmod", "-R", chmodType.argument) ++ directories: _*)
@@ -492,8 +508,9 @@ object DockerPlugin extends AutoPlugin {
     * @param daemonGroup
     * @param uidOpt
     * @param gidOpt
-    * @return useradd to create the daemon user with the given uidOpt and gidOpt after invoking groupadd to
-    *         create the daemon group if the given gidOpt does not exists.
+    * @return
+    *   useradd to create the daemon user with the given uidOpt and gidOpt after invoking groupadd to create the daemon
+    *   group if the given gidOpt does not exists.
     */
   private final def makeUserAdd(
     daemonUser: String,
@@ -504,12 +521,11 @@ object DockerPlugin extends AutoPlugin {
     Cmd(
       "RUN",
       (List("id", "-u", daemonUser, "1>/dev/null", "2>&1", "||") :::
-        (gidOpt.fold[List[String]](Nil)(
-          gid =>
-            List("((", "getent", "group", gid, "1>/dev/null", "2>&1", "||") :::
-              List("(", "type", "groupadd", "1>/dev/null", "2>&1", "&&") :::
-              List("groupadd", "-g", gid, daemonGroup, "||") :::
-              List("addgroup", "-g", gid, "-S", daemonGroup, "))", "&&")
+        (gidOpt.fold[List[String]](Nil)(gid =>
+          List("((", "getent", "group", gid, "1>/dev/null", "2>&1", "||") :::
+            List("(", "type", "groupadd", "1>/dev/null", "2>&1", "&&") :::
+            List("groupadd", "-g", gid, daemonGroup, "||") :::
+            List("addgroup", "-g", gid, "-S", daemonGroup, "))", "&&")
         )) :::
         List("(", "type", "useradd", "1>/dev/null", "2>&1", "&&") :::
         List("useradd", "--system", "--create-home") :::
@@ -524,14 +540,16 @@ object DockerPlugin extends AutoPlugin {
   /**
     * @param daemonUser
     * @param daemonGroupOpt
-    * @return USER docker command
+    * @return
+    *   USER docker command
     */
   private final def makeUser(daemonUser: String, daemonGroupOpt: Option[String] = None): CmdLike =
     Cmd("USER", daemonGroupOpt.fold(daemonUser)(daemonUser + ":" + _))
 
   /**
     * @param entrypoint
-    * @return ENTRYPOINT command
+    * @return
+    *   ENTRYPOINT command
     */
   private final def makeEntrypoint(entrypoint: Seq[String]): CmdLike =
     ExecCmd("ENTRYPOINT", entrypoint: _*)
@@ -539,14 +557,16 @@ object DockerPlugin extends AutoPlugin {
   /**
     * Default CMD implementation as default parameters to ENTRYPOINT.
     * @param args
-    * @return CMD with args in exec form
+    * @return
+    *   CMD with args in exec form
     */
   private final def makeCmd(args: Seq[String]): CmdLike =
     ExecCmd("CMD", args: _*)
 
   /**
     * @param exposedPorts
-    * @return if ports are exposed the EXPOSE command
+    * @return
+    *   if ports are exposed the EXPOSE command
     */
   private final def makeExposePorts(exposedPorts: Seq[Int], exposedUdpPorts: Seq[Int]): Option[CmdLike] =
     if (exposedPorts.isEmpty && exposedUdpPorts.isEmpty) None
@@ -556,18 +576,19 @@ object DockerPlugin extends AutoPlugin {
       )
 
   /**
-    * If the exposed volume does not exist, the volume is made available
-    * with root ownership. This may be too strict for some directories,
-    * and we lose the feature that all directories below the install path
-    * can be written to by the binary. Therefore the directories are
-    * created before the ownership is changed.
+    * If the exposed volume does not exist, the volume is made available with root ownership. This may be too strict for
+    * some directories, and we lose the feature that all directories below the install path can be written to by the
+    * binary. Therefore the directories are created before the ownership is changed.
     *
     * All directories created afterwards are chowned.
     *
     * @param exposedVolumes
-    * @return commands to create, chown and declare volumes
-    * @see http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
-    * @see https://docs.docker.com/userguide/dockervolumes/
+    * @return
+    *   commands to create, chown and declare volumes
+    * @see
+    *   http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
+    * @see
+    *   https://docs.docker.com/userguide/dockervolumes/
     */
   private final def makeVolumes(exposedVolumes: Seq[String], daemonUser: String, daemonGroup: String): Seq[CmdLike] =
     if (exposedVolumes.isEmpty) Seq.empty
@@ -579,16 +600,21 @@ object DockerPlugin extends AutoPlugin {
       )
 
   /**
-    * @param commands representing the Dockerfile
-    * @return String representation of the Dockerfile described by commands
+    * @param commands
+    *   representing the Dockerfile
+    * @return
+    *   String representation of the Dockerfile described by commands
     */
   private final def makeDockerContent(commands: Seq[CmdLike]): String =
     Dockerfile(commands: _*).makeContent
 
   /**
-    * @param commands, docker content
-    * @param target directory for Dockerfile
-    * @return Dockerfile
+    * @param commands,
+    *   docker content
+    * @param target
+    *   directory for Dockerfile
+    * @return
+    *   Dockerfile
     */
   private[this] final def generateDockerConfig(commands: Seq[CmdLike], target: File): File = {
     val dockerContent = makeDockerContent(commands)
@@ -599,8 +625,7 @@ object DockerPlugin extends AutoPlugin {
   }
 
   /**
-    * uses the `mappings in Universal` to generate the
-    * `Docker / mappings`.
+    * uses the `mappings in Universal` to generate the `Docker / mappings`.
     */
   def mapGenericFilesToDocker: Seq[Setting[_]] = {
     def renameDests(from: Seq[(File, String)], dest: String) =
@@ -765,7 +790,7 @@ object DockerPlugin extends AutoPlugin {
   }
 
   private[this] def validateExposedPorts(ports: Seq[Int], udpPorts: Seq[Int]): Validation.Validator =
-    () => {
+    () =>
       if (ports.isEmpty && udpPorts.isEmpty)
         List(
           ValidationWarning(
@@ -782,10 +807,9 @@ object DockerPlugin extends AutoPlugin {
         )
       else
         List.empty
-    }
 
   private[this] def validateDockerVersion(dockerApiVersion: Option[DockerApiVersion]): Validation.Validator =
-    () => {
+    () =>
       dockerApiVersion match {
         case Some(_) => List.empty
         case None =>
@@ -815,14 +839,13 @@ object DockerPlugin extends AutoPlugin {
             )
           )
       }
-    }
 
   private[this] def validateDockerPermissionStrategy(
     strategy: DockerPermissionStrategy,
     dockerVersion: Option[DockerVersion],
     dockerApiVersion: Option[DockerApiVersion]
   ): Validation.Validator =
-    () => {
+    () =>
       (strategy, dockerVersion, dockerApiVersion) match {
         case (DockerPermissionStrategy.MultiStage, Some(ver), Some(apiVer)) if !DockerSupport.multiStage(ver, apiVer) =>
           List(
@@ -858,5 +881,4 @@ object DockerPlugin extends AutoPlugin {
           )
         case _ => List.empty
       }
-    }
 }
