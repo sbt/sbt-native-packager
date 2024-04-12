@@ -156,6 +156,17 @@ object DockerPlugin extends AutoPlugin {
     dockerBuildOptions := Seq("--force-rm") ++ dockerAliases.value.flatMap { alias =>
       Seq("-t", alias.toString)
     } ++ { if (dockerBuildInit.value) List("--init") else Nil },
+    dockerBuildEnvVars := Map.empty,
+    dockerBuildkitEnabled := {
+      dockerBuildEnvVars.value
+        .get("DOCKER_BUILDKIT")
+        .orElse(sys.env.get("DOCKER_BUILDKIT"))
+        .map(_ == "1")
+        .getOrElse {
+          // BuildKit is the default since v23.0
+          dockerVersion.value.fold(false)(_.major >= 23)
+        }
+    },
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerAdditionalPermissions := {
@@ -262,8 +273,10 @@ object DockerPlugin extends AutoPlugin {
           stage.value,
           dockerBuildCommand.value,
           dockerExecCommand.value,
+          dockerBuildEnvVars.value,
           dockerPermissionStrategy.value,
           dockerAutoremoveMultiStageIntermediateImages.value,
+          dockerBuildkitEnabled.value,
           log
         )
         log.info(
@@ -645,21 +658,19 @@ object DockerPlugin extends AutoPlugin {
     context: File,
     buildCommand: Seq[String],
     execCommand: Seq[String],
+    envVars: Map[String, String],
     strategy: DockerPermissionStrategy,
     removeIntermediateImages: Boolean,
+    buildkitEnabled: Boolean,
     log: Logger
   ): Unit = {
     log.debug("Executing Native " + buildCommand.mkString(" "))
     log.debug("Working directory " + context.toString)
 
-    val logger = sys.env
-      .get("DOCKER_BUILDKIT")
-      .filter(_ == "1")
-      .map(_ => publishLocalBuildkitLogger(log))
-      .getOrElse(publishLocalLogger(log))
-    val ret = sys.process.Process(buildCommand, context) ! logger
+    val logger = if (buildkitEnabled) publishLocalBuildkitLogger(log) else publishLocalLogger(log)
+    val ret = sys.process.Process(buildCommand, context, envVars.toSeq: _*) ! logger
 
-    if (removeIntermediateImages) {
+    if (!buildkitEnabled && removeIntermediateImages) {
       val labelKey = "snp-multi-stage-id"
       val labelCmd = s"LABEL ${labelKey}="
       strategy match {

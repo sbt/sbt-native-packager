@@ -143,13 +143,19 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
     else
       ""
 
+  private[this] def shellEscape(s: String): String =
+    if (s.startsWith("-jar "))
+      s
+    else
+      s"'${s.replace("'", "'\\''")}'"
+
   override protected[this] def createReplacementsForMainScript(
     mainClass: String,
     mainClasses: Seq[String],
     config: SpecializedScriptConfig
   ): Seq[(String, String)] =
     Seq(
-      "app_mainclass" -> mainClass,
+      "app_mainclass" -> shellEscape(mainClass),
       "available_main_classes" -> usageMainClassReplacement(mainClasses)
     ) ++ config.replacements
 }

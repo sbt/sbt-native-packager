@@ -79,3 +79,6 @@ ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.do
 ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.linux.LinuxKeys.com$typesafe$sbt$packager$linux$LinuxKeys$_setter_$daemonHome_=")
 ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.linux.LinuxKeys.daemonHome")
 ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.linux.LinuxPlugin.makeReplacements")
+
+ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.docker.DockerKeys.dockerBuildEnvVars")
+ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.docker.DockerKeys.com$typesafe$sbt$packager$docker$DockerKeys$_setter_$dockerBuildEnvVars_=")

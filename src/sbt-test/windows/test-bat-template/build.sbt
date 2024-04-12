@@ -114,18 +114,16 @@ TaskKey[Unit]("checkScript") := {
   checkOutput("include symbols on -D", Seq("-Dtest.hoge=\\[]!< >%"), "property(test.hoge) is [\\[]!< >%]\nSUCCESS!")
   checkOutput("include symbols on normal args", Seq("\"\\[]!< >%\""), "arg #0 is [\\[]!< >%]\nSUCCESS!")
 
-  /* fails test because symbols '<' and '>' cannot be properly escaped during cmd execution
   checkOutput(
     "include symbols with double quote",
     Seq("-Dtest.huga=\"[]!<>%\""),
     "property(test.huga) is [[]!<>%]\nSUCCESS!"
   )
-  */
 
   checkOutput(
     "include symbols with double quote2",
-    Seq("-Dtest.hoge=\\[]!< >%", "\"\\[]!< >%\"", "-Dtest.huga=\\[]!<>%"),
-    "arg #0 is [\\[]!< >%]\nproperty(test.hoge) is [\\[]!< >%]\nproperty(test.huga) is [\\[]!<>%]\nSUCCESS!"
+    Seq("-Dtest.hoge=\\[]!< >%", "\"\\[]!< >%\"", "-Dtest.huga=\\[]!%"),
+    "arg #0 is [\\[]!< >%]\nproperty(test.hoge) is [\\[]!< >%]\nproperty(test.huga) is [\\[]!%]\nSUCCESS!"
   )
 
   // can't success include double-quote. arguments pass from Process(Seq("-Da=xx\"yy", "aa\"bb")) is parsed (%1="-Da", %2="xx\"yy aa\"bb") by cmd.exe ...
