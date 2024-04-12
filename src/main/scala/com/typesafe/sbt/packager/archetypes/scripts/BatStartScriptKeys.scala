@@ -5,7 +5,8 @@ import sbt._
 /**
   * Keys related to the [[BatStartScriptPlugin]]
   *
-  * @see [[BatStartScriptPlugin]]
+  * @see
+  *   [[BatStartScriptPlugin]]
   */
 trait BatStartScriptKeys {
   val makeBatScripts = TaskKey[Seq[(File, String)]]("makeBatScripts", "Creates start scripts for this project.")

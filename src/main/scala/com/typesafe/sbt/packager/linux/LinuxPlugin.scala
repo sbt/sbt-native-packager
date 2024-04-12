@@ -9,13 +9,13 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 
 /**
-  * Plugin containing all the generic values used for
-  * packaging linux software.
+  * Plugin containing all the generic values used for packaging linux software.
   *
-  * @example Enable the plugin in the `build.sbt`
-  * {{{
+  * @example
+  *   Enable the plugin in the `build.sbt`
+  *   {{{
   *    enablePlugins(LinuxPlugin)
-  * }}}
+  *   }}}
   */
 object LinuxPlugin extends AutoPlugin {
 
@@ -102,8 +102,7 @@ object LinuxPlugin extends AutoPlugin {
     )
 
   /**
-    * maps the `mappings` content into `linuxPackageMappings` and
-    * `linuxPackageSymlinks`.
+    * maps the `mappings` content into `linuxPackageMappings` and `linuxPackageSymlinks`.
     */
   def mapGenericFilesToLinux: Seq[Setting[_]] =
     Seq(
@@ -136,9 +135,8 @@ object LinuxPlugin extends AutoPlugin {
         val installLocation = defaultLinuxInstallLocation.value
         val configLocation = defaultLinuxConfigLocation.value
         val needsConfLink =
-          (mappings in Universal).value exists {
-            case (file, destination) =>
-              (destination startsWith "conf/") && !file.isDirectory
+          (mappings in Universal).value exists { case (file, destination) =>
+            (destination startsWith "conf/") && !file.isDirectory
           }
         if (needsConfLink)
           Seq(
@@ -185,10 +183,10 @@ object LinuxPlugin extends AutoPlugin {
     )
 
   /**
-    * Load the default controlscript functions which contain
-    * addUser/removeUser/addGroup/removeGroup
+    * Load the default controlscript functions which contain addUser/removeUser/addGroup/removeGroup
     *
-    * @return placeholder->content
+    * @return
+    *   placeholder->content
     */
   def controlScriptFunctionsReplacement(template: Option[URL] = None): (String, String) = {
     val url = template getOrElse LinuxPlugin.controlFunctions
@@ -210,23 +208,21 @@ object LinuxPlugin extends AutoPlugin {
   /**
     * Maps linux file format from the universal from the conventions:
     *
-    * `<project>/src/linux` files are mapped directly into linux packages.
-    * `<universal>` files are placed under `/usr/share/<package-name>`
-    * `<universal>/bin` files are given symlinks in `/usr/bin`
-    * `<universal>/conf` directory is given a symlink to `/etc/<package-name>`
-    * Files in `conf/` or `etc/` directories are automatically marked as configuration.
-    * `../man/...1` files are automatically compressed into .gz files.
+    * `<project>/src/linux` files are mapped directly into linux packages. `<universal>` files are placed under
+    * `/usr/share/<package-name>` `<universal>/bin` files are given symlinks in `/usr/bin` `<universal>/conf` directory
+    * is given a symlink to `/etc/<package-name>` Files in `conf/` or `etc/` directories are automatically marked as
+    * configuration. `../man/...1` files are automatically compressed into .gz files.
     */
   def mapGenericMappingsToLinux(mappings: Seq[(File, String)], user: String, group: String)(
     rename: String => String
   ): Seq[LinuxPackageMapping] = {
     val (directories, nondirectories) = mappings.partition(_._1.isDirectory)
-    val (configFiles, nonConfigFiles) = nondirectories partition {
-      case (_, destination) => (destination contains "etc/") || (destination contains "conf/")
+    val (configFiles, nonConfigFiles) = nondirectories partition { case (_, destination) =>
+      (destination contains "etc/") || (destination contains "conf/")
     }
     val (binaries, nonbinaries) = nonConfigFiles.partition(_._1.canExecute)
-    val (manPages, remaining) = nonbinaries partition {
-      case (_, destination) => (destination contains "man/") && (destination endsWith ".1")
+    val (manPages, remaining) = nonbinaries partition { case (_, destination) =>
+      (destination contains "man/") && (destination endsWith ".1")
     }
     val compressedManPages =
       for ((file, name) <- manPages)

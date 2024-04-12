@@ -10,18 +10,19 @@ import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{defaultLinuxInsta
 import com.typesafe.sbt.packager.Compat._
 
 /**
-  * == Java Application ==
+  * ==Java Application==
   *
-  * This class contains the default settings for creating and deploying an archetypical Java application.
-  * A Java application archetype is defined as a project that has a main method and is run by placing
-  * all of its JAR files on the classpath and calling that main method.
+  * This class contains the default settings for creating and deploying an archetypical Java application. A Java
+  * application archetype is defined as a project that has a main method and is run by placing all of its JAR files on
+  * the classpath and calling that main method.
   *
-  * == Configuration ==
+  * ==Configuration==
   *
-  * This plugin adds new settings to configure your packaged application.
-  * The keys are defined in [[com.typesafe.sbt.packager.archetypes.JavaAppKeys]]
+  * This plugin adds new settings to configure your packaged application. The keys are defined in
+  * [[com.typesafe.sbt.packager.archetypes.JavaAppKeys]]
   *
-  * @example Enable this plugin in your `build.sbt` with
+  * @example
+  *   Enable this plugin in your `build.sbt` with
   *
   * {{{
   *  enablePlugins(JavaAppPackaging)
@@ -166,7 +167,7 @@ object JavaAppPackaging extends AutoPlugin {
     else
       projectArts.find { art =>
         // TODO - Why is the module not showing up for project deps?
-        //(art.get(sbt.Keys.moduleID.key) ==  dep.get(sbt.Keys.moduleID.key)) &&
+        // (art.get(sbt.Keys.moduleID.key) ==  dep.get(sbt.Keys.moduleID.key)) &&
         (art.get(sbt.Keys.artifact.key), dep.get(sbt.Keys.artifact.key)) match {
           case (Some(l), Some(r)) =>
             // TODO - extra attributes and stuff for comparison?

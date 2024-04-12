@@ -22,13 +22,10 @@ trait NativePackagerKeys {
 }
 
 /**
-  * This Keys object can be used for
-  * <ul>
-  * <li>non autoplugin builds</li>
-  * <li>import single keys, which are not inside the autoImport</li>
-  * </ul>
+  * This Keys object can be used for <ul> <li>non autoplugin builds</li> <li>import single keys, which are not inside
+  * the autoImport</li> </ul>
   *
-  * == Non autoplugin builds ==
+  * ==Non autoplugin builds==
   *
   * {{{
   *  import com.typesafe.sbt.packager.Keys._
@@ -36,7 +33,7 @@ trait NativePackagerKeys {
   *  packageName := ""
   * }}}
   *
-  * == autoplugin builds ==
+  * ==autoplugin builds==
   *
   * {{{
   *  NativePackagerKeys.packageName := ""

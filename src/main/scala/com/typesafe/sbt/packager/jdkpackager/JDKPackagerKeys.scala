@@ -9,7 +9,8 @@ import scala.xml.Node
 /**
   * Keys specific to deployment via the `javapackger` tool.
   *
-  * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
+  * @author
+  *   <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
   * @since 2/11/15
   */
 trait JDKPackagerKeys {

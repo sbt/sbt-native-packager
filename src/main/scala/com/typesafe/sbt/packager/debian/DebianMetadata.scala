@@ -61,14 +61,12 @@ case class PackageMetaData(
 }
 
 /**
-  * This replacements are use for the debian maintainer scripts:
-  * preinst, postinst, prerm, postrm
+  * This replacements are use for the debian maintainer scripts: preinst, postinst, prerm, postrm
   */
 case class DebianControlScriptReplacements(author: String, descr: String, name: String, version: String) {
 
   /**
-    * Generates the replacement sequence for the debian
-    * maintainer scripts
+    * Generates the replacement sequence for the debian maintainer scripts
     */
   def makeReplacements(): Seq[(String, String)] =
     Seq("author" -> author, "descr" -> descr, "name" -> name, "version" -> version)

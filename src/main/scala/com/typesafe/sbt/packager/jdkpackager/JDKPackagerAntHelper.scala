@@ -11,7 +11,8 @@ import scala.xml.Elem
 /**
   * Helpers for working with Ant build definitions
   *
-  * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
+  * @author
+  *   <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
   * @since 5/7/15
   */
 object JDKPackagerAntHelper {
@@ -220,10 +221,11 @@ object JDKPackagerAntHelper {
   }
 
   /**
-    * Locate the generated packge.
-    * TODO: replace with something significantly more intelligent.
-    * @param output output directory
-    * @return generated file location
+    * Locate the generated packge. TODO: replace with something significantly more intelligent.
+    * @param output
+    *   output directory
+    * @return
+    *   generated file location
     */
   private[jdkpackager] def findResult(output: File, s: TaskStreams): Option[File] = {
     // Oooof. Need to do better than this to determine what was generated.

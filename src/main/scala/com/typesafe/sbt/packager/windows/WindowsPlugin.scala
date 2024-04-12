@@ -11,25 +11,23 @@ import com.typesafe.sbt.packager.SettingsHelper
 import com.typesafe.sbt.packager.sourceDateEpoch
 
 /**
-  * == Windows Plugin ==
+  * ==Windows Plugin==
   *
   * This plugin generates ''msi'' packages that can be installed on windows systems.
   *
-  * == Configuration ==
+  * ==Configuration==
   *
   * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.windows.WindowsKeys]]
   *
-  * == Requirements ==
+  * ==Requirements==
   *
-  * <ul>
-  * <li>Windows System</li>
-  * <li>Wix Toolset ([[http://wixtoolset.org/]]) installed
-  * </ul>
+  * <ul> <li>Windows System</li> <li>Wix Toolset ([[http://wixtoolset.org/]]) installed </ul>
   *
-  * @example Enable the plugin in the `build.sbt`
-  * {{{
+  * @example
+  *   Enable the plugin in the `build.sbt`
+  *   {{{
   *    enablePlugins(WindowsPlugin)
-  * }}}
+  *   }}}
   */
 object WindowsPlugin extends AutoPlugin {
 
@@ -108,8 +106,8 @@ object WindowsPlugin extends AutoPlugin {
       // to our target directory.
       val targetFlat: Path.FileMap = Path.flat(target.value)
       val wsxFiles = wsxSources.map(targetFlat(_).get)
-      val wsxCopyPairs = wsxSources.zip(wsxFiles).filter {
-        case (src, dest) => src.getAbsolutePath != dest.getAbsolutePath
+      val wsxCopyPairs = wsxSources.zip(wsxFiles).filter { case (src, dest) =>
+        src.getAbsolutePath != dest.getAbsolutePath
       }
       IO.copy(wsxCopyPairs)
       IO.copy(for ((f, to) <- mappings.value) yield (f, target.value / to))
@@ -157,9 +155,12 @@ object WindowsPlugin extends AutoPlugin {
   /**
     * Generates the wix configuration features
     *
-    * @param name - title of the core package
-    * @param mappings - use to generate different features
-    * @return windows features
+    * @param name
+    *   \- title of the core package
+    * @param mappings
+    *   \- use to generate different features
+    * @return
+    *   windows features
     */
   def makeWindowsFeatures(name: String, mappings: Seq[(File, String)]): Seq[WindowsFeature] = {
     // TODO select main script!  Filter Config links!

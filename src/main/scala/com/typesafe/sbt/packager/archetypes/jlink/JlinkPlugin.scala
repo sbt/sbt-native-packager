@@ -14,16 +14,17 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin
 import java.io.File
 
 /**
-  * == Jlink Application ==
+  * ==Jlink Application==
   *
-  * This class contains the default settings for creating and deploying an
-  * application as a runtime image using the standard `jlink` utility.
+  * This class contains the default settings for creating and deploying an application as a runtime image using the
+  * standard `jlink` utility.
   *
-  * == Configuration ==
+  * ==Configuration==
   *
   * This plugin adds new settings to configure your packaged application.
   *
-  * @example Enable this plugin in your `build.sbt` with
+  * @example
+  *   Enable this plugin in your `build.sbt` with
   *
   * {{{
   *  enablePlugins(JlinkPlugin)
@@ -67,8 +68,8 @@ object JlinkPlugin extends AutoPlugin {
       val releaseFile = javaHome0 / "release"
       val javaVersion = IO
         .readLines(releaseFile)
-        .collectFirst {
-          case javaVersionPattern(feature) => feature
+        .collectFirst { case javaVersionPattern(feature) =>
+          feature
         }
         .getOrElse(sys.error("JAVA_VERSION not found in ${releaseFile.getAbsolutePath}"))
 
@@ -96,9 +97,8 @@ object JlinkPlugin extends AutoPlugin {
         log.error(
           "Dependee packages not found in classpath. You can use jlinkIgnoreMissingDependency to silence these."
         )
-        missingDeps.foreach {
-          case (a, b) =>
-            log.error(s"  $a -> $b")
+        missingDeps.foreach { case (a, b) =>
+          log.error(s"  $a -> $b")
         }
         sys.error("Missing package dependencies")
       }
@@ -168,8 +168,8 @@ object JlinkPlugin extends AutoPlugin {
       // make sure the prefix has a terminating slash
       val prefix0 = if (prefix.isEmpty) prefix else prefix + "/"
 
-      findFiles(jlinkBuildImage.value).map {
-        case (file, string) => (file, prefix0 + string)
+      findFiles(jlinkBuildImage.value).map { case (file, string) =>
+        (file, prefix0 + string)
       }
     },
     Universal / mappings ++= (jlinkBuildImage / mappings).value
@@ -338,16 +338,14 @@ object JlinkPlugin extends AutoPlugin {
     val everything: ((String, String)) => Boolean = Function.const(true)
     def only(dependencies: (String, String)*): ((String, String)) => Boolean = dependencies.toSet.contains
 
-    /** This matches pairs by their respective ''package'' prefixes. This means that `"foo.bar"`
-      * matches `"foo.bar"`, `"foo.bar.baz"`, but not `"foo.barqux"`. Empty
-      * string matches anything.
+    /**
+      * This matches pairs by their respective ''package'' prefixes. This means that `"foo.bar"` matches `"foo.bar"`,
+      * `"foo.bar.baz"`, but not `"foo.barqux"`. Empty string matches anything.
       */
-    def byPackagePrefix(prefixPairs: (String, String)*): ((String, String)) => Boolean = {
-      case (a, b) =>
-        prefixPairs.exists {
-          case (prefixA, prefixB) =>
-            packagePrefixMatches(prefixA, a) && packagePrefixMatches(prefixB, b)
-        }
+    def byPackagePrefix(prefixPairs: (String, String)*): ((String, String)) => Boolean = { case (a, b) =>
+      prefixPairs.exists { case (prefixA, prefixB) =>
+        packagePrefixMatches(prefixA, a) && packagePrefixMatches(prefixB, b)
+      }
     }
 
     private def packagePrefixMatches(prefix: String, s: String): Boolean =

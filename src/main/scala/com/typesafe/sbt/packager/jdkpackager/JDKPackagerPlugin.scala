@@ -13,7 +13,8 @@ import JDKPackagerAntHelper._
 /**
   * Package format via Oracle's packaging tool bundled with JDK 8.
   *
-  * @author <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
+  * @author
+  *   <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
   * @since 2/11/15
   */
 object JDKPackagerPlugin extends AutoPlugin {

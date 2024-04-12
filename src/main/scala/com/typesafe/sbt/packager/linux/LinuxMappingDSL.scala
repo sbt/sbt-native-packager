@@ -8,7 +8,8 @@ trait LinuxMappingDSL {
   def packageMapping(files: (File, String)*) = LinuxPackageMapping(files)
 
   /**
-    * @param dir - use some directory, e.g. target.value
+    * @param dir
+    *   \- use some directory, e.g. target.value
     * @param files
     */
   def packageTemplateMapping(files: String*)(dir: File = new File(sys.props("java.io.tmpdir"))) =
@@ -16,8 +17,10 @@ trait LinuxMappingDSL {
 
   // TODO can the packager.MappingsHelper be used here?
   /**
-    * @see #mapDirectoryAndContents
-    * @param dirs - directories to map
+    * @see
+    *   #mapDirectoryAndContents
+    * @param dirs
+    *   \- directories to map
     */
   def packageDirectoryAndContentsMapping(dirs: (File, String)*) =
     LinuxPackageMapping(mapDirectoryAndContents(dirs: _*))
@@ -25,7 +28,8 @@ trait LinuxMappingDSL {
   /**
     * This method includes files and directories.
     *
-    * @param dirs - directories to map
+    * @param dirs
+    *   \- directories to map
     */
   def mapDirectoryAndContents(dirs: (File, String)*): Seq[(File, String)] =
     for {
@@ -39,8 +43,10 @@ trait LinuxMappingDSL {
     *
     * See: http://www-uxsup.csx.cam.ac.uk/~jw35/docs/rpm_config.html
     *
-    * @param mappings list of mappings to update
-    * @return updated list of mappings
+    * @param mappings
+    *   list of mappings to update
+    * @return
+    *   updated list of mappings
     */
   def configWithNoReplace(mappings: Seq[LinuxPackageMapping]): Seq[LinuxPackageMapping] =
     mappings.map {
