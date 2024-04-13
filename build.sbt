@@ -15,7 +15,7 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 classpathTypes += "maven-plugin"
 libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
-  "com.spotify" % "docker-client" % "8.14.5" % Provided,
+  "com.spotify" % "docker-client" % "8.16.0" % Provided,
   "org.vafer" % "jdeb" % "1.10" % Provided artifacts Artifact("jdeb", "jar", "jar"),
   "org.apache.commons" % "commons-compress" % "1.26.1",
   // for jdkpackager
