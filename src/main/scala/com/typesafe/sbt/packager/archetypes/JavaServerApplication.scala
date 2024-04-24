@@ -12,11 +12,12 @@ import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
 import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
 
 /**
-  * == Java Server App Packaging ==
+  * ==Java Server App Packaging==
   *
   * Provides configuration for running an application on a server.
   *
-  * @see [[http://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html]]
+  * @see
+  *   [[http://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html]]
   */
 object JavaServerAppPackaging extends AutoPlugin {
   import ServerLoader._
@@ -43,9 +44,9 @@ object JavaServerAppPackaging extends AutoPlugin {
   /**
     * general settings which apply to all linux server archetypes
     *
-    * - script replacements
-    * - logging directory
-    * - config directory
+    *   - script replacements
+    *   - logging directory
+    *   - config directory
     */
   def linuxSettings: Seq[Setting[_]] =
     Seq(
@@ -107,12 +108,12 @@ object JavaServerAppPackaging extends AutoPlugin {
           }
         )
       ) ++ Seq(
-      // === Daemon User and Group ===
-      daemonUser in Debian := (daemonUser in Linux).value,
-      daemonUserUid in Debian := (daemonUserUid in Linux).value,
-      daemonGroup in Debian := (daemonGroup in Linux).value,
-      daemonGroupGid in Debian := (daemonGroupGid in Linux).value
-    )
+        // === Daemon User and Group ===
+        daemonUser in Debian := (daemonUser in Linux).value,
+        daemonUserUid in Debian := (daemonUserUid in Linux).value,
+        daemonGroup in Debian := (daemonGroup in Linux).value,
+        daemonGroupGid in Debian := (daemonGroupGid in Linux).value
+      )
   }
 
   def rpmSettings: Seq[Setting[_]] =
@@ -131,18 +132,18 @@ object JavaServerAppPackaging extends AutoPlugin {
           }
         )
       ) ++ Seq(
-      // === Daemon User and Group ===
-      daemonUser in Rpm := (daemonUser in Linux).value,
-      daemonUserUid in Rpm := (daemonUserUid in Linux).value,
-      daemonGroup in Rpm := (daemonGroup in Linux).value,
-      daemonGroupGid in Rpm := (daemonGroupGid in Linux).value,
-      // == Maintainer scripts ===
-      maintainerScripts in Rpm := rpmScriptletContents(
-        rpmScriptsDirectory.value,
-        (maintainerScripts in Rpm).value,
-        (linuxScriptReplacements in Rpm).value
+        // === Daemon User and Group ===
+        daemonUser in Rpm := (daemonUser in Linux).value,
+        daemonUserUid in Rpm := (daemonUserUid in Linux).value,
+        daemonGroup in Rpm := (daemonGroup in Linux).value,
+        daemonGroupGid in Rpm := (daemonGroupGid in Linux).value,
+        // == Maintainer scripts ===
+        maintainerScripts in Rpm := rpmScriptletContents(
+          rpmScriptsDirectory.value,
+          (maintainerScripts in Rpm).value,
+          (linuxScriptReplacements in Rpm).value
+        )
       )
-    )
 
   /* ==========================================  */
   /* ============ Helper Methods ==============  */
@@ -188,10 +189,14 @@ object JavaServerAppPackaging extends AutoPlugin {
   /**
     * Loads an available script from the native-packager source if available.
     *
-    * @param config for which plugin (Debian, Rpm)
-    * @param replacements for the placeholders
-    * @param scriptName that should be loaded
-    * @return script lines
+    * @param config
+    *   for which plugin (Debian, Rpm)
+    * @param replacements
+    *   for the placeholders
+    * @param scriptName
+    *   that should be loaded
+    * @return
+    *   script lines
     */
   private[this] def getScriptContent(config: Configuration, replacements: Seq[(String, String)])(
     scriptName: String
@@ -199,15 +204,19 @@ object JavaServerAppPackaging extends AutoPlugin {
     JavaServerBashScript(scriptName, ARCHETYPE, config, replacements).toSeq
 
   /**
-    * Creates the etc-default file, which will contain the basic configuration
-    * for an app.
+    * Creates the etc-default file, which will contain the basic configuration for an app.
     *
-    * @param name of the etc-default config file
-    * @param tmpDir to store the resulting file in (e.g. target in Universal)
-    * @param source of etc-default script
-    * @param replacements for placeholders in etc-default script
+    * @param name
+    *   of the etc-default config file
+    * @param tmpDir
+    *   to store the resulting file in (e.g. target in Universal)
+    * @param source
+    *   of etc-default script
+    * @param replacements
+    *   for placeholders in etc-default script
     *
-    * @return Some(file: File)
+    * @return
+    *   Some(file: File)
     */
   protected def makeEtcDefaultScript(
     name: String,
@@ -233,18 +242,17 @@ object JavaServerAppPackaging extends AutoPlugin {
   ): Map[String, Seq[String]] = {
     import RpmConstants._
     val predefined = List(Pre, Post, Preun, Postun)
-    val predefinedScripts = predefined.foldLeft(scripts) {
-      case (scripts, script) =>
-        val userDefined = Option(scriptDirectory / script) collect {
-          case file if file.exists && file.isFile => file.toURI.toURL
-        }
-        // generate content
-        val content = JavaServerBashScript(script, ARCHETYPE, Rpm, replacements, userDefined).map { script =>
-          TemplateWriter generateScriptFromString (script, replacements)
-        }.toSeq
-        // add new content
-        val newContent = scripts.getOrElse(script, Nil) ++ content.toSeq
-        scripts + (script -> newContent)
+    val predefinedScripts = predefined.foldLeft(scripts) { case (scripts, script) =>
+      val userDefined = Option(scriptDirectory / script) collect {
+        case file if file.exists && file.isFile => file.toURI.toURL
+      }
+      // generate content
+      val content = JavaServerBashScript(script, ARCHETYPE, Rpm, replacements, userDefined).map { script =>
+        TemplateWriter generateScriptFromString (script, replacements)
+      }.toSeq
+      // add new content
+      val newContent = scripts.getOrElse(script, Nil) ++ content.toSeq
+      scripts + (script -> newContent)
     }
 
     // used to override template

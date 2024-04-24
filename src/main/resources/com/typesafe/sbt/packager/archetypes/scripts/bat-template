@@ -57,6 +57,11 @@ if defined BUNDLED_JVM (
 
 if "%_JAVACMD%"=="" set _JAVACMD=java
 
+rem if configuration files exist, prepend their contents to the script arguments so it can be processed by this runner
+call :parse_config "%SCRIPT_CONF_FILE%" SCRIPT_CONF_ARGS
+
+call :process_args %SCRIPT_CONF_ARGS% %%*
+
 rem Detect if this java is ok to use.
 for /F %%j in ('"%_JAVACMD%" -version  2^>^&1') do (
   if %%~j==java set JAVAINSTALLED=1
@@ -85,11 +90,6 @@ if "%JAVAOK%"=="false" (
   if defined DOUBLECLICKED pause
   exit /B 1
 )
-
-rem if configuration files exist, prepend their contents to the script arguments so it can be processed by this runner
-call :parse_config "%SCRIPT_CONF_FILE%" SCRIPT_CONF_ARGS
-
-call :process_args %SCRIPT_CONF_ARGS% %%*
 
 set _JAVA_OPTS=!_JAVA_OPTS! !_JAVA_PARAMS!
 
@@ -135,23 +135,36 @@ exit /B 0
 rem Processes incoming arguments and places them in appropriate global variables
 :process_args
   :param_loop
-  call set _PARAM1=%%1
-  set "_TEST_PARAM=%~1"
+  shift
+  call set _PARAM1=%%0
+  set "_TEST_PARAM=%~0"
 
   if ["!_PARAM1!"]==[""] goto param_afterloop
 
+  if "!_TEST_PARAM!"=="-main" (
+    call set CUSTOM_MAIN_CLASS=%%1
+    shift
+    goto param_loop
+  )
 
-  rem ignore arguments that do not start with '-'
-  if "%_TEST_PARAM:~0,1%"=="-" goto param_java_check
-  set _APP_ARGS=!_APP_ARGS! !_PARAM1!
-  shift
-  goto param_loop
+  if "!_TEST_PARAM!"=="-java-home" (
+    set "JAVA_HOME=%~1"
+    set "_JAVACMD=%~1\bin\java.exe"
+    shift
+    goto param_loop
+  )
 
-  :param_java_check
   if "!_TEST_PARAM:~0,2!"=="-J" (
     rem strip -J prefix
-    set _JAVA_PARAMS=!_JAVA_PARAMS! !_TEST_PARAM:~2!
-    shift
+    call set _TEST_PARAM=!_TEST_PARAM:~2!
+    if not "!_TEST_PARAM:~0,5!" == "-XX:+" if not "!_TEST_PARAM:~0,5!" == "-XX:-" if "!_TEST_PARAM:~0,3!" == "-XX" (
+      rem special handling for -J-XX since '=' gets parsed away
+      for /F "delims== tokens=1,*" %%G in ("!_TEST_PARAM!") DO (
+        call set _TEST_PARAM=!_TEST_PARAM!=%%1
+        shift
+      )
+    )
+    set _JAVA_PARAMS=!_JAVA_PARAMS! !_TEST_PARAM!
     goto param_loop
   )
 
@@ -160,22 +173,18 @@ rem Processes incoming arguments and places them in appropriate global variables
     for /F "delims== tokens=1,*" %%G in ("!_TEST_PARAM!") DO (
       if not ["%%H"] == [""] (
         set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
-      ) else if [%2] neq [] (
+      ) else if [%1] neq [] (
         rem it was a normal property: -Dprop=42 or -Drop="42"
-        call set _PARAM1=%%1=%%2
+        call set _PARAM1=%%0=%%1
         set _JAVA_PARAMS=!_JAVA_PARAMS! !_PARAM1!
         shift
       )
     )
-  ) else (
-    if "!_TEST_PARAM!"=="-main" (
-      call set CUSTOM_MAIN_CLASS=%%2
-      shift
-    ) else (
-      set _APP_ARGS=!_APP_ARGS! !_PARAM1!
-    )
+    goto param_loop
   )
-  shift
+
+  set _APP_ARGS=!_APP_ARGS! !_PARAM1!
+
   goto param_loop
   :param_afterloop
 

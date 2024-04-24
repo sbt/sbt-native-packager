@@ -10,7 +10,8 @@ trait CmdLike {
   /**
     * Creates the command which can be placed inside a Dockerfile.
     *
-    * @return the docker command
+    * @return
+    *   the docker command
     */
   def makeContent: String
 }
@@ -18,21 +19,17 @@ trait CmdLike {
 /**
   * Executable command
   *
-  * @example {{{
-  * ExecCmd("RUN", "chown", "-R", daemonUser, ".")
-  * }}}
+  * @example
+  *   {{{ExecCmd("RUN", "chown", "-R", daemonUser, ".")}}}
   *
-  * @example {{{
-  * ExecCmd("ENTRYPOINT", "bin/%s" format execScript),
-  * }}}
+  * @example
+  *   {{{ExecCmd("ENTRYPOINT", "bin/%s" format execScript),}}}
   *
-  * @example {{{
-  * ExecCmd("CMD")
-  * }}}
+  * @example
+  *   {{{ExecCmd("CMD")}}}
   *
-  * @example {{{
-  * ExecCmd("VOLUME", exposedVolumes: _*)
-  * }}}
+  * @example
+  *   {{{ExecCmd("VOLUME", exposedVolumes: _*)}}}
   */
 case class ExecCmd(cmd: String, args: String*) extends CmdLike {
   def makeContent: String =
@@ -43,19 +40,19 @@ case class ExecCmd(cmd: String, args: String*) extends CmdLike {
   * An arbitrary command
   *
   * @example
-  * {{{
+  *   {{{
   *   val add = Cmd("ADD", "src/resource/LICENSE.txt", "/opt/docker/LICENSE.txt")
-  * }}}
+  *   }}}
   *
   * @example
-  * {{{
+  *   {{{
   *   val copy = Cmd("COPY", "src/resource/LICENSE.txt", "/opt/docker/LICENSE.txt")
-  * }}}
+  *   }}}
   *
   * @example
-  * {{{
+  *   {{{
   *   val env = Cmd("ENV", "APP_SECRET", "7sdfy7s9hfisdufuusud")
-  * }}}
+  *   }}}
   */
 case class Cmd(cmd: String, args: String*) extends CmdLike {
   def makeContent: String = "%s %s\n" format (cmd, args.mkString(" "))
@@ -65,14 +62,14 @@ case class Cmd(cmd: String, args: String*) extends CmdLike {
   * A command that consists of a CMD string and an CmdLike object
   *
   * @example
-  * {{{
+  *   {{{
   *   val onBuildAdd = CombinedCmd("ONBUILD", Cmd("ADD", "src/resource/LICENSE.txt", "/opt/docker/LICENSE.txt"))
-  * }}}
+  *   }}}
   *
   * @example
-  * {{{
+  *   {{{
   *   val onBuildEnv = CombinedCmd("ONBUILD", Cmd("ENV", "APP_SECRET", "7sdfy7s9hfisdufuusud"))
-  * }}}
+  *   }}}
   */
 case class CombinedCmd(cmd: String, arg: CmdLike) extends CmdLike {
   def makeContent: String = "%s %s\n" format (cmd, arg.makeContent)
@@ -86,8 +83,7 @@ case class Comment(comment: String) extends CmdLike {
 }
 
 /**
-  * A break in Dockerfile to express multi-stage build.
-  * https://docs.docker.com/develop/develop-images/multistage-build/
+  * A break in Dockerfile to express multi-stage build. https://docs.docker.com/develop/develop-images/multistage-build/
   */
 case object DockerStageBreak extends CmdLike {
   def makeContent: String = "\n"

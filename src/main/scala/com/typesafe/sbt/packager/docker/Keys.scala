@@ -39,6 +39,8 @@ trait DockerKeys {
   val dockerExecCommand = SettingKey[Seq[String]]("dockerExecCommand", "The shell command used to exec Docker")
   val dockerVersion = TaskKey[Option[DockerVersion]]("dockerVersion", "The docker server version")
   val dockerBuildOptions = SettingKey[Seq[String]]("dockerBuildOptions", "Options used for the Docker build")
+  val dockerBuildEnvVars =
+    SettingKey[Map[String, String]]("dockerBuildEnvVars", "Environment variables used for the Docker build")
   val dockerBuildCommand = SettingKey[Seq[String]]("dockerBuildCommand", "Command for building the Docker image")
   val dockerLabels = SettingKey[Map[String, String]]("dockerLabels", "Labels applied to the Docker image")
   val dockerEnvVars =
@@ -74,6 +76,7 @@ private[packager] trait DockerKeysEx extends DockerKeys {
       "Setting to true will cause Docker to bundle a tini in the container, to run as the init process, which is recommended for JVM apps. " +
       "Requires Docker API version 1.25+"
   )
+  val dockerBuildkitEnabled = TaskKey[Boolean]("dockerBuildkitEnabled", "Detects whether buildkit is enabled")
   val dockerBuildxPlatforms =
     SettingKey[Seq[String]]("dockerBuildxPlatforms", "The docker image platforms for buildx multi-platform build")
 }

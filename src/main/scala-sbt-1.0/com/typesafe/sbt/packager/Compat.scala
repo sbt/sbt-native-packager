@@ -1,6 +1,6 @@
 package com.typesafe.sbt.packager
 
-import sbt.{PathFinder, librarymanagement => lm}
+import sbt.{librarymanagement => lm, PathFinder}
 import sbt.internal.{librarymanagement => ilm, BuildDependencies => InternalBuildDependencies}
 import sbt.util.CacheStore
 
@@ -14,7 +14,7 @@ object Compat {
 
   /**
     * Used in
-    * - [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]]
+    *   - [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]]
     */
   type BuildDependencies = InternalBuildDependencies
 
@@ -24,15 +24,16 @@ object Compat {
 
   /**
     * Used in
-    * - [[com.typesafe.sbt.packager.docker.DockerPlugin]]
+    *   - [[com.typesafe.sbt.packager.docker.DockerPlugin]]
     */
   type ProcessLogger = sys.process.ProcessLogger
 
   /**
-    *  Used in
-    * - [[com.typesafe.sbt.packager.Stager]]
+    * Used in
+    *   - [[com.typesafe.sbt.packager.Stager]]
     * @param file
-    * @return a CacheStore
+    * @return
+    *   a CacheStore
     */
   implicit def fileToCacheStore(file: java.io.File): CacheStore = CacheStore(file)
 }

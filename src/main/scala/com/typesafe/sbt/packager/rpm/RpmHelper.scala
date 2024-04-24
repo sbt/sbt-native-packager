@@ -13,10 +13,14 @@ object RpmHelper {
   /**
     * Prepares the staging directory for the rpm build command.
     *
-    * @param spec The RpmSpec
-    * @param workArea The target
-    * @param log Logger
-    * @return the `workArea`
+    * @param spec
+    *   The RpmSpec
+    * @param workArea
+    *   The target
+    * @param log
+    *   Logger
+    * @return
+    *   the `workArea`
     */
   def stage(spec: RpmSpec, workArea: File, log: sbt.Logger): File = {
     buildWorkArea(workArea)
@@ -33,10 +37,14 @@ object RpmHelper {
   /**
     * Build the rpm package
     *
-    * @param spec The RpmSpec
-    * @param stagingArea Prepared staging area
-    * @param log Logger
-    * @return The rpm package
+    * @param spec
+    *   The RpmSpec
+    * @param stagingArea
+    *   Prepared staging area
+    * @param log
+    *   Logger
+    * @return
+    *   The rpm package
     */
   def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger): File = {
     buildPackage(stagingArea, spec, log)

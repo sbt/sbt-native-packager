@@ -8,30 +8,31 @@ import sbt.Keys._
 import sbt._
 
 /**
-  * == DockerSpotifyClientPlugin Plugin ==
+  * ==DockerSpotifyClientPlugin Plugin==
   *
   * This plugin helps you build docker containers using Spotify Docker Client.
   *
-  * == Configuration ==
+  * ==Configuration==
   *
   * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.docker.DockerKeys]]
   *
-  * == Requirements ==
+  * ==Requirements==
   *
-  * You need docker to have docker installed on your system.
-  * Check with a single command:
+  * You need docker to have docker installed on your system. Check with a single command:
   *
   * {{{
   * docker version
   * }}}
   *
-  * @note this plugin is not intended to build very customizable docker images, but turn your mappings
-  *       configuration in a docker image with almost no ''any'' configuration.
+  * @note
+  *   this plugin is not intended to build very customizable docker images, but turn your mappings configuration in a
+  *   docker image with almost no ''any'' configuration.
   *
-  * @example Enable the plugin in the `build.sbt`
-  * {{{
+  * @example
+  *   Enable the plugin in the `build.sbt`
+  *   {{{
   *   enablePlugins(DockerSpotifyClientPlugin)
-  * }}}
+  *   }}}
   *
   * and add the dependency in your `plugins.sbt`
   *
@@ -39,9 +40,8 @@ import sbt._
   *   libraryDependencies += "com.spotify" % "docker-client" % "3.5.13"
   * }}}
   *
-  * The Docker-spotify client is a provided dependency so you have to add it on your own.
-  * It brings a lot of dependenciesthat could slow your build times. This is the reason
-  * the dependency is marked as provided.
+  * The Docker-spotify client is a provided dependency so you have to add it on your own. It brings a lot of
+  * dependenciesthat could slow your build times. This is the reason the dependency is marked as provided.
   */
 object DockerSpotifyClientPlugin extends AutoPlugin {
 
@@ -97,10 +97,10 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 }
 
 /**
-  * == Docker Client Task ==
+  * ==Docker Client Task==
   *
-  * This private class contains all the docker-plugin specific implementations. It's only invoked when the docker
-  * plugin is enabled and the `docker:publishLocal` task is called. This means that all classes in
+  * This private class contains all the docker-plugin specific implementations. It's only invoked when the docker plugin
+  * is enabled and the `docker:publishLocal` task is called. This means that all classes in
   * `com.spotify.docker.client._` are only loaded when required and allows us to put the dependency in the "provided"
   * scope. The provided scope means that we have less dependency issues in an sbt build.
   */

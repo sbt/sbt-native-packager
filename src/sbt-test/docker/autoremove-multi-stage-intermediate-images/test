@@ -1,3 +1,5 @@
+# When using BuildKit, intermediate build steps are not exposed as images
+> 'set dockerBuildEnvVars += "DOCKER_BUILDKIT" -> "0"'
 # First make sure we start clean
 $ exec bash -c 'docker image prune -f --filter label=snp-multi-stage=intermediate'
 # Generate the Docker image locally

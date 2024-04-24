@@ -14,10 +14,11 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin
 /**
   * Plugin to compile ahead-of-time native executables.
   *
-  * @example Enable the plugin in the `build.sbt`
-  * {{{
+  * @example
+  *   Enable the plugin in the `build.sbt`
+  *   {{{
   *    enablePlugins(GraalVMNativeImagePlugin)
-  * }}}
+  *   }}}
   */
 object GraalVMNativeImagePlugin extends AutoPlugin {
 
@@ -216,8 +217,8 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     streams: TaskStreams
   ): File = {
     val stageDir = targetDirectory / "stage"
-    val mappings = classpathJars ++ resources.map {
-      case (resource, path) => resource -> s"resources/$path"
+    val mappings = classpathJars ++ resources.map { case (resource, path) =>
+      resource -> s"resources/$path"
     }
     Stager.stage(GraalVMBaseImage)(streams, stageDir, mappings)
   }
