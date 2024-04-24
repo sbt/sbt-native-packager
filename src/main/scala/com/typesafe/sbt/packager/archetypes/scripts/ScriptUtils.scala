@@ -12,9 +12,12 @@ object ScriptUtils {
 
   /**
     * Generates launcher script names for the specified main class names.
-    * @param discoveredMainClasses discovered qualified main class names
-    * @return sequence of tuples: (passed in class name) -> (generated script name)
-    * @note may introduce name collisions in some corner cases
+    * @param discoveredMainClasses
+    *   discovered qualified main class names
+    * @return
+    *   sequence of tuples: (passed in class name) -> (generated script name)
+    * @note
+    *   may introduce name collisions in some corner cases
     */
   def createScriptNames(discoveredMainClasses: Seq[String]): Seq[(String, String)] = {
     val mainClasses = discoveredMainClasses.map { fullyQualifiedClassName =>
@@ -22,37 +25,36 @@ object ScriptUtils {
     }
     val (duplicates, uniques) = mainClasses
       .groupBy(_.simpleName)
-      .partition {
-        case (_, classes) => classes.length > 1
+      .partition { case (_, classes) =>
+        classes.length > 1
       }
 
-    val resultsForUniques = uniques.toSeq.map {
-      case (_, seqOfOneClass) => seqOfOneClass.head.asSimpleTuple
+    val resultsForUniques = uniques.toSeq.map { case (_, seqOfOneClass) =>
+      seqOfOneClass.head.asSimpleTuple
     }
-    val resultsForDuplicates = duplicates.toSeq.flatMap {
-      case (_, classes) => classes.map(_.asQualifiedTuple)
+    val resultsForDuplicates = duplicates.toSeq.flatMap { case (_, classes) =>
+      classes.map(_.asQualifiedTuple)
     }
     resultsForUniques ++ resultsForDuplicates
   }
 
   def describeDuplicates(classesAndScripts: Seq[(String, String)]): Seq[String] =
     classesAndScripts
-      .groupBy {
-        case (_, scriptName) => scriptName
+      .groupBy { case (_, scriptName) =>
+        scriptName
       }
       .toSeq
-      .filter {
-        case (_, classesWithTheSameScriptName) => classesWithTheSameScriptName.length > 1
+      .filter { case (_, classesWithTheSameScriptName) =>
+        classesWithTheSameScriptName.length > 1
       }
-      .map {
-        case (scriptName, duplicates) =>
-          val temp = duplicates
-            .map {
-              case (qualifiedClassName, _) => qualifiedClassName
-            }
-            .sorted
-            .mkString(", ")
-          s"$scriptName ($temp)"
+      .map { case (scriptName, duplicates) =>
+        val temp = duplicates
+          .map { case (qualifiedClassName, _) =>
+            qualifiedClassName
+          }
+          .sorted
+          .mkString(", ")
+        s"$scriptName ($temp)"
       }
 
   def warnOnScriptNameCollision(classesAndScripts: Seq[(String, String)], log: sbt.Logger): Unit = {
@@ -64,12 +66,14 @@ object ScriptUtils {
   }
 
   /**
-    * Converts class name to lower case, applying some heuristics
-    * to guess the word splitting.
-    * @param qualifiedClassName a class name
-    * @return lower cased name with '-' between words. Dots ('.') are left as is.
-    * @note This function can still introduce name collisions sometimes: for example,
-    *       both Test1Class and Test1class (note the capitalization) will end up test-1-class.
+    * Converts class name to lower case, applying some heuristics to guess the word splitting.
+    * @param qualifiedClassName
+    *   a class name
+    * @return
+    *   lower cased name with '-' between words. Dots ('.') are left as is.
+    * @note
+    *   This function can still introduce name collisions sometimes: for example, both Test1Class and Test1class (note
+    *   the capitalization) will end up test-1-class.
     */
   def toLowerCase(qualifiedClassName: String): String = {
     // suppose list is not very huge, so no need in tail recursion

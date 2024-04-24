@@ -13,31 +13,38 @@ case object NoMain extends StartScriptMainClassConfig
 /**
   * The project has a single defined main class.
   *
-  * @param mainClass project main entrypoint
+  * @param mainClass
+  *   project main entrypoint
   */
 case class SingleMain(mainClass: String) extends StartScriptMainClassConfig
 
 /**
   * The project has multiple main classes, but no explicit configured main entrypoint.
   *
-  * @param mainClasses A non-empty list of main classes
+  * @param mainClasses
+  *   A non-empty list of main classes
   */
 case class MultipleMains(mainClasses: Seq[String]) extends StartScriptMainClassConfig
 
 /**
   * The project has multiple main classes and a defined main entrypoint.
   *
-  * @param mainClass Explicitly defined main class
-  * @param additional Other discovered main classes without the explicit main class
+  * @param mainClass
+  *   Explicitly defined main class
+  * @param additional
+  *   Other discovered main classes without the explicit main class
   */
 case class ExplicitMainWithAdditional(mainClass: String, additional: Seq[String]) extends StartScriptMainClassConfig
 
 object StartScriptMainClassConfig {
 
   /**
-    * @param mainClass optional main class, e.g. from (mainClass in Compile).value
-    * @param discoveredMainClasses all discovered main classes, e.g. from (discoveredMainClasses in Compile).value
-    * @return A start script configuration
+    * @param mainClass
+    *   optional main class, e.g. from (mainClass in Compile).value
+    * @param discoveredMainClasses
+    *   all discovered main classes, e.g. from (discoveredMainClasses in Compile).value
+    * @return
+    *   A start script configuration
     */
   def from(mainClass: Option[String], discoveredMainClasses: Seq[String]): StartScriptMainClassConfig = {
     val additionalMainClasses = discoveredMainClasses.filterNot(mainClass == Some(_))

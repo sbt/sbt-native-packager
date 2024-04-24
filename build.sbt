@@ -3,7 +3,7 @@ organization := "com.github.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
-Global / scalaVersion := "2.12.12"
+Global / scalaVersion := "2.12.19"
 
 // crossBuildingSettings
 crossSbtVersions := Vector("1.1.6")
@@ -15,21 +15,21 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 classpathTypes += "maven-plugin"
 libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
-  "com.spotify" % "docker-client" % "8.14.3" % Provided,
-  "org.vafer" % "jdeb" % "1.7" % Provided artifacts Artifact("jdeb", "jar", "jar"),
-  "org.apache.commons" % "commons-compress" % "1.21",
+  "com.spotify" % "docker-client" % "8.14.5" % Provided,
+  "org.vafer" % "jdeb" % "1.10" % Provided artifacts Artifact("jdeb", "jar", "jar"),
+  "org.apache.commons" % "commons-compress" % "1.26.1",
   // for jdkpackager
-  "org.apache.ant" % "ant" % "1.10.12",
+  "org.apache.ant" % "ant" % "1.10.14",
   // workaround for the command line size limit
   "com.github.eldis" % "tool-launcher" % "0.2.2",
-  "org.scalatest" %% "scalatest" % "3.0.5" % Test
+  "org.scalatest" %% "scalatest" % "3.0.9" % Test
 )
 
 // sbt dependent libraries
 libraryDependencies ++= {
   (pluginCrossBuild / sbtVersion).value match {
     case v if v.startsWith("1.") =>
-      Seq("org.scala-sbt" %% "io" % "1.2.2")
+      Seq("org.scala-sbt" %% "io" % "1.9.9")
     case _ => Seq()
   }
 }
@@ -45,7 +45,7 @@ libraryDependencies ++= {
         // like the 2.12.x Scala compiler, otherwise we run into conflicts when using sbt 1.5+
         // See https://github.com/scala/scala/pull/9743
         "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2", // Do not upgrade beyond 1.x
-        "org.scala-lang.modules" %% "scala-xml" % "2.1.0"
+        "org.scala-lang.modules" %% "scala-xml" % "2.2.0"
       )
   }
 }

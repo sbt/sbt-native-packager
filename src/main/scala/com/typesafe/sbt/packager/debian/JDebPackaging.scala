@@ -16,17 +16,20 @@ import DebianPlugin.Names
 import DebianPlugin.autoImport._
 
 /**
-  * == JDeb Plugin ==
-  * This provides a java based debian packaging implementation based
-  * on the jdeb maven-plugin. To use this, put this into your build.sbt
+  * ==JDeb Plugin==
+  * This provides a java based debian packaging implementation based on the jdeb maven-plugin. To use this, put this
+  * into your build.sbt
   *
-  * @example Enable the plugin in the `build.sbt`
-  * {{{
+  * @example
+  *   Enable the plugin in the `build.sbt`
+  *   {{{
   *  enablePlugins(JDebPackaging)
-  * }}}
+  *   }}}
   *
-  * @author Nepomuk Seiler
-  * @see [[https://github.com/tcurdt/jdeb/blob/master/src/main/java/org/vafer/jdeb/maven/DebMojo.java#L503]]
+  * @author
+  *   Nepomuk Seiler
+  * @see
+  *   [[https://github.com/tcurdt/jdeb/blob/master/src/main/java/org/vafer/jdeb/maven/DebMojo.java#L503]]
   */
 object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
@@ -52,8 +55,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         cfile
       },
       /**
-        * Depends on the 'debianExplodedPackage' task as this creates all the files
-        * which are defined in the mappings.
+        * Depends on the 'debianExplodedPackage' task as this creates all the files which are defined in the mappings.
         */
       packageBin := {
         val targetDir = target.value
@@ -88,8 +90,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
     )
 
   /**
-    * The same as [[DebianPluginLike.copyAndFixPerms]] except chmod invocation (for windows compatibility).
-    * Permissions will be handled by jDeb packager itself.
+    * The same as [[DebianPluginLike.copyAndFixPerms]] except chmod invocation (for windows compatibility). Permissions
+    * will be handled by jDeb packager itself.
     */
   private def copyFiles(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit =
     if (zipped)
@@ -116,8 +118,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 }
 
 /**
-  * This provides the task for building a debian packaging with
-  * the java-based implementation jdeb
+  * This provides the task for building a debian packaging with the java-based implementation jdeb
   */
 class JDebConsole(log: Logger) extends org.vafer.jdeb.Console {
 
@@ -129,12 +130,12 @@ class JDebConsole(log: Logger) extends org.vafer.jdeb.Console {
 }
 
 /**
-  * == JDeb Packaging Task ==
+  * ==JDeb Packaging Task==
   *
   * This private class contains all the jdeb-plugin specific implementations. It's only invoked when the jdeb plugin is
-  * enabled and the `debian:packageBin` task is called. This means that all classes in `org.vafer.jdeb._` are only loaded
-  * when required and allows us to put the dependency in the "provided" scope. The provided scope means that we have less
-  * dependency issues in an sbt build.
+  * enabled and the `debian:packageBin` task is called. This means that all classes in `org.vafer.jdeb._` are only
+  * loaded when required and allows us to put the dependency in the "provided" scope. The provided scope means that we
+  * have less dependency issues in an sbt build.
   */
 private class JDebPackagingTask {
   import org.vafer.jdeb.{DataProducer, DebMaker}
@@ -165,35 +166,31 @@ private class JDebPackagingTask {
   }
 
   /**
-    * Creating file and directory producers. These "produce" the
-    * files for the debian packaging.
+    * Creating file and directory producers. These "produce" the files for the debian packaging.
     *
-    * May create duplicates together with the conffileProducers.
-    * This will be an performance improvement (reducing IO)
+    * May create duplicates together with the conffileProducers. This will be an performance improvement (reducing IO)
     */
   private def fileAndDirectoryProducers(mappings: Seq[LinuxPackageMapping], target: File): Seq[DataProducer] =
-    mappings.flatMap {
-      case LinuxPackageMapping(paths, perms, zipped) =>
-        paths.map {
-          // Directories need to be created so jdeb can pick them up
-          case (path, name) if path.isDirectory =>
-            val permMapper = new PermMapper(-1, -1, perms.user, perms.group, null, perms.permissions, -1, null)
-            (target / cleanPath(name)) mkdirs ()
-            new DataProducerDirectory(target, Array(cleanPath(name)), null, Array(permMapper))
+    mappings.flatMap { case LinuxPackageMapping(paths, perms, zipped) =>
+      paths.map {
+        // Directories need to be created so jdeb can pick them up
+        case (path, name) if path.isDirectory =>
+          val permMapper = new PermMapper(-1, -1, perms.user, perms.group, null, perms.permissions, -1, null)
+          (target / cleanPath(name)) mkdirs ()
+          new DataProducerDirectory(target, Array(cleanPath(name)), null, Array(permMapper))
 
-          // Files are just referenced
-          case (path, name) =>
-            new DataProducerFile(path, cleanPath(name), null, null, Array(filePermissions(perms)))
-        }
+        // Files are just referenced
+        case (path, name) =>
+          new DataProducerFile(path, cleanPath(name), null, null, Array(filePermissions(perms)))
+      }
     }
 
   /**
     * Creating link producers for symlinks.
     */
   private[debian] def linkProducers(symlinks: Seq[LinuxSymlink]): Seq[DataProducer] =
-    symlinks map {
-      case LinuxSymlink(link, destination) =>
-        new DataProducerLink(link, destination, true, null, null, null)
+    symlinks map { case LinuxSymlink(link, destination) =>
+      new DataProducerLink(link, destination, true, null, null, null)
     }
 
   /**

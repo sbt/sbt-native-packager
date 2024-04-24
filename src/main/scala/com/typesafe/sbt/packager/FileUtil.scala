@@ -17,7 +17,8 @@ object chmod {
     * Using java 7 nio API to set the permissions.
     *
     * @param file
-    * @param perms in octal format
+    * @param perms
+    *   in octal format
     */
   def apply(file: File, perms: String): Unit = {
     val posix = permissions(perms)
@@ -41,14 +42,15 @@ object chmod {
 }
 
 /**
-  * Converts a octal unix permission representation into
-  * a java `PosiFilePermissions` compatible string.
+  * Converts a octal unix permission representation into a java `PosiFilePermissions` compatible string.
   */
 object permissions {
 
   /**
-    * @param perms in octal format
-    * @return java 7 posix file permissions
+    * @param perms
+    *   in octal format
+    * @return
+    *   java 7 posix file permissions
     */
   def apply(perms: String): java.util.Set[PosixFilePermission] =
     PosixFilePermissions fromString convert(perms)
@@ -86,10 +88,10 @@ object permissions {
 object sourceDateEpoch {
 
   /**
-    * If the SOURCE_DATE_EPOCH environment variable is defined, change the mtime of the file (and
-    * all children recursively) to the epoch value. This is useful when trying to create
-    * reproducible builds since some packaging tools (e.g. tar, gzip) embed last modified times
-    * in the package. If the environment variable is not defined, this does nothing.
+    * If the SOURCE_DATE_EPOCH environment variable is defined, change the mtime of the file (and all children
+    * recursively) to the epoch value. This is useful when trying to create reproducible builds since some packaging
+    * tools (e.g. tar, gzip) embed last modified times in the package. If the environment variable is not defined, this
+    * does nothing.
     */
   def apply(file: File): Unit =
     sys.env.get("SOURCE_DATE_EPOCH").foreach { epoch =>

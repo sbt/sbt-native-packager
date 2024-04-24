@@ -9,7 +9,7 @@ import sbt.Keys._
 import sbt._
 
 /**
-  * == Bash StartScript Plugin ==
+  * ==Bash StartScript Plugin==
   *
   * This plugins creates a start bash script to run an application built with the
   * [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]].
@@ -98,8 +98,10 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
   }
 
   /**
-    * @param path that could be relative to app_home
-    * @return path relative to app_home
+    * @param path
+    *   that could be relative to app_home
+    * @return
+    *   path relative to app_home
     */
   protected def cleanApplicationIniPath(path: String): String = path.stripPrefix("${app_home}/../")
 
@@ -115,9 +117,10 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
     /**
       * Creates the block of defines for a script.
       *
-      * @param appClasspath A sequence of relative-locations (to the lib/ folder) of jars
-      *                     to include on the classpath.
-      * @param configFile An (optional) filename from which the script will read arguments.
+      * @param appClasspath
+      *   A sequence of relative-locations (to the lib/ folder) of jars to include on the classpath.
+      * @param configFile
+      *   An (optional) filename from which the script will read arguments.
       */
     def apply(appClasspath: Seq[String], configFile: Option[String], bundledJvm: Option[String]): Seq[String] =
       (configFile map configFileDefine).toSeq ++
@@ -125,10 +128,9 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
         (bundledJvm map bundledJvmDefine).toSeq
 
     private[this] def makeClasspathDefine(cp: Seq[String]): String = {
-      val fullString = cp map (
-        n =>
-          if (n.startsWith("/")) n
-          else "$lib_dir/" + n
+      val fullString = cp map (n =>
+        if (n.startsWith("/")) n
+        else "$lib_dir/" + n
       ) mkString ":"
       "declare -r app_classpath=\"" + fullString + "\"\n"
     }
@@ -146,13 +148,19 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
     else
       ""
 
+  private[this] def shellEscape(s: String): String =
+    if (s.startsWith("-jar "))
+      s
+    else
+      s"'${s.replace("'", "'\\''")}'"
+
   override protected[this] def createReplacementsForMainScript(
     mainClass: String,
     mainClasses: Seq[String],
     config: SpecializedScriptConfig
   ): Seq[(String, String)] =
     Seq(
-      "app_mainclass" -> mainClass,
+      "app_mainclass" -> shellEscape(mainClass),
       "available_main_classes" -> usageMainClassReplacement(mainClasses)
     ) ++ config.replacements
 }

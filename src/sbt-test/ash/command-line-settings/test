@@ -3,3 +3,4 @@
 $ exists target/universal/stage/bin/command-line-app
 > checkSystemProperty
 > checkResidual
+> checkComplexResidual

@@ -14,10 +14,11 @@ import com.typesafe.sbt.packager.validation._
 /**
   * Plugin containing all generic values used for packaging rpms.
   *
-  * @example Enable the plugin in the `build.sbt`
-  * {{{
+  * @example
+  *   Enable the plugin in the `build.sbt`
+  *   {{{
   *    enablePlugins(RpmPlugin)
-  * }}}
+  *   }}}
   */
 object RpmPlugin extends AutoPlugin {
 
@@ -37,7 +38,7 @@ object RpmPlugin extends AutoPlugin {
   object Names {
     val Scriptlets = "scriptlets"
 
-    //maintainer script names
+    // maintainer script names
     /** `pretrans` */
     val Pretrans = "pretrans"
 

@@ -11,18 +11,19 @@ import com.typesafe.sbt.packager.{SettingsHelper, Stager}
 import sbt.Keys.TaskStreams
 
 /**
-  * == Universal Plugin ==
+  * ==Universal Plugin==
   *
   * Defines behavior to construct a 'universal' zip for installation.
   *
-  * == Configuration ==
+  * ==Configuration==
   *
   * In order to configure this plugin take a look at the available [[com.typesafe.sbt.packager.universal.UniversalKeys]]
   *
-  * @example Enable the plugin in the `build.sbt`
-  * {{{
+  * @example
+  *   Enable the plugin in the `build.sbt`
+  *   {{{
   *    enablePlugins(UniversalPlugin)
-  * }}}
+  *   }}}
   */
 object UniversalPlugin extends AutoPlugin {
 
@@ -89,10 +90,10 @@ object UniversalPlugin extends AutoPlugin {
           stage := Stager.stage(config.name)(streams.value, stagingDirectory.value, mappings.value)
         )
       ) ++ Seq(
-      sourceDirectory in config := sourceDirectory.value / config.name,
-      validatePackageValidators in config := validatePackageValidators.value,
-      target in config := target.value / config.name
-    )
+        sourceDirectory in config := sourceDirectory.value / config.name,
+        validatePackageValidators in config := validatePackageValidators.value,
+        target in config := target.value / config.name
+      )
 
   private[this] def defaultUniversalArchiveOptions: Seq[Setting[_]] =
     Seq(

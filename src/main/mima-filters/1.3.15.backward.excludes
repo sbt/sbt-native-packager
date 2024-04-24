@@ -80,6 +80,9 @@ ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.
 ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.linux.LinuxKeys.daemonHome")
 ProblemFilters.exclude[DirectMissingMethodProblem]("com.typesafe.sbt.packager.linux.LinuxPlugin.makeReplacements")
 
+ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.docker.DockerKeys.dockerBuildEnvVars")
+ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.docker.DockerKeys.com$typesafe$sbt$packager$docker$DockerKeys$_setter_$dockerBuildEnvVars_=")
+
 # added via #1557
 ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptKeys.com$typesafe$sbt$packager$archetypes$scripts$BashStartScriptKeys$_setter_$bashForwarderTemplateLocation_=")
 ProblemFilters.exclude[ReversedMissingMethodProblem]("com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptKeys.bashForwarderTemplateLocation")

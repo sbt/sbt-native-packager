@@ -10,7 +10,7 @@ import sbt.Keys._
 import sbt._
 
 /**
-  * == Bat StartScript Plugin ==
+  * ==Bat StartScript Plugin==
   *
   * This plugins creates a start bat script to run an application built with the
   * [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]].
@@ -161,8 +161,10 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
     )
 
   /**
-    * @param path that could be relative to APP_HOME
-    * @return path relative to APP_HOME
+    * @param path
+    *   that could be relative to APP_HOME
+    * @return
+    *   path relative to APP_HOME
     */
   protected def cleanApplicationIniPath(path: String): String =
     path.stripPrefix("%APP_HOME%\\").stripPrefix("/").replace('\\', '/')
@@ -216,8 +218,8 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
 
     // TODO - use more of the template writer for this...
     private[this] def replace(line: String, replacements: Seq[(String, String)]): String =
-      replacements.foldLeft(line) {
-        case (in, (key, value)) => in.replaceAll("@@" + key + "@@", java.util.regex.Matcher.quoteReplacement(value))
+      replacements.foldLeft(line) { case (in, (key, value)) =>
+        in.replaceAll("@@" + key + "@@", java.util.regex.Matcher.quoteReplacement(value))
       }
   }
 

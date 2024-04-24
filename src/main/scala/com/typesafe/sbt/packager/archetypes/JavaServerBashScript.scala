@@ -5,13 +5,11 @@ import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader._
 
 /**
   * Loads scripts from the resource path that are associated with
-  * <ul>
-  * <li>an archetype</li>
-  * <li>a sbt.Configuration</li>
-  * </ul>
+  *   - an archetype
+  *   - a sbt.Configuration
   *
   * @example
-  * {{{
+  *   {{{
   * val scriptName: String = "postrm"
   * val archetype: String = "java_server"
   * val config: Configuration = SbtNativePackager.Debian
@@ -22,17 +20,23 @@ import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader._
   *     sys.error(s"Couldn't load [scriptName] for config [{config.name}] in archetype [archetype]")
   * }
   * IO.write(scriptFile, scriptContent)
-  * }}}
-  * @see [[com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging]]
+  *   }}}
+  * @see
+  *   [[com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging]]
   */
 object JavaServerBashScript {
 
   /**
-    * @param script - script name
-    * @param templateName - DebianPlugin.Names for maintainer scripts and "start"
-    * @param loader - which startup system
-    * @param replacements - default replacements
-    * @param template - if specified, it will override the default one
+    * @param script
+    *   script name
+    * @param templateName
+    *   DebianPlugin.Names for maintainer scripts and "start"
+    * @param loader
+    *   which startup system
+    * @param replacements
+    *   default replacements
+    * @param template
+    *   if specified, it will override the default one
     */
   def apply(
     script: String,
@@ -70,9 +74,12 @@ object JavaServerLoaderScript {
     *
     * The functions script resides in "[archetype]/[loader]/functions"
     *
-    * @param loader - Upstart, SystemV, SystemD
-    * @param script - default is "functions"
-    * @return functions - addService/stopService with resolved variables
+    * @param loader
+    *   Upstart, SystemV, SystemD
+    * @param script
+    *   default is "functions"
+    * @return
+    *   functions - addService/stopService with resolved variables
     */
   def loaderFunctionsReplacement(
     loader: ServerLoader,
