@@ -23,10 +23,10 @@ TaskKey[Unit]("checkResidual") := {
 }
 
 TaskKey[Unit]("checkComplexResidual") := {
-  val args = Seq("-J-Dfoo=bar", "arg1", "--", "-J-Dfoo=bar", "arg 2", "--", "\"", "$foo", "'", "%s", "-y", "bla", "\\'", "\\\"")
+  val args = Seq("-J-Dfoo=bar", "arg1", "--", "-J-Dfoo=bar", "arg 2", "--", "\"", "$foo", "'", "%s", "-y", "bla", "\\'", "\\\"", "''")
   val cwd = (stagingDirectory in Universal).value
   val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath) ++ args
-  val expected = """arg1|-J-Dfoo=bar|arg 2|--|"|$foo|'|%s|-y|bla|\'|\""""
+  val expected = """arg1|-J-Dfoo=bar|arg 2|--|"|$foo|'|%s|-y|bla|\'|\"|''"""
 
   val output = (sys.process.Process(cmd, cwd).!!).split("\n").last
   assert(output == expected, s"Application did not receive residual args '$expected' (got '$output')")
