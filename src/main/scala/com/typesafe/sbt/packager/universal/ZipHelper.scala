@@ -11,6 +11,7 @@ import org.apache.commons.compress.utils.IOUtils
 import sbt._
 
 import scala.collection.JavaConverters._
+import scala.Iterable
 
 /**
   * Module with functions associated with processing zip files.
@@ -34,7 +35,7 @@ object ZipHelper {
     * @param outputZip
     *   The location of the output file.
     */
-  def zipNative(sources: Traversable[(File, String)], outputZip: File): Unit =
+  def zipNative(sources: Iterable[(File, String)], outputZip: File): Unit =
     IO.withTemporaryDirectory { dir =>
       val name = outputZip.getName
       val zipDir = dir / (if (name endsWith ".zip") name dropRight 4 else name)
@@ -69,7 +70,7 @@ object ZipHelper {
     * @param outputZip
     *   The location of the output file.
     */
-  def zip(sources: Traversable[(File, String)], outputZip: File): Unit = {
+  def zip(sources: Iterable[(File, String)], outputZip: File): Unit = {
     import permissions.OctalString
     val mappings =
       for {
@@ -90,7 +91,7 @@ object ZipHelper {
     * @param outputZip
     *   The location of the output file.
     */
-  def zipNIO(sources: Traversable[(File, String)], outputZip: File): Unit = {
+  def zipNIO(sources: Iterable[(File, String)], outputZip: File): Unit = {
     require(!outputZip.isDirectory, "Specified output file " + outputZip + " is a directory.")
     val mappings = sources.toSeq.map { case (file, name) =>
       FileMapping(file, name)

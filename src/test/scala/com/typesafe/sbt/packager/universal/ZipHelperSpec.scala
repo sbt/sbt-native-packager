@@ -6,7 +6,8 @@ import org.scalatest._
 import java.io.File
 import java.nio.file.{Files, Path, Paths}
 import java.nio.file.attribute.PosixFilePermission._
-import scala.collection.JavaConversions._
+import scala.Iterable
+import scala.collection.JavaConverters._
 
 class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with BeforeAndAfterAll {
 
@@ -100,7 +101,7 @@ class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with 
   /* ========================================================== */
   /* ========================================================== */
 
-  private type Zipper = (Traversable[(File, String)], File) => Unit
+  private type Zipper = (Iterable[(File, String)], File) => Unit
 
   private def zipSingleFile(zipper: Zipper): Unit = {
     val out = tmp resolve "single.zip"
