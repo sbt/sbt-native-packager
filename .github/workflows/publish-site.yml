@@ -24,10 +24,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_KEY }}
-          known_hosts: ${{ secrets.KNOWN_HOSTS }}
-
-      - run: sbt ghpagesPushSite
+      - name: Publish Site
+        run: sbt ghpagesPushSite
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
