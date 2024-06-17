@@ -53,7 +53,12 @@ libraryDependencies ++= {
 // configure github page
 enablePlugins(SphinxPlugin, SiteScaladocPlugin, GhpagesPlugin, SbtPlugin)
 
-git.remoteRepo := "git@github.com:sbt/sbt-native-packager.git"
+git.remoteRepo := {
+  sys.env.get("GITHUB_TOKEN") match {
+    case Some(token) => s"https://x-access-token:$token@github.com/sbt/sbt-native-packager"
+    case None        => "git@github.com:sbt/sbt-native-packager.git"
+  }
+}
 
 // scripted test settings
 scriptedLaunchOpts += "-Dproject.version=" + version.value
