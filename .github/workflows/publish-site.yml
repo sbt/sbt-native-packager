@@ -1,6 +1,9 @@
 name: Publish Site
 on:
   pull_request:
+permissions:
+  contents: write
+  pages: write
 jobs:
   publish:
     runs-on: ubuntu-20.04
