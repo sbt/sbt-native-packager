@@ -245,13 +245,12 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4> Java Application </h4><p>This class is an alternate to JavaAppPackaging designed to support the ash shell.  JavaAppPackaging
-generates bash-specific code that is not compatible with ash, a very stripped-down, lightweight shell
-used by popular micro base Docker images like BusyBox.  The AshScriptPlugin will generate simple
-ash-compatible output.</p><p>Just like with JavaAppPackaging you can override the bash-template file by creating a src/templates
-directory and adding your own bash-template file.  Actually this isn't a bad idea as the default
-bash-template file inherited from JavaAppPackaging has a lot of stuff you probably don't want/need
-in a highly-constrained environment like ash+BusyBox.  Something much simpler will do, for example:</p><p>#!/usr/bin/env sh</p><p>realpath () {
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4>Java Application</h4><p>This class is an alternate to JavaAppPackaging designed to support the ash shell. JavaAppPackaging generates
+bash-specific code that is not compatible with ash, a very stripped-down, lightweight shell used by popular micro
+base Docker images like BusyBox. The AshScriptPlugin will generate simple ash-compatible output.</p><p>Just like with JavaAppPackaging you can override the bash-template file by creating a src/templates directory and
+adding your own bash-template file. Actually this isn't a bad idea as the default bash-template file inherited from
+JavaAppPackaging has a lot of stuff you probably don't want/need in a highly-constrained environment like
+ash+BusyBox. Something much simpler will do, for example:</p><p>#!/usr/bin/env sh</p><p>realpath () {
 (
   TARGET_FILE=&quot;$1&quot;</p><p>  cd &quot;$(dirname &quot;$TARGET_FILE&quot;)&quot;
   TARGET_FILE=$(basename &quot;$TARGET_FILE&quot;)</p><p>  COUNT=0
@@ -270,10 +269,11 @@ in a highly-constrained environment like ash+BusyBox.  Something much simpler wi
 )
 }</p><p>real_script_path=&quot;$(realpath &quot;$0&quot;)&quot;
 app_home=&quot;$(realpath &quot;$(dirname &quot;$real_script_path&quot;)&quot;)&quot;
-lib_dir=&quot;$(realpath &quot;${app_home}/../lib&quot;)&quot;</p><p>${{template_declares}}</p><p>java -classpath $app_classpath $app_mainclass $@</p><h4> Configuration </h4><p>This plugin adds new settings to configure your packaged application.
-The keys are defined in <a href="../JavaAppKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys">com.typesafe.sbt.packager.archetypes.JavaAppKeys</a>
+lib_dir=&quot;$(realpath &quot;${app_home}/../lib&quot;)&quot;</p><p>${{template_declares}}</p><p>java -classpath $app_classpath $app_mainclass $@</p><h4>Configuration</h4><p>This plugin adds new settings to configure your packaged application. The keys are defined in
+<a href="../JavaAppKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys">com.typesafe.sbt.packager.archetypes.JavaAppKeys</a>
 </p></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Enable this plugin in your <code>build.sbt</code> with</p><pre>enablePlugins(AshScriptPlugin)</pre></li></ol>
+               <ol><li class="cmt"><p>
+  Enable this plugin in your <code>build.sbt</code> with</p><pre>enablePlugins(AshScriptPlugin)</pre></li></ol>
             </div></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -482,8 +482,6 @@ The keys are defined in <a href="../JavaAppKeys.html" class="extype" name="com.t
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="sbt.AutoPlugin#derivedProjects" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="derivedProjects(proj:sbt.ProjectDefinition[_]):Seq[sbt.Project]"></a><a id="derivedProjects(ProjectDefinition[_]):Seq[Project]"></a>
@@ -565,6 +563,28 @@ The keys are defined in <a href="../JavaAppKeys.html" class="extype" name="com.t
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/AshScriptPlugin$.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -582,8 +602,6 @@ The keys are defined in <a href="../JavaAppKeys.html" class="extype" name="com.t
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="sbt.AutoPlugin#globalSettings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -619,8 +637,6 @@ The keys are defined in <a href="../JavaAppKeys.html" class="extype" name="com.t
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -705,8 +721,6 @@ The keys are defined in <a href="../JavaAppKeys.html" class="extype" name="com.t
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -725,8 +739,6 @@ The keys are defined in <a href="../JavaAppKeys.html" class="extype" name="com.t
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="sbt.AutoPlugin#projectConfigurations" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -826,6 +838,28 @@ The keys are defined in <a href="../JavaAppKeys.html" class="extype" name="com.t
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/AshScriptPlugin$.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
       <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/AshScriptPlugin$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
@@ -871,28 +905,6 @@ The keys are defined in <a href="../JavaAppKeys.html" class="extype" name="com.t
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/AshScriptPlugin$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.scripts.AshScriptPlugin.Defines" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Defines"></a><a id="Defines:Defines"></a>
       <span class="permalink">
@@ -916,34 +928,7 @@ The keys are defined in <a href="../JavaAppKeys.html" class="extype" name="com.t
 
         
 
-        <div class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/AshScriptPlugin$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

@@ -273,8 +273,9 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4> Java Server App Packaging </h4><p>Provides configuration for running an application on a server.
-</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="http://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html" target="_blank">http://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html</a></p></span></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4>Java Server App Packaging</h4><p>Provides configuration for running an application on a server.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="http://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html" target="_blank">http://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html</a></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -514,8 +515,6 @@
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#debianSettings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="debianSettings:Seq[sbt.Setting[_]]"></a>
@@ -629,6 +628,28 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/archetypes/JavaServerAppPackaging$.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -646,8 +667,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="sbt.AutoPlugin#globalSettings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -683,8 +702,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -750,10 +767,8 @@
         <span class="name">linuxSettings</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../../sbt/index.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">sbt.Setting</a>[_]]</span>
       </span>
       
-      <p class="shortcomment cmt">general settings which apply to all linux server archetypes</p><div class="fullcomment"><div class="comment cmt"><p>general settings which apply to all linux server archetypes</p><p>- script replacements
-- logging directory
-- config directory
-</p></div></div>
+      <p class="shortcomment cmt">general settings which apply to all linux server archetypes</p><div class="fullcomment"><div class="comment cmt"><p>general settings which apply to all linux server archetypes</p><ul><li>script replacements</li><li>logging directory</li><li>config directory
+</li></ul></div></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging#makeEtcDefaultScript" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="makeEtcDefaultScript(name:String,tmpDir:sbt.File,source:java.net.URL,replacements:Seq[(String,String)]):Option[sbt.File]"></a><a id="makeEtcDefaultScript(String,sbt.File,URL,Seq[(String,String)]):Option[sbt.File]"></a>
       <span class="permalink">
@@ -769,10 +784,13 @@
         <span class="name">makeEtcDefaultScript</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="tmpDir">tmpDir: <a href="../../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a></span>, <span name="source">source: <span class="extype" name="java.net.URL">URL</span></span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Creates the etc-default file, which will contain the basic configuration
-for an app.</p><div class="fullcomment"><div class="comment cmt"><p>Creates the etc-default file, which will contain the basic configuration
-for an app.
-</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>of the etc-default config file</p></dd><dt class="param">tmpDir</dt><dd class="cmt"><p>to store the resulting file in (e.g. target in Universal)</p></dd><dt class="param">source</dt><dd class="cmt"><p>of etc-default script</p></dd><dt class="param">replacements</dt><dd class="cmt"><p>for placeholders in etc-default script</p></dd><dt>returns</dt><dd class="cmt"><p>Some(file: File)</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+      <p class="shortcomment cmt">Creates the etc-default file, which will contain the basic configuration for an app.</p><div class="fullcomment"><div class="comment cmt"><p>Creates the etc-default file, which will contain the basic configuration for an app.
+</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>
+  of the etc-default config file</p></dd><dt class="param">tmpDir</dt><dd class="cmt"><p>
+  to store the resulting file in (e.g. target in Universal)</p></dd><dt class="param">source</dt><dd class="cmt"><p>
+  of etc-default script</p></dd><dt class="param">replacements</dt><dd class="cmt"><p>
+  for placeholders in etc-default script</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Some(file: File)</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -823,8 +841,6 @@ for an app.
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -843,8 +859,6 @@ for an app.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="sbt.AutoPlugin#projectConfigurations" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -976,6 +990,28 @@ for an app.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/archetypes/JavaServerAppPackaging$.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
       <a href="../../../../../com/typesafe/sbt/packager/archetypes/JavaServerAppPackaging$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
@@ -1021,28 +1057,6 @@ for an app.
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/archetypes/JavaServerAppPackaging$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging.Names" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Names"></a><a id="Names:Names"></a>
       <span class="permalink">
@@ -1081,34 +1095,7 @@ for an app.
 
         
 
-        <div class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/archetypes/JavaServerAppPackaging$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

@@ -1,91 +1,50 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Docker Plugin &mdash; sbt-native-packager 1.9.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docker Plugin &mdash; sbt-native-packager 1.10.0+6-67a1f969-SNAPSHOT documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=2f9a1908"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Windows Plugin" href="windows.html" />
     <link rel="prev" title="Rpm Plugin" href="rpm.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sbt-native-packager
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            sbt-native-packager
           </a>
-
-          
-            
-            
               <div class="version">
-                1.9
+                1.10
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
@@ -233,6 +192,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#add-commands">Add Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#write-from-scratch">Write from Scratch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#busybox-ash-support">Busybox/Ash Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#init-support">Init support</a></li>
 </ul>
 </li>
 </ul>
@@ -433,73 +393,33 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">sbt-native-packager</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="index.html">Packaging Formats</a> &raquo;</li>
-        
-      <li>Docker Plugin</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Packaging Formats</a></li>
+      <li class="breadcrumb-item active">Docker Plugin</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/formats/docker.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="docker-plugin">
-<span id="id1"></span><h1>Docker Plugin<a class="headerlink" href="#docker-plugin" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="docker-plugin">
+<span id="id1"></span><h1>Docker Plugin<a class="headerlink" href="#docker-plugin" title="Permalink to this heading">¶</a></h1>
 <p>Docker images describe how to set up a container for running an application, including what files are present, and what program to run.</p>
 <blockquote>
 <div><p><a class="reference external" href="https://docs.docker.com/introduction/understanding-docker/">https://docs.docker.com/introduction/understanding-docker/</a> provides an introduction to Docker.</p>
@@ -510,70 +430,70 @@
 <p class="admonition-title">Note</p>
 <p>The docker plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>.</p>
 </div>
-<div class="section" id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
 <p>You need the version 1.10 or higher of the docker console client installed.
 SBT Native Packager doesn’t use the REST API, but instead uses the CLI directly.</p>
 <p>It is <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/654">currently not possible</a> to provide authentication
 for Docker repositories from within the build. The <code class="docutils literal notranslate"><span class="pre">docker</span></code> binary used by the build should already have been configured
 with the appropriate authentication details. See <a class="reference external" href="https://docs.docker.com/engine/reference/commandline/login/">https://docs.docker.com/engine/reference/commandline/login/</a> how to login
 to a Docker registry with username and password.</p>
-</div>
-<div class="section" id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt docker:publishLocal
+</section>
+<section id="build">
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>Docker/publishLocal
 </pre></div>
 </div>
-<div class="section" id="required-settings">
-<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">DockerPlugin</span><span class="o">)</span>
+<section id="required-settings">
+<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">DockerPlugin</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="spotify-java-based-docker-client">
-<h3>Spotify java based docker client<a class="headerlink" href="#spotify-java-based-docker-client" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="spotify-java-based-docker-client">
+<h3>Spotify java based docker client<a class="headerlink" href="#spotify-java-based-docker-client" title="Permalink to this heading">¶</a></h3>
 <p>You can also use the java-based spotify Docker client. Add this to your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">DockerSpotifyClientPlugin</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">DockerSpotifyClientPlugin</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>and this to your <code class="docutils literal notranslate"><span class="pre">plugins.sbt</span></code></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;com.spotify&quot;</span> <span class="o">%</span> <span class="s">&quot;docker-client&quot;</span> <span class="o">%</span> <span class="s">&quot;8.9.0&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">libraryDependencies</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;com.spotify&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;docker-client&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;8.9.0&quot;</span>
 </pre></div>
 </div>
 <p>The Docker-spotify client is a provided dependency. You have to explicitly add it on your own. It brings a lot of dependencies
 that could slow your build times. This is the reason the dependency is marked as provided.</p>
-</div>
-</div>
-<div class="section" id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
 <p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Docker</span></code>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="n">mappings</span><span class="o">.</span><span class="n">value</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mappings</span><span class="p">.</span><span class="n">value</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="informational-settings">
-<h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h2>
+<section id="informational-settings">
+<h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt><dd><p>The name of the package for Docker (if different from general name).
+<dt><code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">packageName</span></code></dt><dd><p>The name of the package for Docker (if different from general name).
 This will only affect the image name.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">version</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt><dd><p>The version of the package for Docker (if different from general version).  Often takes the form <code class="docutils literal notranslate"><span class="pre">x.y.z</span></code>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">version</span></code></dt><dd><p>The version of the package for Docker (if different from general version).  Often takes the form <code class="docutils literal notranslate"><span class="pre">x.y.z</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">maintainer</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt><dd><p>The maintainer of the package, recommended by the Dockerfile format.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">maintainer</span></code></dt><dd><p>The maintainer of the package, recommended by the Dockerfile format.</p>
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="environment-settings">
-<h3>Environment Settings<a class="headerlink" href="#environment-settings" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="environment-settings">
+<h3>Environment Settings<a class="headerlink" href="#environment-settings" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">dockerBaseImage</span></code></dt><dd><p>The image to use as a base for running the application. It should include binaries on the path for <code class="docutils literal notranslate"><span class="pre">chown</span></code>, <code class="docutils literal notranslate"><span class="pre">mkdir</span></code>, have a discoverable <code class="docutils literal notranslate"><span class="pre">java</span></code> binary, and include the user configured by <code class="docutils literal notranslate"><span class="pre">daemonUser</span></code> (<code class="docutils literal notranslate"><span class="pre">daemon</span></code>, by default).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">daemonUser</span> <span class="pre">in</span> <span class="pre">Docker</span></code></dt><dd><p>The user to use when executing the application. Files below the install path also have their ownership set to this user.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">daemonUser</span></code></dt><dd><p>The user to use when executing the application. Files below the install path also have their ownership set to this user.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">dockerExposedPorts</span></code></dt><dd><p>A list of TCP ports to expose from the Docker image.</p>
 </dd>
@@ -617,20 +537,20 @@ Lower index means the file would be a part of an earlier layer.
 The main idea behind this is to COPY dependencies <a href="#id2"><span class="problematic" id="id3">*</span></a>.jar’s first as they should change rarely.
 In separate command COPY the application <a href="#id4"><span class="problematic" id="id5">*</span></a>.jar’s that should change more often.
 Defaults to map the project artifacts and its dependencies to separate layers.
-To disable layers map all files to no layer using <code class="docutils literal notranslate"><span class="pre">dockerGroupLayers</span> <span class="pre">in</span> <span class="pre">Docker</span> <span class="pre">:=</span> <span class="pre">PartialFunction.empty</span></code>.</p>
+To disable layers map all files to no layer using <code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">dockerGroupLayers</span> <span class="pre">:=</span> <span class="pre">PartialFunction.empty</span></code>.</p>
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="publishing-settings">
-<h3>Publishing Settings<a class="headerlink" href="#publishing-settings" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="publishing-settings">
+<h3>Publishing Settings<a class="headerlink" href="#publishing-settings" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">dockerRepository</span></code></dt><dd><p>The repository to which the image is pushed when the <code class="docutils literal notranslate"><span class="pre">docker:publish</span></code> task is run. This should be of the form  <code class="docutils literal notranslate"><span class="pre">[repository.host[:repository.port]]</span></code> (assumes use of the <code class="docutils literal notranslate"><span class="pre">index.docker.io</span></code> repository) or <code class="docutils literal notranslate"><span class="pre">[repository.host[:repository.port]][/username]</span></code> (discouraged, but available for backwards compatibilty.).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerRepository</span></code></dt><dd><p>The repository to which the image is pushed when the <code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">publish</span></code> task is run. This should be of the form  <code class="docutils literal notranslate"><span class="pre">[repository.host[:repository.port]]</span></code> (assumes use of the <code class="docutils literal notranslate"><span class="pre">index.docker.io</span></code> repository) or <code class="docutils literal notranslate"><span class="pre">[repository.host[:repository.port]][/username]</span></code> (discouraged, but available for backwards compatibilty.).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerUsername</span></code></dt><dd><p>The username or organization to which the image is pushed when the <code class="docutils literal notranslate"><span class="pre">docker:publish</span></code> task is run. This should be of the form <code class="docutils literal notranslate"><span class="pre">[username]</span></code> or <code class="docutils literal notranslate"><span class="pre">[organization]</span></code>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerUsername</span></code></dt><dd><p>The username or organization to which the image is pushed when the <code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">publish</span></code> task is run. This should be of the form <code class="docutils literal notranslate"><span class="pre">[username]</span></code> or <code class="docutils literal notranslate"><span class="pre">[organization]</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">dockerUpdateLatest</span></code></dt><dd><p>The flag to automatic update the latest tag when the <code class="docutils literal notranslate"><span class="pre">docker:publish</span></code> task is run. Default value is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>.  In order to use this setting, the minimum docker console version required is 1.10. See <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/871">https://github.com/sbt/sbt-native-packager/issues/871</a> for a detailed explanation.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerUpdateLatest</span></code></dt><dd><p>The flag to automatic update the latest tag when the <code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">publish</span></code> task is run. Default value is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>.  In order to use this setting, the minimum docker console version required is 1.10. See <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/871">https://github.com/sbt/sbt-native-packager/issues/871</a> for a detailed explanation.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">dockerAlias</span></code></dt><dd><p>The alias to be used for tagging the resulting image of the Docker build.
 The type of the setting key is <code class="docutils literal notranslate"><span class="pre">DockerAlias</span></code>.
@@ -642,8 +562,16 @@ Alias values are in format of <code class="docutils literal notranslate"><span c
 To append additional aliases to this list, you can add them by extending <code class="docutils literal notranslate"><span class="pre">dockerAlias</span></code>.
 <code class="docutils literal notranslate"><span class="pre">dockerAliases</span> <span class="pre">++=</span> <span class="pre">Seq(dockerAlias.value.withTag(Option(&quot;stable&quot;)),</span> <span class="pre">dockerAlias.value.withRegistryHost(Option(&quot;registry.internal.yourdomain.com&quot;)))</span></code></p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerBuildInit</span></code></dt><dd><p>Whether the <code class="docutils literal notranslate"><span class="pre">--init</span></code> build option should be passed to the Docker build. See <span class="xref std std-ref">Init support</span> for when this may be useful.
+Defaults to <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
+</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">dockerBuildOptions</span></code></dt><dd><p>Overrides the default Docker build options.
-Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;--force-rm&quot;,</span> <span class="pre">&quot;-t&quot;,</span> <span class="pre">&quot;[dockerAlias]&quot;)</span></code>. This default is expanded if <code class="docutils literal notranslate"><span class="pre">dockerUpdateLatest</span></code> is set to true.</p>
+Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;--force-rm&quot;,</span> <span class="pre">&quot;-t&quot;,</span> <span class="pre">&quot;[dockerAlias]&quot;)</span></code>. This default is expanded if either <code class="docutils literal notranslate"><span class="pre">dockerUpdateLatest</span></code> or <code class="docutils literal notranslate"><span class="pre">dockerBuildInit</span></code> is set to true.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dockerBuildEnvVars</span></code></dt><dd><p>The environment variables passed to the Docker build.
+Defaults to empty.
+For example, to disable Docker BuildKit:
+<code class="docutils literal notranslate"><span class="pre">dockerBuildEnvVars</span> <span class="pre">+=</span> <span class="pre">&quot;DOCKER_BUILDKIT&quot;</span> <span class="pre">-&gt;</span> <span class="pre">&quot;0&quot;</span></code></p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">dockerExecCommand</span></code></dt><dd><p>Overrides the default Docker exec command.
 Defaults to <code class="docutils literal notranslate"><span class="pre">Seq(&quot;docker&quot;)</span></code></p>
@@ -662,182 +590,182 @@ If set to <code class="docutils literal notranslate"><span class="pre">false</sp
 </dd>
 </dl>
 </div></blockquote>
-</div>
-</div>
-<div class="section" id="tasks">
-<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="tasks">
+<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this heading">¶</a></h2>
 <p>The Docker plugin provides the following commands:</p>
 <blockquote>
 <div><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">docker:stage</span></code></dt><dd><p>Generates a directory with the Dockerfile and environment prepared for creating a Docker image.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">stage</span></code></dt><dd><p>Generates a directory with the Dockerfile and environment prepared for creating a Docker image.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">docker:publishLocal</span></code></dt><dd><p>Builds an image using the local Docker server.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">publishLocal</span></code></dt><dd><p>Builds an image using the local Docker server.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">docker:publish</span></code></dt><dd><p>Builds an image using the local Docker server, and pushes it to the configured remote repository.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">publish</span></code></dt><dd><p>Builds an image using the local Docker server, and pushes it to the configured remote repository.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">docker:clean</span></code></dt><dd><p>Removes the built image from the local Docker server.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">clean</span></code></dt><dd><p>Removes the built image from the local Docker server.</p>
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="customize">
+<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
 <p>There are some predefined settings which you can easily customize. These
 settings are explained in some detail in the next sections. If you want to
 describe your Dockerfile completely yourself, you can provide your own
 <cite>docker commands</cite> as described in <a class="reference internal" href="#custom-dockerfile">Custom Dockerfile</a>.</p>
-<div class="section" id="docker-image-name-and-version">
-<h3>Docker Image Name and Version<a class="headerlink" href="#docker-image-name-and-version" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">packageName</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="n">packageName</span><span class="o">.</span><span class="n">value</span>
+<section id="docker-image-name-and-version">
+<h3>Docker Image Name and Version<a class="headerlink" href="#docker-image-name-and-version" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">packageName</span><span class="p">.</span><span class="n">value</span>
 
-<span class="n">version</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="n">version</span><span class="o">.</span><span class="n">value</span>
+<span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">value</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="docker-base-image">
-<h3>Docker Base Image<a class="headerlink" href="#docker-base-image" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerBaseImage</span> <span class="o">:=</span> <span class="s">&quot;openjdk&quot;</span>
+</section>
+<section id="docker-base-image">
+<h3>Docker Base Image<a class="headerlink" href="#docker-base-image" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerBaseImage</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;openjdk&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="docker-repository">
-<h3>Docker Repository<a class="headerlink" href="#docker-repository" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerRepository</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;dockeruser&quot;</span><span class="o">)</span>
+</section>
+<section id="docker-repository">
+<h3>Docker Repository<a class="headerlink" href="#docker-repository" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerRepository</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;dockeruser&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="docker-image-customization">
-<h3>Docker Image Customization<a class="headerlink" href="#docker-image-customization" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerExposedPorts</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="mi">9000</span><span class="o">,</span> <span class="mi">9443</span><span class="o">)</span>
+</section>
+<section id="docker-image-customization">
+<h3>Docker Image Customization<a class="headerlink" href="#docker-image-customization" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerExposedPorts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="mi">9000</span><span class="p">,</span><span class="w"> </span><span class="mi">9443</span><span class="p">)</span>
 
-<span class="n">dockerExposedVolumes</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;/opt/docker/logs&quot;</span><span class="o">)</span>
+<span class="n">dockerExposedVolumes</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="s">&quot;/opt/docker/logs&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In order to work properly with <cite>USER daemon</cite> the exposed volumes are first
 created (if they do not exist) and then chowned.</p>
-</div>
-<div class="section" id="install-location">
-<h3>Install Location<a class="headerlink" href="#install-location" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="install-location">
+<h3>Install Location<a class="headerlink" href="#install-location" title="Permalink to this heading">¶</a></h3>
 <p>The path to which the application is written can be changed with the location setting.
-The files from <code class="docutils literal notranslate"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Docker</span></code> are extracted underneath this directory.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">defaultLinuxInstallLocation</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="s">&quot;/opt/docker&quot;</span>
+The files from <code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">mappings</span></code> are extracted underneath this directory.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">defaultLinuxInstallLocation</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;/opt/docker&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="daemon-user">
-<h3>Daemon User<a class="headerlink" href="#daemon-user" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="daemon-user">
+<h3>Daemon User<a class="headerlink" href="#daemon-user" title="Permalink to this heading">¶</a></h3>
 <p>By default, sbt Native Packager will create a daemon user named <code class="docutils literal notranslate"><span class="pre">demiourgos728</span></code>
 whose UID is set to <code class="docutils literal notranslate"><span class="pre">1001</span></code>, and and emit <code class="docutils literal notranslate"><span class="pre">USER</span> <span class="pre">1001</span></code> since running as non-root is considered the best practice.</p>
 <p>The following can be used to emit <code class="docutils literal notranslate"><span class="pre">USER</span> <span class="pre">daemon</span></code> instead:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">daemonUserUid</span> <span class="n">in</span> <span class="nc">Docker</span> <span class="o">:=</span> <span class="nc">None</span>
-<span class="n">daemonUser</span> <span class="n">in</span> <span class="nc">Docker</span>    <span class="o">:=</span> <span class="s">&quot;daemon&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">daemonUserUid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">None</span>
+<span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">daemonUser</span><span class="w">    </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;daemon&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="file-permission">
-<h3>File Permission<a class="headerlink" href="#file-permission" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="file-permission">
+<h3>File Permission<a class="headerlink" href="#file-permission" title="Permalink to this heading">¶</a></h3>
 <p>By default, the working directory inside the Docker image is given read-only file permissions
 set using multi-stage Docker build, which requires Docker 17.5 or later (watch out if you’re using older Minikube).</p>
 <p>If you want to make the working directory writable by the running process, here’s the setting:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.docker.DockerChmodType</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">com</span><span class="p">.</span><span class="nn">typesafe</span><span class="p">.</span><span class="nn">sbt</span><span class="p">.</span><span class="nn">packager</span><span class="p">.</span><span class="nn">docker</span><span class="p">.</span><span class="nc">DockerChmodType</span>
 
-<span class="n">dockerChmodType</span> <span class="o">:=</span> <span class="nc">DockerChmodType</span><span class="o">.</span><span class="nc">UserGroupWriteExecute</span>
+<span class="n">dockerChmodType</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">DockerChmodType</span><span class="p">.</span><span class="nc">UserGroupWriteExecute</span>
 </pre></div>
 </div>
 <p>By default, the shell scripts generated by SBT Native Packager are given <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">+x</span></code> rights. Here’s the setting to do so for other files:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.docker.DockerChmodType</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">com</span><span class="p">.</span><span class="nn">typesafe</span><span class="p">.</span><span class="nn">sbt</span><span class="p">.</span><span class="nn">packager</span><span class="p">.</span><span class="nn">docker</span><span class="p">.</span><span class="nc">DockerChmodType</span>
 
-<span class="n">dockerAdditionalPermissions</span> <span class="o">+=</span> <span class="o">(</span><span class="nc">DockerChmodType</span><span class="o">.</span><span class="nc">UserGroupPlusExecute</span><span class="o">,</span> <span class="s">&quot;/opt/docker/bin/hello&quot;</span><span class="o">)</span>
+<span class="n">dockerAdditionalPermissions</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="nc">DockerChmodType</span><span class="p">.</span><span class="nc">UserGroupPlusExecute</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/opt/docker/bin/hello&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If you don’t want SBT Native Packager to change the file permissions at all here’s a strategy you can choose:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.docker.DockerPermissionStrategy</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">com</span><span class="p">.</span><span class="nn">typesafe</span><span class="p">.</span><span class="nn">sbt</span><span class="p">.</span><span class="nn">packager</span><span class="p">.</span><span class="nn">docker</span><span class="p">.</span><span class="nc">DockerPermissionStrategy</span>
 
-<span class="n">dockerPermissionStrategy</span> <span class="o">:=</span> <span class="nc">DockerPermissionStrategy</span><span class="o">.</span><span class="nc">None</span>
+<span class="n">dockerPermissionStrategy</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">DockerPermissionStrategy</span><span class="p">.</span><span class="nc">None</span>
 </pre></div>
 </div>
 <p>This will inherit the file mode bits set in your machine. Given that Kubernetes implementations like OpenShift will use an arbitrary user,
 remember to set both the user bits and group bits when running <code class="docutils literal notranslate"><span class="pre">chmod</span></code> yourself.</p>
-</div>
-<div class="section" id="custom-dockerfile">
-<h3>Custom Dockerfile<a class="headerlink" href="#custom-dockerfile" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="custom-dockerfile">
+<h3>Custom Dockerfile<a class="headerlink" href="#custom-dockerfile" title="Permalink to this heading">¶</a></h3>
 <p>All settings before are used to create a single sequence of docker commands.
 You have the option to write all of them on your own, filter or change existing
 commands or simply add some.</p>
 <p>First of all you should take a look what you docker commands look like.
 In your sbt console type</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; show dockerCommands
-<span class="o">[</span>info<span class="o">]</span> List<span class="o">(</span>Cmd<span class="o">(</span>FROM,openjdk:8<span class="o">)</span>, Cmd<span class="o">(</span>LABEL,MAINTAINER<span class="o">=</span>Your Name &lt;y.n@yourcompany.com&gt;<span class="o">)</span>, ...<span class="o">)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>show<span class="w"> </span>dockerCommands
+<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>List<span class="o">(</span>Cmd<span class="o">(</span>FROM,openjdk:8<span class="o">)</span>,<span class="w"> </span>Cmd<span class="o">(</span>LABEL,MAINTAINER<span class="o">=</span>Your<span class="w"> </span>Name<span class="w"> </span>&lt;y.n@yourcompany.com&gt;<span class="o">)</span>,<span class="w"> </span>...<span class="o">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="remove-commands">
-<h3>Remove Commands<a class="headerlink" href="#remove-commands" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="remove-commands">
+<h3>Remove Commands<a class="headerlink" href="#remove-commands" title="Permalink to this heading">¶</a></h3>
 <p>SBT Native Packager adds commands you may not need. For example,
 the chowning of a exposed volume:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.docker._</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">com</span><span class="p">.</span><span class="nn">typesafe</span><span class="p">.</span><span class="nn">sbt</span><span class="p">.</span><span class="nn">packager</span><span class="p">.</span><span class="nn">docker</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// we want to filter the chown command for &#39;/data&#39;</span>
-<span class="n">dockerExposedVolumes</span> <span class="o">+=</span> <span class="s">&quot;/data&quot;</span>
+<span class="n">dockerExposedVolumes</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;/data&quot;</span>
 
 <span class="c1">// use filterNot to return all items that do NOT meet the criteria</span>
-<span class="n">dockerCommands</span> <span class="o">:=</span> <span class="n">dockerCommands</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">filterNot</span> <span class="o">{</span>
+<span class="n">dockerCommands</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">dockerCommands</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="n">filterNot</span><span class="w"> </span><span class="p">{</span>
 
-  <span class="c1">// ExecCmd is a case class, and args is a varargs variable, so you need to bind it with @</span>
-  <span class="k">case</span> <span class="nc">ExecCmd</span><span class="o">(</span><span class="s">&quot;RUN&quot;</span><span class="o">,</span> <span class="n">args</span> <span class="k">@</span> <span class="k">_</span><span class="o">*)</span> <span class="k">=&gt;</span> <span class="n">args</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">&quot;chown&quot;</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">args</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">&quot;/data&quot;</span><span class="o">)</span>
+<span class="w">  </span><span class="c1">// ExecCmd is a case class, and args is a varargs variable, so you need to bind it with @</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="nc">ExecCmd</span><span class="p">(</span><span class="s">&quot;RUN&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">_*</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">args</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;chown&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">args</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;/data&quot;</span><span class="p">)</span>
 
-  <span class="c1">// don&#39;t filter the rest; don&#39;t filter out anything that doesn&#39;t match a pattern</span>
-  <span class="k">case</span> <span class="n">cmd</span>                       <span class="k">=&gt;</span> <span class="kc">false</span>
-<span class="o">}</span>
+<span class="w">  </span><span class="c1">// don&#39;t filter the rest; don&#39;t filter out anything that doesn&#39;t match a pattern</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="n">cmd</span><span class="w">                       </span><span class="o">=&gt;</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="add-commands">
-<h3>Add Commands<a class="headerlink" href="#add-commands" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="add-commands">
+<h3>Add Commands<a class="headerlink" href="#add-commands" title="Permalink to this heading">¶</a></h3>
 <p>Since <code class="docutils literal notranslate"><span class="pre">dockerCommands</span></code> is just a <code class="docutils literal notranslate"><span class="pre">Sequence</span></code>, adding commands is straightforward:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.docker._</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">com</span><span class="p">.</span><span class="nn">typesafe</span><span class="p">.</span><span class="nn">sbt</span><span class="p">.</span><span class="nn">packager</span><span class="p">.</span><span class="nn">docker</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// use += to add an item to a Sequence</span>
-<span class="n">dockerCommands</span> <span class="o">+=</span> <span class="nc">Cmd</span><span class="o">(</span><span class="s">&quot;USER&quot;</span><span class="o">,</span> <span class="o">(</span><span class="n">daemonUser</span> <span class="n">in</span> <span class="nc">Docker</span><span class="o">).</span><span class="n">value</span><span class="o">)</span>
+<span class="n">dockerCommands</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nc">Cmd</span><span class="p">(</span><span class="s">&quot;USER&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">daemonUser</span><span class="p">).</span><span class="n">value</span><span class="p">)</span>
 
 <span class="c1">// use ++= to merge a sequence with an existing sequence</span>
-<span class="n">dockerCommands</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
-  <span class="c1">// setting the run script executable</span>
-  <span class="nc">ExecCmd</span><span class="o">(</span><span class="s">&quot;RUN&quot;</span><span class="o">,</span>
-    <span class="s">&quot;chmod&quot;</span><span class="o">,</span> <span class="s">&quot;u+x&quot;</span><span class="o">,</span>
-     <span class="s">s&quot;</span><span class="si">${</span><span class="o">(</span><span class="n">defaultLinuxInstallLocation</span> <span class="n">in</span> <span class="nc">Docker</span><span class="o">).</span><span class="n">value</span><span class="si">}</span><span class="s">/bin/</span><span class="si">${</span><span class="n">executableScriptName</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">&quot;</span><span class="o">),</span>
-  <span class="c1">// setting a daemon user</span>
-  <span class="nc">Cmd</span><span class="o">(</span><span class="s">&quot;USER&quot;</span><span class="o">,</span> <span class="s">&quot;daemon&quot;</span><span class="o">)</span>
-<span class="o">)</span>
+<span class="n">dockerCommands</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span>
+<span class="w">  </span><span class="c1">// setting the run script executable</span>
+<span class="w">  </span><span class="nc">ExecCmd</span><span class="p">(</span><span class="s">&quot;RUN&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;chmod&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;u+x&quot;</span><span class="p">,</span>
+<span class="w">     </span><span class="s">s&quot;</span><span class="si">${</span><span class="p">(</span><span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">defaultLinuxInstallLocation</span><span class="p">).</span><span class="n">value</span><span class="si">}</span><span class="s">/bin/</span><span class="si">${</span><span class="n">executableScriptName</span><span class="p">.</span><span class="n">value</span><span class="si">}</span><span class="s">&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="c1">// setting a daemon user</span>
+<span class="w">  </span><span class="nc">Cmd</span><span class="p">(</span><span class="s">&quot;USER&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;daemon&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="write-from-scratch">
-<h3>Write from Scratch<a class="headerlink" href="#write-from-scratch" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="write-from-scratch">
+<h3>Write from Scratch<a class="headerlink" href="#write-from-scratch" title="Permalink to this heading">¶</a></h3>
 <p>You can simply wipe out all docker commands with</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerCommands</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerCommands</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Now let’s start adding some Docker commands.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.packager.docker._</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">com</span><span class="p">.</span><span class="nn">typesafe</span><span class="p">.</span><span class="nn">sbt</span><span class="p">.</span><span class="nn">packager</span><span class="p">.</span><span class="nn">docker</span><span class="p">.</span><span class="n">_</span>
 
-<span class="n">dockerCommands</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span>
-  <span class="nc">Cmd</span><span class="o">(</span><span class="s">&quot;FROM&quot;</span><span class="o">,</span> <span class="s">&quot;openjdk:8&quot;</span><span class="o">),</span>
-  <span class="nc">Cmd</span><span class="o">(</span><span class="s">&quot;LABEL&quot;</span><span class="o">,</span> <span class="s">s&quot;&quot;&quot;MAINTAINER=&quot;</span><span class="si">${</span><span class="n">maintainer</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">&quot;&quot;&quot;&quot;</span><span class="o">),</span>
-  <span class="nc">ExecCmd</span><span class="o">(</span><span class="s">&quot;CMD&quot;</span><span class="o">,</span> <span class="s">&quot;echo&quot;</span><span class="o">,</span> <span class="s">&quot;Hello, World from Docker&quot;</span><span class="o">)</span>
-<span class="o">)</span>
+<span class="n">dockerCommands</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span>
+<span class="w">  </span><span class="nc">Cmd</span><span class="p">(</span><span class="s">&quot;FROM&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;openjdk:8&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="nc">Cmd</span><span class="p">(</span><span class="s">&quot;LABEL&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">s&quot;&quot;&quot;MAINTAINER=&quot;</span><span class="si">${</span><span class="n">maintainer</span><span class="p">.</span><span class="n">value</span><span class="si">}</span><span class="s">&quot;&quot;&quot;&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="nc">ExecCmd</span><span class="p">(</span><span class="s">&quot;CMD&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;echo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello, World from Docker&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="busybox-ash-support">
-<h3>Busybox/Ash Support<a class="headerlink" href="#busybox-ash-support" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="busybox-ash-support">
+<h3>Busybox/Ash Support<a class="headerlink" href="#busybox-ash-support" title="Permalink to this heading">¶</a></h3>
 <p>Busybox is a popular minimal Docker base image that uses <a class="reference external" href="https://en.wikipedia.org/wiki/Almquist_shell">ash</a>, a much
 more limited shell than bash.  By default, the Java archetype (<a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a>) generates two files for shell
 support: a <code class="docutils literal notranslate"><span class="pre">bash</span></code> file, and a Windows <code class="docutils literal notranslate"><span class="pre">.bat</span></code> file.  If you build a Docker image for Busybox using the defaults, the
 generated bash launch script will likely not work.</p>
 <p>To handle this, you can use <em>AshScriptPlugin</em>, an ash-compatible archetype that is derived from the <a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a> archetype.
 .  Enable this by including:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">AshScriptPlugin</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">AshScriptPlugin</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>With this plugin enabled an ash-compatible launch script will be generated in your Docker image.</p>
@@ -845,64 +773,55 @@ generated bash launch script will likely not work.</p>
 your own <code class="docutils literal notranslate"><span class="pre">src/templates/ash-template</span></code> file.  When overriding the file don’t forget to include
 <code class="docutils literal notranslate"><span class="pre">${{template_declares}}</span></code> somewhere to populate <code class="docutils literal notranslate"><span class="pre">$app_classpath</span> <span class="pre">$app_mainclass</span></code> from your sbt project.
 You’ll likely need these to launch your program.</p>
+</section>
+<section id="init-support">
+<h3>Init support<a class="headerlink" href="#init-support" title="Permalink to this heading">¶</a></h3>
+<p>By default, Java will run with PID 1 when you run your docker container. The JVM behaves differently when its PID is 1
+compared to other PIDs, most notably, it doesn’t respond to some signals. These include the signals usually used to
+instruct a Java process to dump its threads or its heap. If you want to be able to debug a running Java container, the
+inability to take thread or heap dumps can be a problem.</p>
+<p>Docker has a convenient solution to this, it can configure a separate init process for you. This process will start
+your Java process, and it will also do some other useful things that init processes are meant to do like cleaning up
+orphaned processes in the container. But most importantly it will ensure that your Java process is not PID 1, which
+will in turn ensure that your Java process is able to respond to signals for debugging. The command docker uses is
+<a class="reference external" href="https://github.com/krallin/tini">tini</a>, which as its name suggests, is tiny, only 23kb in size.</p>
+<p>To tell docker to configure a separate init process using tini, set the <cite>dockerBuildInit</cite> setting to <cite>true</cite>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerBuildInit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kc">true</span>
+</pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="windows.html" class="btn btn-neutral float-right" title="Windows Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="rpm.html" class="btn btn-neutral float-left" title="Rpm Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rpm.html" class="btn btn-neutral float-left" title="Rpm Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="windows.html" class="btn btn-neutral float-right" title="Windows Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2014 sbt-native-packager team
-
-    </p>
+    <p>&#169; Copyright 2014 sbt-native-packager team.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

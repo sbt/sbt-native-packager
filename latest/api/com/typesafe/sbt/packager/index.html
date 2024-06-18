@@ -276,7 +276,7 @@
         <a title="This package contains stanard validators that can be used by format and archetype plugins." href="validation/index.html"><span class="name">validation</span></a>
       </span>
       
-      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4> validation </h4><p>This package contains stanard validators that can be used by format and archetype plugins.
+      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4>validation</h4><p>This package contains stanard validators that can be used by format and archetype plugins.
 </p></div></div>
     </li><li name="com.typesafe.sbt.packager.windows" visbl="pub" class="indented5 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="windows"></a><a id="windows:windows"></a>
@@ -316,8 +316,8 @@
                         <a href="NativePackagerKeys.html" title="General purpose keys for the native packager">NativePackagerKeys</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="object" href="SettingsHelper$.html" title="TODO write tests for the SettingsHelper TODO document methods properly TODO document the sbt internal stuff that is used"></a>
-                        <a href="SettingsHelper$.html" title="TODO write tests for the SettingsHelper TODO document methods properly TODO document the sbt internal stuff that is used">SettingsHelper</a>
+                        <a class="object" href="SettingsHelper$.html" title=""></a>
+                        <a href="SettingsHelper$.html" title="">SettingsHelper</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="object" href="Stager$.html" title=""></a>
@@ -330,6 +330,10 @@
                         <span class="separator"></span>
                         <a class="object" href="permissions$.html" title="Converts a octal unix permission representation into a java PosiFilePermissions compatible string."></a>
                         <a href="permissions$.html" title="Converts a octal unix permission representation into a java PosiFilePermissions compatible string.">permissions</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="sourceDateEpoch$.html" title=""></a>
+                        <a href="sourceDateEpoch$.html" title="">sourceDateEpoch</a>
                       </li>
               </ul>
             </div>
@@ -465,9 +469,9 @@
         <a title="This Keys object can be used for" href="Keys$.html"><span class="name">Keys</span></a><span class="result"> extends <a href="NativePackagerKeys.html" class="extype" name="com.typesafe.sbt.packager.NativePackagerKeys">NativePackagerKeys</a> with <a href="universal/UniversalKeys.html" class="extype" name="com.typesafe.sbt.packager.universal.UniversalKeys">UniversalKeys</a> with <a href="linux/LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a> with <a href="windows/WindowsKeys.html" class="extype" name="com.typesafe.sbt.packager.windows.WindowsKeys">WindowsKeys</a> with <a href="docker/DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">DockerKeys</a> with <a href="debian/DebianKeys.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianKeys">DebianKeys</a> with <a href="rpm/RpmKeys.html" class="extype" name="com.typesafe.sbt.packager.rpm.RpmKeys">RpmKeys</a> with <a href="archetypes/JavaAppKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys">JavaAppKeys</a> with <span class="extype" name="com.typesafe.sbt.packager.archetypes.JavaAppKeys2">JavaAppKeys2</span> with <a href="archetypes/JavaServerAppKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.JavaServerAppKeys">JavaServerAppKeys</a> with <span class="extype" name="com.typesafe.sbt.packager.archetypes.jlink.JlinkKeys">JlinkKeys</span> with <a href="archetypes/systemloader/SystemloaderKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.systemloader.SystemloaderKeys">SystemloaderKeys</a> with <a href="archetypes/scripts/BashStartScriptKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptKeys">BashStartScriptKeys</a> with <a href="archetypes/scripts/BatStartScriptKeys.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.BatStartScriptKeys">BatStartScriptKeys</a> with <a href="validation/ValidationKeys.html" class="extype" name="com.typesafe.sbt.packager.validation.ValidationKeys">ValidationKeys</a></span>
       </span>
       
-      <p class="shortcomment cmt">This Keys object can be used for</p><div class="fullcomment"><div class="comment cmt"><p>This Keys object can be used for</p><ul><li>non autoplugin builds</li><li>import single keys, which are not inside the autoImport</li></ul><h4> Non autoplugin builds </h4><pre><span class="kw">import</span> com.typesafe.sbt.packager.Keys._
+      <p class="shortcomment cmt">This Keys object can be used for</p><div class="fullcomment"><div class="comment cmt"><p>This Keys object can be used for</p><ul><li>non autoplugin builds</li><li>import single keys, which are not inside the autoImport</li></ul><h4>Non autoplugin builds</h4><pre><span class="kw">import</span> com.typesafe.sbt.packager.Keys._
 
-packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre>NativePackagerKeys.packageName := <span class="lit">""</span></pre></div></div>
+packageName := <span class="lit">""</span></pre><h4>autoplugin builds</h4><pre>NativePackagerKeys.packageName := <span class="lit">""</span></pre></div></div>
     </li><li name="com.typesafe.sbt.packager.MappingsHelper" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="MappingsHelper"></a><a id="MappingsHelper:MappingsHelper"></a>
       <span class="permalink">
@@ -484,7 +488,7 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
       </span>
       
       <p class="shortcomment cmt">A set of helper methods to simplify the writing of mappings</p>
-    </li><li name="com.typesafe.sbt.packager.SettingsHelper" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.typesafe.sbt.packager.SettingsHelper" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="SettingsHelper"></a><a id="SettingsHelper:SettingsHelper"></a>
       <span class="permalink">
       <a href="../../../../com/typesafe/sbt/packager/SettingsHelper$.html" title="Permalink">
@@ -496,13 +500,11 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="TODO write tests for the SettingsHelper TODO document methods properly TODO document the sbt internal stuff that is used" href="SettingsHelper$.html"><span class="name">SettingsHelper</span></a>
+        <a title="" href="SettingsHelper$.html"><span class="name">SettingsHelper</span></a>
       </span>
       
-      <p class="shortcomment cmt">TODO write tests for the SettingsHelper
-TODO document methods properly
-TODO document the sbt internal stuff that is used
-</p>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"><ul><li>TODO write tests for the SettingsHelper</li><li>TODO document methods properly</li><li>TODO document the sbt internal stuff that is used
+</li></ul></div></div>
     </li><li name="com.typesafe.sbt.packager.Stager" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Stager"></a><a id="Stager:Stager"></a>
       <span class="permalink">
@@ -551,8 +553,23 @@ TODO document the sbt internal stuff that is used
         <a title="Converts a octal unix permission representation into a java PosiFilePermissions compatible string." href="permissions$.html"><span class="name">permissions</span></a>
       </span>
       
-      <p class="shortcomment cmt">Converts a octal unix permission representation into
-a java <code>PosiFilePermissions</code> compatible string.</p>
+      <p class="shortcomment cmt">Converts a octal unix permission representation into a java <code>PosiFilePermissions</code> compatible string.</p>
+    </li><li name="com.typesafe.sbt.packager.sourceDateEpoch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="sourceDateEpoch"></a><a id="sourceDateEpoch:sourceDateEpoch"></a>
+      <span class="permalink">
+      <a href="../../../../com/typesafe/sbt/packager/sourceDateEpoch$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="sourceDateEpoch$.html"><span class="name">sourceDateEpoch</span></a>
+      </span>
+      
+      
     </li>
               </ol>
             </div>

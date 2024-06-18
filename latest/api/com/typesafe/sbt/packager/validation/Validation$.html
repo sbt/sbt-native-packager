@@ -148,7 +148,7 @@
         <a title="This package contains stanard validators that can be used by format and archetype plugins." href="index.html"><span class="name">validation</span></a>
       </span>
       
-      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4> validation </h4><p>This package contains stanard validators that can be used by format and archetype plugins.
+      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4>validation</h4><p>This package contains stanard validators that can be used by format and archetype plugins.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="" title=""></a>
@@ -269,7 +269,8 @@
       
       <p class="shortcomment cmt">A validator is a function that returns a list of validation results.</p><div class="fullcomment"><div class="comment cmt"><p>A validator is a function that returns a list of validation results.
 </p></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Usually a validator is a function that captures some setting or task value, e.g.</p><pre>validatePackageValidators += {
+               <ol><li class="cmt"><p>
+  Usually a validator is a function that captures some setting or task value, e.g.</p><pre>validatePackageValidators += {
   <span class="kw">val</span> universalMappings = (mappings in Universal).value
   () <span class="kw">=&gt;</span> {
     <span class="kw">if</span> (universalMappings.isEmpty) <span class="std">List</span>(ValidationError(...)) <span class="kw">else</span> <span class="std">List</span>.empt
@@ -347,7 +348,9 @@
         <span class="name">apply</span><span class="params">(<span name="validators">validators: <span class="extype" name="scala.Seq">Seq</span>[<a href="#Validator=()=&gt;List[com.typesafe.sbt.packager.validation.ValidationResult]" class="extmbr" name="com.typesafe.sbt.packager.validation.Validation.Validator">Validator</a>]</span>)</span><span class="result">: <a href="Validation.html" class="extype" name="com.typesafe.sbt.packager.validation.Validation">Validation</a></span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">validators</dt><dd class="cmt"><p>a list of validators that produce a <code>Validation</code> result</p></dd><dt>returns</dt><dd class="cmt"><p>aggregated result of all validator function</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">validators</dt><dd class="cmt"><p>
+  a list of validators that produce a <code>Validation</code> result</p></dd><dt>returns</dt><dd class="cmt"><p>
+  aggregated result of all validator function</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -387,8 +390,6 @@
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
@@ -422,6 +423,28 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/validation/Validation$.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -439,8 +462,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -460,8 +481,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -514,8 +533,6 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -535,8 +552,6 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.validation.Validation#runAndThrow" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="runAndThrow(validators:Seq[com.typesafe.sbt.packager.validation.Validation.Validator],log:sbt.Logger):Unit"></a><a id="runAndThrow(Seq[Validator],sbt.Logger):Unit"></a>
@@ -553,10 +568,10 @@
         <span class="name">runAndThrow</span><span class="params">(<span name="validators">validators: <span class="extype" name="scala.Seq">Seq</span>[<a href="#Validator=()=&gt;List[com.typesafe.sbt.packager.validation.ValidationResult]" class="extmbr" name="com.typesafe.sbt.packager.validation.Validation.Validator">Validator</a>]</span>, <span name="log">log: <a href="../../../../../sbt/index.html#Logger=sbt.util.Logger" class="extmbr" name="sbt.Logger">sbt.Logger</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
-      <p class="shortcomment cmt">Runs a list of validators and throws an exception after printing all
-errors and warnings with the provided logger.</p><div class="fullcomment"><div class="comment cmt"><p>Runs a list of validators and throws an exception after printing all
-errors and warnings with the provided logger.
-</p></div><dl class="paramcmts block"><dt class="param">validators</dt><dd class="cmt"><p>a list of validators that produce the validation result</p></dd><dt class="param">log</dt><dd class="cmt"><p>used to print errors and warnings</p></dd></dl></div>
+      <p class="shortcomment cmt">Runs a list of validators and throws an exception after printing all errors and warnings with the provided logger.</p><div class="fullcomment"><div class="comment cmt"><p>Runs a list of validators and throws an exception after printing all errors and warnings with the provided logger.
+</p></div><dl class="paramcmts block"><dt class="param">validators</dt><dd class="cmt"><p>
+  a list of validators that produce the validation result</p></dd><dt class="param">log</dt><dd class="cmt"><p>
+  used to print errors and warnings</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -589,6 +604,28 @@ errors and warnings with the provided logger.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/validation/Validation$.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
@@ -635,62 +672,13 @@ errors and warnings with the provided logger.
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/validation/Validation$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li>
               </ol>
             </div>
 
         
 
-        <div class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/validation/Validation$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

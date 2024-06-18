@@ -205,10 +205,10 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Plugin containing all the generic values used for
-packaging linux software.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Plugin containing all the generic values used for packaging linux software.
 </p></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(LinuxPlugin)</pre></li></ol>
+               <ol><li class="cmt"><p>
+  Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(LinuxPlugin)</pre></li></ol>
             </div></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -433,8 +433,6 @@ packaging linux software.
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxPlugin#controlFunctions" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="controlFunctions():sbt.URL"></a>
@@ -467,11 +465,10 @@ packaging linux software.
         <span class="name">controlScriptFunctionsReplacement</span><span class="params">(<span name="template">template: <span class="extype" name="scala.Option">Option</span>[<a href="../../../../../sbt/index.html#URL=java.net.URL" class="extmbr" name="sbt.URL">sbt.URL</a>] = <span class="symbol">None</span></span>)</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)</span>
       </span>
       
-      <p class="shortcomment cmt">Load the default controlscript functions which contain
-addUser/removeUser/addGroup/removeGroup
-</p><div class="fullcomment"><div class="comment cmt"><p>Load the default controlscript functions which contain
-addUser/removeUser/addGroup/removeGroup
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>placeholder-&gt;content</p></dd></dl></div>
+      <p class="shortcomment cmt">Load the default controlscript functions which contain addUser/removeUser/addGroup/removeGroup
+</p><div class="fullcomment"><div class="comment cmt"><p>Load the default controlscript functions which contain addUser/removeUser/addGroup/removeGroup
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  placeholder-&gt;content</p></dd></dl></div>
     </li><li name="sbt.AutoPlugin#derivedProjects" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="derivedProjects(proj:sbt.ProjectDefinition[_]):Seq[sbt.Project]"></a><a id="derivedProjects(ProjectDefinition[_]):Seq[Project]"></a>
       <span class="permalink">
@@ -552,6 +549,28 @@ addUser/removeUser/addGroup/removeGroup
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -569,8 +588,6 @@ addUser/removeUser/addGroup/removeGroup
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="sbt.AutoPlugin#globalSettings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -606,8 +623,6 @@ addUser/removeUser/addGroup/removeGroup
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -676,9 +691,9 @@ addUser/removeUser/addGroup/removeGroup
       
       <p class="shortcomment cmt">Create a ascii friendly string for a man page.</p>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxPlugin#makeReplacements" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="makeReplacements(author:String,description:String,execScript:String,chdir:String,logdir:String,appName:String,version:String,daemonUser:String,daemonUserUid:Option[String],daemonGroup:String,daemonGroupGid:Option[String],daemonShell:String,fileDescriptorLimit:Option[String]):Seq[(String,String)]"></a><a id="makeReplacements(String,String,String,String,String,String,String,String,Option[String],String,Option[String],String,Option[String]):Seq[(String,String)]"></a>
+      <a id="makeReplacements(author:String,description:String,execScript:String,chdir:String,logdir:String,appName:String,version:String,daemonUser:String,daemonUserUid:Option[String],daemonGroup:String,daemonGroupGid:Option[String],daemonShell:String,daemonHome:String,fileDescriptorLimit:Option[String]):Seq[(String,String)]"></a><a id="makeReplacements(String,String,String,String,String,String,String,String,Option[String],String,Option[String],String,String,Option[String]):Seq[(String,String)]"></a>
       <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$.html#makeReplacements(author:String,description:String,execScript:String,chdir:String,logdir:String,appName:String,version:String,daemonUser:String,daemonUserUid:Option[String],daemonGroup:String,daemonGroupGid:Option[String],daemonShell:String,fileDescriptorLimit:Option[String]):Seq[(String,String)]" title="Permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$.html#makeReplacements(author:String,description:String,execScript:String,chdir:String,logdir:String,appName:String,version:String,daemonUser:String,daemonUserUid:Option[String],daemonGroup:String,daemonGroupGid:Option[String],daemonShell:String,daemonHome:String,fileDescriptorLimit:Option[String]):Seq[(String,String)]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -687,7 +702,7 @@ addUser/removeUser/addGroup/removeGroup
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">makeReplacements</span><span class="params">(<span name="author">author: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="execScript">execScript: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chdir">chdir: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="logdir">logdir: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="appName">appName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="daemonUser">daemonUser: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="daemonUserUid">daemonUserUid: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="daemonGroup">daemonGroup: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="daemonGroupGid">daemonGroupGid: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="daemonShell">daemonShell: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="fileDescriptorLimit">fileDescriptorLimit: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
+        <span class="name">makeReplacements</span><span class="params">(<span name="author">author: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="execScript">execScript: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chdir">chdir: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="logdir">logdir: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="appName">appName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="daemonUser">daemonUser: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="daemonUserUid">daemonUserUid: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="daemonGroup">daemonGroup: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="daemonGroupGid">daemonGroupGid: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="daemonShell">daemonShell: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="daemonHome">daemonHome: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="fileDescriptorLimit">fileDescriptorLimit: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
       </span>
       
       
@@ -706,8 +721,7 @@ addUser/removeUser/addGroup/removeGroup
         <span class="name">mapGenericFilesToLinux</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../../sbt/index.html#Setting[T]=sbt.Def.Setting[T]" class="extmbr" name="sbt.Setting">sbt.Setting</a>[_]]</span>
       </span>
       
-      <p class="shortcomment cmt">maps the <code>mappings</code> content into <code>linuxPackageMappings</code> and
-<code>linuxPackageSymlinks</code>.</p>
+      <p class="shortcomment cmt">maps the <code>mappings</code> content into <code>linuxPackageMappings</code> and <code>linuxPackageSymlinks</code>.</p>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxPlugin#mapGenericMappingsToLinux" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="mapGenericMappingsToLinux(mappings:Seq[(sbt.File,String)],user:String,group:String)(rename:String=&gt;String):Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]"></a><a id="mapGenericMappingsToLinux(Seq[(sbt.File,String)],String,String)((String)⇒String):Seq[LinuxPackageMapping]"></a>
       <span class="permalink">
@@ -723,13 +737,8 @@ addUser/removeUser/addGroup/removeGroup
         <span class="name">mapGenericMappingsToLinux</span><span class="params">(<span name="mappings">mappings: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="user">user: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="group">group: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="rename">rename: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Maps linux file format from the universal from the conventions:</p><div class="fullcomment"><div class="comment cmt"><p>Maps linux file format from the universal from the conventions:</p><p><code>&lt;project&gt;/src/linux</code> files are mapped directly into linux packages.
-<code>&lt;universal&gt;</code> files are placed under <code>/usr/share/&lt;package-name&gt;</code>
-<code>&lt;universal&gt;/bin</code> files are given symlinks in <code>/usr/bin</code>
-<code>&lt;universal&gt;/conf</code> directory is given a symlink to <code>/etc/&lt;package-name&gt;</code>
-Files in <code>conf/</code> or <code>etc/</code> directories are automatically marked as configuration.
-<code>../man/...1</code> files are automatically compressed into .gz files.
-</p></div></div>
+      <p class="shortcomment cmt">Maps linux file format from the universal from the conventions:</p><div class="fullcomment"><div class="comment cmt"><p>Maps linux file format from the universal from the conventions:</p><ul><li><code>&lt;project&gt;/src/linux</code> files are mapped directly into linux packages.</li><li><code>&lt;universal&gt;</code> files are placed under <code>/usr/share/&lt;package-name&gt;</code></li><li><code>&lt;universal&gt;/bin</code> files are given symlinks in <code>/usr/bin</code></li><li><code>&lt;universal&gt;/conf</code> directory is given a symlink to <code>/etc/&lt;package-name&gt;</code></li><li>Files in <code>conf/</code> or <code>etc/</code> directories are automatically marked as configuration.</li><li><code>../man/...1</code> files are automatically compressed into .gz files.
+</li></ul></div></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -780,8 +789,6 @@ Files in <code>conf/</code> or <code>etc/</code> directories are automatically m
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -800,8 +807,6 @@ Files in <code>conf/</code> or <code>etc/</code> directories are automatically m
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxPlugin#projectConfigurations" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -901,6 +906,28 @@ Files in <code>conf/</code> or <code>etc/</code> directories are automatically m
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
       <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
@@ -946,28 +973,6 @@ Files in <code>conf/</code> or <code>etc/</code> directories are automatically m
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxPlugin.Users" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Users"></a><a id="Users:Users"></a>
       <span class="permalink">
@@ -1006,34 +1011,7 @@ Files in <code>conf/</code> or <code>etc/</code> directories are automatically m
 
         
 
-        <div class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

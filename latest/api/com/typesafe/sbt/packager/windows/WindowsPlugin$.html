@@ -225,8 +225,10 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4> Windows Plugin </h4><p>This plugin generates <i>msi</i> packages that can be installed on windows systems.</p><h4> Configuration </h4><p>In order to configure this plugin take a look at the available <a href="WindowsKeys.html" class="extype" name="com.typesafe.sbt.packager.windows.WindowsKeys">com.typesafe.sbt.packager.windows.WindowsKeys</a></p><h4> Requirements </h4><ul><li>Windows System</li><li>Wix Toolset (<a href="http://wixtoolset.org/" target="_blank">http://wixtoolset.org/</a>) installed</li></ul></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(WindowsPlugin)</pre></li></ol>
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4>Windows Plugin</h4><p>This plugin generates <i>msi</i> packages that can be installed on windows systems.</p><h4>Configuration</h4><p>In order to configure this plugin take a look at the available <a href="WindowsKeys.html" class="extype" name="com.typesafe.sbt.packager.windows.WindowsKeys">com.typesafe.sbt.packager.windows.WindowsKeys</a></p><h4>Requirements</h4><ul><li>Windows System</li><li>Wix Toolset (<a href="http://wixtoolset.org/" target="_blank">http://wixtoolset.org/</a>) installed
+</li></ul></div><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p>
+  Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(WindowsPlugin)</pre></li></ol>
             </div></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -419,8 +421,6 @@
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="sbt.AutoPlugin#derivedProjects" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="derivedProjects(proj:sbt.ProjectDefinition[_]):Seq[sbt.Project]"></a><a id="derivedProjects(ProjectDefinition[_]):Seq[Project]"></a>
@@ -502,6 +502,28 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/windows/WindowsPlugin$.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -519,8 +541,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="sbt.AutoPlugin#globalSettings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -556,8 +576,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -609,7 +627,10 @@
       
       <p class="shortcomment cmt">Generates the wix configuration features
 </p><div class="fullcomment"><div class="comment cmt"><p>Generates the wix configuration features
-</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>- title of the core package</p></dd><dt class="param">mappings</dt><dd class="cmt"><p>- use to generate different features</p></dd><dt>returns</dt><dd class="cmt"><p>windows features</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>
+  title of the core package</p></dd><dt class="param">mappings</dt><dd class="cmt"><p>
+  use to generate different features</p></dd><dt>returns</dt><dd class="cmt"><p>
+  windows features</p></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.windows.WindowsPlugin#mapGenericFilesToWindows" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="mapGenericFilesToWindows:Seq[sbt.Setting[_]]"></a>
       <span class="permalink">
@@ -677,8 +698,6 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -697,8 +716,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.windows.WindowsPlugin#projectConfigurations" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -798,6 +815,28 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/windows/WindowsPlugin$.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
       <a href="../../../../../com/typesafe/sbt/packager/windows/WindowsPlugin$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
@@ -843,28 +882,6 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/windows/WindowsPlugin$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.windows.WindowsPlugin#windowsSettings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="windowsSettings:Seq[sbt.Setting[_]]"></a>
       <span class="permalink">
@@ -904,34 +921,7 @@
 
         
 
-        <div class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/windows/WindowsPlugin$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

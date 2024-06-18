@@ -154,6 +154,6 @@ The architecture can be summarized with this diagram
 .. image:: /static/sbt-native-packager-design.svg
     :alt: Architecture diagram.
 
-When using the full power of the plugin, all of the packaging is driven from the ``mappings in Universal`` setting,
+When using the full power of the plugin, all of the packaging is driven from the ``Universal / mappings`` setting,
 which defines what files will be included in the package. These files are automatically moved around for the appropriate
 native packaging as needed.

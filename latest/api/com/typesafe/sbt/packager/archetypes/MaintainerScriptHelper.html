@@ -275,7 +275,7 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4> Maintainer Script Helper </h4><p>Provides utility methods to configure package maintainerScripts.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><h4>Maintainer Script Helper</h4><p>Provides utility methods to configure package maintainerScripts.
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -425,8 +425,6 @@
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
@@ -460,6 +458,28 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/archetypes/MaintainerScriptHelper.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -477,8 +497,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -498,8 +516,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -534,12 +550,18 @@
       </span>
       
       <p class="shortcomment cmt">Use this method to append additional script content to specific maintainer scripts.</p><div class="fullcomment"><div class="comment cmt"><p>Use this method to append additional script content to specific maintainer scripts.
-</p></div><dl class="paramcmts block"><dt class="param">current</dt><dd class="cmt"><p>maintainer scripts</p></dd><dt class="param">replacements</dt><dd class="cmt"><p>(e.g. (linuxScriptReplacements in Debian).value)</p></dd><dt class="param">scripts</dt><dd class="cmt"><p>scriptName -&gt; scriptContent pairs</p></dd><dt>returns</dt><dd class="cmt"><p>maintainerScripts with appended <code>scripts</code></p></dd></dl><dl class="attributes block"> <div class="block">Examples:
-               <ol><li class="cmt"><p>Adding content from a string</p><pre><span class="kw">import</span> RpmConstants._
+</p></div><dl class="paramcmts block"><dt class="param">current</dt><dd class="cmt"><p>
+  maintainer scripts</p></dd><dt class="param">replacements</dt><dd class="cmt"><p>
+  (e.g. (linuxScriptReplacements in Debian).value)</p></dd><dt class="param">scripts</dt><dd class="cmt"><p>
+  scriptName -&gt; scriptContent pairs</p></dd><dt>returns</dt><dd class="cmt"><p>
+  maintainerScripts with appended <code>scripts</code></p></dd></dl><dl class="attributes block"> <div class="block">Examples:
+               <ol><li class="cmt"><p>
+  Adding content from a string</p><pre><span class="kw">import</span> RpmConstants._
 maintainerScripts in Rpm := maintainerScriptsAppend((maintainerScripts in Rpm).value)(
    Pretrans -&gt; <span class="lit">"echo 'hello, world'"</span>,
    Post -&gt; <span class="lit">"echo 'installing "</span> + (packageName in Rpm).value + <span class="lit">"'"</span>
-)</pre></li>, <li class="cmt"><p>Adding content from a string and use script replacements</p><pre><span class="kw">import</span> DebianConstants._
+)</pre></li>, <li class="cmt"><p>
+  Adding content from a string and use script replacements</p><pre><span class="kw">import</span> DebianConstants._
 maintainerScripts in Rpm := maintainerScriptsAppend(
   (maintainerScripts in Debian).value,
   (linuxScriptReplacements in Debian).value
@@ -547,7 +569,8 @@ maintainerScripts in Rpm := maintainerScriptsAppend(
    Preinst -&gt; <span class="lit">"echo 'hello, world'"</span>,
    Postinst -&gt; s<span class="lit">"echo 'installing ${(packageName in Debian).value}'"</span>
 )</pre></li></ol>
-            </div><dt>See also</dt><dd><span class="cmt"><p><a href="#maintainerScriptsAppendFromFile(current:Map[String,Seq[String]])(scripts:(String,sbt.File)*):Map[String,Seq[String]]" class="extmbr" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper#maintainerScriptsAppendFromFile">maintainerScriptsAppendFromFile</a></p></span></dd></dl></div>
+            </div><dt>See also</dt><dd><span class="cmt"><p>
+  <a href="#maintainerScriptsAppendFromFile(current:Map[String,Seq[String]])(scripts:(String,sbt.File)*):Map[String,Seq[String]]" class="extmbr" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper#maintainerScriptsAppendFromFile">maintainerScriptsAppendFromFile</a></p></span></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper#maintainerScriptsAppendFromFile" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="maintainerScriptsAppendFromFile(current:Map[String,Seq[String]])(scripts:(String,sbt.File)*):Map[String,Seq[String]]"></a><a id="maintainerScriptsAppendFromFile(Map[String,Seq[String]])((String,sbt.File)*):Map[String,Seq[String]]"></a>
       <span class="permalink">
@@ -563,15 +586,20 @@ maintainerScripts in Rpm := maintainerScriptsAppend(
         <span class="name">maintainerScriptsAppendFromFile</span><span class="params">(<span name="current">current: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]] = <span class="symbol">Map.empty</span></span>)</span><span class="params">(<span name="scripts">scripts: (<span class="extype" name="scala.Predef.String">String</span>, <a href="../../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>)*</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">Use this method to append additional script content to specific maintainer scripts.</p><div class="fullcomment"><div class="comment cmt"><p>Use this method to append additional script content to specific maintainer scripts.
-Note that you won't have any scriptReplacements available.
-</p></div><dl class="paramcmts block"><dt class="param">current</dt><dd class="cmt"><p>maintainer scripts</p></dd><dt class="param">scripts</dt><dd class="cmt"><p>scriptName -&gt; scriptFile pairs</p></dd><dt>returns</dt><dd class="cmt"><p>maintainerScripts with appended <code>scripts</code></p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Adding content from a string</p><pre><span class="kw">import</span> RpmConstants._
+      <p class="shortcomment cmt">Use this method to append additional script content to specific maintainer scripts.</p><div class="fullcomment"><div class="comment cmt"><p>Use this method to append additional script content to specific maintainer scripts. Note that you won't have any
+scriptReplacements available.
+</p></div><dl class="paramcmts block"><dt class="param">current</dt><dd class="cmt"><p>
+  maintainer scripts</p></dd><dt class="param">scripts</dt><dd class="cmt"><p>
+  scriptName -&gt; scriptFile pairs</p></dd><dt>returns</dt><dd class="cmt"><p>
+  maintainerScripts with appended <code>scripts</code></p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p>
+  Adding content from a string</p><pre><span class="kw">import</span> RpmConstants._
 maintainerScripts in Rpm := maintainerScriptsAppendFromFile((maintainerScripts in Rpm).value)(
    Pretrans -&gt; (sourceDirectory.value / <span class="lit">"rpm"</span> / <span class="lit">"pretrans"</span>),
    Post -&gt; (sourceDirectory.value / <span class="lit">"rpm"</span> / <span class="lit">"posttrans"</span>)
 )</pre></li></ol>
-            </div><dt>See also</dt><dd><span class="cmt"><p><a href="#maintainerScriptsAppend(current:Map[String,Seq[String]],replacements:Seq[(String,String)])(scripts:(String,String)*):Map[String,Seq[String]]" class="extmbr" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper#maintainerScriptsAppend">maintainerScriptsAppend</a> for pure strings where you can insert arbitrary settings and tasks values</p></span></dd></dl></div>
+            </div><dt>See also</dt><dd><span class="cmt"><p>
+  <a href="#maintainerScriptsAppend(current:Map[String,Seq[String]],replacements:Seq[(String,String)])(scripts:(String,String)*):Map[String,Seq[String]]" class="extmbr" name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper#maintainerScriptsAppend">maintainerScriptsAppend</a> for pure strings where you can insert arbitrary settings and tasks values</p></span></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper#maintainerScriptsFromDirectory" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="maintainerScriptsFromDirectory(dir:sbt.File,scripts:Seq[String]):Map[String,Seq[String]]"></a><a id="maintainerScriptsFromDirectory(sbt.File,Seq[String]):Map[String,Seq[String]]"></a>
       <span class="permalink">
@@ -587,14 +615,14 @@ maintainerScripts in Rpm := maintainerScriptsAppendFromFile((maintainerScripts i
         <span class="name">maintainerScriptsFromDirectory</span><span class="params">(<span name="dir">dir: <a href="../../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a></span>, <span name="scripts">scripts: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">Use this method to override preexisting configurations with custom file
-definitions.</p><div class="fullcomment"><div class="comment cmt"><p>Use this method to override preexisting configurations with custom file
-definitions.
-</p></div><dl class="paramcmts block"><dt class="param">dir</dt><dd class="cmt"><p>from where to load files</p></dd><dt class="param">scripts</dt><dd class="cmt"><p>- a list of script names that should be used</p></dd><dt>returns</dt><dd class="cmt"><p>filename to content mapping</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+      <p class="shortcomment cmt">Use this method to override preexisting configurations with custom file definitions.</p><div class="fullcomment"><div class="comment cmt"><p>Use this method to override preexisting configurations with custom file definitions.
+</p></div><dl class="paramcmts block"><dt class="param">dir</dt><dd class="cmt"><p>
+  from where to load files</p></dd><dt class="param">scripts</dt><dd class="cmt"><p>
+  a list of script names that should be used</p></dd><dt>returns</dt><dd class="cmt"><p>
+  filename to content mapping</p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre><span class="kw">import</span> DebianConstants._
 maintainerScripts in Debian := maintainerScriptsFromDirectory(
-  sourceDirectory.value / DebianSource / DebianMaintainerScripts,
-  <span class="std">Seq</span>(Preinst, Postinst, Prerm, Postrm)
+  sourceDirectory.value / DebianSource / DebianMaintainerScripts, <span class="std">Seq</span>(Preinst, Postinst, Prerm, Postrm)
 )</pre></li></ol>
             </div></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -631,8 +659,6 @@ maintainerScripts in Debian := maintainerScriptsFromDirectory(
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -651,8 +677,6 @@ maintainerScripts in Debian := maintainerScriptsFromDirectory(
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -687,6 +711,28 @@ maintainerScripts in Debian := maintainerScriptsFromDirectory(
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/archetypes/MaintainerScriptHelper.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
@@ -733,62 +779,13 @@ maintainerScripts in Debian := maintainerScriptsFromDirectory(
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/archetypes/MaintainerScriptHelper.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li>
               </ol>
             </div>
 
         
 
-        <div class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/archetypes/MaintainerScriptHelper.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

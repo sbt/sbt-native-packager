@@ -1,91 +1,50 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Linux Plugin &mdash; sbt-native-packager 1.9.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linux Plugin &mdash; sbt-native-packager 1.10.0+6-67a1f969-SNAPSHOT documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=2f9a1908"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Debian Plugin" href="debian.html" />
     <link rel="prev" title="Universal Plugin" href="universal.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sbt-native-packager
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            sbt-native-packager
           </a>
-
-          
-            
-            
               <div class="version">
-                1.9
+                1.10
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
@@ -233,6 +192,7 @@
 <li class="toctree-l4"><a class="reference internal" href="docker.html#add-commands">Add Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#write-from-scratch">Write from Scratch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#init-support">Init support</a></li>
 </ul>
 </li>
 </ul>
@@ -433,128 +393,88 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">sbt-native-packager</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="index.html">Packaging Formats</a> &raquo;</li>
-        
-      <li>Linux Plugin</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Packaging Formats</a></li>
+      <li class="breadcrumb-item active">Linux Plugin</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/formats/linux.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="linux-plugin">
-<span id="id1"></span><h1>Linux Plugin<a class="headerlink" href="#linux-plugin" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="linux-plugin">
+<span id="id1"></span><h1>Linux Plugin<a class="headerlink" href="#linux-plugin" title="Permalink to this heading">¶</a></h1>
 <p>The native packager plugin is designed so that linux packages look similar but can contain distribution specific information.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The linux plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>.</p>
 </div>
-<div class="section" id="related-plugins">
-<h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Permalink to this headline">¶</a></h2>
+<section id="related-plugins">
+<h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="debian.html#debian-plugin"><span class="std std-ref">Debian Plugin</span></a></p></li>
 <li><p><a class="reference internal" href="rpm.html#rpm-plugin"><span class="std std-ref">Rpm Plugin</span></a></p></li>
 </ul>
-</div>
-<div class="section" id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="build">
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
 <p>The linux plugin is just a top level plugin for linux packaging formats.
 The <code class="docutils literal notranslate"><span class="pre">Linux</span></code> scope contains settings which can be used by the plugins
 depending on the linux plugin.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt <span class="s2">&quot;show linux:linuxPackageMappings&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span><span class="s2">&quot;show Linux / linuxPackageMappings&quot;</span>
 </pre></div>
 </div>
-<div class="section" id="required-settings">
-<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
+<section id="required-settings">
+<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this heading">¶</a></h3>
 <p>A linux package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Linux Example&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Linux Example&quot;</span>
 
-<span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span>
+<span class="n">version</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;1.0&quot;</span>
 
-<span class="n">maintainer</span> <span class="o">:=</span> <span class="s">&quot;Max Smith &lt;max.smith@yourcompany.io&gt;&quot;</span>
+<span class="n">maintainer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Max Smith &lt;max.smith@yourcompany.io&gt;&quot;</span>
 
-<span class="n">packageSummary</span> <span class="o">:=</span> <span class="s">&quot;Hello World Debian Package&quot;</span>
+<span class="n">packageSummary</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Hello World Debian Package&quot;</span>
 
-<span class="n">packageDescription</span> <span class="o">:=</span> <span class="s">&quot;&quot;&quot;A fun package description of our software,</span>
+<span class="n">packageDescription</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;A fun package description of our software,</span>
 <span class="s">  with multiple lines.&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p>Enable the linux plugin to activate the native package implementation.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">LinuxPlugin</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">LinuxPlugin</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="configurations">
-<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="configurations">
+<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this heading">¶</a></h2>
 <p>Settings and tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Linux</span></code>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="n">name</span><span class="o">.</span><span class="n">value</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Linux</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="n">value</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h2>
 <p>The required fields for any linux distribution are:</p>
 <blockquote>
 <div><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">Linux</span></code></dt><dd><p>The name given the package for installation.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">name</span></code></dt><dd><p>The name given the package for installation.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">maintainer</span></code></dt><dd><p>The name of the maintainer of the package (important for ownership and signing).</p>
 </dd>
@@ -568,11 +488,11 @@ you have these settings in your build:</p>
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="package-mappings">
-<h3>Package Mappings<a class="headerlink" href="#package-mappings" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="customize">
+<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
+<section id="package-mappings">
+<h3>Package Mappings<a class="headerlink" href="#package-mappings" title="Permalink to this heading">¶</a></h3>
 <p>Most of the work in generating a linux package is constructing package mappings.  These ‘map’ a file to a location on disk where it should
 reside as well as information about that file. Package mappings allow the specification of file ownership, permissions and whether or not
 the file can be considered “configuration”.</p>
@@ -581,9 +501,9 @@ the file can be considered “configuration”.</p>
 information.  It’s best to be specific about how you want files handled and run tests on each platform you wish to deploy to.</p>
 </div></blockquote>
 <p>A package mapping takes this general form</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">packageMapping</span><span class="o">(</span>
-    <span class="n">file</span> <span class="o">-&gt;</span> <span class="s">&quot;/usr/share/man/man1/sbt.1.gz&quot;</span>
-  <span class="o">)</span> <span class="n">withPerms</span> <span class="s">&quot;0644&quot;</span> <span class="n">gzipped</span><span class="o">)</span> <span class="n">asDocs</span><span class="o">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">packageMapping</span><span class="p">(</span>
+<span class="w">    </span><span class="n">file</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;/usr/share/man/man1/sbt.1.gz&quot;</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="n">withPerms</span><span class="w"> </span><span class="s">&quot;0644&quot;</span><span class="w"> </span><span class="n">gzipped</span><span class="p">)</span><span class="w"> </span><span class="n">asDocs</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Let’s look at each of the methods supported in the packageMapping ‘library’.</p>
@@ -607,9 +527,9 @@ placed inside the <code class="docutils literal notranslate"><span class="pre">%
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="the-linuxpackagemapping-models">
-<h3>The LinuxPackageMapping Models<a class="headerlink" href="#the-linuxpackagemapping-models" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="the-linuxpackagemapping-models">
+<h3>The LinuxPackageMapping Models<a class="headerlink" href="#the-linuxpackagemapping-models" title="Permalink to this heading">¶</a></h3>
 <p>All classes are located in the <code class="docutils literal notranslate"><span class="pre">com.typesafe.sbt.packager.linux</span></code> package. So if you want to create
 instances yourself you have to add <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">com.typesafe.sbt.packager.linux._</span></code> to your build file.</p>
 <p>A <code class="docutils literal notranslate"><span class="pre">LinuxPackageMapping</span></code> contains the following fields:</p>
@@ -625,7 +545,7 @@ instances yourself you have to add <code class="docutils literal notranslate"><s
 </div></blockquote>
 <p>All mappings are stored in the task <code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code> which returns a <code class="docutils literal notranslate"><span class="pre">Seq[LinuxPackageMapping]</span></code>. To display the contents (value),
 open the sbt console and call</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>show linuxPackageMappings
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>show<span class="w"> </span>linuxPackageMappings
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">LinuxFileMetaData</span></code> has the following fields</p>
@@ -655,249 +575,224 @@ destination system. A <code class="docutils literal notranslate"><span class="pr
 </div></blockquote>
 <p>You can see all currently configured symlinks with this simple command.
 <code class="docutils literal notranslate"><span class="pre">linuxPackageSymlinks</span></code> is just a <code class="docutils literal notranslate"><span class="pre">Seq[LinuxSymlink]</span></code></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>show linuxPackageSymlinks
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>show<span class="w"> </span>linuxPackageSymlinks
 </pre></div>
 </div>
-</div>
-<div class="section" id="modifying-mappings-in-general">
-<h3>Modifying Mappings in General<a class="headerlink" href="#modifying-mappings-in-general" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="modifying-mappings-in-general">
+<h3>Modifying Mappings in General<a class="headerlink" href="#modifying-mappings-in-general" title="Permalink to this heading">¶</a></h3>
 <p>Adding, filtering and altering mappings are always simple methods on a <code class="docutils literal notranslate"><span class="pre">Seq[LinuxPackageMapping]</span></code> sequence.
 This section shows you the general way to add, modify, or filter mappings.  The following sections have specific examples.</p>
 <p>The basic construct for <strong>adding</strong> a mapping is</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// simple</span>
-<span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">theFile</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
+<span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">packageMapping</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">theFile</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 
 <span class="c1">// specialized</span>
-<span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">theFile</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span> <span class="n">withPerms</span><span class="o">(</span><span class="s">&quot;644&quot;</span><span class="o">)</span> <span class="n">asDocs</span><span class="o">()</span>
+<span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">packageMapping</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">theFile</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">withPerms</span><span class="p">(</span><span class="s">&quot;644&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">asDocs</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>To <strong>filter</strong> or <strong>modify</strong> a mapping, you generally create a new mapping by copying an existing one (or occasionally by creating a new blank one),
 then filter or modify it, and then return that filtered or modified mapping.  Here’s an example that shows a number of things you can <em>possibly</em> do.  See the next section for specifc examples.
 (Basic scala collections operations are used in the code. <a class="reference external" href="https://twitter.github.io/scala_school/collections.html#filter">Here is an explanation of the filter method</a>.)</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// sbt 0.13.0 syntax</span>
-<span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
-    <span class="c1">// mappings: Seq[LinuxPackageMapping]</span>
-    <span class="k">val</span> <span class="n">mappings</span> <span class="k">=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
+<span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// mappings: Seq[LinuxPackageMapping]</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="p">.</span><span class="n">value</span>
 
-    <span class="c1">// this process will must return another Seq[LinuxPackageMapping]</span>
-    <span class="n">mappings</span> <span class="n">map</span> <span class="o">{</span>  <span class="n">linuxPackage</span> <span class="k">=&gt;</span>
+<span class="w">    </span><span class="c1">// this process will must return another Seq[LinuxPackageMapping]</span>
+<span class="w">    </span><span class="n">mappings</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="n">linuxPackage</span><span class="w"> </span><span class="o">=&gt;</span>
 
-        <span class="c1">// each mapping element is a Seq[(java.io.File, String)]</span>
-        <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">linuxPackage</span><span class="o">.</span><span class="n">mappings</span> <span class="n">map</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">file</span> <span class="o">-&gt;</span> <span class="n">name</span> <span class="c1">// alter stuff here</span>
-        <span class="o">}</span> <span class="n">filter</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="kc">true</span> <span class="c1">// filter anything from the mapping where the case (file, name) =&gt; true  pattern is satisfied</span>
-        <span class="o">}</span>
+<span class="w">        </span><span class="c1">// each mapping element is a Seq[(java.io.File, String)]</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="n">filtered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linuxPackage</span><span class="p">.</span><span class="n">mappings</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="c1">// alter stuff here</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="c1">// filter anything from the mapping where the case (file, name) =&gt; true  pattern is satisfied</span>
+<span class="w">        </span><span class="p">}</span>
 
-        <span class="c1">// Copy values from the mapping: (Include only what you need)</span>
-        <span class="k">val</span> <span class="n">fileData</span> <span class="k">=</span> <span class="n">linuxPackage</span><span class="o">.</span><span class="n">fileData</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span>
-            <span class="n">user</span> <span class="k">=</span> <span class="s">&quot;new user&quot;</span><span class="o">,</span>
-            <span class="n">group</span> <span class="k">=</span> <span class="s">&quot;another group&quot;</span><span class="o">,</span>
-            <span class="n">permissions</span> <span class="k">=</span> <span class="s">&quot;444&quot;</span><span class="o">,</span>
-            <span class="n">config</span> <span class="k">=</span> <span class="s">&quot;false&quot;</span><span class="o">,</span>
-            <span class="n">docs</span> <span class="k">=</span> <span class="kc">false</span>
-        <span class="o">)</span>
+<span class="w">        </span><span class="c1">// Copy values from the mapping: (Include only what you need)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="n">fileData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linuxPackage</span><span class="p">.</span><span class="n">fileData</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;new user&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;another group&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">permissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;444&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;false&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">        </span><span class="p">)</span>
 
-        <span class="c1">// returns a fresh LinuxPackageMapping based on the above</span>
-        <span class="n">linuxPackage</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span>
-            <span class="n">mappings</span> <span class="k">=</span> <span class="n">filtered</span><span class="o">,</span>
-            <span class="n">fileData</span> <span class="k">=</span> <span class="n">fileData</span>
-        <span class="o">)</span>
-    <span class="o">}</span> <span class="n">filter</span> <span class="o">{</span>
-        <span class="n">linuxPackage</span> <span class="k">=&gt;</span> <span class="n">linuxPackage</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">nonEmpty</span> <span class="c1">// return all mappings that are nonEmpty (this effectively removes all empty linuxPackageMappings)</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<span class="w">        </span><span class="c1">// returns a fresh LinuxPackageMapping based on the above</span>
+<span class="w">        </span><span class="n">linuxPackage</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">mappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filtered</span><span class="p">,</span>
+<span class="w">            </span><span class="n">fileData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fileData</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">linuxPackage</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">linuxPackage</span><span class="p">.</span><span class="n">mappings</span><span class="p">.</span><span class="n">nonEmpty</span><span class="w"> </span><span class="c1">// return all mappings that are nonEmpty (this effectively removes all empty linuxPackageMappings)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 
 <span class="c1">// sbt 0.12.x syntax</span>
-<span class="n">linuxPackageMappings</span> <span class="o">&lt;&lt;=</span> <span class="n">linuxPackageMappings</span> <span class="n">map</span> <span class="o">{</span> <span class="n">mappings</span> <span class="k">=&gt;</span>
-    <span class="cm">/* stuff. see above */</span>
-    <span class="n">mappings</span>
-<span class="o">}</span>
+<span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">&lt;&lt;=</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">    </span><span class="cm">/* stuff. see above */</span>
+<span class="w">    </span><span class="n">mappings</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>The ordering in which you apply the tasks is important.</p>
-</div>
-<div class="section" id="add-mappings">
-<h3>Add Mappings<a class="headerlink" href="#add-mappings" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="add-mappings">
+<h3>Add Mappings<a class="headerlink" href="#add-mappings" title="Permalink to this heading">¶</a></h3>
 <p>To add an arbitrary file in your build path</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;somefile.txt&quot;</span>
-  <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
-<span class="o">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sourceDirectory</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;resources&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;somefile.txt&quot;</span>
+<span class="w">  </span><span class="n">packageMapping</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code> can be scoped to <code class="docutils literal notranslate"><span class="pre">Rpm</span></code> or <code class="docutils literal notranslate"><span class="pre">Debian</span></code> if you want to add mappings only for a single packaging type.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;debian-somefile.txt&quot;</span>
-  <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
-<span class="o">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Debian</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sourceDirectory</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;resources&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;debian-somefile.txt&quot;</span>
+<span class="w">  </span><span class="n">packageMapping</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="p">}</span>
 
-<span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Rpm</span> <span class="o">+=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;rpm-somefile.txt&quot;</span>
-  <span class="n">packageMapping</span><span class="o">(</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="o">)</span> <span class="o">)</span>
-<span class="o">}</span>
+<span class="nc">Rpm</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sourceDirectory</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;resources&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;rpm-somefile.txt&quot;</span>
+<span class="w">  </span><span class="n">packageMapping</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/absolute/path/somefile.txt&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="filter-remove-mappings">
-<h3>Filter/Remove Mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="filter-remove-mappings">
+<h3>Filter/Remove Mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this heading">¶</a></h3>
 <p>If you want to remove some mappings you have to <strong>filter</strong> the current list of <code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code>.
 As <code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code> is a task, the order of your settings is important. Here are some examples
 on how to filter mappings.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// this is equal to</span>
 <span class="c1">// linuxPackageMappings &lt;&lt;= linuxPackageMappings map { mappings =&gt; /* stuff */ mappings }</span>
-<span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
-    <span class="c1">// first get the current mappings. mapping is of type Seq[LinuxPackageMapping]</span>
-    <span class="k">val</span> <span class="n">mappings</span> <span class="k">=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
+<span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// first get the current mappings. mapping is of type Seq[LinuxPackageMapping]</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="p">.</span><span class="n">value</span>
 
-    <span class="c1">// map over the mappings if you want to change them</span>
-    <span class="n">mappings</span> <span class="n">map</span> <span class="o">{</span> <span class="n">mapping</span> <span class="k">=&gt;</span>
+<span class="w">    </span><span class="c1">// map over the mappings if you want to change them</span>
+<span class="w">    </span><span class="n">mappings</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mapping</span><span class="w"> </span><span class="o">=&gt;</span>
 
-        <span class="c1">// we remove everything besides files that end with &quot;.conf&quot;</span>
-        <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">mappings</span> <span class="n">filter</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">name</span> <span class="n">endsWith</span> <span class="s">&quot;.conf&quot;</span>  <span class="c1">// only elements where this is true are kept</span>
-        <span class="o">}</span>
+<span class="w">        </span><span class="c1">// we remove everything besides files that end with &quot;.conf&quot;</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="n">filtered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapping</span><span class="p">.</span><span class="n">mappings</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">endsWith</span><span class="w"> </span><span class="s">&quot;.conf&quot;</span><span class="w">  </span><span class="c1">// only elements where this is true are kept</span>
+<span class="w">        </span><span class="p">}</span>
 
-        <span class="c1">// now we copy the mapping but replace the mappings</span>
-        <span class="n">mapping</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">mappings</span> <span class="k">=</span> <span class="n">filtered</span><span class="o">)</span>
+<span class="w">        </span><span class="c1">// now we copy the mapping but replace the mappings</span>
+<span class="w">        </span><span class="n">mapping</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span><span class="n">mappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filtered</span><span class="p">)</span>
 
-    <span class="o">}</span> <span class="n">filter</span> <span class="o">{</span>
-        <span class="c1">// only keep those mappings that are nonEmpty (_.mappings.nonEmpty == true)</span>
-        <span class="k">_</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">nonEmpty</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// only keep those mappings that are nonEmpty (_.mappings.nonEmpty == true)</span>
+<span class="w">        </span><span class="n">_</span><span class="p">.</span><span class="n">mappings</span><span class="p">.</span><span class="n">nonEmpty</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="alter-linuxpackagemapping">
-<h3>Alter LinuxPackageMapping<a class="headerlink" href="#alter-linuxpackagemapping" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="alter-linuxpackagemapping">
+<h3>Alter LinuxPackageMapping<a class="headerlink" href="#alter-linuxpackagemapping" title="Permalink to this heading">¶</a></h3>
 <p>To alter the permissions for all <code class="docutils literal notranslate"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Altering permissions for configs</span>
-<span class="n">linuxPackageMappings</span> <span class="o">:=</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">mappings</span> <span class="k">=</span> <span class="n">linuxPackageMappings</span><span class="o">.</span><span class="n">value</span>
-    <span class="c1">// Changing the group for all configs</span>
-    <span class="n">mappings</span> <span class="n">map</span> <span class="o">{</span>
-        <span class="k">case</span> <span class="n">linuxPackage</span> <span class="k">if</span> <span class="n">linuxPackage</span><span class="o">.</span><span class="n">fileData</span><span class="o">.</span><span class="n">config</span> <span class="n">equals</span> <span class="s">&quot;true&quot;</span> <span class="k">=&gt;</span>
-            <span class="c1">// altering the group</span>
-            <span class="k">val</span> <span class="n">newFileData</span> <span class="k">=</span> <span class="n">linuxPackage</span><span class="o">.</span><span class="n">fileData</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span>
-                <span class="n">group</span> <span class="k">=</span> <span class="s">&quot;appdocs&quot;</span>
-            <span class="o">)</span>
-            <span class="c1">// altering the LinuxPackageMapping</span>
-            <span class="n">linuxPackage</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span>
-                <span class="n">fileData</span> <span class="k">=</span> <span class="n">newFileData</span>
-            <span class="o">)</span>
-        <span class="k">case</span> <span class="n">linuxPackage</span> <span class="k">=&gt;</span> <span class="n">linuxPackage</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="p">.</span><span class="n">value</span>
+<span class="w">    </span><span class="c1">// Changing the group for all configs</span>
+<span class="w">    </span><span class="n">mappings</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">linuxPackage</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">linuxPackage</span><span class="p">.</span><span class="n">fileData</span><span class="p">.</span><span class="n">config</span><span class="w"> </span><span class="n">equals</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">            </span><span class="c1">// altering the group</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="n">newFileData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linuxPackage</span><span class="p">.</span><span class="n">fileData</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;appdocs&quot;</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">            </span><span class="c1">// altering the LinuxPackageMapping</span>
+<span class="w">            </span><span class="n">linuxPackage</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">fileData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newFileData</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">linuxPackage</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">linuxPackage</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="alter-linuxsymlinks">
-<h3>Alter LinuxSymlinks<a class="headerlink" href="#alter-linuxsymlinks" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="alter-linuxsymlinks">
+<h3>Alter LinuxSymlinks<a class="headerlink" href="#alter-linuxsymlinks" title="Permalink to this heading">¶</a></h3>
 <p>To alter the permissions for all <code class="docutils literal notranslate"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// The same as linuxPackageMappings</span>
-<span class="n">linuxPackageSymlinks</span> <span class="o">:=</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">links</span> <span class="k">=</span> <span class="n">linuxPackageSymlinks</span><span class="o">.</span><span class="n">value</span>
+<span class="n">linuxPackageSymlinks</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">links</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linuxPackageSymlinks</span><span class="p">.</span><span class="n">value</span>
 
-    <span class="n">links</span> <span class="n">filter</span> <span class="o">{</span> <span class="cm">/* remove stuff */</span> <span class="o">}</span> <span class="n">map</span> <span class="o">{</span> <span class="cm">/* change stuff */</span><span class="o">}</span>
-<span class="o">}</span>
+<span class="w">    </span><span class="n">links</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* remove stuff */</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* change stuff */</span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="add-empty-directories">
-<h3>Add Empty Directories<a class="headerlink" href="#add-empty-directories" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="add-empty-directories">
+<h3>Add Empty Directories<a class="headerlink" href="#add-empty-directories" title="Permalink to this heading">¶</a></h3>
 <p>There is a special helper function that allows you to add empty directories to the package mappings. This might be
 useful if the service needs some location to store files.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add an empty folder to mappings</span>
-<span class="n">linuxPackageMappings</span> <span class="o">+=</span> <span class="n">packageTemplateMapping</span><span class="o">(</span><span class="s">s&quot;/usr/share/</span><span class="si">${</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">/lib/native&quot;</span><span class="o">)()</span> <span class="n">withUser</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="o">)</span> <span class="n">withGroup</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
+<span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">packageTemplateMapping</span><span class="p">(</span><span class="s">s&quot;/usr/share/</span><span class="si">${</span><span class="n">name</span><span class="p">.</span><span class="n">value</span><span class="si">}</span><span class="s">/lib/native&quot;</span><span class="p">)()</span><span class="w"> </span><span class="n">withUser</span><span class="p">(</span><span class="n">name</span><span class="p">.</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="n">withGroup</span><span class="p">(</span><span class="n">name</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="man-pages">
-<h3>Man Pages<a class="headerlink" href="#man-pages" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="man-pages">
+<h3>Man Pages<a class="headerlink" href="#man-pages" title="Permalink to this heading">¶</a></h3>
 <p>There are many ways to document your projects, and many ways to expose them.  While the native packager places
 no limit on WHAT is included in a package, there are some things which receive special treatment.</p>
 <p>Specifically: linux man pages.</p>
 <p>To create a linux man page for the application, let’s create a <code class="docutils literal notranslate"><span class="pre">src/linux/usr/share/man/man1/example-cli.1</span></code> file</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="se">\&quot;</span> Process this file with
-.<span class="se">\&quot;</span> groff -man -Tascii example-cli.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="se">\&quot;</span><span class="w"> </span>Process<span class="w"> </span>this<span class="w"> </span>file<span class="w"> </span>with
+.<span class="se">\&quot;</span><span class="w"> </span>groff<span class="w"> </span>-man<span class="w"> </span>-Tascii<span class="w"> </span>example-cli.1
 .<span class="se">\&quot;</span>
-.TH EXAMPLE_CLI <span class="m">1</span> <span class="s2">&quot;NOVEMBER 2011&quot;</span> Linux <span class="s2">&quot;User Manuals&quot;</span>
-.SH NAME
-example-cli <span class="se">\-</span> Example CLI
-.SH SYNOPSIS
-.B example-cli <span class="o">[</span>-h<span class="o">]</span>
+.TH<span class="w"> </span>EXAMPLE_CLI<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s2">&quot;NOVEMBER 2011&quot;</span><span class="w"> </span>Linux<span class="w"> </span><span class="s2">&quot;User Manuals&quot;</span>
+.SH<span class="w"> </span>NAME
+example-cli<span class="w"> </span><span class="se">\-</span><span class="w"> </span>Example<span class="w"> </span>CLI
+.SH<span class="w"> </span>SYNOPSIS
+.B<span class="w"> </span>example-cli<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span>
 </pre></div>
 </div>
 <p>Notice the location of the file.  Any file under <code class="docutils literal notranslate"><span class="pre">src/linux</span></code> is automatically included,
 relative to <code class="docutils literal notranslate"><span class="pre">/</span></code>, in linux packages (deb, rpm).  That means the man file will <strong>not</strong> appear
 in the universal package (confusing linux users).</p>
 <p>Now that the man page is created, we can use a few tasks provided to view it in sbt.  Let’s look in the sbt console</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt generateManPages
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>generateManPages
 </pre></div>
 </div>
 <p>We can use this task to work on the man pages and ensure they’ll look OK.  You can also directly use <code class="docutils literal notranslate"><span class="pre">groff</span></code> to view
 changes in your man pages.</p>
 <p>In addition to providing the means to view the man page, the native packager will also automatically <code class="docutils literal notranslate"><span class="pre">gzip</span></code> man pages
 for the distribution.  The resulting man page is stored in <code class="docutils literal notranslate"><span class="pre">/usr/share/man/man1/example-cli.1.gz</span></code> in linux distributions.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="debian.html" class="btn btn-neutral float-right" title="Debian Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="universal.html" class="btn btn-neutral float-left" title="Universal Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="universal.html" class="btn btn-neutral float-left" title="Universal Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="debian.html" class="btn btn-neutral float-right" title="Debian Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2014 sbt-native-packager team
-
-    </p>
+    <p>&#169; Copyright 2014 sbt-native-packager team.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

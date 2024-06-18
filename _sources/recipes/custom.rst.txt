@@ -32,16 +32,16 @@ contains the assembled jar. This is what the final ``build.sbt`` should contain:
     assemblySettings
 
     // we specify the name for our fat jar
-    jarName in assembly := "assembly-project.jar"
+    assembly / jarName := "assembly-project.jar"
 
     // using the java server for this application. java_application is fine, too
     packageArchetype.java_server
 
     // removes all jar mappings in universal and appends the fat jar
-    mappings in Universal := {
+    Universal / mappings := {
         // universalMappings: Seq[(File,String)]
-        val universalMappings = (mappings in Universal).value 
-        val fatJar = (assembly in Compile).value
+        val universalMappings = (Universal / mappings).value 
+        val fatJar = (Compile / assembly).value
         // removing means filtering
         val filtered = universalMappings filter { 
             case (file, name) =>  ! name.endsWith(".jar") 
@@ -52,7 +52,7 @@ contains the assembled jar. This is what the final ``build.sbt`` should contain:
         
 
     // the bash scripts classpath only needs the fat jar
-    scriptClasspath := Seq( (jarName in assembly).value )
+    scriptClasspath := Seq( (assembly / jarName).value )
 
 
 Proguard
@@ -77,7 +77,7 @@ Then configure the proguard options in ``build.sbt``:
 
       // to configure proguard for scala, see
       // http://proguard.sourceforge.net/manual/examples.html#scala
-      proguardOptions in Proguard ++= Seq(
+      Proguard / proguardOptions ++= Seq(
         "-dontoptimize",
         "-dontnote",
         "-dontwarn",
@@ -86,27 +86,27 @@ Then configure the proguard options in ``build.sbt``:
       )
 
       // specify the entry point for a standalone app
-      proguardOptions in Proguard += ProguardOptions.keepMain("com.example.Main")
+      Proguard / proguardOptions += ProguardOptions.keepMain("com.example.Main")
 
-      proguardVersion in Proguard := "6.0.3"
+      Proguard / proguardVersion := "6.0.3"
 
       // filter out jar files from the list of generated files, while
       // keeping non-jar output such as generated launch scripts
-      mappings in Universal := (mappings in Universal).value.
+      Universal / mappings := (Universal / mappings).value.
         filter {
           case (file, name) => !name.endsWith(".jar")
         }
 
       // ... and then append the jar file emitted from the proguard task to
       // the file list
-      mappings in Universal ++= (proguard in Proguard).
+      Universal / mappings ++= (Proguard / proguard).
         value.map(jar => jar -> ("lib/" + jar.getName))
 
       // point the classpath to the output from the proguard task
-      scriptClasspath := (proguard in Proguard).value.map(jar => jar.getName)
+      scriptClasspath := (Proguard / proguard).value.map(jar => jar.getName)
 
 
-Now when you package your project using a command such as ``sbt universal:packageZipTarball``, 
+Now when you package your project using a command such as ``sbt Universal/packageZipTarball``, 
 it will include fat jar that has been created by proguard rather than the normal 
 output in ``/lib``.
 
@@ -128,15 +128,15 @@ you can specify everything in a single ``build.sbt``
     name := "mukis-fullstack"
 
     // used like the groupId in maven
-    organization in ThisBuild := "de.mukis"
+    ThisBuild / organization := "de.mukis"
 
     // all sub projects have the same version
-    version in ThisBuild := "1.0"
+    ThisBuild / version := "1.0"
 
-    scalaVersion in ThisBuild := "2.11.2"
+    ThisBuild / scalaVersion := "2.11.2"
 
     // common dependencies
-    libraryDependencies in ThisBuild ++= Seq(
+    ThisBuild / libraryDependencies ++= Seq(
         "com.typesafe" % "config" % "1.2.0"
     )
 
@@ -150,7 +150,7 @@ you can specify everything in a single ``build.sbt``
             packageDescription := "Fullstack Application",
             packageSummary := "Fullstack Application",
             // entrypoint
-            mainClass in Compile := Some("de.mukis.frontend.ProductionServer")
+            Compile / mainClass := Some("de.mukis.frontend.ProductionServer")
         ),
         // always run all commands on each sub project
         aggregate = Seq(frontend, backend, api)
@@ -210,13 +210,13 @@ mappings inside a package format. A minimal ``build.sbt`` would look like this
         .settings(
             name := "mukis-custom-package",
             version := "1.0",
-            mainClass in Compile := Some("de.mukis.ConfigApp"),
-            maintainer in Linux := "Nepomuk Seiler <nepomuk.seiler@mukis.de>",
-            packageSummary in Linux := "Custom application configuration",
+            Compile / mainClass := Some("de.mukis.ConfigApp"),
+            Linux / maintainer := "Nepomuk Seiler <nepomuk.seiler@mukis.de>",
+            Linux / packageSummary := "Custom application configuration",
             packageDescription := "Custom application configuration",
             // defining your custom configuration
-            packageBin in TxtFormat := {
-                val fileMappings = (mappings in Universal).value
+            TxtFormat / packageBin := {
+                val fileMappings = (Universal / mappings).value
                 val output = target.value / s"${packageName.value}.txt"
                 // create the is with the mappings. Note this is not the ISO format -.-
                 IO.write(output, "# Filemappings\n")
@@ -232,7 +232,7 @@ To create your new "packageFormat" just run
 
 .. code-block:: bash
 
-    txtFormat:packageBin
+    TxtFormat / packageBin
     
 If you want to read more about sbt configurations:
 

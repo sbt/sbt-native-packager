@@ -1,91 +1,50 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Universal Plugin &mdash; sbt-native-packager 1.9.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Universal Plugin &mdash; sbt-native-packager 1.10.0+6-67a1f969-SNAPSHOT documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=2f9a1908"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Linux Plugin" href="linux.html" />
     <link rel="prev" title="Packaging Formats" href="index.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sbt-native-packager
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            sbt-native-packager
           </a>
-
-          
-            
-            
               <div class="version">
-                1.9
+                1.10
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
@@ -233,6 +192,7 @@
 <li class="toctree-l4"><a class="reference internal" href="docker.html#add-commands">Add Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#write-from-scratch">Write from Scratch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="docker.html#init-support">Init support</a></li>
 </ul>
 </li>
 </ul>
@@ -433,86 +393,46 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">sbt-native-packager</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="index.html">Packaging Formats</a> &raquo;</li>
-        
-      <li>Universal Plugin</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Packaging Formats</a></li>
+      <li class="breadcrumb-item active">Universal Plugin</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/formats/universal.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="universal-plugin">
-<span id="id1"></span><h1>Universal Plugin<a class="headerlink" href="#universal-plugin" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="universal-plugin">
+<span id="id1"></span><h1>Universal Plugin<a class="headerlink" href="#universal-plugin" title="Permalink to this heading">¶</a></h1>
 <p>The Universal Plugin creates a generic, or “universal” distribution package.  This is called “universal packaging.”  Universal packaging just takes a plain <code class="docutils literal notranslate"><span class="pre">mappings</span></code> configuration and generates various
 package files in the output format specified.  Because it creates a distribution
 that is not tied to any particular platform it may require manual labor (more work from your users) to correctly install and set up.</p>
-<div class="section" id="related-plugins">
-<h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Permalink to this headline">¶</a></h2>
+<section id="related-plugins">
+<h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a></p></li>
 <li><p><a class="reference internal" href="docker.html#docker-plugin"><span class="std std-ref">Docker Plugin</span></a></p></li>
 <li><p><a class="reference internal" href="windows.html#windows-plugin"><span class="std std-ref">Windows Plugin</span></a></p></li>
 </ul>
-</div>
-<div class="section" id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
 <p>Depending on what output format you want to use, you need one of the following applications installed</p>
 <ul class="simple">
 <li><p>zip (if native)</p></li>
@@ -521,143 +441,143 @@ that is not tied to any particular platform it may require manual labor (more wo
 <li><p>tar</p></li>
 <li><p>hdiutil (for dmg)</p></li>
 </ul>
-</div>
-<div class="section" id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="build">
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
 <p>There is a task for each output format</p>
 <blockquote>
 <div><p><strong>Zip</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt universal:packageBin
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>Universal/packageBin
 </pre></div>
 </div>
 <p><strong>Tar</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt universal:packageZipTarball
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>Universal/packageZipTarball
 </pre></div>
 </div>
 <p><strong>Xz</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt universal:packageXzTarball
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>Universal/packageXzTarball
 </pre></div>
 </div>
 <p><strong>Dmg</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt universal:packageOsxDmg
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>Universal/packageOsxDmg
 </pre></div>
 </div>
 </div></blockquote>
-<div class="section" id="required-settings">
-<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
+<section id="required-settings">
+<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this heading">¶</a></h3>
 <p>The Universal Plugin has no mandatory fields.</p>
 <p>Enable the universal plugin</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">UniversalPlugin</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">UniversalPlugin</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="configurations">
-<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="configurations">
+<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this heading">¶</a></h2>
 <p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Universal</span></code>.</p>
 <p>Universal packaging provides three Configurations:</p>
 <blockquote>
 <div><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">universal</span></code></dt><dd><p>For creating full distributions</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Universal</span></code></dt><dd><p>For creating full distributions</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">universal-docs</span></code></dt><dd><p>For creating bundles of documentation</p>
+<dt><code class="docutils literal notranslate"><span class="pre">UniversalDocs</span></code></dt><dd><p>For creating bundles of documentation</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">universal-src</span></code></dt><dd><p>For creating bundles of source.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">UniversalSrc</span></code></dt><dd><p>For creating bundles of source.</p>
 </dd>
 </dl>
 </div></blockquote>
 <p>Here is how the values for <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">packageName</span></code> are used by the three configurations:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="n">name</span><span class="o">.</span><span class="n">value</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="n">value</span>
 
-<span class="n">name</span> <span class="n">in</span> <span class="nc">UniversalDocs</span> <span class="o">:=</span> <span class="o">(</span><span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
+<span class="nc">UniversalDocs</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">name</span><span class="p">).</span><span class="n">value</span>
 
-<span class="n">name</span> <span class="n">in</span> <span class="nc">UniversalSrc</span> <span class="o">:=</span> <span class="o">(</span><span class="n">name</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
+<span class="nc">UniversalSrc</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">name</span><span class="p">).</span><span class="n">value</span>
 
-<span class="n">packageName</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="n">packageName</span><span class="o">.</span><span class="n">value</span>
+<span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">packageName</span><span class="p">.</span><span class="n">value</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h2>
 <p>As we showed before, the universal packages are completely configured through the use of mappings.  Simply
 specify the desired mappings for a given configuration.  For example:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">+=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="s">&quot;lib/foo.jar&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageBin</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;lib/foo.jar&quot;</span>
 </pre></div>
 </div>
 <p>However, sometimes it may be advantageous to customize the files for each archive separately.  For example, perhaps
 the .tar.gz has an additional README plaintext file in addition to a README.html.  To add this just to the .tar.gz file,
 use the task-scope feature of sbt:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="n">in</span> <span class="n">packageZipTarball</span> <span class="o">+=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;README&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;README&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageZipTarball</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">file</span><span class="p">(</span><span class="s">&quot;README&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;README&quot;</span>
 </pre></div>
 </div>
 <p>Besides <code class="docutils literal notranslate"><span class="pre">mappings</span></code>, the <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">sourceDirectory</span></code> and <code class="docutils literal notranslate"><span class="pre">target</span></code> configurations are all respected by universal packaging.</p>
 <p><strong>Note: The Universal plugin will make anything in a bin/ directory executable.  This is to work around issues with JVM
 and file system manipulations.</strong></p>
-</div>
-<div class="section" id="tasks">
-<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="tasks">
+<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this heading">¶</a></h2>
 <blockquote>
 <div><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">universal:package-bin</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">zip</span></code> universal package.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">package-bin</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">zip</span></code> universal package.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">universal:package-zip-tarball</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">tgz</span></code> universal package.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">package-zip-tarball</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">tgz</span></code> universal package.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">universal:package-xz-tarball</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">txz</span></code> universal package.  The <code class="docutils literal notranslate"><span class="pre">xz</span></code> command can get better compression
+<dt><code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">package-xz-tarball</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">txz</span></code> universal package.  The <code class="docutils literal notranslate"><span class="pre">xz</span></code> command can get better compression
 for some types of archives.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">universal:package-osx-dmg</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">dmg</span></code> universal package.  This only work on macOS or systems with <code class="docutils literal notranslate"><span class="pre">hdiutil</span></code>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">package-osx-dmg</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">dmg</span></code> universal package.  This only work on macOS or systems with <code class="docutils literal notranslate"><span class="pre">hdiutil</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">universal-docs:package-bin</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">zip</span></code> universal documentation package.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">UniversalDocs</span> <span class="pre">/</span> <span class="pre">packageBin</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">zip</span></code> universal documentation package.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">universal-docs:package-zip-tarball</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">tgz</span></code> universal documentation package.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">UniversalDocs</span> <span class="pre">/</span> <span class="pre">packageZipTarball</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">tgz</span></code> universal documentation package.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">universal-docs:package-xz-tarball</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">txz</span></code> universal documentation package.  The <code class="docutils literal notranslate"><span class="pre">xz</span></code> command can get better compression
+<dt><code class="docutils literal notranslate"><span class="pre">UniversalDocs</span> <span class="pre">/</span> <span class="pre">packageXzTarball</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">txz</span></code> universal documentation package.  The <code class="docutils literal notranslate"><span class="pre">xz</span></code> command can get better compression
 for some types of archives.</p>
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="universal-archive-options">
-<h3>Universal Archive Options<a class="headerlink" href="#universal-archive-options" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="customize">
+<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
+<section id="universal-archive-options">
+<h3>Universal Archive Options<a class="headerlink" href="#universal-archive-options" title="Permalink to this heading">¶</a></h3>
 <p>You can customize the commandline options (if used) for the different zip formats.
 If you want to force local for the <cite>tgz</cite> output add this line:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">universalArchiveOptions</span> <span class="n">in</span> <span class="o">(</span><span class="nc">Universal</span><span class="o">,</span> <span class="n">packageZipTarball</span><span class="o">)</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;--force-local&quot;</span><span class="o">,</span> <span class="s">&quot;-pcvf&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageZipTarball</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">universalArchiveOptions</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="s">&quot;--force-local&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-pcvf&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will set the cli options for the <cite>packageZipTarball</cite> task in the <cite>Universal</cite> plugin to use the options <code class="docutils literal notranslate"><span class="pre">--force-local</span></code> and <code class="docutils literal notranslate"><span class="pre">pcvf</span></code>.
 Be aware that the above line will overwrite the default options.  You may want to prepend your options, doing something like:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">universalArchiveOptions</span> <span class="n">in</span> <span class="o">(</span><span class="nc">Universal</span><span class="o">,</span> <span class="n">packageZipTarball</span><span class="o">)</span> <span class="o">:=</span>
-  <span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;--exclude&quot;</span><span class="o">,</span> <span class="s">&quot;*~&quot;</span><span class="o">)</span> <span class="o">++</span> <span class="o">(</span><span class="n">universalArchiveOptions</span> <span class="n">in</span> <span class="o">(</span><span class="nc">Universal</span><span class="o">,</span> <span class="n">packageZipTarball</span><span class="o">)).</span><span class="n">value</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageZipTarball</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">universalArchiveOptions</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="p">(</span><span class="nc">Seq</span><span class="p">(</span><span class="s">&quot;--exclude&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;*~&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageZipTarball</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">universalArchiveOptions</span><span class="p">).</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Currently, these task can be customized:</p>
 <blockquote>
 <div><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">universal:package-zip-tarball</span></code></dt><dd><p><cite>universalArchiveOptions in (Universal, packageZipTarball)</cite></p>
+<dt><code class="docutils literal notranslate"><span class="pre">Universal/package-zip-tarball</span></code></dt><dd><p><cite>Universal / packageZipTarball / universalArchiveOptions</cite></p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">universal:package-xz-tarball</span></code></dt><dd><p><cite>universalArchiveOptions in (Universal, packageXzTarball)</cite></p>
+<dt><code class="docutils literal notranslate"><span class="pre">Universal/package-xz-tarball</span></code></dt><dd><p><cite>Universal / packageXzTarball / universalArchiveOptions</cite></p>
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="getting-started-with-universal-packaging">
-<span id="universal-plugin-getting-started-with-packaging"></span><h3>Getting Started with Universal Packaging<a class="headerlink" href="#getting-started-with-universal-packaging" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="getting-started-with-universal-packaging">
+<span id="universal-plugin-getting-started-with-packaging"></span><h3>Getting Started with Universal Packaging<a class="headerlink" href="#getting-started-with-universal-packaging" title="Permalink to this heading">¶</a></h3>
 <p>By default, all files found in the <code class="docutils literal notranslate"><span class="pre">src/universal</span></code> directory are included in the distribution.  So, the first step
 in creating a distribution is to place files in this directory and organize them as you’d like in them to be in the distributed package.
 If your output format is a zip file, for example, although the distribution will consist of just one zip file, the files and directories within that zip file will reflect the same organization and structure as <code class="docutils literal notranslate"><span class="pre">src/universal</span></code>.</p>
-<p>To add files generated by the build task to a distribution, simply add a <em>mapping</em> to the <code class="docutils literal notranslate"><span class="pre">mappings</span> <span class="pre">in</span> <span class="pre">Universal</span></code> setting.  Let’s
+<p>To add files generated by the build task to a distribution, simply add a <em>mapping</em> to the <code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">mappings</span></code> setting.  Let’s
 look at an example where we add the packaged jar of a project to the lib folder of a distribution:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">+=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">jar</span> <span class="k">=</span> <span class="o">(</span><span class="n">packageBin</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span>
-  <span class="n">jar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">jar</span><span class="o">.</span><span class="n">getName</span><span class="o">)</span>
-<span class="o">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">jar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageBin</span><span class="p">).</span><span class="n">value</span>
+<span class="w">  </span><span class="n">jar</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;lib/&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">jar</span><span class="p">.</span><span class="n">getName</span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>The above does two things:</p>
 <ol class="arabic simple">
-<li><p>It depends on <code class="docutils literal notranslate"><span class="pre">packageBin</span> <span class="pre">in</span> <span class="pre">Compile</span></code> which will generate a jar file form the project.</p></li>
+<li><p>It depends on <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">packageBin</span></code> which will generate a jar file form the project.</p></li>
 <li><p>It creates a <em>mapping</em> (a <code class="docutils literal notranslate"><span class="pre">Tuple2[File,</span> <span class="pre">String]</span></code>) which denotes the file and the location in the distribution as a string.</p></li>
 </ol>
 <p>You can use this pattern to add anything you desire to the package.</p>
@@ -666,9 +586,9 @@ look at an example where we add the packaged jar of a project to the lib folder 
 <div><p>If you are using an <code class="docutils literal notranslate"><span class="pre">application</span> <span class="pre">archetype</span></code> or the <code class="docutils literal notranslate"><span class="pre">playframework</span></code>, the jar mapping is already defined and
 you should not include these in your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>. <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/227">issue 227</a></p>
 </div></blockquote>
-</div>
-<div class="section" id="universal-conventions">
-<h3>Universal Conventions<a class="headerlink" href="#universal-conventions" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="universal-conventions">
+<h3>Universal Conventions<a class="headerlink" href="#universal-conventions" title="Permalink to this heading">¶</a></h3>
 <p>This plugin has a set of conventions for universal packages that enable the automatic generation of native packages.  The
 universal convention has the following package layout:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bin/
@@ -717,91 +637,91 @@ the <code class="docutils literal notranslate"><span class="pre">bin</span></cod
 may be necessary to customize the native packaging for each platform.   This can be done by configuring those settings directly.</p>
 <p>For example, even using generic mapping, debian has a requirement for changelog files to be fully formed.  Using the above generic mapping, we can configure just this
 changelog in addition to the generic packaging by first defining a changelog in <code class="docutils literal notranslate"><span class="pre">src/debian/changelog</span></code> and then adding the following setting:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span> <span class="n">in</span> <span class="nc">Debian</span> <span class="o">+=</span>
-  <span class="o">(</span><span class="n">packageMapping</span><span class="o">(</span>
-    <span class="o">((</span><span class="n">sourceDirectory</span> <span class="n">in</span> <span class="nc">Debian</span><span class="o">).</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;changelog&quot;</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&quot;/usr/share/doc/sbt/changelog.gz&quot;</span>
-  <span class="o">)</span> <span class="n">withUser</span> <span class="s">&quot;root&quot;</span> <span class="n">withGroup</span> <span class="s">&quot;root&quot;</span> <span class="n">withPerms</span> <span class="s">&quot;0644&quot;</span> <span class="n">gzipped</span><span class="o">)</span> <span class="n">asDocs</span><span class="o">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Debian</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">+=</span>
+<span class="w">  </span><span class="p">(</span><span class="n">packageMapping</span><span class="p">(</span>
+<span class="w">    </span><span class="p">((</span><span class="nc">Debian</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sourceDirectory</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;changelog&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;/usr/share/doc/sbt/changelog.gz&quot;</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="n">withUser</span><span class="w"> </span><span class="s">&quot;root&quot;</span><span class="w"> </span><span class="n">withGroup</span><span class="w"> </span><span class="s">&quot;root&quot;</span><span class="w"> </span><span class="n">withPerms</span><span class="w"> </span><span class="s">&quot;0644&quot;</span><span class="w"> </span><span class="n">gzipped</span><span class="p">)</span><span class="w"> </span><span class="n">asDocs</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Notice how we’re <em>only</em> modifying the package mappings for Debian linux packages.</p>
 <p>For more information on the
 underlying packaging settings, see <a class="reference internal" href="windows.html#windows-plugin"><span class="std std-ref">Windows Plugin</span></a> and <a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a> documentation.</p>
-</div>
-<div class="section" id="change-remove-top-level-directory-in-output">
-<h3>Change/Remove Top Level Directory in Output<a class="headerlink" href="#change-remove-top-level-directory-in-output" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="change-remove-top-level-directory-in-output">
+<h3>Change/Remove Top Level Directory in Output<a class="headerlink" href="#change-remove-top-level-directory-in-output" title="Permalink to this heading">¶</a></h3>
 <p>Your output package (zip, tar, gz) by default contains a single folder
 with your application. If you want to change this folder or remove this
 top level directory completely use the <cite>topLevelDirectory</cite> setting.</p>
 <p>Removing the top level directory</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">topLevelDirectory</span> <span class="o">:=</span> <span class="nc">None</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">topLevelDirectory</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">None</span>
 </pre></div>
 </div>
 <p>Changing it to another value, e.g. the packageName without the version</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">topLevelDirectory</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">packageName</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">topLevelDirectory</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="n">packageName</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Or just a plain hardcoded string</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">topLevelDirectory</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;awesome-app&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">topLevelDirectory</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;awesome-app&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="skip-packagedoc-task-on-stage">
-<h3>Skip packageDoc task on stage<a class="headerlink" href="#skip-packagedoc-task-on-stage" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="skip-packagedoc-task-on-stage">
+<h3>Skip packageDoc task on stage<a class="headerlink" href="#skip-packagedoc-task-on-stage" title="Permalink to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">stage</span></code> task forces a <em>javadoc.jar</em> build, which could slow down <code class="docutils literal notranslate"><span class="pre">stage</span></code> tasks performance. In order to deactivate
 this behaviour, add this to your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="o">(</span><span class="nc">Compile</span><span class="o">,</span> <span class="n">packageDoc</span><span class="o">)</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageDoc</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Source <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/651">issue 651</a>.</p>
-</div>
-<div class="section" id="mappingshelper">
-<h3>MappingsHelper<a class="headerlink" href="#mappingshelper" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="mappingshelper">
+<h3>MappingsHelper<a class="headerlink" href="#mappingshelper" title="Permalink to this heading">¶</a></h3>
 <p>The <a class="reference external" href="http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MappingsHelper$">MappingsHelper</a> class provides a set of helper functions to make mapping directories easier.</p>
 <blockquote>
 <div><p><strong>sbt 0.13.5 and plugin 1.0.x or higher</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">NativePackagerHelper._</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nc">NativePackagerHelper</span><span class="p">.</span><span class="n">_</span>
 </pre></div>
 </div>
 <p><strong>plugin  version 0.8.x or lower</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">com.typesafe.sbt.SbtNativePackager._</span>
-<span class="k">import</span> <span class="nn">NativePackagerHelper._</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">com</span><span class="p">.</span><span class="nn">typesafe</span><span class="p">.</span><span class="nn">sbt</span><span class="p">.</span><span class="nc">SbtNativePackager</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span><span class="w"> </span><span class="nc">NativePackagerHelper</span><span class="p">.</span><span class="n">_</span>
 </pre></div>
 </div>
 </div></blockquote>
 <p>You get a set of methods which will help you to create mappings very easily.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">directory</span><span class="o">(</span><span class="s">&quot;src/main/resources/cache&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="n">directory</span><span class="p">(</span><span class="s">&quot;src/main/resources/cache&quot;</span><span class="p">)</span>
 
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">contentOf</span><span class="o">(</span><span class="s">&quot;src/main/resources/docs&quot;</span><span class="o">)</span>
+<span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="n">contentOf</span><span class="p">(</span><span class="s">&quot;src/main/resources/docs&quot;</span><span class="p">)</span>
 
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">directory</span><span class="o">(</span><span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;main&quot;</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;cache&quot;</span><span class="o">)</span>
+<span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="n">directory</span><span class="p">(</span><span class="n">sourceDirectory</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;main&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;resources&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;cache&quot;</span><span class="p">)</span>
 
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">contentOf</span><span class="o">(</span><span class="n">sourceDirectory</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;main&quot;</span> <span class="o">/</span> <span class="s">&quot;resources&quot;</span> <span class="o">/</span> <span class="s">&quot;docs&quot;</span><span class="o">)</span>
+<span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="n">contentOf</span><span class="p">(</span><span class="n">sourceDirectory</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;main&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;resources&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;docs&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="mapping-examples">
-<h3>Mapping Examples<a class="headerlink" href="#mapping-examples" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="mapping-examples">
+<h3>Mapping Examples<a class="headerlink" href="#mapping-examples" title="Permalink to this heading">¶</a></h3>
 <p>SBT provides the <a class="reference external" href="http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html">IO</a> and <a class="reference external" href="http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html">Path</a> APIs, which
 help make defining custom mappings easy. The files will appear in the generate universal zip, but also in your
 debian/rpm/msi/dmg builds as described above in the conventions.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">packageBin</span> <span class="pre">in</span> <span class="pre">Compile</span></code> dependency is only needed if your files get generated
+<p>The <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">packageBin</span></code> dependency is only needed if your files get generated
 during the <code class="docutils literal notranslate"><span class="pre">packageBin</span></code> command or before. For static files you can remove it.</p>
-<div class="section" id="mapping-a-complete-directory">
-<h4>Mapping a complete directory<a class="headerlink" href="#mapping-a-complete-directory" title="Permalink to this headline">¶</a></h4>
+<section id="mapping-a-complete-directory">
+<h4>Mapping a complete directory<a class="headerlink" href="#mapping-a-complete-directory" title="Permalink to this heading">¶</a></h4>
 <p>There are some helper methods so you can create a mapping for a complete directory:</p>
 <p>For static content, you can just add the directory to the mapping:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="n">directory</span><span class="o">(</span><span class="s">&quot;SomeDirectoryNameToInclude&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="n">directory</span><span class="p">(</span><span class="s">&quot;SomeDirectoryNameToInclude&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If you want to add everything in a directory where the path for the directory is dynamic, e.g. the <code class="docutils literal notranslate"><span class="pre">scala-2.10/api</span></code> directory that is nested under in the <code class="docutils literal notranslate"><span class="pre">target</span></code> directory, and <code class="docutils literal notranslate"><span class="pre">target</span></code> is defined in a task:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">)</span> <span class="o">~=</span> <span class="o">(</span><span class="k">_</span> <span class="o">++</span> <span class="n">directory</span><span class="o">(</span><span class="n">target</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span><span class="o">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="n">directory</span><span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;scala-2.10&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;api&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>You can also use the following approach if, for example, you need more flexibility:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">)</span> <span class="o">++=</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">dir</span> <span class="k">=</span> <span class="n">target</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span>
-    <span class="o">(</span><span class="n">dir</span> <span class="o">**</span> <span class="nc">AllPassFilter</span><span class="o">)</span> <span class="n">pair</span> <span class="n">relativeTo</span><span class="o">(</span><span class="n">dir</span><span class="o">.</span><span class="n">getParentFile</span><span class="o">)</span>
-<span class="o">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="p">)</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;scala-2.10&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;api&quot;</span>
+<span class="w">    </span><span class="p">(</span><span class="n">dir</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="nc">AllPassFilter</span><span class="p">)</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="n">relativeTo</span><span class="p">(</span><span class="n">dir</span><span class="p">.</span><span class="n">getParentFile</span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Here is what happens in this code:</p>
@@ -832,38 +752,38 @@ README
 <p>Note that the first item of each pair is the full path to where the file exists on the system <code class="docutils literal notranslate"><span class="pre">/Users/you.....</span></code>, and the
 second part is the just the path starting after <code class="docutils literal notranslate"><span class="pre">.../scala</span></code>.  That second part is what is returned from
 <code class="docutils literal notranslate"><span class="pre">&lt;each</span> <span class="pre">file&gt;.relativeTo(dir.getParentFile)</span></code>.</p>
-</div>
-<div class="section" id="mapping-the-content-of-a-directory-excluding-the-directory-itself">
-<h4>Mapping the content of a directory (excluding the directory itself)<a class="headerlink" href="#mapping-the-content-of-a-directory-excluding-the-directory-itself" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">dir</span> <span class="k">=</span> <span class="n">target</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">&quot;scala-2.10&quot;</span> <span class="o">/</span> <span class="s">&quot;api&quot;</span>
-    <span class="o">(</span><span class="n">dir</span> <span class="o">**</span> <span class="nc">AllPassFilter</span> <span class="o">---</span> <span class="n">dir</span><span class="o">)</span> <span class="n">pair</span> <span class="n">relativeTo</span><span class="o">(</span><span class="n">dir</span><span class="o">)</span>
-<span class="o">}</span>
+</section>
+<section id="mapping-the-content-of-a-directory-excluding-the-directory-itself">
+<h4>Mapping the content of a directory (excluding the directory itself)<a class="headerlink" href="#mapping-the-content-of-a-directory-excluding-the-directory-itself" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;scala-2.10&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;api&quot;</span>
+<span class="w">    </span><span class="p">(</span><span class="n">dir</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="nc">AllPassFilter</span><span class="w"> </span><span class="o">---</span><span class="w"> </span><span class="n">dir</span><span class="p">)</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="n">relativeTo</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">dir</span></code> gets excluded and is used as root for <code class="docutils literal notranslate"><span class="pre">relativeTo(dir)</span></code>.</p>
-</div>
-<div class="section" id="filter-remove-mappings">
-<h4>Filter/Remove mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="filter-remove-mappings">
+<h4>Filter/Remove mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this heading">¶</a></h4>
 <p>If you want to remove mappings, you have to <a class="reference external" href="https://twitter.github.io/scala_school/collections.html#filter">filter</a> the current list of mappings.
 This example demonstrates how to build a fat jar with sbt-assembly, but using all
 the convenience of the sbt native packager archetypes.</p>
 <p>tl;dr how to remove stuff</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// removes all jar mappings in universal and appends the fat jar</span>
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">{</span>
-    <span class="c1">// universalMappings: Seq[(File,String)]</span>
-    <span class="k">val</span> <span class="n">universalMappings</span> <span class="k">=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
-    <span class="k">val</span> <span class="n">fatJar</span> <span class="k">=</span> <span class="o">(</span><span class="n">assembly</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span>
+<span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// universalMappings: Seq[(File,String)]</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">universalMappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="p">).</span><span class="n">value</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">fatJar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">assembly</span><span class="p">).</span><span class="n">value</span>
 
-    <span class="c1">// removing means filtering</span>
-    <span class="c1">// notice the &quot;!&quot; - it means NOT, so only keep those that do NOT have a name ending with &quot;jar&quot;</span>
-    <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">universalMappings</span> <span class="n">filter</span> <span class="o">{</span>
-        <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="o">!</span> <span class="n">name</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;.jar&quot;</span><span class="o">)</span>
-    <span class="o">}</span>
+<span class="w">    </span><span class="c1">// removing means filtering</span>
+<span class="w">    </span><span class="c1">// notice the &quot;!&quot; - it means NOT, so only keep those that do NOT have a name ending with &quot;jar&quot;</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">filtered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">universalMappings</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w">  </span><span class="o">!</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s">&quot;.jar&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
 
-    <span class="c1">// add the fat jar to our sequence of things that we&#39;ve filtered</span>
-    <span class="n">filtered</span> <span class="o">:+</span> <span class="o">(</span><span class="n">fatJar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">fatJar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
-<span class="o">}</span>
+<span class="w">    </span><span class="c1">// add the fat jar to our sequence of things that we&#39;ve filtered</span>
+<span class="w">    </span><span class="n">filtered</span><span class="w"> </span><span class="o">:+</span><span class="w"> </span><span class="p">(</span><span class="n">fatJar</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;lib/&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fatJar</span><span class="p">.</span><span class="n">getName</span><span class="p">))</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>The complete <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> should contain these settings if you want a single assembled fat jar.</p>
@@ -871,84 +791,59 @@ the convenience of the sbt native packager archetypes.</p>
 <span class="n">assemblySettings</span>
 
 <span class="c1">// we specify the name for our fat jar</span>
-<span class="n">jarName</span> <span class="n">in</span> <span class="n">assembly</span> <span class="o">:=</span> <span class="s">&quot;assembly-project.jar&quot;</span>
+<span class="n">assembly</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">jarName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;assembly-project.jar&quot;</span>
 
 <span class="c1">// using the java server for this application. java_application would be fine, too</span>
-<span class="n">packageArchetype</span><span class="o">.</span><span class="n">java_server</span>
+<span class="n">packageArchetype</span><span class="p">.</span><span class="n">java_server</span>
 
 <span class="c1">// removes all jar mappings in universal and appends the fat jar</span>
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">universalMappings</span> <span class="k">=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
-    <span class="k">val</span> <span class="n">fatJar</span> <span class="k">=</span> <span class="o">(</span><span class="n">assembly</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span>
-    <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">universalMappings</span> <span class="n">filter</span> <span class="o">{</span>
-        <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="o">!</span> <span class="n">name</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;.jar&quot;</span><span class="o">)</span>
-    <span class="o">}</span>
-    <span class="n">filtered</span> <span class="o">:+</span> <span class="o">(</span><span class="n">fatJar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">fatJar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
-<span class="o">}</span>
+<span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">universalMappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="p">).</span><span class="n">value</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">fatJar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">assembly</span><span class="p">).</span><span class="n">value</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">filtered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">universalMappings</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w">  </span><span class="o">!</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s">&quot;.jar&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">filtered</span><span class="w"> </span><span class="o">:+</span><span class="w"> </span><span class="p">(</span><span class="n">fatJar</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;lib/&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fatJar</span><span class="p">.</span><span class="n">getName</span><span class="p">))</span>
+<span class="p">}</span>
 
 <span class="c1">// the bash scripts classpath only needs the fat jar</span>
-<span class="n">scriptClasspath</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span> <span class="o">(</span><span class="n">jarName</span> <span class="n">in</span> <span class="n">assembly</span><span class="o">).</span><span class="n">value</span> <span class="o">)</span>
+<span class="n">scriptClasspath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">assembly</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">jarName</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="linux.html" class="btn btn-neutral float-right" title="Linux Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="Packaging Formats" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Packaging Formats" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="linux.html" class="btn btn-neutral float-right" title="Linux Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2014 sbt-native-packager team
-
-    </p>
+    <p>&#169; Copyright 2014 sbt-native-packager team.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

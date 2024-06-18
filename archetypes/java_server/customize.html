@@ -1,91 +1,50 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Application Configuration &mdash; sbt-native-packager 1.9.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Configuration &mdash; sbt-native-packager 1.10.0+6-67a1f969-SNAPSHOT documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=2f9a1908"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Systemloaders" href="../systemloaders.html" />
     <link rel="prev" title="Java Server Application Archetype" href="index.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sbt-native-packager
           
-
-          
+          <a href="../../index.html" class="icon icon-home">
+            sbt-native-packager
           </a>
-
-          
-            
-            
               <div class="version">
-                1.9
+                1.10
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../introduction.html#goals">Goals</a></li>
@@ -233,6 +192,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#add-commands">Add Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#write-from-scratch">Write from Scratch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#init-support">Init support</a></li>
 </ul>
 </li>
 </ul>
@@ -433,75 +393,34 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">sbt-native-packager</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../index.html">Project Archetypes</a> &raquo;</li>
-        
-          <li><a href="index.html">Java Server Application Archetype</a> &raquo;</li>
-        
-      <li>Application Configuration</li>
-    
-    
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Project Archetypes</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Java Server Application Archetype</a></li>
+      <li class="breadcrumb-item active">Application Configuration</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../../_sources/archetypes/java_server/customize.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="application-configuration">
-<span id="java-server-customize"></span><h1>Application Configuration<a class="headerlink" href="#application-configuration" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="application-configuration">
+<span id="java-server-customize"></span><h1>Application Configuration<a class="headerlink" href="#application-configuration" title="Permalink to this heading">¶</a></h1>
 <p>After <span class="xref std std-doc">creating a package</span>, the very next thing needed, usually, is the ability for users/ops to customize the application once it’s deployed.   Let’s add some configuration to the newly deployed application.</p>
 <p>There are generally two types of configurations:</p>
 <ul class="simple">
@@ -511,8 +430,8 @@
 <p>The server archetype provides you with a special feature to configure your application
 with a single file outside of customizing the <code class="docutils literal notranslate"><span class="pre">bash</span></code> or <code class="docutils literal notranslate"><span class="pre">bat</span></code> script for applications.
 As this file is OS dependent, each OS gets section.</p>
-<div class="section" id="linux-configuration">
-<h2>Linux Configuration<a class="headerlink" href="#linux-configuration" title="Permalink to this headline">¶</a></h2>
+<section id="linux-configuration">
+<h2>Linux Configuration<a class="headerlink" href="#linux-configuration" title="Permalink to this heading">¶</a></h2>
 <p>There are different ways described in <a class="reference internal" href="../java_app/customize.html"><span class="doc">Customizing the Application</span></a>
 and can be used the same way.</p>
 <p>The server archetype adds an additional way with an <code class="docutils literal notranslate"><span class="pre">etc-default</span></code> file placed
@@ -542,41 +461,41 @@ The file will be installed to <code class="docutils literal notranslate"><span c
 <span class="c1"># export env vars for 3rd party libs</span>
 <span class="c1"># ----------------------------------</span>
 <span class="nv">COMPANY_API_KEY</span><span class="o">=</span>123abc
-<span class="nb">export</span> COMPANY_API_KEY
+<span class="nb">export</span><span class="w"> </span>COMPANY_API_KEY
 </pre></div>
 </div>
-<div class="section" id="daemon-user-and-group">
-<h3>Daemon User and Group<a class="headerlink" href="#daemon-user-and-group" title="Permalink to this headline">¶</a></h3>
+<section id="daemon-user-and-group">
+<h3>Daemon User and Group<a class="headerlink" href="#daemon-user-and-group" title="Permalink to this heading">¶</a></h3>
 <p>Customize the daemon user and group for your application with the following settings.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// a different daemon user</span>
-<span class="n">daemonUser</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;my-user&quot;</span>
+<span class="nc">Linux</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">daemonUser</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-user&quot;</span>
 <span class="c1">// if there is an existing one you can specify the uid</span>
-<span class="n">daemonUserUid</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;123&quot;</span><span class="o">)</span>
+<span class="nc">Linux</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">daemonUserUid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">)</span>
 <span class="c1">// a different daemon group</span>
-<span class="n">daemonGroup</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;my-group&quot;</span>
+<span class="nc">Linux</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">daemonGroup</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-group&quot;</span>
 <span class="c1">// if the group already exists you can specify the uid</span>
-<span class="n">daemonGroupGid</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;1001&quot;</span><span class="o">)</span>
+<span class="nc">Linux</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">daemonGroupGid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;1001&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="environment-variables">
-<h3>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="environment-variables">
+<h3>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">¶</a></h3>
 <p>The usual <code class="docutils literal notranslate"><span class="pre">JAVA_OPTS</span></code> can be used to override settings. This is a nice way to test
 different jvm settings with just restarting the jvm.</p>
-</div>
-</div>
-<div class="section" id="windows-configuration">
-<h2>Windows Configuration<a class="headerlink" href="#windows-configuration" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="windows-configuration">
+<h2>Windows Configuration<a class="headerlink" href="#windows-configuration" title="Permalink to this heading">¶</a></h2>
 <p>Support planned.</p>
-</div>
-</div>
-<div class="section" id="systemloader-configuration">
-<h1>Systemloader Configuration<a class="headerlink" href="#systemloader-configuration" title="Permalink to this headline">¶</a></h1>
+</section>
+</section>
+<section id="systemloader-configuration">
+<h1>Systemloader Configuration<a class="headerlink" href="#systemloader-configuration" title="Permalink to this heading">¶</a></h1>
 <p>See the <a class="reference internal" href="../systemloaders.html#systemloaders"><span class="std std-ref">Systemloaders</span></a> documentation on how to add a systemloader (e.g. SystemV, Systemd or Upstart) to your
 package.</p>
-</div>
-<div class="section" id="package-lifecycle-configuration">
-<h1>Package Lifecycle Configuration<a class="headerlink" href="#package-lifecycle-configuration" title="Permalink to this headline">¶</a></h1>
+</section>
+<section id="package-lifecycle-configuration">
+<h1>Package Lifecycle Configuration<a class="headerlink" href="#package-lifecycle-configuration" title="Permalink to this heading">¶</a></h1>
 <p>Some scripts are covered in the standard application type. Read more on <a class="reference internal" href="../java_app/customize.html"><span class="doc">Java Application Customization</span></a>.
 For the <code class="docutils literal notranslate"><span class="pre">java_server</span></code> package lifecycle scripts are customized to provide the following additional features</p>
 <ul class="simple">
@@ -586,21 +505,21 @@ For the <code class="docutils literal notranslate"><span class="pre">java_server
 </ul>
 <p>For this purpose <em>sbt-native-packager</em> ships with some predefined templates. These can be
 overridden with different techniques, depending on the packaging system.</p>
-<div class="section" id="partially-replace-template-functionality">
-<h2>Partially Replace Template Functionality<a class="headerlink" href="#partially-replace-template-functionality" title="Permalink to this headline">¶</a></h2>
+<section id="partially-replace-template-functionality">
+<h2>Partially Replace Template Functionality<a class="headerlink" href="#partially-replace-template-functionality" title="Permalink to this heading">¶</a></h2>
 <p>Most sbt-native-packager scripts are broken up into partial templates in the <a class="reference external" href="https://github.com/sbt/sbt-native-packager/tree/master/src/main/resources/com/typesafe/sbt/packager">resources directory</a>.
 You can override these default template snippets by adding to the <code class="docutils literal notranslate"><span class="pre">linuxScriptReplacements</span></code> map. As
 an example you can change the <code class="docutils literal notranslate"><span class="pre">loader-functions</span></code> which starts/stop services based on a certain <code class="docutils literal notranslate"><span class="pre">`ServerLoader`</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxScriptReplacements</span> <span class="o">+=</span> <span class="s">&quot;loader-functions&quot;</span> <span class="o">-&gt;</span> <span class="nc">TemplateWriter</span><span class="o">.</span><span class="n">generateScript</span><span class="o">(</span><span class="n">getClass</span><span class="o">.</span><span class="n">getResource</span><span class="o">(</span><span class="s">&quot;/custom-loader-functions&quot;</span><span class="o">),</span> <span class="nc">Nil</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxScriptReplacements</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;loader-functions&quot;</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">TemplateWriter</span><span class="p">.</span><span class="n">generateScript</span><span class="p">(</span><span class="n">getClass</span><span class="p">.</span><span class="n">getResource</span><span class="p">(</span><span class="s">&quot;/custom-loader-functions&quot;</span><span class="p">),</span><span class="w"> </span><span class="nc">Nil</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">custom-loader-functions</span></code> file must declare the <code class="docutils literal notranslate"><span class="pre">startService()</span></code> and <code class="docutils literal notranslate"><span class="pre">stopService()</span></code> functions used in various
 service management scripts.</p>
-</div>
-<div class="section" id="rpm-scriptlets">
-<h2>RPM Scriptlets<a class="headerlink" href="#rpm-scriptlets" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="rpm-scriptlets">
+<h2>RPM Scriptlets<a class="headerlink" href="#rpm-scriptlets" title="Permalink to this heading">¶</a></h2>
 <p>RPM puts all scripts into one file. To override or append settings to your
-scriptlets use <code class="docutils literal notranslate"><span class="pre">maintainerScripts</span> <span class="pre">in</span> <span class="pre">Rpm</span></code> or these <a href="#id1"><span class="problematic" id="id2">``</span></a>RpmConstants._``s:</p>
+scriptlets use <code class="docutils literal notranslate"><span class="pre">Rpm</span> <span class="pre">/</span> <span class="pre">maintainerScripts</span></code> or these <a href="#id1"><span class="problematic" id="id2">``</span></a>RpmConstants._``s:</p>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">Pre</span></code></dt><dd><p>%pre scriptlet</p>
@@ -645,26 +564,26 @@ build put the new scriptlets in the <code class="docutils literal notranslate"><
 <code class="docutils literal notranslate"><span class="pre">verifyscript</span></code>
 <code class="docutils literal notranslate"><span class="pre">posttrans</span></code></p>
 </div></blockquote>
-<div class="section" id="override-postinst-scriptlet">
-<h3>Override Postinst scriptlet<a class="headerlink" href="#override-postinst-scriptlet" title="Permalink to this headline">¶</a></h3>
+<section id="override-postinst-scriptlet">
+<h3>Override Postinst scriptlet<a class="headerlink" href="#override-postinst-scriptlet" title="Permalink to this heading">¶</a></h3>
 <p>By default the <code class="docutils literal notranslate"><span class="pre">post-rpm</span></code> template only starts the service, but doesn’t register it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>service <span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span> start
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>service<span class="w"> </span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span><span class="w"> </span>start
 </pre></div>
 </div>
 <p>For <strong>CentOS</strong> we can do</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chkconfig <span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span> defaults
-service <span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span> start <span class="o">||</span> <span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">} could not be started. Try manually with service </span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">} start&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chkconfig<span class="w"> </span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span><span class="w"> </span>defaults
+service<span class="w"> </span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span><span class="w"> </span>start<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">} could not be started. Try manually with service </span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">} start&quot;</span>
 </pre></div>
 </div>
 <p>For <strong>RHEL</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>update-rc.d <span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span> defaults
-service <span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span> start <span class="o">||</span> <span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">} could not be started. Try manually with service </span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">} start&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>update-rc.d<span class="w"> </span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span><span class="w"> </span>defaults
+service<span class="w"> </span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="o">}</span><span class="w"> </span>start<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">} could not be started. Try manually with service </span><span class="si">${</span><span class="p">{app_name</span><span class="si">}</span><span class="s2">} start&quot;</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="debian-control-scripts">
-<h2>Debian Control Scripts<a class="headerlink" href="#debian-control-scripts" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="debian-control-scripts">
+<h2>Debian Control Scripts<a class="headerlink" href="#debian-control-scripts" title="Permalink to this heading">¶</a></h2>
 <p>To override default templates in a Debian build put the new control files in the
 <code class="docutils literal notranslate"><span class="pre">debianControlScriptsDirectory</span></code> (by default <code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code>).</p>
 <blockquote>
@@ -688,9 +607,9 @@ service <span class="si">${</span><span class="p">{app_name</span><span class="s
 <code class="docutils literal notranslate"><span class="pre">postun</span></code>
 <code class="docutils literal notranslate"><span class="pre">preun</span></code></p>
 </div></blockquote>
-</div>
-<div class="section" id="linux-replacements">
-<h2>Linux Replacements<a class="headerlink" href="#linux-replacements" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="linux-replacements">
+<h2>Linux Replacements<a class="headerlink" href="#linux-replacements" title="Permalink to this heading">¶</a></h2>
 <blockquote>
 <div><p>This is a list of values you can access in your templates</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="si">${</span><span class="p">{author</span><span class="si">}</span><span class="o">}</span>
@@ -708,73 +627,48 @@ service <span class="si">${</span><span class="p">{app_name</span><span class="s
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>Every replacement corresponds to a single setting or task. For the <cite>linuxScriptReplacements</cite> you need
-to override the setting/task in the <cite>in Linux</cite> scope. For example</p>
-<p><code class="docutils literal notranslate"><span class="pre">daemonUser</span> <span class="pre">in</span> <span class="pre">Linux</span> <span class="pre">:=</span> <span class="pre">&quot;new-user&quot;</span></code></p>
+to override the setting/task in the <cite>Linux</cite> scope. For example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">daemonUser</span> <span class="pre">:=</span> <span class="pre">&quot;new-user&quot;</span></code></p>
 <p>overrides the <code class="docutils literal notranslate"><span class="pre">daemon_user</span></code> in the linuxScriptReplacements.</p>
 </div>
-</div>
-</div>
-<div class="section" id="example-configurations">
-<h1>Example Configurations<a class="headerlink" href="#example-configurations" title="Permalink to this headline">¶</a></h1>
+</section>
+</section>
+<section id="example-configurations">
+<h1>Example Configurations<a class="headerlink" href="#example-configurations" title="Permalink to this heading">¶</a></h1>
 <p>A list of very small configuration settings can be found at <a class="reference external" href="https://github.com/muuki88/sbt-native-packager-examples">sbt-native-packager-examples</a></p>
 <blockquote>
 <div></div></blockquote>
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../systemloaders.html" class="btn btn-neutral float-right" title="Systemloaders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="Java Server Application Archetype" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Java Server Application Archetype" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../systemloaders.html" class="btn btn-neutral float-right" title="Systemloaders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2014 sbt-native-packager team
-
-    </p>
+    <p>&#169; Copyright 2014 sbt-native-packager team.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

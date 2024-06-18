@@ -1,91 +1,50 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Dealing with long classpaths &mdash; sbt-native-packager 1.9.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dealing with long classpaths &mdash; sbt-native-packager 1.10.0+6-67a1f969-SNAPSHOT documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=2f9a1908"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Play 2 Packaging" href="play.html" />
     <link rel="prev" title="Custom Package Formats" href="custom.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sbt-native-packager
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            sbt-native-packager
           </a>
-
-          
-            
-            
               <div class="version">
-                1.9
+                1.10
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
@@ -233,6 +192,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#add-commands">Add Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#write-from-scratch">Write from Scratch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#init-support">Init support</a></li>
 </ul>
 </li>
 </ul>
@@ -433,169 +393,104 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">sbt-native-packager</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="index.html">Recipes</a> &raquo;</li>
-        
-      <li>Dealing with long classpaths</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Recipes</a></li>
+      <li class="breadcrumb-item active">Dealing with long classpaths</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/recipes/longclasspath.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="dealing-with-long-classpaths">
-<span id="long-classpaths"></span><h1>Dealing with long classpaths<a class="headerlink" href="#dealing-with-long-classpaths" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="dealing-with-long-classpaths">
+<span id="long-classpaths"></span><h1>Dealing with long classpaths<a class="headerlink" href="#dealing-with-long-classpaths" title="Permalink to this heading">¶</a></h1>
 <p>By default, when the native packager generates a script for starting your application, it will generate an invocation
 of java that passes every library on the classpath to the classpath argument, <code class="docutils literal notranslate"><span class="pre">-cp</span></code>.  If you have a lot of
 dependencies, this may result in a very long command being executed, which, aside from being aesthetically unpleasing
 and difficult to work with when using tools like <code class="docutils literal notranslate"><span class="pre">ps</span></code>, causes problems on some platforms, notably Windows, that have
 limits to how long commands can be.</p>
 <p>There are a few ways you can work around this in the native packager.</p>
-<div class="section" id="generate-a-launcher-jar">
-<span id="launcher-jar-plugin"></span><h2>Generate a launcher jar<a class="headerlink" href="#generate-a-launcher-jar" title="Permalink to this headline">¶</a></h2>
+<section id="generate-a-launcher-jar">
+<span id="launcher-jar-plugin"></span><h2>Generate a launcher jar<a class="headerlink" href="#generate-a-launcher-jar" title="Permalink to this heading">¶</a></h2>
 <p>The native packager includes a plugin that allows generating a launcher jar.  This launcher jar will contain no classes,
 but will have your projects main class and classpath in its manifest.  The script that sbt then generates executes this
 jar like so:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java -jar myproject-launcher.jar
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java<span class="w"> </span>-jar<span class="w"> </span>myproject-launcher.jar
 </pre></div>
 </div>
 <p>To enable the launcher jar, enable the <code class="docutils literal notranslate"><span class="pre">LauncherJarPlugin</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">LauncherJarPlugin</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">LauncherJarPlugin</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="generate-a-classpath-jar">
-<span id="classpath-jar-plugin"></span><h2>Generate a classpath jar<a class="headerlink" href="#generate-a-classpath-jar" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="generate-a-classpath-jar">
+<span id="classpath-jar-plugin"></span><h2>Generate a classpath jar<a class="headerlink" href="#generate-a-classpath-jar" title="Permalink to this heading">¶</a></h2>
 <p>The classpath jar is very similar to the launcher jar, in that it also has the classpath on its manifest, but it does
 not include the main class in its manifest, and so executed by the start script by invoking:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java -cp myproject-classpath.jar some.Main
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java<span class="w"> </span>-cp<span class="w"> </span>myproject-classpath.jar<span class="w"> </span>some.Main
 </pre></div>
 </div>
 <p>To enable the classpath jar:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">ClasspathJarPlugin</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">ClasspathJarPlugin</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="configure-a-wildcard-classpath">
-<h2>Configure a wildcard classpath<a class="headerlink" href="#configure-a-wildcard-classpath" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="configure-a-wildcard-classpath">
+<h2>Configure a wildcard classpath<a class="headerlink" href="#configure-a-wildcard-classpath" title="Permalink to this heading">¶</a></h2>
 <p>JDK 6 and above supports configuring the classpath using wildcards.  To enable this, simply override the
 <code class="docutils literal notranslate"><span class="pre">scriptClasspath</span></code> task to only contain <code class="docutils literal notranslate"><span class="pre">*</span></code>, for example:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">scriptClasspath</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;*&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">scriptClasspath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>One downside of this approach is that the classpath ordering will no longer match the classpath ordering that sbt uses.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="play.html" class="btn btn-neutral float-right" title="Play 2 Packaging" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="custom.html" class="btn btn-neutral float-left" title="Custom Package Formats" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="custom.html" class="btn btn-neutral float-left" title="Custom Package Formats" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="play.html" class="btn btn-neutral float-right" title="Play 2 Packaging" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2014 sbt-native-packager team
-
-    </p>
+    <p>&#169; Copyright 2014 sbt-native-packager team.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

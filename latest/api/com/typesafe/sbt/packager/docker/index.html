@@ -344,7 +344,7 @@
         <a title="This package contains stanard validators that can be used by format and archetype plugins." href="../validation/index.html"><span class="name">validation</span></a>
       </span>
       
-      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4> validation </h4><p>This package contains stanard validators that can be used by format and archetype plugins.
+      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4>validation</h4><p>This package contains stanard validators that can be used by format and archetype plugins.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.windows" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="windows"></a><a id="windows:windows"></a>
@@ -514,12 +514,15 @@
         <a title="This class represents a Docker alias." href="DockerAlias.html"><span class="name">DockerAlias</span></a><span class="params">(<span name="registryHost">registryHost: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="username">username: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="tag">tag: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This class represents a Docker alias.</p><div class="fullcomment"><div class="comment cmt"><p>This class represents a Docker alias.
-It generates a string in the form of </p><pre>[REGISTRY_HOST/][USERNAME/]NAME[:TAG]</pre><p>,
-e.g. <i>my-registry.com:1234/my-user/my-service:1.0.0</i> or just <i>my-service:1.0.0</i>.
+      <p class="shortcomment cmt">This class represents a Docker alias.</p><div class="fullcomment"><div class="comment cmt"><p>This class represents a Docker alias. It generates a string in the form of</p><pre>[REGISTRY_HOST/][USERNAME/]NAME[:TAG]</pre><p>, e.g. <i>my-registry.com:1234/my-user/my-service:1.0.0</i> or just
+<i>my-service:1.0.0</i>.
 [REGISTRY_HOST/][USERNAME/]NAME[:TAG]
 }}}
-e.g. <i>my-registry.com:1234/my-user/my-service:1.0.0</i> or just <i>my-service:1.0.0</i>.</p></div><dl class="paramcmts block"><dt class="param">registryHost</dt><dd class="cmt"><p>Optional hostname of the registry (including port if applicable)</p></dd><dt class="param">username</dt><dd class="cmt"><p>Optional username or other qualifier</p></dd><dt class="param">name</dt><dd class="cmt"><p>Name of the image, e.g. the artifact name</p></dd><dt class="param">tag</dt><dd class="cmt"><p>Optional tag for the image, e.g. the version</p></dd></dl></div>
+<i>my-service:1.0.0</i>.</p></div><dl class="paramcmts block"><dt class="param">registryHost</dt><dd class="cmt"><p>
+  Optional hostname of the registry (including port if applicable)</p></dd><dt class="param">username</dt><dd class="cmt"><p>
+  Optional username or other qualifier</p></dd><dt class="param">name</dt><dd class="cmt"><p>
+  Name of the image, e.g. the artifact name</p></dd><dt class="param">tag</dt><dd class="cmt"><p>
+  Optional tag for the image, e.g. the version</p></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerApiVersion" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="DockerApiVersionextendsProductwithSerializable"></a><a id="DockerApiVersion:DockerApiVersion"></a>
       <span class="permalink">
@@ -551,8 +554,8 @@ e.g. <i>my-registry.com:1234/my-user/my-service:1.0.0</i> or just <i>my-service:
         <a title="This represents a type of file permission changes to run on the working directory." href="DockerChmodType.html"><span class="name">DockerChmodType</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       
-      <p class="shortcomment cmt">This represents a type of file permission changes to run on the working directory.</p><div class="fullcomment"><div class="comment cmt"><p>This represents a type of file permission changes to run on the working directory.
-Note that group file mode bits must be effective to be OpenShift compatible.
+      <p class="shortcomment cmt">This represents a type of file permission changes to run on the working directory.</p><div class="fullcomment"><div class="comment cmt"><p>This represents a type of file permission changes to run on the working directory. Note that group file mode bits
+must be effective to be OpenShift compatible.
 </p></div></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerPermissionStrategy" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="DockerPermissionStrategyextendsAnyRef"></a><a id="DockerPermissionStrategy:DockerPermissionStrategy"></a>
@@ -638,10 +641,12 @@ Note that group file mode bits must be effective to be OpenShift compatible.
       </span>
       
       <p class="shortcomment cmt">Mapping of file to intermediate layers.</p><div class="fullcomment"><div class="comment cmt"><p>Mapping of file to intermediate layers.
-</p></div><dl class="paramcmts block"><dt class="param">layerId</dt><dd class="cmt"><p>The identifier in the layer used to increase cache hits in
-               docker caching. LayerId is present in docker:stage directory structure
-               and in intermediate image produced in the multi-stage docker build.
-               None means the layering is skipped for this file.</p></dd><dt class="param">file</dt><dd class="cmt"><p>The file produced by universal/stage to be moved into <code>Docker / stage</code> directory.</p></dd><dt class="param">path</dt><dd class="cmt"><p>The path in the final image</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">layerId</dt><dd class="cmt"><p>
+  The identifier in the layer used to increase cache hits in docker caching. LayerId is present in docker:stage
+  directory structure and in intermediate image produced in the multi-stage docker build. None means the layering is
+  skipped for this file.</p></dd><dt class="param">file</dt><dd class="cmt"><p>
+  The file produced by universal/stage to be moved into <code>Docker / stage</code> directory.</p></dd><dt class="param">path</dt><dd class="cmt"><p>
+  The path in the final image</p></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerKeys" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="DockerKeysextendsAnyRef"></a><a id="DockerKeys:DockerKeys"></a>
       <span class="permalink">
@@ -734,13 +739,14 @@ Note that group file mode bits must be effective to be OpenShift compatible.
         <a title="This plugin helps you build docker containers." href="DockerPlugin$.html"><span class="name">DockerPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
       </span>
       
-      <p class="shortcomment cmt">This plugin helps you build docker containers.</p><div class="fullcomment"><div class="comment cmt"><h4> Docker Plugin </h4><p>This plugin helps you build docker containers.</p><h4> Configuration </h4><p>In order to configure this plugin take a look at the available <a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">com.typesafe.sbt.packager.docker.DockerKeys</a></p><h4> Requirements </h4><p>You need docker to have docker installed on your system and be able to execute commands.
-Check with a single command:</p><pre>docker version</pre><p>Future versions of the Docker Plugin may use the REST API, so you don't need docker installed
-locally.
+      <p class="shortcomment cmt">This plugin helps you build docker containers.</p><div class="fullcomment"><div class="comment cmt"><h4>Docker Plugin</h4><p>This plugin helps you build docker containers.</p><h4>Configuration</h4><p>In order to configure this plugin take a look at the available <a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">com.typesafe.sbt.packager.docker.DockerKeys</a></p><h4>Requirements</h4><p>You need docker to have docker installed on your system and be able to execute commands. Check with a single
+command:</p><pre>docker version</pre><p>Future versions of the Docker Plugin may use the REST API, so you don't need docker installed locally.
 </p></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DockerPlugin)</pre></li></ol>
-            </div><dt>Note</dt><dd><span class="cmt"><p>this plugin is not intended to build very customizable docker images, but turn your mappings
-configuration in a docker image with almost no <i>any</i> configuration.</p></span></dd></dl></div>
+               <ol><li class="cmt"><p>
+  Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DockerPlugin)</pre></li></ol>
+            </div><dt>Note</dt><dd><span class="cmt"><p>
+  this plugin is not intended to build very customizable docker images, but turn your mappings configuration in a
+  docker image with almost no <i>any</i> configuration.</p></span></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerSpotifyClientPlugin" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DockerSpotifyClientPlugin"></a><a id="DockerSpotifyClientPlugin:DockerSpotifyClientPlugin"></a>
       <span class="permalink">
@@ -756,13 +762,13 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
         <a title="This plugin helps you build docker containers using Spotify Docker Client." href="DockerSpotifyClientPlugin$.html"><span class="name">DockerSpotifyClientPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
       </span>
       
-      <p class="shortcomment cmt">This plugin helps you build docker containers using Spotify Docker Client.</p><div class="fullcomment"><div class="comment cmt"><h4> DockerSpotifyClientPlugin Plugin </h4><p>This plugin helps you build docker containers using Spotify Docker Client.</p><h4> Configuration </h4><p>In order to configure this plugin take a look at the available <a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">com.typesafe.sbt.packager.docker.DockerKeys</a></p><h4> Requirements </h4><p>You need docker to have docker installed on your system.
-Check with a single command:</p><pre>docker version</pre></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DockerSpotifyClientPlugin)</pre><p>and add the dependency in your <code>plugins.sbt</code></p><pre>libraryDependencies += <span class="lit">"com.spotify"</span> % <span class="lit">"docker-client"</span> % <span class="lit">"3.5.13"</span></pre><p>The Docker-spotify client is a provided dependency so you have to add it on your own.
-It brings a lot of dependenciesthat could slow your build times. This is the reason
-the dependency is marked as provided.</p></li></ol>
-            </div><dt>Note</dt><dd><span class="cmt"><p>this plugin is not intended to build very customizable docker images, but turn your mappings
-      configuration in a docker image with almost no <i>any</i> configuration.</p></span></dd></dl></div>
+      <p class="shortcomment cmt">This plugin helps you build docker containers using Spotify Docker Client.</p><div class="fullcomment"><div class="comment cmt"><h4>DockerSpotifyClientPlugin Plugin</h4><p>This plugin helps you build docker containers using Spotify Docker Client.</p><h4>Configuration</h4><p>In order to configure this plugin take a look at the available <a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">com.typesafe.sbt.packager.docker.DockerKeys</a></p><h4>Requirements</h4><p>You need docker to have docker installed on your system. Check with a single command:</p><pre>docker version</pre></div><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p>
+  Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DockerSpotifyClientPlugin)</pre><p>and add the dependency in your <code>plugins.sbt</code></p><pre>libraryDependencies += <span class="lit">"com.spotify"</span> % <span class="lit">"docker-client"</span> % <span class="lit">"3.5.13"</span></pre><p>The Docker-spotify client is a provided dependency so you have to add it on your own. It brings a lot of
+dependenciesthat could slow your build times. This is the reason the dependency is marked as provided.</p></li></ol>
+            </div><dt>Note</dt><dd><span class="cmt"><p>
+  this plugin is not intended to build very customizable docker images, but turn your mappings configuration in a
+  docker image with almost no <i>any</i> configuration.</p></span></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerStageBreak" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DockerStageBreak"></a><a id="DockerStageBreak:DockerStageBreak"></a>
       <span class="permalink">
@@ -778,8 +784,7 @@ the dependency is marked as provided.</p></li></ol>
         <a title="A break in Dockerfile to express multi-stage build." href="DockerStageBreak$.html"><span class="name">DockerStageBreak</span></a><span class="result"> extends <a href="CmdLike.html" class="extype" name="com.typesafe.sbt.packager.docker.CmdLike">CmdLike</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">A break in Dockerfile to express multi-stage build.</p><div class="fullcomment"><div class="comment cmt"><p>A break in Dockerfile to express multi-stage build.
-https://docs.docker.com/develop/develop-images/multistage-build/
+      <p class="shortcomment cmt">A break in Dockerfile to express multi-stage build.</p><div class="fullcomment"><div class="comment cmt"><p>A break in Dockerfile to express multi-stage build. https://docs.docker.com/develop/develop-images/multistage-build/
 </p></div></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerSupport" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="DockerSupport"></a><a id="DockerSupport:DockerSupport"></a>

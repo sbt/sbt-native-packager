@@ -62,13 +62,13 @@ Customize the daemon user and group for your application with the following sett
 .. code-block:: scala
 
     // a different daemon user
-    daemonUser in Linux := "my-user"
+    Linux / daemonUser := "my-user"
     // if there is an existing one you can specify the uid
-    daemonUserUid in Linux := Some("123")
+    Linux / daemonUserUid := Some("123")
     // a different daemon group
-    daemonGroup in Linux := "my-group"
+    Linux / daemonGroup := "my-group"
     // if the group already exists you can specify the uid
-    daemonGroupGid in Linux := Some("1001")
+    Linux / daemonGroupGid := Some("1001")
 
 Environment variables
 ~~~~~~~~~~~~~~~~~~~~~
@@ -121,7 +121,7 @@ RPM Scriptlets
 --------------
 
 RPM puts all scripts into one file. To override or append settings to your
-scriptlets use ``maintainerScripts in Rpm`` or these ``RpmConstants._``s:
+scriptlets use ``Rpm / maintainerScripts`` or these ``RpmConstants._``s:
 
    ``Pre``
      %pre scriptlet
@@ -242,9 +242,9 @@ Linux Replacements
 
 .. attention::
     Every replacement corresponds to a single setting or task. For the `linuxScriptReplacements` you need
-    to override the setting/task in the `in Linux` scope. For example
+    to override the setting/task in the `Linux` scope. For example
 
-    ``daemonUser in Linux := "new-user"``
+    ``Linux / daemonUser := "new-user"``
 
     overrides the ``daemon_user`` in the linuxScriptReplacements.
 

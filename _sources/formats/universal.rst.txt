@@ -35,25 +35,25 @@ There is a task for each output format
 
   .. code-block:: bash
 
-    sbt universal:packageBin
+    sbt Universal/packageBin
 
   **Tar**
 
   .. code-block:: bash
 
-    sbt universal:packageZipTarball
+    sbt Universal/packageZipTarball
 
   **Xz**
 
   .. code-block:: bash
 
-    sbt universal:packageXzTarball
+    sbt Universal/packageXzTarball
 
   **Dmg**
 
   .. code-block:: bash
 
-    sbt universal:packageOsxDmg
+    sbt Universal/packageOsxDmg
 
 
 Required Settings
@@ -76,11 +76,11 @@ Settings and Tasks inherited from parent plugins can be scoped with ``Universal`
 
 Universal packaging provides three Configurations:
 
-  ``universal``
+  ``Universal``
     For creating full distributions
-  ``universal-docs``
+  ``UniversalDocs``
     For creating bundles of documentation
-  ``universal-src``
+  ``UniversalSrc``
     For creating bundles of source.
 
 
@@ -88,13 +88,13 @@ Here is how the values for ``name`` and ``packageName`` are used by the three co
 
 .. code-block:: scala
 
-    name in Universal := name.value
+    Universal / name := name.value
 
-    name in UniversalDocs := (name in Universal).value
+    UniversalDocs / name := (Universal / name).value
 
-    name in UniversalSrc := (name in Universal).value
+    UniversalSrc / name := (Universal / name).value
 
-    packageName in Universal := packageName.value
+    Universal / packageName := packageName.value
 
 Settings
 --------
@@ -103,7 +103,7 @@ specify the desired mappings for a given configuration.  For example:
 
 .. code-block:: scala
 
-    mappings in Universal += (packageBin in Compile).value -> "lib/foo.jar"
+    Universal / mappings += (Compile / packageBin).value -> "lib/foo.jar"
 
 However, sometimes it may be advantageous to customize the files for each archive separately.  For example, perhaps
 the .tar.gz has an additional README plaintext file in addition to a README.html.  To add this just to the .tar.gz file,
@@ -111,7 +111,7 @@ use the task-scope feature of sbt:
 
 .. code-block:: scala
 
-    mappings in Universal in packageZipTarball += file("README") -> "README"
+    Universal / packageZipTarball / mappings += file("README") -> "README"
 
 Besides ``mappings``, the ``name``, ``sourceDirectory`` and ``target`` configurations are all respected by universal packaging.
 
@@ -121,26 +121,26 @@ and file system manipulations.**
 Tasks
 -----
 
-  ``universal:package-bin``
+  ``Universal / package-bin``
     Creates the ``zip`` universal package.
 
-  ``universal:package-zip-tarball``
+  ``Universal / package-zip-tarball``
     Creates the ``tgz`` universal package.
 
-  ``universal:package-xz-tarball``
+  ``Universal / package-xz-tarball``
     Creates the ``txz`` universal package.  The ``xz`` command can get better compression
     for some types of archives.
 
-  ``universal:package-osx-dmg``
+  ``Universal / package-osx-dmg``
     Creates the ``dmg`` universal package.  This only work on macOS or systems with ``hdiutil``.
 
-  ``universal-docs:package-bin``
+  ``UniversalDocs / packageBin``
     Creates the ``zip`` universal documentation package.
 
-  ``universal-docs:package-zip-tarball``
+  ``UniversalDocs / packageZipTarball``
     Creates the ``tgz`` universal documentation package.
 
-  ``universal-docs:package-xz-tarball``
+  ``UniversalDocs / packageXzTarball``
     Creates the ``txz`` universal documentation package.  The ``xz`` command can get better compression
     for some types of archives.
 
@@ -155,23 +155,23 @@ If you want to force local for the `tgz` output add this line:
 
 .. code-block:: scala
 
-  universalArchiveOptions in (Universal, packageZipTarball) := Seq("--force-local", "-pcvf")
+  Universal / packageZipTarball / universalArchiveOptions := Seq("--force-local", "-pcvf")
 
 This will set the cli options for the `packageZipTarball` task in the `Universal` plugin to use the options ``--force-local`` and ``pcvf``.
 Be aware that the above line will overwrite the default options.  You may want to prepend your options, doing something like:
 
 .. code-block:: scala
 
-  universalArchiveOptions in (Universal, packageZipTarball) :=
-    (Seq("--exclude", "*~") ++ (universalArchiveOptions in (Universal, packageZipTarball)).value)
+  Universal / packageZipTarball / universalArchiveOptions :=
+    (Seq("--exclude", "*~") ++ (Universal / packageZipTarball / universalArchiveOptions).value)
 
 Currently, these task can be customized:
 
-  ``universal:package-zip-tarball``
-    `universalArchiveOptions in (Universal, packageZipTarball)`
+  ``Universal/package-zip-tarball``
+    `Universal / packageZipTarball / universalArchiveOptions`
 
-  ``universal:package-xz-tarball``
-    `universalArchiveOptions in (Universal, packageXzTarball)`
+  ``Universal/package-xz-tarball``
+    `Universal / packageXzTarball / universalArchiveOptions`
 
 .. _universal-plugin-getting-started-with-packaging:
 
@@ -181,19 +181,19 @@ By default, all files found in the ``src/universal`` directory are included in t
 in creating a distribution is to place files in this directory and organize them as you'd like in them to be in the distributed package.
 If your output format is a zip file, for example, although the distribution will consist of just one zip file, the files and directories within that zip file will reflect the same organization and structure as ``src/universal``.
 
-To add files generated by the build task to a distribution, simply add a *mapping* to the ``mappings in Universal`` setting.  Let's
+To add files generated by the build task to a distribution, simply add a *mapping* to the ``Universal / mappings`` setting.  Let's
 look at an example where we add the packaged jar of a project to the lib folder of a distribution:
 
 .. code-block:: scala
 
-    mappings in Universal += {
-      val jar = (packageBin in Compile).value
+    Universal / mappings += {
+      val jar = (Compile / packageBin).value
       jar -> ("lib/" + jar.getName)
     }
 
 The above does two things:
 
-1. It depends on ``packageBin in Compile`` which will generate a jar file form the project.
+1. It depends on ``Compile / packageBin`` which will generate a jar file form the project.
 2. It creates a *mapping* (a ``Tuple2[File, String]``) which denotes the file and the location in the distribution as a string.
 
 You can use this pattern to add anything you desire to the package.
@@ -278,9 +278,9 @@ changelog in addition to the generic packaging by first defining a changelog in 
 
 .. code-block:: scala
 
-    linuxPackageMappings in Debian +=
+    Debian / linuxPackageMappings +=
       (packageMapping(
-        ((sourceDirectory in Debian).value / "changelog") -> "/usr/share/doc/sbt/changelog.gz"
+        ((Debian / sourceDirectory).value / "changelog") -> "/usr/share/doc/sbt/changelog.gz"
       ) withUser "root" withGroup "root" withPerms "0644" gzipped) asDocs()
 
 Notice how we're *only* modifying the package mappings for Debian linux packages.
@@ -323,7 +323,7 @@ this behaviour, add this to your ``build.sbt``
 
 .. code-block:: scala
 
-    mappings in (Compile, packageDoc) := Seq()
+    compile / packageDoc / mappings := Seq()
 
 Source `issue 651`_.
 
@@ -352,13 +352,13 @@ You get a set of methods which will help you to create mappings very easily.
 
 .. code-block:: scala
 
-    mappings in Universal ++= directory("src/main/resources/cache")
+    Universal / mappings ++= directory("src/main/resources/cache")
 
-    mappings in Universal ++= contentOf("src/main/resources/docs")
+    Universal / mappings ++= contentOf("src/main/resources/docs")
     
-    mappings in Universal ++= directory(sourceDirectory.value / "main" / "resources" / "cache")
+    Universal / mappings ++= directory(sourceDirectory.value / "main" / "resources" / "cache")
 
-    mappings in Universal ++= contentOf(sourceDirectory.value / "main" / "resources" / "docs")
+    Universal / mappings ++= contentOf(sourceDirectory.value / "main" / "resources" / "docs")
 
 
 .. _MappingsHelper: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MappingsHelper$
@@ -373,7 +373,7 @@ debian/rpm/msi/dmg builds as described above in the conventions.
 .. _IO: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html
 .. _Path: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html
 
-The ``packageBin in Compile`` dependency is only needed if your files get generated
+The ``Compile / packageBin`` dependency is only needed if your files get generated
 during the ``packageBin`` command or before. For static files you can remove it.
 
 Mapping a complete directory
@@ -385,13 +385,13 @@ For static content, you can just add the directory to the mapping:
 
 .. code-block:: scala
 
-    mappings in Universal ++= directory("SomeDirectoryNameToInclude")
+    Universal / mappings ++= directory("SomeDirectoryNameToInclude")
 
 If you want to add everything in a directory where the path for the directory is dynamic, e.g. the ``scala-2.10/api`` directory that is nested under in the ``target`` directory, and ``target`` is defined in a task:
 
 .. code-block:: scala
 
-    (mappings in Universal) ~= (_ ++ directory(target.value / "scala-2.10" / "api"))
+    (Universal / mappings) ~= (_ ++ directory(target.value / "scala-2.10" / "api"))
 
 
 
@@ -399,7 +399,7 @@ You can also use the following approach if, for example, you need more flexibili
 
 .. code-block:: scala
 
-    (mappings in Universal) ++= {
+    (Universal / mappings) ++= {
         val dir = target.value / "scala-2.10" / "api"
         (dir ** AllPassFilter) pair relativeTo(dir.getParentFile)
     }
@@ -452,7 +452,7 @@ Mapping the content of a directory (excluding the directory itself)
 
 .. code-block:: scala
 
-    mappings in Universal ++= {
+    Universal / mappings ++= {
         val dir = target.value / "scala-2.10" / "api"
         (dir ** AllPassFilter --- dir) pair relativeTo(dir)
     }
@@ -473,10 +473,10 @@ tl;dr how to remove stuff
 .. code-block:: scala
 
     // removes all jar mappings in universal and appends the fat jar
-    mappings in Universal := {
+    Universal / mappings := {
         // universalMappings: Seq[(File,String)]
-        val universalMappings = (mappings in Universal).value
-        val fatJar = (assembly in Compile).value
+        val universalMappings = (Universal / mappings).value
+        val fatJar = (Compile / assembly).value
 
         // removing means filtering
         // notice the "!" - it means NOT, so only keep those that do NOT have a name ending with "jar"
@@ -496,15 +496,15 @@ The complete ``build.sbt`` should contain these settings if you want a single as
     assemblySettings
 
     // we specify the name for our fat jar
-    jarName in assembly := "assembly-project.jar"
+    assembly / jarName := "assembly-project.jar"
 
     // using the java server for this application. java_application would be fine, too
     packageArchetype.java_server
 
     // removes all jar mappings in universal and appends the fat jar
-    mappings in Universal := {
-        val universalMappings = (mappings in Universal).value
-        val fatJar = (assembly in Compile).value
+    Universal / mappings := {
+        val universalMappings = (Universal / mappings).value
+        val fatJar = (Compile / assembly).value
         val filtered = universalMappings filter {
             case (file, name) =>  ! name.endsWith(".jar")
         }
@@ -512,4 +512,4 @@ The complete ``build.sbt`` should contain these settings if you want a single as
     }
 
     // the bash scripts classpath only needs the fat jar
-    scriptClasspath := Seq( (jarName in assembly).value )
+    scriptClasspath := Seq( (assembly / jarName).value )

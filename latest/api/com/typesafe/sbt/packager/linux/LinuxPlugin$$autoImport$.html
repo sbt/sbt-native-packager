@@ -164,11 +164,10 @@
         <a title="Plugin containing all the generic values used for packaging linux software." href="LinuxPlugin$.html"><span class="name">LinuxPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
       </span>
       
-      <p class="shortcomment cmt">Plugin containing all the generic values used for
-packaging linux software.</p><div class="fullcomment"><div class="comment cmt"><p>Plugin containing all the generic values used for
-packaging linux software.
+      <p class="shortcomment cmt">Plugin containing all the generic values used for packaging linux software.</p><div class="fullcomment"><div class="comment cmt"><p>Plugin containing all the generic values used for packaging linux software.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager.linux">linux</a></dd><div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(LinuxPlugin)</pre></li></ol>
+               <ol><li class="cmt"><p>
+  Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(LinuxPlugin)</pre></li></ol>
             </div></dl></div>
     </li><li class="current-entities indented6">
                         <span class="separator"></span>
@@ -366,8 +365,6 @@ packaging linux software.
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxMappingDSL#configWithNoReplace" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="configWithNoReplace(mappings:Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]):Seq[com.typesafe.sbt.packager.linux.LinuxPackageMapping]"></a><a id="configWithNoReplace(Seq[LinuxPackageMapping]):Seq[LinuxPackageMapping]"></a>
@@ -386,7 +383,9 @@ packaging linux software.
       
       <p class="shortcomment cmt">This method sets the config attribute of all files that are marked as configuration files to &quot;noreplace&quot;.</p><div class="fullcomment"><div class="comment cmt"><p>This method sets the config attribute of all files that are marked as configuration files to &quot;noreplace&quot;. This is
 relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See: http://www-uxsup.csx.cam.ac.uk/~jw35/docs/rpm_config.html
-</p></div><dl class="paramcmts block"><dt class="param">mappings</dt><dd class="cmt"><p>list of mappings to update</p></dd><dt>returns</dt><dd class="cmt"><p>updated list of mappings</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxMappingDSL.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxMappingDSL">LinuxMappingDSL</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">mappings</dt><dd class="cmt"><p>
+  list of mappings to update</p></dd><dt>returns</dt><dd class="cmt"><p>
+  updated list of mappings</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxMappingDSL.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxMappingDSL">LinuxMappingDSL</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#daemonGroup" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="daemonGroup:sbt.SettingKey[String]"></a><a id="daemonGroup:SettingKey[String]"></a>
       <span class="permalink">
@@ -416,6 +415,22 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       </span>
       <span class="symbol">
         <span class="name">daemonGroupGid</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#daemonHome" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="daemonHome:sbt.SettingKey[String]"></a><a id="daemonHome:SettingKey[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$$autoImport$.html#daemonHome:sbt.SettingKey[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">daemonHome</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
@@ -579,6 +594,28 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$$autoImport$.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#generateManPages" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="generateManPages:sbt.TaskKey[Unit]"></a><a id="generateManPages:TaskKey[Unit]"></a>
       <span class="permalink">
@@ -613,8 +650,6 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
@@ -633,8 +668,6 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -797,7 +830,8 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       </span>
       
       <p class="shortcomment cmt">This method includes files and directories.</p><div class="fullcomment"><div class="comment cmt"><p>This method includes files and directories.
-</p></div><dl class="paramcmts block"><dt class="param">dirs</dt><dd class="cmt"><p>- directories to map</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxMappingDSL.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxMappingDSL">LinuxMappingDSL</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">dirs</dt><dd class="cmt"><p>
+  directories to map</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxMappingDSL.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxMappingDSL">LinuxMappingDSL</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -832,8 +866,6 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -852,8 +884,6 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#packageArchitecture" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -887,7 +917,9 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
         <span class="name">packageDirectoryAndContentsMapping</span><span class="params">(<span name="dirs">dirs: (<a href="../../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>, <span class="extype" name="scala.Predef.String">String</span>)*</span>)</span><span class="result">: <a href="LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a></span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">dirs</dt><dd class="cmt"><p>- directories to map</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxMappingDSL.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxMappingDSL">LinuxMappingDSL</a></dd><dt>See also</dt><dd><span class="cmt"><p>#mapDirectoryAndContents</p></span></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">dirs</dt><dd class="cmt"><p>
+  directories to map</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxMappingDSL.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxMappingDSL">LinuxMappingDSL</a></dd><dt>See also</dt><dd><span class="cmt"><p>
+  #mapDirectoryAndContents</p></span></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxMappingDSL#packageMapping" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="packageMapping(files:(sbt.File,String)*):com.typesafe.sbt.packager.linux.LinuxPackageMapping"></a><a id="packageMapping((sbt.File,String)*):LinuxPackageMapping"></a>
       <span class="permalink">
@@ -919,7 +951,8 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
         <span class="name">packageTemplateMapping</span><span class="params">(<span name="files">files: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="params">(<span name="dir">dir: <a href="../../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a> = <span class="defval" name='<span class="name"><a href="../../../../../sbt/index.html">new File(sys.props(&quot;java.io.tmpdir&quot;))</a></span>'>...</span></span>)</span><span class="result">: <a href="LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a></span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">dir</dt><dd class="cmt"><p>- use some directory, e.g. target.value</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxMappingDSL.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxMappingDSL">LinuxMappingDSL</a></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">dir</dt><dd class="cmt"><p>
+  use some directory, e.g. target.value</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LinuxMappingDSL.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxMappingDSL">LinuxMappingDSL</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -952,6 +985,28 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$$autoImport$.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
@@ -998,62 +1053,13 @@ relevant for RPM packages as it controls the behaviour of RPM updates.</p><p>See
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$$autoImport$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li>
               </ol>
             </div>
 
         
 
-        <div class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/linux/LinuxPlugin$$autoImport$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

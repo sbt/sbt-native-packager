@@ -389,8 +389,6 @@
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.scripts.ScriptUtils#createScriptNames" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="createScriptNames(discoveredMainClasses:Seq[String]):Seq[(String,String)]"></a><a id="createScriptNames(Seq[String]):Seq[(String,String)]"></a>
@@ -407,7 +405,10 @@
         <span class="name">createScriptNames</span><span class="params">(<span name="discoveredMainClasses">discoveredMainClasses: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
       </span>
       
-      <p class="shortcomment cmt">Generates launcher script names for the specified main class names.</p><div class="fullcomment"><div class="comment cmt"><p>Generates launcher script names for the specified main class names.</p></div><dl class="paramcmts block"><dt class="param">discoveredMainClasses</dt><dd class="cmt"><p>discovered qualified main class names</p></dd><dt>returns</dt><dd class="cmt"><p>sequence of tuples: (passed in class name) -&gt; (generated script name)</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>may introduce name collisions in some corner cases</p></span></dd></dl></div>
+      <p class="shortcomment cmt">Generates launcher script names for the specified main class names.</p><div class="fullcomment"><div class="comment cmt"><p>Generates launcher script names for the specified main class names.</p></div><dl class="paramcmts block"><dt class="param">discoveredMainClasses</dt><dd class="cmt"><p>
+  discovered qualified main class names</p></dd><dt>returns</dt><dd class="cmt"><p>
+  sequence of tuples: (passed in class name) -&gt; (generated script name)</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>
+  may introduce name collisions in some corner cases</p></span></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.scripts.ScriptUtils#describeDuplicates" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="describeDuplicates(classesAndScripts:Seq[(String,String)]):Seq[String]"></a><a id="describeDuplicates(Seq[(String,String)]):Seq[String]"></a>
       <span class="permalink">
@@ -456,6 +457,28 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/ScriptUtils$.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -473,8 +496,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -494,8 +515,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -548,8 +567,6 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -568,8 +585,6 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -603,10 +618,11 @@
         <span class="name">toLowerCase</span><span class="params">(<span name="qualifiedClassName">qualifiedClassName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Converts class name to lower case, applying some heuristics
-to guess the word splitting.</p><div class="fullcomment"><div class="comment cmt"><p>Converts class name to lower case, applying some heuristics
-to guess the word splitting.</p></div><dl class="paramcmts block"><dt class="param">qualifiedClassName</dt><dd class="cmt"><p>a class name</p></dd><dt>returns</dt><dd class="cmt"><p>lower cased name with '-' between words. Dots ('.') are left as is.</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>This function can still introduce name collisions sometimes: for example,
-      both Test1Class and Test1class (note the capitalization) will end up test-1-class.</p></span></dd></dl></div>
+      <p class="shortcomment cmt">Converts class name to lower case, applying some heuristics to guess the word splitting.</p><div class="fullcomment"><div class="comment cmt"><p>Converts class name to lower case, applying some heuristics to guess the word splitting.</p></div><dl class="paramcmts block"><dt class="param">qualifiedClassName</dt><dd class="cmt"><p>
+  a class name</p></dd><dt>returns</dt><dd class="cmt"><p>
+  lower cased name with '-' between words. Dots ('.') are left as is.</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>
+  This function can still introduce name collisions sometimes: for example, both Test1Class and Test1class (note
+  the capitalization) will end up test-1-class.</p></span></dd></dl></div>
     </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
@@ -623,6 +639,28 @@ to guess the word splitting.</p></div><dl class="paramcmts block"><dt class="par
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/ScriptUtils$.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
@@ -669,28 +707,6 @@ to guess the word splitting.</p></div><dl class="paramcmts block"><dt class="par
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/ScriptUtils$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.scripts.ScriptUtils#warnOnScriptNameCollision" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="warnOnScriptNameCollision(classesAndScripts:Seq[(String,String)],log:sbt.Logger):Unit"></a><a id="warnOnScriptNameCollision(Seq[(String,String)],sbt.Logger):Unit"></a>
       <span class="permalink">
@@ -713,34 +729,7 @@ to guess the word splitting.</p></div><dl class="paramcmts block"><dt class="par
 
         
 
-        <div class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/ScriptUtils$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

@@ -1,91 +1,50 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Archetype Cheatsheet &mdash; sbt-native-packager 1.9.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archetype Cheatsheet &mdash; sbt-native-packager 1.10.0+6-67a1f969-SNAPSHOT documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=2f9a1908"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Recipes" href="../recipes/index.html" />
     <link rel="prev" title="Jlink Plugin" href="jlink_plugin.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sbt-native-packager
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            sbt-native-packager
           </a>
-
-          
-            
-            
               <div class="version">
-                1.9
+                1.10
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
@@ -233,6 +192,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#add-commands">Add Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#write-from-scratch">Write from Scratch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#init-support">Init support</a></li>
 </ul>
 </li>
 </ul>
@@ -433,96 +393,50 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">sbt-native-packager</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="index.html">Project Archetypes</a> &raquo;</li>
-        
-      <li>Archetype Cheatsheet</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Project Archetypes</a></li>
+      <li class="breadcrumb-item active">Archetype Cheatsheet</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/archetypes/cheatsheet.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="archetype-cheatsheet">
-<span id="cheatsheet"></span><h1>Archetype Cheatsheet<a class="headerlink" href="#archetype-cheatsheet" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="archetype-cheatsheet">
+<span id="cheatsheet"></span><h1>Archetype Cheatsheet<a class="headerlink" href="#archetype-cheatsheet" title="Permalink to this heading">¶</a></h1>
 <p>This is a set FAQ composed on a single page.</p>
-<div class="section" id="path-configurations">
-<h2>Path Configurations<a class="headerlink" href="#path-configurations" title="Permalink to this headline">¶</a></h2>
+<section id="path-configurations">
+<h2>Path Configurations<a class="headerlink" href="#path-configurations" title="Permalink to this heading">¶</a></h2>
 <p>This section describes where and how to configure different kind of paths settings like</p>
 <ul class="simple">
 <li><p>what is the installation location of my package</p></li>
 <li><p>where is the log directory created</p></li>
 <li><p>what is the name of my start script</p></li>
 </ul>
-<div class="section" id="quick-reference-table">
-<h3>Quick Reference Table<a class="headerlink" href="#quick-reference-table" title="Permalink to this headline">¶</a></h3>
+<section id="quick-reference-table">
+<h3>Quick Reference Table<a class="headerlink" href="#quick-reference-table" title="Permalink to this heading">¶</a></h3>
 <p>This table gives you a quick overview of the setting and the scope you should use.
 Paths which do not begin with a <code class="docutils literal notranslate"><span class="pre">/</span></code> are relative to the universal directory.
 The scopes are ordered from general to specific, so a more specific one will override
 the generic one. Only the listed scopes for a setting a relevant. Any changes in other
 scopes will have no effect!</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 42%" />
-<col style="width: 14%" />
-<col style="width: 16%" />
-<col style="width: 28%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>output path</p></th>
 <th class="head"><p>scopes</p></th>
@@ -603,9 +517,9 @@ scopes will have no effect!</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="settings">
-<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h3>
 <p>These settings configure the path behaviour</p>
 <blockquote>
 <div><dl class="simple">
@@ -621,16 +535,16 @@ scopes will have no effect!</p>
 </dd>
 </dl>
 </div></blockquote>
-</div>
-</div>
-<div class="section" id="jvm-options">
-<h2>JVM Options<a class="headerlink" href="#jvm-options" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="jvm-options">
+<h2>JVM Options<a class="headerlink" href="#jvm-options" title="Permalink to this heading">¶</a></h2>
 <p>JVM options can be added via different mechanisms. It depends on your use case which is most suitable.
 The available options are</p>
 <ul class="simple">
 <li><p>Adding via <code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code> and <code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code></p></li>
 <li><p>Providing a <code class="docutils literal notranslate"><span class="pre">application.ini</span></code> (JavaApp) or <code class="docutils literal notranslate"><span class="pre">etc-default</span></code> (JavaServer) file</p></li>
-<li><p>Set <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Universal</span></code> (JavaApp) or <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Linux</span></code> (JavaServer, linux only)</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">javaOptions</span></code> (JavaApp) or <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">javaOptions</span></code> (JavaServer, linux only)</p></li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -639,54 +553,46 @@ The available options are</p>
 - be <strong>absolute</strong> (e.g. <em>/etc/etc-default/my-config&lt;</em>) or
 - starting with <em>${app_home}/../</em> (e.g. <em>${app_home}/../conf/application.ini</em>)</p>
 </div>
-<div class="section" id="extra-defines">
-<h3>Extra Defines<a class="headerlink" href="#extra-defines" title="Permalink to this headline">¶</a></h3>
+<section id="extra-defines">
+<h3>Extra Defines<a class="headerlink" href="#extra-defines" title="Permalink to this heading">¶</a></h3>
 <p>With this approach you are altering the bash/bat script that gets executed.
 Your configuration is literally woven into it, so it applies to any archetype
 using this bashscript (app, akka app, server, …).</p>
 <p>For a bash script this could look like this.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">bashScriptExtraDefines</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;addJava &quot;-Dconfig.file=${app_home}/../conf/app.config&quot;&quot;&quot;&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">bashScriptExtraDefines</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;addJava &quot;-Dconfig.file=${app_home}/../conf/app.config&quot;&quot;&quot;&quot;</span>
 
 <span class="c1">// or more. -X options don&#39;t need to be prefixed with -J</span>
-<span class="n">bashScriptExtraDefines</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
-   <span class="s">&quot;&quot;&quot;addJava &quot;-Xms1024m&quot;&quot;&quot;&quot;</span><span class="o">,</span>
-   <span class="s">&quot;&quot;&quot;addJava &quot;-Xmx2048m&quot;&quot;&quot;&quot;</span>
-<span class="o">)</span>
+<span class="n">bashScriptExtraDefines</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span>
+<span class="w">   </span><span class="s">&quot;&quot;&quot;addJava &quot;-Xms1024m&quot;&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="s">&quot;&quot;&quot;addJava &quot;-Xmx2048m&quot;&quot;&quot;&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>For more information take a look at the <a class="reference internal" href="java_app/customize.html#add-code-to-the-start-scripts"><span class="std std-ref">according documentation</span></a>.</p>
-</div>
-<div class="section" id="file-application-ini-or-etc-default">
-<h3>File - application.ini or etc-default<a class="headerlink" href="#file-application-ini-or-etc-default" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="file-application-ini-or-etc-default">
+<h3>File - application.ini or etc-default<a class="headerlink" href="#file-application-ini-or-etc-default" title="Permalink to this heading">¶</a></h3>
 <p>Another approach would be to provide a file that is read by the bash script during execution.</p>
-<div class="section" id="java-app">
-<h4>Java App<a class="headerlink" href="#java-app" title="Permalink to this headline">¶</a></h4>
+<section id="java-app">
+<h4>Java App<a class="headerlink" href="#java-app" title="Permalink to this heading">¶</a></h4>
 <p>Create a file <code class="docutils literal notranslate"><span class="pre">src/universal/conf/application.ini</span></code> (gets automatically added to the package mappings)
 and add this to your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> inject the config location into the bashscript.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">bashScriptConfigLocation</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;${app_home}/../conf/application.ini&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">bashScriptConfigLocation</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;${app_home}/../conf/application.ini&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="java-server">
-<h4>Java Server<a class="headerlink" href="#java-server" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="java-server">
+<h4>Java Server<a class="headerlink" href="#java-server" title="Permalink to this heading">¶</a></h4>
 <p>See <a class="reference internal" href="#server-app-config"><span class="std std-ref">Server App Config - src/templates/etc-default-{systemv,systemd}</span></a></p>
-</div>
-</div>
-<div class="section" id="setting-javaoptions">
-<h3>Setting - javaOptions<a class="headerlink" href="#setting-javaoptions" title="Permalink to this headline">¶</a></h3>
-<p>The last option to set your java options is using <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Universal</span></code> (JavaApp and Server).
+</section>
+</section>
+<section id="setting-javaoptions">
+<h3>Setting - javaOptions<a class="headerlink" href="#setting-javaoptions" title="Permalink to this heading">¶</a></h3>
+<p>The last option to set your java options is using <code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">javaOptions</span></code> (JavaApp and Server).
 This will generate files according to your archetype. The following table gives you an overview what
 you can use and how things will be behave if you mix different options. Options lower in the table
 are more specific and will thus override the any previous settings (if allowed).</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 4%" />
-<col style="width: 5%" />
-<col style="width: 12%" />
-<col style="width: 5%" />
-<col style="width: 4%" />
-<col style="width: 71%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>javaOpts</p></th>
 <th class="head"><p>Scope</p></th>
@@ -737,26 +643,26 @@ are more specific and will thus override the any previous settings (if allowed).
 <td><p>None</p></td>
 <td><p>JavaServer</p></td>
 <td><p>added</p></td>
-<td><p>creates <code class="docutils literal notranslate"><span class="pre">etc-default</span></code>, appends <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Linux</span></code> and sets <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></p></td>
+<td><p>creates <code class="docutils literal notranslate"><span class="pre">etc-default</span></code>, appends <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">javaOptions</span></code> and sets <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>opts</p></td>
 <td><p>Linux</p></td>
 <td><p>Some(_)</p></td>
 <td><p>JavaServer</p></td>
 <td><p>added</p></td>
-<td><p>creates <code class="docutils literal notranslate"><span class="pre">etc-default</span></code>, appends <code class="docutils literal notranslate"><span class="pre">javaOptions</span> <span class="pre">in</span> <span class="pre">Linux</span></code> and overrides <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></p></td>
+<td><p>creates <code class="docutils literal notranslate"><span class="pre">etc-default</span></code>, appends <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">javaOptions</span></code> and overrides <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code></p></td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section" id="overriding-templates">
-<h2>Overriding Templates<a class="headerlink" href="#overriding-templates" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="overriding-templates">
+<h2>Overriding Templates<a class="headerlink" href="#overriding-templates" title="Permalink to this heading">¶</a></h2>
 <p>You can override the default template used to generate any of the scripts in
 any archetype.   Listed below are the overridable files and variables that
 you can use when generating scripts.</p>
-<div class="section" id="bat-script-src-templates-bat-template">
-<h3>Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code><a class="headerlink" href="#bat-script-src-templates-bat-template" title="Permalink to this headline">¶</a></h3>
+<section id="bat-script-src-templates-bat-template">
+<h3>Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code><a class="headerlink" href="#bat-script-src-templates-bat-template" title="Permalink to this heading">¶</a></h3>
 <p>Creating a file here will override the default template used to
 generate the <code class="docutils literal notranslate"><span class="pre">.bat</span></code> script for windows distributions.</p>
 <p><strong>Syntax</strong></p>
@@ -767,9 +673,9 @@ generate the <code class="docutils literal notranslate"><span class="pre">.bat</
 </dd>
 </dl>
 <p>You can define additional variable definitions using <code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code>.</p>
-</div>
-<div class="section" id="bash-script-src-templates-bash-template">
-<h3>Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code><a class="headerlink" href="#bash-script-src-templates-bash-template" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bash-script-src-templates-bash-template">
+<h3>Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code><a class="headerlink" href="#bash-script-src-templates-bash-template" title="Permalink to this heading">¶</a></h3>
 <p>Creating a file here will override the default template used to
 generate the BASH start script found in <code class="docutils literal notranslate"><span class="pre">bin/&lt;application&gt;</span></code> in the
 universal distribution</p>
@@ -781,9 +687,9 @@ the <code class="docutils literal notranslate"><span class="pre">bashScriptExtra
 <li><p><code class="docutils literal notranslate"><span class="pre">app_mainclass</span></code> - The main class entry point for the application.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">app_classpath</span></code> - The complete classpath for the application (in order).</p></li>
 </ul>
-</div>
-<div class="section" id="service-manager-templates">
-<h3>Service Manager Templates<a class="headerlink" href="#service-manager-templates" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-manager-templates">
+<h3>Service Manager Templates<a class="headerlink" href="#service-manager-templates" title="Permalink to this heading">¶</a></h3>
 <p>It’s also possible to override the entire script/configuration templates for your service manager.
 These templates vary by loader type. Create a file <code class="docutils literal notranslate"><span class="pre">src/templates/systemloader/$loader/$template</span></code>
 and it will be used instead.</p>
@@ -798,29 +704,30 @@ and it will be used instead.</p>
 <p><strong>Syntax</strong></p>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">${{variable_name}}</span></code> to reference variables when writing your script.  The default set of variables is:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">author</span></code> - The name of the author; defined by <code class="docutils literal notranslate"><span class="pre">maintainer</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">descr</span></code> - The short description of the service; defined by <code class="docutils literal notranslate"><span class="pre">packageSummary</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">exec</span></code> - The script/binary to execute when starting the service; defined by <code class="docutils literal notranslate"><span class="pre">executableScriptName</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">chdir</span></code> - The working directory for the service; defined by <code class="docutils literal notranslate"><span class="pre">defaultLinuxInstallLocation/(packageName</span> <span class="pre">in</span> <span class="pre">Linux)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">author</span></code> - The name of the author; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">maintainer</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">descr</span></code> - The short description of the service; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">packageSummary</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exec</span></code> - The script/binary to execute when starting the service; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">executableScriptName</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chdir</span></code> - The working directory for the service; defined by <code class="docutils literal notranslate"><span class="pre">defaultLinuxInstallLocation/(Linux</span> <span class="pre">/</span> <span class="pre">packageName)</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">retries</span></code> - The number of times to retry starting the server; defined to be the constant <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">retryTimeout</span></code> - The amount of time to wait before trying to run the server; defined to be the constant <code class="docutils literal notranslate"><span class="pre">60</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">app_name</span></code> - The name of the application (linux friendly); defined by <code class="docutils literal notranslate"><span class="pre">packageName</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">app_name</span></code> - The name of the application (linux friendly); defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">packageName</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">version</span></code> - The software version; defined by <code class="docutils literal notranslate"><span class="pre">version</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">daemon_user</span></code> - The user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonUser</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">daemon_user_uid</span></code> - The user ID of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonUserUid</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">daemon_group</span></code> - The group of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonGroup</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">daemon_group_gid</span></code> - The group ID of the group of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonGroupGid</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">daemon_shell</span></code> - The shell of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">daemonShell</span> <span class="pre">in</span> <span class="pre">Linux</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">term_timeout</span></code> - The timeout for the service to respond to a TERM signal; defined by <code class="docutils literal notranslate"><span class="pre">termTimeout</span> <span class="pre">in</span> <span class="pre">Linux</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">60</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">kill_timeout</span></code> - The timeout for the service to respond to a KILL signal; defined by <code class="docutils literal notranslate"><span class="pre">killTimeout</span> <span class="pre">in</span> <span class="pre">Linux</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">30</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_user</span></code> - The user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">daemonUser</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_user_uid</span></code> - The user ID of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">daemonUserUid</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_group</span></code> - The group of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">daemonGroup</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_group_gid</span></code> - The group ID of the group of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">daemonGroupGid</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_shell</span></code> - The shell of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">daemonShell</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daemon_home</span></code> - The home directory of the user that the service should run as; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">daemonHome</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">term_timeout</span></code> - The timeout for the service to respond to a TERM signal; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">termTimeout</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">60</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kill_timeout</span></code> - The timeout for the service to respond to a KILL signal; defined by <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">/</span> <span class="pre">killTimeout</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">30</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">start_facilities</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Required-Start:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">stop_facilities</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Required-Stop:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">start_runlevels</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Default-Start:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">stop_runlevels</span></code> - Intended for the <code class="docutils literal notranslate"><span class="pre">Default-Stop:</span></code> line in the <code class="docutils literal notranslate"><span class="pre">INIT</span> <span class="pre">INFO</span></code> block. Its value is automatically generated with respect to the chosen system loader.</p></li>
 </ul>
-</div>
-<div class="section" id="server-app-config-src-templates-etc-default-systemv-systemd">
-<span id="server-app-config"></span><h3>Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code><a class="headerlink" href="#server-app-config-src-templates-etc-default-systemv-systemd" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="server-app-config-src-templates-etc-default-systemv-systemd">
+<span id="server-app-config"></span><h3>Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code><a class="headerlink" href="#server-app-config-src-templates-etc-default-systemv-systemd" title="Permalink to this heading">¶</a></h3>
 <p>Creating a file here will override the <code class="docutils literal notranslate"><span class="pre">/etc/default/&lt;application&gt;</span></code> template
 for the corresponding loader.</p>
 <p>The file <cite>/etc/default/&lt;application&gt;</cite> is used as follows given the loader:</p>
@@ -834,64 +741,39 @@ description of the expected file format).</p></li>
 with both systemv and systemd loaders; if such is the case, you can specify a
 single file at <cite>src/templates/etc-default</cite> which will serve as an override for
 all loaders.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../recipes/index.html" class="btn btn-neutral float-right" title="Recipes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="jlink_plugin.html" class="btn btn-neutral float-left" title="Jlink Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="jlink_plugin.html" class="btn btn-neutral float-left" title="Jlink Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../recipes/index.html" class="btn btn-neutral float-right" title="Recipes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2014 sbt-native-packager team
-
-    </p>
+    <p>&#169; Copyright 2014 sbt-native-packager team.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -273,10 +273,13 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This object provides methods to generate scripts from templates. This involves</p><ul><li>procesing - replacing a placeholders with actual values</li><li>TODO: validating - check the script if there are no remaining placeholders</li></ul></div><dl class="attributes block"> <div class="block">Examples:
-               <ol><li class="cmt"><p>a bash script can be generated like this</p><pre><span class="kw">val</span> template = getClass getResource <span class="lit">"template-your-bashscript"</span>
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This object provides methods to generate scripts from templates. This involves</p><ol class="decimal"><li>procesing - replacing a placeholders with actual values</li><li>TODO: validating - check the script if there are no remaining placeholders
+</li></ol></div><dl class="attributes block"> <div class="block">Examples:
+               <ol><li class="cmt"><p>
+  a bash script can be generated like this</p><pre><span class="kw">val</span> template = getClass getResource <span class="lit">"template-your-bashscript"</span>
 <span class="kw">val</span> replacements = <span class="std">Seq</span>(<span class="lit">"name"</span> -&gt; <span class="lit">"your-app"</span>, <span class="lit">"custom"</span> -&gt; <span class="lit">"1"</span>)
-TemplateWriter.generateScript(template, replacements)</pre></li>, <li class="cmt"><p>a bat script can be generated like this</p><pre><span class="kw">val</span> template = getClass getResource <span class="lit">"template-your-batscript"</span>
+TemplateWriter.generateScript(template, replacements)</pre></li>, <li class="cmt"><p>
+  a bat script can be generated like this</p><pre><span class="kw">val</span> template = getClass getResource <span class="lit">"template-your-batscript"</span>
 <span class="kw">val</span> replacements = <span class="std">Seq</span>(<span class="lit">"name"</span> -&gt; <span class="lit">"your-app"</span>, <span class="lit">"custom"</span> -&gt; <span class="lit">"1"</span>)
 TemplateWriter.generateScript(template, replacements, <span class="lit">"\r\n"</span>, TemplateWriter.batFriendlyKeySurround)</pre><p>TODO move out of archetypes package</p></li></ol>
             </div></dl><div class="toggleContainer block">
@@ -455,8 +458,6 @@ TemplateWriter.generateScript(template, replacements, <span class="lit">"\r\n"</
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.TemplateWriter#defaultCharset" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="defaultCharset:java.nio.charset.Charset"></a><a id="defaultCharset:Charset"></a>
@@ -506,6 +507,28 @@ TemplateWriter.generateScript(template, replacements, <span class="lit">"\r\n"</
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/archetypes/TemplateWriter$.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.TemplateWriter#generateScript" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="generateScript(source:java.net.URL,replacements:Seq[(String,String)],eol:String,keySurround:String=&gt;String,charset:java.nio.charset.Charset):String"></a><a id="generateScript(URL,Seq[(String,String)],String,(String)⇒String,Charset):String"></a>
       <span class="permalink">
@@ -537,7 +560,9 @@ TemplateWriter.generateScript(template, replacements, <span class="lit">"\r\n"</
         <span class="name">generateScriptFromLines</span><span class="params">(<span name="lines">lines: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="keySurround">keySurround: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="#bashFriendlyKeySurround(key:String):String">bashFriendlyKeySurround</a></span></span></span>, <span name="charset">charset: <span class="extype" name="java.nio.charset.Charset">Charset</span> = <span class="symbol"><span class="name"><a href="#defaultCharset:java.nio.charset.Charset">defaultCharset</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">keySurround</dt><dd class="cmt"><p>defaults to bashFriendlyKeySurround</p></dd><dt class="param">charset</dt><dd class="cmt"><p>defaults to UTF-8</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">keySurround</dt><dd class="cmt"><p>
+  defaults to bashFriendlyKeySurround</p></dd><dt class="param">charset</dt><dd class="cmt"><p>
+  defaults to UTF-8</p></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.TemplateWriter#generateScriptFromString" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="generateScriptFromString(source:String,replacements:Seq[(String,String)],eol:String,keySurround:String=&gt;String,charset:java.nio.charset.Charset):String"></a><a id="generateScriptFromString(String,Seq[(String,String)],String,(String)⇒String,Charset):String"></a>
       <span class="permalink">
@@ -572,8 +597,6 @@ TemplateWriter.generateScript(template, replacements, <span class="lit">"\r\n"</
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
@@ -592,8 +615,6 @@ TemplateWriter.generateScript(template, replacements, <span class="lit">"\r\n"</
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -646,8 +667,6 @@ TemplateWriter.generateScript(template, replacements, <span class="lit">"\r\n"</
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -666,8 +685,6 @@ TemplateWriter.generateScript(template, replacements, <span class="lit">"\r\n"</
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -702,6 +719,28 @@ TemplateWriter.generateScript(template, replacements, <span class="lit">"\r\n"</
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/archetypes/TemplateWriter$.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
@@ -748,62 +787,13 @@ TemplateWriter.generateScript(template, replacements, <span class="lit">"\r\n"</
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/archetypes/TemplateWriter$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li>
               </ol>
             </div>
 
         
 
-        <div class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/archetypes/TemplateWriter$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

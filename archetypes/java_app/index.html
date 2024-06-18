@@ -1,91 +1,50 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Java Application Archetype &mdash; sbt-native-packager 1.9.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Java Application Archetype &mdash; sbt-native-packager 1.10.0+6-67a1f969-SNAPSHOT documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=2f9a1908"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Application and runtime configuration" href="customize.html" />
     <link rel="prev" title="Project Archetypes" href="../index.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sbt-native-packager
           
-
-          
+          <a href="../../index.html" class="icon icon-home">
+            sbt-native-packager
           </a>
-
-          
-            
-            
               <div class="version">
-                1.9
+                1.10
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../introduction.html#goals">Goals</a></li>
@@ -233,6 +192,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#add-commands">Add Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#write-from-scratch">Write from Scratch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../formats/docker.html#init-support">Init support</a></li>
 </ul>
 </li>
 </ul>
@@ -433,105 +393,65 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">sbt-native-packager</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../index.html">Project Archetypes</a> &raquo;</li>
-        
-      <li>Java Application Archetype</li>
-    
-    
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Project Archetypes</a></li>
+      <li class="breadcrumb-item active">Java Application Archetype</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../../_sources/archetypes/java_app/index.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="java-application-archetype">
-<span id="java-app-plugin"></span><h1>Java Application Archetype<a class="headerlink" href="#java-application-archetype" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="java-application-archetype">
+<span id="java-app-plugin"></span><h1>Java Application Archetype<a class="headerlink" href="#java-application-archetype" title="Permalink to this heading">¶</a></h1>
 <p>Application packaging focuses on how your application is launched (via a <code class="docutils literal notranslate"><span class="pre">bash</span></code> or <code class="docutils literal notranslate"><span class="pre">bat</span></code> script), how dependencies
 are managed and how configuration and other auxiliary files are included in the final distributable. The
 <em>JavaAppPackaging</em> archetype provides a default application structure and executable scripts to launch your application.</p>
 <p>Additionally there is <a class="reference internal" href="../java_server/index.html#java-server-plugin"><span class="std std-ref">Java Server Application Archetype</span></a> which provides platform-specific functionality for installing your
 application in server environments. You can customize specific debian and rpm packaging for a variety of platforms and
 init service loaders including Upstart, System V and SystemD.</p>
-<div class="section" id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h2>
 <p>The <cite>JavaAppPackaging</cite> archetype contains the following features.</p>
 <ul class="simple">
 <li><p>Default application mappings (no fat jar)</p></li>
 <li><p>Executable bash/bat script</p></li>
 </ul>
-</div>
-<div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
 <p>Enable the <code class="docutils literal notranslate"><span class="pre">JavaAppPackaging</span></code> plugin in your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> with</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JavaAppPackaging</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This archetype will use the <code class="docutils literal notranslate"><span class="pre">mainClass</span></code> setting of sbt (automatically discovers your main class) to generate
 <code class="docutils literal notranslate"><span class="pre">bat</span></code> and <code class="docutils literal notranslate"><span class="pre">bin</span></code> scripts for your project. In case you have multiple main classes you can point to a specific
 class with the following setting:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;foo.bar.Main&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mainClass</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;foo.bar.Main&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In order to generate launch scripts only for specified <code class="docutils literal notranslate"><span class="pre">mainClass</span></code>, you will need to discard automatically found main classes:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">discoveredMainClasses</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">discoveredMainClasses</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>To create a staging version of your package call</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt stage
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>stage
 </pre></div>
 </div>
 <p>The universal layout produced in your <code class="docutils literal notranslate"><span class="pre">target/universal/stage</span></code> folder looks like the following:</p>
@@ -544,7 +464,7 @@ lib/
 </div>
 <p>You can add additional files to the project by placing things in <code class="docutils literal notranslate"><span class="pre">src/windows</span></code>, <code class="docutils literal notranslate"><span class="pre">src/universal</span></code> or <code class="docutils literal notranslate"><span class="pre">src/linux</span></code> as
 needed. To see if your application runs:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> target/universal/stage
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>target/universal/stage
 ./bin/&lt;app-name&gt;
 </pre></div>
 </div>
@@ -552,16 +472,16 @@ needed. To see if your application runs:</p>
 java app archetype! For example you can build <em>zips</em>, <em>deb</em> or <em>docker</em> by just enabling <code class="docutils literal notranslate"><span class="pre">JavaAppPackaging</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt
 <span class="c1"># create a zip file</span>
-&gt; universal:packageBin
+&gt;<span class="w"> </span>Universal<span class="w"> </span>/<span class="w"> </span>packageBin
 <span class="c1"># create a deb file</span>
-&gt; debian:packageBin
+&gt;<span class="w"> </span>Debian<span class="w"> </span>/<span class="w"> </span>packageBin
 <span class="c1"># publish a docker image to your local registry</span>
-&gt; docker:publishLocal
+&gt;<span class="w"> </span>Docker<span class="w"> </span>/<span class="w"> </span>publishLocal
 </pre></div>
 </div>
-</div>
-<div class="section" id="settings-tasks">
-<h2>Settings &amp; Tasks<a class="headerlink" href="#settings-tasks" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="settings-tasks">
+<h2>Settings &amp; Tasks<a class="headerlink" href="#settings-tasks" title="Permalink to this heading">¶</a></h2>
 <p>This is a non extensive list of important settings and tasks this plugin provides. All settings
 have sensible defaults.</p>
 <blockquote>
@@ -586,9 +506,9 @@ have sensible defaults.</p>
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="start-script-options">
-<h2>Start script options<a class="headerlink" href="#start-script-options" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="start-script-options">
+<h2>Start script options<a class="headerlink" href="#start-script-options" title="Permalink to this heading">¶</a></h2>
 <p>The start script provides a few standard options you can pass:</p>
 <blockquote>
 <div><dl class="simple">
@@ -621,17 +541,17 @@ E.g. <code class="docutils literal notranslate"><span class="pre">-J-Xmx1024</sp
 </div></blockquote>
 <p>In order to pass <strong>application arguments</strong> you need to separate the jvm arguments from the
 application arguments with <code class="docutils literal notranslate"><span class="pre">--</span></code>. For example</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./bin/my-app -Dconfig.resource<span class="o">=</span>prod.conf -- -appParam1 -appParam2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./bin/my-app<span class="w"> </span>-Dconfig.resource<span class="o">=</span>prod.conf<span class="w"> </span>--<span class="w"> </span>-appParam1<span class="w"> </span>-appParam2
 </pre></div>
 </div>
-</div>
-<div class="section" id="multiple-applications">
-<h2>Multiple Applications<a class="headerlink" href="#multiple-applications" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="multiple-applications">
+<h2>Multiple Applications<a class="headerlink" href="#multiple-applications" title="Permalink to this heading">¶</a></h2>
 <p>If you have multiple main classes then the <code class="docutils literal notranslate"><span class="pre">JavaAppPackaging</span></code> archetype provides you with two different ways of
 generating start scripts.</p>
 <ol class="arabic simple">
-<li><p>A start script for each entry point. This is the default behaviour, when no <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> is set</p></li>
-<li><p>One start script for the defined <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> and forwarding scripts for all other main classes.</p></li>
+<li><p>A start script for each entry point. This is the default behaviour, when no <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">mainClass</span></code> is set</p></li>
+<li><p>One start script for the defined <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">mainClass</span></code> and forwarding scripts for all other main classes.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -640,9 +560,9 @@ generating start scripts.</p>
 A <em>forwarder script</em> only overrides this attribute and forwards all other parameters to the normal start script.</p>
 <p>All customization you implemented for the main script will also apply for the forwarder scripts.</p>
 </div>
-<div class="section" id="multiple-start-scripts">
-<h3>Multiple start scripts<a class="headerlink" href="#multiple-start-scripts" title="Permalink to this headline">¶</a></h3>
-<p>No configuration is needed. SBT sets <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> automatically to <code class="docutils literal notranslate"><span class="pre">None</span></code> if multiple main classes are
+<section id="multiple-start-scripts">
+<h3>Multiple start scripts<a class="headerlink" href="#multiple-start-scripts" title="Permalink to this heading">¶</a></h3>
+<p>No configuration is needed. SBT sets <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">mainClass</span></code> automatically to <code class="docutils literal notranslate"><span class="pre">None</span></code> if multiple main classes are
 discovered.</p>
 <p><strong>Example:</strong></p>
 <p>For two main classes <code class="docutils literal notranslate"><span class="pre">com.example.FooMain</span></code> and <code class="docutils literal notranslate"><span class="pre">com.example.BarMain</span></code> <code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">stage</span></code> will generate these scripts:</p>
@@ -653,18 +573,18 @@ discovered.</p>
   foo-main.bat
 </pre></div>
 </div>
-</div>
-<div class="section" id="single-start-script-with-forwarders">
-<h3>Single start script with forwarders<a class="headerlink" href="#single-start-script-with-forwarders" title="Permalink to this headline">¶</a></h3>
-<p>Generates a single start script for the defined main class in <code class="docutils literal notranslate"><span class="pre">mainClass</span> <span class="pre">in</span> <span class="pre">Compile</span></code> and forwarding scripts for all
-other <code class="docutils literal notranslate"><span class="pre">discoveredMainClasses</span> <span class="pre">in</span> <span class="pre">Compile</span></code>. The forwarder scripts call the defined start script and set the <code class="docutils literal notranslate"><span class="pre">-main</span></code>
+</section>
+<section id="single-start-script-with-forwarders">
+<h3>Single start script with forwarders<a class="headerlink" href="#single-start-script-with-forwarders" title="Permalink to this heading">¶</a></h3>
+<p>Generates a single start script for the defined main class in <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">mainClass</span></code> and forwarding scripts for all
+other <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">discoveredMainClasses</span></code>. The forwarder scripts call the defined start script and set the <code class="docutils literal notranslate"><span class="pre">-main</span></code>
 parameter to the concrete main class.</p>
 <p>The start script name uses the <code class="docutils literal notranslate"><span class="pre">executableScriptName</span></code> setting for its name. The forwarder scripts use a simplified
 version of the class name.</p>
 <p><strong>Example:</strong></p>
 <p>The <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> has an explicit main class set.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;my-project&quot;</span>
-<span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;com.example.FooMain&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-project&quot;</span>
+<span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mainClass</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;com.example.FooMain&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For two main classes <code class="docutils literal notranslate"><span class="pre">com.example.FooMain</span></code> and <code class="docutils literal notranslate"><span class="pre">com.example.BarMain</span></code> <code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">stage</span></code> will generate these scripts:</p>
@@ -676,9 +596,9 @@ version of the class name.</p>
 </pre></div>
 </div>
 <p>Now you can package your application as usual, but with multiple start scripts.</p>
-</div>
-<div class="section" id="a-note-on-script-names">
-<h3>A note on script names<a class="headerlink" href="#a-note-on-script-names" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="a-note-on-script-names">
+<h3>A note on script names<a class="headerlink" href="#a-note-on-script-names" title="Permalink to this heading">¶</a></h3>
 <p>When this plugin generates script names from main class names, it tries to generate readable and unique names:</p>
 <ol class="arabic">
 <li><p>An heuristic is used to split the fully qualified class names into words:</p>
@@ -713,10 +633,10 @@ pkg-3_test-class
 </ol>
 <p>Please note that in some corner cases this may result in multiple scripts with the same name
 in the resulting archive, but it is not expected to happen in normal circumstances.</p>
-</div>
-</div>
-<div class="section" id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="customize">
+<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="customize.html">Application and runtime configuration</a><ul>
@@ -739,63 +659,38 @@ in the resulting archive, but it is not expected to happen in normal circumstanc
 <li class="toctree-l1"><a class="reference internal" href="customize.html#overriding-templates-bash-bat">Overriding Templates (Bash/Bat)</a></li>
 </ul>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="customize.html" class="btn btn-neutral float-right" title="Application and runtime configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../index.html" class="btn btn-neutral float-left" title="Project Archetypes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Project Archetypes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="customize.html" class="btn btn-neutral float-right" title="Application and runtime configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2014 sbt-native-packager team
-
-    </p>
+    <p>&#169; Copyright 2014 sbt-native-packager team.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

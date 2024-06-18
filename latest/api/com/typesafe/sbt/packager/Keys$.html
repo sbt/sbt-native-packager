@@ -276,7 +276,7 @@
         <a title="This package contains stanard validators that can be used by format and archetype plugins." href="validation/index.html"><span class="name">validation</span></a>
       </span>
       
-      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4> validation </h4><p>This package contains stanard validators that can be used by format and archetype plugins.
+      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4>validation</h4><p>This package contains stanard validators that can be used by format and archetype plugins.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.windows" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="windows"></a><a id="windows:windows"></a>
@@ -316,8 +316,8 @@
                         <a href="NativePackagerKeys.html" title="General purpose keys for the native packager">NativePackagerKeys</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="object" href="SettingsHelper$.html" title="TODO write tests for the SettingsHelper TODO document methods properly TODO document the sbt internal stuff that is used"></a>
-                        <a href="SettingsHelper$.html" title="TODO write tests for the SettingsHelper TODO document methods properly TODO document the sbt internal stuff that is used">SettingsHelper</a>
+                        <a class="object" href="SettingsHelper$.html" title=""></a>
+                        <a href="SettingsHelper$.html" title="">SettingsHelper</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="object" href="Stager$.html" title=""></a>
@@ -330,6 +330,10 @@
                         <span class="separator"></span>
                         <a class="object" href="permissions$.html" title="Converts a octal unix permission representation into a java PosiFilePermissions compatible string."></a>
                         <a href="permissions$.html" title="Converts a octal unix permission representation into a java PosiFilePermissions compatible string.">permissions</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="sourceDateEpoch$.html" title=""></a>
+                        <a href="sourceDateEpoch$.html" title="">sourceDateEpoch</a>
                       </li>
               </ul>
             </div>
@@ -358,9 +362,9 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This Keys object can be used for</p><ul><li>non autoplugin builds</li><li>import single keys, which are not inside the autoImport</li></ul><h4> Non autoplugin builds </h4><pre><span class="kw">import</span> com.typesafe.sbt.packager.Keys._
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This Keys object can be used for</p><ul><li>non autoplugin builds</li><li>import single keys, which are not inside the autoImport</li></ul><h4>Non autoplugin builds</h4><pre><span class="kw">import</span> com.typesafe.sbt.packager.Keys._
 
-packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre>NativePackagerKeys.packageName := <span class="lit">""</span></pre></div><div class="toggleContainer block">
+packageName := <span class="lit">""</span></pre><h4>autoplugin builds</h4><pre>NativePackagerKeys.packageName := <span class="lit">""</span></pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -696,8 +700,6 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.universal.UniversalKeys#containerBuildImage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="containerBuildImage:sbt.TaskKey[Option[String]]"></a><a id="containerBuildImage:TaskKey[Option[String]]"></a>
@@ -744,6 +746,22 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
       </span>
       <span class="symbol">
         <span class="name">daemonGroupGid</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="linux/LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#daemonHome" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="daemonHome:sbt.SettingKey[String]"></a><a id="daemonHome:SettingKey[String]"></a>
+      <span class="permalink">
+      <a href="../../../../com/typesafe/sbt/packager/Keys$.html#daemonHome:sbt.SettingKey[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">daemonHome</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="linux/LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
@@ -1323,6 +1341,22 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="docker/DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">DockerKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerKeys#dockerBuildEnvVars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dockerBuildEnvVars:sbt.SettingKey[Map[String,String]]"></a><a id="dockerBuildEnvVars:SettingKey[Map[String,String]]"></a>
+      <span class="permalink">
+      <a href="../../../../com/typesafe/sbt/packager/Keys$.html#dockerBuildEnvVars:sbt.SettingKey[Map[String,String]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dockerBuildEnvVars</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="docker/DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">DockerKeys</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerKeys#dockerBuildOptions" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dockerBuildOptions:sbt.SettingKey[Seq[String]]"></a><a id="dockerBuildOptions:SettingKey[Seq[String]]"></a>
       <span class="permalink">
@@ -1659,6 +1693,28 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="linux/LinuxKeys.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxKeys">LinuxKeys</a></dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../com/typesafe/sbt/packager/Keys$.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.debian.DebianKeys#genChanges" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="genChanges:sbt.TaskKey[sbt.File]"></a><a id="genChanges:TaskKey[sbt.File]"></a>
       <span class="permalink">
@@ -1709,8 +1765,6 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
@@ -1729,8 +1783,6 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -2119,8 +2171,6 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -2139,8 +2189,6 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.linux.LinuxKeys#packageArchitecture" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -3006,11 +3054,7 @@ packageName := <span class="lit">""</span></pre><h4> autoplugin builds </h4><pre
         <span class="name">validatePackage</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<span class="extype" name="scala.Unit">Unit</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">A task that implements various validations for a format.</p><div class="fullcomment"><div class="comment cmt"><p>A task that implements various validations for a format.
-Example usage:
-- <code>sbt universal:packageBin::validatePackage</code>
-- <code>sbt debian:packageBin::validatePackage</code></p><p>Each format should implement it's own validate.
-Implemented in #1026
+      <p class="shortcomment cmt">A task that implements various validations for a format.</p><div class="fullcomment"><div class="comment cmt"><p>A task that implements various validations for a format. Example usage:</p><ul><li><code>sbt universal:packageBin::validatePackage</code></li><li><code>sbt debian:packageBin::validatePackage</code></li></ul><p>Each format should implement it's own validate. Implemented in #1026
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="validation/ValidationKeys.html" class="extype" name="com.typesafe.sbt.packager.validation.ValidationKeys">ValidationKeys</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.validation.ValidationKeys#validatePackageValidators" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validatePackageValidators:sbt.TaskKey[Seq[com.typesafe.sbt.packager.validation.Validation.Validator]]"></a><a id="validatePackageValidators:TaskKey[Seq[Validator]]"></a>
@@ -3028,6 +3072,28 @@ Implemented in #1026
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="validation/ValidationKeys.html" class="extype" name="com.typesafe.sbt.packager.validation.ValidationKeys">ValidationKeys</a></dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../com/typesafe/sbt/packager/Keys$.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
@@ -3072,28 +3138,6 @@ Implemented in #1026
     </span>)</span>
               
                 <span class="name">@native</span><span class="args">()</span>
-              
-        </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/Keys$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
               
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.windows.WindowsKeys#wixConfig" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -3362,30 +3406,6 @@ Implemented in #1026
                 <span class="name">@deprecated</span>
               
         </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 1.0.3)</i> Use generic maintainerScript task instead</p></dd></dl></div>
-    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/Keys$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.rpm.RpmKeys#rpmDaemonLogFile" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="rpmDaemonLogFile:sbt.SettingKey[String]"></a><a id="rpmDaemonLogFile:SettingKey[String]"></a>
       <span class="permalink">

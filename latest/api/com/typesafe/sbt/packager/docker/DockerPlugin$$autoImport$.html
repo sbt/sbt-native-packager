@@ -164,13 +164,14 @@
         <a title="This plugin helps you build docker containers." href="DockerPlugin$.html"><span class="name">DockerPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
       </span>
       
-      <p class="shortcomment cmt">This plugin helps you build docker containers.</p><div class="fullcomment"><div class="comment cmt"><h4> Docker Plugin </h4><p>This plugin helps you build docker containers.</p><h4> Configuration </h4><p>In order to configure this plugin take a look at the available <a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">com.typesafe.sbt.packager.docker.DockerKeys</a></p><h4> Requirements </h4><p>You need docker to have docker installed on your system and be able to execute commands.
-Check with a single command:</p><pre>docker version</pre><p>Future versions of the Docker Plugin may use the REST API, so you don't need docker installed
-locally.
+      <p class="shortcomment cmt">This plugin helps you build docker containers.</p><div class="fullcomment"><div class="comment cmt"><h4>Docker Plugin</h4><p>This plugin helps you build docker containers.</p><h4>Configuration</h4><p>In order to configure this plugin take a look at the available <a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">com.typesafe.sbt.packager.docker.DockerKeys</a></p><h4>Requirements</h4><p>You need docker to have docker installed on your system and be able to execute commands. Check with a single
+command:</p><pre>docker version</pre><p>Future versions of the Docker Plugin may use the REST API, so you don't need docker installed locally.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager.docker">docker</a></dd><div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DockerPlugin)</pre></li></ol>
-            </div><dt>Note</dt><dd><span class="cmt"><p>this plugin is not intended to build very customizable docker images, but turn your mappings
-configuration in a docker image with almost no <i>any</i> configuration.</p></span></dd></dl></div>
+               <ol><li class="cmt"><p>
+  Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DockerPlugin)</pre></li></ol>
+            </div><dt>Note</dt><dd><span class="cmt"><p>
+  this plugin is not intended to build very customizable docker images, but turn your mappings configuration in a
+  docker image with almost no <i>any</i> configuration.</p></span></dd></dl></div>
     </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="object" href="" title=""></a>
@@ -379,8 +380,6 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
               
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerKeysEx#dockerAdditionalPermissions" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dockerAdditionalPermissions:sbt.TaskKey[Seq[(com.typesafe.sbt.packager.docker.DockerChmodType,String)]]"></a><a id="dockerAdditionalPermissions:TaskKey[Seq[(DockerChmodType,String)]]"></a>
@@ -494,6 +493,38 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">DockerKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerKeys#dockerBuildEnvVars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dockerBuildEnvVars:sbt.SettingKey[Map[String,String]]"></a><a id="dockerBuildEnvVars:SettingKey[Map[String,String]]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPlugin$$autoImport$.html#dockerBuildEnvVars:sbt.SettingKey[Map[String,String]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dockerBuildEnvVars</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">DockerKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerKeysEx#dockerBuildInit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dockerBuildInit:sbt.SettingKey[Boolean]"></a><a id="dockerBuildInit:SettingKey[Boolean]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPlugin$$autoImport$.html#dockerBuildInit:sbt.SettingKey[Boolean]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dockerBuildInit</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Boolean">Boolean</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DockerKeysEx</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerKeys#dockerBuildOptions" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dockerBuildOptions:sbt.SettingKey[Seq[String]]"></a><a id="dockerBuildOptions:SettingKey[Seq[String]]"></a>
       <span class="permalink">
@@ -510,6 +541,38 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DockerKeys.html" class="extype" name="com.typesafe.sbt.packager.docker.DockerKeys">DockerKeys</a></dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerKeysEx#dockerBuildkitEnabled" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dockerBuildkitEnabled:sbt.TaskKey[Boolean]"></a><a id="dockerBuildkitEnabled:TaskKey[Boolean]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPlugin$$autoImport$.html#dockerBuildkitEnabled:sbt.TaskKey[Boolean]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dockerBuildkitEnabled</span><span class="result">: <span class="extype" name="sbt.TaskKey">TaskKey</span>[<span class="extype" name="scala.Boolean">Boolean</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DockerKeysEx</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.docker.DockerKeysEx#dockerBuildxPlatforms" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dockerBuildxPlatforms:sbt.SettingKey[Seq[String]]"></a><a id="dockerBuildxPlatforms:SettingKey[Seq[String]]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPlugin$$autoImport$.html#dockerBuildxPlatforms:sbt.SettingKey[Seq[String]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dockerBuildxPlatforms</span><span class="result">: <span class="extype" name="sbt.SettingKey">SettingKey</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DockerKeysEx</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.docker.DockerKeysEx#dockerChmodType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dockerChmodType:sbt.SettingKey[com.typesafe.sbt.packager.docker.DockerChmodType]"></a><a id="dockerChmodType:SettingKey[DockerChmodType]"></a>
       <span class="permalink">
@@ -862,6 +925,28 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPlugin$$autoImport$.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -879,8 +964,6 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -900,8 +983,6 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -954,8 +1035,6 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
-              
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
@@ -974,8 +1053,6 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
-              
-                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -1010,6 +1087,28 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPlugin$$autoImport$.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
@@ -1056,28 +1155,6 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPlugin$$autoImport$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li>
               </ol>
             </div>
@@ -1105,30 +1182,6 @@ configuration in a docker image with almost no <i>any</i> configuration.</p></sp
                 <span class="name">@deprecated</span>
               
         </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 1.7.1)</i> Use dockerGroupLayers instead</p></dd></dl></div>
-    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../../com/typesafe/sbt/packager/docker/DockerPlugin$$autoImport$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: ">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-                <span class="name">@Deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
     </li></ol>
             </div>
         </div>

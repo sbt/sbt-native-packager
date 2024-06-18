@@ -220,13 +220,12 @@
         <a title="This is the top level plugin for the sbt native packager." href="SbtNativePackager$.html"><span class="name">SbtNativePackager</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is the top level plugin for the sbt native packager.</p><div class="fullcomment"><div class="comment cmt"><h4> SBT Native Packager Plugin </h4><p>This is the top level plugin for the sbt native packager.
-You don't have to enable this by yourself, instead we recommend
-using an archetype for this.</p><p>Currently you can choose between</p><ul><li>JavaAppPackaging</li><li>JavaServerPackaging</li><li>AkkaAppPackging</li></ul><h4> Configuration </h4><p>The are a few settings you should set if you want to build package
-no matter what format.</p><pre>maintainer := <span class="lit">"Your name &lt;your.name@your-company.org&gt;"</span>
+      <p class="shortcomment cmt">This is the top level plugin for the sbt native packager.</p><div class="fullcomment"><div class="comment cmt"><h4>SBT Native Packager Plugin</h4><p>This is the top level plugin for the sbt native packager. You don't have to enable this by yourself, instead we
+recommend using an archetype for this.</p><p>Currently you can choose between</p><ul><li>JavaAppPackaging</li><li>JavaServerPackaging</li><li>AkkaAppPackging</li></ul><h4>Configuration</h4><p>The are a few settings you should set if you want to build package no matter what format.</p><pre>maintainer := <span class="lit">"Your name &lt;your.name@your-company.org&gt;"</span>
 packageDescription := <span class="lit">"A short description of your application"</span></pre><p>For all other general settings take a look at <a href="packager/NativePackagerKeys.html" class="extype" name="com.typesafe.sbt.packager.NativePackagerKeys">com.typesafe.sbt.packager.NativePackagerKeys</a>
 </p></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(SbtNativePackager)</pre></li></ol>
+               <ol><li class="cmt"><p>
+  Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(SbtNativePackager)</pre></li></ol>
             </div></dl></div>
     </li>
               </ol>

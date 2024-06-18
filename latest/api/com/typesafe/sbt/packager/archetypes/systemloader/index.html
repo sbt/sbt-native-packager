@@ -404,7 +404,11 @@
         <span class="name">startScriptMapping</span><span class="params">(<span name="scriptName">scriptName: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="script">script: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>]</span>, <span name="location">location: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="isConf">isConf: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../linux/LinuxPackageMapping.html" class="extype" name="com.typesafe.sbt.packager.linux.LinuxPackageMapping">LinuxPackageMapping</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Create the linuxPackageMapping for the systemloader start-script/conffile</p><div class="fullcomment"><div class="comment cmt"><p>Create the linuxPackageMapping for the systemloader start-script/conffile</p></div><dl class="paramcmts block"><dt class="param">scriptName</dt><dd class="cmt"><p>- optional name from <code>linuxStartScriptName.value</code></p></dd><dt class="param">script</dt><dd class="cmt"><p>- file with contents from <code> linuxMakeStartScript.value</code></p></dd><dt class="param">location</dt><dd class="cmt"><p>- target destination from <code>defaultLinuxStartScriptLocation.value</code></p></dd><dt class="param">isConf</dt><dd class="cmt"><p>- if the start script should be registered as a config file</p></dd></dl></div>
+      <p class="shortcomment cmt">Create the linuxPackageMapping for the systemloader start-script/conffile</p><div class="fullcomment"><div class="comment cmt"><p>Create the linuxPackageMapping for the systemloader start-script/conffile</p></div><dl class="paramcmts block"><dt class="param">scriptName</dt><dd class="cmt"><p>
+  optional name from <code>linuxStartScriptName.value</code></p></dd><dt class="param">script</dt><dd class="cmt"><p>
+  file with contents from <code> linuxMakeStartScript.value</code></p></dd><dt class="param">location</dt><dd class="cmt"><p>
+  target destination from <code>defaultLinuxStartScriptLocation.value</code></p></dd><dt class="param">isConf</dt><dd class="cmt"><p>
+  if the start script should be registered as a config file</p></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ServerLoader"></a><a id="ServerLoader:ServerLoader"></a>
       <span class="permalink">
@@ -421,7 +425,8 @@
       </span>
       
       <p class="shortcomment cmt">Stores the available types of server loaders.</p><div class="fullcomment"><div class="comment cmt"><p>Stores the available types of server loaders.
-</p></div><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>not all packaging systems support all server loaders</p></span></dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>
+  not all packaging systems support all server loaders</p></span></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.systemloader.SystemVPlugin" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="SystemVPlugin"></a><a id="SystemVPlugin:SystemVPlugin"></a>
       <span class="permalink">

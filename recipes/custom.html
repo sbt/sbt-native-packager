@@ -1,91 +1,50 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Custom Package Formats &mdash; sbt-native-packager 1.9.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Package Formats &mdash; sbt-native-packager 1.10.0+6-67a1f969-SNAPSHOT documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=2f9a1908"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Dealing with long classpaths" href="longclasspath.html" />
     <link rel="prev" title="Recipes" href="index.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sbt-native-packager
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            sbt-native-packager
           </a>
-
-          
-            
-            
               <div class="version">
-                1.9
+                1.10
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#goals">Goals</a></li>
@@ -233,6 +192,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#add-commands">Add Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#write-from-scratch">Write from Scratch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#busybox-ash-support">Busybox/Ash Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../formats/docker.html#init-support">Init support</a></li>
 </ul>
 </li>
 </ul>
@@ -433,76 +393,36 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">sbt-native-packager</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="index.html">Recipes</a> &raquo;</li>
-        
-      <li>Custom Package Formats</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Recipes</a></li>
+      <li class="breadcrumb-item active">Custom Package Formats</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/recipes/custom.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="custom-package-formats">
-<span id="custom"></span><h1>Custom Package Formats<a class="headerlink" href="#custom-package-formats" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="custom-package-formats">
+<span id="custom"></span><h1>Custom Package Formats<a class="headerlink" href="#custom-package-formats" title="Permalink to this heading">¶</a></h1>
 <p>This section provides an overview of different packaging flavors.</p>
-<div class="section" id="sbt-assembly">
-<h2>SBT Assembly<a class="headerlink" href="#sbt-assembly" title="Permalink to this headline">¶</a></h2>
+<section id="sbt-assembly">
+<h2>SBT Assembly<a class="headerlink" href="#sbt-assembly" title="Permalink to this heading">¶</a></h2>
 <blockquote>
 <div><p><strong>Main Goal</strong></p>
 <div class="line-block">
@@ -511,45 +431,45 @@
 </div>
 </div></blockquote>
 <p>First add the sbt-assembly plugin to your <code class="docutils literal notranslate"><span class="pre">plugins.sbt</span></code> file.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.eed3si9n&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-assembly&quot;</span> <span class="o">%</span> <span class="s">&quot;0.11.2&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">addSbtPlugin</span><span class="p">(</span><span class="s">&quot;com.eed3si9n&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;sbt-assembly&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;0.11.2&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The next step is to remove all the jar mappings from the normal mappings and only add the
 assembly jar. In this example we’ll set the assembly jar name ourself, so we know exactly
 what the output should look like. Finally we change the <code class="docutils literal notranslate"><span class="pre">scriptClasspath</span></code> so it only
 contains the assembled jar. This is what the final <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> should contain:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">AssemblyKeys._</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nc">AssemblyKeys</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// the assembly settings</span>
 <span class="n">assemblySettings</span>
 
 <span class="c1">// we specify the name for our fat jar</span>
-<span class="n">jarName</span> <span class="n">in</span> <span class="n">assembly</span> <span class="o">:=</span> <span class="s">&quot;assembly-project.jar&quot;</span>
+<span class="n">assembly</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">jarName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;assembly-project.jar&quot;</span>
 
 <span class="c1">// using the java server for this application. java_application is fine, too</span>
-<span class="n">packageArchetype</span><span class="o">.</span><span class="n">java_server</span>
+<span class="n">packageArchetype</span><span class="p">.</span><span class="n">java_server</span>
 
 <span class="c1">// removes all jar mappings in universal and appends the fat jar</span>
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">{</span>
-    <span class="c1">// universalMappings: Seq[(File,String)]</span>
-    <span class="k">val</span> <span class="n">universalMappings</span> <span class="k">=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
-    <span class="k">val</span> <span class="n">fatJar</span> <span class="k">=</span> <span class="o">(</span><span class="n">assembly</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span>
-    <span class="c1">// removing means filtering</span>
-    <span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">universalMappings</span> <span class="n">filter</span> <span class="o">{</span>
-        <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="o">!</span> <span class="n">name</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;.jar&quot;</span><span class="o">)</span>
-    <span class="o">}</span>
-    <span class="c1">// add the fat jar</span>
-    <span class="n">filtered</span> <span class="o">:+</span> <span class="o">(</span><span class="n">fatJar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">fatJar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
-<span class="o">}</span>
+<span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// universalMappings: Seq[(File,String)]</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">universalMappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="p">).</span><span class="n">value</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">fatJar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">assembly</span><span class="p">).</span><span class="n">value</span>
+<span class="w">    </span><span class="c1">// removing means filtering</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">filtered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">universalMappings</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w">  </span><span class="o">!</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s">&quot;.jar&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// add the fat jar</span>
+<span class="w">    </span><span class="n">filtered</span><span class="w"> </span><span class="o">:+</span><span class="w"> </span><span class="p">(</span><span class="n">fatJar</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;lib/&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fatJar</span><span class="p">.</span><span class="n">getName</span><span class="p">))</span>
+<span class="p">}</span>
 
 
 <span class="c1">// the bash scripts classpath only needs the fat jar</span>
-<span class="n">scriptClasspath</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">(</span> <span class="o">(</span><span class="n">jarName</span> <span class="n">in</span> <span class="n">assembly</span><span class="o">).</span><span class="n">value</span> <span class="o">)</span>
+<span class="n">scriptClasspath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">assembly</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">jarName</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="proguard">
-<h2>Proguard<a class="headerlink" href="#proguard" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="proguard">
+<h2>Proguard<a class="headerlink" href="#proguard" title="Permalink to this heading">¶</a></h2>
 <blockquote>
 <div><p><strong>Main Goal</strong></p>
 <div class="line-block">
@@ -558,49 +478,49 @@ contains the assembled jar. This is what the final <code class="docutils literal
 </div></blockquote>
 <p>First add the <a class="reference external" href="https://github.com/sbt/sbt-proguard">sbt-proguard</a> plugin to
 the <code class="docutils literal notranslate"><span class="pre">plugins.sbt</span></code> file:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.lightbend.sbt&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-proguard&quot;</span> <span class="o">%</span> <span class="s">&quot;0.3.0&quot;</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">addSbtPlugin</span><span class="p">(</span><span class="s">&quot;com.lightbend.sbt&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;sbt-proguard&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;0.3.0&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Then configure the proguard options in <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">SbtProguard</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">SbtProguard</span><span class="p">)</span>
 
 <span class="c1">// to configure proguard for scala, see</span>
 <span class="c1">// http://proguard.sourceforge.net/manual/examples.html#scala</span>
-<span class="n">proguardOptions</span> <span class="n">in</span> <span class="nc">Proguard</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
-  <span class="s">&quot;-dontoptimize&quot;</span><span class="o">,</span>
-  <span class="s">&quot;-dontnote&quot;</span><span class="o">,</span>
-  <span class="s">&quot;-dontwarn&quot;</span><span class="o">,</span>
-  <span class="s">&quot;-ignorewarnings&quot;</span><span class="o">,</span>
-  <span class="c1">// ...</span>
-<span class="o">)</span>
+<span class="nc">Proguard</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">proguardOptions</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span>
+<span class="w">  </span><span class="s">&quot;-dontoptimize&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s">&quot;-dontnote&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s">&quot;-dontwarn&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s">&quot;-ignorewarnings&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">// ...</span>
+<span class="p">)</span>
 
 <span class="c1">// specify the entry point for a standalone app</span>
-<span class="n">proguardOptions</span> <span class="n">in</span> <span class="nc">Proguard</span> <span class="o">+=</span> <span class="nc">ProguardOptions</span><span class="o">.</span><span class="n">keepMain</span><span class="o">(</span><span class="s">&quot;com.example.Main&quot;</span><span class="o">)</span>
+<span class="nc">Proguard</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">proguardOptions</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nc">ProguardOptions</span><span class="p">.</span><span class="n">keepMain</span><span class="p">(</span><span class="s">&quot;com.example.Main&quot;</span><span class="p">)</span>
 
-<span class="n">proguardVersion</span> <span class="n">in</span> <span class="nc">Proguard</span> <span class="o">:=</span> <span class="s">&quot;6.0.3&quot;</span>
+<span class="nc">Proguard</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">proguardVersion</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;6.0.3&quot;</span>
 
 <span class="c1">// filter out jar files from the list of generated files, while</span>
 <span class="c1">// keeping non-jar output such as generated launch scripts</span>
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">:=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span><span class="o">.</span>
-  <span class="n">filter</span> <span class="o">{</span>
-    <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">!</span><span class="n">name</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">&quot;.jar&quot;</span><span class="o">)</span>
-  <span class="o">}</span>
+<span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="p">).</span><span class="n">value</span><span class="p">.</span>
+<span class="w">  </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="o">!</span><span class="n">name</span><span class="p">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s">&quot;.jar&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
 
 <span class="c1">// ... and then append the jar file emitted from the proguard task to</span>
 <span class="c1">// the file list</span>
-<span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span> <span class="o">++=</span> <span class="o">(</span><span class="n">proguard</span> <span class="n">in</span> <span class="nc">Proguard</span><span class="o">).</span>
-  <span class="n">value</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">jar</span> <span class="k">=&gt;</span> <span class="n">jar</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;lib/&quot;</span> <span class="o">+</span> <span class="n">jar</span><span class="o">.</span><span class="n">getName</span><span class="o">))</span>
+<span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="p">(</span><span class="nc">Proguard</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">proguard</span><span class="p">).</span>
+<span class="w">  </span><span class="n">value</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">jar</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">jar</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;lib/&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">jar</span><span class="p">.</span><span class="n">getName</span><span class="p">))</span>
 
 <span class="c1">// point the classpath to the output from the proguard task</span>
-<span class="n">scriptClasspath</span> <span class="o">:=</span> <span class="o">(</span><span class="n">proguard</span> <span class="n">in</span> <span class="nc">Proguard</span><span class="o">).</span><span class="n">value</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">jar</span> <span class="k">=&gt;</span> <span class="n">jar</span><span class="o">.</span><span class="n">getName</span><span class="o">)</span>
+<span class="n">scriptClasspath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="nc">Proguard</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">proguard</span><span class="p">).</span><span class="n">value</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">jar</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">jar</span><span class="p">.</span><span class="n">getName</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Now when you package your project using a command such as <code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">universal:packageZipTarball</span></code>,
+<p>Now when you package your project using a command such as <code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">Universal/packageZipTarball</span></code>,
 it will include fat jar that has been created by proguard rather than the normal
 output in <code class="docutils literal notranslate"><span class="pre">/lib</span></code>.</p>
-</div>
-<div class="section" id="multi-module-builds">
-<h2>Multi Module Builds<a class="headerlink" href="#multi-module-builds" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="multi-module-builds">
+<h2>Multi Module Builds<a class="headerlink" href="#multi-module-builds" title="Permalink to this heading">¶</a></h2>
 <blockquote>
 <div><p><strong>Main Goal</strong></p>
 <div class="line-block">
@@ -609,62 +529,62 @@ output in <code class="docutils literal notranslate"><span class="pre">/lib</spa
 </div></blockquote>
 <p>If you want to aggregate different projects in a multi module build to a single package,
 you can specify everything in a single <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">NativePackagerKeys._</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nc">NativePackagerKeys</span><span class="p">.</span><span class="n">_</span>
 
-<span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;mukis-fullstack&quot;</span>
+<span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;mukis-fullstack&quot;</span>
 
 <span class="c1">// used like the groupId in maven</span>
-<span class="n">organization</span> <span class="n">in</span> <span class="nc">ThisBuild</span> <span class="o">:=</span> <span class="s">&quot;de.mukis&quot;</span>
+<span class="nc">ThisBuild</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">organization</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;de.mukis&quot;</span>
 
 <span class="c1">// all sub projects have the same version</span>
-<span class="n">version</span> <span class="n">in</span> <span class="nc">ThisBuild</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span>
+<span class="nc">ThisBuild</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;1.0&quot;</span>
 
-<span class="n">scalaVersion</span> <span class="n">in</span> <span class="nc">ThisBuild</span> <span class="o">:=</span> <span class="s">&quot;2.11.2&quot;</span>
+<span class="nc">ThisBuild</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">scalaVersion</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;2.11.2&quot;</span>
 
 <span class="c1">// common dependencies</span>
-<span class="n">libraryDependencies</span> <span class="n">in</span> <span class="nc">ThisBuild</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
-    <span class="s">&quot;com.typesafe&quot;</span> <span class="o">%</span> <span class="s">&quot;config&quot;</span> <span class="o">%</span> <span class="s">&quot;1.2.0&quot;</span>
-<span class="o">)</span>
+<span class="nc">ThisBuild</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">libraryDependencies</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;com.typesafe&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;config&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;1.2.0&quot;</span>
+<span class="p">)</span>
 
 <span class="c1">// this is the root project, aggregating all sub projects</span>
-<span class="k">lazy</span> <span class="k">val</span> <span class="n">root</span> <span class="k">=</span> <span class="nc">Project</span><span class="o">(</span>
-    <span class="n">id</span> <span class="k">=</span> <span class="s">&quot;root&quot;</span><span class="o">,</span>
-    <span class="n">base</span> <span class="k">=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">),</span>
-    <span class="c1">// configure your native packaging settings here</span>
-    <span class="n">settings</span> <span class="k">=</span> <span class="n">packageArchetype</span><span class="o">.</span><span class="n">java_server</span><span class="o">++</span> <span class="nc">Seq</span><span class="o">(</span>
-        <span class="n">maintainer</span> <span class="o">:=</span> <span class="s">&quot;John Smith &lt;john.smith@example.com&gt;&quot;</span><span class="o">,</span>
-        <span class="n">packageDescription</span> <span class="o">:=</span> <span class="s">&quot;Fullstack Application&quot;</span><span class="o">,</span>
-        <span class="n">packageSummary</span> <span class="o">:=</span> <span class="s">&quot;Fullstack Application&quot;</span><span class="o">,</span>
-        <span class="c1">// entrypoint</span>
-        <span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;de.mukis.frontend.ProductionServer&quot;</span><span class="o">)</span>
-    <span class="o">),</span>
-    <span class="c1">// always run all commands on each sub project</span>
-    <span class="n">aggregate</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">frontend</span><span class="o">,</span> <span class="n">backend</span><span class="o">,</span> <span class="n">api</span><span class="o">)</span>
-<span class="o">)</span> <span class="n">dependsOn</span><span class="o">(</span><span class="n">frontend</span><span class="o">,</span> <span class="n">backend</span><span class="o">,</span> <span class="n">api</span><span class="o">)</span> <span class="c1">// this does the actual aggregation</span>
+<span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Project</span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;root&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="c1">// configure your native packaging settings here</span>
+<span class="w">    </span><span class="n">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">packageArchetype</span><span class="p">.</span><span class="n">java_server</span><span class="o">++</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span>
+<span class="w">        </span><span class="n">maintainer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;John Smith &lt;john.smith@example.com&gt;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">packageDescription</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Fullstack Application&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">packageSummary</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Fullstack Application&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="c1">// entrypoint</span>
+<span class="w">        </span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mainClass</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;de.mukis.frontend.ProductionServer&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="w">    </span><span class="c1">// always run all commands on each sub project</span>
+<span class="w">    </span><span class="n">aggregate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="n">frontend</span><span class="p">,</span><span class="w"> </span><span class="n">backend</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="n">dependsOn</span><span class="p">(</span><span class="n">frontend</span><span class="p">,</span><span class="w"> </span><span class="n">backend</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">)</span><span class="w"> </span><span class="c1">// this does the actual aggregation</span>
 
 <span class="c1">// --------- Project Frontend ------------------</span>
-<span class="k">lazy</span> <span class="k">val</span> <span class="n">frontend</span> <span class="k">=</span> <span class="nc">Project</span><span class="o">(</span>
-    <span class="n">id</span> <span class="k">=</span> <span class="s">&quot;frontend&quot;</span><span class="o">,</span>
-    <span class="n">base</span> <span class="k">=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;frontend&quot;</span><span class="o">)</span>
-<span class="o">)</span> <span class="n">dependsOn</span><span class="o">(</span><span class="n">api</span><span class="o">)</span>
+<span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">frontend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Project</span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;frontend&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">(</span><span class="s">&quot;frontend&quot;</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="n">dependsOn</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
 
 
 <span class="c1">// --------- Project Backend ----------------</span>
-<span class="k">lazy</span> <span class="k">val</span> <span class="n">backend</span> <span class="k">=</span> <span class="nc">Project</span><span class="o">(</span>
-    <span class="n">id</span> <span class="k">=</span> <span class="s">&quot;backend&quot;</span><span class="o">,</span>
-    <span class="n">base</span> <span class="k">=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;backend&quot;</span><span class="o">)</span>
-<span class="o">)</span> <span class="n">dependsOn</span><span class="o">(</span><span class="n">api</span><span class="o">)</span>
+<span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Project</span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;backend&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">(</span><span class="s">&quot;backend&quot;</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="n">dependsOn</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
 
 <span class="c1">// --------- Project API ------------------</span>
-<span class="k">lazy</span> <span class="k">val</span> <span class="n">api</span> <span class="k">=</span> <span class="nc">Project</span><span class="o">(</span>
-    <span class="n">id</span> <span class="k">=</span> <span class="s">&quot;api&quot;</span><span class="o">,</span>
-    <span class="n">base</span> <span class="k">=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;api&quot;</span><span class="o">)</span>
-<span class="o">)</span>
+<span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">api</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Project</span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;api&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">(</span><span class="s">&quot;api&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="custom-packaging-format">
-<h2>Custom Packaging Format<a class="headerlink" href="#custom-packaging-format" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="custom-packaging-format">
+<h2>Custom Packaging Format<a class="headerlink" href="#custom-packaging-format" title="Permalink to this heading">¶</a></h2>
 <blockquote>
 <div><p><strong>Main Goal</strong></p>
 <div class="line-block">
@@ -683,38 +603,38 @@ of you choice. To do so, we recommend the following steps</p>
 </ol>
 <p>The following examples demonstrates how to create a simple <em>text format</em>, which lists all your
 mappings inside a package format. A minimal <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> would look like this</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">NativePackagerKeys._</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nc">NativePackagerKeys</span><span class="p">.</span><span class="n">_</span>
 
-<span class="k">val</span> <span class="nc">TxtFormat</span> <span class="k">=</span> <span class="n">config</span><span class="o">(</span><span class="s">&quot;txtFormat&quot;</span><span class="o">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nc">TxtFormat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="p">(</span><span class="s">&quot;txtFormat&quot;</span><span class="p">)</span>
 
-<span class="k">val</span> <span class="n">root</span> <span class="k">=</span> <span class="n">project</span><span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">))</span>
-    <span class="c1">// adding your custom configuration scope</span>
-    <span class="o">.</span><span class="n">configs</span><span class="o">(</span> <span class="nc">TxtFormat</span> <span class="o">)</span>
-    <span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">packageArchetype</span><span class="o">.</span><span class="n">java_server</span><span class="k">:_</span><span class="kt">*</span><span class="o">)</span>
-    <span class="o">.</span><span class="n">settings</span><span class="o">(</span>
-        <span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;mukis-custom-package&quot;</span><span class="o">,</span>
-        <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span><span class="o">,</span>
-        <span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;de.mukis.ConfigApp&quot;</span><span class="o">),</span>
-        <span class="n">maintainer</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;Nepomuk Seiler &lt;nepomuk.seiler@mukis.de&gt;&quot;</span><span class="o">,</span>
-        <span class="n">packageSummary</span> <span class="n">in</span> <span class="nc">Linux</span> <span class="o">:=</span> <span class="s">&quot;Custom application configuration&quot;</span><span class="o">,</span>
-        <span class="n">packageDescription</span> <span class="o">:=</span> <span class="s">&quot;Custom application configuration&quot;</span><span class="o">,</span>
-        <span class="c1">// defining your custom configuration</span>
-        <span class="n">packageBin</span> <span class="n">in</span> <span class="nc">TxtFormat</span> <span class="o">:=</span> <span class="o">{</span>
-            <span class="k">val</span> <span class="n">fileMappings</span> <span class="k">=</span> <span class="o">(</span><span class="n">mappings</span> <span class="n">in</span> <span class="nc">Universal</span><span class="o">).</span><span class="n">value</span>
-            <span class="k">val</span> <span class="n">output</span> <span class="k">=</span> <span class="n">target</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="s">s&quot;</span><span class="si">${</span><span class="n">packageName</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s">.txt&quot;</span>
-            <span class="c1">// create the is with the mappings. Note this is not the ISO format -.-</span>
-            <span class="nc">IO</span><span class="o">.</span><span class="n">write</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="s">&quot;# Filemappings\n&quot;</span><span class="o">)</span>
-            <span class="c1">// append all mappings to the list</span>
-            <span class="n">fileMappings</span> <span class="n">foreach</span> <span class="o">{</span>
-                <span class="k">case</span> <span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">IO</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="s">s&quot;</span><span class="si">${</span><span class="n">file</span><span class="o">.</span><span class="n">getAbsolutePath</span><span class="si">}</span><span class="s">\t</span><span class="si">$name$</span><span class="s">{IO.Newline}&quot;</span><span class="o">)</span>
-            <span class="o">}</span>
-            <span class="n">output</span>
-        <span class="o">}</span>
-    <span class="o">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="p">.</span><span class="n">in</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="c1">// adding your custom configuration scope</span>
+<span class="w">    </span><span class="p">.</span><span class="n">configs</span><span class="p">(</span><span class="w"> </span><span class="nc">TxtFormat</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">settings</span><span class="p">(</span><span class="n">packageArchetype</span><span class="p">.</span><span class="n">java_server</span><span class="p">:</span><span class="n">_*</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">settings</span><span class="p">(</span>
+<span class="w">        </span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;mukis-custom-package&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">version</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mainClass</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;de.mukis.ConfigApp&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nc">Linux</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">maintainer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Nepomuk Seiler &lt;nepomuk.seiler@mukis.de&gt;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nc">Linux</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageSummary</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Custom application configuration&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">packageDescription</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Custom application configuration&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="c1">// defining your custom configuration</span>
+<span class="w">        </span><span class="nc">TxtFormat</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageBin</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="n">fileMappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="p">).</span><span class="n">value</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">s&quot;</span><span class="si">${</span><span class="n">packageName</span><span class="p">.</span><span class="n">value</span><span class="si">}</span><span class="s">.txt&quot;</span>
+<span class="w">            </span><span class="c1">// create the is with the mappings. Note this is not the ISO format -.-</span>
+<span class="w">            </span><span class="nc">IO</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;# Filemappings\n&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="c1">// append all mappings to the list</span>
+<span class="w">            </span><span class="n">fileMappings</span><span class="w"> </span><span class="n">foreach</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nc">IO</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="s">s&quot;</span><span class="si">${</span><span class="n">file</span><span class="p">.</span><span class="n">getAbsolutePath</span><span class="si">}</span><span class="s">\t</span><span class="si">$</span><span class="n">name</span><span class="si">${</span><span class="nc">IO</span><span class="p">.</span><span class="nc">Newline</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">output</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To create your new “packageFormat” just run</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>txtFormat:packageBin
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>TxtFormat<span class="w"> </span>/<span class="w"> </span>packageBin
 </pre></div>
 </div>
 <p>If you want to read more about sbt configurations:</p>
@@ -723,63 +643,38 @@ mappings inside a package format. A minimal <code class="docutils literal notran
 <li><p><a class="reference external" href="http://www.scala-sbt.org/0.13.5/docs/Detailed-Topics/Testing.html#additional-test-configurations-with-shared-sources">sbt configurations</a></p></li>
 <li><p><a class="reference external" href="http://stackoverflow.com/questions/18789477/define-custom-configuration-in-sbt">custom configuration</a></p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="longclasspath.html" class="btn btn-neutral float-right" title="Dealing with long classpaths" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="Recipes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Recipes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="longclasspath.html" class="btn btn-neutral float-right" title="Dealing with long classpaths" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2014 sbt-native-packager team
-
-    </p>
+    <p>&#169; Copyright 2014 sbt-native-packager team.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

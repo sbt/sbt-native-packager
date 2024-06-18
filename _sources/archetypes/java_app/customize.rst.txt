@@ -30,7 +30,7 @@ configuration file during execution. You can define the configuration file locat
 
 
 The configuration path is the path on the **target** system. This means that native-packager needs to process this path
-to create a valid ``universal:mapping`` s entry.
+to create a valid ``Universal/mapping`` s entry.
 
 * ``${app_home}/../`` is removed
 * ``%APP_HOME%`` is removed and ``\`` is being replaced with ``/``
@@ -59,7 +59,7 @@ You can specify your options via the ``build.sbt``.
 
 .. code-block:: scala
 
-    javaOptions in Universal ++= Seq(
+    Universal / javaOptions ++= Seq(
         // -J params will be added as jvm parameters
         "-J-Xmx64m",
         "-J-Xms64m",
@@ -75,7 +75,7 @@ You can specify your options via the ``build.sbt``.
 For the ``-X`` settings you need to add a suffix ``-J`` so the start script will
 recognize these as vm config parameters.
 
-When you use the  ``javaOptions in Universal`` sbt-native-packager will generate configuration files
+When you use the  ``Universal / javaOptions`` sbt-native-packager will generate configuration files
 if you haven't set the ``batScriptConfigLocation`` and/or ``bashScriptConfigLocation`` to ``None``.
 
 Via Application.ini

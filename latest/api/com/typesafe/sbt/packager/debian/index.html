@@ -316,7 +316,7 @@
         <a title="This package contains stanard validators that can be used by format and archetype plugins." href="../validation/index.html"><span class="name">validation</span></a>
       </span>
       
-      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4> validation </h4><p>This package contains stanard validators that can be used by format and archetype plugins.
+      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4>validation</h4><p>This package contains stanard validators that can be used by format and archetype plugins.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.windows" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="windows"></a><a id="windows:windows"></a>
@@ -412,8 +412,7 @@
         <a title="This replacements are use for the debian maintainer scripts: preinst, postinst, prerm, postrm" href="DebianControlScriptReplacements.html"><span class="name">DebianControlScriptReplacements</span></a><span class="params">(<span name="author">author: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="descr">descr: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This replacements are use for the debian maintainer scripts:
-preinst, postinst, prerm, postrm
+      <p class="shortcomment cmt">This replacements are use for the debian maintainer scripts: preinst, postinst, prerm, postrm
 </p>
     </li><li name="com.typesafe.sbt.packager.debian.DebianKeys" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="DebianKeysextendsAnyRef"></a><a id="DebianKeys:DebianKeys"></a>
@@ -446,8 +445,10 @@ preinst, postinst, prerm, postrm
         <a title="This provides a dpkg based implementation for debian packaging." href="DebianNativePackaging.html"><span class="name">DebianNativePackaging</span></a><span class="result"> extends <a href="DebianPluginLike.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianPluginLike">DebianPluginLike</a></span>
       </span>
       
-      <p class="shortcomment cmt">This provides a dpkg based implementation for debian packaging.</p><div class="fullcomment"><div class="comment cmt"><h4> Native Packaging </h4><p>This provides a dpkg based implementation for debian packaging.</p><h4> Requirements </h4><p>You need the debian dpkg toolchain installed. This includes</p><ul><li>fakeroot</li><li>dpkg-deb</li><li>dpkg-genchanges</li></ul></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DebianNativePackaging)</pre></li></ol>
+      <p class="shortcomment cmt">This provides a dpkg based implementation for debian packaging.</p><div class="fullcomment"><div class="comment cmt"><h4>Native Packaging</h4><p>This provides a dpkg based implementation for debian packaging.</p><h4>Requirements</h4><p>You need the debian dpkg toolchain installed. This includes</p><ul><li>fakeroot</li><li>dpkg-deb</li><li>dpkg-genchanges
+</li></ul></div><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p>
+  Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(DebianNativePackaging)</pre></li></ol>
             </div></dl></div>
     </li><li name="com.typesafe.sbt.packager.debian.DebianPluginLike" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="DebianPluginLikeextendsAnyRef"></a><a id="DebianPluginLike:DebianPluginLike"></a>
@@ -464,10 +465,7 @@ preinst, postinst, prerm, postrm
         <a title="This trait provides a set of helper methods for debian packaging implementations." href="DebianPluginLike.html"><span class="name">DebianPluginLike</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       
-      <p class="shortcomment cmt">This trait provides a set of helper methods for debian packaging
-implementations.</p><div class="fullcomment"><div class="comment cmt"><h4> Debian Helper Methods </h4><p>This trait provides a set of helper methods for debian packaging
-implementations.</p><p>Most of the methods are for java 6 file permission handling and
-debian script adjustements.
+      <p class="shortcomment cmt">This trait provides a set of helper methods for debian packaging implementations.</p><div class="fullcomment"><div class="comment cmt"><h4>Debian Helper Methods</h4><p>This trait provides a set of helper methods for debian packaging implementations.</p><p>Most of the methods are for java 6 file permission handling and debian script adjustements.
 </p></div></div>
     </li><li name="com.typesafe.sbt.packager.debian.JDebConsole" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="JDebConsoleextendsConsole"></a><a id="JDebConsole:JDebConsole"></a>
@@ -484,8 +482,7 @@ debian script adjustements.
         <a title="This provides the task for building a debian packaging with the java-based implementation jdeb" href="JDebConsole.html"><span class="name">JDebConsole</span></a><span class="result"> extends <span class="extype" name="org.vafer.jdeb.Console">Console</span></span>
       </span>
       
-      <p class="shortcomment cmt">This provides the task for building a debian packaging with
-the java-based implementation jdeb
+      <p class="shortcomment cmt">This provides the task for building a debian packaging with the java-based implementation jdeb
 </p>
     </li><li name="com.typesafe.sbt.packager.debian.PackageInfo" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="PackageInfoextendsProductwithSerializable"></a><a id="PackageInfo:PackageInfo"></a>
@@ -574,10 +571,11 @@ the java-based implementation jdeb
         <a title="This plugin provides the ability to build .deb packages." href="DebianPlugin$.html"><span class="name">DebianPlugin</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="DebianNativePackaging.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianNativePackaging">DebianNativePackaging</a></span>
       </span>
       
-      <p class="shortcomment cmt">This plugin provides the ability to build <i>.deb</i> packages.</p><div class="fullcomment"><div class="comment cmt"><h4> Debian Plugin </h4><p>This plugin provides the ability to build <i>.deb</i> packages.</p><h4> Configuration </h4><p>In order to configure this plugin take a look at the available <a href="DebianKeys.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianKeys">com.typesafe.sbt.packager.debian.DebianKeys</a>
+      <p class="shortcomment cmt">This plugin provides the ability to build <i>.deb</i> packages.</p><div class="fullcomment"><div class="comment cmt"><h4>Debian Plugin</h4><p>This plugin provides the ability to build <i>.deb</i> packages.</p><h4>Configuration</h4><p>In order to configure this plugin take a look at the available <a href="DebianKeys.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianKeys">com.typesafe.sbt.packager.debian.DebianKeys</a>
 </p></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code>. By default this will use
-the native debian packaging implementation <a href="DebianNativePackaging.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianNativePackaging">com.typesafe.sbt.packager.debian.DebianNativePackaging</a>.</p><pre>enablePlugins(DebianPlugin)</pre></li></ol>
+               <ol><li class="cmt"><p>
+  Enable the plugin in the <code>build.sbt</code>. By default this will use the native debian packaging implementation
+  <a href="DebianNativePackaging.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianNativePackaging">com.typesafe.sbt.packager.debian.DebianNativePackaging</a>.</p><pre>enablePlugins(DebianPlugin)</pre></li></ol>
             </div></dl></div>
     </li><li name="com.typesafe.sbt.packager.debian.JDebPackaging" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="JDebPackaging"></a><a id="JDebPackaging:JDebPackaging"></a>
@@ -594,12 +592,13 @@ the native debian packaging implementation <a href="DebianNativePackaging.html" 
         <a title="This provides a java based debian packaging implementation based on the jdeb maven-plugin." href="JDebPackaging$.html"><span class="name">JDebPackaging</span></a><span class="result"> extends <span class="extype" name="sbt.AutoPlugin">AutoPlugin</span> with <a href="DebianPluginLike.html" class="extype" name="com.typesafe.sbt.packager.debian.DebianPluginLike">DebianPluginLike</a></span>
       </span>
       
-      <p class="shortcomment cmt">This provides a java based debian packaging implementation based
-on the jdeb maven-plugin.</p><div class="fullcomment"><div class="comment cmt"><h4> JDeb Plugin </h4><p>This provides a java based debian packaging implementation based
-on the jdeb maven-plugin. To use this, put this into your build.sbt
+      <p class="shortcomment cmt">This provides a java based debian packaging implementation based on the jdeb maven-plugin.</p><div class="fullcomment"><div class="comment cmt"><h4>JDeb Plugin</h4><p>This provides a java based debian packaging implementation based on the jdeb maven-plugin. To use this, put this
+into your build.sbt
 </p></div><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(JDebPackaging)</pre></li></ol>
-            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://github.com/tcurdt/jdeb/blob/master/src/main/java/org/vafer/jdeb/maven/DebMojo.java#L503" target="_blank">https://github.com/tcurdt/jdeb/blob/master/src/main/java/org/vafer/jdeb/maven/DebMojo.java#L503</a></p></span></dd></dl></div>
+               <ol><li class="cmt"><p>
+  Enable the plugin in the <code>build.sbt</code></p><pre>enablePlugins(JDebPackaging)</pre></li></ol>
+            </div><dt>See also</dt><dd><span class="cmt"><p>
+  <a href="https://github.com/tcurdt/jdeb/blob/master/src/main/java/org/vafer/jdeb/maven/DebMojo.java#L503" target="_blank">https://github.com/tcurdt/jdeb/blob/master/src/main/java/org/vafer/jdeb/maven/DebMojo.java#L503</a></p></span></dd></dl></div>
     </li>
               </ol>
             </div>

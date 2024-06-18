@@ -5,7 +5,7 @@ GraalVM Native Image Plugin
 
 GraalVM's ``native-image`` compiles Java programs AOT (ahead-of-time) into native binaries.
 
-  https://www.graalvm.org/docs/reference-manual/aot-compilation/ documents the AOT compilation of GraalVM.
+  https://www.graalvm.org/22.1/reference-manual/native-image/ documents the AOT compilation of GraalVM.
 
 The plugin supports both using a local installation of the GraalVM ``native-image`` utility, or building inside a
 Docker container. If you intend to run the native image on Linux, then building inside a Docker container is
@@ -33,7 +33,7 @@ Build
 
 .. code-block:: bash
 
-  sbt 'show graalvm-native-image:packageBin'
+  sbt 'show GraalVMNativeImage/packageBin'
 
 
 Required Settings
@@ -49,10 +49,8 @@ Settings
 
 ``native-image`` Executable Command (Pay attention if you are using Windows OS)
 
-Putting ``native-image`` in ``PATH`` does not work for Windows. ``native-image`` is a batch file in Windows that calls another executable to compile the Java classes to a standalone executable. Therefore, the full path to the batch file e.g. ``C:\Program Files\Java\graalvm\bin\native-image.cmd`` must be provided. It is important to include ``.cmd``.
-
   ``graalVMNativeImageCommand``
-    Set this parameter to point to ``native-image`` or ``native-image.cmd``. For Linux, set this parameter if it is inconvenient to make ``native-image`` available in your ``PATH``.
+    Set this parameter to point to ``native-image`` or ``native-image.cmd``. Set this parameter if it is inconvenient to make ``native-image`` available in your ``PATH``.
 
     For example:
 
@@ -69,7 +67,7 @@ customized using the following settings.
   ``graalVMNativeImageGraalVersion``
     Setting this enables generating a Docker container to build the native image, and then building it in that container.
     It must correspond to a valid version of the
-    `Oracle GraalVM Community Edition Docker image <https://hub.docker.com/r/oracle/graalvm-ce/>`_. This setting has no
+    `Oracle GraalVM Community Edition Docker image <https://github.com/graalvm/container/pkgs/container/graalvm-ce/>`_. This setting has no
     effect if ``containerBuildImage`` is explicitly set.
 
     For example:
@@ -118,5 +116,5 @@ Tasks
 -----
 The GraalVM Native Image plugin provides the following commands:
 
-  ``graalvm-native-image:packageBin``
+  ``GraalVMNativeImage / packageBin``
     Generates a native image using GraalVM.

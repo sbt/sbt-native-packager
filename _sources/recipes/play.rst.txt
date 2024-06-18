@@ -36,7 +36,7 @@ One way to provide this information is to append the following content in your b
 
 .. code-block:: scala
 
-  javaOptions in Universal ++= Seq(
+  Universal / javaOptions ++= Seq(
     // JVM memory tuning
     "-J-Xmx1024m",
     "-J-Xms512m",
