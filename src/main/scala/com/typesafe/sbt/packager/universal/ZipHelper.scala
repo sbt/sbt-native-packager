@@ -4,6 +4,7 @@ package universal
 
 import java.net.URI
 import java.nio.file.{FileSystem, FileSystems, Files, StandardCopyOption}
+import java.nio.file.attribute.FileTime
 import java.util.zip.Deflater
 
 import org.apache.commons.compress.archivers.zip._
@@ -122,9 +123,14 @@ object ZipHelper {
       IO createDirectory outputDir
       withZipOutput(outputFile) { output =>
         for (FileMapping(file, name, mode) <- sources) {
-          val entry = new ZipArchiveEntry(file, normalizePath(name))
+          val entryName = {
+            val n = normalizePath(name)
+            if (file.isDirectory && !n.endsWith("/")) n + "/" else n
+          }
+          val entry = new ZipArchiveEntry(entryName)
           sys.env.get("SOURCE_DATE_EPOCH") foreach { epoch =>
-            entry.setTime(epoch.toLong * 1000)
+            val millis = epoch.toLong * 1000
+            entry.setLastModifiedTime(FileTime.fromMillis(millis))
           }
           // Now check to see if we have permissions for this sucker.
           mode foreach (entry.setUnixMode)
