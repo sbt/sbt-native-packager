@@ -7,8 +7,10 @@ import java.io.File
 import java.nio.file.{Files, Path, Paths}
 import java.nio.file.attribute.PosixFilePermission._
 import scala.collection.JavaConversions._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class ZipHelperSpec extends WordSpec with Matchers with BeforeAndAfterEach with BeforeAndAfterAll {
+class ZipHelperSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach with BeforeAndAfterAll {
 
   var tmp: Path = _
   val toDelete = scala.collection.mutable.ListBuffer[Path]()

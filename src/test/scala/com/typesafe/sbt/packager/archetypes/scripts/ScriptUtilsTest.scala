@@ -1,8 +1,9 @@
 package com.typesafe.sbt.packager.archetypes.scripts
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class ScriptUtilsTest extends FlatSpec with Matchers {
+class ScriptUtilsTest extends AnyFlatSpec with Matchers {
   "toLowerCase()" should "convert regular names" in {
     ScriptUtils.toLowerCase("package.TestClass") should be("package.test-class")
   }

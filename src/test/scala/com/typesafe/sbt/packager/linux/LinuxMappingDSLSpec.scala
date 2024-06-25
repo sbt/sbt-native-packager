@@ -2,9 +2,10 @@ package com.typesafe.sbt.packager.linux
 
 import java.io.File
 
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class LinuxMappingDSLSpec extends WordSpec with Matchers with LinuxMappingDSL {
+class LinuxMappingDSLSpec extends AnyWordSpec with Matchers with LinuxMappingDSL {
 
   "The LinuxMappingDSL" should {
 

@@ -2,8 +2,10 @@ package com.typesafe.sbt.packager
 
 import com.typesafe.sbt.packager.archetypes.scripts._
 import org.scalatest._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class StartScriptMainClassConfigSpec extends WordSpec with Matchers {
+class StartScriptMainClassConfigSpec extends AnyWordSpec with Matchers {
 
   "StartScriptMainClassConfig" should {
 

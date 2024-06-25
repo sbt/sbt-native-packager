@@ -3,11 +3,12 @@ package com.typesafe.sbt.packager.archetypes.jlink
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Paths}
 
-import org.scalatest.{FlatSpec, Matchers}
 import JlinkPlugin.Ignore.byPackagePrefix
 import JlinkPlugin.javaVersionPattern
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class JlinkSpec extends FlatSpec with Matchers {
+class JlinkSpec extends AnyFlatSpec with Matchers {
   "Ignore.byPackagePrefix()" should "match as expected for sample examples" in {
     byPackagePrefix("" -> "")("foo" -> "bar") should be(true)
 
