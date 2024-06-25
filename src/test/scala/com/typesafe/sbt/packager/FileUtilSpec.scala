@@ -2,8 +2,10 @@ package com.typesafe.sbt.packager
 
 import org.scalatest._
 import java.nio.file.attribute.PosixFilePermission._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class FileUtilSpec extends FlatSpec with Matchers {
+class FileUtilSpec extends AnyFlatSpec with Matchers {
 
   "permissions" should "convert octal to symbolic correctly" taggedAs (LinuxTag, WindowsTag) in {
     permissions convert "0000" should be("---------")
