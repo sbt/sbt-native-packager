@@ -47,10 +47,7 @@ TaskKey[Unit]("unzip") := {
 
 TaskKey[Unit]("checkStartupScript") := {
   val script = IO.read(file("etc/init.d/rpm-test"))
-  assert(
-    script contains "rpm-exec",
-    "SystemV script didn't contain correct executable filename 'rpm-exec' \n" + script
-  )
+  assert(script contains "rpm-exec", "SystemV script didn't contain correct executable filename 'rpm-exec' \n" + script)
   assert(
     script contains """RUN_CMD="$exec >> /var/log/rpm-test/$logfile 2>&1 &"""",
     "SystemV script didn't contain default daemon log filename 'rpm-test.log' \n" + script

@@ -3,12 +3,7 @@
 import scala.sys.process.Process
 import com.typesafe.sbt.packager.Compat._
 
-enablePlugins(
-  JlinkPlugin,
-  ClasspathJarPlugin,
-  BashStartScriptPlugin,
-  BatStartScriptPlugin
-)
+enablePlugins(JlinkPlugin, ClasspathJarPlugin, BashStartScriptPlugin, BatStartScriptPlugin)
 
 // Exclude Scala to avoid linking additional modules
 autoScalaLibrary := false
@@ -37,14 +32,13 @@ TaskKey[Unit]("runChecks") := {
   log.info(s"Produced image:\n$releaseInfo")
 
   // Run the application directly.
-  val classpathJar = (stageDir / "lib" / packageJavaClasspathJar.value.getName)
-    .getAbsolutePath
+  val classpathJar = (stageDir / "lib" / packageJavaClasspathJar.value.getName).getAbsolutePath
   run(javaExe, Seq("-cp", classpathJar, "JlinkTestApp"))
 
   // Make sure the scripts use the correct JVM
   val startScripts = (os match {
     case 'windows => makeBatScripts.value.map(_._2)
-    case _ => makeBashScripts.value.map(_._2)
+    case _        => makeBashScripts.value.map(_._2)
   }).map(s => (stageDir / s).getAbsolutePath)
 
   startScripts.foreach { script =>

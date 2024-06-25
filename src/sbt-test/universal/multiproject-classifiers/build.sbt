@@ -3,13 +3,17 @@ import com.typesafe.sbt.packager.Compat._
 lazy val appVersion = "1.0"
 
 lazy val mySettings: Seq[Setting[_]] =
-  Seq(organization := "org.test", version := appVersion, TaskKey[Unit]("showFiles") := {
-    System.out.synchronized {
-      println("Files in [" + name.value + "]")
-      val files = (target.value / "universal/stage").**(AllPassFilter).get
-      files foreach println
+  Seq(
+    organization := "org.test",
+    version := appVersion,
+    TaskKey[Unit]("showFiles") := {
+      System.out.synchronized {
+        println("Files in [" + name.value + "]")
+        val files = (target.value / "universal/stage").**(AllPassFilter).get
+        files foreach println
+      }
     }
-  })
+  )
 
 lazy val Assets = config("assets")
 

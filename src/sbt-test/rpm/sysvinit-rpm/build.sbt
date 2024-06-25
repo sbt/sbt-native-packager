@@ -21,7 +21,8 @@ mainClass in (Compile, run) := Some("com.example.MainApp")
 TaskKey[Unit]("unzipAndCheck") := {
   val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
   sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
-  val scriptlets = sys.process.Process("rpm -qp --scripts " + (packageBin in Rpm).value.getAbsolutePath) !! streams.value.log
+  val scriptlets =
+    sys.process.Process("rpm -qp --scripts " + (packageBin in Rpm).value.getAbsolutePath) !! streams.value.log
   assert(scriptlets contains "addGroup rpm-test", "addGroup not present in \n" + scriptlets)
   assert(scriptlets contains "addUser rpm-test", "Incorrect useradd command in \n" + scriptlets)
   assert(scriptlets contains "deleteGroup rpm-test", "deleteGroup not present in \n" + scriptlets)

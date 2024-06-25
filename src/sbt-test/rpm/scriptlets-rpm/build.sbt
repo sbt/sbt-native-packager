@@ -50,9 +50,9 @@ TaskKey[Unit]("checkRpmVersion") := {
   val rpmVersion = fullRpmVersion substring firstDigit
   streams.value.log.info("Found rpmVersion: " + rpmVersion)
   val (major, minor, patch) = rpmVersion.trim.split("\\.").map(_.toInt) match {
-    case Array(major) => (major, 0, 0)
-    case Array(major, minor) => (major, minor, 0)
-    case Array(major, minor, patch, _ *) => (major, minor, patch)
+    case Array(major)                   => (major, 0, 0)
+    case Array(major, minor)            => (major, minor, 0)
+    case Array(major, minor, patch, _*) => (major, minor, patch)
   }
   assert(major >= 4, "RPM version must be greater than than 4.x.x. Is " + fullRpmVersion)
   ()

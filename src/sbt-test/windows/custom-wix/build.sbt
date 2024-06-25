@@ -8,7 +8,4 @@ wixFile in Windows := {
   sys.error("wixFile shouldn't have been called")
 }
 
-wixFiles := List(
-  sourceDirectory.value / "wix" / "main.wsx",
-  sourceDirectory.value / "wix" / "ui.wsx"
-)
+wixFiles := List(sourceDirectory.value / "wix" / "main.wsx", sourceDirectory.value / "wix" / "ui.wsx")

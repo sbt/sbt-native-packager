@@ -78,17 +78,13 @@ val issue1266 = project
       1.to(300000).map(mkPath)
     },
     logLevel in jlinkModules := Level.Error,
-
     runChecks := jlinkBuildImage.value
   )
 
 // Should fail for invalid jlink inputs
 val issue1284 = project
   .enablePlugins(JlinkPlugin)
-  .settings(
-    jlinkModules := List("no-such-module"),
-    runFailingChecks := jlinkBuildImage.value
-  )
+  .settings(jlinkModules := List("no-such-module"), runFailingChecks := jlinkBuildImage.value)
 
 // We should be able to make the whole thing work for modules that depend
 // on automatic modules - at least by manually setting `jlinkModulePath`.
@@ -110,7 +106,9 @@ val issue1293 = project
     // Use `paramaner` (and only it) as an automatic module
     jlinkModulePath := {
       // Get the full classpath with all the resolved dependencies.
-      fullClasspath.in(jlinkBuildImage).value
+      fullClasspath
+        .in(jlinkBuildImage)
+        .value
         // Find the ones that have `paranamer` as their artifact names.
         .filter { item =>
           item.get(moduleID.key).exists { modId =>

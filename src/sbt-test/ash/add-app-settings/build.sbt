@@ -15,9 +15,9 @@ TaskKey[Unit]("scriptCheck") := {
 
 TaskKey[Unit]("runCheck") := {
   val cwd = (stagingDirectory in Universal).value
-  val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath)  
+  val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath)
   val output = (sys.process.Process(cmd, cwd).!!).replaceAll("\n", "")
-  
+
   assert(output.contains("info"), s"Application did not receive residual arg 'info'")
   assert(output.contains("help"), s"Application did not receive residual arg 'help'")
 }

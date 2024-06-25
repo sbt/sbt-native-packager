@@ -1,3 +1,3 @@
-object MainApp extends App {  
+object MainApp extends App {
   println(args.mkString("|"))
 }

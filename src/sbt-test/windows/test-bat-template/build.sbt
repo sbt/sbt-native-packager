@@ -48,11 +48,13 @@ TaskKey[Unit]("checkScript") := {
     d
   }
   def crlf2cr(txt: String) = txt.trim.replaceAll("\\\r\\\n", "\n")
-  def checkOutput(testName: String,
-                  args: Seq[String],
-                  expected: String,
-                  env: Map[String, String] = Map.empty,
-                  expectedRC: Int = 0) = {
+  def checkOutput(
+    testName: String,
+    args: Seq[String],
+    expected: String,
+    env: Map[String, String] = Map.empty,
+    expectedRC: Int = 0
+  ) = {
     val pr = new StringBuilder()
     val logger = ProcessLogger((o: String) => pr.append(o + "\n"), (e: String) => pr.append("error < " + e + "\n"))
     val cmd = Seq("cmd", "/c", script.getAbsolutePath) ++ args
@@ -127,7 +129,7 @@ TaskKey[Unit]("checkScript") := {
   )
 
   // can't success include double-quote. arguments pass from Process(Seq("-Da=xx\"yy", "aa\"bb")) is parsed (%1="-Da", %2="xx\"yy aa\"bb") by cmd.exe ...
-  //checkOutput("include space and double-quote",
+  // checkOutput("include space and double-quote",
   //  "-Dtest.hoge=aa\"bb xx\"yy",
   //  "arg #0 is [xx\"yy]\nproperty(test.hoge) is [aa\"bb]\nvmarg #0 is [-Dtest.hoge=aa\"bb]\nSUCCESS!")
 

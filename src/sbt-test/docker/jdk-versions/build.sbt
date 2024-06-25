@@ -28,4 +28,3 @@ lazy val `jdk10` = project
     dockerBaseImage := "openjdk:10-jre",
     dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:10")
   )
-
