@@ -383,7 +383,7 @@ object DockerPlugin extends AutoPlugin {
     *   FROM command
     */
   private final def makeFromAs(dockerBaseImage: String, name: String): CmdLike =
-    Cmd("FROM", dockerBaseImage, "as", name)
+    Cmd("FROM", dockerBaseImage, "AS", name)
 
   /**
     * @param label

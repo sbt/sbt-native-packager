@@ -14,7 +14,7 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines.take(2),
-        """FROM fabric8/java-centos-openjdk8-jdk as stage0
+        """FROM fabric8/java-centos-openjdk8-jdk AS stage0
           |LABEL snp-multi-stage="intermediate"""".stripMargin.linesIterator.toList)
       assert(lines(2).substring(0, 25) == "LABEL snp-multi-stage-id=") // random generated id is hard to test
       assertEquals(lines.drop(3),
@@ -26,7 +26,7 @@ lazy val root = (project in file("."))
           |RUN ["chmod", "-R", "u=rX,g=rX", "/4/opt/docker"]
           |RUN ["chmod", "u+x,g+x", "/4/opt/docker/bin/file-permission-test"]
           |
-          |FROM fabric8/java-centos-openjdk8-jdk as mainstage
+          |FROM fabric8/java-centos-openjdk8-jdk AS mainstage
           |USER root
           |RUN id -u demiourgos728 1>/dev/null 2>&1 || (( getent group 0 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 0 root || addgroup -g 0 -S root )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 || adduser -S -u 1001 -G root demiourgos728 ))
           |WORKDIR /opt/docker
@@ -41,7 +41,7 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM fabric8/java-centos-openjdk8-jdk as mainstage
+        """FROM fabric8/java-centos-openjdk8-jdk AS mainstage
           |USER root
           |RUN id -u demiourgos728 1>/dev/null 2>&1 || (( getent group 0 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 0 root || addgroup -g 0 -S root )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 || adduser -S -u 1001 -G root demiourgos728 ))
           |WORKDIR /opt/docker
@@ -56,7 +56,7 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM fabric8/java-centos-openjdk8-jdk as mainstage
+        """FROM fabric8/java-centos-openjdk8-jdk AS mainstage
           |USER root
           |RUN id -u demiourgos728 1>/dev/null 2>&1 || (( getent group 5000 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 5000 sbt || addgroup -g 5000 -S sbt )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 5000 demiourgos728 || adduser -S -u 1001 -G sbt demiourgos728 ))
           |WORKDIR /opt/docker
@@ -71,7 +71,7 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM openjdk:8 as mainstage
+        """FROM openjdk:8 AS mainstage
           |USER root
           |RUN id -u demiourgos728 1>/dev/null 2>&1 || (( getent group 0 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 0 root || addgroup -g 0 -S root )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 || adduser -S -u 1001 -G root demiourgos728 ))
           |WORKDIR /opt/docker
@@ -88,7 +88,7 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines,
-        """FROM fabric8/java-centos-openjdk8-jdk as mainstage
+        """FROM fabric8/java-centos-openjdk8-jdk AS mainstage
           |WORKDIR /opt/docker
           |COPY --chown=daemon:root 2/opt /opt
           |COPY --chown=daemon:root 4/opt /opt
@@ -101,7 +101,7 @@ lazy val root = (project in file("."))
       val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(lines.take(2),
-        """FROM fabric8/java-centos-openjdk8-jdk as stage0
+        """FROM fabric8/java-centos-openjdk8-jdk AS stage0
           |LABEL snp-multi-stage="intermediate"""".stripMargin.linesIterator.toList)
       assert(lines(2).substring(0, 25) == "LABEL snp-multi-stage-id=") // random generated id is hard to test
       assertEquals(lines.drop(3),
@@ -113,7 +113,7 @@ lazy val root = (project in file("."))
           |RUN ["chmod", "-R", "u=rwX,g=rwX", "/4/opt/docker"]
           |RUN ["chmod", "u+x,g+x", "/4/opt/docker/bin/file-permission-test"]
           |
-          |FROM fabric8/java-centos-openjdk8-jdk as mainstage
+          |FROM fabric8/java-centos-openjdk8-jdk AS mainstage
           |USER root
           |RUN id -u demiourgos728 1>/dev/null 2>&1 || (( getent group 0 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 0 root || addgroup -g 0 -S root )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 || adduser -S -u 1001 -G root demiourgos728 ))
           |WORKDIR /opt/docker
