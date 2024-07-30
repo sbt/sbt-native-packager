@@ -20,24 +20,6 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
 
-      # this setup is all for the github pages deployment to work
-      - name: install sphinx
-        run: |
-          pip3 install --user sphinx sphinx_rtd_theme
-          which sphinx-build
-
-      - name: setup git
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_KEY }}
-          known_hosts: ${{ secrets.KNOWN_HOSTS }}
-      - run: sbt ghpagesPushSite
-
       # generate a github release
       - name: Generate release changelog
         id: changelog
