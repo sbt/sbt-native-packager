@@ -1,4 +1,3 @@
-
 enablePlugins(JavaAppPackaging)
 
 name := "test-busybox-create-user"
@@ -10,4 +9,4 @@ dockerBaseImage := "anapsix/alpine-java:8"
 daemonUserUid in Docker := Some("2000")
 daemonUser in Docker := "appuser"
 daemonGroupGid in Docker := Some("3000")
-daemonGroup in Docker    := "appgroup"
+daemonGroup in Docker := "appgroup"
