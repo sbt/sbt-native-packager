@@ -23,7 +23,15 @@ class FileUtilSpec extends AnyFlatSpec with Matchers {
 
     val perm2 = permissions("0755")
     perm2 should not be (empty)
-    perm2 should contain only (OWNER_READ, OWNER_WRITE, OWNER_EXECUTE, GROUP_READ, GROUP_EXECUTE, OTHERS_READ, OTHERS_EXECUTE)
+    perm2 should contain only (
+      OWNER_READ,
+      OWNER_WRITE,
+      OWNER_EXECUTE,
+      GROUP_READ,
+      GROUP_EXECUTE,
+      OTHERS_READ,
+      OTHERS_EXECUTE
+    )
   }
 
   "oct" should "parse octal string and convert to an integer" taggedAs (LinuxTag, WindowsTag) in {

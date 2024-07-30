@@ -183,7 +183,15 @@ class ZipHelperSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach wi
     Files.setPosixFilePermissions(exec, permissions("0755"))
 
     val perms = Files getPosixFilePermissions exec
-    perms should contain only (OWNER_READ, OWNER_WRITE, OWNER_EXECUTE, GROUP_READ, GROUP_EXECUTE, OTHERS_READ, OTHERS_EXECUTE)
+    perms should contain only (
+      OWNER_READ,
+      OWNER_WRITE,
+      OWNER_EXECUTE,
+      GROUP_READ,
+      GROUP_EXECUTE,
+      OTHERS_READ,
+      OTHERS_EXECUTE
+    )
 
     zipper(List(exec.toFile -> "exec"), out.toFile)
     Files exists out should be(true)
@@ -198,7 +206,15 @@ class ZipHelperSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach wi
 
     // checking permissions
     val unzippedPerms = Files getPosixFilePermissions unzipped
-    unzippedPerms should contain only (OWNER_READ, OWNER_WRITE, OWNER_EXECUTE, GROUP_READ, GROUP_EXECUTE, OTHERS_READ, OTHERS_EXECUTE)
+    unzippedPerms should contain only (
+      OWNER_READ,
+      OWNER_WRITE,
+      OWNER_EXECUTE,
+      GROUP_READ,
+      GROUP_EXECUTE,
+      OTHERS_READ,
+      OTHERS_EXECUTE
+    )
   }
 
 }
