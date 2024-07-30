@@ -51,6 +51,7 @@ trait CommonStartScriptGenerator {
     val scriptClasspath: Seq[String]
     val replacements: Seq[(String, String)]
     val templateLocation: File
+    val forwarderTemplateLocation: Option[File]
 
     def withScriptName(scriptName: String): SpecializedScriptConfig
   }
@@ -135,9 +136,9 @@ trait CommonStartScriptGenerator {
     script -> s"$scriptTargetFolder/$scriptNameWithSuffix"
   }
 
-  private[this] def resolveTemplate(defaultTemplateLocation: File): URL =
-    if (defaultTemplateLocation.exists) defaultTemplateLocation.toURI.toURL
-    else getClass.getResource(defaultTemplateLocation.getName)
+  private[this] def resolveTemplate(templateLocation: File): URL =
+    if (templateLocation.exists) templateLocation.toURI.toURL
+    else getClass.getResource(templateLocation.getName)
 
   private[this] def createForwarderScripts(
     executableScriptName: String,
@@ -147,7 +148,8 @@ trait CommonStartScriptGenerator {
     log: sbt.Logger
   ): Seq[(File, String)] = {
     val tmp = targetDir / scriptTargetFolder
-    val forwarderTemplate = getClass.getResource(forwarderTemplateName)
+    val forwarderTemplate =
+      config.forwarderTemplateLocation.map(resolveTemplate).getOrElse(getClass.getResource(forwarderTemplateName))
     val classAndScriptNames = ScriptUtils.createScriptNames(discoveredMainClasses)
     ScriptUtils.warnOnScriptNameCollision(classAndScriptNames :+ ("<main script>" -> mainScriptName(config)), log)
     classAndScriptNames.map { case (qualifiedClassName, scriptNameWithoutSuffix) =>

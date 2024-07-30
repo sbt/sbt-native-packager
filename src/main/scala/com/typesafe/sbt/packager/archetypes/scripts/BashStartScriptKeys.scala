@@ -31,4 +31,7 @@ trait BashStartScriptKeys {
     "bashScriptConfigLocation",
     "The location where the bash script will load default argument configuration from."
   )
+
+  val bashForwarderTemplateLocation =
+    TaskKey[Option[File]]("bashForwarderTemplateLocation", "The location of the bash forwarder template")
 }
