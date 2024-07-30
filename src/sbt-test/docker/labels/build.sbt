@@ -6,7 +6,6 @@ version := "0.1.0"
 
 dockerLabels := Map("foo" -> "bar", "fooBar" -> "foo bar", "number" -> "123")
 
-
 TaskKey[Unit]("checkDockerfile") := {
   val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
 
