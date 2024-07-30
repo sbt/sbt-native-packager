@@ -427,6 +427,22 @@ lib_dir=&quot;$(realpath &quot;${app_home}/../lib&quot;)&quot;</p><p>${{template
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.scripts.AshScriptPlugin#ashForwarderTemplate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ashForwarderTemplate:String"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/AshScriptPlugin$.html#ashForwarderTemplate:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ashForwarderTemplate</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      
     </li><li name="com.typesafe.sbt.packager.archetypes.scripts.AshScriptPlugin#ashTemplate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ashTemplate:String"></a>
       <span class="permalink">
@@ -758,9 +774,9 @@ lib_dir=&quot;$(realpath &quot;${app_home}/../lib&quot;)&quot;</p><p>${{template
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AutoPlugin</dd></dl></div>
     </li><li name="com.typesafe.sbt.packager.archetypes.scripts.AshScriptPlugin#projectSettings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:sbt.Task[Seq[String]]withsbt.Task[java.io.File]&lt;:sbt.Task[_&gt;:Seq[String]withjava.io.File&lt;:Object]]]"></a><a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:Task[Seq[String]]withTask[File]&lt;:Task[_&gt;:Seq[String]withFile&lt;:AnyRef]]]"></a>
+      <a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:sbt.Task[Seq[String]]withsbt.Task[Option[java.io.File]]withsbt.Task[java.io.File]&lt;:sbt.Task[_&gt;:Seq[String]withOption[java.io.File]withjava.io.File&lt;:Object]]]"></a><a id="projectSettings:Seq[sbt.Def.Setting[_&gt;:Task[Seq[String]]withTask[Option[File]]withTask[File]&lt;:Task[_&gt;:Seq[String]withOption[File]withFile&lt;:AnyRef]]]"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/AshScriptPlugin$.html#projectSettings:Seq[sbt.Def.Setting[_&gt;:sbt.Task[Seq[String]]withsbt.Task[java.io.File]&lt;:sbt.Task[_&gt;:Seq[String]withjava.io.File&lt;:Object]]]" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/AshScriptPlugin$.html#projectSettings:Seq[sbt.Def.Setting[_&gt;:sbt.Task[Seq[String]]withsbt.Task[Option[java.io.File]]withsbt.Task[java.io.File]&lt;:sbt.Task[_&gt;:Seq[String]withOption[java.io.File]withjava.io.File&lt;:Object]]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -769,7 +785,7 @@ lib_dir=&quot;$(realpath &quot;${app_home}/../lib&quot;)&quot;</p><p>${{template
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.internal.util.Init.Setting">sbt.Def.Setting</span>[_ &gt;: <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="java.io.File">File</span>] &lt;: <span class="extype" name="sbt.Task">Task</span>[_ &gt;: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>] with <span class="extype" name="java.io.File">File</span> &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span>]]]</span>
+        <span class="name">projectSettings</span><span class="result">: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="sbt.internal.util.Init.Setting">sbt.Def.Setting</span>[_ &gt;: <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>]] with <span class="extype" name="sbt.Task">Task</span>[<span class="extype" name="java.io.File">File</span>] &lt;: <span class="extype" name="sbt.Task">Task</span>[_ &gt;: <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="java.lang.String">String</span>] with <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] with <span class="extype" name="java.io.File">File</span> &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span>]]]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.AshScriptPlugin">AshScriptPlugin</a> → AutoPlugin</dd></dl></div>

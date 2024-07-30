@@ -223,7 +223,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">BashScriptConfig</span><span class="params">(<span name="executableScriptName">executableScriptName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="scriptClasspath">scriptClasspath: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="templateLocation">templateLocation: <span class="extype" name="java.io.File">File</span></span>)</span><span class="result"> extends <a href="BashStartScriptPlugin$.html#ScriptConfigextendsAnyRef" class="extmbr" name="com.typesafe.sbt.packager.archetypes.scripts.CommonStartScriptGenerator.ScriptConfig">ScriptConfig</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">BashScriptConfig</span><span class="params">(<span name="executableScriptName">executableScriptName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="scriptClasspath">scriptClasspath: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="templateLocation">templateLocation: <span class="extype" name="java.io.File">File</span></span>, <span name="forwarderTemplateLocation">forwarderTemplateLocation: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>]</span>)</span><span class="result"> extends <a href="BashStartScriptPlugin$.html#ScriptConfigextendsAnyRef" class="extmbr" name="com.typesafe.sbt.packager.archetypes.scripts.CommonStartScriptGenerator.ScriptConfig">ScriptConfig</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
@@ -279,9 +279,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.BashScriptConfig#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(executableScriptName:String,scriptClasspath:Seq[String],replacements:Seq[(String,String)],templateLocation:java.io.File):com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.BashScriptConfig"></a><a id="&lt;init&gt;:BashScriptConfig"></a>
+      <a id="&lt;init&gt;(executableScriptName:String,scriptClasspath:Seq[String],replacements:Seq[(String,String)],templateLocation:java.io.File,forwarderTemplateLocation:Option[java.io.File]):com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.BashScriptConfig"></a><a id="&lt;init&gt;:BashScriptConfig"></a>
       <span class="permalink">
-      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BashStartScriptPlugin$$BashScriptConfig.html#&lt;init&gt;(executableScriptName:String,scriptClasspath:Seq[String],replacements:Seq[(String,String)],templateLocation:java.io.File):com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.BashScriptConfig" title="Permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BashStartScriptPlugin$$BashScriptConfig.html#&lt;init&gt;(executableScriptName:String,scriptClasspath:Seq[String],replacements:Seq[(String,String)],templateLocation:java.io.File,forwarderTemplateLocation:Option[java.io.File]):com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.BashScriptConfig" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -290,7 +290,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">BashScriptConfig</span><span class="params">(<span name="executableScriptName">executableScriptName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="scriptClasspath">scriptClasspath: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="templateLocation">templateLocation: <span class="extype" name="java.io.File">File</span></span>)</span>
+        <span class="name">BashScriptConfig</span><span class="params">(<span name="executableScriptName">executableScriptName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="scriptClasspath">scriptClasspath: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="replacements">replacements: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="templateLocation">templateLocation: <span class="extype" name="java.io.File">File</span></span>, <span name="forwarderTemplateLocation">forwarderTemplateLocation: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>]</span>)</span>
       </span>
       
       
@@ -446,6 +446,22 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.BashScriptConfig#forwarderTemplateLocation" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="forwarderTemplateLocation:Option[java.io.File]"></a><a id="forwarderTemplateLocation:Option[File]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/typesafe/sbt/packager/archetypes/scripts/BashStartScriptPlugin$$BashScriptConfig.html#forwarderTemplateLocation:Option[java.io.File]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">forwarderTemplateLocation</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptPlugin.BashScriptConfig">BashScriptConfig</a> → <a href="CommonStartScriptGenerator$ScriptConfig.html" class="extype" name="com.typesafe.sbt.packager.archetypes.scripts.CommonStartScriptGenerator.ScriptConfig">ScriptConfig</a></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
