@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "8.16.0" % Provided,
   "org.vafer" % "jdeb" % "1.10" % Provided artifacts Artifact("jdeb", "jar", "jar"),
-  "org.apache.commons" % "commons-compress" % "1.26.1",
+  "org.apache.commons" % "commons-compress" % "1.26.2",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.14",
   // workaround for the command line size limit
@@ -29,7 +29,7 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= {
   (pluginCrossBuild / sbtVersion).value match {
     case v if v.startsWith("1.") =>
-      Seq("org.scala-sbt" %% "io" % "1.9.9")
+      Seq("org.scala-sbt" %% "io" % "1.10.0")
     case _ => Seq()
   }
 }
