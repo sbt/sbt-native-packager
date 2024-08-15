@@ -75,10 +75,12 @@ object AshScriptPlugin extends AutoPlugin {
   override def requires = JavaAppPackaging && BashStartScriptPlugin
 
   val ashTemplate = "ash-template"
+  val ashForwarderTemplate = "ash-forwarder-template"
 
   override def projectSettings =
     Seq(
       bashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashTemplate),
+      bashForwarderTemplateLocation := Some(sourceDirectory.value / "templates" / ashForwarderTemplate),
       bashScriptDefines := Defines(
         (scriptClasspath in bashScriptDefines).value,
         bashScriptConfigLocation.value,
