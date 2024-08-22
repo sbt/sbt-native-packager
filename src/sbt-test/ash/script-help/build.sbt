@@ -5,7 +5,7 @@ name := "script-help"
 version := "0.1.0"
 
 TaskKey[Unit]("runCheck") := {
-  val cwd = (stagingDirectory in Universal).value
+  val cwd = (Universal / stagingDirectory).value
   val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath, "-h")
 
   val buffer = new StringBuffer
@@ -21,6 +21,6 @@ TaskKey[Unit]("runCheck") := {
     "special option"
   )
 
-  assert(expectedHelpSamples.forall(output contains _),
+  assert(expectedHelpSamples.forall(output.contains(_)),
     s"Application did not print the correct help message: \n" + output)
 }
