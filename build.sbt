@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "org.vafer" % "jdeb" % "1.10" % Provided artifacts Artifact("jdeb", "jar", "jar"),
   "org.apache.commons" % "commons-compress" % "1.27.0",
   // for jdkpackager
-  "org.apache.ant" % "ant" % "1.10.14",
+  "org.apache.ant" % "ant" % "1.10.15",
   // workaround for the command line size limit
   "com.github.eldis" % "tool-launcher" % "0.2.2",
   "org.scalatest" %% "scalatest" % "3.2.19" % Test
