@@ -3,7 +3,7 @@ organization := "com.github.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
-Global / scalaVersion := "2.12.19"
+Global / scalaVersion := "2.12.20"
 
 // crossBuildingSettings
 crossSbtVersions := Vector("1.1.6")
@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "8.16.0" % Provided,
   "org.vafer" % "jdeb" % "1.10" % Provided artifacts Artifact("jdeb", "jar", "jar"),
-  "org.apache.commons" % "commons-compress" % "1.27.0",
+  "org.apache.commons" % "commons-compress" % "1.27.1",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.15",
   // workaround for the command line size limit
