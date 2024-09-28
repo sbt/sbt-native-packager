@@ -4,6 +4,7 @@ package linux
 
 import sbt._
 import LinuxPlugin.Users
+import scala.Iterable
 
 case class LinuxFileMetaData(
   user: String = Users.Root,
@@ -21,7 +22,7 @@ case class LinuxFileMetaData(
 }
 
 case class LinuxPackageMapping(
-  mappings: Traversable[(File, String)],
+  mappings: Iterable[(File, String)],
   fileData: LinuxFileMetaData = LinuxFileMetaData(),
   zipped: Boolean = false
 ) {
