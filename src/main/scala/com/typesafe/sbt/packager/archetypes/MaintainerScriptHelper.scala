@@ -16,7 +16,7 @@ trait MaintainerScriptHelper {
     * @example
     *   {{{
     * import DebianConstants._
-    * maintainerScripts in Debian := maintainerScriptsFromDirectory(
+    * Debian / maintainerScripts := maintainerScriptsFromDirectory(
     *   sourceDirectory.value / DebianSource / DebianMaintainerScripts, Seq(Preinst, Postinst, Prerm, Postrm)
     * )
     *   }}}
@@ -43,9 +43,9 @@ trait MaintainerScriptHelper {
     *   Adding content from a string
     *   {{{
     * import RpmConstants._
-    * maintainerScripts in Rpm := maintainerScriptsAppend((maintainerScripts in Rpm).value)(
+    * Rpm / maintainerScripts := maintainerScriptsAppend((Rpm / maintainerScripts).value)(
     *    Pretrans -> "echo 'hello, world'",
-    *    Post -> "echo 'installing " + (packageName in Rpm).value + "'"
+    *    Post -> "echo 'installing " + (Rpm / packageName).value + "'"
     * )
     *   }}}
     *
@@ -53,19 +53,19 @@ trait MaintainerScriptHelper {
     *   Adding content from a string and use script replacements
     *   {{{
     * import DebianConstants._
-    * maintainerScripts in Rpm := maintainerScriptsAppend(
-    *   (maintainerScripts in Debian).value,
-    *   (linuxScriptReplacements in Debian).value
+    * Rpm / maintainerScripts := maintainerScriptsAppend(
+    *   (Debian / maintainerScripts).value,
+    *   (Debian / linuxScriptReplacements).value
     * )(
     *    Preinst -> "echo 'hello, world'",
-    *    Postinst -> s"echo 'installing ${(packageName in Debian).value}'"
+    *    Postinst -> s"echo 'installing ${(Debian packageName).value}'"
     * )
     *   }}}
     *
     * @param current
     *   maintainer scripts
     * @param replacements
-    *   (e.g. (linuxScriptReplacements in Debian).value)
+    *   (e.g. (Debian / linuxScriptReplacements).value)
     * @param scripts
     *   scriptName -> scriptContent pairs
     * @return
@@ -90,7 +90,7 @@ trait MaintainerScriptHelper {
     *   Adding content from a string
     *   {{{
     * import RpmConstants._
-    * maintainerScripts in Rpm := maintainerScriptsAppendFromFile((maintainerScripts in Rpm).value)(
+    * Rpm / maintainerScripts := maintainerScriptsAppendFromFile((Rpm / maintainerScripts).value)(
     *    Pretrans -> (sourceDirectory.value / "rpm" / "pretrans"),
     *    Post -> (sourceDirectory.value / "rpm" / "posttrans")
     * )

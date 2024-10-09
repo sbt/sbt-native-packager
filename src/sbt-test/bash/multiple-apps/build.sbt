@@ -6,7 +6,7 @@ name := "test-project"
 version := "0.1.0"
 
 TaskKey[Unit]("checkNoExplicitMain") := {
-  val cwd = (stagingDirectory in Universal).value
+  val cwd = (Universal / stagingDirectory).value
 
   // check MainApp
   val cmd = Seq((cwd / "bin" / "main-app").getAbsolutePath)
@@ -20,7 +20,7 @@ TaskKey[Unit]("checkNoExplicitMain") := {
 }
 
 TaskKey[Unit]("checkExplicitMain") := {
-  val cwd = (stagingDirectory in Universal).value
+  val cwd = (Universal / stagingDirectory).value
 
   // check default start script
   val cmd = Seq((cwd / "bin" / executableScriptName.value).getAbsolutePath)

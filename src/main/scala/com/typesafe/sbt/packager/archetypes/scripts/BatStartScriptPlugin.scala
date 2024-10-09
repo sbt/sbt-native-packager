@@ -134,17 +134,17 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
       batScriptExtraDefines := Nil,
       batScriptReplacements := Replacements(executableScriptName.value),
       // Generating the application configuration
-      mappings in Universal := generateApplicationIni(
-        (mappings in Universal).value,
-        (javaOptions in Universal).value,
+      Universal / mappings := generateApplicationIni(
+        (Universal / mappings).value,
+        (Universal / javaOptions).value,
         batScriptConfigLocation.value,
-        (target in Universal).value,
+        (Universal / target).value,
         streams.value.log
       ),
       makeBatScripts := generateStartScripts(
         BatScriptConfig(
           executableScriptName = executableScriptName.value,
-          scriptClasspath = (scriptClasspath in batScriptReplacements).value,
+          scriptClasspath = (batScriptReplacements / scriptClasspath).value,
           configLocation = batScriptConfigLocation.value,
           extraDefines = batScriptExtraDefines.value,
           replacements = batScriptReplacements.value,
@@ -152,12 +152,12 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
           bundledJvmLocation = bundledJvmLocation.value,
           forwarderTemplateLocation = batForwarderTemplateLocation.value
         ),
-        (mainClass in (Compile, batScriptReplacements)).value,
-        (discoveredMainClasses in Compile).value,
-        (target in Universal).value / "scripts",
+        (Compile / batScriptReplacements / mainClass).value,
+        (Compile / discoveredMainClasses).value,
+        (Universal / target).value / "scripts",
         streams.value.log
       ),
-      mappings in Universal ++= makeBatScripts.value
+      Universal / mappings ++= makeBatScripts.value
     )
 
   /**

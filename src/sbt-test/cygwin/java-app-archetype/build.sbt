@@ -7,7 +7,7 @@ name := "windows-test"
 version := "0.1.0"
 
 TaskKey[Unit]("checkCygwinScript") := {
-  val dir = (stagingDirectory in Universal).value
+  val dir = (Universal / stagingDirectory).value
   // TODO - FIx our cygwin detection!
   val cygwinBash = file("C:\\cygwin\\bin\\bash.exe")
   if (!cygwinBash.exists)

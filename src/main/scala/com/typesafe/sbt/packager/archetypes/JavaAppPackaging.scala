@@ -44,31 +44,31 @@ object JavaAppPackaging extends AutoPlugin {
 
   override def projectSettings =
     Seq(
-      javaOptions in Universal := Nil,
+      Universal / javaOptions := Nil,
       // Here we record the classpath as it's added to the mappings separately, so
       // we can use its order to generate the bash/bat scripts.
       scriptClasspathOrdering := Nil,
-      // Note: This is sometimes on the classpath via dependencyClasspath in Runtime.
+      // Note: This is sometimes on the classpath via Runtime / dependencyClasspath.
       // We need to figure out why sometimes the Attributed[File] is correctly configured
       // and sometimes not.
       scriptClasspathOrdering += {
-        val jar = (packageBin in Compile).value
+        val jar = (Compile / packageBin).value
         val id = projectID.value
-        val art = (artifact in Compile in packageBin).value
+        val art = (Compile / packageBin / artifact).value
         jar -> ("lib/" + makeJarName(id.organization, id.name, id.revision, art.name, art.classifier))
       },
       projectDependencyArtifacts := findProjectDependencyArtifacts.value,
       scriptClasspathOrdering ++= universalDepMappings(
-        (dependencyClasspath in Runtime).value,
+        (Runtime / dependencyClasspath).value,
         projectDependencyArtifacts.value
       ),
       scriptClasspathOrdering := scriptClasspathOrdering.value.distinct,
-      mappings in Universal ++= scriptClasspathOrdering.value,
+      Universal / mappings ++= scriptClasspathOrdering.value,
       scriptClasspath := makeRelativeClasspathNames(scriptClasspathOrdering.value),
-      linuxPackageMappings in Debian += {
-        val name = (packageName in Debian).value
+      Debian / linuxPackageMappings += {
+        val name = (Debian / packageName).value
         val installLocation = defaultLinuxInstallLocation.value
-        val targetDir = (target in Debian).value
+        val targetDir = (Debian / target).value
         // create empty var/log directory
         val d = targetDir / installLocation
         d.mkdirs()
@@ -153,8 +153,8 @@ object JavaAppPackaging extends AutoPlugin {
     stateTask.flatMap { state =>
       val extracted = Project.extract(state)
       // TODO - Is this correct?
-      val module = extracted.get(projectID in ref)
-      val artifactTask = extracted.get(packagedArtifacts in ref)
+      val module = extracted.get(ref / projectID)
+      val artifactTask = extracted.get(ref / packagedArtifacts)
       for {
         arts <- artifactTask
       } yield for {

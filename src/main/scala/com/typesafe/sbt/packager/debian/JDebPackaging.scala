@@ -48,8 +48,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         val data = debianPackageMetadata.value
         val size = debianPackageInstallSize.value
         if (data.info.description == null || data.info.description.isEmpty)
-          sys.error("""packageDescription in Debian cannot be empty. Use
-                 packageDescription in Debian := "My package Description"""")
+          sys.error("""Debian / packageDescription cannot be empty. Use
+                 Debian / packageDescription := "My package Description"""")
         val cfile = target.value / Names.DebianMaintainerScripts / Names.Control
         IO.write(cfile, data.makeContent(size), java.nio.charset.Charset.defaultCharset)
         cfile

@@ -81,23 +81,23 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       debianPackageProvides := Seq.empty,
       debianPackageRecommends := Seq.empty,
       debianSignRole := "builder",
-      target in Debian := target.value / ((name in Debian).value + "-" + (version in Debian).value),
-      name in Debian := (name in Linux).value,
-      maintainerScripts in Debian := (maintainerScripts in Linux).value,
-      packageName in Debian := (packageName in Linux).value,
-      executableScriptName in Debian := (executableScriptName in Linux).value,
-      version in Debian := (version in Linux).value,
-      linuxPackageMappings in Debian := linuxPackageMappings.value,
-      packageDescription in Debian := (packageDescription in Linux).value,
-      packageSummary in Debian := (packageSummary in Linux).value,
-      maintainer in Debian := (maintainer in Linux).value,
-      validatePackageValidators in Debian := Seq(
-        nonEmptyMappings((linuxPackageMappings in Debian).value.flatMap(_.mappings)),
-        filesExist((linuxPackageMappings in Debian).value.flatMap(_.mappings)),
-        checkMaintainer((maintainer in Debian).value, asWarning = false)
+      Debian / target := target.value / ((Debian / name).value + "-" + (Debian / version).value),
+      Debian / name := (Linux / name).value,
+      Debian / maintainerScripts := (Linux / maintainerScripts).value,
+      Debian / packageName := (Linux / packageName).value,
+      Debian / executableScriptName := (Linux / executableScriptName).value,
+      Debian / version := (Linux / version).value,
+      Debian / linuxPackageMappings := linuxPackageMappings.value,
+      Debian / packageDescription := (Linux / packageDescription).value,
+      Debian / packageSummary := (Linux / packageSummary).value,
+      Debian / maintainer := (Linux / maintainer).value,
+      Debian / validatePackageValidators := Seq(
+        nonEmptyMappings((Debian / linuxPackageMappings).value.flatMap(_.mappings)),
+        filesExist((Debian / linuxPackageMappings).value.flatMap(_.mappings)),
+        checkMaintainer((Debian / maintainer).value, asWarning = false)
       ),
       // override the linux sourceDirectory setting
-      sourceDirectory in Debian := sourceDirectory.value,
+      Debian / sourceDirectory := sourceDirectory.value,
       /* ==== Debian configuration settings ==== */
       debianControlScriptsDirectory := (sourceDirectory.value / "debian" / Names.DebianMaintainerScripts),
       debianMaintainerScripts := Seq.empty,
@@ -107,8 +107,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       debianMakePostrmScript := None,
       debianChangelog := None,
       /* === new debian scripts implementation */
-      maintainerScripts in Debian := {
-        val replacements = (linuxScriptReplacements in Debian).value
+      Debian / maintainerScripts := {
+        val replacements = (Debian / linuxScriptReplacements).value
         val scripts = Map(
           Names.Prerm -> defaultMaintainerScript(Names.Prerm).toSeq.flatten,
           Names.Preinst -> defaultMaintainerScript(Names.Preinst).toSeq.flatten,
@@ -157,9 +157,9 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
         }
       },
       debianMaintainerScripts := generateDebianMaintainerScripts(
-        (maintainerScripts in Debian).value,
-        (linuxScriptReplacements in Debian).value,
-        (target in Universal).value
+        (Debian / maintainerScripts).value,
+        (Debian / linuxScriptReplacements).value,
+        (Universal / target).value
       ),
       debianNativeBuildOptions := Nil
     )
@@ -229,8 +229,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   private[this] def createConfFile(meta: PackageMetaData, size: Long, targetDir: File): File = {
     val description = Option(meta.info.description).filterNot(_.isEmpty)
     if (description.isEmpty)
-      sys.error("""packageDescription in Debian cannot be empty. Use
-                 packageDescription in Debian := "My package Description"""")
+      sys.error("""Debian / packageDescription cannot be empty. Use
+                 Debian / packageDescription := "My package Description"""")
     val cfile = targetDir / Names.DebianMaintainerScripts / Names.Control
     IO.write(cfile, meta.makeContent(size), java.nio.charset.Charset.defaultCharset)
     chmod(cfile, "0644")
@@ -468,6 +468,6 @@ object DebianDeployPlugin extends AutoPlugin {
   override def requires = DebianPlugin
 
   override def projectSettings: Seq[Setting[_]] =
-    SettingsHelper.makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
-      SettingsHelper.addPackage(Debian, genChanges in Debian, "changes")
+    SettingsHelper.makeDeploymentSettings(Debian, Debian / packageBin, "deb") ++
+      SettingsHelper.addPackage(Debian, Debian / genChanges, "changes")
 }

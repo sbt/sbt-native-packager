@@ -46,27 +46,27 @@ object JDKPackagerPlugin extends AutoPlugin {
     Seq(
       sourceDirectory := sourceDirectory.value / "deploy",
       target := target.value / dirname,
-      mainClass := (mainClass in Runtime).value,
+      mainClass := (Runtime / mainClass).value,
       name := name.value,
       packageName := packageName.value,
       maintainer := maintainer.value,
       packageSummary := packageSummary.value,
       packageDescription := packageDescription.value,
-      mappings := (mappings in Universal).value,
+      mappings := (Universal / mappings).value,
       antPackagerTasks := locateAntTasks(javaHome.value, sLog.value),
       antExtraClasspath := Seq(sourceDirectory.value, target.value),
       antBuildDefn := makeAntBuild(
         antPackagerTasks.value,
         antExtraClasspath.value,
         name.value,
-        (stage in Universal).value,
+        (Universal / stage).value,
         mappings.value,
         platformDOM(jdkPackagerJVMArgs.value, jdkPackagerProperties.value),
         applicationDOM(name.value, version.value, mainClass.value, jdkPackagerToolkit.value, jdkPackagerAppArgs.value),
         deployDOM(
           jdkPackagerBasename.value,
           jdkPackagerType.value,
-          (artifactPath in LauncherJarPlugin.autoImport.packageJavaLauncherJar).value,
+          (LauncherJarPlugin.autoImport.packageJavaLauncherJar / artifactPath).value,
           target.value,
           infoDOM(
             name.value,
@@ -90,5 +90,5 @@ object JDKPackagerDeployPlugin extends AutoPlugin {
   override def requires = JDKPackagerPlugin
 
   override def projectSettings: Seq[Setting[_]] =
-    SettingsHelper.makeDeploymentSettings(JDKPackager, packageBin in JDKPackager, "jdkPackager")
+    SettingsHelper.makeDeploymentSettings(JDKPackager, JDKPackager / packageBin, "jdkPackager")
 }

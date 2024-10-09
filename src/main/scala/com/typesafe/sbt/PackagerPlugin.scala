@@ -75,14 +75,14 @@ object SbtNativePackager extends AutoPlugin {
 
     @deprecated("Use enablePlugins(xxxDeployPlugin)", "1.x")
     def deploymentSettings =
-      makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
-        makeDeploymentSettings(Rpm, packageBin in Rpm, "rpm") ++
-        makeDeploymentSettings(Windows, packageBin in Windows, "msi") ++
-        makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
-        addPackage(Universal, packageZipTarball in Universal, "tgz") ++
-        makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
-        addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz") ++
-        makeDeploymentSettings(Debian, genChanges in Debian, "changes")
+      makeDeploymentSettings(Debian, Debian / packageBin, "deb") ++
+        makeDeploymentSettings(Rpm, Rpm / packageBin, "rpm") ++
+        makeDeploymentSettings(Windows, Windows / packageBin, "msi") ++
+        makeDeploymentSettings(Universal, Universal / packageBin, "zip") ++
+        addPackage(Universal, Universal / packageZipTarball, "tgz") ++
+        makeDeploymentSettings(UniversalDocs, UniversalDocs / packageBin, "zip") ++
+        addPackage(UniversalDocs, UniversalDocs / packageXzTarball, "txz") ++
+        makeDeploymentSettings(Debian, Debian / genChanges, "changes")
   }
 
   import autoImport._

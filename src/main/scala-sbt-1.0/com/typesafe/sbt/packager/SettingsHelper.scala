@@ -92,5 +92,5 @@ object SettingsHelper {
     *   the ivy configuration to look for resolvers
     */
   private def addResolver(config: Configuration): Seq[Setting[_]] =
-    Seq(otherResolvers ++= (publishTo in config).value.toSeq)
+    Seq(otherResolvers ++= (config / publishTo).value.toSeq)
 }

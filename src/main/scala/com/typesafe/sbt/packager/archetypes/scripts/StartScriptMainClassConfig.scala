@@ -40,9 +40,9 @@ object StartScriptMainClassConfig {
 
   /**
     * @param mainClass
-    *   optional main class, e.g. from (mainClass in Compile).value
+    *   optional main class, e.g. from (Compile / mainClass).value
     * @param discoveredMainClasses
-    *   all discovered main classes, e.g. from (discoveredMainClasses in Compile).value
+    *   all discovered main classes, e.g. from (Compile / discoveredMainClasses).value
     * @return
     *   A start script configuration
     */
