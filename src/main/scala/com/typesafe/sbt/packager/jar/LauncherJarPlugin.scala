@@ -24,29 +24,29 @@ object LauncherJarPlugin extends AutoPlugin {
   override def requires = JavaAppPackaging
 
   override lazy val projectSettings: Seq[Setting[_]] = Defaults
-    .packageTaskSettings(packageJavaLauncherJar, mappings in packageJavaLauncherJar) ++ Seq(
-    mappings in packageJavaLauncherJar := Nil,
-    artifactClassifier in packageJavaLauncherJar := Option("launcher"),
-    packageOptions in packageJavaLauncherJar := {
-      val classpath = (scriptClasspath in packageJavaLauncherJar).value
+    .packageTaskSettings(packageJavaLauncherJar, packageJavaLauncherJar / mappings ) ++ Seq(
+    packageJavaLauncherJar / mappings  := Nil,
+    packageJavaLauncherJar / artifactClassifier  := Option("launcher"),
+    packageJavaLauncherJar / packageOptions  := {
+      val classpath = (packageJavaLauncherJar / scriptClasspath ).value
       val manifestClasspath = Attributes.Name.CLASS_PATH -> classpath.mkString(" ")
       val manifestMainClass =
-        (mainClass in (Compile, packageJavaLauncherJar)).value.map(Attributes.Name.MAIN_CLASS -> _)
+        (Compile / packageJavaLauncherJar / mainClass).value.map(Attributes.Name.MAIN_CLASS -> _)
       Seq(ManifestAttributes(manifestMainClass.toSeq :+ manifestClasspath: _*))
     },
-    artifactName in packageJavaLauncherJar := { (scalaVersion, moduleId, artifact) =>
+    packageJavaLauncherJar / artifactName  := { (scalaVersion, moduleId, artifact) =>
       moduleId.organization + "." + artifact.name + "-" + moduleId.revision +
         artifact.classifier.fold("")("-" + _) + "." + artifact.extension
     },
-    mainClass in (Compile, bashScriptDefines) := {
-      Some(s"""-jar "$$lib_dir/${(artifactPath in packageJavaLauncherJar).value.getName}"""")
+    Compile / bashScriptDefines / mainClass := {
+      Some(s"""-jar "$$lib_dir/${(packageJavaLauncherJar / artifactPath ).value.getName}"""")
     },
-    scriptClasspath in bashScriptDefines := Nil,
-    mainClass in (Compile, batScriptReplacements) := {
-      Some(s"""-jar "%APP_LIB_DIR%\\${(artifactPath in packageJavaLauncherJar).value.getName}"""")
+    bashScriptDefines / scriptClasspath  := Nil,
+    Compile / batScriptReplacements / mainClass := {
+      Some(s"""-jar "%APP_LIB_DIR%\\${(packageJavaLauncherJar / artifactPath ).value.getName}"""")
     },
-    scriptClasspath in batScriptReplacements := Nil,
-    mappings in Universal += {
+    batScriptReplacements / scriptClasspath := Nil,
+    Universal / mappings += {
       val javaLauncher = packageJavaLauncherJar.value
       javaLauncher -> ("lib/" + javaLauncher.getName)
     }

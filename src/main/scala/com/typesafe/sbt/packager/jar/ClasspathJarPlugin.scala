@@ -23,21 +23,21 @@ object ClasspathJarPlugin extends AutoPlugin {
   override def requires = JavaAppPackaging
 
   override lazy val projectSettings: Seq[Setting[_]] = Defaults
-    .packageTaskSettings(packageJavaClasspathJar, mappings in packageJavaClasspathJar) ++ Seq(
-    mappings in packageJavaClasspathJar := Nil,
-    artifactClassifier in packageJavaClasspathJar := Option("classpath"),
-    packageOptions in packageJavaClasspathJar := {
-      val classpath = (scriptClasspath in packageJavaClasspathJar).value
+    .packageTaskSettings(packageJavaClasspathJar, packageJavaClasspathJar / mappings ) ++ Seq(
+    packageJavaClasspathJar / mappings  := Nil,
+    packageJavaClasspathJar / artifactClassifier  := Option("classpath"),
+    packageJavaClasspathJar / packageOptions  := {
+      val classpath = (packageJavaClasspathJar / scriptClasspath ).value
       val manifestClasspath = Attributes.Name.CLASS_PATH -> classpath.mkString(" ")
       Seq(ManifestAttributes(manifestClasspath))
     },
-    artifactName in packageJavaClasspathJar := { (scalaVersion, moduleId, artifact) =>
+    packageJavaClasspathJar / artifactName  := { (scalaVersion, moduleId, artifact) =>
       moduleId.organization + "." + artifact.name + "-" + moduleId.revision +
         artifact.classifier.fold("")("-" + _) + "." + artifact.extension
     },
-    scriptClasspath in bashScriptDefines := Seq((artifactPath in packageJavaClasspathJar).value.getName),
-    scriptClasspath in batScriptReplacements := Seq((artifactPath in packageJavaClasspathJar).value.getName),
-    mappings in Universal += {
+    bashScriptDefines / scriptClasspath := Seq((packageJavaClasspathJar / artifactPath ).value.getName),
+    batScriptReplacements/ scriptClasspath   := Seq((packageJavaClasspathJar / artifactPath ).value.getName),
+    Universal / mappings += {
       val classpathJar = packageJavaClasspathJar.value
       classpathJar -> ("lib/" + classpathJar.getName)
     }
