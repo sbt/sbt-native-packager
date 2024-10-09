@@ -18,7 +18,7 @@ debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)
 debianPackageRecommends in Debian += "git"
 
 TaskKey[Unit]("checkScript") := {
-  val dir = (stagingDirectory in Universal).value
+  val dir = (Universal / stagingDirectory).value
   val script = dir / "bin" / name.value
   System.out.synchronized {
     System.err.println("---SCRIPT---")
