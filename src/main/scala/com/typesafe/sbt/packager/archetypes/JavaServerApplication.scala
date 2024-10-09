@@ -50,23 +50,23 @@ object JavaServerAppPackaging extends AutoPlugin {
     */
   def linuxSettings: Seq[Setting[_]] =
     Seq(
-      javaOptions in Linux := (javaOptions in Universal).value,
+      Linux / javaOptions := (Universal / javaOptions).value,
       // === logging directory mapping ===
       linuxPackageMappings += {
-        packageTemplateMapping(defaultLinuxLogsLocation.value + "/" + (packageName in Linux).value)()
-          .withUser((daemonUser in Linux).value)
-          .withGroup((daemonGroup in Linux).value)
+        packageTemplateMapping(defaultLinuxLogsLocation.value + "/" + (Linux / packageName).value)()
+          .withUser((Linux / daemonUser).value)
+          .withGroup((Linux / daemonGroup).value)
           .withPerms("755")
       },
       linuxPackageSymlinks += {
-        val name = (packageName in Linux).value
+        val name = (Linux / packageName).value
         LinuxSymlink(
           defaultLinuxInstallLocation.value + "/" + name + "/logs",
           defaultLinuxLogsLocation.value + "/" + name
         )
       },
       // === etc config mapping ===
-      bashScriptEnvConfigLocation := Some("/etc/default/" + (packageName in Linux).value),
+      bashScriptEnvConfigLocation := Some("/etc/default/" + (Linux / packageName).value),
       linuxStartScriptName := None,
       daemonStdoutLogFile := None
     )
@@ -78,7 +78,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     linuxEtcDefaultTemplate := getEtcTemplateSource(sourceDirectory.value, (serverLoading ?? None).value),
     makeEtcDefault := makeEtcDefaultScript(
       packageName.value,
-      (target in Universal).value,
+      (Universal / target).value,
       linuxEtcDefaultTemplate.value,
       linuxScriptReplacements.value
     ),
@@ -95,8 +95,8 @@ object JavaServerAppPackaging extends AutoPlugin {
           linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
           // === Maintainer scripts ===
           maintainerScripts := {
-            val scripts = (maintainerScripts in Debian).value
-            val replacements = (linuxScriptReplacements in Debian).value
+            val scripts = (Debian / maintainerScripts).value
+            val replacements = (Debian / linuxScriptReplacements).value
             val contentOf = getScriptContent(Debian, replacements) _
 
             scripts ++ Map(
@@ -109,10 +109,10 @@ object JavaServerAppPackaging extends AutoPlugin {
         )
       ) ++ Seq(
         // === Daemon User and Group ===
-        daemonUser in Debian := (daemonUser in Linux).value,
-        daemonUserUid in Debian := (daemonUserUid in Linux).value,
-        daemonGroup in Debian := (daemonGroup in Linux).value,
-        daemonGroupGid in Debian := (daemonGroupGid in Linux).value
+        Debian / daemonUser := (Linux / daemonUser).value,
+        Debian / daemonUserUid := (Linux / daemonUserUid).value,
+        Debian / daemonGroup := (Linux / daemonGroup).value,
+        Debian / daemonGroupGid := (Linux / daemonGroupGid).value
       )
   }
 
@@ -133,15 +133,15 @@ object JavaServerAppPackaging extends AutoPlugin {
         )
       ) ++ Seq(
         // === Daemon User and Group ===
-        daemonUser in Rpm := (daemonUser in Linux).value,
-        daemonUserUid in Rpm := (daemonUserUid in Linux).value,
-        daemonGroup in Rpm := (daemonGroup in Linux).value,
-        daemonGroupGid in Rpm := (daemonGroupGid in Linux).value,
+        Rpm / daemonUser := (Linux / daemonUser).value,
+        Rpm / daemonUserUid := (Linux / daemonUserUid).value,
+        Rpm / daemonGroup := (Linux / daemonGroup).value,
+        Rpm / daemonGroupGid := (Linux / daemonGroupGid).value,
         // == Maintainer scripts ===
-        maintainerScripts in Rpm := rpmScriptletContents(
+        Rpm / maintainerScripts := rpmScriptletContents(
           rpmScriptsDirectory.value,
-          (maintainerScripts in Rpm).value,
-          (linuxScriptReplacements in Rpm).value
+          (Rpm / maintainerScripts).value,
+          (Rpm / linuxScriptReplacements).value
         )
       )
 

@@ -59,7 +59,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       bashForwarderTemplateLocation := Some(sourceDirectory.value / "templates" / forwarderTemplateName),
       bashScriptExtraDefines := Nil,
       bashScriptDefines := Defines(
-        (scriptClasspath in bashScriptDefines).value,
+        (bashScriptDefines / scriptClasspath).value,
         bashScriptConfigLocation.value,
         bundledJvmLocation.value
       ),
@@ -69,27 +69,27 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       bashScriptConfigLocation := (bashScriptConfigLocation ?? Some(appIniLocation)).value,
       bashScriptEnvConfigLocation := (bashScriptEnvConfigLocation ?? None).value,
       // Generating the application configuration
-      mappings in Universal := generateApplicationIni(
-        (mappings in Universal).value,
-        (javaOptions in Universal).value,
+      Universal / mappings := generateApplicationIni(
+        (Universal / mappings).value,
+        (Universal / javaOptions).value,
         bashScriptConfigLocation.value,
-        (target in Universal).value,
+        (Universal / target).value,
         streams.value.log
       ),
       makeBashScripts := generateStartScripts(
         BashScriptConfig(
           executableScriptName = executableScriptName.value,
-          scriptClasspath = (scriptClasspath in bashScriptDefines).value,
+          scriptClasspath = (bashScriptDefines / scriptClasspath).value,
           replacements = bashScriptReplacements.value,
           templateLocation = bashScriptTemplateLocation.value,
           forwarderTemplateLocation = bashForwarderTemplateLocation.value
         ),
-        (mainClass in (Compile, bashScriptDefines)).value,
-        (discoveredMainClasses in Compile).value,
-        (target in Universal).value / "scripts",
+        (Compile / bashScriptDefines / mainClass).value,
+        (Compile / discoveredMainClasses).value,
+        (Universal / target).value / "scripts",
         streams.value.log
       ),
-      mappings in Universal ++= makeBashScripts.value
+      Universal / mappings ++= makeBashScripts.value
     )
 
   private[this] def generateScriptReplacements(defines: Seq[String]): Seq[(String, String)] = {

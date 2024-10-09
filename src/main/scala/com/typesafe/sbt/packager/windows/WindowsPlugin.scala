@@ -48,53 +48,53 @@ object WindowsPlugin extends AutoPlugin {
     */
   def windowsSettings: Seq[Setting[_]] =
     Seq(
-      sourceDirectory in Windows := sourceDirectory.value / "windows",
-      target in Windows := target.value / "windows",
+      Windows / sourceDirectory  := sourceDirectory.value / "windows",
+      Windows / target  := target.value / "windows",
       // TODO - Should this use normalized name like the linux guys?
-      name in Windows := name.value,
-      packageName in Windows := packageName.value,
+      Windows / name  := name.value,
+      Windows / packageName  := packageName.value,
       // Defaults so that our simplified building works
       candleOptions := Seq("-ext", "WixUtilExtension"),
       lightOptions := Seq("-ext", "WixUIExtension", "-ext", "WixUtilExtension", "-cultures:en-us"),
-      wixProductId := WixHelper.makeGUID((packageName in Windows).value + "_wixProductId"),
-      wixProductUpgradeId := WixHelper.makeGUID((packageName in Windows).value + "_wixProductUpgradeId"),
+      wixProductId := WixHelper.makeGUID((Windows / packageName ).value + "_wixProductId"),
+      wixProductUpgradeId := WixHelper.makeGUID((Windows / packageName ).value + "_wixProductUpgradeId"),
       wixMajorVersion := 3,
-      maintainer in Windows := maintainer.value,
-      packageSummary in Windows := packageSummary.value,
-      packageDescription in Windows := packageDescription.value,
+      Windows / maintainer  := maintainer.value,
+      Windows / packageSummary  := packageSummary.value,
+      Windows / packageDescription  := packageDescription.value,
       wixProductLicense := {
         // TODO - document this default.
-        val default = (sourceDirectory in Windows).value / "License.rtf"
+        val default = (Windows / sourceDirectory ).value / "License.rtf"
         if (default.exists) Some(default)
         else None
       },
       wixPackageInfo := WindowsProductInfo(
         id = wixProductId.value,
-        title = (packageSummary in Windows).value,
-        version = (version in Windows).value,
-        maintainer = (maintainer in Windows).value,
-        description = (packageDescription in Windows).value,
+        title = (Windows / packageSummary ).value,
+        version = (Windows / version ).value,
+        maintainer = (Windows / maintainer ).value,
+        description = (Windows / packageDescription ).value,
         upgradeId = wixProductUpgradeId.value,
         comments = "TODO - we need comments." // TODO - allow comments
       ),
       wixFeatures := Seq.empty,
       wixProductConfig := WixHelper.makeWixProductConfig(
-        (name in Windows).value,
+        (Windows / name ).value,
         wixPackageInfo.value,
         wixFeatures.value,
         wixProductLicense.value
       ),
       wixConfig := WixHelper.makeWixConfig(
-        (name in Windows).value,
+        (Windows / name ).value,
         wixPackageInfo.value,
         WixHelper.getNameSpaceDefinitions(wixMajorVersion.value),
         wixProductConfig.value
       ),
-      wixConfig in Windows := wixConfig.value,
-      wixProductConfig in Windows := wixProductConfig.value,
+      Windows / wixConfig  := wixConfig.value,
+      Windows / wixProductConfig  := wixProductConfig.value,
       wixFile := {
-        val config = (wixConfig in Windows).value
-        val wixConfigFile = (target in Windows).value / ((name in Windows).value + ".wxs")
+        val config = (Windows / wixConfig ).value
+        val wixConfigFile = (Windows / target ).value / ((Windows / name ).value + ".wxs")
         IO.write(wixConfigFile, config.toString)
         wixConfigFile
       },
@@ -145,12 +145,12 @@ object WindowsPlugin extends AutoPlugin {
     }))
 
   /**
-    * set the `mappings in Windows` and the `wixFeatures`
+    * set the `Windows / mappings` and the `wixFeatures`
     */
   def mapGenericFilesToWindows: Seq[Setting[_]] =
     Seq(
-      mappings in Windows := (mappings in Universal).value,
-      wixFeatures := makeWindowsFeatures((packageName in Windows).value, (mappings in Windows).value)
+      Windows / mappings  := (Universal / mappings).value,
+      wixFeatures := makeWindowsFeatures((Windows / packageName ).value, (Windows / mappings ).value)
     )
 
   /**
@@ -222,5 +222,5 @@ object WindowsDeployPlugin extends AutoPlugin {
   override def requires = WindowsPlugin
 
   override def projectSettings: Seq[Setting[_]] =
-    SettingsHelper.makeDeploymentSettings(Windows, packageBin in Windows, "msi")
+    SettingsHelper.makeDeploymentSettings(Windows, Windows / packageBin , "msi")
 }

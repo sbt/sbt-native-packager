@@ -60,15 +60,15 @@ object UniversalPlugin extends AutoPlugin {
   /** The basic settings for the various packaging types. */
   override lazy val projectSettings: Seq[Setting[_]] = Seq[Setting[_]](
     // For now, we provide delegates from dist/stage to universal...
-    dist := (dist in Universal).value,
-    stage := (stage in Universal).value,
+    dist := (Universal / dist).value,
+    stage := (Universal / stage).value,
     // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
-    name in Universal := name.value,
-    name in UniversalDocs := (name in Universal).value,
-    name in UniversalSrc := (name in Universal).value,
-    packageName in Universal := packageName.value,
-    topLevelDirectory := Some((packageName in Universal).value),
-    executableScriptName in Universal := executableScriptName.value
+    Universal / name := name.value,
+    UniversalDocs / name := (Universal / name).value,
+    UniversalSrc / name := (Universal / name).value,
+    Universal / packageName := packageName.value,
+    topLevelDirectory := Some((Universal / packageName).value),
+    Universal / executableScriptName := executableScriptName.value
   ) ++
     makePackageSettingsForConfig(Universal) ++
     makePackageSettingsForConfig(UniversalDocs) ++
@@ -90,19 +90,19 @@ object UniversalPlugin extends AutoPlugin {
           stage := Stager.stage(config.name)(streams.value, stagingDirectory.value, mappings.value)
         )
       ) ++ Seq(
-        sourceDirectory in config := sourceDirectory.value / config.name,
-        validatePackageValidators in config := validatePackageValidators.value,
-        target in config := target.value / config.name
+        config / sourceDirectory := sourceDirectory.value / config.name,
+        config / validatePackageValidators := validatePackageValidators.value,
+        config / target := target.value / config.name
       )
 
   private[this] def defaultUniversalArchiveOptions: Seq[Setting[_]] =
     Seq(
-      universalArchiveOptions in (Universal, packageZipTarball) := Seq("-pcvf"),
-      universalArchiveOptions in (Universal, packageXzTarball) := Seq("-pcvf"),
-      universalArchiveOptions in (UniversalDocs, packageZipTarball) := Seq("-pcvf"),
-      universalArchiveOptions in (UniversalDocs, packageXzTarball) := Seq("-pcvf"),
-      universalArchiveOptions in (UniversalSrc, packageZipTarball) := Seq("-pcvf"),
-      universalArchiveOptions in (UniversalSrc, packageXzTarball) := Seq("-pcvf")
+      Universal / packageZipTarball / universalArchiveOptions := Seq("-pcvf"),
+      Universal / packageXzTarball / universalArchiveOptions := Seq("-pcvf"),
+      UniversalDocs / packageZipTarball / universalArchiveOptions := Seq("-pcvf"),
+      UniversalDocs / packageXzTarball / universalArchiveOptions := Seq("-pcvf"),
+      UniversalDocs / packageXzTarball / universalArchiveOptions := Seq("-pcvf"),
+      UniversalSrc / packageXzTarball / universalArchiveOptions := Seq("-pcvf")
     )
 
   private[this] def printDist(dist: File, streams: TaskStreams): File = {
@@ -120,23 +120,23 @@ object UniversalPlugin extends AutoPlugin {
   ): Seq[Setting[_]] =
     inConfig(config)(
       Seq(
-        universalArchiveOptions in packageKey := Nil,
-        mappings in packageKey := mappings.value,
+        packageKey / universalArchiveOptions := Nil,
+        packageKey / mappings := mappings.value,
         packageKey := packager(
           target.value,
           packageName.value,
-          (mappings in packageKey).value,
+          (packageKey / mappings).value,
           topLevelDirectory.value,
-          (universalArchiveOptions in packageKey).value
+          (packageKey / universalArchiveOptions).value
         ),
-        validatePackageValidators in packageKey := (validatePackageValidators in config).value ++ Seq(
-          nonEmptyMappings((mappings in packageKey).value),
-          filesExist((mappings in packageKey).value),
-          checkMaintainer((maintainer in packageKey).value, asWarning = true)
+        packageKey / validatePackageValidators := (config / validatePackageValidators).value ++ Seq(
+          nonEmptyMappings((packageKey / mappings).value),
+          filesExist((packageKey / mappings).value),
+          checkMaintainer((packageKey / maintainer).value, asWarning = true)
         ),
-        validatePackage in packageKey := Validation
-          .runAndThrow(validatePackageValidators.in(config, packageKey).value, streams.value.log),
-        packageKey := packageKey.dependsOn(validatePackage in packageKey).value
+        packageKey / validatePackage := Validation
+          .runAndThrow((config / packageKey / validatePackageValidators).value, streams.value.log),
+        packageKey := packageKey.dependsOn(packageKey / validatePackage).value
       )
     )
 
@@ -153,8 +153,8 @@ object UniversalDeployPlugin extends AutoPlugin {
   override def requires: Plugins = UniversalPlugin
 
   override def projectSettings: Seq[Setting[_]] =
-    SettingsHelper.makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
-      SettingsHelper.addPackage(Universal, packageZipTarball in Universal, "tgz") ++
-      SettingsHelper.makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
-      SettingsHelper.addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz")
+    SettingsHelper.makeDeploymentSettings(Universal, Universal / packageBin, "zip") ++
+      SettingsHelper.addPackage(Universal, Universal / packageZipTarball, "tgz") ++
+      SettingsHelper.makeDeploymentSettings(UniversalDocs, Universal / packageBin, "zip") ++
+      SettingsHelper.addPackage(UniversalDocs, Universal / packageXzTarball, "txz")
 }
