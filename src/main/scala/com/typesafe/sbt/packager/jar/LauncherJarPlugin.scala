@@ -24,26 +24,26 @@ object LauncherJarPlugin extends AutoPlugin {
   override def requires = JavaAppPackaging
 
   override lazy val projectSettings: Seq[Setting[_]] = Defaults
-    .packageTaskSettings(packageJavaLauncherJar, packageJavaLauncherJar / mappings ) ++ Seq(
-    packageJavaLauncherJar / mappings  := Nil,
-    packageJavaLauncherJar / artifactClassifier  := Option("launcher"),
-    packageJavaLauncherJar / packageOptions  := {
-      val classpath = (packageJavaLauncherJar / scriptClasspath ).value
+    .packageTaskSettings(packageJavaLauncherJar, packageJavaLauncherJar / mappings) ++ Seq(
+    packageJavaLauncherJar / mappings := Nil,
+    packageJavaLauncherJar / artifactClassifier := Option("launcher"),
+    packageJavaLauncherJar / packageOptions := {
+      val classpath = (packageJavaLauncherJar / scriptClasspath).value
       val manifestClasspath = Attributes.Name.CLASS_PATH -> classpath.mkString(" ")
       val manifestMainClass =
         (Compile / packageJavaLauncherJar / mainClass).value.map(Attributes.Name.MAIN_CLASS -> _)
       Seq(ManifestAttributes(manifestMainClass.toSeq :+ manifestClasspath: _*))
     },
-    packageJavaLauncherJar / artifactName  := { (scalaVersion, moduleId, artifact) =>
+    packageJavaLauncherJar / artifactName := { (scalaVersion, moduleId, artifact) =>
       moduleId.organization + "." + artifact.name + "-" + moduleId.revision +
         artifact.classifier.fold("")("-" + _) + "." + artifact.extension
     },
     Compile / bashScriptDefines / mainClass := {
-      Some(s"""-jar "$$lib_dir/${(packageJavaLauncherJar / artifactPath ).value.getName}"""")
+      Some(s"""-jar "$$lib_dir/${(packageJavaLauncherJar / artifactPath).value.getName}"""")
     },
-    bashScriptDefines / scriptClasspath  := Nil,
+    bashScriptDefines / scriptClasspath := Nil,
     Compile / batScriptReplacements / mainClass := {
-      Some(s"""-jar "%APP_LIB_DIR%\\${(packageJavaLauncherJar / artifactPath ).value.getName}"""")
+      Some(s"""-jar "%APP_LIB_DIR%\\${(packageJavaLauncherJar / artifactPath).value.getName}"""")
     },
     batScriptReplacements / scriptClasspath := Nil,
     Universal / mappings += {
