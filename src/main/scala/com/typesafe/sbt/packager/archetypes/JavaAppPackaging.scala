@@ -1,6 +1,6 @@
 package com.typesafe.sbt.packager.archetypes
 
-import sbt.{given, _}
+import sbt._
 import sbt.Keys._
 import com.typesafe.sbt.SbtNativePackager.{Debian, Universal}
 import com.typesafe.sbt.packager._
