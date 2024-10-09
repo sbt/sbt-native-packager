@@ -35,7 +35,7 @@ trait ApplicationIniGenerator {
               // TODO: merge JVM options into the existing application.ini?
               log.warn("--------!!! JVM Options are defined twice !!!-----------")
               log.warn(
-                "application.ini is already present in output package. Will be overridden by 'javaOptions in Universal'"
+                "application.ini is already present in output package. Will be overridden by 'Universal / javaOptions'"
               )
               false
 

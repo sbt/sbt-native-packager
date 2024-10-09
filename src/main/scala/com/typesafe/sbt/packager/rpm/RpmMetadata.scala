@@ -152,14 +152,14 @@ case class RpmSpec(
     // format: off
     val emptyValidators =
       Seq(
-        ensureOr(meta.name, "`name in Rpm` is empty.  Please provide one.", isNonEmpty),
-        ensureOr(meta.version, "`version in Rpm` is empty.  Please provide a valid version for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.name, "`Rpm / name` is empty.  Please provide one.", isNonEmpty),
+        ensureOr(meta.version, "`Rpm / version` is empty.  Please provide a valid version for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.release, "`rpmRelease` is empty.  Please provide a valid release number for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.arch, "`packageArchitecture in Rpm` is empty.  Please provide a valid architecture for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.arch, "`Rpm / packageArchitecture` is empty.  Please provide a valid architecture for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.vendor, "`rpmVendor` is empty.  Please provide a valid vendor for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.os, "`rpmOs` is empty.  Please provide a valid os value for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.summary, "`packageSummary in Rpm` is empty.  Please provide a valid summary for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.description, "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty)
+        ensureOr(meta.summary, "`Rpm / packageSummary` is empty.  Please provide a valid summary for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.description, "`Rpm / packageDescription` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty)
       )
     // format: on
     // TODO - Continue validating after this point?

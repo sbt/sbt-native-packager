@@ -209,7 +209,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     * @param name
     *   of the etc-default config file
     * @param tmpDir
-    *   to store the resulting file in (e.g. target in Universal)
+    *   to store the resulting file in (e.g. Universal / target)
     * @param source
     *   of etc-default script
     * @param replacements

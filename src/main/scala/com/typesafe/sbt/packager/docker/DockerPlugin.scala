@@ -625,7 +625,7 @@ object DockerPlugin extends AutoPlugin {
   }
 
   /**
-    * uses the `mappings in Universal` to generate the `Docker / mappings`.
+    * uses the `Universal / mappings` to generate the `Docker / mappings`.
     */
   def mapGenericFilesToDocker: Seq[Setting[_]] = {
     def renameDests(from: Seq[(File, String)], dest: String) =

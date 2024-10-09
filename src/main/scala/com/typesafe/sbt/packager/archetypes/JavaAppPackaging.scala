@@ -48,7 +48,7 @@ object JavaAppPackaging extends AutoPlugin {
       // Here we record the classpath as it's added to the mappings separately, so
       // we can use its order to generate the bash/bat scripts.
       scriptClasspathOrdering := Nil,
-      // Note: This is sometimes on the classpath via dependencyClasspath in Runtime.
+      // Note: This is sometimes on the classpath via Runtime / dependencyClasspath.
       // We need to figure out why sometimes the Attributed[File] is correctly configured
       // and sometimes not.
       scriptClasspathOrdering += {
