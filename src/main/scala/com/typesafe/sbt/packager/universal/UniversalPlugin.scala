@@ -101,7 +101,7 @@ object UniversalPlugin extends AutoPlugin {
       Universal / packageXzTarball / universalArchiveOptions := Seq("-pcvf"),
       UniversalDocs / packageZipTarball / universalArchiveOptions := Seq("-pcvf"),
       UniversalDocs / packageXzTarball / universalArchiveOptions := Seq("-pcvf"),
-      UniversalDocs / packageXzTarball / universalArchiveOptions := Seq("-pcvf"),
+      UniversalSrc / packageXzTarball / universalArchiveOptions := Seq("-pcvf"),
       UniversalSrc / packageXzTarball / universalArchiveOptions := Seq("-pcvf")
     )
 
