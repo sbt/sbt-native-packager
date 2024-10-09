@@ -66,7 +66,7 @@ object JDKPackagerPlugin extends AutoPlugin {
         deployDOM(
           jdkPackagerBasename.value,
           jdkPackagerType.value,
-          (LauncherJarPlugin.autoImport.packageJavaLauncherJar / artifactPath ).value,
+          (LauncherJarPlugin.autoImport.packageJavaLauncherJar / artifactPath).value,
           target.value,
           infoDOM(
             name.value,
