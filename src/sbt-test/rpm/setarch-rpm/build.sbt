@@ -21,7 +21,7 @@ rpmSetarch := Some("i386")
 
 linuxPackageMappings := {
   val helloMapping = LinuxPackageMapping(
-    Seq((((Compile / resourceDirectory)).value / "hello-32bit", "/usr/share/rpm-package/libexec/hello-32bit"))
+    Seq(((Compile / resourceDirectory).value / "hello-32bit", "/usr/share/rpm-package/libexec/hello-32bit"))
   ) withPerms "0755"
   linuxPackageMappings.value :+ helloMapping
 }

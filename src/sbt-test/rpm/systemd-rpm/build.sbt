@@ -19,7 +19,7 @@ rpmGroup := Some("test-group")
 (Rpm / requiredStartFacilities) := Some("serviceA.service")
 
 TaskKey[Unit]("unzip") := {
-  val rpmPath = Seq(((Rpm / packageBin)).value.getAbsolutePath)
+  val rpmPath = Seq((Rpm / packageBin).value.getAbsolutePath)
   sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
   ()
 }

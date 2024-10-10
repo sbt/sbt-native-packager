@@ -15,7 +15,7 @@ version := "0.1.0"
 (Universal / mappings) ++= contentOf("src/main/resources/docs")
 
 (Universal / mappings) += {
-  ((Compile / packageBin)).value
+  (Compile / packageBin).value
   // we are using the reference.conf as default application.conf
   // the user can override settings here
   val conf = sourceDirectory.value / "main" / "resources" / "reference.conf"
@@ -23,6 +23,6 @@ version := "0.1.0"
 }
 
 TaskKey[Unit]("unzip") := {
-  val args = Seq(((Universal / packageBin)).value.getAbsolutePath)
+  val args = Seq((Universal / packageBin).value.getAbsolutePath)
   sys.process.Process("unzip", args) ! streams.value.log
 }

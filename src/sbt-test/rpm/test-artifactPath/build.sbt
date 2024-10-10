@@ -10,7 +10,7 @@ packageSummary := "Test rpm package"
 
 (Linux / packageName) := "rpm-package"
 
-(Rpm / packageBin / artifactPath) := target.value / s"${((Rpm / packageName)).value}-${((Rpm / version)).value}.rpm"
+(Rpm / packageBin / artifactPath) := target.value / s"${(Rpm / packageName).value}-${(Rpm / version).value}.rpm"
 
 packageDescription := """A fun package description of our software,
   with multiple lines."""

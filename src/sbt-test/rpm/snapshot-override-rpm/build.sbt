@@ -22,5 +22,5 @@ rpmLicense := Some("BSD")
 TaskKey[Unit]("checkSnapshot") := {
   assert(rpmRelease.value == "SNAPSHOT", s"RPM has incorrect value ${rpmRelease.value}")
   assert(rpmMetadata.value.version == "1", s"RPM has incorrect value ${rpmMetadata.value.version}")
-  assert(((Rpm / version)).value == "1", s"RPM has incorrect value ${((Rpm / version)).value}")
+  assert((Rpm / version).value == "1", s"RPM has incorrect value ${(Rpm / version).value}")
 }

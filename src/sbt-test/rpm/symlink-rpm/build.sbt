@@ -18,7 +18,7 @@ rpmLicense := Some("BSD")
 
 linuxPackageSymlinks := {
   val helloSymlink = LinuxSymlink(
-    ((file(defaultLinuxInstallLocation.value) / ((Linux / packageName)).value / "lib") / "hello.link").toString,
+    ((file(defaultLinuxInstallLocation.value) / (Linux / packageName).value / "lib") / "hello.link").toString,
     "/fake/hello.tx"
   )
   Seq(helloSymlink)

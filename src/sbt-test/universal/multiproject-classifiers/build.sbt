@@ -29,13 +29,13 @@ lazy val sub = project
       val assetsDir = baseDirectory.value / "src" / "main" / "assets"
       val sources = assetsDir.**(AllPassFilter).filter(_.isFile) pair (file => IO.relativize(assetsDir, file))
       IO.zip(sources, file)
-      ((Assets / artifact)).value -> file
+      (Assets / artifact).value -> file
     },
     (Assets / exportedProducts) := {
       Seq(
         Attributed
           .blank(baseDirectory.value / "src" / "main" / "assets")
-          .put(artifact.key, ((Assets / artifact)).value)
+          .put(artifact.key, (Assets / artifact).value)
           .put(AttributeKey[ModuleID]("module-id"), projectID.value)
       )
     }

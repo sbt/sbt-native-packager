@@ -12,7 +12,7 @@ version := "0.1.0"
 libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.30"
 
 TaskKey[Unit]("checkDockerfile") := {
-  val dockerfile = IO.read(((Docker / stagingDirectory)).value / "Dockerfile")
+  val dockerfile = IO.read((Docker / stagingDirectory).value / "Dockerfile")
   val copyLines = dockerfile.linesIterator.toList.filter(_.startsWith("COPY --from=stage0"))
   assertEquals(
     copyLines,
@@ -24,7 +24,7 @@ TaskKey[Unit]("checkDockerfile") := {
 }
 
 TaskKey[Unit]("checkDockerfileWithNoLayers") := {
-  val dockerfile = IO.read(((Docker / stagingDirectory)).value / "Dockerfile")
+  val dockerfile = IO.read((Docker / stagingDirectory).value / "Dockerfile")
   val copyLines = dockerfile.linesIterator.toList.filter(_.startsWith("COPY --from=stage0"))
   assertEquals(
     copyLines,

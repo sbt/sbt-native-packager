@@ -44,7 +44,7 @@ TaskKey[Unit]("checkImage") := {
     case osys if osys.contains("win") ⇒ (".exe", 'windows)
     case _ ⇒ ("", 'linux)
   }
-  val expectedImage = ((JDKPackager / target)).value / "bundles" / (name.value + extension)
+  val expectedImage = (JDKPackager / target).value / "bundles" / (name.value + extension)
   println(s"Checking for '${expectedImage.getAbsolutePath}'")
   assert(expectedImage.exists, s"Expected image file to be found at '$expectedImage'")
 
