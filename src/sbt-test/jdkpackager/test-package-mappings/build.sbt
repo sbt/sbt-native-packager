@@ -16,9 +16,9 @@ packageDescription := "Test JDKPackagerPlugin with mappings"
 
 jdkPackagerType := "image"
 
-(Universal / mappings) += baseDirectory.value / "src" / "deploy" / "README.md" -> "README.md"
+Universal / mappings += baseDirectory.value / "src" / "deploy" / "README.md" -> "README.md"
 
-(Universal / mappings) ++= {
+Universal / mappings ++= {
   val dir = baseDirectory.value / "src" / "deploy" / "stuff"
   (dir.**(AllPassFilter) --- dir) pair (file => IO.relativize(dir.getParentFile, file))
 }

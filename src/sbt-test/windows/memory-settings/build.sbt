@@ -6,7 +6,7 @@ name := "simple-app"
 
 version := "0.1.0"
 
-(Universal / javaOptions) ++= Seq("-J-Xmx64m", "-J-Xms64m")
+Universal / javaOptions ++= Seq("-J-Xmx64m", "-J-Xms64m")
 
 TaskKey[Unit]("jvmoptsCheck") := {
   val jvmopts = (Universal / stagingDirectory).value / "conf" / "application.ini"

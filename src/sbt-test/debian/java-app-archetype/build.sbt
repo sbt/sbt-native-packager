@@ -13,9 +13,9 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-(Debian / debianPackageDependencies) ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
+Debian / debianPackageDependencies ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
 
-(Debian / debianPackageRecommends) += "git"
+Debian / debianPackageRecommends += "git"
 
 TaskKey[Unit]("checkScript") := {
   val dir = (Universal / stagingDirectory).value

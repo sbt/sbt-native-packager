@@ -399,7 +399,7 @@ You can also use the following approach if, for example, you need more flexibili
 
 .. code-block:: scala
 
-    (Universal / mappings) ++= {
+    Universal / mappings ++= {
         val dir = target.value / "scala-2.10" / "api"
         (dir ** AllPassFilter) pair relativeTo(dir.getParentFile)
     }

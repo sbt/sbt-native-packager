@@ -4,7 +4,7 @@ name := "absolute-path-in-bat"
 
 version := "0.1.0"
 
-(batScriptReplacements / scriptClasspath) ++= Seq("x:\\dummy\\absolute\\path", "relative\\path")
+batScriptReplacements / scriptClasspath ++= Seq("x:\\dummy\\absolute\\path", "relative\\path")
 
 TaskKey[Unit]("runCheck") := {
   val dir = (Universal / stagingDirectory).value

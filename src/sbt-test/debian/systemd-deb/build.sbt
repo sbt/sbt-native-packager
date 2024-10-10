@@ -12,7 +12,7 @@ packageDescription := """A fun package description of our software,
 
 (Linux / daemonUser) := "testuser"
 
-(Debian / systemdSuccessExitStatus) += "1"
+Debian / systemdSuccessExitStatus += "1"
 
 TaskKey[Unit]("checkStartupScript") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "lib" / "systemd" / "system" / "debian-test.service")

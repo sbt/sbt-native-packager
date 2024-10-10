@@ -9,12 +9,12 @@ name := "simple-test"
 version := "0.1.0"
 
 // or just place your cache folder in /src/universal/
-(Universal / mappings) ++= directory("src/main/resources/cache")
+Universal / mappings ++= directory("src/main/resources/cache")
 
 // or just place your cache folder in /src/universal/
-(Universal / mappings) ++= contentOf("src/main/resources/docs")
+Universal / mappings ++= contentOf("src/main/resources/docs")
 
-(Universal / mappings) += {
+Universal / mappings += {
   (Compile / packageBin).value
   // we are using the reference.conf as default application.conf
   // the user can override settings here

@@ -6,7 +6,7 @@ name := "java-home-override"
 
 version := "0.1.0"
 
-(Universal / javaOptions) ++= Seq("-java-home ${app_home}/../jre")
+Universal / javaOptions ++= Seq("-java-home ${app_home}/../jre")
 
 TaskKey[Unit]("runCheck") := {
   val cwd = (Universal / stagingDirectory).value
