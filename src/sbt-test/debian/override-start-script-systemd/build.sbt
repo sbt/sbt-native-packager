@@ -1,10 +1,10 @@
 enablePlugins(JavaServerAppPackaging, JDebPackaging, SystemdPlugin)
 
 // TODO change this after #437 is fixed
-daemonUser in Linux := "root"
-daemonGroup in Linux := "app-group"
+(Linux / daemonUser) := "root"
+(Linux / daemonGroup) := "app-group"
 
-mainClass in Compile := Some("empty")
+(Compile / mainClass) := Some("empty")
 
 name := "debian-test"
 version := "0.1.0"

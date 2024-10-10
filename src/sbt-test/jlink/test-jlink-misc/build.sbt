@@ -8,7 +8,7 @@ val runChecks = taskKey[Unit]("Run checks for a specific issue")
 val runFailingChecks = taskKey[Unit]("Run checks for a specific issue, expecting them to fail")
 
 // Exclude Scala by default to simplify the test.
-autoScalaLibrary in ThisBuild := false
+(ThisBuild / autoScalaLibrary) := false
 
 // Should succeed for multi-release artifacts
 val issue1243 = project
@@ -28,7 +28,7 @@ val issue1243 = project
 val issue1247BadAutoModuleName = project
   .enablePlugins(JlinkPlugin)
   .settings(
-    managedClasspath in Compile += {
+    (Compile / managedClasspath) += {
       // Build an empty jar with an unsupported name
       val jarFile = target.value / "foo_2.11.jar"
       IO.jar(Nil, jarFile, new java.util.jar.Manifest)
@@ -72,12 +72,12 @@ val issue1266 = project
     libraryDependencies += "com.sun.xml.fastinfoset" % "FastInfoset" % "1.2.16",
     // A lot of "dummy" dependencies, so that the resulting classpath is over
     // the command line limit (2MB on my machine)
-    unmanagedJars in Compile ++= {
+    (Compile / unmanagedJars) ++= {
       def mkPath(ix: Int) = target.value / s"there-is-no-such-file-$ix.jar"
 
       1.to(300000).map(mkPath)
     },
-    logLevel in jlinkModules := Level.Error,
+    (jlinkModules / logLevel) := Level.Error,
     runChecks := jlinkBuildImage.value
   )
 
@@ -106,8 +106,7 @@ val issue1293 = project
     // Use `paramaner` (and only it) as an automatic module
     jlinkModulePath := {
       // Get the full classpath with all the resolved dependencies.
-      fullClasspath
-        .in(jlinkBuildImage)
+      (jlinkBuildImage / fullClasspath)
         .value
         // Find the ones that have `paranamer` as their artifact names.
         .filter { item =>

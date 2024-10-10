@@ -11,7 +11,7 @@ lazy val root = (project in file("."))
     name := "file-permission-test",
     version := "0.1.0",
     checkDockerfileDefaults := {
-      val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
+      val dockerfile = IO.read(((Docker / stagingDirectory)).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(
         lines.take(2),
@@ -41,7 +41,7 @@ lazy val root = (project in file("."))
       )
     },
     checkDockerfileWithStrategyNone := {
-      val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
+      val dockerfile = IO.read(((Docker / stagingDirectory)).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(
         lines,
@@ -57,7 +57,7 @@ lazy val root = (project in file("."))
       )
     },
     checkDockerfileWithStrategyNoneGid := {
-      val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
+      val dockerfile = IO.read(((Docker / stagingDirectory)).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(
         lines,
@@ -73,7 +73,7 @@ lazy val root = (project in file("."))
       )
     },
     checkDockerfileWithStrategyRun := {
-      val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
+      val dockerfile = IO.read(((Docker / stagingDirectory)).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(
         lines,
@@ -91,7 +91,7 @@ lazy val root = (project in file("."))
       )
     },
     checkDockerfileWithStrategyCopyChown := {
-      val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
+      val dockerfile = IO.read(((Docker / stagingDirectory)).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(
         lines,
@@ -105,7 +105,7 @@ lazy val root = (project in file("."))
       )
     },
     checkDockerfileWithWriteExecute := {
-      val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
+      val dockerfile = IO.read(((Docker / stagingDirectory)).value / "Dockerfile")
       val lines = dockerfile.linesIterator.toList
       assertEquals(
         lines.take(2),

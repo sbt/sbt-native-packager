@@ -1,8 +1,8 @@
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
-daemonUser in Debian := "root"
+(Debian / daemonUser) := "root"
 
-mainClass in Compile := Some("empty")
+(Compile / mainClass) := Some("empty")
 
 name := "debian-test"
 
@@ -17,7 +17,7 @@ packageDescription := """A fun package description of our software,
 
 requiredStartFacilities := Some("$test-service")
 
-requiredStartFacilities in Debian := Some("$test-deb-service")
+(Debian / requiredStartFacilities) := Some("$test-deb-service")
 
 daemonStdoutLogFile := Some("test.log")
 

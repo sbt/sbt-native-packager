@@ -9,13 +9,13 @@ name := "simple-test"
 version := "0.1.0"
 
 // or just place your cache folder in /src/universal/
-mappings in Universal ++= directory("src/main/resources/cache")
+(Universal / mappings) ++= directory("src/main/resources/cache")
 
 // or just place your cache folder in /src/universal/
-mappings in Universal ++= contentOf("src/main/resources/docs")
+(Universal / mappings) ++= contentOf("src/main/resources/docs")
 
-mappings in Universal += {
-  (packageBin in Compile).value
+(Universal / mappings) += {
+  ((Compile / packageBin)).value
   // we are using the reference.conf as default application.conf
   // the user can override settings here
   val conf = sourceDirectory.value / "main" / "resources" / "reference.conf"
@@ -23,6 +23,6 @@ mappings in Universal += {
 }
 
 TaskKey[Unit]("unzip") := {
-  val args = Seq((packageBin in Universal).value.getAbsolutePath)
+  val args = Seq(((Universal / packageBin)).value.getAbsolutePath)
   sys.process.Process("unzip", args) ! streams.value.log
 }

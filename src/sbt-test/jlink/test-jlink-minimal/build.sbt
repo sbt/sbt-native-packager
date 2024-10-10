@@ -7,7 +7,7 @@ enablePlugins(JlinkPlugin, ClasspathJarPlugin, BashStartScriptPlugin, BatStartSc
 
 // Exclude Scala to avoid linking additional modules
 autoScalaLibrary := false
-mappings in (Compile, packageDoc) := Seq()
+(Compile / packageDoc / mappings) := Seq()
 
 TaskKey[Unit]("runChecks") := {
   val log = streams.value.log
@@ -23,7 +23,7 @@ TaskKey[Unit]("runChecks") := {
     case _ ⇒ ("", 'linux)
   }
 
-  val stageDir = stagingDirectory.in(Universal).value
+  val stageDir = (Universal / stagingDirectory).value
   val bundledJvmDir = (stageDir / "jre")
   val javaExe = (bundledJvmDir / "bin" / ("java" + extension)).getAbsolutePath
 

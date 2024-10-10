@@ -16,10 +16,10 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 rpmLicense := Some("BSD")
 rpmGroup := Some("test-group")
 
-requiredStartFacilities in Rpm := Some("serviceA.service")
+(Rpm / requiredStartFacilities) := Some("serviceA.service")
 
 TaskKey[Unit]("unzip") := {
-  val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
+  val rpmPath = Seq(((Rpm / packageBin)).value.getAbsolutePath)
   sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
   ()
 }

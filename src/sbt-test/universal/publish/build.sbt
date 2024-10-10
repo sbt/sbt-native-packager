@@ -12,6 +12,6 @@ resolvers += testResolver
 resolvers += Resolver.mavenLocal
 
 // Workaround for overwriting packages at .m2 directory
-isSnapshot in ThisBuild := true
+(ThisBuild / isSnapshot) := true
 
-publishTo in Universal := Some(testResolver)
+(Universal / publishTo) := Some(testResolver)

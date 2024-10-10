@@ -23,19 +23,19 @@ lazy val sub = project
   .settings(mySettings)
   .settings(
     ivyConfigurations += Assets,
-    artifact in Assets := artifact.value.withClassifier(classifier = Some("assets")),
+    (Assets / artifact) := artifact.value.withClassifier(classifier = Some("assets")),
     packagedArtifacts += {
       val file = target.value / "assets.jar"
       val assetsDir = baseDirectory.value / "src" / "main" / "assets"
       val sources = assetsDir.**(AllPassFilter).filter(_.isFile) pair (file => IO.relativize(assetsDir, file))
       IO.zip(sources, file)
-      (artifact in Assets).value -> file
+      ((Assets / artifact)).value -> file
     },
-    exportedProducts in Assets := {
+    (Assets / exportedProducts) := {
       Seq(
         Attributed
           .blank(baseDirectory.value / "src" / "main" / "assets")
-          .put(artifact.key, (artifact in Assets).value)
+          .put(artifact.key, ((Assets / artifact)).value)
           .put(AttributeKey[ModuleID]("module-id"), projectID.value)
       )
     }

@@ -8,11 +8,11 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-requiredStartFacilities in Debian := Some("network.target")
+(Debian / requiredStartFacilities) := Some("network.target")
 
-daemonUser in Linux := "testuser"
+(Linux / daemonUser) := "testuser"
 
-systemdSuccessExitStatus in Debian += "1"
+(Debian / systemdSuccessExitStatus) += "1"
 
 TaskKey[Unit]("checkStartupScript") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "lib" / "systemd" / "system" / "debian-test.service")

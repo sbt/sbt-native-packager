@@ -16,13 +16,13 @@ rpmLicense := Some("BSD")
 rpmGroup := Some("test-group")
 rpmDaemonLogFile := "test.log"
 
-mainClass in (Compile, run) := Some("com.example.MainApp")
+(Compile / run / mainClass) := Some("com.example.MainApp")
 
 TaskKey[Unit]("unzipAndCheck") := {
-  val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
+  val rpmPath = Seq(((Rpm / packageBin)).value.getAbsolutePath)
   sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
   val scriptlets =
-    sys.process.Process("rpm -qp --scripts " + (packageBin in Rpm).value.getAbsolutePath) !! streams.value.log
+    sys.process.Process("rpm -qp --scripts " + ((Rpm / packageBin)).value.getAbsolutePath) !! streams.value.log
   assert(scriptlets contains "addGroup rpm-test", "addGroup not present in \n" + scriptlets)
   assert(scriptlets contains "addUser rpm-test", "Incorrect useradd command in \n" + scriptlets)
   assert(scriptlets contains "deleteGroup rpm-test", "deleteGroup not present in \n" + scriptlets)

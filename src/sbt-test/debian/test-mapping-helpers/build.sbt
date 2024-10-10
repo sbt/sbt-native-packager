@@ -15,13 +15,13 @@ packageDescription := """A fun package description of our software,
 
 // linuxPackageMappings in Debian += packageTemplateMapping("/var/run/debian")   // not work
 // linuxPackageMappings in Debian += packageTemplateMapping("/var/run/debian")() // not work
-linuxPackageMappings in Debian += packageTemplateMapping(Seq("/opt/test/other"): _*)()
+(Debian / linuxPackageMappings) += packageTemplateMapping(Seq("/opt/test/other"): _*)()
 
-linuxPackageMappings in Debian += {
+(Debian / linuxPackageMappings) += {
   packageTemplateMapping("/opt/test/" + Keys.normalizedName.value)(target.value)
 }
 
 // Consider using mappings in Universal
-linuxPackageMappings in Debian += packageDirectoryAndContentsMapping(
+(Debian / linuxPackageMappings) += packageDirectoryAndContentsMapping(
   (baseDirectory.value / "src" / "resources" / "conf") -> "/usr/share/conf"
 )
