@@ -1,10 +1,10 @@
 enablePlugins(JavaServerAppPackaging, UpstartPlugin)
 
 // TODO change this after #437 is fixed
-(Linux / daemonUser) := "root"
-(Linux / daemonGroup) := "app-group"
+Linux / daemonUser := "root"
+Linux / daemonGroup := "app-group"
 
-(Compile / mainClass) := Some("empty")
+Compile / mainClass := Some("empty")
 
 name := "debian-test"
 version := "0.1.0"

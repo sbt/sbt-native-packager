@@ -23,15 +23,15 @@ rpmLicense := Some("BSD")
 
 rpmEpoch := Some(1)
 
-(Rpm / packageArchitecture) := "x86_64"
+Rpm / packageArchitecture := "x86_64"
 
-(Rpm / linuxPackageMappings) := {
+Rpm / linuxPackageMappings := {
   val mapping1 = ((baseDirectory.value / "test"), "tmp/test")
   val mapping2 = ((baseDirectory.value / "build.sbt"), "/tmp/build.sbt")
   Seq(LinuxPackageMapping(Seq(mapping1, mapping2)))
 }
 
-(Rpm / defaultLinuxInstallLocation) := "/opt/foo"
+Rpm / defaultLinuxInstallLocation := "/opt/foo"
 
 TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")

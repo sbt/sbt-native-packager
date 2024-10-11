@@ -16,7 +16,7 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 rpmLicense := Some("BSD")
 rpmGroup := Some("test-group")
 
-(Rpm / requiredStartFacilities) := Some("serviceA.service")
+Rpm / requiredStartFacilities := Some("serviceA.service")
 
 TaskKey[Unit]("unzip") := {
   val rpmPath = Seq((Rpm / packageBin).value.getAbsolutePath)

@@ -1,6 +1,6 @@
 enablePlugins(DebianPlugin)
 
-(Debian / debianNativeBuildOptions) := Nil
+Debian / debianNativeBuildOptions := Nil
 
 maintainer := "Maintainer <maintainer@example.com>"
 

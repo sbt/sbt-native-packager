@@ -23,7 +23,7 @@ lazy val sub = project
   .settings(mySettings)
   .settings(
     ivyConfigurations += Assets,
-    (Assets / artifact) := artifact.value.withClassifier(classifier = Some("assets")),
+    Assets / artifact := artifact.value.withClassifier(classifier = Some("assets")),
     packagedArtifacts += {
       val file = target.value / "assets.jar"
       val assetsDir = baseDirectory.value / "src" / "main" / "assets"
@@ -31,7 +31,7 @@ lazy val sub = project
       IO.zip(sources, file)
       (Assets / artifact).value -> file
     },
-    (Assets / exportedProducts) := {
+    Assets / exportedProducts := {
       Seq(
         Attributed
           .blank(baseDirectory.value / "src" / "main" / "assets")

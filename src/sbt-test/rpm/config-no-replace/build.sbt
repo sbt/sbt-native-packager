@@ -21,7 +21,7 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
-(Rpm / packageArchitecture) := "x86_64"
+Rpm / packageArchitecture := "x86_64"
 
 linuxPackageMappings := configWithNoReplace(linuxPackageMappings.value)
 

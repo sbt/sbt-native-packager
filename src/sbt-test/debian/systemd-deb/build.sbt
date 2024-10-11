@@ -8,9 +8,9 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-(Debian / requiredStartFacilities) := Some("network.target")
+Debian / requiredStartFacilities := Some("network.target")
 
-(Linux / daemonUser) := "testuser"
+Linux / daemonUser := "testuser"
 
 Debian / systemdSuccessExitStatus += "1"
 

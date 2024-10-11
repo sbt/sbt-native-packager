@@ -4,7 +4,7 @@ organization := "com.example"
 name := "docker-test"
 
 // packageName := "docker-package" // sets the executable script, too
-(Docker / packageName) := "docker-package"
+Docker / packageName := "docker-package"
 
 version := "0.1.0"
 

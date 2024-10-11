@@ -2,9 +2,9 @@ enablePlugins(JavaServerAppPackaging)
 
 name := "debian-test"
 
-(Debian / name) := "debian-test-override"
+Debian / name := "debian-test-override"
 
-(Linux / packageName) := "debian-test-package"
+Linux / packageName := "debian-test-package"
 
 version := "0.1.0"
 

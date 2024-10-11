@@ -1,10 +1,10 @@
 enablePlugins(JavaServerAppPackaging, UpstartPlugin)
 
-(Linux / daemonUser) := "daemonuser"
-(Linux / daemonGroup) := "daemongroup"
-(Linux / daemonGroupGid) := Some("25000")
+Linux / daemonUser := "daemonuser"
+Linux / daemonGroup := "daemongroup"
+Linux / daemonGroupGid := Some("25000")
 
-(Compile / mainClass) := Some("empty")
+Compile / mainClass := Some("empty")
 
 name := "debian-test"
 version := "0.1.0"

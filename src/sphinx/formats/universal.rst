@@ -391,7 +391,7 @@ If you want to add everything in a directory where the path for the directory is
 
 .. code-block:: scala
 
-    (Universal / mappings) ~= (_ ++ directory(target.value / "scala-2.10" / "api"))
+    Universal / mappings ~= (_ ++ directory(target.value / "scala-2.10" / "api"))
 
 
 

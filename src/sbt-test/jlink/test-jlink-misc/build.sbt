@@ -8,7 +8,7 @@ val runChecks = taskKey[Unit]("Run checks for a specific issue")
 val runFailingChecks = taskKey[Unit]("Run checks for a specific issue, expecting them to fail")
 
 // Exclude Scala by default to simplify the test.
-(ThisBuild / autoScalaLibrary) := false
+ThisBuild / autoScalaLibrary := false
 
 // Should succeed for multi-release artifacts
 val issue1243 = project
@@ -77,7 +77,7 @@ val issue1266 = project
 
       1.to(300000).map(mkPath)
     },
-    (jlinkModules / logLevel) := Level.Error,
+    jlinkModules / logLevel := Level.Error,
     runChecks := jlinkBuildImage.value
   )
 

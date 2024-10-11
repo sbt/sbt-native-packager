@@ -11,7 +11,7 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-(Debian / debianPackageConflicts) := Seq("debian-test-package")
+Debian / debianPackageConflicts := Seq("debian-test-package")
 
 TaskKey[Unit]("checkConflicts") := {
   val extracted = target.value / "extracted"

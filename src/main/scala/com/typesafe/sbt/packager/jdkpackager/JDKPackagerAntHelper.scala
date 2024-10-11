@@ -186,7 +186,7 @@ object JDKPackagerAntHelper {
       sys.error(
         "Please set key `JDKPackager / antPackagerTasks` to `ant-javafx.jar` path, " +
           "which should be found in the `lib` directory of the Oracle JDK 8 installation. For example (Windows):\n" +
-          """(JDKPackager / antPackagerTasks) := Some(file("C:\\Program Files\\Java\\jdk1.8.0_45\\lib\\ant-javafx.jar"))"""
+          """JDKPackager / antPackagerTasks := Some(file("C:\\Program Files\\Java\\jdk1.8.0_45\\lib\\ant-javafx.jar"))"""
       )
 
     val taskClassPath = antTaskLib.get +: antExtraClasspath

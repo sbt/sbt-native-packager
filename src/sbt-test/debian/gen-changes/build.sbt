@@ -15,4 +15,4 @@ Debian / debianPackageDependencies ++= Seq("java2-runtime", "bash (>= 2.05a-11)"
 
 Debian / debianPackageRecommends += "git"
 
-(Debian / debianChangelog) := Some(file("debian/changelog"))
+Debian / debianChangelog := Some(file("debian/changelog"))

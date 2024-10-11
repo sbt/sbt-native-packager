@@ -7,7 +7,7 @@ version := "0.1.0"
 maintainer := "David Pennell <dpennell@good-cloud.com>"
 
 packageSummary := "Test rpm package"
-(Linux / packageName) := "rpm-package"
+Linux / packageName := "rpm-package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
@@ -15,7 +15,7 @@ rpmRelease := "1"
 rpmVendor := "typesafe"
 rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 rpmLicense := Some("BSD")
-(Rpm / packageArchitecture) := "i386"
+Rpm / packageArchitecture := "i386"
 
 rpmSetarch := Some("i386")
 

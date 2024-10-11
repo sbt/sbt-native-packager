@@ -8,7 +8,7 @@ maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 
 packageSummary := "Test rpm package"
 
-(Linux / packageName) := "rpm-package"
+Linux / packageName := "rpm-package"
 
 packageDescription := """A fun package description of our software,
   with multiple lines."""

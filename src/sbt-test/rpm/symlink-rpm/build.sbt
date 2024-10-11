@@ -6,7 +6,7 @@ name := "rpm-test"
 version := "0.1.0"
 maintainer := "David Pennell <dpennell@good-cloud.com>"
 packageSummary := "Test rpm package"
-(Linux / packageName) := "rpm-package"
+Linux / packageName := "rpm-package"
 packageDescription :=
   """A fun package description of our software,
   with multiple lines."""

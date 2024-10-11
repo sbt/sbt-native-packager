@@ -6,7 +6,7 @@ name := "test-custom-main"
 
 version := "0.1.0"
 
-(Compile / mainClass) := Some("Main")
+Compile / mainClass := Some("Main")
 
 TaskKey[Unit]("checkAppMain") := {
   val zipFile = (Universal / packageBin).value

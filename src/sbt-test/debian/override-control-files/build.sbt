@@ -1,6 +1,6 @@
 enablePlugins(JavaServerAppPackaging, UpstartPlugin)
 
-(Compile / mainClass) := Some("empty")
+Compile / mainClass := Some("empty")
 
 name := "debian-test"
 
@@ -10,16 +10,16 @@ maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 
 packageSummary := "Test debian package"
 
-(Linux / daemonUser) := "root"
+Linux / daemonUser := "root"
 
-(Linux / daemonGroup) := "root"
+Linux / daemonGroup := "root"
 
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
 // add this to override all preexisting settings
 import DebianConstants._
-(Debian / maintainerScripts) := maintainerScriptsFromDirectory(
+Debian / maintainerScripts := maintainerScriptsFromDirectory(
   sourceDirectory.value / DebianSource / DebianMaintainerScripts,
   Seq(Preinst, Postinst, Prerm, Postrm)
 )

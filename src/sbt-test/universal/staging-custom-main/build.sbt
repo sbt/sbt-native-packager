@@ -6,7 +6,7 @@ name := "stage-custom-main"
 
 version := "0.1.0"
 
-(Compile / mainClass) := Some("Main")
+Compile / mainClass := Some("Main")
 
 TaskKey[Unit]("unzip") := {
   val args = Seq((Universal / packageBin).value.getAbsolutePath)

@@ -6,7 +6,7 @@ version := "0.1.1"
 
 organization := "com.foo.bar"
 
-(Compile / mainClass) := Some("ExampleApp")
+Compile / mainClass := Some("ExampleApp")
 
 maintainer := "Cat D. Herder"
 

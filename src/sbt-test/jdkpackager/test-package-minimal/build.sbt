@@ -2,7 +2,7 @@
 
 enablePlugins(JDKPackagerPlugin)
 
-(Compile / mainClass) := Some("ExampleApp")
+Compile / mainClass := Some("ExampleApp")
 
 jdkPackagerType := "image"
 

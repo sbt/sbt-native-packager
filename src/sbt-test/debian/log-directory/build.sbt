@@ -1,8 +1,8 @@
 enablePlugins(JavaServerAppPackaging)
 
-(Debian / daemonUser) := "root"
+Debian / daemonUser := "root"
 
-(Compile / mainClass) := Some("empty")
+Compile / mainClass := Some("empty")
 
 name := "debian-test"
 

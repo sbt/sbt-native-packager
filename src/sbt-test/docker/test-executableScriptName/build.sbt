@@ -2,7 +2,7 @@ enablePlugins(JavaAppPackaging)
 
 name := "docker-test"
 
-(Docker / packageName) := "docker-package"
+Docker / packageName := "docker-package"
 
 executableScriptName := "docker-exec"
 

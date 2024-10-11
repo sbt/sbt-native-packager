@@ -167,7 +167,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     * This can be used to build a custom build image starting from a custom base image. Can be used like so:
     *
     * ```
-    * (GraalVMNativeImage / containerBuildImage) := generateContainerBuildImage("my-docker-hub-username/my-graalvm").value
+    * GraalVMNativeImage / containerBuildImage := generateContainerBuildImage("my-docker-hub-username/my-graalvm").value
     * ```
     *
     * The passed in docker image must have GraalVM installed and on the PATH, including the gu utility.
