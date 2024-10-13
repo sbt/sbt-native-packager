@@ -14,7 +14,7 @@ version := "0.1.0"
 batScriptExtraDefines += """set _JAVA_OPTS=%_JAVA_OPTS% -Dconfig.file=%EXAMPLE_CLI_HOME%\\conf\\app.config"""
 
 TaskKey[Unit]("runCheck") := {
-  val cwd = (stagingDirectory in Universal).value
+  val cwd = (Universal / stagingDirectory).value
   val cmd = Seq((cwd / "bin" / s"${packageName.value}.bat").getAbsolutePath)
   val configFile = (sys.process.Process(cmd, cwd).!!).replaceAll("\r\n", "")
   assert(

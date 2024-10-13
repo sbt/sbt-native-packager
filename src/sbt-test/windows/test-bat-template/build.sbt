@@ -36,7 +36,7 @@ batScriptExtraDefines += "exit /B"
 batScriptExtraDefines += ":print_args_end"
 
 TaskKey[Unit]("checkScript") := {
-  val dir = (stagingDirectory in Universal).value
+  val dir = (Universal / stagingDirectory).value
   import scala.sys.process._
   val fails = new StringBuilder()
   val script = dir / "bin" / (name.value + ".bat")

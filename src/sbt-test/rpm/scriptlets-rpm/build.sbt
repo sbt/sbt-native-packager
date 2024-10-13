@@ -23,7 +23,7 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
-maintainerScripts in Rpm := Map(
+Rpm / maintainerScripts := Map(
   Pre -> Seq("""echo "pre-install""""),
   Post -> Seq("""echo "post-install""""),
   Pretrans -> Seq("""echo "pretrans""""),

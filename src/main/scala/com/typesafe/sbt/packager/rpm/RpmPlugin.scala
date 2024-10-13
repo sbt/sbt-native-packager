@@ -95,34 +95,34 @@ object RpmPlugin extends AutoPlugin {
     rpmPostun := None,
     rpmScriptsDirectory := sourceDirectory.value / "rpm" / Names.Scriptlets,
     // Explicitly defer  default settings to generic Linux Settings.
-    maintainerScripts in Rpm := (maintainerScripts in Linux).value,
-    packageSummary in Rpm := (packageSummary in Linux).value,
-    packageDescription in Rpm := (packageDescription in Linux).value,
-    target in Rpm := target.value / "rpm",
-    name in Rpm := (name in Linux).value,
-    packageName in Rpm := (packageName in Linux).value,
-    executableScriptName in Rpm := (executableScriptName in Linux).value,
-    rpmDaemonLogFile := s"${(packageName in Linux).value}.log",
-    daemonStdoutLogFile in Rpm := Some(rpmDaemonLogFile.value),
-    validatePackageValidators in Rpm := Seq(
-      nonEmptyMappings((linuxPackageMappings in Rpm).value.flatMap(_.mappings)),
-      filesExist((linuxPackageMappings in Rpm).value.flatMap(_.mappings)),
-      checkMaintainer((maintainer in Rpm).value, asWarning = false),
-      epochIsNaturalNumber((rpmEpoch in Rpm).value.getOrElse(0))
+    Rpm / maintainerScripts := (Linux / maintainerScripts).value,
+    Rpm / packageSummary := (Linux / packageSummary).value,
+    Rpm / packageDescription := (Linux / packageDescription).value,
+    Rpm / target := target.value / "rpm",
+    Rpm / name := (Linux / name).value,
+    Rpm / packageName := (Linux / packageName).value,
+    Rpm / executableScriptName := (Linux / executableScriptName).value,
+    rpmDaemonLogFile := s"${(Linux / packageName).value}.log",
+    Rpm / daemonStdoutLogFile := Some(rpmDaemonLogFile.value),
+    Rpm / validatePackageValidators := Seq(
+      nonEmptyMappings((Rpm / linuxPackageMappings).value.flatMap(_.mappings)),
+      filesExist((Rpm / linuxPackageMappings).value.flatMap(_.mappings)),
+      checkMaintainer((Rpm / maintainer).value, asWarning = false),
+      epochIsNaturalNumber((Rpm / rpmEpoch).value.getOrElse(0))
     ),
     // override the linux sourceDirectory setting
-    sourceDirectory in Rpm := sourceDirectory.value,
-    packageArchitecture in Rpm := "noarch",
+    Rpm / sourceDirectory := sourceDirectory.value,
+    Rpm / packageArchitecture := "noarch",
     rpmMetadata := RpmMetadata(
-      (packageName in Rpm).value,
-      (version in Rpm).value.stripSuffix("-SNAPSHOT"),
+      (Rpm / packageName).value,
+      (Rpm / version).value.stripSuffix("-SNAPSHOT"),
       rpmRelease.value,
       rpmPrefix.value,
-      (packageArchitecture in Rpm).value,
+      (Rpm / packageArchitecture).value,
       rpmVendor.value,
       rpmOs.value,
-      (packageSummary in Rpm).value,
-      (packageDescription in Rpm).value,
+      (Rpm / packageSummary).value,
+      (Rpm / packageDescription).value,
       rpmAutoprov.value,
       rpmAutoreq.value,
       rpmEpoch.value
@@ -143,8 +143,8 @@ object RpmPlugin extends AutoPlugin {
       rpmObsoletes.value,
       rpmConflicts.value
     ),
-    maintainerScripts in Rpm := {
-      val scripts = (maintainerScripts in Rpm).value
+    Rpm / maintainerScripts := {
+      val scripts = (Rpm / maintainerScripts).value
       if (!rpmBrpJavaRepackJars.value) {
         val pre = scripts.getOrElse(Names.Pre, Nil)
         val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
@@ -153,29 +153,29 @@ object RpmPlugin extends AutoPlugin {
         scripts
     },
     rpmScripts := RpmScripts
-      .fromMaintainerScripts((maintainerScripts in Rpm).value, (linuxScriptReplacements in Rpm).value),
+      .fromMaintainerScripts((Rpm / maintainerScripts).value, (Rpm / linuxScriptReplacements).value),
     rpmSpecConfig := RpmSpec(
       rpmMetadata.value,
       rpmDescription.value,
       rpmDependencies.value,
       rpmSetarch.value,
       rpmScripts.value,
-      (linuxPackageMappings in Rpm).value,
-      (linuxPackageSymlinks in Rpm).value,
-      (defaultLinuxInstallLocation in Rpm).value
+      (Rpm / linuxPackageMappings).value,
+      (Rpm / linuxPackageSymlinks).value,
+      (Rpm / defaultLinuxInstallLocation).value
     ),
-    stage in Rpm := RpmHelper.stage(rpmSpecConfig.value, (target in Rpm).value, streams.value.log),
-    artifactPath in (Rpm, packageBin) := RpmHelper.defaultRpmArtifactPath((target in Rpm).value, rpmMetadata.value),
-    packageBin in Rpm := {
-      val defaultPath = RpmHelper.buildRpm(rpmSpecConfig.value, (stage in Rpm).value, streams.value.log)
+    Rpm / stage := RpmHelper.stage(rpmSpecConfig.value, (Rpm / target).value, streams.value.log),
+    Rpm / packageBin / artifactPath := RpmHelper.defaultRpmArtifactPath((Rpm / target).value, rpmMetadata.value),
+    Rpm / packageBin := {
+      val defaultPath = RpmHelper.buildRpm(rpmSpecConfig.value, (Rpm / stage).value, streams.value.log)
       // `file` points to where buildRpm created the rpm. However we want it to be at `artifactPath`.
       // If `artifactPath` is not the default value then we need to copy the file.
-      val path = (artifactPath in (Rpm, packageBin)).value
+      val path = (Rpm / packageBin / artifactPath).value
       if (path.getCanonicalFile != defaultPath.getCanonicalFile) IO.copyFile(defaultPath, path)
       path
     },
     rpmLint := {
-      sys.process.Process(Seq("rpmlint", "-v", (packageBin in Rpm).value.getAbsolutePath)) ! streams.value.log match {
+      sys.process.Process(Seq("rpmlint", "-v", (Rpm / packageBin).value.getAbsolutePath)) ! streams.value.log match {
         case 0 => ()
         case x => sys.error("Failed to run rpmlint, exit status: " + x)
       }
@@ -190,5 +190,5 @@ object RpmDeployPlugin extends AutoPlugin {
   override def requires = RpmPlugin
 
   override def projectSettings: Seq[Setting[_]] =
-    SettingsHelper.makeDeploymentSettings(Rpm, packageBin in Rpm, "rpm")
+    SettingsHelper.makeDeploymentSettings(Rpm, Rpm / packageBin, "rpm")
 }

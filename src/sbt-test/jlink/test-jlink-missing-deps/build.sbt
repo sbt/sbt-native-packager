@@ -4,7 +4,7 @@ import scala.sys.process.Process
 import com.typesafe.sbt.packager.Compat._
 
 // Exclude Scala to simplify the test
-autoScalaLibrary in ThisBuild := false
+ThisBuild / autoScalaLibrary := false
 
 // Simulate a missing dependency (foo -> bar)
 lazy val foo = project.dependsOn(bar % "provided")

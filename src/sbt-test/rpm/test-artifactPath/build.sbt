@@ -8,9 +8,9 @@ maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 
 packageSummary := "Test rpm package"
 
-packageName in Linux := "rpm-package"
+Linux / packageName := "rpm-package"
 
-artifactPath in (Rpm, packageBin) := target.value / s"${(packageName in Rpm).value}-${(version in Rpm).value}.rpm"
+(Rpm / packageBin / artifactPath) := target.value / s"${(Rpm / packageName).value}-${(Rpm / version).value}.rpm"
 
 packageDescription := """A fun package description of our software,
   with multiple lines."""

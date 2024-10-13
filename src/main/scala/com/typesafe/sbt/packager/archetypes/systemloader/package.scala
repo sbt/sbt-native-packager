@@ -67,7 +67,7 @@ package object systemloader {
   ): Seq[LinuxPackageMapping] = {
     val name = scriptName.getOrElse(
       sys.error(
-        """No linuxStartScriptName defined. Add `linuxStartScriptName in <PackageFormat> := Some("name.service")"""
+        """No linuxStartScriptName defined. Add `<PackageFormat> / linuxStartScriptName := Some("name.service")"""
       )
     )
     val path = location + "/" + name

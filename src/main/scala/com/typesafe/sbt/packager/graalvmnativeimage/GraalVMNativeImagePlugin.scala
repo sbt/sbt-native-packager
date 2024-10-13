@@ -35,12 +35,12 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
   override def projectConfigurations: Seq[Configuration] = Seq(GraalVMNativeImage)
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
-    target in GraalVMNativeImage := target.value / "graalvm-native-image",
+    GraalVMNativeImage / target := target.value / "graalvm-native-image",
     graalVMNativeImageOptions := Seq.empty,
     graalVMNativeImageGraalVersion := None,
     graalVMNativeImageCommand := (if (scala.util.Properties.isWin) "native-image.cmd" else "native-image"),
-    resourceDirectory in GraalVMNativeImage := sourceDirectory.value / "graal",
-    mainClass in GraalVMNativeImage := (mainClass in Compile).value
+    GraalVMNativeImage / resourceDirectory := sourceDirectory.value / "graal",
+    GraalVMNativeImage / mainClass := (Compile / mainClass).value
   ) ++ inConfig(GraalVMNativeImage)(scopedSettings)
 
   private lazy val scopedSettings = Seq[Setting[_]](
@@ -167,14 +167,14 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     * This can be used to build a custom build image starting from a custom base image. Can be used like so:
     *
     * ```
-    * (containerBuildImage in GraalVMNativeImage) := generateContainerBuildImage("my-docker-hub-username/my-graalvm").value
+    * GraalVMNativeImage / containerBuildImage := generateContainerBuildImage("my-docker-hub-username/my-graalvm").value
     * ```
     *
     * The passed in docker image must have GraalVM installed and on the PATH, including the gu utility.
     */
   def generateContainerBuildImage(baseImage: String): Def.Initialize[Task[Option[String]]] =
     Def.task {
-      val dockerCommand = (DockerPlugin.autoImport.dockerExecCommand in GraalVMNativeImage).value
+      val dockerCommand = (GraalVMNativeImage / DockerPlugin.autoImport.dockerExecCommand).value
       val streams = Keys.streams.value
 
       val (baseName, tag) = baseImage.split(":", 2) match {

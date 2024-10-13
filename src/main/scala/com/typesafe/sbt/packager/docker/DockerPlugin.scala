@@ -625,7 +625,7 @@ object DockerPlugin extends AutoPlugin {
   }
 
   /**
-    * uses the `mappings in Universal` to generate the `Docker / mappings`.
+    * uses the `Universal / mappings` to generate the `Docker / mappings`.
     */
   def mapGenericFilesToDocker: Seq[Setting[_]] = {
     def renameDests(from: Seq[(File, String)], dest: String) =
@@ -635,7 +635,7 @@ object DockerPlugin extends AutoPlugin {
         newPath = "%s/%s" format (dest, pathWithValidSeparator)
       } yield (f, newPath)
 
-    inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
+    inConfig(Docker)(Seq(mappings := renameDests((Universal / mappings).value, defaultLinuxInstallLocation.value)))
   }
 
   private final def pathInLayer(path: String, layer: Option[Int]) = layer.map(i => s"/$i$path").getOrElse(path)

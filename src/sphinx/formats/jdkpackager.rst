@@ -191,7 +191,7 @@ Here's what the build file looks like:
     )
 
     // Example of specifying a fallback location of `ant-javafx.jar` if plugin can't find it.
-    (JDKPackager / antPackagerTasks) := (JDKPackager / antPackagerTasks).value orElse {
+    JDKPackager / antPackagerTasks := (JDKPackager / antPackagerTasks).value orElse {
       for {
         f <- Some(file("/usr/lib/jvm/java-8-oracle/lib/ant-javafx.jar")) if f.exists()
       } yield f

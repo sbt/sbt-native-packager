@@ -6,7 +6,7 @@ version := "0.1.1"
 
 organization := "com.foo.bar"
 
-mainClass in Compile := Some("ExampleApp")
+Compile / mainClass := Some("ExampleApp")
 
 maintainer := "Cat D. Herder"
 
@@ -16,9 +16,9 @@ packageDescription := "Test JDKPackagerPlugin with mappings"
 
 jdkPackagerType := "image"
 
-mappings in Universal += baseDirectory.value / "src" / "deploy" / "README.md" -> "README.md"
+Universal / mappings += baseDirectory.value / "src" / "deploy" / "README.md" -> "README.md"
 
-mappings in Universal ++= {
+Universal / mappings ++= {
   val dir = baseDirectory.value / "src" / "deploy" / "stuff"
   (dir.**(AllPassFilter) --- dir) pair (file => IO.relativize(dir.getParentFile, file))
 }
@@ -38,7 +38,7 @@ TaskKey[Unit]("checkImage") := {
     case osys if osys.contains("win") ⇒ (".exe", 'windows)
     case _ ⇒ ("", 'linux)
   }
-  val expectedImage = (target in JDKPackager).value / "bundles" / (name.value + extension)
+  val expectedImage = (JDKPackager / target).value / "bundles" / (name.value + extension)
   println(s"Checking for '${expectedImage.getAbsolutePath}'")
   assert(expectedImage.exists, s"Expected image file to be found at '$expectedImage'")
 
