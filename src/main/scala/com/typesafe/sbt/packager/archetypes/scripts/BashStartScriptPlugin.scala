@@ -5,8 +5,8 @@ import java.io.File
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.archetypes.{JavaAppPackaging, TemplateWriter}
-import sbt.Keys._
-import sbt._
+import sbt.Keys.*
+import sbt.{*, given}
 
 /**
   * ==Bash StartScript Plugin==
@@ -69,13 +69,17 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       bashScriptConfigLocation := (bashScriptConfigLocation ?? Some(appIniLocation)).value,
       bashScriptEnvConfigLocation := (bashScriptEnvConfigLocation ?? None).value,
       // Generating the application configuration
-      Universal / mappings := generateApplicationIni(
-        (Universal / mappings).value,
-        (Universal / javaOptions).value,
-        bashScriptConfigLocation.value,
-        (Universal / target).value,
-        streams.value.log
-      ),
+      Universal / mappings := {
+        val conv0 = fileConverter.value
+        implicit val conv: FileConverter = conv0
+        generateApplicationIni(
+          (Universal / mappings).value,
+          (Universal / javaOptions).value,
+          bashScriptConfigLocation.value,
+          (Universal / target).value,
+          streams.value.log
+        )
+      },
       makeBashScripts := generateStartScripts(
         BashScriptConfig(
           executableScriptName = executableScriptName.value,
@@ -87,6 +91,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
         (Compile / bashScriptDefines / mainClass).value,
         (Compile / discoveredMainClasses).value,
         (Universal / target).value / "scripts",
+        fileConverter.value,
         streams.value.log
       ),
       Universal / mappings ++= makeBashScripts.value

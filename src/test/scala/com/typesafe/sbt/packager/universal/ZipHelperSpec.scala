@@ -6,7 +6,7 @@ import org.scalatest._
 import java.io.File
 import java.nio.file.{Files, Path, Paths}
 import java.nio.file.attribute.PosixFilePermission._
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

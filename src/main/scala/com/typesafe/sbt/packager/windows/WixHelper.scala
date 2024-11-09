@@ -6,6 +6,7 @@ import Keys._
 import sbt._
 
 import collection.mutable.ArrayBuffer
+import scala.annotation.nowarn
 import scala.collection.mutable
 
 case class WindowsProductInfo(
@@ -81,6 +82,7 @@ object WixHelper {
     // so there was a gap and dirXml failed to create some directories
     def allParentDirs(f: File): Seq[File] =
       Option(f).toSeq.flatMap(f => f +: allParentDirs(f.getParentFile))
+    @nowarn
     val filenamesPrep =
       for {
         f <- features
@@ -322,7 +324,7 @@ object WixHelper {
   // reference: https://github.com/sbt/sbt-native-packager/issues/726
   def generateComponentsAndDirectoryXml(dir: File, id_prefix: String = ""): (Seq[String], scala.xml.Node) = {
     def makeId(f: File) =
-      cleanStringForId(IO.relativize(dir, f) map (id_prefix +) getOrElse (id_prefix + f.getName))
+      cleanStringForId(IO.relativize(dir, f).map(id_prefix + _).getOrElse(id_prefix + f.getName))
     def handleFile(f: File): (Seq[String], scala.xml.Node) = {
       val id = makeId(f)
       val xml = (

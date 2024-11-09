@@ -1,14 +1,14 @@
 package com.typesafe.sbt.packager.jdkpackager
 
 import com.typesafe.sbt.SbtNativePackager
-import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.SettingsHelper
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import com.typesafe.sbt.packager.archetypes.jar.LauncherJarPlugin
-import sbt.Keys._
-import sbt._
+import sbt.Keys.*
+import sbt.{*, given}
 import SbtNativePackager.Universal
-import JDKPackagerAntHelper._
+import JDKPackagerAntHelper.*
 
 /**
   * Package format via Oracle's packaging tool bundled with JDK 8.
@@ -74,11 +74,12 @@ object JDKPackagerPlugin extends AutoPlugin {
             maintainer.value,
             jdkAppIcon.value,
             jdkPackagerAssociations.value
-          )
+          ),
+          fileConverter.value
         )
       ),
       writeAntBuild := writeAntFile(target.value, antBuildDefn.value, streams.value),
-      packageBin := buildPackageWithAnt(writeAntBuild.value, target.value, streams.value)
+      packageBin := buildPackageWithAnt(writeAntBuild.value, target.value, fileConverter.value, streams.value)
     )
   )
 

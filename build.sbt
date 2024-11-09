@@ -3,9 +3,12 @@ organization := "com.github.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
-Global / scalaVersion := "2.12.20"
 
 // crossBuildingSettings
+lazy val scala212 = "2.12.20"
+lazy val scala3 = "3.3.4"
+Global / scalaVersion := scala3
+crossScalaVersions := Seq(scala3, scala212)
 (pluginCrossBuild / sbtVersion) := {
   scalaBinaryVersion.value match {
     case "2.12" => "1.1.6"
@@ -48,8 +51,7 @@ libraryDependencies ++= {
 // scala version depended libraries
 libraryDependencies ++= {
   scalaBinaryVersion.value match {
-    case "2.10" => Nil
-    case _ =>
+    case "2.12" =>
       Seq(
         // Do NOT upgrade these dependencies to 2.x or newer! sbt-native-packager is a sbt-plugin
         // and gets published with Scala 2.12, therefore we need to stay at the same major version
@@ -58,6 +60,8 @@ libraryDependencies ++= {
         "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2", // Do not upgrade beyond 1.x
         "org.scala-lang.modules" %% "scala-xml" % "2.2.0"
       )
+    case _ =>
+      Nil
   }
 }
 

@@ -49,7 +49,7 @@ object TemplateWriter {
       sb append replace(line, replacements, keySurround)
       sb append eol
     }
-    sb toString
+    sb.toString()
   }
 
   private[this] def replaceValues(

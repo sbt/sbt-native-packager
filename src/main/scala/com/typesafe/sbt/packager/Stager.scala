@@ -1,10 +1,12 @@
 package com.typesafe.sbt.packager
 
-import sbt._
+import sbt.{*, given}
 import sbt.Keys.TaskStreams
+import sbt.util.CacheStore
 import java.io.File
 
 import com.typesafe.sbt.packager.Compat._
+import xsbti.FileConverter
 
 object Stager {
 
@@ -20,12 +22,17 @@ object Stager {
     * @param mappings
     *   staging content
     */
-  def stageFiles(config: String)(cacheDirectory: File, stageDirectory: File, mappings: Seq[(File, String)]): File = {
+  def stageFiles(
+    config: String
+  )(cacheDirectory: File, stageDirectory: File, mappings: Seq[(PluginCompat.FileRef, String)])(implicit
+    conv: FileConverter
+  ): File = {
     val cache = cacheDirectory / ("packager-mappings-" + config)
-    val copies = mappings map { case (file, path) =>
-      file -> (stageDirectory / path)
+    val copies = mappings map { case (ref, path) =>
+      PluginCompat.toFile(ref) -> (stageDirectory / path)
     }
-    Sync(cache, FileInfo.hash, FileInfo.exists)(copies)
+    val store = CacheStore(cache)
+    Sync.sync(store, FileInfo.hash)(copies)
     // Now set scripts to executable using Java's lack of understanding of permissions.
     // TODO - Config file user-readable permissions....
     for {
@@ -41,7 +48,9 @@ object Stager {
     * @see
     *   stageFiles
     */
-  def stage(config: String)(streams: TaskStreams, stageDirectory: File, mappings: Seq[(File, String)]): File =
+  def stage(config: String)(streams: TaskStreams, stageDirectory: File, mappings: Seq[(PluginCompat.FileRef, String)])(
+    implicit conv: FileConverter
+  ): File =
     stageFiles(config)(streams.cacheDirectory, stageDirectory, mappings)
 
 }

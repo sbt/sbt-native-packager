@@ -1,6 +1,6 @@
 package com.typesafe.sbt.packager
 
-import sbt._
+import sbt.{*, given}
 
 /**
   * ==validation==
@@ -42,7 +42,7 @@ package object validation {
         }
         .map { case (file, dest) =>
           ValidationError(
-            description = s"Not found: ${file.getAbsolutePath} (mapped to $dest)",
+            description = s"Not found: ${file} (mapped to $dest)",
             howToFix = "Generate the file in the task/setting that adds it to the mappings task"
           )
         }

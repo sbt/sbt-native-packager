@@ -2,7 +2,7 @@ package com.typesafe.sbt
 package packager
 package linux
 
-import sbt._
+import sbt.{*, given}
 import LinuxPlugin.Users
 
 case class LinuxFileMetaData(
@@ -32,7 +32,7 @@ case class LinuxPackageMapping(
   def withConfig(c: String = "true") = copy(fileData = fileData withConfig c)
   def withContents() =
     copy(mappings = Mapper.mapDirectoryAndContents(mappings.toSeq: _*))
-  def asDocs() = copy(fileData = fileData asDocs ())
+  def asDocs() = copy(fileData = fileData.asDocs())
 
   /** Modifies the current package mapping to have gzipped data. */
   def gzipped = copy(zipped = true)

@@ -1,12 +1,14 @@
 package com.typesafe.sbt.packager.jdkpackager
 
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.jdkpackager.JDKPackagerPlugin.autoImport._
 import org.apache.tools.ant.{BuildEvent, BuildListener, ProjectHelper}
-import sbt.Keys._
-import sbt._
+import sbt.Keys.*
+import sbt.{*, given}
 
 import scala.util.Try
 import scala.xml.Elem
+import xsbti.FileConverter
 
 /**
   * Helpers for working with Ant build definitions
@@ -135,10 +137,12 @@ object JDKPackagerAntHelper {
   private[jdkpackager] def deployDOM(
     basename: String,
     packageType: String,
-    mainJar: File,
+    mainJar: PluginCompat.ArtifactPath,
     outputDir: File,
-    infoDOM: InfoDOM
-  ): DeployDOM =
+    infoDOM: InfoDOM,
+    conv0: FileConverter
+  ): DeployDOM = {
+    implicit val conv: FileConverter = conv0
     // format: OFF
     <fx:deploy outdir={outputDir.getAbsolutePath}
                outfile={basename}
@@ -159,9 +163,10 @@ object JDKPackagerAntHelper {
         <fx:fileset refid="data.files"/>
       </fx:resources>
 
-      <fx:bundleArgument arg="mainJar" value={"lib/" + mainJar.getName} />
+      <fx:bundleArgument arg="mainJar" value={"lib/" + PluginCompat.artifactPathToFile(mainJar).getName} />
 
     </fx:deploy>
+  }
   // format: ON
 
   type BuildDOM = xml.Elem
@@ -176,7 +181,7 @@ object JDKPackagerAntHelper {
     antExtraClasspath: Seq[File],
     name: String,
     sourceDir: File,
-    mappings: Seq[(File, String)],
+    mappings: Seq[(PluginCompat.FileRef, String)],
     platformDOM: PlatformDOM,
     applicationDOM: ApplicationDOM,
     deployDOM: DeployDOM
@@ -233,7 +238,7 @@ object JDKPackagerAntHelper {
     val globs =
       Seq("*.dmg", "*.pkg", "*.app", "*.msi", "*.exe", "*.deb", "*.rpm")
     val finder = globs.foldLeft(PathFinder.empty)(_ +++ output ** _)
-    val result = finder.getPaths.headOption
+    val result = finder.getPaths().headOption
     result.foreach(f => s.log.info("Wrote " + f))
     result.map(file)
   }
@@ -248,8 +253,14 @@ object JDKPackagerAntHelper {
   }
 
   /** Build package via Ant build.xml definition. */
-  private[jdkpackager] def buildPackageWithAnt(buildXML: File, target: File, s: TaskStreams): File = {
+  private[jdkpackager] def buildPackageWithAnt(
+    buildXML: File,
+    target: File,
+    conv0: FileConverter,
+    s: TaskStreams
+  ): PluginCompat.FileRef = {
     import org.apache.tools.ant.{Project => AntProject}
+    implicit val conv: FileConverter = conv0
 
     val ap = new AntProject
     ap.setUserProperty("ant.file", buildXML.getAbsolutePath)
@@ -264,7 +275,8 @@ object JDKPackagerAntHelper {
     ap.removeBuildListener(adapter)
 
     // Not sure what to do when we can't find the result
-    findResult(target, s).getOrElse(target)
+    val result = findResult(target, s).getOrElse(target)
+    PluginCompat.toFileRef(result)
   }
 
   /** For piping Ant messages to sbt logger. */
