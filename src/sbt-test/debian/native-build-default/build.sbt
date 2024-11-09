@@ -1,3 +1,5 @@
+name := "foo"
+
 enablePlugins(DebianPlugin)
 
 maintainer := "Maintainer <maintainer@example.com>"
