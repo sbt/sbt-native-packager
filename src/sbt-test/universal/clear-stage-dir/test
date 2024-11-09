@@ -1,9 +1,9 @@
 # Stage the distribution and ensure files show up.
 > Universal/stage
-$ exists target/universal/stage/conf/test
-$ exists target/universal/stage/conf/test2
+$ exists target/**/universal/stage/conf/test
+$ exists target/**/universal/stage/conf/test2
 $ delete src/universal/conf/test2
 > Universal/stage
-$ exists target/universal/stage/conf/test
-$ absent target/universal/stage/conf/test2
+$ exists target/**/universal/stage/conf/test
+$ absent target/**/universal/stage/conf/test2
 

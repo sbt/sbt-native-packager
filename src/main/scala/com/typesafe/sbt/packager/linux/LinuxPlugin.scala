@@ -1,12 +1,13 @@
-package com.typesafe.sbt.packager.linux
+package com.typesafe.sbt.packager
+package linux
 
-import sbt._
-import sbt.Keys.{mappings, name, sourceDirectory, streams}
+import sbt.{*, given}
+import sbt.Keys.{fileConverter, mappings, name, sourceDirectory, streams}
 import com.typesafe.sbt.SbtNativePackager.Universal
-import com.typesafe.sbt.packager.MappingsHelper
-import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
+import xsbti.FileConverter
 
 /**
   * Plugin containing all the generic values used for packaging linux software.
@@ -50,7 +51,7 @@ object LinuxPlugin extends AutoPlugin {
       Linux / sourceDirectory := sourceDirectory.value / "linux",
       generateManPages := {
         val log = streams.value.log
-        for (file <- ((Linux / sourceDirectory).value / "usr/share/man/man1" ** "*.1").get) {
+        for (file <- ((Linux / sourceDirectory).value / "usr/share/man/man1" ** "*.1").get()) {
           val man = makeMan(file)
           log.info("Generated man page for[" + file + "] =")
           log.info(man)
@@ -116,27 +117,32 @@ object LinuxPlugin extends AutoPlugin {
       linuxPackageMappings ++= getUniversalFolderMappings(
         (Linux / packageName).value,
         defaultLinuxInstallLocation.value,
-        (Universal / mappings).value
+        (Universal / mappings).value,
+        fileConverter.value
       ),
       // Now we generate symlinks.
       linuxPackageSymlinks ++= {
+        val conv0 = fileConverter.value
+        implicit val conv: FileConverter = conv0
         val installLocation = defaultLinuxInstallLocation.value
         val linuxPackageName = (Linux / packageName).value
         for {
           (file, name) <- (Universal / mappings).value
-          if !file.isDirectory
+          if !PluginCompat.toFile(file).isDirectory
           if name startsWith "bin/"
           if !(name endsWith ".bat") // IGNORE windows-y things.
         } yield LinuxSymlink("/usr/" + name, installLocation + "/" + linuxPackageName + "/" + name)
       },
       // Map configuration files
       linuxPackageSymlinks ++= {
+        val conv0 = fileConverter.value
+        implicit val conv: FileConverter = conv0
         val linuxPackageName = (Linux / packageName).value
         val installLocation = defaultLinuxInstallLocation.value
         val configLocation = defaultLinuxConfigLocation.value
         val needsConfLink =
           (Universal / mappings).value exists { case (file, destination) =>
-            (destination startsWith "conf/") && !file.isDirectory
+            (destination startsWith "conf/") && !PluginCompat.toFile(file).isDirectory
           }
         if (needsConfLink)
           Seq(
@@ -189,7 +195,7 @@ object LinuxPlugin extends AutoPlugin {
     *   placeholder->content
     */
   def controlScriptFunctionsReplacement(template: Option[URL] = None): (String, String) = {
-    val url = template getOrElse LinuxPlugin.controlFunctions
+    val url = template getOrElse LinuxPlugin.controlFunctions()
     LinuxPlugin.CONTROL_FUNCTIONS -> TemplateWriter.generateScript(source = url, replacements = Nil)
   }
 
@@ -240,7 +246,7 @@ object LinuxPlugin extends AutoPlugin {
     Seq(
       packageMappingWithRename(binaries ++ directories: _*) withUser user withGroup group withPerms "0755",
       packageMappingWithRename(compressedManPages: _*).gzipped withUser user withGroup group withPerms "0644",
-      packageMappingWithRename(configFiles: _*) withConfig () withUser user withGroup group withPerms "0644",
+      packageMappingWithRename(configFiles: _*).withConfig() withUser user withGroup group withPerms "0644",
       packageMappingWithRename(remaining: _*) withUser user withGroup group withPerms "0644"
     )
   }
@@ -251,13 +257,17 @@ object LinuxPlugin extends AutoPlugin {
   private[this] def getUniversalFolderMappings(
     pkg: String,
     installLocation: String,
-    mappings: Seq[(File, String)]
+    mappings: Seq[(PluginCompat.FileRef, String)],
+    conv0: FileConverter
   ): Seq[LinuxPackageMapping] = {
+    implicit val conv: FileConverter = conv0
     // TODO - More windows filters...
-    def isWindowsFile(f: (File, String)): Boolean =
+    def isWindowsFile(f: (PluginCompat.FileRef, String)): Boolean =
       f._2 endsWith ".bat"
 
-    val filtered = mappings.filterNot(isWindowsFile)
+    val filtered = mappings.filterNot(isWindowsFile).map { case (x, p) =>
+      (PluginCompat.toFile(x), p)
+    }
 
     if (filtered.isEmpty) Seq.empty
     else

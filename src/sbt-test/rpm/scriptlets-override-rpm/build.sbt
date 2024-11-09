@@ -1,4 +1,6 @@
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.PluginCompat
+import xsbti.FileConverter
 
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
@@ -17,7 +19,8 @@ rpmLicense := Some("BSD")
 (Compile / run / mainClass) := Some("com.example.MainApp")
 
 TaskKey[Unit]("unzipAndCheck") := {
-  val rpmFile = (Rpm / packageBin).value
+  implicit val converter: FileConverter = fileConverter.value
+  val rpmFile = PluginCompat.toFile((Rpm / packageBin).value)
   val rpmPath = Seq(rpmFile.getAbsolutePath)
   sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
   val scriptlets = sys.process.Process("rpm -qp --scripts " + rpmFile.getAbsolutePath) !! streams.value.log

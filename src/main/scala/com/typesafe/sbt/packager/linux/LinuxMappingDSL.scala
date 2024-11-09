@@ -1,6 +1,6 @@
 package com.typesafe.sbt.packager.linux
 
-import sbt._
+import sbt.{*, given}
 
 trait LinuxMappingDSL {
 
@@ -13,7 +13,7 @@ trait LinuxMappingDSL {
     * @param files
     */
   def packageTemplateMapping(files: String*)(dir: File = new File(sys.props("java.io.tmpdir"))) =
-    LinuxPackageMapping(files map ((dir, _)))
+    LinuxPackageMapping(files.map((dir, _)))
 
   // TODO can the packager.MappingsHelper be used here?
   /**
@@ -34,7 +34,7 @@ trait LinuxMappingDSL {
   def mapDirectoryAndContents(dirs: (File, String)*): Seq[(File, String)] =
     for {
       (src, dest) <- dirs
-      path <- (src ** AllPassFilter).get
+      path <- (src ** AllPassFilter).get()
     } yield path -> path.toString.replaceFirst(src.toString, dest)
 
   /**

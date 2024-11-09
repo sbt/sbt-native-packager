@@ -94,6 +94,6 @@ case class Dockerfile(commands: CmdLike*) {
   def makeContent: String = {
     val sb = new StringBuilder
     commands foreach { sb append _.makeContent }
-    sb toString
+    sb.toString()
   }
 }
