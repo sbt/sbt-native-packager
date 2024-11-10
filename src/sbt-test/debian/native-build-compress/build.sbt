@@ -1,3 +1,5 @@
+name := "foo"
+
 enablePlugins(DebianPlugin)
 
 Debian / debianNativeBuildOptions := Nil

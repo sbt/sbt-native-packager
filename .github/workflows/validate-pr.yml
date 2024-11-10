@@ -2,299 +2,115 @@ name: Validate PR
 
 on:
   pull_request:
+  push:
 
 jobs:
+  # Run the unit test ahead of the scripted tests
   validate:
-    
-    runs-on: ubuntu-latest 
     strategy:
       fail-fast: false
-
+      matrix:
+        include:
+          - os: ubuntu-latest
+          - os: macos-latest
+    runs-on: '${{ matrix.os }}'
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 8
+          cache: sbt
+      - uses: sbt/setup-sbt@v1
+      - name: Validate
+        run: sbt -v "+validate"
 
-    - name: "Running shasum for cache invalidation"
-      run: |
-        shasum build.sbt \
-          project/plugins.sbt \
-          project/build.properties > gha.cache.tmp
-
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('gha.cache.tmp') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-
-    - name: Loading coursier cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/coursier
-        key: ${{ runner.os }}-coursier-${{ hashFiles('gha.cache.tmp') }}
-        restore-keys: |
-          ${{ runner.os }}-coursier-
-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.8
-
-    - name: Validate
-      run: sbt "^validate"
-  
-  scripted-universal:
-    runs-on: ubuntu-latest
+  scripted:
     strategy:
       fail-fast: false
-    needs: [ validate ]
+      matrix:
+        include:
+          - os: ubuntu-latest
+            java: 8
+            distribution: zulu
+            command: +validateUniversal
+          - os: ubuntu-latest
+            java: 8
+            distribution: zulu
+            command: +validateJar
+          - os: ubuntu-latest
+            java: 8
+            distribution: zulu
+            command: +validateBash
+          - os: ubuntu-latest
+            java: 8
+            distribution: zulu
+            command: +validateAsh
+          - os: ubuntu-latest
+            java: 8
+            distribution: zulu
+            command: +validateRpm
+          - os: ubuntu-latest
+            java: 8
+            distribution: zulu
+            command: +validateDebian
+          - os: ubuntu-latest
+            java: 8
+            distribution: zulu
+            command: +validateDocker
+          - os: ubuntu-latest
+            java: 11
+            distribution: temurin
+            command: +validateJlink
+          - os: ubuntu-latest
+            java: 22
+            distribution: graalvm
+            command: +validateGraalVMNativeImage
+          - os: macos-latest
+            java: 8
+            distribution: zulu
+            command: +validateMacOS
+          - os: windows-latest
+            java: 8
+            distribution: zulu
+            command: +validateWindows
+    needs:
+      - validate
+    runs-on: '${{ matrix.os }}'
     steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.8
-    - name: Validate
-      run: sbt "^validateUniversal"
-        
-  scripted-jar:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    needs: [ validate ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.8
-    - name: Validate
-      run: sbt "^validateJar"       
+      - uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: '${{ matrix.distribution }}'
+          java-version: '${{ matrix.java }}'
+          cache: sbt
+      - uses: sbt/setup-sbt@v1
+      - name: Scritped test
+        run: sbt -v '${{ matrix.command }}'
 
-  scripted-bash:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    needs: [ validate ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.8
-    - name: Validate
-      run: sbt "^validateBash"
-
-  scripted-ash:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    needs: [ validate ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.8
-    - name: Validate
-      run: sbt "^validateAsh"
-
-  scripted-rpm:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    needs: [ validate ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.8
-    - name: Validate
-      run: sbt "^validateRpm"
-
-  scripted-debian:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    needs: [ validate ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.8
-    - name: Validate
-      run: sbt "^validateDebian"
-        
   scripted-jdk-packager:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-    needs: [ validate ]
+    needs:
+      - validate
     steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        # the standard zulu dist doesn't include javafx
-        java-version: zulu@1.8=tgz+https://cdn.azul.com/zulu/bin/zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz
-    - name: Validate
-      run: sbt "^validateJdkPackagerTravis"
-
-  scripted-docker:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    needs: [ validate ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.8
-    - name: Validate
-      run: sbt "^validateDocker"
-
-  scripted-jlink:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    needs: [ validate ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up JDK 1.11.0-2
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.11
-    - name: Validate
-      run: sbt "^validateJlink"
-        
-
-  scripted-graavlvm:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    needs: [ validate ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Setup GraalVM environment
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: graalvm@22.3.3=tgz+https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.3/graalvm-ce-java11-linux-amd64-22.3.3.tar.gz
-    - name: Install native-image
-      run: gu install native-image
-    - name: Validate
-      run: sbt "^validateGraalVMNativeImage"
-
-  scripted-macos:
-    runs-on: macos-latest
-    strategy:
-      fail-fast: false
-    needs: [ validate ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.8
-    - name: Validate
-      run: sbt "^validate" "^validateMacOS"
-        
-  scripted-windows:
-    runs-on: windows-latest
-    strategy:
-      fail-fast: false
-    needs: [ validate ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Loading ivy cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-ivy-
-    - name: Set up Azul JDK 1.8 and SBT
-      uses: olafurpg/setup-scala@v10
-      with:
-        java-version: zulu@1.8
-    - name: Validate
-      run: sbt validateWindows
+      - uses: actions/checkout@v4
+      - name: Download Zulu 8
+        run: |
+          # the standard zulu dist doesn't include javafx
+          download_url="https://cdn.azul.com/zulu/bin/zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz"
+          wget -O $RUNNER_TEMP/java_package.tar.gz $download_url
+      - name: Setup Azul JDK with JavaFX
+        uses: actions/setup-java@v4
+        with:
+          distribution: jdkfile
+          jdkFile: '${{ runner.temp }}/java_package.tar.gz'
+          java-version: 8.0.0
+          architecture: x64
+          cache: sbt
+      - uses: sbt/setup-sbt@v1
+      - name: Validate
+        run: sbt "+validateJdkPackagerTravis"
