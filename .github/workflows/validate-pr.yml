@@ -34,47 +34,47 @@ jobs:
           - os: ubuntu-latest
             java: 8
             distribution: zulu
-            jobtype: 1
+            command: +validateUniversal
           - os: ubuntu-latest
             java: 8
             distribution: zulu
-            jobtype: 2
+            command: +validateJar
           - os: ubuntu-latest
             java: 8
             distribution: zulu
-            jobtype: 3
+            command: +validateBash
           - os: ubuntu-latest
             java: 8
             distribution: zulu
-            jobtype: 4
+            command: +validateAsh
           - os: ubuntu-latest
             java: 8
             distribution: zulu
-            jobtype: 5
+            command: +validateRpm
           - os: ubuntu-latest
             java: 8
             distribution: zulu
-            jobtype: 6
+            command: +validateDebian
           - os: ubuntu-latest
             java: 8
             distribution: zulu
-            jobtype: 7
+            command: +validateDocker
           - os: ubuntu-latest
             java: 11
             distribution: temurin
-            jobtype: 8
+            command: +validateJlink
           - os: ubuntu-latest
             java: 22
             distribution: graalvm
-            jobtype: 9
+            command: +validateGraalVMNativeImage
           - os: macos-latest
             java: 8
             distribution: zulu
-            jobtype: 10
+            command: +validateMacOS
           - os: windows-latest
             java: 8
             distribution: zulu
-            jobtype: 11
+            command: +validateWindows
     needs:
       - validate
     runs-on: '${{ matrix.os }}'
@@ -87,39 +87,8 @@ jobs:
           java-version: '${{ matrix.java }}'
           cache: sbt
       - uses: sbt/setup-sbt@v1
-      - name: Validate Universal
-        if: '${{ matrix.jobtype == 1 }}'
-        run: sbt -v "+validateUniversal"
-      - name: Validate JAR
-        if: '${{ matrix.jobtype == 2 }}'
-        run: sbt -v "+validateJar"
-      - name: Validate Bash
-        if: '${{ matrix.jobtype == 3 }}'
-        run: sbt -v "+validateBash"
-      - name: Validate Ash
-        if: '${{ matrix.jobtype == 4 }}'
-        run: sbt -v "+validateAsh"
-      - name: Validate RPM
-        if: '${{ matrix.jobtype == 5 }}'
-        run: sbt -v "+validateRpm"
-      - name: Validate Debian
-        if: '${{ matrix.jobtype == 6 }}'
-        run: sbt -v "+validateDebian"
-      - name: Validate Docker
-        if: '${{ matrix.jobtype == 7 }}'
-        run: sbt -v "+validateDocker"
-      - name: Validate Jlink
-        if: '${{ matrix.jobtype == 8 }}'
-        run: sbt -v "+validateJlink"
-      - name: Validate GraalVM Native Image
-        if: '${{ matrix.jobtype == 9 }}'
-        run: sbt -v "+validateGraalVMNativeImage"
-      - name: Validate macOS
-        if: '${{ matrix.jobtype == 10 }}'
-        run: sbt -v "+validateMacOS"
-      - name: Validate Windows
-        if: '${{ matrix.jobtype == 11 }}'
-        run: sbt -v "+validateWindows"
+      - name: Scritped test
+        run: sbt -v '${{ matrix.command }}'
 
   scripted-jdk-packager:
     runs-on: ubuntu-latest
