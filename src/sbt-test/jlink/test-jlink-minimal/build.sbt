@@ -18,9 +18,9 @@ TaskKey[Unit]("runChecks") := {
   }
 
   val (extension, os) = sys.props("os.name").toLowerCase match {
-    case os if os.contains("mac") ⇒ (".app", 'mac)
-    case os if os.contains("win") ⇒ (".exe", 'windows)
-    case _ ⇒ ("", 'linux)
+    case os if os.contains("mac") => (".app", 'mac)
+    case os if os.contains("win") => (".exe", 'windows)
+    case _                        => ("", 'linux)
   }
 
   val stageDir = (Universal / stagingDirectory).value

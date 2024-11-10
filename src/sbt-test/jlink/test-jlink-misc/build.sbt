@@ -106,8 +106,7 @@ val issue1293 = project
     // Use `paramaner` (and only it) as an automatic module
     jlinkModulePath := {
       // Get the full classpath with all the resolved dependencies.
-      (jlinkBuildImage / fullClasspath)
-        .value
+      (jlinkBuildImage / fullClasspath).value
         // Find the ones that have `paranamer` as their artifact names.
         .filter { item =>
           item.get(moduleID.key).exists { modId =>

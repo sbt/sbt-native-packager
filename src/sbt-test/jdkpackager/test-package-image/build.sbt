@@ -30,9 +30,9 @@ jdkPackagerAssociations := Seq(
 )
 
 lazy val iconGlob = sys.props("os.name").toLowerCase match {
-  case os if os.contains("mac") ⇒ "*.icns"
-  case os if os.contains("win") ⇒ "*.ico"
-  case _ ⇒ "*.png"
+  case os if os.contains("mac") => "*.icns"
+  case os if os.contains("win") => "*.ico"
+  case _                        => "*.png"
 }
 
 jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob).getPaths.headOption
@@ -40,9 +40,9 @@ jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-j
 
 TaskKey[Unit]("checkImage") := {
   val (extension, os) = sys.props("os.name").toLowerCase match {
-    case osys if osys.contains("mac") ⇒ (".app", 'mac)
-    case osys if osys.contains("win") ⇒ (".exe", 'windows)
-    case _ ⇒ ("", 'linux)
+    case osys if osys.contains("mac") => (".app", 'mac)
+    case osys if osys.contains("win") => (".exe", 'windows)
+    case _                            => ("", 'linux)
   }
   val expectedImage = (JDKPackager / target).value / "bundles" / (name.value + extension)
   println(s"Checking for '${expectedImage.getAbsolutePath}'")
