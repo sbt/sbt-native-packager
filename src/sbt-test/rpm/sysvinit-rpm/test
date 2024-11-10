@@ -1,5 +1,5 @@
 # Run the rpm packaging.
-> rpm:packageBin
+> Rpm/packageBin
 $ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 
 > checkSpecFile
@@ -30,6 +30,6 @@ $ exists var/run/rpm-test
 # Test that serviceAutostart can be disabled
 
 > set every NativePackagerKeys.serviceAutostart := false
-> rpm:packageBin
+> Rpm/packageBin
 > checkSpecFile
 > checkSpecNoAutostart

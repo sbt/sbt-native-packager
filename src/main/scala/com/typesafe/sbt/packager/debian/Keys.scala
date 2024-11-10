@@ -40,7 +40,7 @@ trait DebianKeys {
   val debianCombinedMappings =
     TaskKey[Seq[LinuxPackageMapping]]("debian-combined-mappings", "All the mappings of files for the final package.")
 
-  @deprecated("Use debian:stage instead", "1.2.0")
+  @deprecated("Use Debian/stage instead", "1.2.0")
   val debianExplodedPackage = TaskKey[File]("debian-exploded-package", "makes an exploded debian package")
   val lintian = TaskKey[Unit]("lintian", "runs the debian lintian tool on the current package.")
   val debianSign = TaskKey[File]("debian-sign", "runs the dpkg-sig command to sign the generated deb file.")

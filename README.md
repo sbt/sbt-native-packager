@@ -77,26 +77,26 @@ If you have enabled one of the archetypes (app or server),
 you can build your application with
 
 ```bash
-sbt <config-scope>:packageBin
+sbt <config-scope>/packageBin
 ```
 
 ### Examples
 
 ```bash
 # universal zip
-sbt universal:packageBin
+sbt Universal/packageBin
 
 # debian package
-sbt debian:packageBin
+sbt Debian/packageBin
 
 # rpm package
-sbt rpm:packageBin
+sbt Rpm/packageBin
 
 # docker image
-sbt docker:publishLocal
+sbt Docker/publishLocal
 
 # graalvm image
-sbt graalvm-native-image:packageBin
+sbt GraalVMNativeImage/packageBin
 ```
 
 Read more in the specific [format documentation][formats] on how to configure and build your package.
