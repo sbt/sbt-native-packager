@@ -1,10 +1,10 @@
 package com.typesafe.sbt.packager
 
 import java.io.File
-import java.nio.file.{ Path => NioPath }
+import java.nio.file.{Path => NioPath}
 import java.util.jar.Attributes
 import sbt.*
-import xsbti.{ FileConverter, HashedVirtualFileRef, VirtualFile, VirtualFileRef }
+import xsbti.{FileConverter, HashedVirtualFileRef, VirtualFile, VirtualFileRef}
 import sbt.internal.RemoteCache
 
 private[packager] object PluginCompat:
@@ -22,7 +22,7 @@ private[packager] object PluginCompat:
 
   def parseArtifactStrAttribute(str: String): Artifact =
     import sbt.librarymanagement.LibraryManagementCodec.ArtifactFormat
-    import sjsonnew.support.scalajson.unsafe.* 
+    import sjsonnew.support.scalajson.unsafe.*
     Converter.fromJsonUnsafe[Artifact](Parser.parseUnsafe(str))
   def artifactToStr(art: Artifact): String =
     import sbt.librarymanagement.LibraryManagementCodec.ArtifactFormat
