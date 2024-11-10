@@ -15,12 +15,12 @@ class ZipHelperSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach wi
   var tmp: Path = _
   val toDelete = scala.collection.mutable.ListBuffer[Path]()
 
-  override def beforeEach: Unit = {
+  override def beforeEach(): Unit = {
     tmp = Files createTempDirectory "_sbt-native-packager"
     toDelete += tmp
   }
 
-  override def afterAll: Unit =
+  override def afterAll(): Unit =
     toDelete foreach { dir =>
       scala.util.Try {
         Files.walkFileTree(dir, new DeleteDirectoryVisitor)
