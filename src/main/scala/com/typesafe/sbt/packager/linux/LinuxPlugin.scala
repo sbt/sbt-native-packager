@@ -7,6 +7,7 @@ import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
+import xsbti.FileConverter
 
 /**
   * Plugin containing all the generic values used for packaging linux software.

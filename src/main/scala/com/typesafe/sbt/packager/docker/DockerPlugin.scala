@@ -16,6 +16,7 @@ import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 import scala.sys.process.Process
 import scala.util.Try
+import xsbti.FileConverter
 
 /**
   * ==Docker Plugin==

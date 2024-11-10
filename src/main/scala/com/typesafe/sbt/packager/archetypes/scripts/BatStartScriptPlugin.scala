@@ -8,6 +8,7 @@ import com.typesafe.sbt.packager.archetypes.{JavaAppPackaging, TemplateWriter}
 import com.typesafe.sbt.packager.windows.NameHelper
 import sbt.Keys.*
 import sbt.{*, given}
+import xsbti.FileConverter
 
 /**
   * ==Bat StartScript Plugin==

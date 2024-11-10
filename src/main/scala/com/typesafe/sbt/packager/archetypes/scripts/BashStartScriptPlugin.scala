@@ -7,6 +7,7 @@ import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.archetypes.{JavaAppPackaging, TemplateWriter}
 import sbt.Keys.*
 import sbt.{*, given}
+import xsbti.FileConverter
 
 /**
   * ==Bash StartScript Plugin==

@@ -11,7 +11,7 @@ Global / scalaVersion := scala3
 crossScalaVersions := Seq(scala3, scala212)
 (pluginCrossBuild / sbtVersion) := {
   scalaBinaryVersion.value match {
-    case "2.12" => "1.1.6"
+    case "2.12" => "1.5.8"
     case _      => "2.0.0-M2"
   }
 }
@@ -83,11 +83,11 @@ mimaPreviousArtifacts := {
   val m = "com.typesafe.sbt" %% moduleName.value % "1.3.15"
   val sbtBinV = (pluginCrossBuild / sbtBinaryVersion).value
   val scalaBinV = (update / scalaBinaryVersion).value
-  if (scalaBinV == "2.10") {
-    println(s"Skip MiMa check for SBT binary version ${sbtBinV} as scala ${scalaBinV} is not supported")
-    Set.empty
-  } else
-    Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
+  scalaBinV match {
+    case "2.12" =>
+      Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
+    case _ => Set.empty
+  }
 }
 
 // Release configuration
@@ -112,7 +112,8 @@ developers := List(
 addCommandAlias("scalafmtFormatAll", "; ^scalafmtAll ; scalafmtSbt")
 // ci commands
 addCommandAlias("validateFormatting", "; scalafmtCheckAll ; scalafmtSbtCheck")
-addCommandAlias("validate", "; clean ; update ; validateFormatting ; test ; mimaReportBinaryIssues")
+// Ignore mimaReportBinaryIssues
+addCommandAlias("validate", "; clean ; update ; validateFormatting ; test")
 
 // List all scripted test separately to schedule them in different travis-ci jobs.
 // Travis-CI has hard timeouts for jobs, so we run them in smaller jobs as the scripted

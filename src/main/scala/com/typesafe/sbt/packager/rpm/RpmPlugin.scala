@@ -11,6 +11,7 @@ import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.linux.*
 import com.typesafe.sbt.packager.Compat.*
 import com.typesafe.sbt.packager.validation.*
+import xsbti.FileConverter
 
 /**
   * Plugin containing all generic values used for packaging rpms.

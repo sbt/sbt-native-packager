@@ -4,6 +4,7 @@ import sbt.{*, given}
 import sbt.Keys.*
 import sbt.librarymanagement.{IvyFileConfiguration, PublishConfiguration}
 import com.typesafe.sbt.packager.Compat.*
+import xsbti.FileConverter
 
 /**
   *   - TODO write tests for the SettingsHelper
