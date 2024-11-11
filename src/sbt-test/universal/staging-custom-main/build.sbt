@@ -6,6 +6,8 @@ name := "stage-custom-main"
 
 version := "0.1.0"
 
+scalaVersion := "2.12.20"
+
 Compile / mainClass := Some("Main")
 
 TaskKey[Unit]("unzip") := {

@@ -1,3 +1,5 @@
+scalaVersion := "2.12.20"
+
 enablePlugins(UniversalPlugin)
 
 name := "simple-test"

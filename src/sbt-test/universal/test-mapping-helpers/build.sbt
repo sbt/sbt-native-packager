@@ -2,6 +2,8 @@ import com.typesafe.sbt.packager.Compat._
 
 import com.typesafe.sbt.packager.MappingsHelper._
 
+scalaVersion := "2.12.20"
+
 enablePlugins(JavaAppPackaging)
 
 name := "simple-test"
