@@ -170,9 +170,9 @@ Here's what the build file looks like:
     packageDescription := "A test package using Oracle's JDK bundled javapackager tool."
 
     lazy val iconGlob = sys.props("os.name").toLowerCase match {
-      case os if os.contains("mac") ⇒ "*.icns"
-      case os if os.contains("win") ⇒ "*.ico"
-      case _ ⇒ "*.png"
+      case os if os.contains("mac") => "*.icns"
+      case os if os.contains("win") => "*.ico"
+      case _ => "*.png"
     }
 
     jdkAppIcon :=  (sourceDirectory.value ** iconGlob).getPaths.headOption.map(file)

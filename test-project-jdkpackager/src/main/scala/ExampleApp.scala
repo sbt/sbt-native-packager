@@ -23,7 +23,7 @@ class ExampleApp extends Application {
       val win = new Stage(StageStyle.UTILITY)
       win.initModality(Modality.APPLICATION_MODAL)
       win.initOwner(stage)
-      val content = new TextArea(sys.props.toSeq.sortBy(_._1).map(p ⇒ s"${p._1}=${p._2}").mkString("\n"))
+      val content = new TextArea(sys.props.toSeq.sortBy(_._1).map(p => s"${p._1}=${p._2}").mkString("\n"))
       content.setPrefHeight(400)
       win.setScene(new Scene(content))
       win.sizeToScene()

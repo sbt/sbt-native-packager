@@ -8,9 +8,9 @@ jdkPackagerType := "image"
 
 TaskKey[Unit]("checkImage") := {
   val extension = sys.props("os.name").toLowerCase match {
-    case os if os.contains("mac") ⇒ ".app"
-    case os if os.contains("win") ⇒ ".exe"
-    case _ ⇒ ""
+    case os if os.contains("mac") => ".app"
+    case os if os.contains("win") => ".exe"
+    case _                        => ""
   }
   val expectedImage = (JDKPackager / target).value / "bundles" / (name.value + extension)
   println(s"Checking for '${expectedImage.getAbsolutePath}'")
