@@ -1,5 +1,5 @@
 # Run the debian packaging.
-> debian:packageBin
+> Debian/packageBin
 $ exists target/debian-test_0.1.0_all.deb
 
 # Template directories

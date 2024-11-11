@@ -1,6 +1,6 @@
-> rpm:stage
+> Rpm/stage
 $ exists target/rpm
 > checkSpecFile
 # Run the rpm packaging.
-> rpm:packageBin
+> Rpm/packageBin
 $ exists target/rpm/RPMS/x86_64/rpm-test-0.1.0-1.x86_64.rpm

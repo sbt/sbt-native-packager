@@ -1,5 +1,5 @@
 # Run the zip packaging.
-> show universal:packageBin
+> show Universal/packageBin
 $ exists target/universal/simple-test-0.1.0.zip
 
 # TODO - Check contents of zips.  Ensure file permissions are preserved.

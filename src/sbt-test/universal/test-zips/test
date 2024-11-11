@@ -1,25 +1,25 @@
 # Run the zip packaging.
-> show universal:packageBin
+> show Universal/packageBin
 $ exists target/universal/simple-test-0.1.0.zip
-> universal-docs:packageBin
+> UniversalDocs/packageBin
 $ exists target/universal-docs/simple-test-0.1.0.zip
-> universal-src:packageBin
+> UniversalSrc/packageBin
 $ exists target/universal-src/simple-test-0.1.0.zip
 
 # Run the tgz packaging.
-> universal:packageZipTarball
+> Universal/packageZipTarball
 $ exists target/universal/simple-test-0.1.0.tgz
-> universal-docs:packageZipTarball
+> UniversalDocs/packageZipTarball
 $ exists target/universal-docs/simple-test-0.1.0.tgz
-> universal-src:packageZipTarball
+> UniversalSrc/packageZipTarball
 $ exists target/universal-src/simple-test-0.1.0.tgz
 
 # Run the txz packaging.
-> universal:packageXzTarball
+> Universal/packageXzTarball
 $ exists target/universal/simple-test-0.1.0.txz
-> universal-docs:packageXzTarball
+> UniversalDocs/packageXzTarball
 $ exists target/universal-docs/simple-test-0.1.0.txz
-> universal-src:packageXzTarball
+> UniversalSrc/packageXzTarball
 $ exists target/universal-src/simple-test-0.1.0.txz
 
 

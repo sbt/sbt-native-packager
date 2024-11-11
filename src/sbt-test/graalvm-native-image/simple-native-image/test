@@ -1,3 +1,3 @@
 # Generate the GraalVM native image
-> show graalvm-native-image:packageBin
+> show GraalVMNativeImage/packageBin
 $ exec bash -c 'target/graalvm-native-image/simple-test | grep -q "Hello Graal"'

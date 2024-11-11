@@ -1,5 +1,5 @@
 # Run the universal packaging.
-> show universal:packageBin
+> show Universal/packageBin
 $ exists target/universal/simple-test-0.1.0.zip
 
 > unzip

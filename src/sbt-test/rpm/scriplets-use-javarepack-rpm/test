@@ -1,5 +1,5 @@
 # Run the RPM packaging.
-> rpm:packageBin
+> Rpm/packageBin
 $ exists target/rpm/RPMS/noarch/rpm-test-with-repack-0.1.0-2.noarch.rpm
 $ exists target/rpm/SPECS/rpm-test-with-repack.spec
 

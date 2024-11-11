@@ -1,5 +1,5 @@
 # Generate the Docker image locally
-> docker:publishLocal
+> Docker/publishLocal
 $ exists target/docker/stage/Dockerfile
 $ exists target/docker/stage/4/opt/docker/bin/docker-exec
 > checkDockerfile

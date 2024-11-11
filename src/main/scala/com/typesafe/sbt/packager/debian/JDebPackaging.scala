@@ -133,7 +133,7 @@ class JDebConsole(log: Logger) extends org.vafer.jdeb.Console {
   * ==JDeb Packaging Task==
   *
   * This private class contains all the jdeb-plugin specific implementations. It's only invoked when the jdeb plugin is
-  * enabled and the `debian:packageBin` task is called. This means that all classes in `org.vafer.jdeb._` are only
+  * enabled and the `Debian/packageBin` task is called. This means that all classes in `org.vafer.jdeb._` are only
   * loaded when required and allows us to put the dependency in the "provided" scope. The provided scope means that we
   * have less dependency issues in an sbt build.
   */
