@@ -300,9 +300,12 @@ object DockerPlugin extends AutoPlugin {
               "--push"
             ) ++ dockerBuildOptions.value :+ "."
           else dockerExecCommand.value
-        alias.foreach { aliasValue =>
-          publishDocker(context, execCommand, aliasValue.toString, log, multiplatform)
-        }
+        // For multiplatform builds, the alias are part of the `dockerBuildOptions` already.
+        if (multiplatform) publishDocker(context, execCommand, dockerAlias.value.tag.getOrElse(""), log, multiplatform)
+        else
+          alias.foreach { aliasValue =>
+            publishDocker(context, execCommand, aliasValue.toString, log, multiplatform)
+          }
       } tag (Tags.Network, Tags.Publish)
 
     def cleanTask =
