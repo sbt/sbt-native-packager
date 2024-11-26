@@ -3,7 +3,7 @@ organization := "com.github.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
-Global / scalaVersion := "2.12.20"
+Global / scalaVersion := "2.13.15"
 
 // crossBuildingSettings
 (pluginCrossBuild / sbtVersion) := {
