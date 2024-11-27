@@ -154,7 +154,12 @@ addResidual () {
   residual_args+=( "$1" )
 }
 addDebugger () {
-  addJava "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$1"
+  local major_version=$(get_java_major_version)
+  local address="*:$1"
+  if [ $major_version -le 8 ]; then
+    address="$1"
+  fi
+  addJava "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$address"
 }
 
 require_arg () {
@@ -310,6 +315,21 @@ java_version_check() {
     fi
   fi
 }
+
+get_java_major_version() {
+  readonly java_version=$("$java_cmd" -version 2>&1 | awk -F '"' '/version/ {print $2}')
+  if [[ "$java_version" == "" ]]; then
+    echoerr "Could not determine Java version. Assuming 8."
+    echo 8
+  else
+    local major=$(echo "$java_version" | cut -d'.' -f1)
+    if [[ "$major" -eq "1" ]]; then
+      local major=$(echo "$java_version" | cut -d'.' -f2)
+    fi
+    echo $major
+  fi
+}
+
 
 ###  ------------------------------- ###
 ###  Start of customized settings    ###
