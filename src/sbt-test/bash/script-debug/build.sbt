@@ -1,5 +1,3 @@
-import java.net.ServerSocket
-
 enablePlugins(JavaAppPackaging)
 
 name := "script-debug"
