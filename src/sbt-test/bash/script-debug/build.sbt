@@ -7,7 +7,7 @@ name := "script-debug"
 version := "0.1.0"
 
 TaskKey[Unit]("runCheck") := {
-  val cwd = (stagingDirectory in Universal).value
+  val cwd = (Universal / stagingDirectory).value
   val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath, "-jvm-debug", "0")
   val output = (sys.process.Process(cmd, cwd).!!).replaceAll("\n", "")
 

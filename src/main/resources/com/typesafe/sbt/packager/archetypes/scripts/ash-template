@@ -64,7 +64,7 @@ require_arg () {
   local type="$1"
   local opt="$2"
   local arg="$3"
-  if [[ -z "$arg" ]] || [[ "${arg:0:1}" == "-" ]]; then
+  if [ -z "$arg" ] || [ "${arg#-}" != "$arg" ]; then
     die "$opt requires <$type> argument"
   fi
 }
@@ -113,7 +113,7 @@ process_args () {
     esac
   done
 
-  if [ $no_more_snp_opts ]; then
+  if [ $no_more_snp_opts -ne 0 ]; then
     while [ $# -gt 0 ]; do
       addResidual "$1" && shift
     done
