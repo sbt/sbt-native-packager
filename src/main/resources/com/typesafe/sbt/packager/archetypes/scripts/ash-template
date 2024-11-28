@@ -69,19 +69,19 @@ require_arg () {
   local type="$1"
   local opt="$2"
   local arg="$3"
-  if [[ -z "$arg" ]] || [[ "${arg:0:1}" == "-" ]]; then
+  if [ -z "$arg" ] || [ "${arg#-}" != "$arg" ]; then
     die "$opt requires <$type> argument"
   fi
 }
 
 get_java_major_version () {
   readonly java_version=$("$java_cmd" -version 2>&1 | awk -F '"' '/version/ {print $2}')
-  if [[ "$java_version" == "" ]]; then
+  if [ -z "$java_version" ]; then
     echoerr "Could not determine Java version. Assuming 8."
     echo 8
   else
     local major=$(echo "$java_version" | cut -d'.' -f1)
-    if [[ "$major" -eq "1" ]]; then
+    if [ "$major" -eq 1 ]; then
       local major=$(echo "$java_version" | cut -d'.' -f2)
     fi
     echo $major
@@ -118,7 +118,7 @@ get_java_cmd() {
 # Processes incoming arguments and places them in appropriate global variables.  called by the run method.
 process_args () {
   local no_more_snp_opts=0
-  # this depends on -java-home, so we need to delay calling addDebugger until all opts have been parsed
+  # this potentially depends on -java-home, so we need to delay calling addDebugger until all opts have been parsed
   local should_add_debugger=
 
   while [ $# -gt 0 ]; do
@@ -138,12 +138,11 @@ process_args () {
                                            *) addResidual "$1" && shift ;;
     esac
   done
-
-  if [[ $should_add_debugger ]]; then
+  if [ ! -z $should_add_debugger ]; then
     addDebugger $should_add_debugger
   fi
 
-  if [ $no_more_snp_opts ]; then
+  if [ $no_more_snp_opts -ne 0 ]; then
     while [ $# -gt 0 ]; do
       addResidual "$1" && shift
     done
