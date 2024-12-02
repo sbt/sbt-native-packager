@@ -1,6 +1,6 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
-import sbt._
+import sbt.{*, given}
 import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
@@ -19,6 +19,7 @@ import com.typesafe.sbt.packager.Keys.{
   stopRunlevels
 }
 import com.typesafe.sbt.SbtNativePackager.{Debian, Linux, Rpm, Universal}
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.DebianConstants

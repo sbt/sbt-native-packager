@@ -1,5 +1,7 @@
 import com.typesafe.sbt.packager.Compat._
 
+ThisBuild / scalaVersion := "2.12.20"
+
 lazy val appVersion = "1.0"
 
 lazy val mySettings: Seq[Setting[_]] =

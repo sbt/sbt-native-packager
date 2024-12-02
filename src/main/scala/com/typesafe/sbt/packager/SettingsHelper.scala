@@ -1,9 +1,10 @@
 package com.typesafe.sbt.packager
 
-import sbt._
-import sbt.Keys._
+import sbt.{*, given}
+import sbt.Keys.*
 import sbt.librarymanagement.{IvyFileConfiguration, PublishConfiguration}
-import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.Compat.*
+import xsbti.FileConverter
 
 /**
   *   - TODO write tests for the SettingsHelper
@@ -14,7 +15,7 @@ object SettingsHelper {
 
   def addPackage(
     config: Configuration,
-    packageTask: TaskKey[File],
+    packageTask: TaskKey[PluginCompat.FileRef],
     extension: String,
     classifier: Option[String] = None
   ): Seq[Setting[_]] =
@@ -34,7 +35,7 @@ object SettingsHelper {
 
   def makeDeploymentSettings(
     config: Configuration,
-    packageTask: TaskKey[File],
+    packageTask: TaskKey[PluginCompat.FileRef],
     extension: String,
     classifier: Option[String] = None
   ): Seq[Setting[_]] =
@@ -58,19 +59,31 @@ object SettingsHelper {
         // -------------------------------
         publishConfiguration := PublishConfiguration()
           .withResolverName(Classpaths.getPublishTo(publishTo.value).name)
-          .withArtifacts(packagedArtifacts.value.toVector)
+          .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
+            val conv0 = fileConverter.value
+            implicit val conv: FileConverter = conv0
+            (a, PluginCompat.toFile(f))
+          })
           .withChecksums(checksums.value.toVector)
           .withOverwrite(isSnapshot.value)
           .withLogging(UpdateLogging.DownloadOnly),
         publishLocalConfiguration := PublishConfiguration()
           .withResolverName("local")
-          .withArtifacts(packagedArtifacts.value.toVector)
+          .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
+            val conv0 = fileConverter.value
+            implicit val conv: FileConverter = conv0
+            (a, PluginCompat.toFile(f))
+          })
           .withChecksums(checksums.value.toVector)
           .withOverwrite(isSnapshot.value)
           .withLogging(UpdateLogging.DownloadOnly),
         publishM2Configuration := PublishConfiguration()
           .withResolverName(Resolver.mavenLocal.name)
-          .withArtifacts(packagedArtifacts.value.toVector)
+          .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
+            val conv0 = fileConverter.value
+            implicit val conv: FileConverter = conv0
+            (a, PluginCompat.toFile(f))
+          })
           .withChecksums(checksums.value.toVector)
           .withOverwrite(isSnapshot.value)
           .withLogging(UpdateLogging.DownloadOnly)
