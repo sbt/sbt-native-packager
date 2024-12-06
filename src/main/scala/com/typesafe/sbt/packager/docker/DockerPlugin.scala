@@ -12,6 +12,7 @@ import sbt.Keys._
 import sbt._
 
 import java.io.File
+import java.nio.file.Paths
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 import scala.sys.process.Process
@@ -362,7 +363,9 @@ object DockerPlugin extends AutoPlugin {
         validateDockerVersion(dockerApiVersion.value),
         validateDockerPermissionStrategy(dockerPermissionStrategy.value, dockerVersion.value, dockerApiVersion.value)
       ),
-      dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
+      dockerPackageMappings := MappingsHelper
+        .contentOf(sourceDirectory.value)
+        .map { case (from, to) => from -> Paths.get("/", to).toString },
       dockerGenerateConfig := {
         val _ = validatePackage.value
         generateDockerConfig(dockerCommands.value, stagingDirectory.value)
