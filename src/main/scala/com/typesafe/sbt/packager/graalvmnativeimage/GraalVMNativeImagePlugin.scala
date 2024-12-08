@@ -28,7 +28,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
   import autoImport._
 
-  private val GraalVMBaseImage = "ghcr.io/graalvm/graalvm-ce"
+  private val GraalVMBaseImage = "ghcr.io/graalvm/graalvm-community"
 
   override def requires: Plugins = JavaAppPackaging
 
@@ -191,7 +191,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
           Cmd("FROM", baseImage),
           Cmd("WORKDIR", "/opt/graalvm"),
           ExecCmd("RUN", "gu", "install", "native-image"),
-          ExecCmd("RUN", "sh", "-c", "ln -s /opt/graalvm-ce-*/bin/native-image /usr/local/bin/native-image"),
+          ExecCmd("RUN", "sh", "-c", "ln -s /opt/graalvm-community-*/bin/native-image /usr/local/bin/native-image"),
           ExecCmd("ENTRYPOINT", "native-image")
         ).makeContent
 
