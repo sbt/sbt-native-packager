@@ -67,14 +67,14 @@ customized using the following settings.
   ``graalVMNativeImageGraalVersion``
     Setting this enables generating a Docker container to build the native image, and then building it in that container.
     It must correspond to a valid version of the
-    `Oracle GraalVM Community Edition Docker image <https://github.com/graalvm/container/pkgs/container/graalvm-ce/>`_. This setting has no
+    `Oracle GraalVM Community Edition Docker image <https://github.com/graalvm/container/pkgs/container/graalvm-community/>`_. This setting has no
     effect if ``containerBuildImage`` is explicitly set.
 
     For example:
 
     .. code-block:: scala
 
-      graalVMNativeImageGraalVersion := Some("19.1.1")
+      graalVMNativeImageGraalVersion := Some("23.0.1")
 
   ``containerBuildImage``
 
@@ -83,7 +83,7 @@ customized using the following settings.
 
     .. code-block:: scala
 
-      containerBuildImage := Some("my-docker-username/graalvm-ce-native-image:19.1.1")
+      containerBuildImage := Some("my-docker-username/graalvm-community-native-image:23.0.1")
 
     A helper is provided to automatically generate a container build image from a base image that contains a Graal
     installation. For example, if you have a GraalVM enterprise edition docker image, you can turn it into a native
