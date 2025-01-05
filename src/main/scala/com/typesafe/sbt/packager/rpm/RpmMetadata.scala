@@ -7,6 +7,8 @@ import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, 
 import com.typesafe.sbt.packager.rpm.RpmPlugin.Names._
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import java.io.File
+import java.nio.file.Files
+import xsbti.FileConverter
 
 case class RpmMetadata(
   name: String,
@@ -198,14 +200,14 @@ case class RpmSpec(
     sb.toString
   }
 
-  private[this] def fileSection: String = {
+  private[this] def fileSection(implicit conv: FileConverter): String = {
     val sb = new StringBuilder
     sb append "\n%files\n"
     // TODO - default attribute string.
     for {
       mapping <- mappings
       (file, dest) <- mapping.mappings
-    } sb append makeFilesLine(dest, mapping.fileData, file.isDirectory)
+    } sb.append(makeFilesLine(dest, mapping.fileData, file.isDirectory))
 
     symlinks foreach (l => sb append s"${l.link}\n")
     sb.toString
@@ -229,7 +231,7 @@ case class RpmSpec(
   }
 
   // TODO - This is *very* tied to RPM helper, may belong *in* RpmHelper
-  def writeSpec(rpmRoot: File, tmpRoot: File): String = {
+  def writeSpec(rpmRoot: File, tmpRoot: File)(implicit conv: FileConverter): String = {
     val sb = new StringBuilder
     sb append ("Name: %s\n" format meta.name)
     sb append ("Version: %s\n" format meta.version)

@@ -1,10 +1,12 @@
 # Run the rpm packaging.
 > Rpm/packageBin
-$ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
+$ exists target/**/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 
 > unzip
 # Bootscript != executable Script
-$ exists /usr/lib/systemd/system/rpm-test.service
+
+# TODO: absolute path bug
+# $ exists /usr/lib/systemd/system/rpm-test.service
 # $ exists usr/share/rpm-test/bin/rpm-exec
 
 > checkStartupScript

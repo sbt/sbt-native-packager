@@ -4,8 +4,9 @@ import java.io.File
 import java.util.jar.Attributes
 
 import sbt.Package.ManifestAttributes
-import sbt._
+import sbt.{*, given}
 import sbt.Keys._
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
@@ -13,10 +14,8 @@ import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 object ClasspathJarPlugin extends AutoPlugin {
 
   object autoImport {
-    val packageJavaClasspathJar: TaskKey[File] = TaskKey[File](
-      "packageJavaClasspathJar",
-      "Creates a Java classpath jar that specifies the classpath in its manifest"
-    )
+    val packageJavaClasspathJar: TaskKey[PluginCompat.FileRef] =
+      taskKey[PluginCompat.FileRef]("Creates a Java classpath jar that specifies the classpath in its manifest")
   }
   import autoImport._
 
@@ -28,18 +27,22 @@ object ClasspathJarPlugin extends AutoPlugin {
     packageJavaClasspathJar / artifactClassifier := Option("classpath"),
     packageJavaClasspathJar / packageOptions := {
       val classpath = (packageJavaClasspathJar / scriptClasspath).value
-      val manifestClasspath = Attributes.Name.CLASS_PATH -> classpath.mkString(" ")
+      val manifestClasspath = PluginCompat.classpathAttr -> classpath.mkString(" ")
       Seq(ManifestAttributes(manifestClasspath))
     },
     packageJavaClasspathJar / artifactName := { (scalaVersion, moduleId, artifact) =>
       moduleId.organization + "." + artifact.name + "-" + moduleId.revision +
         artifact.classifier.fold("")("-" + _) + "." + artifact.extension
     },
-    bashScriptDefines / scriptClasspath := Seq((packageJavaClasspathJar / artifactPath).value.getName),
-    batScriptReplacements / scriptClasspath := Seq((packageJavaClasspathJar / artifactPath).value.getName),
+    bashScriptDefines / scriptClasspath := {
+      Seq(PluginCompat.getArtifactPathName((packageJavaClasspathJar / artifactPath).value))
+    },
+    batScriptReplacements / scriptClasspath := {
+      Seq(PluginCompat.getArtifactPathName((packageJavaClasspathJar / artifactPath).value))
+    },
     Universal / mappings += {
       val classpathJar = packageJavaClasspathJar.value
-      classpathJar -> ("lib/" + classpathJar.getName)
+      classpathJar -> ("lib/" + PluginCompat.getName(classpathJar))
     }
   )
 }

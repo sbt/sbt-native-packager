@@ -3,4 +3,4 @@
 $ mkdir src/universal
 $ copy-file build.sbt src/universal/test-file
 > Universal/packageBin
-$ exists target/universal/simple-test-0.1.0.zip
+$ exists target/**/universal/simple-test-0.1.0.zip

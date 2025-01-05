@@ -45,7 +45,7 @@ TaskKey[Unit]("checkSpecFile") := {
 }
 
 TaskKey[Unit]("checkRpmVersion") := {
-  val fullRpmVersion = sys.process.Process("rpm", Seq("--version")) !!
+  val fullRpmVersion = sys.process.Process("rpm", Seq("--version")).!!
   val firstDigit = fullRpmVersion indexWhere Character.isDigit
   val rpmVersion = fullRpmVersion substring firstDigit
   streams.value.log.info("Found rpmVersion: " + rpmVersion)

@@ -1,4 +1,5 @@
-package com.typesafe.sbt.packager.docker
+package com.typesafe.sbt.packager
+package docker
 
 import java.io.File
 
@@ -14,4 +15,4 @@ import java.io.File
   * @param path
   *   The path in the final image
   */
-case class LayeredMapping(layerId: Option[Int], file: File, path: String)
+case class LayeredMapping(layerId: Option[Int], file: PluginCompat.FileRef, path: String)

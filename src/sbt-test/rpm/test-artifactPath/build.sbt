@@ -1,3 +1,6 @@
+import com.typesafe.sbt.packager.PluginCompat
+import xsbti.FileConverter
+
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
 name := "rpm-test"
@@ -10,7 +13,10 @@ packageSummary := "Test rpm package"
 
 Linux / packageName := "rpm-package"
 
-(Rpm / packageBin / artifactPath) := target.value / s"${(Rpm / packageName).value}-${(Rpm / version).value}.rpm"
+(Rpm / packageBin / artifactPath) := {
+  implicit val converter: FileConverter = fileConverter.value
+  PluginCompat.toFileRef(target.value / s"${(Rpm / packageName).value}-${(Rpm / version).value}.rpm")
+}
 
 packageDescription := """A fun package description of our software,
   with multiple lines."""

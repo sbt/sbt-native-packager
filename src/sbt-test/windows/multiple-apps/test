@@ -1,11 +1,11 @@
 # Run the staging and check the script.
 > stage
-$ exists target/universal/stage/bin/main-app.bat
-$ exists target/universal/stage/bin/second-app.bat
+$ exists target/**/universal/stage/bin/main-app.bat
+$ exists target/**/universal/stage/bin/second-app.bat
 > checkNoExplicitMain
 > clean
-> set mainClass in Compile := Some("com.example.MainApp")
+> set Compile / mainClass := Some("com.example.MainApp")
 > stage
-$ exists target/universal/stage/bin/test-project.bat
-$ exists target/universal/stage/bin/second-app.bat
+$ exists target/**/universal/stage/bin/test-project.bat
+$ exists target/**/universal/stage/bin/second-app.bat
 > checkExplicitMain

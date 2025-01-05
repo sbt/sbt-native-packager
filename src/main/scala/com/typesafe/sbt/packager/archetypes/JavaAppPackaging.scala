@@ -1,13 +1,15 @@
-package com.typesafe.sbt.packager.archetypes
+package com.typesafe.sbt.packager
+package archetypes
 
-import sbt._
-import sbt.Keys._
+import sbt.{*, given}
+import sbt.Keys.*
+import sbt.internal.BuildDependencies
 import com.typesafe.sbt.SbtNativePackager.{Debian, Universal}
-import com.typesafe.sbt.packager._
 import com.typesafe.sbt.packager.Keys.packageName
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{defaultLinuxInstallLocation, linuxPackageMappings}
-import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.Compat.*
+import xsbti.FileConverter
 
 /**
   * ==Java Application==
@@ -60,7 +62,8 @@ object JavaAppPackaging extends AutoPlugin {
       projectDependencyArtifacts := findProjectDependencyArtifacts.value,
       scriptClasspathOrdering ++= universalDepMappings(
         (Runtime / dependencyClasspath).value,
-        projectDependencyArtifacts.value
+        projectDependencyArtifacts.value,
+        fileConverter.value
       ),
       scriptClasspathOrdering := scriptClasspathOrdering.value.distinct,
       Universal / mappings ++= scriptClasspathOrdering.value,
@@ -77,7 +80,7 @@ object JavaAppPackaging extends AutoPlugin {
       bundledJvmLocation := (bundledJvmLocation ?? None).value
     )
 
-  private def makeRelativeClasspathNames(mappings: Seq[(File, String)]): Seq[String] =
+  private def makeRelativeClasspathNames(mappings: Seq[(PluginCompat.FileRef, String)]): Seq[String] =
     for {
       (_, name) <- mappings
     } yield
@@ -105,17 +108,14 @@ object JavaAppPackaging extends AutoPlugin {
 
   // Determines a nicer filename for an attributed jar file, using the
   // ivy metadata if available.
-  private def getJarFullFilename(dep: Attributed[File]): String = {
+  private def getJarFullFilename(dep: Attributed[PluginCompat.FileRef]): String = {
     val filename: Option[String] = for {
-      module <-
-        dep.metadata
-          // sbt 0.13.x key
-          .get(AttributeKey[ModuleID]("module-id"))
-          // sbt 1.x key
-          .orElse(dep.metadata.get(AttributeKey[ModuleID]("moduleID")))
-      artifact <- dep.metadata.get(AttributeKey[Artifact]("artifact"))
+      moduleStr <- dep.metadata.get(PluginCompat.moduleIDStr)
+      artifactStr <- dep.metadata.get(PluginCompat.artifactStr)
+      module = PluginCompat.parseModuleIDStrAttribute(moduleStr)
+      artifact = PluginCompat.parseArtifactStrAttribute(artifactStr)
     } yield makeJarName(module.organization, module.name, module.revision, artifact.name, artifact.classifier)
-    filename.getOrElse(dep.data.getName)
+    filename.getOrElse(PluginCompat.getName(dep.data))
   }
 
   // Here we grab the dependencies...
@@ -123,23 +123,27 @@ object JavaAppPackaging extends AutoPlugin {
     build.classpathTransitive.getOrElse(thisProject, Nil)
 
   // TODO - Should we pull in more than just JARs?  How do native packages come in?
-  private def isRuntimeArtifact(dep: Attributed[File]): Boolean =
-    dep.get(sbt.Keys.artifact.key).map(_.`type` == "jar").getOrElse {
-      val name = dep.data.getName
-      !(name.endsWith(".jar") || name.endsWith("-sources.jar") || name.endsWith("-javadoc.jar"))
-    }
+  private def isRuntimeArtifact(dep: Attributed[PluginCompat.FileRef]): Boolean =
+    dep
+      .get(PluginCompat.artifactStr)
+      .map(PluginCompat.parseArtifactStrAttribute)
+      .map(_.`type` == "jar")
+      .getOrElse {
+        val name = PluginCompat.getName(dep.data)
+        !(name.endsWith(".jar") || name.endsWith("-sources.jar") || name.endsWith("-javadoc.jar"))
+      }
 
-  private def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[File]]]] =
+  private def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[PluginCompat.FileRef]]]] =
     Def
-      .task {
+      .setting {
         val stateTask = state.taskValue
         val refs = thisProjectRef.value +: dependencyProjectRefs(buildDependencies.value, thisProjectRef.value)
         // Dynamic lookup of dependencies...
         val artTasks = refs map { ref =>
           extractArtifacts(stateTask, ref)
         }
-        val allArtifactsTask: Task[Seq[Attributed[File]]] =
-          artTasks.fold[Task[Seq[Attributed[File]]]](task(Nil)) { (previous, next) =>
+        val allArtifactsTask: Task[Seq[Attributed[PluginCompat.FileRef]]] =
+          artTasks.fold[Task[Seq[Attributed[PluginCompat.FileRef]]]](task(Nil)) { (previous, next) =>
             for {
               p <- previous
               n <- next
@@ -147,9 +151,8 @@ object JavaAppPackaging extends AutoPlugin {
           }
         allArtifactsTask
       }
-      .flatMap(identity)
 
-  private def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[File]]] =
+  private def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[PluginCompat.FileRef]]] =
     stateTask.flatMap { state =>
       val extracted = Project.extract(state)
       // TODO - Is this correct?
@@ -159,31 +162,43 @@ object JavaAppPackaging extends AutoPlugin {
         arts <- artifactTask
       } yield for {
         (art, file) <- arts.toSeq // TODO -Filter!
-      } yield Attributed.blank(file).put(moduleID.key, module).put(artifact.key, art)
+      } yield Attributed
+        .blank(file)
+        .put(PluginCompat.moduleIDStr, PluginCompat.moduleIDToStr(module))
+        .put(PluginCompat.artifactStr, PluginCompat.artifactToStr(art))
     }
 
-  private def findRealDep(dep: Attributed[File], projectArts: Seq[Attributed[File]]): Option[Attributed[File]] =
-    if (dep.data.isFile) Some(dep)
+  private def findRealDep(
+    dep: Attributed[PluginCompat.FileRef],
+    projectArts: Seq[Attributed[PluginCompat.FileRef]],
+    conv0: FileConverter
+  ): Option[Attributed[PluginCompat.FileRef]] = {
+    implicit val conv: FileConverter = conv0
+    if (PluginCompat.toFile(dep.data).isFile) Some(dep)
     else
       projectArts.find { art =>
         // TODO - Why is the module not showing up for project deps?
         // (art.get(sbt.Keys.moduleID.key) ==  dep.get(sbt.Keys.moduleID.key)) &&
-        (art.get(sbt.Keys.artifact.key), dep.get(sbt.Keys.artifact.key)) match {
-          case (Some(l), Some(r)) =>
+        (art.get(PluginCompat.artifactStr), dep.get(PluginCompat.artifactStr)) match {
+          case (Some(l0), Some(r0)) =>
+            val l = PluginCompat.parseArtifactStrAttribute(l0)
+            val r = PluginCompat.parseArtifactStrAttribute(r0)
             // TODO - extra attributes and stuff for comparison?
             // seems to break stuff if we do...
             l.name == r.name && l.classifier == r.classifier
           case _ => false
         }
       }
+  }
 
   // Converts a managed classpath into a set of lib mappings.
   private def universalDepMappings(
-    deps: Seq[Attributed[File]],
-    projectArts: Seq[Attributed[File]]
-  ): Seq[(File, String)] =
+    deps: Seq[Attributed[PluginCompat.FileRef]],
+    projectArts: Seq[Attributed[PluginCompat.FileRef]],
+    conv0: FileConverter
+  ): Seq[(PluginCompat.FileRef, String)] =
     for {
       dep <- deps
-      realDep <- findRealDep(dep, projectArts)
+      realDep <- findRealDep(dep, projectArts, conv0)
     } yield realDep.data -> ("lib/" + getJarFullFilename(realDep))
 }

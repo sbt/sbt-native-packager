@@ -13,4 +13,4 @@ packageDescription := """A fun package description of our software,
 
 linuxPackageMappings += packageMapping(
   ((Compile / resourceDirectory).value / "sudoers.d", "/etc/sudoers.d")
-) withPerms ("0440") asDocs ()
+).withPerms("0440").asDocs()

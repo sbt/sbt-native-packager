@@ -2,15 +2,16 @@ version: '{build}'
 os: Windows Server 2012
 install:
   - cmd: choco install zulu8 -ia "INSTALLDIR=""C:\zulu"""
-  - cmd: SET JAVA_HOME="C:\zulu"
+  - cmd: SET JAVA_HOME=C:\zulu
   - cmd: choco install sbt -ia "INSTALLDIR=""C:\sbt"""
   - cmd: SET PATH=C:\sbt\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: java -version
   - cmd: SET SBT_OPTS=-Xms4g -Xmx4g
+  - cmd: mkdir C:\temp
 build_script:
-  - sbt clean compile
+  - sbt -Djava.io.tmpdir=C:\temp clean ++2.12.x compile
 test_script:
-  - sbt validateWindows
+  - sbt -Djava.io.tmpdir=C:\temp ++2.12.x validateWindows
 cache:
   - C:\Users\appveyor\.sbt
   - C:\Users\appveyor\.m2
