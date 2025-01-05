@@ -93,7 +93,7 @@ mimaPreviousArtifacts := {
 // Release configuration
 publishMavenStyle := true
 // project meta data
-licenses := Seq("BSD-2-Clause" -> url("https://opensource.org/licenses/BSD-2-Clause"))
+licenses := Seq(License.Apache2)
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 scmInfo := Some(
