@@ -1,6 +1,6 @@
 # Run the debian packaging.
 > Debian/packageBin
-$ exists target/debian-test_0.1.0_all.deb
+$ exists target/**/debian-test_0.1.0_all.deb
 
 # Check files for defaults
 > checkEtcDefault

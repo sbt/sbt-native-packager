@@ -1,6 +1,6 @@
 # Generate the Docker image locally
 > Docker/publishLocal
-$ exists target/docker/stage/Dockerfile
-$ exists target/docker/stage/4/opt/docker/bin/docker-exec
+$ exists target/**/docker/stage/Dockerfile
+$ exists target/**/docker/stage/4/opt/docker/bin/docker-exec
 > checkDockerfile
 $ exec bash -c 'docker run docker-package:0.1.0 | grep -q "Hello world"'

@@ -1,6 +1,7 @@
 package com.typesafe.sbt.packager.archetypes
 
-import sbt._
+import sbt.{*, given}
+import com.typesafe.sbt.packager.PluginCompat
 
 /**
   * Available settings/tasks for the [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]] and all depending
@@ -14,14 +15,10 @@ trait JavaAppKeys {
     "bashScriptEnvConfigLocation",
     "The location of a bash script that will be sourced before running the app."
   )
-  val scriptClasspathOrdering = TaskKey[Seq[(File, String)]](
-    "scriptClasspathOrdering",
-    "The order of the classpath used at runtime for the bat/bash scripts."
-  )
-  val projectDependencyArtifacts = TaskKey[Seq[Attributed[File]]](
-    "projectDependencyArtifacts",
-    "The set of exported artifacts from our dependent projects."
-  )
+  val scriptClasspathOrdering =
+    taskKey[Seq[(PluginCompat.FileRef, String)]]("The order of the classpath used at runtime for the bat/bash scripts.")
+  val projectDependencyArtifacts =
+    taskKey[Seq[Attributed[PluginCompat.FileRef]]]("The set of exported artifacts from our dependent projects.")
   val scriptClasspath = TaskKey[Seq[String]](
     "scriptClasspath",
     "A list of relative filenames (to the lib/ folder in the distribution) of what to include on the classpath."

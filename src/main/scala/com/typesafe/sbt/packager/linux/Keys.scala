@@ -2,7 +2,7 @@ package com.typesafe.sbt
 package packager
 package linux
 
-import sbt._
+import sbt.{*, given}
 import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
 
 /** Linux packaging generic build targets. */
@@ -34,7 +34,7 @@ trait LinuxKeys {
   val generateManPages = TaskKey[Unit]("generate-man-pages", "Shows all the man files in the current project")
 
   val linuxMakeStartScript =
-    TaskKey[Option[File]]("linuxMakeStartScript", "Creates or discovers the start script used by this project")
+    taskKey[Option[File]]("Creates or discovers the start script used by this project")
   val linuxStartScriptTemplate = TaskKey[URL](
     "linuxStartScriptTemplate",
     "The location of the template start script file we use for debian (upstart or init.d"
@@ -67,7 +67,8 @@ trait LinuxKeys {
       """.stripMargin
   )
 
-  val makeEtcDefault = TaskKey[Option[File]]("makeEtcDefault", "Creates or discovers the /etc/default/ script")
+  val makeEtcDefault =
+    taskKey[Option[File]]("Creates or discovers the /etc/default/ script")
 
   val defaultLinuxInstallLocation =
     SettingKey[String]("defaultLinuxInstallLocation", "The location where we will install generic linux packages.")

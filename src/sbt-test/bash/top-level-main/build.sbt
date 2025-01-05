@@ -6,7 +6,7 @@ name := "top-level-main"
 
 version := "0.1.0"
 
-scalaVersion := "3.3.3"
+scalaVersion := "3.3.4"
 
 TaskKey[Unit]("runCheck") := {
   val cwd = (Universal / stagingDirectory).value

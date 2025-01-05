@@ -35,14 +35,14 @@ lazy val iconGlob = sys.props("os.name").toLowerCase match {
   case _                        => "*.png"
 }
 
-jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob).getPaths.headOption
+jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob).getPaths().headOption
   .map(file)
 
 TaskKey[Unit]("checkImage") := {
   val (extension, os) = sys.props("os.name").toLowerCase match {
-    case osys if osys.contains("mac") => (".app", 'mac)
-    case osys if osys.contains("win") => (".exe", 'windows)
-    case _                            => ("", 'linux)
+    case osys if osys.contains("mac") => ("", "mac")
+    case osys if osys.contains("win") => (".exe", "windows")
+    case _                            => ("", "linux")
   }
   val expectedImage = (JDKPackager / target).value / "bundles" / (name.value + extension)
   println(s"Checking for '${expectedImage.getAbsolutePath}'")

@@ -1,4 +1,6 @@
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.PluginCompat
+import xsbti.FileConverter
 
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
@@ -19,10 +21,10 @@ rpmDaemonLogFile := "test.log"
 (Compile / run / mainClass) := Some("com.example.MainApp")
 
 TaskKey[Unit]("unzipAndCheck") := {
-  val rpmPath = Seq((Rpm / packageBin).value.getAbsolutePath)
-  sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
-  val scriptlets =
-    sys.process.Process("rpm -qp --scripts " + (Rpm / packageBin).value.getAbsolutePath) !! streams.value.log
+  implicit val converter: FileConverter = fileConverter.value
+  val rpmPath = PluginCompat.toFile((Rpm / packageBin).value).getAbsolutePath
+  sys.process.Process("rpm2cpio", Seq(rpmPath)) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
+  val scriptlets = sys.process.Process("rpm -qp --scripts " + rpmPath) !! streams.value.log
   assert(scriptlets contains "addGroup rpm-test", "addGroup not present in \n" + scriptlets)
   assert(scriptlets contains "addUser rpm-test", "Incorrect useradd command in \n" + scriptlets)
   assert(scriptlets contains "deleteGroup rpm-test", "deleteGroup not present in \n" + scriptlets)

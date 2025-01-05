@@ -1,10 +1,10 @@
 package com.typesafe.sbt
 
-import packager._
+import packager.*
 import debian.DebianPlugin.autoImport.genChanges
 import com.typesafe.sbt.packager.Keys.{packageXzTarball, packageZipTarball, validatePackage, validatePackageValidators}
 import com.typesafe.sbt.packager.validation.Validation
-import sbt._
+import sbt.{*, given}
 import sbt.Keys.{name, normalizedName, packageBin, streams}
 
 /**
@@ -70,19 +70,6 @@ object SbtNativePackager extends AutoPlugin {
 
     val NativePackagerKeys = packager.Keys
     val NativePackagerHelper = packager.MappingsHelper
-
-    import SettingsHelper._
-
-    @deprecated("Use enablePlugins(xxxDeployPlugin)", "1.x")
-    def deploymentSettings =
-      makeDeploymentSettings(Debian, Debian / packageBin, "deb") ++
-        makeDeploymentSettings(Rpm, Rpm / packageBin, "rpm") ++
-        makeDeploymentSettings(Windows, Windows / packageBin, "msi") ++
-        makeDeploymentSettings(Universal, Universal / packageBin, "zip") ++
-        addPackage(Universal, Universal / packageZipTarball, "tgz") ++
-        makeDeploymentSettings(UniversalDocs, UniversalDocs / packageBin, "zip") ++
-        addPackage(UniversalDocs, UniversalDocs / packageXzTarball, "txz") ++
-        makeDeploymentSettings(Debian, Debian / genChanges, "changes")
   }
 
   import autoImport._

@@ -1,3 +1,8 @@
+import com.typesafe.sbt.packager.PluginCompat
+
+import NativePackagerHelper._
+import xsbti.FileConverter
+
 enablePlugins(JDKPackagerPlugin)
 
 name := "JDKPackagerPluginTest"
@@ -16,11 +21,9 @@ packageDescription := "Test JDKPackagerPlugin with mappings"
 
 jdkPackagerType := "image"
 
-Universal / mappings += baseDirectory.value / "src" / "deploy" / "README.md" -> "README.md"
-
 Universal / mappings ++= {
-  val dir = baseDirectory.value / "src" / "deploy" / "stuff"
-  (dir.**(AllPassFilter) --- dir) pair (file => IO.relativize(dir.getParentFile, file))
+  implicit val converter: FileConverter = fileConverter.value
+  PluginCompat.toFileRefsMapping(directory(baseDirectory.value / "src" / "deploy"))
 }
 
 lazy val iconGlob = sys.props("os.name").toLowerCase match {
@@ -29,21 +32,21 @@ lazy val iconGlob = sys.props("os.name").toLowerCase match {
   case _                        => "*.png"
 }
 
-jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob).getPaths.headOption
+jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob).getPaths().headOption
   .map(file)
 
 TaskKey[Unit]("checkImage") := {
   val (extension, os) = sys.props("os.name").toLowerCase match {
-    case osys if osys.contains("mac") => (".app", 'mac)
-    case osys if osys.contains("win") => (".exe", 'windows)
-    case _                            => ("", 'linux)
+    case osys if osys.contains("mac") => ("", "mac")
+    case osys if osys.contains("win") => (".exe", "windows")
+    case _                            => ("", "linux")
   }
   val expectedImage = (JDKPackager / target).value / "bundles" / (name.value + extension)
   println(s"Checking for '${expectedImage.getAbsolutePath}'")
   assert(expectedImage.exists, s"Expected image file to be found at '$expectedImage'")
 
   val files = os match {
-    case 'mac =>
+    case "mac" =>
       Seq(
         expectedImage / "Contents" / "Java" / "README.md",
         expectedImage / "Contents" / "Java" / "stuff" / "something-1.md",

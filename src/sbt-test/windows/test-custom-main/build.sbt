@@ -12,7 +12,7 @@ TaskKey[Unit]("checkAppMain") := {
   val zipFile = (Universal / packageBin).value
   val process =
     sys.process.Process("target/universal/stage/bin/test-custom-main.bat")
-  val out = (process !!)
+  val out = process.!!
   if (out.trim != "App Main Method") sys.error("unexpected output: " + out)
   ()
 }
@@ -21,7 +21,7 @@ TaskKey[Unit]("checkCustomMain") := {
   val zipFile = (Universal / packageBin).value
   val process =
     sys.process.Process("target/universal/stage/bin/test-custom-main.bat", Seq("-main", "CustomMain"))
-  val out = (process !!)
+  val out = process.!!
   if (out.trim != "Custom Main Method") sys.error("unexpected output: " + out)
   ()
 }

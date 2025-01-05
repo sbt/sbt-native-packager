@@ -25,7 +25,7 @@ TaskKey[Unit]("checkScript") := {
     val scriptContents = IO.read(script)
     System.err.println(scriptContents)
     System.err.println("---END SCRIPT---")
-    for (file <- dir.**(AllPassFilter).get)
+    for (file <- dir.**(AllPassFilter).get())
       System.err.println("\t" + file)
   }
   val cmd = "bash " + script.getAbsolutePath + " -d"

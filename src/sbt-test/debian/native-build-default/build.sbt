@@ -10,6 +10,6 @@ packageSummary := "Summary"
 
 TaskKey[Unit]("checkDebCompression") := {
   val deb = target.value / s"${(Debian / name).value}_${(Debian / version).value}_all.deb"
-  val output = sys.process.Process(Seq("ar", "-t", deb.toString)).lines
+  val output = sys.process.Process(Seq("ar", "-t", deb.toString)).lineStream
   assert(output.contains("data.tar"))
 }
