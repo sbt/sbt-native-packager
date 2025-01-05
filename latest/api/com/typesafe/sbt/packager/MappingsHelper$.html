@@ -1,1255 +1,1201 @@
-<!DOCTYPE html >
-<html>
-        <head>
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title></title>
-          <meta name="description" content="" />
-          <meta name="keywords" content="" />
-          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-          
-      
-      <link href="../../../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
-      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
-      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
-      <script type="text/javascript" src="../../../../lib/jquery.min.js"></script>
-      <script type="text/javascript" src="../../../../lib/jquery.panzoom.min.js"></script>
-      <script type="text/javascript" src="../../../../lib/jquery.mousewheel.min.js"></script>
-      <script type="text/javascript" src="../../../../lib/index.js"></script>
-      <script type="text/javascript" src="../../../../index.js"></script>
-      <script type="text/javascript" src="../../../../lib/scheduler.js"></script>
-      <script type="text/javascript" src="../../../../lib/template.js"></script>
-      
-      <script type="text/javascript">
-        /* this variable can be used by the JS to determine the path to the root document */
-        var toRoot = '../../../../';
-      </script>
-    
-        </head>
-        <body>
-      <div id="search">
-        <span id="doc-title"><span id="doc-version"></span></span>
-        <span class="close-results"><span class="left">&lt;</span> Back</span>
-        <div id="textfilter">
-          <span class="input">
-            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
-            <i class="clear material-icons"></i>
-            <i id="search-icon" class="material-icons"></i>
-          </span>
-        </div>
+<!DOCTYPE html><html data-pathToRoot="../../../../" data-rawLocation="com/typesafe/sbt/packager/MappingsHelper$" data-dynamicSideMenu="false"><head><meta charset="utf-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta><title>MappingsHelper</title><link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.ico"></link><script type="text/javascript" src="../../../../scripts/theme.js"></script><script type="text/javascript" src="../../../../scripts/searchData.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/scastieConfiguration.js" defer="true"></script><link rel="stylesheet" href="../../../../styles/theme/bundle.css"></link><link rel="stylesheet" href="../../../../styles/theme/components/bundle.css"></link><link rel="stylesheet" href="../../../../styles/theme/components/button/bundle.css"></link><link rel="stylesheet" href="../../../../styles/theme/layout/bundle.css"></link><link rel="stylesheet" href="../../../../styles/nord-light.css"></link><link rel="stylesheet" href="../../../../styles/dotty-icons.css"></link><link rel="stylesheet" href="../../../../styles/filter-bar.css"></link><link rel="stylesheet" href="../../../../styles/code-snippets.css"></link><link rel="stylesheet" href="../../../../styles/searchbar.css"></link><link rel="stylesheet" href="../../../../styles/social-links.css"></link><link rel="stylesheet" href="../../../../styles/versions-dropdown.css"></link><link rel="stylesheet" href="../../../../styles/content-contributors.css"></link><link rel="stylesheet" href="../../../../styles/fontawesome.css"></link><script type="text/javascript" src="../../../../hljs/highlight.pack.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/hljs-scala3.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/ux.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/common/component.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/common/utils.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/components/FilterBar.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/components/DocumentableList.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/components/Input.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/components/FilterGroup.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/components/Filter.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/scaladoc-scalajs.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/contributors.js" defer="true"></script><script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js" defer="true"></script><script type="text/javascript" src="https://d3js.org/d3.v6.min.js" defer="true"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/graphlib-dot@0.6.2/dist/graphlib-dot.min.js" defer="true"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dagre-d3/0.6.1/dagre-d3.min.js" defer="true"></script><script type="text/javascript" src="https://scastie.scala-lang.org/embedded.js" defer="true"></script><script type="text/javascript" src="../../../../scripts/data.js" defer="true"></script><link rel="stylesheet" href="../../../../styles/apistyles.css"></link><script>var pathToRoot = "../../../../";</script></head><body><div id=""><div id="header" class="body-small"><div class="header-container-left"><a href="../../../../" class="logo-container"><span class="project-name h300">sbt-native-packager</span></a><span onclick="dropdownHandler(event)" class="text-button with-arrow" id="dropdown-trigger"><a></a></span><div id="version-dropdown" class="dropdown-menu"></div></div><div class="header-container-right"><button id="search-toggle" class="icon-button"></button><span id="theme-toggle" class="icon-button"></span><span id="mobile-menu-toggle" class="icon-button hamburger"></span></div></div><div id="mobile-menu"><div class="mobile-menu-header body-small"><span class="mobile-menu-logo"><span class="project-name h300">sbt-native-packager</span></span><button id="mobile-menu-close" class="icon-button close"></button></div><div class="mobile-menu-container body-medium"><input id="mobile-scaladoc-searchbar-input" class="scaladoc-searchbar-input" type="search" placeholder="Find anything"></input><span id="mobile-theme-toggle" class="mobile-menu-item mode"></span></div></div><span id="mobile-sidebar-toggle" class="floating-button"></span><div id="leftColumn" class="body-small"><div class="switcher-container"><a id="api-nav-button" class="switcher h100 selected" href="../../../../index.html">API</a></div><nav id="api-nav" class="side-menu"><div class="ni n0 expanded"><span class="nh h100 expanded cs"><button class="ar icon-button expanded"></button><a href="../../sbt.html"><span class="micon pa"></span><span>com.typesafe.sbt</span></a></span><div class="ni n1 expanded"><span class="nh h100 expanded cs"><button class="ar icon-button expanded"></button><a href="../packager.html"><span class="micon pa"></span><span>packager</span></a></span><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="archetypes.html"><span class="micon pa"></span><span>archetypes</span></a></span><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/jar.html"><span class="micon pa"></span><span>jar</span></a></span><div class="ni n4"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/jar/ClasspathJarPlugin$.html"><span class="micon ob"></span><span>ClasspathJarPlugin</span></a></span><div class="ni n5 "><span class="nh "><a href="archetypes/jar/ClasspathJarPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n4"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/jar/LauncherJarPlugin$.html"><span class="micon ob"></span><span>LauncherJarPlugin</span></a></span><div class="ni n5 "><span class="nh "><a href="archetypes/jar/LauncherJarPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/jlink.html"><span class="micon pa"></span><span>jlink</span></a></span><div class="ni n4"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/jlink/JlinkPlugin$.html"><span class="micon ob"></span><span>JlinkPlugin</span></a></span><div class="ni n5 "><span class="nh "><a href="archetypes/jlink/JlinkPlugin$$Ignore$.html"><span class="micon ob"></span><span>Ignore</span></a></span></div><div class="ni n5 "><span class="nh "><a href="archetypes/jlink/JlinkPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/scripts.html"><span class="micon pa"></span><span>scripts</span></a></span><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/ApplicationIniGenerator.html"><span class="micon tr"></span><span>ApplicationIniGenerator</span></a></span></div><div class="ni n4"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/scripts/AshScriptPlugin$.html"><span class="micon ob"></span><span>AshScriptPlugin</span></a></span><div class="ni n5 "><span class="nh "><a href="archetypes/scripts/AshScriptPlugin$$Defines$.html"><span class="micon ob"></span><span>Defines</span></a></span></div></div><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/BashStartScriptKeys.html"><span class="micon tr"></span><span>BashStartScriptKeys</span></a></span></div><div class="ni n4"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/scripts/BashStartScriptPlugin$.html"><span class="micon ob"></span><span>BashStartScriptPlugin</span></a></span><div class="ni n5 "><span class="nh "><a href="archetypes/scripts/BashStartScriptPlugin$$Defines$.html"><span class="micon ob"></span><span>Defines</span></a></span></div><div class="ni n5 "><span class="nh "><a href="archetypes/scripts/BashStartScriptPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/BatStartScriptKeys.html"><span class="micon tr"></span><span>BatStartScriptKeys</span></a></span></div><div class="ni n4"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/scripts/BatStartScriptPlugin$.html"><span class="micon ob"></span><span>BatStartScriptPlugin</span></a></span><div class="ni n5 "><span class="nh "><a href="archetypes/scripts/BatStartScriptPlugin$$BatScriptConfig$.html"><span class="micon ob"></span><span>BatScriptConfig</span></a></span></div><div class="ni n5 "><span class="nh "><a href="archetypes/scripts/BatStartScriptPlugin$$Defines$.html"><span class="micon ob"></span><span>Defines</span></a></span></div><div class="ni n5 "><span class="nh "><a href="archetypes/scripts/BatStartScriptPlugin$$Replacements$.html"><span class="micon ob"></span><span>Replacements</span></a></span></div><div class="ni n5 "><span class="nh "><a href="archetypes/scripts/BatStartScriptPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/CommonStartScriptGenerator.html"><span class="micon tr"></span><span>CommonStartScriptGenerator</span></a></span></div><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/ExplicitMainWithAdditional.html"><span class="micon cl"></span><span>ExplicitMainWithAdditional</span></a></span></div><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/MultipleMains.html"><span class="micon cl"></span><span>MultipleMains</span></a></span></div><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/NoMain$.html"><span class="micon ob"></span><span>NoMain</span></a></span></div><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/ScriptUtils$.html"><span class="micon ob"></span><span>ScriptUtils</span></a></span></div><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/SingleMain.html"><span class="micon cl"></span><span>SingleMain</span></a></span></div><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/StartScriptMainClassConfig.html"><span class="micon tr"></span><span>StartScriptMainClassConfig</span></a></span></div><div class="ni n4 "><span class="nh "><a href="archetypes/scripts/StartScriptMainClassConfig$.html"><span class="micon ob"></span><span>StartScriptMainClassConfig</span></a></span></div></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/systemloader.html"><span class="micon pa"></span><span>systemloader</span></a></span><div class="ni n4 "><span class="nh "><a href="archetypes/systemloader/ServerLoader$.html"><span class="micon ob"></span><span>ServerLoader</span></a></span></div><div class="ni n4 "><span class="nh "><a href="archetypes/systemloader/SystemVPlugin$.html"><span class="micon ob"></span><span>SystemVPlugin</span></a></span></div><div class="ni n4"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/systemloader/SystemdPlugin$.html"><span class="micon ob"></span><span>SystemdPlugin</span></a></span><div class="ni n5 "><span class="nh "><a href="archetypes/systemloader/SystemdPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n4 "><span class="nh "><a href="archetypes/systemloader/SystemloaderKeys.html"><span class="micon tr"></span><span>SystemloaderKeys</span></a></span></div><div class="ni n4"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/systemloader/SystemloaderPlugin$.html"><span class="micon ob"></span><span>SystemloaderPlugin</span></a></span><div class="ni n5 "><span class="nh "><a href="archetypes/systemloader/SystemloaderPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n4 "><span class="nh "><a href="archetypes/systemloader/UpstartPlugin$.html"><span class="micon ob"></span><span>UpstartPlugin</span></a></span></div></div><div class="ni n3 "><span class="nh "><a href="archetypes/JavaAppKeys.html"><span class="micon tr"></span><span>JavaAppKeys</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/JavaAppPackaging$.html"><span class="micon ob"></span><span>JavaAppPackaging</span></a></span><div class="ni n4 "><span class="nh "><a href="archetypes/JavaAppPackaging$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n3 "><span class="nh "><a href="archetypes/JavaServerAppKeys.html"><span class="micon tr"></span><span>JavaServerAppKeys</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="archetypes/JavaServerAppPackaging$.html"><span class="micon ob"></span><span>JavaServerAppPackaging</span></a></span><div class="ni n4 "><span class="nh "><a href="archetypes/JavaServerAppPackaging$$Names$.html"><span class="micon ob"></span><span>Names</span></a></span></div><div class="ni n4 "><span class="nh "><a href="archetypes/JavaServerAppPackaging$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n3 "><span class="nh "><a href="archetypes/JavaServerBashScript$.html"><span class="micon ob"></span><span>JavaServerBashScript</span></a></span></div><div class="ni n3 "><span class="nh "><a href="archetypes/JavaServerLoaderScript$.html"><span class="micon ob"></span><span>JavaServerLoaderScript</span></a></span></div><div class="ni n3 "><span class="nh "><a href="archetypes/MaintainerScriptHelper.html"><span class="micon tr"></span><span>MaintainerScriptHelper</span></a></span></div><div class="ni n3 "><span class="nh "><a href="archetypes/MaintainerScriptHelper$.html"><span class="micon ob"></span><span>MaintainerScriptHelper</span></a></span></div><div class="ni n3 "><span class="nh "><a href="archetypes/TemplateWriter$.html"><span class="micon ob"></span><span>TemplateWriter</span></a></span></div></div><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="debian.html"><span class="micon pa"></span><span>debian</span></a></span><div class="ni n3 "><span class="nh "><a href="debian/DebianControlScriptReplacements.html"><span class="micon cl"></span><span>DebianControlScriptReplacements</span></a></span></div><div class="ni n3 "><span class="nh "><a href="debian/DebianDeployPlugin$.html"><span class="micon ob"></span><span>DebianDeployPlugin</span></a></span></div><div class="ni n3 "><span class="nh "><a href="debian/DebianKeys.html"><span class="micon tr"></span><span>DebianKeys</span></a></span></div><div class="ni n3 "><span class="nh "><a href="debian/DebianNativePackaging.html"><span class="micon tr"></span><span>DebianNativePackaging</span></a></span></div><div class="ni n3 "><span class="nh "><a href="debian/DebianNativePackaging$.html"><span class="micon ob"></span><span>DebianNativePackaging</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="debian/DebianPlugin$.html"><span class="micon ob"></span><span>DebianPlugin</span></a></span><div class="ni n4 "><span class="nh "><a href="debian/DebianPlugin$$Names$.html"><span class="micon ob"></span><span>Names</span></a></span></div><div class="ni n4 "><span class="nh "><a href="debian/DebianPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n3 "><span class="nh "><a href="debian/DebianPluginLike.html"><span class="micon tr"></span><span>DebianPluginLike</span></a></span></div><div class="ni n3 "><span class="nh "><a href="debian/JDebConsole.html"><span class="micon cl"></span><span>JDebConsole</span></a></span></div><div class="ni n3 "><span class="nh "><a href="debian/JDebPackaging$.html"><span class="micon ob"></span><span>JDebPackaging</span></a></span></div><div class="ni n3 "><span class="nh "><a href="debian/PackageInfo.html"><span class="micon cl"></span><span>PackageInfo</span></a></span></div><div class="ni n3 "><span class="nh "><a href="debian/PackageMetaData.html"><span class="micon cl"></span><span>PackageMetaData</span></a></span></div></div><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="docker.html"><span class="micon pa"></span><span>docker</span></a></span><div class="ni n3 "><span class="nh "><a href="docker/Cmd.html"><span class="micon cl"></span><span>Cmd</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/CmdLike.html"><span class="micon tr"></span><span>CmdLike</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/CombinedCmd.html"><span class="micon cl"></span><span>CombinedCmd</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/Comment.html"><span class="micon cl"></span><span>Comment</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/DockerAlias.html"><span class="micon cl"></span><span>DockerAlias</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/DockerApiVersion.html"><span class="micon cl"></span><span>DockerApiVersion</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/DockerApiVersion$.html"><span class="micon ob"></span><span>DockerApiVersion</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/DockerChmodType.html"><span class="micon tr"></span><span>DockerChmodType</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="docker/DockerChmodType$.html"><span class="micon ob"></span><span>DockerChmodType</span></a></span><div class="ni n4 "><span class="nh "><a href="docker/DockerChmodType$$Custom.html"><span class="micon cl"></span><span>Custom</span></a></span></div><div class="ni n4 "><span class="nh "><a href="docker/DockerChmodType$$SyncGroupToUser$.html"><span class="micon ob"></span><span>SyncGroupToUser</span></a></span></div><div class="ni n4 "><span class="nh "><a href="docker/DockerChmodType$$UserGroupPlusExecute$.html"><span class="micon ob"></span><span>UserGroupPlusExecute</span></a></span></div><div class="ni n4 "><span class="nh "><a href="docker/DockerChmodType$$UserGroupRead$.html"><span class="micon ob"></span><span>UserGroupRead</span></a></span></div><div class="ni n4 "><span class="nh "><a href="docker/DockerChmodType$$UserGroupReadExecute$.html"><span class="micon ob"></span><span>UserGroupReadExecute</span></a></span></div><div class="ni n4 "><span class="nh "><a href="docker/DockerChmodType$$UserGroupWriteExecute$.html"><span class="micon ob"></span><span>UserGroupWriteExecute</span></a></span></div></div><div class="ni n3 "><span class="nh "><a href="docker/DockerKeys.html"><span class="micon tr"></span><span>DockerKeys</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/DockerPermissionStrategy.html"><span class="micon tr"></span><span>DockerPermissionStrategy</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="docker/DockerPermissionStrategy$.html"><span class="micon ob"></span><span>DockerPermissionStrategy</span></a></span><div class="ni n4 "><span class="nh "><a href="docker/DockerPermissionStrategy$$CopyChown$.html"><span class="micon ob"></span><span>CopyChown</span></a></span></div><div class="ni n4 "><span class="nh "><a href="docker/DockerPermissionStrategy$$MultiStage$.html"><span class="micon ob"></span><span>MultiStage</span></a></span></div><div class="ni n4 "><span class="nh "><a href="docker/DockerPermissionStrategy$$None$.html"><span class="micon ob"></span><span>None</span></a></span></div><div class="ni n4 "><span class="nh "><a href="docker/DockerPermissionStrategy$$Run$.html"><span class="micon ob"></span><span>Run</span></a></span></div></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="docker/DockerPlugin$.html"><span class="micon ob"></span><span>DockerPlugin</span></a></span><div class="ni n4 "><span class="nh "><a href="docker/DockerPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n3 "><span class="nh "><a href="docker/DockerSpotifyClientPlugin$.html"><span class="micon ob"></span><span>DockerSpotifyClientPlugin</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/DockerStageBreak$.html"><span class="micon ob"></span><span>DockerStageBreak</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/DockerSupport$.html"><span class="micon ob"></span><span>DockerSupport</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/DockerVersion.html"><span class="micon cl"></span><span>DockerVersion</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/DockerVersion$.html"><span class="micon ob"></span><span>DockerVersion</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/Dockerfile.html"><span class="micon cl"></span><span>Dockerfile</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/ExecCmd.html"><span class="micon cl"></span><span>ExecCmd</span></a></span></div><div class="ni n3 "><span class="nh "><a href="docker/LayeredMapping.html"><span class="micon cl"></span><span>LayeredMapping</span></a></span></div></div><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="graalvmnativeimage.html"><span class="micon pa"></span><span>graalvmnativeimage</span></a></span><div class="ni n3 "><span class="nh "><a href="graalvmnativeimage/GraalVMNativeImageKeys.html"><span class="micon tr"></span><span>GraalVMNativeImageKeys</span></a></span></div><div class="ni n3 "><span class="nh "><a href="graalvmnativeimage/GraalVMNativeImageKeysEx.html"><span class="micon tr"></span><span>GraalVMNativeImageKeysEx</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="graalvmnativeimage/GraalVMNativeImagePlugin$.html"><span class="micon ob"></span><span>GraalVMNativeImagePlugin</span></a></span><div class="ni n4 "><span class="nh "><a href="graalvmnativeimage/GraalVMNativeImagePlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div></div><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="jdkpackager.html"><span class="micon pa"></span><span>jdkpackager</span></a></span><div class="ni n3 "><span class="nh "><a href="jdkpackager/JDKPackagerAntHelper$.html"><span class="micon ob"></span><span>JDKPackagerAntHelper</span></a></span></div><div class="ni n3 "><span class="nh "><a href="jdkpackager/JDKPackagerDeployPlugin$.html"><span class="micon ob"></span><span>JDKPackagerDeployPlugin</span></a></span></div><div class="ni n3 "><span class="nh "><a href="jdkpackager/JDKPackagerKeys.html"><span class="micon tr"></span><span>JDKPackagerKeys</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="jdkpackager/JDKPackagerPlugin$.html"><span class="micon ob"></span><span>JDKPackagerPlugin</span></a></span><div class="ni n4"><span class="nh "><button class="ar icon-button "></button><a href="jdkpackager/JDKPackagerPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span><div class="ni n5 "><span class="nh "><a href="jdkpackager/JDKPackagerPlugin$$autoImport$$FileAssociation.html"><span class="micon cl"></span><span>FileAssociation</span></a></span></div><div class="ni n5 "><span class="nh "><a href="jdkpackager/JDKPackagerPlugin$$autoImport$$JDKPackagerToolkit.html"><span class="micon tr"></span><span>JDKPackagerToolkit</span></a></span></div><div class="ni n5 "><span class="nh "><a href="jdkpackager/JDKPackagerPlugin$$autoImport$$JavaFXToolkit$.html"><span class="micon ob"></span><span>JavaFXToolkit</span></a></span></div><div class="ni n5 "><span class="nh "><a href="jdkpackager/JDKPackagerPlugin$$autoImport$$SwingToolkit$.html"><span class="micon ob"></span><span>SwingToolkit</span></a></span></div></div></div></div><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="linux.html"><span class="micon pa"></span><span>linux</span></a></span><div class="ni n3 "><span class="nh "><a href="linux/LinuxFileMetaData.html"><span class="micon cl"></span><span>LinuxFileMetaData</span></a></span></div><div class="ni n3 "><span class="nh "><a href="linux/LinuxKeys.html"><span class="micon tr"></span><span>LinuxKeys</span></a></span></div><div class="ni n3 "><span class="nh "><a href="linux/LinuxMappingDSL.html"><span class="micon tr"></span><span>LinuxMappingDSL</span></a></span></div><div class="ni n3 "><span class="nh "><a href="linux/LinuxPackageMapping.html"><span class="micon cl"></span><span>LinuxPackageMapping</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="linux/LinuxPlugin$.html"><span class="micon ob"></span><span>LinuxPlugin</span></a></span><div class="ni n4 "><span class="nh "><a href="linux/LinuxPlugin$$Users$.html"><span class="micon ob"></span><span>Users</span></a></span></div><div class="ni n4 "><span class="nh "><a href="linux/LinuxPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n3 "><span class="nh "><a href="linux/LinuxSymlink.html"><span class="micon cl"></span><span>LinuxSymlink</span></a></span></div><div class="ni n3 "><span class="nh "><a href="linux/LinuxSymlink$.html"><span class="micon ob"></span><span>LinuxSymlink</span></a></span></div><div class="ni n3 "><span class="nh "><a href="linux/Mapper$.html"><span class="micon ob"></span><span>Mapper</span></a></span></div></div><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="rpm.html"><span class="micon pa"></span><span>rpm</span></a></span><div class="ni n3 "><span class="nh "><a href="rpm/RpmDependencies.html"><span class="micon cl"></span><span>RpmDependencies</span></a></span></div><div class="ni n3 "><span class="nh "><a href="rpm/RpmDeployPlugin$.html"><span class="micon ob"></span><span>RpmDeployPlugin</span></a></span></div><div class="ni n3 "><span class="nh "><a href="rpm/RpmDescription.html"><span class="micon cl"></span><span>RpmDescription</span></a></span></div><div class="ni n3 "><span class="nh "><a href="rpm/RpmHelper$.html"><span class="micon ob"></span><span>RpmHelper</span></a></span></div><div class="ni n3 "><span class="nh "><a href="rpm/RpmKeys.html"><span class="micon tr"></span><span>RpmKeys</span></a></span></div><div class="ni n3 "><span class="nh "><a href="rpm/RpmMetadata.html"><span class="micon cl"></span><span>RpmMetadata</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="rpm/RpmPlugin$.html"><span class="micon ob"></span><span>RpmPlugin</span></a></span><div class="ni n4 "><span class="nh "><a href="rpm/RpmPlugin$$Names$.html"><span class="micon ob"></span><span>Names</span></a></span></div><div class="ni n4 "><span class="nh "><a href="rpm/RpmPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n3 "><span class="nh "><a href="rpm/RpmScripts.html"><span class="micon cl"></span><span>RpmScripts</span></a></span></div><div class="ni n3 "><span class="nh "><a href="rpm/RpmScripts$.html"><span class="micon ob"></span><span>RpmScripts</span></a></span></div><div class="ni n3 "><span class="nh "><a href="rpm/RpmSpec.html"><span class="micon cl"></span><span>RpmSpec</span></a></span></div></div><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="universal.html"><span class="micon pa"></span><span>universal</span></a></span><div class="ni n3 "><span class="nh "><a href="universal/Archives$.html"><span class="micon ob"></span><span>Archives</span></a></span></div><div class="ni n3 "><span class="nh "><a href="universal/UniversalDeployPlugin$.html"><span class="micon ob"></span><span>UniversalDeployPlugin</span></a></span></div><div class="ni n3 "><span class="nh "><a href="universal/UniversalKeys.html"><span class="micon tr"></span><span>UniversalKeys</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="universal/UniversalPlugin$.html"><span class="micon ob"></span><span>UniversalPlugin</span></a></span><div class="ni n4 "><span class="nh "><a href="universal/UniversalPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="universal/ZipHelper$.html"><span class="micon ob"></span><span>ZipHelper</span></a></span><div class="ni n4 "><span class="nh "><a href="universal/ZipHelper$$FileMapping.html"><span class="micon cl"></span><span>FileMapping</span></a></span></div></div></div><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="validation.html"><span class="micon pa"></span><span>validation</span></a></span><div class="ni n3 "><span class="nh "><a href="validation/Validation.html"><span class="micon cl"></span><span>Validation</span></a></span></div><div class="ni n3 "><span class="nh "><a href="validation/Validation$.html"><span class="micon ob"></span><span>Validation</span></a></span></div><div class="ni n3 "><span class="nh "><a href="validation/ValidationError.html"><span class="micon cl"></span><span>ValidationError</span></a></span></div><div class="ni n3 "><span class="nh "><a href="validation/ValidationKeys.html"><span class="micon tr"></span><span>ValidationKeys</span></a></span></div><div class="ni n3 "><span class="nh "><a href="validation/ValidationKeys$.html"><span class="micon ob"></span><span>ValidationKeys</span></a></span></div><div class="ni n3 "><span class="nh "><a href="validation/ValidationResult.html"><span class="micon tr"></span><span>ValidationResult</span></a></span></div><div class="ni n3 "><span class="nh "><a href="validation/ValidationWarning.html"><span class="micon cl"></span><span>ValidationWarning</span></a></span></div></div><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="windows.html"><span class="micon pa"></span><span>windows</span></a></span><div class="ni n3 "><span class="nh "><a href="windows/AddDirectoryToPath.html"><span class="micon cl"></span><span>AddDirectoryToPath</span></a></span></div><div class="ni n3 "><span class="nh "><a href="windows/AddShortCuts.html"><span class="micon cl"></span><span>AddShortCuts</span></a></span></div><div class="ni n3 "><span class="nh "><a href="windows/ComponentFile.html"><span class="micon cl"></span><span>ComponentFile</span></a></span></div><div class="ni n3 "><span class="nh "><a href="windows/FeatureComponent.html"><span class="micon tr"></span><span>FeatureComponent</span></a></span></div><div class="ni n3 "><span class="nh "><a href="windows/NameHelper$.html"><span class="micon ob"></span><span>NameHelper</span></a></span></div><div class="ni n3 "><span class="nh "><a href="windows/NamespaceDefinitions.html"><span class="micon cl"></span><span>NamespaceDefinitions</span></a></span></div><div class="ni n3 "><span class="nh "><a href="windows/WindowsDeployPlugin$.html"><span class="micon ob"></span><span>WindowsDeployPlugin</span></a></span></div><div class="ni n3 "><span class="nh "><a href="windows/WindowsFeature.html"><span class="micon cl"></span><span>WindowsFeature</span></a></span></div><div class="ni n3 "><span class="nh "><a href="windows/WindowsKeys.html"><span class="micon tr"></span><span>WindowsKeys</span></a></span></div><div class="ni n3"><span class="nh "><button class="ar icon-button "></button><a href="windows/WindowsPlugin$.html"><span class="micon ob"></span><span>WindowsPlugin</span></a></span><div class="ni n4 "><span class="nh "><a href="windows/WindowsPlugin$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div></div><div class="ni n3 "><span class="nh "><a href="windows/WindowsProductInfo.html"><span class="micon cl"></span><span>WindowsProductInfo</span></a></span></div><div class="ni n3 "><span class="nh "><a href="windows/WixHelper$.html"><span class="micon ob"></span><span>WixHelper</span></a></span></div></div><div class="ni n2 "><span class="nh "><a href="Compat$.html"><span class="micon ob"></span><span>Compat</span></a></span></div><div class="ni n2 "><span class="nh "><a href="Hashing$.html"><span class="micon ob"></span><span>Hashing</span></a></span></div><div class="ni n2 "><span class="nh "><a href="Keys$.html"><span class="micon ob"></span><span>Keys</span></a></span></div><div class="ni n2 expanded"><span class="nh h100 selected"><a href="#"><span class="micon ob"></span><span>MappingsHelper</span></a></span></div><div class="ni n2 "><span class="nh "><a href="NativePackagerKeys.html"><span class="micon tr"></span><span>NativePackagerKeys</span></a></span></div><div class="ni n2 "><span class="nh "><a href="PluginCompat$.html"><span class="micon ob"></span><span>PluginCompat</span></a></span></div><div class="ni n2 "><span class="nh "><a href="SettingsHelper$.html"><span class="micon ob"></span><span>SettingsHelper</span></a></span></div><div class="ni n2 "><span class="nh "><a href="Stager$.html"><span class="micon ob"></span><span>Stager</span></a></span></div><div class="ni n2 "><span class="nh "><a href="chmod$.html"><span class="micon ob"></span><span>chmod</span></a></span></div><div class="ni n2"><span class="nh "><button class="ar icon-button "></button><a href="permissions$.html"><span class="micon ob"></span><span>permissions</span></a></span><div class="ni n3 "><span class="nh "><a href="permissions$$OctalString.html"><span class="micon cl"></span><span>OctalString</span></a></span></div></div><div class="ni n2 "><span class="nh "><a href="sourceDateEpoch$.html"><span class="micon ob"></span><span>sourceDateEpoch</span></a></span></div></div><div class="ni n1"><span class="nh "><button class="ar icon-button "></button><a href="../SbtNativePackager$.html"><span class="micon ob"></span><span>SbtNativePackager</span></a></span><div class="ni n2 "><span class="nh "><a href="../SbtNativePackager$$autoImport$.html"><span class="micon ob"></span><span>autoImport</span></a></span></div><div class="ni n2 "><span class="nh "><a href="../SbtNativePackager$$packageArchetype$.html"><span class="micon ob"></span><span>packageArchetype</span></a></span></div></div></div></nav></div><div id="footer" class="body-small"><div class="left-container">Generated with</div><div class="right-container"><div class="text"></div></div><div class="text-mobile"></div></div><div id="scaladoc-searchBar"></div><div id="main"><div class="breadcrumbs container"><a href="../../../../index.html">sbt-native-packager</a>/<a href="../../sbt.html">com.typesafe.sbt</a>/<a href="../packager.html">com.typesafe.sbt.packager</a>/<a href="MappingsHelper$.html">MappingsHelper</a></div><div id="content" class="body-medium"><div><div class="cover-header">
+ <span class="icon"><span class="micon ob"></span></span>
+ <h1 class="h600 single">MappingsHelper</h1>
+</div>
+<div class="fqname body-large">
+ <span>com.typesafe.sbt.packager.MappingsHelper</span>
+</div>
+<div class="main-signature mono-small-block">
+ <div class="signature">
+  <span class="signature-short"><span class="modifiers"></span><span class="kind"><span t="k">object </span></span><a href="MappingsHelper$.html" t="n" class="documentableName ">MappingsHelper</a><span t="k"> extends </span><span data-unresolved-link="" t="t">Mapper</span></span><span class="signature-long"></span>
+ </div>
+</div>
+<div class="cover">
+ <div class="doc">
+  <p>A set of helper methods to simplify the writing of mappings</p>
+ </div>
+ <section id="attributes">
+  <h2 class="h500">Attributes</h2>
+  <dl class="attributes">
+   <dt class="body-small">
+    Graph
+   </dt>
+   <dd class="body-medium">
+    <div id="inheritance-diagram" class="diagram-class showGraph">
+     <button type="button" class="label-only-button" onclick="zoomOut()">Reset zoom</button><button type="button" class="label-only-button" onclick="hideGraph()">Hide graph</button><button type="button" class="label-only-button" onclick="showGraph()">Show graph</button>
+     <svg id="graph"></svg>
+     <script type="text/dot" id="dot"> digraph g {
+ node0 [id=node0, label="<span style=\"color: #FFFFFF;\">object <a href=\"MappingsHelper$.html\" t=\"n\">MappingsHelper</a></span>", class="object vertex"];
+node1 [id=node1, label="<span style=\"color: #FFFFFF;\">class <span data-unresolved-link=\"\" t=\"n\">Mapper</span></span>", class="class vertex"];
+node2 [id=node2, label="<span style=\"color: #FFFFFF;\">class <span data-unresolved-link=\"\" t=\"n\">Object</span></span>", class="class vertex"];
+node3 [id=node3, label="<span style=\"color: #FFFFFF;\">class <span data-unresolved-link=\"\" t=\"n\">Any</span></span>", class="class vertex"];
+node4 [id=node4, label="<span style=\"color: #FFFFFF;\">trait <span data-unresolved-link=\"\" t=\"n\">Matchable</span></span>", class="trait vertex"];
+
+
+ node0 -> node1;
+node1 -> node2;
+node2 -> node3;
+node2 -> node4;
+node4 -> node3;
+
+}
+</script>
     </div>
-      <div id="search-results">
-        <div id="search-progress">
-          <div id="progress-fill"></div>
-        </div>
-        <div id="results-content">
-          <div id="entity-results"></div>
-          <div id="member-results"></div>
-        </div>
+   </dd>
+   <dt class="body-small">
+    Supertypes
+   </dt>
+   <dd class="body-medium">
+    <div class="mono-small-block supertypes">
+     <div>
+      class <span data-unresolved-link="" t="n">Mapper</span>
+     </div>
+     <div>
+      class <span data-unresolved-link="" t="n">Object</span>
+     </div>
+     <div>
+      trait <span data-unresolved-link="" t="n">Matchable</span>
+     </div>
+     <div>
+      class <span data-unresolved-link="" t="n">Any</span>
+     </div><span></span>
+    </div>
+   </dd>
+   <dt class="body-small">
+    Self type
+   </dt>
+   <dd class="body-medium">
+    <div class="mono-small-block supertypes">
+     <span></span>
+     <div>
+      <a href="MappingsHelper$.html" t="n">MappingsHelper</a>.<span t="k">type</span>
+     </div>
+    </div>
+   </dd>
+  </dl>
+ </section>
+</div>
+<section id="members-list">
+ <h2 class="h500">Members list</h2>
+ <div class="documentableFilter">
+  <div class="filtersContainer"></div><input class="filterableInput" placeholder="Filter by any phrase" data-test-id="filterBarInput" type="search"><button class="clearButton label-only-button" data-test-id="filterBarClearButton">Clear all</button>
+ </div>
+ <div class="membersList expand">
+  <div class="tabs">
+   <div class="contents">
+    <section id="Type-members">
+     <div data-togglable="Type members" class="tab expand">
+      <div class="member-group-header">
+       <h3 data-togglable="Type members" class="h400">Type members</h3>
       </div>
-      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
-        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
-          <div id="subpackage-spacer">
-            <div id="packages">
-              <h1>Packages</h1>
-              <ul>
-                <li name="_root_.root" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="_root_"></a><a id="root:_root_"></a>
-      <span class="permalink">
-      <a href="../../../../index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="../../../../index.html"><span class="name">root</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
-    </li><li name="_root_.com" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="com"></a><a id="com:com"></a>
-      <span class="permalink">
-      <a href="../../../../com/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="../../../index.html"><span class="name">com</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
-    </li><li name="com.typesafe" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="typesafe"></a><a id="typesafe:typesafe"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="../../index.html"><span class="name">typesafe</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../index.html" class="extype" name="com">com</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="sbt"></a><a id="sbt:sbt"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="../index.html"><span class="name">sbt</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="com.typesafe">typesafe</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager" visbl="pub" class="indented4 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="packager"></a><a id="packager:packager"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="index.html"><span class="name">packager</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.typesafe.sbt">sbt</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.archetypes" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="archetypes"></a><a id="archetypes:archetypes"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/archetypes/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="archetypes/index.html"><span class="name">archetypes</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.debian" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="debian"></a><a id="debian:debian"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/debian/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="debian/index.html"><span class="name">debian</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.docker" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="docker"></a><a id="docker:docker"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/docker/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="docker/index.html"><span class="name">docker</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.graalvmnativeimage" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="graalvmnativeimage"></a><a id="graalvmnativeimage:graalvmnativeimage"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/graalvmnativeimage/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="graalvmnativeimage/index.html"><span class="name">graalvmnativeimage</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.jdkpackager" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="jdkpackager"></a><a id="jdkpackager:jdkpackager"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/jdkpackager/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="jdkpackager/index.html"><span class="name">jdkpackager</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.linux" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="linux"></a><a id="linux:linux"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/linux/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="linux/index.html"><span class="name">linux</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.rpm" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="rpm"></a><a id="rpm:rpm"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/rpm/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="rpm/index.html"><span class="name">rpm</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.universal" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="universal"></a><a id="universal:universal"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/universal/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="universal/index.html"><span class="name">universal</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.validation" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="validation"></a><a id="validation:validation"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/validation/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="This package contains stanard validators that can be used by format and archetype plugins." href="validation/index.html"><span class="name">validation</span></a>
-      </span>
-      
-      <p class="shortcomment cmt">This package contains stanard validators that can be used by format and archetype plugins.</p><div class="fullcomment"><div class="comment cmt"><h4>validation</h4><p>This package contains stanard validators that can be used by format and archetype plugins.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.windows" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="windows"></a><a id="windows:windows"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/windows/index.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="windows/index.html"><span class="name">windows</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></dd></dl></div>
-    </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="Compat$.html" title=""></a>
-                        <a href="Compat$.html" title="">Compat</a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="Hashing$.html" title=""></a>
-                        <a href="Hashing$.html" title="">Hashing</a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="Keys$.html" title="This Keys object can be used for"></a>
-                        <a href="Keys$.html" title="This Keys object can be used for">Keys</a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="" title="A set of helper methods to simplify the writing of mappings"></a>
-                        <a href="" title="A set of helper methods to simplify the writing of mappings">MappingsHelper</a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="trait" href="NativePackagerKeys.html" title="General purpose keys for the native packager"></a>
-                        <a href="NativePackagerKeys.html" title="General purpose keys for the native packager">NativePackagerKeys</a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="SettingsHelper$.html" title=""></a>
-                        <a href="SettingsHelper$.html" title="">SettingsHelper</a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="Stager$.html" title=""></a>
-                        <a href="Stager$.html" title="">Stager</a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="chmod$.html" title="Setting the file permissions"></a>
-                        <a href="chmod$.html" title="Setting the file permissions">chmod</a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="permissions$.html" title="Converts a octal unix permission representation into a java PosiFilePermissions compatible string."></a>
-                        <a href="permissions$.html" title="Converts a octal unix permission representation into a java PosiFilePermissions compatible string.">permissions</a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="sourceDateEpoch$.html" title=""></a>
-                        <a href="sourceDateEpoch$.html" title="">sourceDateEpoch</a>
-                      </li>
-              </ul>
-            </div>
+      <section id="Inherited-types">
+       <div class="documentableList expand">
+        <div class="documentableList-expander">
+         <button class="icon-button show-content expand"></button>
+         <h4 class="groupHeader h200">Inherited types</h4>
+        </div>
+        <div class="documentableElement" id="FileMap-0" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">type </span></span><a href="MappingsHelper$.html#FileMap-0" t="n" class="documentableName ">FileMap</a> = <span data-unresolved-link="" t="t">File</span><span t="k"> =&gt; </span><span data-unresolved-link="" t="t">Option</span>[<span data-unresolved-link="" t="t">File</span>]
+           </div>
           </div>
-          <div id="content">
-            <body class="object value">
-      <div id="definition">
-        <div class="big-circle object">o</div>
-        <p id="owner"><a href="../../../index.html" class="extype" name="com">com</a>.<a href="../../index.html" class="extype" name="com.typesafe">typesafe</a>.<a href="../index.html" class="extype" name="com.typesafe.sbt">sbt</a>.<a href="index.html" class="extype" name="com.typesafe.sbt.packager">packager</a></p>
-        <h1>MappingsHelper<span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span></h1>
-        <h3><span class="morelinks"></span></h3>
-      </div>
-
-      <h4 id="signature" class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <span class="name">MappingsHelper</span><span class="result"> extends <span class="extype" name="sbt.io.Mapper">Mapper</span></span>
-      </span>
-      </h4>
-
-      
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A set of helper methods to simplify the writing of mappings</p></div><div class="toggleContainer block">
-          <span class="toggle">
-            Linear Supertypes
-          </span>
-          <div class="superTypes hiddenContent"><span class="extype" name="sbt.io.Mapper">Mapper</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
-        
-
-      <div id="mbrsel">
-        <div class="toggle"></div>
-        <div id="memberfilter">
-          <i class="material-icons arrow"></i>
-          <span class="input">
-            <input id="mbrsel-input" placeholder="Filter all members" type="text" accesskey="/" />
-          </span>
-          <i class="clear material-icons"></i>
-        </div>
-        <div id="filterby">
-          <div id="order">
-            <span class="filtertype">Ordering</span>
-            <ol>
-              
-              <li class="alpha in"><span>Alphabetic</span></li>
-              <li class="inherit out"><span>By Inheritance</span></li>
-            </ol>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="cover">
+             <div class="doc"></div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
           </div>
-          <div class="ancestors">
-                  <span class="filtertype">Inherited<br />
-                  </span>
-                  <ol id="linearization">
-                    <li class="in" name="com.typesafe.sbt.packager.MappingsHelper"><span>MappingsHelper</span></li><li class="in" name="sbt.io.Mapper"><span>Mapper</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
-                  </ol>
-                </div><div class="ancestors">
-              <span class="filtertype"></span>
-              <ol>
-                <li class="hideall out"><span>Hide All</span></li>
-                <li class="showall in"><span>Show All</span></li>
-              </ol>
-            </div>
-          <div id="visbl">
-              <span class="filtertype">Visibility</span>
-              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
-            </div>
+         </div>
         </div>
-      </div>
-
-      <div id="template">
-        <div id="allMembers">
-        
-
-        <div id="types" class="types members">
-              <h3>Type Members</h3>
-              <ol><li name="sbt.io.Mapper.FileMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="FileMap=java.io.File=&gt;Option[java.io.File]"></a><a id="FileMap:FileMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#FileMap=java.io.File=&gt;Option[java.io.File]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">FileMap</span><span class="result alias"> = (<span class="extype" name="java.io.File">File</span>) ⇒ <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="sbt.io.Mapper.PathMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="PathMap=java.io.File=&gt;Option[String]"></a><a id="PathMap:PathMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#PathMap=java.io.File=&gt;Option[String]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">PathMap</span><span class="result alias"> = (<span class="extype" name="java.io.File">File</span>) ⇒ <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li></ol>
-            </div>
-
-        
-
-        <div class="values members">
-              <h3>Value Members</h3>
-              <ol>
-                <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#!=(x$1:Any):Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="##():Int"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html###():Int" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#==(x$1:Any):Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="sbt.io.Mapper#abs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="abs:Mapper.this.FileMap"></a><a id="abs:FileMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#abs:Mapper.this.FileMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">abs</span><span class="result">: <a href="#FileMap=java.io.File=&gt;Option[java.io.File]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.FileMap">FileMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="sbt.io.Mapper#allSubpaths" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="allSubpaths(base:java.io.File):Traversable[(java.io.File,String)]"></a><a id="allSubpaths(File):Traversable[(File,String)]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#allSubpaths(base:java.io.File):Traversable[(java.io.File,String)]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">allSubpaths</span><span class="params">(<span name="base">base: <span class="extype" name="java.io.File">File</span></span>)</span><span class="result">: <span class="extype" name="scala.Traversable">Traversable</span>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="asInstanceOf[T0]:T0"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#asInstanceOf[T0]:T0" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="sbt.io.Mapper#basic" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="basic:Mapper.this.PathMap"></a><a id="basic:PathMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#basic:Mapper.this.PathMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">basic</span><span class="result">: <a href="#PathMap=java.io.File=&gt;Option[String]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.PathMap">PathMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="clone():Object"></a><a id="clone():AnyRef"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#clone():Object" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
-    </span>)</span>
-              
-                <span class="name">@native</span><span class="args">()</span>
-              
-        </dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.MappingsHelper#contentOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="contentOf(sourceDir:String):Seq[(sbt.File,String)]"></a><a id="contentOf(String):Seq[(sbt.File,String)]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#contentOf(sourceDir:String):Seq[(sbt.File,String)]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">contentOf</span><span class="params">(<span name="sourceDir">sourceDir: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
-      </span>
-      
-      <p class="shortcomment cmt">It lightens the build file if one wants to give a string instead of file.</p><div class="fullcomment"><div class="comment cmt"><p>It lightens the build file if one wants to give a string instead of file.
-</p></div><dl class="paramcmts block"><dt class="param">sourceDir</dt><dd class="cmt"><p>
-  as string representation</p></dd><dt>returns</dt><dd class="cmt"><p>
-  mappings</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>mappings in Universal ++= contentOf(<span class="lit">"extra"</span>)</pre></li></ol>
-            </div></dl></div>
-    </li><li name="sbt.io.Mapper#contentOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="contentOf(baseDirectory:java.io.File):Seq[(java.io.File,String)]"></a><a id="contentOf(File):Seq[(File,String)]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#contentOf(baseDirectory:java.io.File):Seq[(java.io.File,String)]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">contentOf</span><span class="params">(<span name="baseDirectory">baseDirectory: <span class="extype" name="java.io.File">File</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.MappingsHelper#directory" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="directory(sourceDir:String):Seq[(sbt.File,String)]"></a><a id="directory(String):Seq[(sbt.File,String)]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#directory(sourceDir:String):Seq[(sbt.File,String)]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">directory</span><span class="params">(<span name="sourceDir">sourceDir: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
-      </span>
-      
-      <p class="shortcomment cmt">It lightens the build file if one wants to give a string instead of file.</p><div class="fullcomment"><div class="comment cmt"><p>It lightens the build file if one wants to give a string instead of file.
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
-  mappings</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>mappings in Universal ++= directory(<span class="lit">"extra"</span>)</pre></li></ol>
-            </div></dl></div>
-    </li><li name="sbt.io.Mapper#directory" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="directory(baseDirectory:java.io.File):Seq[(java.io.File,String)]"></a><a id="directory(File):Seq[(File,String)]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#directory(baseDirectory:java.io.File):Seq[(java.io.File,String)]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">directory</span><span class="params">(<span name="baseDirectory">baseDirectory: <span class="extype" name="java.io.File">File</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#eq(x$1:AnyRef):Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#equals(x$1:Any):Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="sbt.io.Mapper#fail" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fail:Any=&gt;Nothing"></a><a id="fail:(Any)⇒Nothing"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#fail:Any=&gt;Nothing" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">fail</span><span class="result">: (<span class="extype" name="scala.Any">Any</span>) ⇒ <span class="extype" name="scala.Nothing">Nothing</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-        </dd></dl></div>
-    </li><li name="sbt.io.Mapper#flat" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="flat(newDirectory:java.io.File):Mapper.this.FileMap"></a><a id="flat(File):FileMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#flat(newDirectory:java.io.File):Mapper.this.FileMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">flat</span><span class="params">(<span name="newDirectory">newDirectory: <span class="extype" name="java.io.File">File</span></span>)</span><span class="result">: <a href="#FileMap=java.io.File=&gt;Option[java.io.File]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.FileMap">FileMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="sbt.io.Mapper#flat" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="flat:Mapper.this.PathMap"></a><a id="flat:PathMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#flat:Mapper.this.PathMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">flat</span><span class="result">: <a href="#PathMap=java.io.File=&gt;Option[String]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.PathMap">PathMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="sbt.io.Mapper#flatRebase" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="flatRebase(newBase:String):Mapper.this.PathMap"></a><a id="flatRebase(String):PathMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#flatRebase(newBase:String):Mapper.this.PathMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">flatRebase</span><span class="params">(<span name="newBase">newBase: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="#PathMap=java.io.File=&gt;Option[String]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.PathMap">PathMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.MappingsHelper#fromClasspath" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromClasspath(entries:Seq[sbt.Attributed[sbt.File]],target:String,includeArtifact:sbt.Artifact=&gt;Boolean,includeOnNoArtifact:Boolean):Seq[(sbt.File,String)]"></a><a id="fromClasspath(Seq[sbt.Attributed[sbt.File]],String,(sbt.Artifact)⇒Boolean,Boolean):Seq[(sbt.File,String)]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#fromClasspath(entries:Seq[sbt.Attributed[sbt.File]],target:String,includeArtifact:sbt.Artifact=&gt;Boolean,includeOnNoArtifact:Boolean):Seq[(sbt.File,String)]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">fromClasspath</span><span class="params">(<span name="entries">entries: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../sbt/index.html#Attributed[D]=sbt.internal.util.Attributed[D]" class="extmbr" name="sbt.Attributed">sbt.Attributed</a>[<a href="../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>]]</span>, <span name="target">target: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="includeArtifact">includeArtifact: (<a href="../../../../sbt/index.html#Artifact=sbt.librarymanagement.Artifact" class="extmbr" name="sbt.Artifact">sbt.Artifact</a>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="includeOnNoArtifact">includeOnNoArtifact: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Create mappings from your classpath.</p><div class="fullcomment"><div class="comment cmt"><p>Create mappings from your classpath. For example if you want to add additional dependencies, like test or model.
-You can also filter the artifacts that should be mapped to mappings.
-</p></div><dl class="paramcmts block"><dt class="param">entries</dt><dd class="cmt"><p>
-  from where mappings should be created from</p></dd><dt class="param">target</dt><dd class="cmt"><p>
-  folder, e.g. <code>model</code>. Must not end with a slash</p></dd><dt class="param">includeArtifact</dt><dd class="cmt"><p>
-  function to determine if an artifact should result in a mapping</p></dd><dt class="param">includeOnNoArtifact</dt><dd class="cmt"><p>
-  default is false. When there's no Artifact meta data remove it</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>
-  Filter all osgi bundles</p><pre>mappings in Universal ++= fromClasspath(
-   (managedClasspath in Runtime).value,
-   <span class="lit">"osgi"</span>,
-   artifact <span class="kw">=&gt;</span> artifact.`<span class="kw">type</span>` == <span class="lit">"bundle"</span>
-)</pre></li></ol>
-            </div></dl></div>
-    </li><li name="com.typesafe.sbt.packager.MappingsHelper#fromClasspath" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromClasspath(entries:Seq[sbt.Attributed[sbt.File]],target:String):Seq[(sbt.File,String)]"></a><a id="fromClasspath(Seq[sbt.Attributed[sbt.File]],String):Seq[(sbt.File,String)]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#fromClasspath(entries:Seq[sbt.Attributed[sbt.File]],target:String):Seq[(sbt.File,String)]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">fromClasspath</span><span class="params">(<span name="entries">entries: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../sbt/index.html#Attributed[D]=sbt.internal.util.Attributed[D]" class="extmbr" name="sbt.Attributed">sbt.Attributed</a>[<a href="../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>]]</span>, <span name="target">target: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Create mappings from your classpath.</p><div class="fullcomment"><div class="comment cmt"><p>Create mappings from your classpath. For example if you want to add additional dependencies, like test or model.
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
-  a list of mappings</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p>
-  Add all test artifacts to a separated test folder</p><pre>mappings in Universal ++= fromClasspath((managedClasspath in Test).value, target = <span class="lit">"test"</span>)</pre></li></ol>
-            </div></dl></div>
-    </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getClass():Class[_]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#getClass():Class[_]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
-                <span class="name">@native</span><span class="args">()</span>
-              
-        </dd></dl></div>
-    </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#hashCode():Int" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
-                <span class="name">@native</span><span class="args">()</span>
-              
-        </dd></dl></div>
-    </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="isInstanceOf[T0]:Boolean"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#isInstanceOf[T0]:Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#ne(x$1:AnyRef):Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="sbt.io.Mapper#normalizeBase" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="normalizeBase(base:String):String"></a><a id="normalizeBase(String):String"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#normalizeBase(base:String):String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">normalizeBase</span><span class="params">(<span name="base">base: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="notify():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#notify():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@native</span><span class="args">()</span>
-              
-        </dd></dl></div>
-    </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="notifyAll():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#notifyAll():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@native</span><span class="args">()</span>
-              
-        </dd></dl></div>
-    </li><li name="sbt.io.Mapper#rebase" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="rebase(oldBase:java.io.File,newBase:java.io.File):Mapper.this.FileMap"></a><a id="rebase(File,File):FileMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#rebase(oldBase:java.io.File,newBase:java.io.File):Mapper.this.FileMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">rebase</span><span class="params">(<span name="oldBase">oldBase: <span class="extype" name="java.io.File">File</span></span>, <span name="newBase">newBase: <span class="extype" name="java.io.File">File</span></span>)</span><span class="result">: <a href="#FileMap=java.io.File=&gt;Option[java.io.File]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.FileMap">FileMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="sbt.io.Mapper#rebase" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="rebase(oldBases:Iterable[java.io.File],newBase:java.io.File,zero:Mapper.this.FileMap):Mapper.this.FileMap"></a><a id="rebase(Iterable[File],File,FileMap):FileMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#rebase(oldBases:Iterable[java.io.File],newBase:java.io.File,zero:Mapper.this.FileMap):Mapper.this.FileMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">rebase</span><span class="params">(<span name="oldBases">oldBases: <span class="extype" name="scala.Iterable">Iterable</span>[<span class="extype" name="java.io.File">File</span>]</span>, <span name="newBase">newBase: <span class="extype" name="java.io.File">File</span></span>, <span name="zero">zero: <a href="#FileMap=java.io.File=&gt;Option[java.io.File]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.FileMap">FileMap</a></span>)</span><span class="result">: <a href="#FileMap=java.io.File=&gt;Option[java.io.File]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.FileMap">FileMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="sbt.io.Mapper#rebase" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="rebase(oldBase:java.io.File,newBase:String):Mapper.this.PathMap"></a><a id="rebase(File,String):PathMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#rebase(oldBase:java.io.File,newBase:String):Mapper.this.PathMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">rebase</span><span class="params">(<span name="oldBase">oldBase: <span class="extype" name="java.io.File">File</span></span>, <span name="newBase">newBase: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="#PathMap=java.io.File=&gt;Option[String]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.PathMap">PathMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="com.typesafe.sbt.packager.MappingsHelper#relative" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="relative(files:Seq[sbt.File],dirs:Seq[sbt.File]):Seq[(sbt.File,String)]"></a><a id="relative(Seq[sbt.File],Seq[sbt.File]):Seq[(sbt.File,String)]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#relative(files:Seq[sbt.File],dirs:Seq[sbt.File]):Seq[(sbt.File,String)]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">relative</span><span class="params">(<span name="files">files: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>]</span>, <span name="dirs">dirs: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../../../sbt/index.html#File=java.io.File" class="extmbr" name="sbt.File">sbt.File</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Get the mappings for the given files relative to the given directories.</p>
-    </li><li name="sbt.io.Mapper#relativeTo" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="relativeTo(bases:Iterable[java.io.File],zero:Mapper.this.PathMap):Mapper.this.PathMap"></a><a id="relativeTo(Iterable[File],PathMap):PathMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#relativeTo(bases:Iterable[java.io.File],zero:Mapper.this.PathMap):Mapper.this.PathMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">relativeTo</span><span class="params">(<span name="bases">bases: <span class="extype" name="scala.Iterable">Iterable</span>[<span class="extype" name="java.io.File">File</span>]</span>, <span name="zero">zero: <a href="#PathMap=java.io.File=&gt;Option[String]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.PathMap">PathMap</a></span>)</span><span class="result">: <a href="#PathMap=java.io.File=&gt;Option[String]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.PathMap">PathMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="sbt.io.Mapper#relativeTo" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="relativeTo(base:java.io.File):Mapper.this.PathMap"></a><a id="relativeTo(File):PathMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#relativeTo(base:java.io.File):Mapper.this.PathMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">relativeTo</span><span class="params">(<span name="base">base: <span class="extype" name="java.io.File">File</span></span>)</span><span class="result">: <a href="#PathMap=java.io.File=&gt;Option[String]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.PathMap">PathMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="sbt.io.Mapper#resolve" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="resolve(newDirectory:java.io.File):Mapper.this.FileMap"></a><a id="resolve(File):FileMap"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#resolve(newDirectory:java.io.File):Mapper.this.FileMap" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">resolve</span><span class="params">(<span name="newDirectory">newDirectory: <span class="extype" name="java.io.File">File</span></span>)</span><span class="result">: <a href="#FileMap=java.io.File=&gt;Option[java.io.File]" class="extmbr" name="com.typesafe.sbt.packager.MappingsHelper.FileMap">FileMap</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="sbt.io.Mapper#selectSubpaths" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="selectSubpaths(base:java.io.File,filter:sbt.io.FileFilter):Traversable[(java.io.File,String)]"></a><a id="selectSubpaths(File,FileFilter):Traversable[(File,String)]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#selectSubpaths(base:java.io.File,filter:sbt.io.FileFilter):Traversable[(java.io.File,String)]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">selectSubpaths</span><span class="params">(<span name="base">base: <span class="extype" name="java.io.File">File</span></span>, <span name="filter">filter: <span class="extype" name="sbt.io.FileFilter">FileFilter</span></span>)</span><span class="result">: <span class="extype" name="scala.Traversable">Traversable</span>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toString():String"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#toString():String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="sbt.io.Mapper#total" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="total[A,B](f:A=&gt;B):A=&gt;Some[B]"></a><a id="total[A,B]((A)⇒B):(A)⇒Some[B]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#total[A,B](f:A=&gt;B):A=&gt;Some[B]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">total</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="f">f: (<span class="extype" name="sbt.io.Mapper.total.A">A</span>) ⇒ <span class="extype" name="sbt.io.Mapper.total.B">B</span></span>)</span><span class="result">: (<span class="extype" name="sbt.io.Mapper.total.A">A</span>) ⇒ <span class="extype" name="scala.Some">Some</span>[<span class="extype" name="sbt.io.Mapper.total.B">B</span>]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="sbt.io.Mapper#transparent" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="transparent:Any=&gt;Option[Nothing]"></a><a id="transparent:(Any)⇒Option[Nothing]"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#transparent:Any=&gt;Option[Nothing]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">transparent</span><span class="result">: (<span class="extype" name="scala.Any">Any</span>) ⇒ <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Nothing">Nothing</span>]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Mapper</dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
-      <span class="permalink">
-      <a href="../../../../com/typesafe/sbt/packager/MappingsHelper$.html#wait(x$1:Long):Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-                <span class="name">@native</span><span class="args">()</span>
-              
-        </dd></dl></div>
-    </li>
-              </ol>
-            </div>
-
-        
-
-        
-        </div>
-
-        <div id="inheritedMembers">
-        <div class="parent" name="sbt.io.Mapper">
-              <h3>Inherited from <span class="extype" name="sbt.io.Mapper">Mapper</span></h3>
-            </div><div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
-            </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
-            </div>
-        
-        </div>
-
-        <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
-              
-            </div>
-        </div>
-
-      </div>
-
-      <div id="tooltip"></div>
-
-      <div id="footer">  </div>
-    </body>
+        <div class="documentableElement" id="PathMap-0" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">type </span></span><a href="MappingsHelper$.html#PathMap-0" t="n" class="documentableName ">PathMap</a> = <span data-unresolved-link="" t="t">File</span><span t="k"> =&gt; </span><span data-unresolved-link="" t="t">Option</span>[<span data-unresolved-link="" t="t">String</span>]
+           </div>
           </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="cover">
+             <div class="doc"></div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
         </div>
+       </div>
+      </section>
+     </div>
+    </section>
+    <section id="Value-members">
+     <div data-togglable="Value members" class="tab expand">
+      <div class="member-group-header">
+       <h3 data-togglable="Value members" class="h400">Value members</h3>
       </div>
-    </body>
-      </html>
+      <section id="Concrete-methods">
+       <div class="documentableList expand">
+        <div class="documentableList-expander">
+         <button class="icon-button show-content expand"></button>
+         <h4 class="groupHeader h200">Concrete methods</h4>
+        </div>
+        <div class="documentableElement" id="contentOf-1d0">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#contentOf-1d0" t="n" class="documentableName ">contentOf</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">sourceDir</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">File</span>, <span data-unresolved-link="" t="t">String</span>)]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>It lightens the build file if one wants to give a string instead of file.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>It lightens the build file if one wants to give a string instead of file.</p>
+             </div>
+             <h2 class="h200">Value parameters</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               sourceDir
+              </dt>
+              <dd class="body-medium">
+               <p>as string representation</p>
+              </dd>
+             </dl>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Returns
+              </dt>
+              <dd class="body-medium">
+               <p>mappings</p>
+              </dd>
+              <dt class="body-small">
+               Example
+              </dt>
+              <dd class="body-medium">
+               <div>
+                <div>
+                 <div class="snippet mono-small-block">
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings in Universal ++= contentOf("extra")
+</span></code></pre>
+                  <div class="buttons"></div>
+                 </div>
+                </div>
+               </div>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="contentOf-fffffe85">
+         <div class="documentableElement-expander">
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#contentOf-fffffe85" t="n" class="documentableName ">contentOf</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">sourceDir</span>: <span data-unresolved-link="" t="t">File</span>, <span t="k"></span><span data-unresolved-link="" t="n">conv0</span>: <span data-unresolved-link="" t="t">FileConverter</span>): <span data-unresolved-link="" t="t">Seq</span>[(<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>, <span data-unresolved-link="" t="t">String</span>)]
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="directory-1d0">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#directory-1d0" t="n" class="documentableName ">directory</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">sourceDir</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">File</span>, <span data-unresolved-link="" t="t">String</span>)]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>It lightens the build file if one wants to give a string instead of file.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>It lightens the build file if one wants to give a string instead of file.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Returns
+              </dt>
+              <dd class="body-medium">
+               <p>mappings</p>
+              </dd>
+              <dt class="body-small">
+               Example
+              </dt>
+              <dd class="body-medium">
+               <div>
+                <div>
+                 <div class="snippet mono-small-block">
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings in Universal ++= directory("extra")
+</span></code></pre>
+                  <div class="buttons"></div>
+                 </div>
+                </div>
+               </div>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="fromClasspath-8bb">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#fromClasspath-8bb" t="n" class="documentableName ">fromClasspath</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">entries</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">Attributed</span>[<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>]], <span t="k"></span><span data-unresolved-link="" t="n">target</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">Seq</span>[(<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>, <span data-unresolved-link="" t="t">String</span>)]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>Create mappings from your classpath. For example if you want to add additional dependencies, like test or model.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>Create mappings from your classpath. For example if you want to add additional dependencies, like test or model.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Returns
+              </dt>
+              <dd class="body-medium">
+               <p>a list of mappings</p>
+              </dd>
+              <dt class="body-small">
+               Example
+              </dt>
+              <dd class="body-medium">
+               <div>
+                <div>
+                 <p>Add all test artifacts to a separated test folder</p>
+                 <div class="snippet mono-small-block">
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings in Universal ++= fromClasspath((managedClasspath in Test).value, target = "test")
+</span></code></pre>
+                  <div class="buttons"></div>
+                 </div>
+                </div>
+               </div>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="fromClasspath-aea">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#fromClasspath-aea" t="n" class="documentableName ">fromClasspath</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">entries</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">Attributed</span>[<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>]], <span t="k"></span><span data-unresolved-link="" t="n">target</span>: <span data-unresolved-link="" t="t">String</span>, <span t="k"></span><span data-unresolved-link="" t="n">includeArtifact</span>: <a href="PluginCompat$.html#IncludeArtifact-0" t="t">IncludeArtifact</a>, <span t="k"></span><span data-unresolved-link="" t="n">includeOnNoArtifact</span>: <span data-unresolved-link="" t="t">Boolean</span>): <span data-unresolved-link="" t="t">Seq</span>[(<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>, <span data-unresolved-link="" t="t">String</span>)]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>Create mappings from your classpath. For example if you want to add additional dependencies, like test or model. You can also filter the artifacts that should be mapped to mappings.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>Create mappings from your classpath. For example if you want to add additional dependencies, like test or model. You can also filter the artifacts that should be mapped to mappings.</p>
+             </div>
+             <h2 class="h200">Value parameters</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               entries
+              </dt>
+              <dd class="body-medium">
+               <p>from where mappings should be created from</p>
+              </dd>
+              <dt class="body-small">
+               includeArtifact
+              </dt>
+              <dd class="body-medium">
+               <p>function to determine if an artifact should result in a mapping</p>
+              </dd>
+              <dt class="body-small">
+               includeOnNoArtifact
+              </dt>
+              <dd class="body-medium">
+               <p>default is false. When there's no Artifact meta data remove it</p>
+              </dd>
+              <dt class="body-small">
+               target
+              </dt>
+              <dd class="body-medium">
+               <p>folder, e.g. <code>model</code>. Must not end with a slash</p>
+              </dd>
+             </dl>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Example
+              </dt>
+              <dd class="body-medium">
+               <div>
+                <div>
+                 <p>Filter all osgi bundles</p>
+                 <div class="snippet mono-small-block">
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings in Universal ++= fromClasspath(
+</span><span line-number="2" class=""><span class="tooltip-container"></span>  (managedClasspath in Runtime).value,
+</span><span line-number="3" class=""><span class="tooltip-container"></span>  "osgi",
+</span><span line-number="4" class=""><span class="tooltip-container"></span>  artifact =&gt; artifact.`type` == "bundle"
+</span><span line-number="5" class=""><span class="tooltip-container"></span>)
+</span></code></pre>
+                  <div class="buttons"></div>
+                 </div>
+                </div>
+               </div>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="relative-fffff0c7">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#relative-fffff0c7" t="n" class="documentableName ">relative</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">files</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">File</span>], <span t="k"></span><span data-unresolved-link="" t="n">dirs</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">File</span>], <span t="k"></span><span data-unresolved-link="" t="n">conv0</span>: <span data-unresolved-link="" t="t">FileConverter</span>): <span data-unresolved-link="" t="t">Seq</span>[(<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>, <span data-unresolved-link="" t="t">String</span>)]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>Get the mappings for the given files relative to the given directories.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>Get the mappings for the given files relative to the given directories.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small"></dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </section>
+      <section id="Inherited-methods">
+       <div class="documentableList expand">
+        <div class="documentableList-expander">
+         <button class="icon-button show-content expand"></button>
+         <h4 class="groupHeader h200">Inherited methods</h4>
+        </div>
+        <div class="documentableElement" id="abs-0" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#abs-0" t="n" class="documentableName ">abs</a>: <span data-unresolved-link="" t="t">FileMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>Pairs a File with the absolute File obtained by calling <code>getAbsoluteFile</code>. Note that this usually means that relative files are resolved against the current working directory.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>Pairs a File with the absolute File obtained by calling <code>getAbsoluteFile</code>. Note that this usually means that relative files are resolved against the current working directory.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="allSubpaths-fffff2a2" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#allSubpaths-fffff2a2" t="n" class="documentableName ">allSubpaths</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">base</span>: <span data-unresolved-link="" t="t">File</span>): <span data-unresolved-link="" t="t">Iterable</span>[(<span data-unresolved-link="" t="t">File</span>, <span data-unresolved-link="" t="t">String</span>)]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>Selects all descendants of <code>base</code> directory and maps them to a path relative to <code>base</code>. <code>base</code> itself is not included.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>Selects all descendants of <code>base</code> directory and maps them to a path relative to <code>base</code>. <code>base</code> itself is not included.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="contentOf-fffff5c3" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#contentOf-fffff5c3" t="n" class="documentableName ">contentOf</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">baseDirectory</span>: <span data-unresolved-link="" t="t">File</span>): <span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">File</span>, <span data-unresolved-link="" t="t">String</span>)]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>return a Seq of mappings excluding the directory itself.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>return a Seq of mappings excluding the directory itself.</p>
+             </div>
+             <h2 class="h200">Value parameters</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               baseDirectory
+              </dt>
+              <dd class="body-medium">
+               <p>The directory that should be turned into a mappings sequence.</p>
+              </dd>
+             </dl>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Returns
+              </dt>
+              <dd class="body-medium">
+               <p>mappings - The <code>basicDirectory</code>'s contents exlcuding <code>basicDirectory</code> itself</p>
+              </dd>
+              <dt class="body-small">
+               Example
+              </dt>
+              <dd class="body-medium">
+               <div>
+                <div>
+                 <p>In order to create mappings for a static directory "extra" add</p>
+                 <div class="snippet mono-small-block">
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings ++= contentOf(baseDirectory.value / "extra")
+</span></code></pre>
+                  <div class="buttons"></div>
+                 </div>
+                 <p>The resulting mappings sequence will look something like this</p>
+                 <div class="snippet mono-small-block">
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>File(baseDirectory/extras/file1) -&gt; "file1"
+</span><span line-number="2" class=""><span class="tooltip-container"></span>File(baseDirectory/extras/file2) -&gt; "file2"
+</span><span line-number="3" class=""><span class="tooltip-container"></span>...
+</span></code></pre>
+                  <div class="buttons"></div>
+                 </div>
+                </div>
+                <div>
+                 <p>Add a static directory "extra" and re-map the destination to a different path</p>
+                 <div class="snippet mono-small-block">
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings ++= contentOf(baseDirectory.value / "extra").map {
+</span><span line-number="2" class=""><span class="tooltip-container"></span> case (src, destination) =&gt; src -&gt; s"new/path/destination"
+</span><span line-number="3" class=""><span class="tooltip-container"></span>}
+</span></code></pre>
+                  <div class="buttons"></div>
+                 </div>
+                </div>
+               </div>
+              </dd>
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="directory-fffff5c3" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#directory-fffff5c3" t="n" class="documentableName ">directory</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">baseDirectory</span>: <span data-unresolved-link="" t="t">File</span>): <span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">File</span>, <span data-unresolved-link="" t="t">String</span>)]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>return a Seq of mappings which effect is to add a whole directory in the generated package</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>return a Seq of mappings which effect is to add a whole directory in the generated package</p>
+             </div>
+             <h2 class="h200">Value parameters</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               baseDirectory
+              </dt>
+              <dd class="body-medium">
+               <p>The directory that should be turned into a mappings sequence.</p>
+              </dd>
+             </dl>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Returns
+              </dt>
+              <dd class="body-medium">
+               <p>mappings The <code>baseDirectory</code> and all of its contents</p>
+              </dd>
+              <dt class="body-small">
+               Example
+              </dt>
+              <dd class="body-medium">
+               <div>
+                <div>
+                 <p>In order to create mappings for a static directory "extra" add</p>
+                 <div class="snippet mono-small-block">
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings ++= directory(baseDirectory.value / "extra")
+</span></code></pre>
+                  <div class="buttons"></div>
+                 </div>
+                 <p>The resulting mappings sequence will look something like this</p>
+                 <div class="snippet mono-small-block">
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>File(baseDirectory/extras) -&gt; "extras"
+</span><span line-number="2" class=""><span class="tooltip-container"></span>File(baseDirectory/extras/file1) -&gt; "extras/file1"
+</span><span line-number="3" class=""><span class="tooltip-container"></span>File(baseDirectory/extras/file2) -&gt; "extras/file2"
+</span><span line-number="4" class=""><span class="tooltip-container"></span>...
+</span></code></pre>
+                  <div class="buttons"></div>
+                 </div>
+                </div>
+               </div>
+              </dd>
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="fail-0" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#fail-0" t="n" class="documentableName ">fail</a>: <span data-unresolved-link="" t="t">Any</span><span t="k"> =&gt; </span><span data-unresolved-link="" t="t">Nothing</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>A mapper that throws an exception for any input. This is useful as the last mapper in a pipeline to ensure every input gets mapped.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>A mapper that throws an exception for any input. This is useful as the last mapper in a pipeline to ensure every input gets mapped.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="flat-bf9" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#flat-bf9" t="n" class="documentableName ">flat</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">newDirectory</span>: <span data-unresolved-link="" t="t">File</span>): <span data-unresolved-link="" t="t">FileMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>Constructs a FileMap that pairs a file with a file with the same name in <code>newDirectory</code>. For example, if <code>newDirectory</code> is <code>/a/b</code>, then <code>/r/s/t/d.txt</code> will be paired with <code>/a/b/d.txt</code></p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>Constructs a FileMap that pairs a file with a file with the same name in <code>newDirectory</code>. For example, if <code>newDirectory</code> is <code>/a/b</code>, then <code>/r/s/t/d.txt</code> will be paired with <code>/a/b/d.txt</code></p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="flatRebase-78c" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#flatRebase-78c" t="n" class="documentableName ">flatRebase</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">newBase</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">PathMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>A path mapper that pairs a File with a path constructed from <code>newBase</code> and the file's name. For example, if <code>newBase = /new/a/</code>, then <code>/old/x/z.txt</code> gets paired with <code>/new/a/z.txt</code>.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>A path mapper that pairs a File with a path constructed from <code>newBase</code> and the file's name. For example, if <code>newBase = /new/a/</code>, then <code>/old/x/z.txt</code> gets paired with <code>/new/a/z.txt</code>.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="normalizeBase-fffff2ca" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#normalizeBase-fffff2ca" t="n" class="documentableName ">normalizeBase</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">base</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">String</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="cover">
+             <div class="doc"></div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="rebase-fffff761" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#rebase-fffff761" t="n" class="documentableName ">rebase</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">oldBase</span>: <span data-unresolved-link="" t="t">File</span>, <span t="k"></span><span data-unresolved-link="" t="n">newBase</span>: <span data-unresolved-link="" t="t">File</span>): <span data-unresolved-link="" t="t">FileMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>Produces a File mapper that pairs a descendant of <code>oldBase</code> with a file in <code>newBase</code> that preserving the relative path of the original file against <code>oldBase</code>. For example, if <code>oldBase</code> is <code>/old/x/</code> and <code>newBase</code> is <code>/new/a/</code>, <code>/old/x/y/z.txt</code> gets paired with <code>/new/a/y/z.txt</code>.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>Produces a File mapper that pairs a descendant of <code>oldBase</code> with a file in <code>newBase</code> that preserving the relative path of the original file against <code>oldBase</code>. For example, if <code>oldBase</code> is <code>/old/x/</code> and <code>newBase</code> is <code>/new/a/</code>, <code>/old/x/y/z.txt</code> gets paired with <code>/new/a/y/z.txt</code>.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="rebase-fffffc32" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#rebase-fffffc32" t="n" class="documentableName ">rebase</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">oldBases</span>: <span data-unresolved-link="" t="t">Iterable</span>[<span data-unresolved-link="" t="t">File</span>], <span t="k"></span><span data-unresolved-link="" t="n">newBase</span>: <span data-unresolved-link="" t="t">File</span>, <span t="k"></span><span data-unresolved-link="" t="n">zero</span>: <span data-unresolved-link="" t="t">FileMap</span>): <span data-unresolved-link="" t="t">FileMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="cover">
+             <div class="doc"></div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="rebase-ef4" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#rebase-ef4" t="n" class="documentableName ">rebase</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">oldBase</span>: <span data-unresolved-link="" t="t">File</span>, <span t="k"></span><span data-unresolved-link="" t="n">newBase</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">PathMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>A path mapper that pairs a descendent of <code>oldBase</code> with <code>newBase</code> prepended to the path relative to <code>oldBase</code>. For example, if <code>oldBase = /old/x/</code> and <code>newBase = new/a/</code>, then <code>/old/x/y/z.txt</code> gets paired with <code>new/a/y/z.txt</code>.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>A path mapper that pairs a descendent of <code>oldBase</code> with <code>newBase</code> prepended to the path relative to <code>oldBase</code>. For example, if <code>oldBase = /old/x/</code> and <code>newBase = new/a/</code>, then <code>/old/x/y/z.txt</code> gets paired with <code>new/a/y/z.txt</code>.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="relativeTo-fffff79a" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#relativeTo-fffff79a" t="n" class="documentableName ">relativeTo</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">bases</span>: <span data-unresolved-link="" t="t">Iterable</span>[<span data-unresolved-link="" t="t">File</span>], <span t="k"></span><span data-unresolved-link="" t="n">zero</span>: <span data-unresolved-link="" t="t">PathMap</span>): <span data-unresolved-link="" t="t">PathMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="cover">
+             <div class="doc"></div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="relativeTo-bf9" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#relativeTo-bf9" t="n" class="documentableName ">relativeTo</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">base</span>: <span data-unresolved-link="" t="t">File</span>): <span data-unresolved-link="" t="t">PathMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>A path mapper that pairs a File with its path relative to <code>base</code>. If the File is not a descendant of <code>base</code>, it is not handled (None is returned by the mapper).</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>A path mapper that pairs a File with its path relative to <code>base</code>. If the File is not a descendant of <code>base</code>, it is not handled (None is returned by the mapper).</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="resolve-bf9" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#resolve-bf9" t="n" class="documentableName ">resolve</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">newDirectory</span>: <span data-unresolved-link="" t="t">File</span>): <span data-unresolved-link="" t="t">FileMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>Returns a FileMap that resolves a relative File against <code>newDirectory</code> and pairs the original File with the resolved File. The mapper ignores absolute files.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>Returns a FileMap that resolves a relative File against <code>newDirectory</code> and pairs the original File with the resolved File. The mapper ignores absolute files.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="selectSubpaths-fffff45f" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#selectSubpaths-fffff45f" t="n" class="documentableName ">selectSubpaths</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">base</span>: <span data-unresolved-link="" t="t">File</span>, <span t="k"></span><span data-unresolved-link="" t="n">filter</span>: <span data-unresolved-link="" t="t">FileFilter</span>): <span data-unresolved-link="" t="t">Iterable</span>[(<span data-unresolved-link="" t="t">File</span>, <span data-unresolved-link="" t="t">String</span>)]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>Selects descendants of <code>base</code> directory matching <code>filter</code> and maps them to a path relative to <code>base</code>. <code>base</code> itself is not included.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>Selects descendants of <code>base</code> directory matching <code>filter</code> and maps them to a path relative to <code>base</code>. <code>base</code> itself is not included.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="total-892" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#total-892" t="n" class="documentableName ">total</a>[<span t="k"></span><span data-unresolved-link="" t="t">A</span>, <span t="k"></span><span data-unresolved-link="" t="t">B</span>](<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">f</span>: <span t="t">A</span><span t="k"> =&gt; </span><span t="t">B</span>): <span data-unresolved-link="" t="t">A</span><span t="k"> =&gt; </span><span data-unresolved-link="" t="t">Some</span>[<span data-unresolved-link="" t="t">B</span>]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>A mapper that is defined on all inputs by the function <code>f</code>.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>A mapper that is defined on all inputs by the function <code>f</code>.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="transparent-0" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#transparent-0" t="n" class="documentableName ">transparent</a>: <span data-unresolved-link="" t="t">Any</span><span t="k"> =&gt; </span><span data-unresolved-link="" t="t">Option</span>[<span data-unresolved-link="" t="t">Nothing</span>]
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>A mapper that ignores all inputs.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>A mapper that ignores all inputs.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </section>
+      <section id="Inherited-fields">
+       <div class="documentableList expand">
+        <div class="documentableList-expander">
+         <button class="icon-button show-content expand"></button>
+         <h4 class="groupHeader h200">Inherited fields</h4>
+        </div>
+        <div class="documentableElement" id="basic-0" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">val </span></span><a href="MappingsHelper$.html#basic-0" t="n" class="documentableName ">basic</a>: <span data-unresolved-link="" t="t">PathMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>A path mapper that pairs a File with the path returned by calling <code>getPath</code> on it.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>A path mapper that pairs a File with the path returned by calling <code>getPath</code> on it.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="flat-0" data-f-inherited="Mapper">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">val </span></span><a href="MappingsHelper$.html#flat-0" t="n" class="documentableName ">flat</a>: <span data-unresolved-link="" t="t">PathMap</span>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>A path mapper that pairs a File with its name. For example, <code>/x/y/z.txt</code> gets paired with <code>z.txt</code>.</p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>A path mapper that pairs a File with its name. For example, <code>/x/y/z.txt</code> gets paired with <code>z.txt</code>.</p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <span data-unresolved-link="">Mapper</span>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </section>
+     </div>
+    </section>
+   </div>
+  </div>
+ </div>
+</section></div><div id="toc" class="body-small"><div id="toc-container"><span class="toc-title h200">In this article</span><nav class="toc-nav"><ul class="toc-list"><li><a href="#attributes">Attributes</a></li><li><a href="#members-list">Members list</a><ul><li><a href="#Type-members">Type members</a><ul><li><a href="#Inherited-types">Inherited types</a></li></ul></li><li><a href="#Value-members">Value members</a><ul><li><a href="#Concrete-methods">Concrete methods</a></li><li><a href="#Inherited-methods">Inherited methods</a></li><li><a href="#Inherited-fields">Inherited fields</a></li></ul></li></ul></li></ul></nav></div></div></div><div id="footer" class="body-small mobile-footer"><div class="left-container">Generated with</div><div class="right-container"><div class="text"></div></div><div class="text-mobile"></div></div></div></div></body></html>

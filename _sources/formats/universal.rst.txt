@@ -391,7 +391,7 @@ If you want to add everything in a directory where the path for the directory is
 
 .. code-block:: scala
 
-    (Universal / mappings) ~= (_ ++ directory(target.value / "scala-2.10" / "api"))
+    Universal / mappings ~= (_ ++ directory(target.value / "scala-2.10" / "api"))
 
 
 
@@ -399,7 +399,7 @@ You can also use the following approach if, for example, you need more flexibili
 
 .. code-block:: scala
 
-    (Universal / mappings) ++= {
+    Universal / mappings ++= {
         val dir = target.value / "scala-2.10" / "api"
         (dir ** AllPassFilter) pair relativeTo(dir.getParentFile)
     }
