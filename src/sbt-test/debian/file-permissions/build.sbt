@@ -11,4 +11,6 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-linuxPackageMappings += packageMapping(((resourceDirectory in Compile).value / "sudoers.d", "/etc/sudoers.d")) withPerms ("0440") asDocs ()
+linuxPackageMappings += packageMapping(
+  ((Compile / resourceDirectory).value / "sudoers.d", "/etc/sudoers.d")
+).withPerms("0440").asDocs()

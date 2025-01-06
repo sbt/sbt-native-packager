@@ -1,10 +1,10 @@
 enablePlugins(JavaServerAppPackaging, UpstartPlugin)
 
 // TODO change this after #437 is fixed
-daemonUser in Linux := "root"
-daemonGroup in Linux := "app-group"
+Linux / daemonUser := "root"
+Linux / daemonGroup := "app-group"
 
-mainClass in Compile := Some("empty")
+Compile / mainClass := Some("empty")
 
 name := "debian-test"
 version := "0.1.0"
@@ -55,15 +55,21 @@ TaskKey[Unit]("checkStartupScript") := {
 
 TaskKey[Unit]("checkAutostart") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "DEBIAN" / "postinst")
-  assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
+  assert(
+    script.contains("""addService debian-test || echo "debian-test could not be registered"
       |startService debian-test || echo "debian-test could not be started"
-      |""".stripMargin), "addService, startService post install commands missing or incorrect")
+      |""".stripMargin),
+    "addService, startService post install commands missing or incorrect"
+  )
   ()
 }
 
 TaskKey[Unit]("checkNoAutostart") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "DEBIAN" / "postinst")
-  assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
-      |""".stripMargin), "addService post install commands missing or incorrect")
+  assert(
+    script.contains("""addService debian-test || echo "debian-test could not be registered"
+      |""".stripMargin),
+    "addService post install commands missing or incorrect"
+  )
   ()
 }

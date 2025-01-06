@@ -5,4 +5,4 @@ set -euo pipefail
 IFS=$'\n\t'
 
 sbt --warn update compile
-sbt 'rpm:packageBin'
+sbt 'Rpm/packageBin'

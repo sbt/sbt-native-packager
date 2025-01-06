@@ -3,8 +3,10 @@ package com.typesafe.sbt.packager.archetypes.scripts
 import java.io.File
 import java.net.URL
 
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
-import sbt._
+import sbt.{*, given}
+import xsbti.FileConverter
 
 trait CommonStartScriptGenerator {
 
@@ -51,6 +53,7 @@ trait CommonStartScriptGenerator {
     val scriptClasspath: Seq[String]
     val replacements: Seq[(String, String)]
     val templateLocation: File
+    val forwarderTemplateLocation: Option[File]
 
     def withScriptName(scriptName: String): SpecializedScriptConfig
   }
@@ -66,27 +69,29 @@ trait CommonStartScriptGenerator {
     mainClass: Option[String],
     discoveredMainClasses: Seq[String],
     targetDir: File,
+    conv: FileConverter,
     log: sbt.Logger
-  ): Seq[(File, String)] =
+  ): Seq[(PluginCompat.FileRef, String)] =
     StartScriptMainClassConfig.from(mainClass, discoveredMainClasses) match {
       case NoMain =>
         log.warn("You have no main class in your project. No start script will be generated.")
         Seq.empty
       case SingleMain(main) =>
-        Seq(createMainScript(main, config, targetDir, Seq(main)))
+        Seq(createMainScript(main, config, targetDir, Seq(main), conv))
       case MultipleMains(mains) =>
-        generateMainScripts(mains, config, targetDir, log)
+        generateMainScripts(mains, config, targetDir, conv, log)
       case ExplicitMainWithAdditional(main, additional) =>
-        createMainScript(main, config, targetDir, discoveredMainClasses) +:
-          createForwarderScripts(config.executableScriptName, additional, targetDir, config, log)
+        createMainScript(main, config, targetDir, discoveredMainClasses, conv) +:
+          createForwarderScripts(config.executableScriptName, additional, targetDir, config, conv, log)
     }
 
   private[this] def generateMainScripts(
     discoveredMainClasses: Seq[String],
     config: SpecializedScriptConfig,
     targetDir: File,
+    conv: FileConverter,
     log: sbt.Logger
-  ): Seq[(File, String)] = {
+  ): Seq[(PluginCompat.FileRef, String)] = {
     val classAndScriptNames = ScriptUtils.createScriptNames(discoveredMainClasses)
     ScriptUtils.warnOnScriptNameCollision(classAndScriptNames, log)
 
@@ -100,7 +105,7 @@ trait CommonStartScriptGenerator {
       ) // empty string to enforce the custom class in scripts
       .map { case (qualifiedClassName, scriptName) =>
         val newConfig = config.withScriptName(scriptName)
-        createMainScript(qualifiedClassName, newConfig, targetDir, discoveredMainClasses)
+        createMainScript(qualifiedClassName, newConfig, targetDir, discoveredMainClasses, conv)
       }
   }
 
@@ -121,8 +126,10 @@ trait CommonStartScriptGenerator {
     mainClass: String,
     config: SpecializedScriptConfig,
     targetDir: File,
-    mainClasses: Seq[String]
-  ): (File, String) = {
+    mainClasses: Seq[String],
+    conv0: FileConverter
+  ): (PluginCompat.FileRef, String) = {
+    implicit val conv: FileConverter = conv0
     val template = resolveTemplate(config.templateLocation)
     val replacements = createReplacementsForMainScript(mainClass, mainClasses, config)
     val scriptContent = TemplateWriter.generateScript(template, replacements, eol, keySurround)
@@ -132,22 +139,26 @@ trait CommonStartScriptGenerator {
     IO.write(script, scriptContent)
     // TODO - Better control over this!
     script.setExecutable(executableBitValue)
-    script -> s"$scriptTargetFolder/$scriptNameWithSuffix"
+    val scriptRef = PluginCompat.toFileRef(script)
+    scriptRef -> s"$scriptTargetFolder/$scriptNameWithSuffix"
   }
 
-  private[this] def resolveTemplate(defaultTemplateLocation: File): URL =
-    if (defaultTemplateLocation.exists) defaultTemplateLocation.toURI.toURL
-    else getClass.getResource(defaultTemplateLocation.getName)
+  private[this] def resolveTemplate(templateLocation: File): URL =
+    if (templateLocation.exists) templateLocation.toURI.toURL
+    else getClass.getResource(templateLocation.getName)
 
   private[this] def createForwarderScripts(
     executableScriptName: String,
     discoveredMainClasses: Seq[String],
     targetDir: File,
     config: ScriptConfig,
+    conv0: FileConverter,
     log: sbt.Logger
-  ): Seq[(File, String)] = {
+  ): Seq[(PluginCompat.FileRef, String)] = {
+    implicit val conv: FileConverter = conv0
     val tmp = targetDir / scriptTargetFolder
-    val forwarderTemplate = getClass.getResource(forwarderTemplateName)
+    val forwarderTemplate =
+      config.forwarderTemplateLocation.map(resolveTemplate).getOrElse(getClass.getResource(forwarderTemplateName))
     val classAndScriptNames = ScriptUtils.createScriptNames(discoveredMainClasses)
     ScriptUtils.warnOnScriptNameCollision(classAndScriptNames :+ ("<main script>" -> mainScriptName(config)), log)
     classAndScriptNames.map { case (qualifiedClassName, scriptNameWithoutSuffix) =>
@@ -159,7 +170,8 @@ trait CommonStartScriptGenerator {
 
       IO.write(file, scriptContent)
       file.setExecutable(executableBitValue)
-      file -> s"$scriptTargetFolder/$scriptName"
+      val fileRef = PluginCompat.toFileRef(file)
+      fileRef -> s"$scriptTargetFolder/$scriptName"
     }
   }
 }

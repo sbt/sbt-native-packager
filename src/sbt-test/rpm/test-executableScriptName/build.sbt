@@ -1,4 +1,6 @@
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.PluginCompat
+import xsbti.FileConverter
 
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
@@ -40,17 +42,15 @@ TaskKey[Unit]("checkSpecFile") := {
 }
 
 TaskKey[Unit]("unzip") := {
-  val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
+  implicit val converter: FileConverter = fileConverter.value
+  val rpmPath = Seq(PluginCompat.toFile((Rpm / packageBin).value).getAbsolutePath)
   sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
   ()
 }
 
 TaskKey[Unit]("checkStartupScript") := {
   val script = IO.read(file("etc/init.d/rpm-test"))
-  assert(
-    script contains "rpm-exec",
-    "SystemV script didn't contain correct executable filename 'rpm-exec' \n" + script
-  )
+  assert(script contains "rpm-exec", "SystemV script didn't contain correct executable filename 'rpm-exec' \n" + script)
   assert(
     script contains """RUN_CMD="$exec >> /var/log/rpm-test/$logfile 2>&1 &"""",
     "SystemV script didn't contain default daemon log filename 'rpm-test.log' \n" + script

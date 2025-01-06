@@ -1,6 +1,6 @@
 # Ensure we can publish to local file system.
-> universal:publish
+> Universal/publish
 # Ensure isSnpashot works correctly
-> universal:publish
+> Universal/publish
 # Ensure we can publish to local maven repository.
-> universal:publishM2
+> Universal/publishM2

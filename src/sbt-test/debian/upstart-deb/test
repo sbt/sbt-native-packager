@@ -1,14 +1,17 @@
-# Run the debian packaging.
-> debian:packageBin
-$ exists target/debian-test_0.1.0_all.deb
+# Workaround: set target folder to what it was in sbt 1.x because with sbt 2.x and project matrix target is target/out/jvm/scala-3.3.3/
+> set target := baseDirectory.value / "target"
 
-$ exists target/debian-test-0.1.0/etc
-$ exists target/debian-test-0.1.0/etc/default/debian-test
-$ exists target/debian-test-0.1.0/etc/init/debian-test.conf
+# Run the debian packaging.
+> Debian/packageBin
+$ exists target/**/debian-test_0.1.0_all.deb
+
+$ exists target/**/debian-test-0.1.0/etc
+$ exists target/**/debian-test-0.1.0/etc/default/debian-test
+$ exists target/**/debian-test-0.1.0/etc/init/debian-test.conf
 
 # Check defaults
-$ exists target/debian-test-0.1.0/DEBIAN/prerm
-$ exists target/debian-test-0.1.0/DEBIAN/postinst
+$ exists target/**/debian-test-0.1.0/DEBIAN/prerm
+$ exists target/**/debian-test-0.1.0/DEBIAN/postinst
 
 # Check files for defaults
 > checkControlFiles
@@ -20,5 +23,5 @@ $ exists target/debian-test-0.1.0/DEBIAN/postinst
 # Test that serviceAutostart can be disabled
 
 > set every NativePackagerKeys.serviceAutostart := false
-> debian:packageBin
+> Debian/packageBin
 > checkNoAutostart

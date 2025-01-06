@@ -3,15 +3,17 @@ package jlink
 
 import scala.collection.immutable
 import scala.sys.process.{BasicIO, Process, ProcessBuilder}
-import sbt._
-import sbt.Keys._
+import sbt.{*, given}
+import sbt.Keys.*
 import com.typesafe.sbt.SbtNativePackager.{Debian, Universal}
 import com.typesafe.sbt.packager.Keys.{bundledJvmLocation, packageName}
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.archetypes.jlink._
 import com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptKeys
 import com.typesafe.sbt.packager.universal.UniversalPlugin
 import java.io.File
+import xsbti.FileConverter
 
 /**
   * ==Jlink Application==
@@ -51,10 +53,13 @@ object JlinkPlugin extends AutoPlugin {
     jlinkBuildImage / fullClasspath := (Compile / fullClasspath).value,
     jlinkModules := (jlinkModules ?? Nil).value,
     jlinkModules ++= {
+      val conv0 = fileConverter.value
+      implicit val conv: FileConverter = conv0
       val log = streams.value.log
       val javaHome0 = (jlinkBuildImage / javaHome).value.getOrElse(defaultJavaHome)
       val run = runJavaTool(javaHome0, log) _
-      val paths = (jlinkBuildImage / fullClasspath).value.map(_.data.getPath)
+      val paths =
+        (jlinkBuildImage / fullClasspath).value.map(PluginCompat.toNioPath).map(_.toString())
       val modulePath = (jlinkModules / jlinkModulePath).value
       val shouldIgnore = jlinkIgnoreMissingDependency.value
 
@@ -164,12 +169,15 @@ object JlinkPlugin extends AutoPlugin {
       outDir
     },
     jlinkBuildImage / mappings := {
+      val conv0 = fileConverter.value
+      implicit val conv: FileConverter = conv0
       val prefix = jlinkBundledJvmLocation.value
       // make sure the prefix has a terminating slash
       val prefix0 = if (prefix.isEmpty) prefix else prefix + "/"
 
       findFiles(jlinkBuildImage.value).map { case (file, string) =>
-        (file, prefix0 + string)
+        val ref = PluginCompat.toFileRef(file)
+        (ref, prefix0 + string)
       }
     },
     Universal / mappings ++= (jlinkBuildImage / mappings).value
@@ -256,7 +264,7 @@ object JlinkPlugin extends AutoPlugin {
     source: PackageDependency.Source
   )
 
-  private[jlink] final object PackageDependency {
+  private[jlink] object PackageDependency {
 
     implicit object PackageDependencyOrdering extends Ordering[PackageDependency] {
       override def compare(x: PackageDependency, y: PackageDependency): Int = {

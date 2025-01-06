@@ -21,9 +21,9 @@ object Validation {
     *   Usually a validator is a function that captures some setting or task value, e.g.
     *   {{{
     *   validatePackageValidators += {
-    *     val universalMappings = (mappings in Universal).value
+    *     val universalMappings = (Universal / mappings).value
     *     () => {
-    *       if (universalMappings.isEmpty) List(ValidationError(...)) else List.empt
+    *       if (universalMappings.isEmpty) List(ValidationError(...)) else List.empty
     *     }
     *   }
     *   }}}

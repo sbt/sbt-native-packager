@@ -1,8 +1,10 @@
 package com.typesafe.sbt.packager.docker
 
 import org.scalatest._
+import org.scalatest.diagrams.Diagrams
+import org.scalatest.flatspec.AnyFlatSpec
 
-class DockerVersionSpec extends FlatSpec with DiagrammedAssertions {
+class DockerVersionSpec extends AnyFlatSpec with Diagrams {
   "DockerVersion" should "parse 18.09.2" in {
     val v = DockerVersion.parse("18.09.2")
     assert(v == Some(DockerVersion(18, 9, 2, None)))

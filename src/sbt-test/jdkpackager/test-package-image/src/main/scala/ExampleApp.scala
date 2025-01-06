@@ -12,9 +12,8 @@ import scala.collection.JavaConversions._
 
 /** Silly GUI app launcher. */
 object ExampleApp {
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit =
     Application.launch(classOf[ExampleApp], args: _*)
-  }
 }
 
 /** Silly GUI app. */
@@ -27,12 +26,9 @@ class ExampleApp extends Application {
       win.initOwner(stage)
 
       val args = getParameters.getRaw.mkString("\n")
-      val props = sys.props.toSeq.sortBy(_._1).map(p⇒s"${p._1}=${p._2}").mkString("\n")
+      val props = sys.props.toSeq.sortBy(_._1).map(p => s"${p._1}=${p._2}").mkString("\n")
 
-      val content = new TextArea(Seq(
-      "## Application Arguments", args,
-      "## System Properties", props
-      ).mkString("\n"))
+      val content = new TextArea(Seq("## Application Arguments", args, "## System Properties", props).mkString("\n"))
       content.setPrefHeight(400)
       win.setScene(new Scene(content))
       win.sizeToScene()
@@ -63,4 +59,3 @@ class ExampleApp extends Application {
     primaryStage.show()
   }
 }
-

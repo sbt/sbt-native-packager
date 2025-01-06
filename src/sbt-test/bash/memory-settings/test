@@ -1,5 +1,5 @@
 # Run the staging and check the script.
 > stage
-$ exists target/universal/stage/conf/application.ini
+$ exists target/**/universal/stage/conf/application.ini
 > jvmoptsCheck
 > runCheck

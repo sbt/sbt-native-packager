@@ -1,12 +1,12 @@
 enablePlugins(JavaServerAppPackaging, UpstartPlugin)
 
-daemonUser in Debian := "root"
+Debian / daemonUser := "root"
 
-mainClass in Compile := Some("empty")
+Compile / mainClass := Some("empty")
 
 name := "debian-test"
 
-name in Debian := "debian-test"
+Debian / name := "debian-test"
 
 version := "0.1.0"
 
@@ -14,9 +14,9 @@ maintainer := "Josh Suereth <joshua.suereth@typesafe.com>"
 
 packageSummary := "Test debian package"
 
-requiredStartFacilities in Debian := Some("[networking]")
+Debian / requiredStartFacilities := Some("[networking]")
 
-requiredStopFacilities in Debian := Some("[networking]")
+Debian / requiredStopFacilities := Some("[networking]")
 
 packageDescription := """A fun package description of our software,
   with multiple lines."""

@@ -1,4 +1,4 @@
-lazy val packager =  ProjectRef(file("../.."), "sbt-native-packager")
+lazy val packager = ProjectRef(file("../.."), "sbt-native-packager")
 dependsOn(packager)
 
 // needs to be added for the docker spotify client

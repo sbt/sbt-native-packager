@@ -1,7 +1,7 @@
 # Run the debian packaging.
-> rpm:packageBin
-$ exists target/rpm/RPMS/noarch/rpm-package-0.1.0-1.noarch.rpm
-$ exists target/rpm/SPECS/rpm-package.spec
+> Rpm/packageBin
+$ exists target/**/rpm/RPMS/noarch/rpm-package-0.1.0-1.noarch.rpm
+$ exists target/**/rpm/SPECS/rpm-package.spec
 
 # Check files for defaults
 > checkSpecFile

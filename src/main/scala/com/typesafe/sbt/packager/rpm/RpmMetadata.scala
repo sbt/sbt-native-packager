@@ -7,6 +7,8 @@ import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, 
 import com.typesafe.sbt.packager.rpm.RpmPlugin.Names._
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import java.io.File
+import java.nio.file.Files
+import xsbti.FileConverter
 
 case class RpmMetadata(
   name: String,
@@ -152,14 +154,14 @@ case class RpmSpec(
     // format: off
     val emptyValidators =
       Seq(
-        ensureOr(meta.name, "`name in Rpm` is empty.  Please provide one.", isNonEmpty),
-        ensureOr(meta.version, "`version in Rpm` is empty.  Please provide a valid version for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.name, "`Rpm / name` is empty.  Please provide one.", isNonEmpty),
+        ensureOr(meta.version, "`Rpm / version` is empty.  Please provide a valid version for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.release, "`rpmRelease` is empty.  Please provide a valid release number for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.arch, "`packageArchitecture in Rpm` is empty.  Please provide a valid architecture for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.arch, "`Rpm / packageArchitecture` is empty.  Please provide a valid architecture for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.vendor, "`rpmVendor` is empty.  Please provide a valid vendor for the rpm SPEC.", isNonEmpty),
         ensureOr(meta.os, "`rpmOs` is empty.  Please provide a valid os value for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.summary, "`packageSummary in Rpm` is empty.  Please provide a valid summary for the rpm SPEC.", isNonEmpty),
-        ensureOr(meta.description, "`packageDescription in Rpm` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty)
+        ensureOr(meta.summary, "`Rpm / packageSummary` is empty.  Please provide a valid summary for the rpm SPEC.", isNonEmpty),
+        ensureOr(meta.description, "`Rpm / packageDescription` is empty.  Please provide a valid description for the rpm SPEC.", isNonEmpty)
       )
     // format: on
     // TODO - Continue validating after this point?
@@ -198,14 +200,14 @@ case class RpmSpec(
     sb.toString
   }
 
-  private[this] def fileSection: String = {
+  private[this] def fileSection(implicit conv: FileConverter): String = {
     val sb = new StringBuilder
     sb append "\n%files\n"
     // TODO - default attribute string.
     for {
       mapping <- mappings
       (file, dest) <- mapping.mappings
-    } sb append makeFilesLine(dest, mapping.fileData, file.isDirectory)
+    } sb.append(makeFilesLine(dest, mapping.fileData, file.isDirectory))
 
     symlinks foreach (l => sb append s"${l.link}\n")
     sb.toString
@@ -229,7 +231,7 @@ case class RpmSpec(
   }
 
   // TODO - This is *very* tied to RPM helper, may belong *in* RpmHelper
-  def writeSpec(rpmRoot: File, tmpRoot: File): String = {
+  def writeSpec(rpmRoot: File, tmpRoot: File)(implicit conv: FileConverter): String = {
     val sb = new StringBuilder
     sb append ("Name: %s\n" format meta.name)
     sb append ("Version: %s\n" format meta.version)

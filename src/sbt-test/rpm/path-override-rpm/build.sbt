@@ -1,4 +1,6 @@
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.PluginCompat
+import xsbti.FileConverter
 
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
@@ -23,7 +25,8 @@ defaultLinuxInstallLocation := "/opt/test"
 defaultLinuxLogsLocation := "/opt/test/log"
 
 TaskKey[Unit]("unzip") := {
-  val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
+  implicit val converter: FileConverter = fileConverter.value
+  val rpmPath = Seq(PluginCompat.toFile((Rpm / packageBin).value).getAbsolutePath)
   sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
   ()
 }
@@ -31,10 +34,7 @@ TaskKey[Unit]("unzip") := {
 TaskKey[Unit]("checkInitFile") := {
   val initd = IO.read(baseDirectory.value / "etc" / "init.d" / "rpm-test")
   assert(initd contains "/opt/test/rpm-test", "defaultLinuxInstallLocation not overriden in init.d\n" + initd)
-  assert(
-    initd contains "/opt/test/log/rpm-test/$logfile",
-    "defaultLinuxLogsLocation not overriden in init.d\n" + initd
-  )
+  assert(initd contains "/opt/test/log/rpm-test/$logfile", "defaultLinuxLogsLocation not overriden in init.d\n" + initd)
   streams.value.log.success("Successfully tested rpm-test file")
   ()
 }
