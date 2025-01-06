@@ -1,12 +1,14 @@
 package com.typesafe.sbt.packager.jdkpackager
 
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.jdkpackager.JDKPackagerPlugin.autoImport._
 import org.apache.tools.ant.{BuildEvent, BuildListener, ProjectHelper}
-import sbt.Keys._
-import sbt._
+import sbt.Keys.*
+import sbt.{*, given}
 
 import scala.util.Try
 import scala.xml.Elem
+import xsbti.FileConverter
 
 /**
   * Helpers for working with Ant build definitions
@@ -39,11 +41,11 @@ object JDKPackagerAntHelper {
 
     // Unlift searchPoint `Option`-s, and for each base directory, add the parent variant to cover nested JREs on Unix.
     val entryPoints =
-      searchPoints.flatten.flatMap(f ⇒ Seq(f, f.getAbsoluteFile))
+      searchPoints.flatten.flatMap(f => Seq(f, f.getAbsoluteFile))
 
     // On Windows we're often running in the JRE and not the JDK. If JDK is installed,
     // it's likely to be in a parallel directory, with the "jre" prefix changed to "jdk"
-    val entryPointsSpecialCaseWindows = entryPoints.flatMap { f ⇒
+    val entryPointsSpecialCaseWindows = entryPoints.flatMap { f =>
       if (f.getName.startsWith("jre"))
         Seq(f, f.getParentFile / ("jdk" + f.getName.drop(3)))
       else Seq(f)
@@ -52,11 +54,11 @@ object JDKPackagerAntHelper {
     // Now search for the tool
     entryPointsSpecialCaseWindows
       .map(_ / "lib" / jarname)
-      .find { f ⇒
+      .find { f =>
         logger.debug(s"Looking for '$jarname' in  '${f.getParent}'");
         f.exists()
       }
-      .map { f ⇒
+      .map { f =>
         logger.debug(s"Found '$f'!"); f
       }
   }
@@ -135,10 +137,12 @@ object JDKPackagerAntHelper {
   private[jdkpackager] def deployDOM(
     basename: String,
     packageType: String,
-    mainJar: File,
+    mainJar: PluginCompat.ArtifactPath,
     outputDir: File,
-    infoDOM: InfoDOM
-  ): DeployDOM =
+    infoDOM: InfoDOM,
+    conv0: FileConverter
+  ): DeployDOM = {
+    implicit val conv: FileConverter = conv0
     // format: OFF
     <fx:deploy outdir={outputDir.getAbsolutePath}
                outfile={basename}
@@ -159,9 +163,10 @@ object JDKPackagerAntHelper {
         <fx:fileset refid="data.files"/>
       </fx:resources>
 
-      <fx:bundleArgument arg="mainJar" value={"lib/" + mainJar.getName} />
+      <fx:bundleArgument arg="mainJar" value={"lib/" + PluginCompat.artifactPathToFile(mainJar).getName} />
 
     </fx:deploy>
+  }
   // format: ON
 
   type BuildDOM = xml.Elem
@@ -176,7 +181,7 @@ object JDKPackagerAntHelper {
     antExtraClasspath: Seq[File],
     name: String,
     sourceDir: File,
-    mappings: Seq[(File, String)],
+    mappings: Seq[(PluginCompat.FileRef, String)],
     platformDOM: PlatformDOM,
     applicationDOM: ApplicationDOM,
     deployDOM: DeployDOM
@@ -184,9 +189,9 @@ object JDKPackagerAntHelper {
 
     if (antTaskLib.isEmpty)
       sys.error(
-        "Please set key `antPackagerTasks in JDKPackager` to `ant-javafx.jar` path, " +
+        "Please set key `JDKPackager / antPackagerTasks` to `ant-javafx.jar` path, " +
           "which should be found in the `lib` directory of the Oracle JDK 8 installation. For example (Windows):\n" +
-          """(antPackagerTasks in JDKPackager) := Some(file("C:\\Program Files\\Java\\jdk1.8.0_45\\lib\\ant-javafx.jar"))"""
+          """JDKPackager / antPackagerTasks := Some(file("C:\\Program Files\\Java\\jdk1.8.0_45\\lib\\ant-javafx.jar"))"""
       )
 
     val taskClassPath = antTaskLib.get +: antExtraClasspath
@@ -233,8 +238,8 @@ object JDKPackagerAntHelper {
     val globs =
       Seq("*.dmg", "*.pkg", "*.app", "*.msi", "*.exe", "*.deb", "*.rpm")
     val finder = globs.foldLeft(PathFinder.empty)(_ +++ output ** _)
-    val result = finder.getPaths.headOption
-    result.foreach(f ⇒ s.log.info("Wrote " + f))
+    val result = finder.getPaths().headOption
+    result.foreach(f => s.log.info("Wrote " + f))
     result.map(file)
   }
 
@@ -248,8 +253,14 @@ object JDKPackagerAntHelper {
   }
 
   /** Build package via Ant build.xml definition. */
-  private[jdkpackager] def buildPackageWithAnt(buildXML: File, target: File, s: TaskStreams): File = {
-    import org.apache.tools.ant.{Project ⇒ AntProject}
+  private[jdkpackager] def buildPackageWithAnt(
+    buildXML: File,
+    target: File,
+    conv0: FileConverter,
+    s: TaskStreams
+  ): PluginCompat.FileRef = {
+    import org.apache.tools.ant.{Project => AntProject}
+    implicit val conv: FileConverter = conv0
 
     val ap = new AntProject
     ap.setUserProperty("ant.file", buildXML.getAbsolutePath)
@@ -264,12 +275,13 @@ object JDKPackagerAntHelper {
     ap.removeBuildListener(adapter)
 
     // Not sure what to do when we can't find the result
-    findResult(target, s).getOrElse(target)
+    val result = findResult(target, s).getOrElse(target)
+    PluginCompat.toFileRef(result)
   }
 
   /** For piping Ant messages to sbt logger. */
   private class AntLogAdapter(s: TaskStreams) extends BuildListener {
-    import org.apache.tools.ant.{Project ⇒ AntProject}
+    import org.apache.tools.ant.{Project => AntProject}
     def buildFinished(event: BuildEvent): Unit = ()
     def buildStarted(event: BuildEvent): Unit = ()
     def targetStarted(event: BuildEvent): Unit = ()
@@ -278,11 +290,11 @@ object JDKPackagerAntHelper {
     def taskStarted(event: BuildEvent): Unit = ()
     def messageLogged(event: BuildEvent): Unit =
       event.getPriority match {
-        case AntProject.MSG_ERR ⇒ s.log.error(event.getMessage)
-        case AntProject.MSG_WARN ⇒ s.log.warn(event.getMessage)
-        case AntProject.MSG_INFO ⇒ s.log.info(event.getMessage)
-        case AntProject.MSG_VERBOSE ⇒ s.log.verbose(event.getMessage)
-        case _ ⇒ s.log.debug(event.getMessage)
+        case AntProject.MSG_ERR     => s.log.error(event.getMessage)
+        case AntProject.MSG_WARN    => s.log.warn(event.getMessage)
+        case AntProject.MSG_INFO    => s.log.info(event.getMessage)
+        case AntProject.MSG_VERBOSE => s.log.verbose(event.getMessage)
+        case _                      => s.log.debug(event.getMessage)
       }
   }
 }

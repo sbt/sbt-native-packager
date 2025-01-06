@@ -1,5 +1,8 @@
+# Workaround: set target folder to what it was in sbt 1.x because with sbt 2.x and project matrix target is target/out/jvm/scala-3.3.3/
+> set target := baseDirectory.value / "target"
+
 # Generate the Docker image locally
-> docker:publishLocal
+> Docker/publishLocal
 $ exists target/docker/stage/Dockerfile
 $ exists target/docker/stage/4/opt/docker/bin/docker-test
 > checkDockerfile

@@ -1,18 +1,26 @@
+import com.typesafe.sbt.packager.PluginCompat
+import xsbti.FileConverter
+
 enablePlugins(JavaAppPackaging)
 
 organization := "com.example"
 name := "docker-groups"
 version := "0.1.0"
 
-dockerPackageMappings in Docker ++= Seq(
-  (baseDirectory.value / "docker" / "spark-env.sh") -> "/opt/docker/spark/spark-env.sh",
-  (baseDirectory.value / "docker" / "log4j.properties") -> "/opt/docker/other/log4j.properties"
-)
+Docker / dockerPackageMappings ++= {
+  implicit val converter: FileConverter = fileConverter.value
+  PluginCompat.toFileRefsMapping(
+    Seq(
+      (baseDirectory.value / "docker" / "spark-env.sh") -> "/opt/docker/spark/spark-env.sh",
+      (baseDirectory.value / "docker" / "log4j.properties") -> "/opt/docker/other/log4j.properties"
+    )
+  )
+}
 
 libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.30"
 
 TaskKey[Unit]("checkDockerfile") := {
-  val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
+  val dockerfile = IO.read((Docker / stagingDirectory).value / "Dockerfile")
   val copyLines = dockerfile.linesIterator.toList.filter(_.startsWith("COPY --from=stage0"))
   assertEquals(
     copyLines,
@@ -24,7 +32,7 @@ TaskKey[Unit]("checkDockerfile") := {
 }
 
 TaskKey[Unit]("checkDockerfileWithNoLayers") := {
-  val dockerfile = IO.read((stagingDirectory in Docker).value / "Dockerfile")
+  val dockerfile = IO.read((Docker / stagingDirectory).value / "Dockerfile")
   val copyLines = dockerfile.linesIterator.toList.filter(_.startsWith("COPY --from=stage0"))
   assertEquals(
     copyLines,

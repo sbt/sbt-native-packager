@@ -13,19 +13,19 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
+Debian / debianPackageDependencies ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
 
-debianPackageRecommends in Debian += "git"
+Debian / debianPackageRecommends += "git"
 
 TaskKey[Unit]("checkScript") := {
-  val dir = (stagingDirectory in Universal).value
+  val dir = (Universal / stagingDirectory).value
   val script = dir / "bin" / name.value
   System.out.synchronized {
     System.err.println("---SCRIPT---")
     val scriptContents = IO.read(script)
     System.err.println(scriptContents)
     System.err.println("---END SCRIPT---")
-    for (file <- dir.**(AllPassFilter).get)
+    for (file <- dir.**(AllPassFilter).get())
       System.err.println("\t" + file)
   }
   val cmd = "bash " + script.getAbsolutePath + " -d"

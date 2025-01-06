@@ -2,9 +2,9 @@ enablePlugins(JavaServerAppPackaging)
 
 name := "debian-test"
 
-name in Debian := "debian-test-override"
+Debian / name := "debian-test-override"
 
-packageName in Linux := "debian-test-package"
+Linux / packageName := "debian-test-package"
 
 version := "0.1.0"
 
@@ -15,9 +15,9 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
+Debian / debianPackageDependencies ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
 
-debianPackageRecommends in Debian += "git"
+Debian / debianPackageRecommends += "git"
 
 TaskKey[Unit]("checkControlScript") := {
   val script =

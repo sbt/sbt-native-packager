@@ -1,10 +1,10 @@
 enablePlugins(JavaServerAppPackaging)
 
-daemonUser in Linux := "daemonuser"
-daemonGroup in Linux := "daemongroup"
-daemonShell in Linux := "/bin/bash"
+Linux / daemonUser := "daemonuser"
+Linux / daemonGroup := "daemongroup"
+Linux / daemonShell := "/bin/bash"
 
-mainClass in Compile := Some("empty")
+Compile / mainClass := Some("empty")
 
 name := "debian-test"
 version := "0.1.0"

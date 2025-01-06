@@ -11,15 +11,15 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
+Debian / debianPackageDependencies ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
 
-debianPackageRecommends in Debian += "git"
+Debian / debianPackageRecommends += "git"
 
-linuxPackageMappings in Debian += packageDirectoryAndContentsMapping(
+Debian / linuxPackageMappings += packageDirectoryAndContentsMapping(
   (baseDirectory.value / "src" / "resources" / "conf") -> "/usr/share/conf"
 )
 
-linuxPackageMappings in Debian += packageDirectoryAndContentsMapping(
+Debian / linuxPackageMappings += packageDirectoryAndContentsMapping(
   (baseDirectory.value / "src" / "resources" / "empty") -> "/var/empty"
 )
 

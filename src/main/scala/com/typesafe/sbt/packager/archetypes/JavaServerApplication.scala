@@ -1,15 +1,17 @@
-package com.typesafe.sbt.packager.archetypes
+package com.typesafe.sbt.packager
+package archetypes
 
-import sbt._
-import sbt.Keys.{javaOptions, mainClass, run, sourceDirectory, streams, target}
+import sbt.{*, given}
+import sbt.Keys.{fileConverter, javaOptions, mainClass, run, sourceDirectory, streams, target}
 import com.typesafe.sbt.SbtNativePackager.{Debian, Linux, Rpm, Universal}
-import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxPlugin, LinuxSymlink}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.packageTemplateMapping
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
 import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
+import xsbti.FileConverter
 
 /**
   * ==Java Server App Packaging==
@@ -50,23 +52,23 @@ object JavaServerAppPackaging extends AutoPlugin {
     */
   def linuxSettings: Seq[Setting[_]] =
     Seq(
-      javaOptions in Linux := (javaOptions in Universal).value,
+      Linux / javaOptions := (Universal / javaOptions).value,
       // === logging directory mapping ===
       linuxPackageMappings += {
-        packageTemplateMapping(defaultLinuxLogsLocation.value + "/" + (packageName in Linux).value)()
-          .withUser((daemonUser in Linux).value)
-          .withGroup((daemonGroup in Linux).value)
+        packageTemplateMapping(defaultLinuxLogsLocation.value + "/" + (Linux / packageName).value)()
+          .withUser((Linux / daemonUser).value)
+          .withGroup((Linux / daemonGroup).value)
           .withPerms("755")
       },
       linuxPackageSymlinks += {
-        val name = (packageName in Linux).value
+        val name = (Linux / packageName).value
         LinuxSymlink(
           defaultLinuxInstallLocation.value + "/" + name + "/logs",
           defaultLinuxLogsLocation.value + "/" + name
         )
       },
       // === etc config mapping ===
-      bashScriptEnvConfigLocation := Some("/etc/default/" + (packageName in Linux).value),
+      bashScriptEnvConfigLocation := Some("/etc/default/" + (Linux / packageName).value),
       linuxStartScriptName := None,
       daemonStdoutLogFile := None
     )
@@ -78,7 +80,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     linuxEtcDefaultTemplate := getEtcTemplateSource(sourceDirectory.value, (serverLoading ?? None).value),
     makeEtcDefault := makeEtcDefaultScript(
       packageName.value,
-      (target in Universal).value,
+      (Universal / target).value,
       linuxEtcDefaultTemplate.value,
       linuxScriptReplacements.value
     ),
@@ -95,8 +97,8 @@ object JavaServerAppPackaging extends AutoPlugin {
           linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
           // === Maintainer scripts ===
           maintainerScripts := {
-            val scripts = (maintainerScripts in Debian).value
-            val replacements = (linuxScriptReplacements in Debian).value
+            val scripts = (Debian / maintainerScripts).value
+            val replacements = (Debian / linuxScriptReplacements).value
             val contentOf = getScriptContent(Debian, replacements) _
 
             scripts ++ Map(
@@ -109,10 +111,10 @@ object JavaServerAppPackaging extends AutoPlugin {
         )
       ) ++ Seq(
         // === Daemon User and Group ===
-        daemonUser in Debian := (daemonUser in Linux).value,
-        daemonUserUid in Debian := (daemonUserUid in Linux).value,
-        daemonGroup in Debian := (daemonGroup in Linux).value,
-        daemonGroupGid in Debian := (daemonGroupGid in Linux).value
+        Debian / daemonUser := (Linux / daemonUser).value,
+        Debian / daemonUserUid := (Linux / daemonUserUid).value,
+        Debian / daemonGroup := (Linux / daemonGroup).value,
+        Debian / daemonGroupGid := (Linux / daemonGroupGid).value
       )
   }
 
@@ -133,15 +135,15 @@ object JavaServerAppPackaging extends AutoPlugin {
         )
       ) ++ Seq(
         // === Daemon User and Group ===
-        daemonUser in Rpm := (daemonUser in Linux).value,
-        daemonUserUid in Rpm := (daemonUserUid in Linux).value,
-        daemonGroup in Rpm := (daemonGroup in Linux).value,
-        daemonGroupGid in Rpm := (daemonGroupGid in Linux).value,
+        Rpm / daemonUser := (Linux / daemonUser).value,
+        Rpm / daemonUserUid := (Linux / daemonUserUid).value,
+        Rpm / daemonGroup := (Linux / daemonGroup).value,
+        Rpm / daemonGroupGid := (Linux / daemonGroupGid).value,
         // == Maintainer scripts ===
-        maintainerScripts in Rpm := rpmScriptletContents(
+        Rpm / maintainerScripts := rpmScriptletContents(
           rpmScriptsDirectory.value,
-          (maintainerScripts in Rpm).value,
-          (linuxScriptReplacements in Rpm).value
+          (Rpm / maintainerScripts).value,
+          (Rpm / linuxScriptReplacements).value
         )
       )
 
@@ -209,7 +211,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     * @param name
     *   of the etc-default config file
     * @param tmpDir
-    *   to store the resulting file in (e.g. target in Universal)
+    *   to store the resulting file in (e.g. Universal / target)
     * @param source
     *   of etc-default script
     * @param replacements
@@ -256,7 +258,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     }
 
     // used to override template
-    val rpmScripts = Option(scriptDirectory.listFiles) getOrElse Array.empty
+    val rpmScripts = Option(scriptDirectory.listFiles).getOrElse(Array.empty[File])
 
     // remove all non files and already processed templates
     rpmScripts.filter(s => s.isFile && !predefined.contains(s.getName)).foldLeft(predefinedScripts) {

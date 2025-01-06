@@ -1,4 +1,5 @@
-package com.typesafe.sbt.packager.docker
+package com.typesafe.sbt.packager
+package docker
 
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys._
@@ -7,15 +8,15 @@ import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{daemonUser, defau
 import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stage
 import com.typesafe.sbt.packager.validation._
-import com.typesafe.sbt.packager.{MappingsHelper, Stager}
-import sbt.Keys._
-import sbt._
+import sbt.Keys.*
+import sbt.{*, given}
 
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 import scala.sys.process.Process
 import scala.util.Try
+import xsbti.FileConverter
 
 /**
   * ==Docker Plugin==
@@ -101,10 +102,12 @@ object DockerPlugin extends AutoPlugin {
       (Docker / packageName).value,
       Option((Docker / version).value)
     ),
-    dockerLayerGrouping := { _: String =>
+    dockerLayerGrouping := { (_: String) =>
       None
     },
     dockerGroupLayers := {
+      val conv0 = fileConverter.value
+      implicit val conv: FileConverter = conv0
       val dockerBaseDirectory = (Docker / defaultLinuxInstallLocation).value
       // Ensure this doesn't break even if the JvmPlugin isn't enabled.
       var artifacts = projectDependencyArtifacts.?.value.getOrElse(Nil).map(_.data).toSet
@@ -119,7 +122,7 @@ object DockerPlugin extends AutoPlugin {
       val oldFunction = dockerLayerGrouping.value
 
       // By default we set this to a function that always returns None.
-      val oldPartialFunction = Function.unlift((tuple: (File, String)) => oldFunction(tuple._2))
+      val oldPartialFunction = Function.unlift((tuple: (PluginCompat.FileRef, String)) => oldFunction(tuple._2))
 
       val libDir = dockerBaseDirectory + "/lib/"
       val binDir = dockerBaseDirectory + "/bin/"
@@ -183,6 +186,8 @@ object DockerPlugin extends AutoPlugin {
         }
     },
     dockerCommands := {
+      val conv0 = fileConverter.value
+      implicit val conv: FileConverter = conv0
       val strategy = dockerPermissionStrategy.value
       val dockerBaseDirectory = (Docker / defaultLinuxInstallLocation).value
       val user = (Docker / daemonUser).value
@@ -220,7 +225,7 @@ object DockerPlugin extends AutoPlugin {
                   .getOrElse {
                     // We couldn't find a source file for the mapping, so try with a dummy source file,
                     // in case there is an explicitly configured path based layer mapping, eg for a directory.
-                    layerToPath.lift((new File("/dev/null"), v))
+                    layerToPath.lift((PluginCompat.toFileRef(new File("/dev/null")), v))
                   }
                 makeChmod(tpe, Seq(pathInLayer(v, layerId)))
               }
@@ -300,9 +305,12 @@ object DockerPlugin extends AutoPlugin {
               "--push"
             ) ++ dockerBuildOptions.value :+ "."
           else dockerExecCommand.value
-        alias.foreach { aliasValue =>
-          publishDocker(context, execCommand, aliasValue.toString, log, multiplatform)
-        }
+        // For multiplatform builds, the alias are part of the `dockerBuildOptions` already.
+        if (multiplatform) publishDocker(context, execCommand, dockerAlias.value.tag.getOrElse(""), log, multiplatform)
+        else
+          alias.foreach { aliasValue =>
+            publishDocker(context, execCommand, aliasValue.toString, log, multiplatform)
+          }
       } tag (Tags.Network, Tags.Publish)
 
     def cleanTask =
@@ -325,13 +333,17 @@ object DockerPlugin extends AutoPlugin {
       publish := publishTask.value,
       clean := cleanTask.value,
       sourceDirectory := sourceDirectory.value / "docker",
-      stage := Stager.stage(Docker.name)(
-        streams.value,
-        stagingDirectory.value,
-        dockerLayerMappings.value.map { case LayeredMapping(layerIdx, file, path) =>
-          (file, pathInLayer(path, layerIdx))
-        }
-      ),
+      stage := {
+        val conv0 = fileConverter.value
+        implicit val conv: FileConverter = conv0
+        Stager.stage(Docker.name)(
+          streams.value,
+          stagingDirectory.value,
+          dockerLayerMappings.value.map { case LayeredMapping(layerIdx, file, path) =>
+            (file, pathInLayer(path, layerIdx))
+          }
+        )
+      },
       stage := (stage dependsOn dockerGenerateConfig).value,
       stagingDirectory := (Docker / target).value / "stage",
       dockerLayerMappings := {
@@ -352,14 +364,20 @@ object DockerPlugin extends AutoPlugin {
       defaultLinuxInstallLocation := "/opt/docker",
       validatePackage := Validation
         .runAndThrow(validatePackageValidators.value, streams.value.log),
-      validatePackageValidators := Seq(
-        nonEmptyMappings((Docker / mappings).value),
-        filesExist((Docker / mappings).value),
-        validateExposedPorts(dockerExposedPorts.value, dockerExposedUdpPorts.value),
-        validateDockerVersion(dockerApiVersion.value),
-        validateDockerPermissionStrategy(dockerPermissionStrategy.value, dockerVersion.value, dockerApiVersion.value)
-      ),
-      dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value),
+      validatePackageValidators := {
+        val conv0 = fileConverter.value
+        implicit val conv: FileConverter = conv0
+        val xs = (Docker / mappings).value
+        val fileMappings = xs.map { case (ref, p) => PluginCompat.toFile(ref) -> p }
+        Seq(
+          nonEmptyMappings(fileMappings),
+          filesExist(fileMappings),
+          validateExposedPorts(dockerExposedPorts.value, dockerExposedUdpPorts.value),
+          validateDockerVersion(dockerApiVersion.value),
+          validateDockerPermissionStrategy(dockerPermissionStrategy.value, dockerVersion.value, dockerApiVersion.value)
+        )
+      },
+      dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value, fileConverter.value),
       dockerGenerateConfig := {
         val _ = validatePackage.value
         generateDockerConfig(dockerCommands.value, stagingDirectory.value)
@@ -625,17 +643,17 @@ object DockerPlugin extends AutoPlugin {
   }
 
   /**
-    * uses the `mappings in Universal` to generate the `Docker / mappings`.
+    * uses the `Universal / mappings` to generate the `Docker / mappings`.
     */
   def mapGenericFilesToDocker: Seq[Setting[_]] = {
-    def renameDests(from: Seq[(File, String)], dest: String) =
+    def renameDests(from: Seq[(PluginCompat.FileRef, String)], dest: String) =
       for {
         (f, path) <- from
         pathWithValidSeparator = if (Path.sep == '/') path else path.replace(Path.sep, '/')
         newPath = "%s/%s" format (dest, pathWithValidSeparator)
       } yield (f, newPath)
 
-    inConfig(Docker)(Seq(mappings := renameDests((mappings in Universal).value, defaultLinuxInstallLocation.value)))
+    inConfig(Docker)(Seq(mappings := renameDests((Universal / mappings).value, defaultLinuxInstallLocation.value)))
   }
 
   private final def pathInLayer(path: String, layer: Option[Int]) = layer.map(i => s"/$i$path").getOrElse(path)

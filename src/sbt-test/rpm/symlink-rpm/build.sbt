@@ -6,7 +6,7 @@ name := "rpm-test"
 version := "0.1.0"
 maintainer := "David Pennell <dpennell@good-cloud.com>"
 packageSummary := "Test rpm package"
-packageName in Linux := "rpm-package"
+Linux / packageName := "rpm-package"
 packageDescription :=
   """A fun package description of our software,
   with multiple lines."""
@@ -18,7 +18,7 @@ rpmLicense := Some("BSD")
 
 linuxPackageSymlinks := {
   val helloSymlink = LinuxSymlink(
-    ((file(defaultLinuxInstallLocation.value) / (packageName in Linux).value / "lib") / "hello.link").toString,
+    ((file(defaultLinuxInstallLocation.value) / (Linux / packageName).value / "lib") / "hello.link").toString,
     "/fake/hello.tx"
   )
   Seq(helloSymlink)

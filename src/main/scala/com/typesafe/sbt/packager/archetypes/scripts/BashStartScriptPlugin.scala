@@ -5,8 +5,9 @@ import java.io.File
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.archetypes.{JavaAppPackaging, TemplateWriter}
-import sbt.Keys._
-import sbt._
+import sbt.Keys.*
+import sbt.{*, given}
+import xsbti.FileConverter
 
 /**
   * ==Bash StartScript Plugin==
@@ -59,7 +60,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       bashForwarderTemplateLocation := Some(sourceDirectory.value / "templates" / forwarderTemplateName),
       bashScriptExtraDefines := Nil,
       bashScriptDefines := Defines(
-        (scriptClasspath in bashScriptDefines).value,
+        (bashScriptDefines / scriptClasspath).value,
         bashScriptConfigLocation.value,
         bundledJvmLocation.value
       ),
@@ -69,27 +70,32 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       bashScriptConfigLocation := (bashScriptConfigLocation ?? Some(appIniLocation)).value,
       bashScriptEnvConfigLocation := (bashScriptEnvConfigLocation ?? None).value,
       // Generating the application configuration
-      mappings in Universal := generateApplicationIni(
-        (mappings in Universal).value,
-        (javaOptions in Universal).value,
-        bashScriptConfigLocation.value,
-        (target in Universal).value,
-        streams.value.log
-      ),
+      Universal / mappings := {
+        val conv0 = fileConverter.value
+        implicit val conv: FileConverter = conv0
+        generateApplicationIni(
+          (Universal / mappings).value,
+          (Universal / javaOptions).value,
+          bashScriptConfigLocation.value,
+          (Universal / target).value,
+          streams.value.log
+        )
+      },
       makeBashScripts := generateStartScripts(
         BashScriptConfig(
           executableScriptName = executableScriptName.value,
-          scriptClasspath = (scriptClasspath in bashScriptDefines).value,
+          scriptClasspath = (bashScriptDefines / scriptClasspath).value,
           replacements = bashScriptReplacements.value,
           templateLocation = bashScriptTemplateLocation.value,
           forwarderTemplateLocation = bashForwarderTemplateLocation.value
         ),
-        (mainClass in (Compile, bashScriptDefines)).value,
-        (discoveredMainClasses in Compile).value,
-        (target in Universal).value / "scripts",
+        (Compile / bashScriptDefines / mainClass).value,
+        (Compile / discoveredMainClasses).value,
+        (Universal / target).value / "scripts",
+        fileConverter.value,
         streams.value.log
       ),
-      mappings in Universal ++= makeBashScripts.value
+      Universal / mappings ++= makeBashScripts.value
     )
 
   private[this] def generateScriptReplacements(defines: Seq[String]): Seq[(String, String)] = {

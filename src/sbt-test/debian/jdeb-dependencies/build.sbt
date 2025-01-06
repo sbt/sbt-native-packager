@@ -11,7 +11,7 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-debianPackageDependencies in Debian := Seq()
+Debian / debianPackageDependencies := Seq()
 
 TaskKey[Unit]("checkDependencies") := {
   val extracted = target.value / "extracted"

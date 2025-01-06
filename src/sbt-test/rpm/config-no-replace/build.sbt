@@ -1,4 +1,6 @@
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.PluginCompat
+import xsbti.FileConverter
 
 enablePlugins(RpmPlugin)
 
@@ -21,12 +23,13 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
-packageArchitecture in Rpm := "x86_64"
+Rpm / packageArchitecture := "x86_64"
 
 linuxPackageMappings := configWithNoReplace(linuxPackageMappings.value)
 
 TaskKey[Unit]("unzip") := {
-  val rpmPath = Seq((packageBin in Rpm).value.getAbsolutePath)
+  implicit val converter: FileConverter = fileConverter.value
+  val rpmPath = Seq(PluginCompat.toFile((Rpm / packageBin).value).getAbsolutePath)
   sys.process.Process("rpm2cpio", rpmPath) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
 }
 

@@ -1,4 +1,4 @@
 # Generate the Docker image locally
-> docker:publishLocal
+> Docker/publishLocal
 $ exec bash -c 'docker run docker-commands:latest | grep -q "Hello, World from Docker"'
 $ exec bash -c 'docker inspect -f "{{json .Config.Labels}}" docker-commands:latest | grep "MAINTAINER" | grep -q "Gary Coady"'

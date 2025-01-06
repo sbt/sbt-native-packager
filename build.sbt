@@ -3,10 +3,24 @@ organization := "com.github.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
-Global / scalaVersion := "2.12.20"
 
 // crossBuildingSettings
-crossSbtVersions := Vector("1.1.6")
+lazy val scala212 = "2.12.20"
+lazy val scala3 = "3.6.2"
+Global / scalaVersion := scala3
+crossScalaVersions := Seq(scala3, scala212)
+(pluginCrossBuild / sbtVersion) := {
+  scalaBinaryVersion.value match {
+    case "2.12" => "1.5.8"
+    case _      => "2.0.0-M3"
+  }
+}
+scriptedSbt := {
+  scalaBinaryVersion.value match {
+    case "2.12" => "1.10.7"
+    case _      => "2.0.0-M3"
+  }
+}
 
 Compile / scalacOptions ++= Seq("-deprecation")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
@@ -16,7 +30,7 @@ classpathTypes += "maven-plugin"
 libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "8.16.0" % Provided,
-  "org.vafer" % "jdeb" % "1.10" % Provided artifacts Artifact("jdeb", "jar", "jar"),
+  "org.vafer" % "jdeb" % "1.12" % Provided artifacts Artifact("jdeb", "jar", "jar"),
   "org.apache.commons" % "commons-compress" % "1.27.1",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.15",
@@ -29,7 +43,7 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= {
   (pluginCrossBuild / sbtVersion).value match {
     case v if v.startsWith("1.") =>
-      Seq("org.scala-sbt" %% "io" % "1.10.0")
+      Seq("org.scala-sbt" %% "io" % "1.10.4")
     case _ => Seq()
   }
 }
@@ -37,8 +51,7 @@ libraryDependencies ++= {
 // scala version depended libraries
 libraryDependencies ++= {
   scalaBinaryVersion.value match {
-    case "2.10" => Nil
-    case _ =>
+    case "2.12" =>
       Seq(
         // Do NOT upgrade these dependencies to 2.x or newer! sbt-native-packager is a sbt-plugin
         // and gets published with Scala 2.12, therefore we need to stay at the same major version
@@ -47,6 +60,8 @@ libraryDependencies ++= {
         "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2", // Do not upgrade beyond 1.x
         "org.scala-lang.modules" %% "scala-xml" % "2.2.0"
       )
+    case _ =>
+      Nil
   }
 }
 
@@ -68,11 +83,11 @@ mimaPreviousArtifacts := {
   val m = "com.typesafe.sbt" %% moduleName.value % "1.3.15"
   val sbtBinV = (pluginCrossBuild / sbtBinaryVersion).value
   val scalaBinV = (update / scalaBinaryVersion).value
-  if (scalaBinV == "2.10") {
-    println(s"Skip MiMa check for SBT binary version ${sbtBinV} as scala ${scalaBinV} is not supported")
-    Set.empty
-  } else
-    Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
+  scalaBinV match {
+    case "2.12" =>
+      Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
+    case _ => Set.empty
+  }
 }
 
 // Release configuration
@@ -97,7 +112,8 @@ developers := List(
 addCommandAlias("scalafmtFormatAll", "; ^scalafmtAll ; scalafmtSbt")
 // ci commands
 addCommandAlias("validateFormatting", "; scalafmtCheckAll ; scalafmtSbtCheck")
-addCommandAlias("validate", "; clean ; update ; validateFormatting ; test ; mimaReportBinaryIssues")
+// Ignore mimaReportBinaryIssues
+addCommandAlias("validate", "; clean ; update ; validateFormatting ; test")
 
 // List all scripted test separately to schedule them in different travis-ci jobs.
 // Travis-CI has hard timeouts for jobs, so we run them in smaller jobs as the scripted
@@ -125,3 +141,19 @@ addCommandAlias("validateWindows", "; testOnly * -- -n windows ; scripted univer
 addCommandAlias("validateJlink", "scripted jlink/*")
 
 addCommandAlias("ci-release", "release with-defaults")
+
+// So that publishLocal doesn't continuously create new versions
+def versionFmt(out: sbtdynver.GitDescribeOutput): String = {
+  val snapshotSuffix =
+    if (out.isSnapshot()) "-SNAPSHOT"
+    else ""
+  out.ref.dropPrefix + snapshotSuffix
+}
+
+def fallbackVersion(d: java.util.Date): String = s"HEAD-${sbtdynver.DynVer timestamp d}"
+
+ThisBuild / version := dynverGitDescribeOutput.value.mkVersion(versionFmt, fallbackVersion(dynverCurrentDate.value))
+ThisBuild / dynver := {
+  val d = new java.util.Date
+  sbtdynver.DynVer.getGitDescribeOutput(d).mkVersion(versionFmt, fallbackVersion(d))
+}

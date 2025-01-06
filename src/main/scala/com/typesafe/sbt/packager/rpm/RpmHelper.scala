@@ -1,14 +1,16 @@
 package com.typesafe.sbt.packager.rpm
 
-import sbt._
+import sbt.{*, given}
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.linux.LinuxSymlink
 import com.typesafe.sbt.packager.sourceDateEpoch
+import xsbti.FileConverter
 
 object RpmHelper {
 
   /** Returns the host vendor for an rpm. */
   def hostVendor =
-    sys.process.Process(Seq("rpm", "-E", "%{_host_vendor}")) !!
+    sys.process.Process(Seq("rpm", "-E", "%{_host_vendor}")).!!
 
   /**
     * Prepares the staging directory for the rpm build command.
@@ -22,7 +24,7 @@ object RpmHelper {
     * @return
     *   the `workArea`
     */
-  def stage(spec: RpmSpec, workArea: File, log: sbt.Logger): File = {
+  def stage(spec: RpmSpec, workArea: File, log: sbt.Logger)(implicit conv: FileConverter): File = {
     buildWorkArea(workArea)
     copyFiles(spec, workArea, log)
     writeSpecFile(spec, workArea, log)
@@ -31,8 +33,12 @@ object RpmHelper {
     workArea
   }
 
-  private[rpm] def defaultRpmArtifactPath(stagingArea: File, meta: RpmMetadata): File =
-    stagingArea / "RPMS" / meta.arch / s"${meta.name}-${meta.version}-${meta.release}.${meta.arch}.rpm"
+  private[rpm] def defaultRpmArtifactPath(stagingArea: File, meta: RpmMetadata)(implicit
+    conv: FileConverter
+  ): PluginCompat.ArtifactPath =
+    PluginCompat.toArtifactPath(
+      stagingArea / "RPMS" / meta.arch / s"${meta.name}-${meta.version}-${meta.release}.${meta.arch}.rpm"
+    )
 
   /**
     * Build the rpm package
@@ -46,12 +52,14 @@ object RpmHelper {
     * @return
     *   The rpm package
     */
-  def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger): File = {
+  def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger)(implicit
+    conv: FileConverter
+  ): PluginCompat.ArtifactPath = {
     buildPackage(stagingArea, spec, log)
     defaultRpmArtifactPath(stagingArea, spec.meta)
   }
 
-  private[this] def copyFiles(spec: RpmSpec, workArea: File, log: sbt.Logger): Unit = {
+  private[this] def copyFiles(spec: RpmSpec, workArea: File, log: sbt.Logger)(implicit conv: FileConverter): Unit = {
     // TODO - special treatment of icon...
     val buildroot = workArea / "tmp-buildroot"
 
@@ -80,7 +88,9 @@ object RpmHelper {
     LinuxSymlink.makeSymLinks(spec.symlinks, buildroot, relativeLinks = false)
   }
 
-  private[this] def writeSpecFile(spec: RpmSpec, workArea: File, log: sbt.Logger): File = {
+  private[this] def writeSpecFile(spec: RpmSpec, workArea: File, log: sbt.Logger)(implicit
+    conv: FileConverter
+  ): File = {
     val specdir = workArea / "SPECS"
     val rpmBuildroot = workArea / "buildroot"
     val tmpBuildRoot = workArea / "tmp-buildroot"

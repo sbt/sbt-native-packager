@@ -26,7 +26,7 @@ class ExampleApp extends Application {
       win.initOwner(stage)
 
       val args = getParameters.getRaw.mkString("\n")
-      val props = sys.props.toSeq.sortBy(_._1).map(p ⇒ s"${p._1}=${p._2}").mkString("\n")
+      val props = sys.props.toSeq.sortBy(_._1).map(p => s"${p._1}=${p._2}").mkString("\n")
 
       val content = new TextArea(Seq("## Application Arguments", args, "## System Properties", props).mkString("\n"))
       content.setPrefHeight(400)

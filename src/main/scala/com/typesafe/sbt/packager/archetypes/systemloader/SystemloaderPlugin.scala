@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
-import sbt._
-import sbt.Keys.{sourceDirectory, target}
+import sbt.{*, given}
+import sbt.Keys.{fileConverter, sourceDirectory, target}
 import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
@@ -76,7 +76,7 @@ object SystemloaderPlugin extends AutoPlugin {
       linuxMakeStartScript := makeStartScript(
         linuxStartScriptTemplate.value,
         linuxScriptReplacements.value,
-        (target in Universal).value,
+        (Universal / target).value,
         defaultLinuxStartScriptLocation.value,
         linuxStartScriptName.value.getOrElse(sys.error("`linuxStartScriptName` is not defined"))
       )
@@ -111,7 +111,7 @@ object SystemloaderPlugin extends AutoPlugin {
     inConfig(Rpm)(
       Seq(
         // add automatic service start/stop
-        maintainerScripts in Rpm := maintainerScriptsAppend(maintainerScripts.value, linuxScriptReplacements.value)(
+        Rpm / maintainerScripts := maintainerScriptsAppend(maintainerScripts.value, linuxScriptReplacements.value)(
           RpmConstants.Post -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                  |$${{loader-functions}}
                                  |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax

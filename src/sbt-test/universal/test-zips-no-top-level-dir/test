@@ -1,14 +1,14 @@
 # Run the zip packaging.
-> show universal:packageBin
-$ exists target/universal/simple-test-0.1.0.zip
+> show Universal/packageBin
+$ exists target/**/universal/simple-test-0.1.0.zip
 
 # Run the tgz packaging.
-> universal:packageZipTarball
-$ exists target/universal/simple-test-0.1.0.tgz
+> Universal/packageZipTarball
+$ exists target/**/universal/simple-test-0.1.0.tgz
 
 # Run the txz packaging.
-> universal:packageXzTarball
-$ exists target/universal/simple-test-0.1.0.txz
+> Universal/packageXzTarball
+$ exists target/**/universal/simple-test-0.1.0.txz
 
 
 # TODO - Check contents of zips

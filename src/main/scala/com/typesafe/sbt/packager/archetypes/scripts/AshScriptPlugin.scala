@@ -82,7 +82,7 @@ object AshScriptPlugin extends AutoPlugin {
       bashScriptTemplateLocation := (sourceDirectory.value / "templates" / ashTemplate),
       bashForwarderTemplateLocation := Some(sourceDirectory.value / "templates" / ashForwarderTemplate),
       bashScriptDefines := Defines(
-        (scriptClasspath in bashScriptDefines).value,
+        (bashScriptDefines / scriptClasspath).value,
         bashScriptConfigLocation.value,
         bundledJvmLocation.value
       ),

@@ -11,10 +11,10 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-debianPackageConflicts in Debian += "debian-other-test-package"
+Debian / debianPackageConflicts += "debian-other-test-package"
 
-debianPackageDependencies in Debian ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
+Debian / debianPackageDependencies ++= Seq("java2-runtime", "bash (>= 2.05a-11)")
 
-debianPackageProvides in Debian += "debian-test-package"
+Debian / debianPackageProvides += "debian-test-package"
 
-debianPackageRecommends in Debian += "git"
+Debian / debianPackageRecommends += "git"

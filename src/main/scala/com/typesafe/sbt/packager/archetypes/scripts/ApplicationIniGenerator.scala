@@ -1,8 +1,10 @@
 package com.typesafe.sbt.packager.archetypes.scripts
 
+import com.typesafe.sbt.packager.PluginCompat
 import java.io.File
 
-import sbt._
+import sbt.{*, given}
+import xsbti.FileConverter
 
 trait ApplicationIniGenerator {
 
@@ -11,12 +13,12 @@ trait ApplicationIniGenerator {
     *   the existing mappings plus a generated application.ini if custom javaOptions are specified
     */
   def generateApplicationIni(
-    universalMappings: Seq[(File, String)],
+    universalMappings: Seq[(PluginCompat.FileRef, String)],
     javaOptions: Seq[String],
     bashScriptConfigLocation: Option[String],
     tmpDir: File,
     log: Logger
-  ): Seq[(File, String)] =
+  )(implicit conv: FileConverter): Seq[(PluginCompat.FileRef, String)] =
     bashScriptConfigLocation
       .collect {
         case location if javaOptions.nonEmpty =>
@@ -35,14 +37,15 @@ trait ApplicationIniGenerator {
               // TODO: merge JVM options into the existing application.ini?
               log.warn("--------!!! JVM Options are defined twice !!!-----------")
               log.warn(
-                "application.ini is already present in output package. Will be overridden by 'javaOptions in Universal'"
+                "application.ini is already present in output package. Will be overridden by 'Universal / javaOptions'"
               )
               false
 
             case _ =>
               true
           }
-          (configFile -> pathMapping) +: filteredMappings
+          val configFileRef = PluginCompat.toFileRef(configFile)
+          (configFileRef -> pathMapping) +: filteredMappings
 
       }
       .getOrElse(universalMappings)
