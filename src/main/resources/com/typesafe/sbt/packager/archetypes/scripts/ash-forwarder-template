@@ -58,4 +58,4 @@ SCRIPT=$(realpath "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 
 # execute the main start script
-$SCRIPTPATH/${{startScript}} -main ${{qualifiedClassName}} "$@"
+exec $SCRIPTPATH/${{startScript}} -main ${{qualifiedClassName}} "$@"
