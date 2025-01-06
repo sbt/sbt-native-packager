@@ -59,7 +59,7 @@ TaskKey[Unit]("checkScript") := {
   ) = {
     val pr = new StringBuilder()
     val logger = ProcessLogger((o: String) => pr.append(o + "\n"), (e: String) => pr.append("error < " + e + "\n"))
-    val cmd = Seq("cmd", "/c", script.getAbsolutePath) ++ args
+    val cmd = script.getAbsolutePath +: args
     val result = sys.process.Process(cmd, None, env.toSeq: _*) ! logger
     if (result != expectedRC) {
       pr.append("error code: " + result + "\n")
@@ -82,7 +82,7 @@ TaskKey[Unit]("checkScript") := {
       fails.append(crlf2cr(pr.toString) + "\n")
       fails.append("\n--detail-------------------------------\n")
       pr.clear
-      sys.process.Process(Seq("cmd", "/c", detailScript.getAbsolutePath + " " + args), None, env.toSeq: _*) ! logger
+      sys.process.Process(detailScript.getAbsolutePath +: args, None, env.toSeq: _*) ! logger
       fails.append(crlf2cr(pr.toString) + "\n")
     }
     if (debugOutFile.exists) {
