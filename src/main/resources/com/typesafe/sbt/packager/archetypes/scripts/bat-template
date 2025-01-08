@@ -155,7 +155,7 @@ rem Processes incoming arguments and places them in appropriate global variables
   )
 
   if "!_TEST_PARAM!"=="-jvm-debug" (
-    set _JAVA_PARAMS=!_JAVA_PARAMS! -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=%~1
+    set "_JAVA_PARAMS=!_JAVA_PARAMS! -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=%~1"
     shift
     goto param_loop
   )
