@@ -37,7 +37,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
   override def projectConfigurations: Seq[Configuration] = Seq(GraalVMNativeImage)
 
-  override lazy val projectSettings: Seq[Setting[_]] = Seq(
+  override lazy val projectSettings: Seq[Setting[?]] = Seq(
     GraalVMNativeImage / target := target.value / "graalvm-native-image",
     graalVMNativeImageOptions := Seq.empty,
     graalVMNativeImageGraalVersion := None,
@@ -46,7 +46,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     GraalVMNativeImage / mainClass := (Compile / mainClass).value
   ) ++ inConfig(GraalVMNativeImage)(scopedSettings)
 
-  private lazy val scopedSettings = Seq[Setting[_]](
+  private lazy val scopedSettings = Seq[Setting[?]](
     resourceDirectories := Seq(resourceDirectory.value),
     includeFilter := "*",
     resources := resourceDirectories.value.descendantsExcept(includeFilter.value, excludeFilter.value).get(),

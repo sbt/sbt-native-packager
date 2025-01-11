@@ -18,7 +18,7 @@ object SettingsHelper {
     packageTask: TaskKey[PluginCompat.FileRef],
     extension: String,
     classifier: Option[String] = None
-  ): Seq[Setting[_]] =
+  ): Seq[Setting[?]] =
     inConfig(config)(
       addArtifact(
         name.apply(Artifact(_, extension, extension, classifier = classifier, configurations = Vector.empty, None)),
@@ -31,7 +31,7 @@ object SettingsHelper {
     packageTask: TaskKey[PluginCompat.FileRef],
     extension: String,
     classifier: Option[String] = None
-  ): Seq[Setting[_]] =
+  ): Seq[Setting[?]] =
     // Why do we need the ivyPublishSettings and jvmPublishSettings ?
     inConfig(config)(Classpaths.ivyPublishSettings ++ Classpaths.jvmPublishSettings) ++ inConfig(config)(
       Seq(
@@ -97,6 +97,6 @@ object SettingsHelper {
     * @param config
     *   the ivy configuration to look for resolvers
     */
-  private def addResolver(config: Configuration): Seq[Setting[_]] =
+  private def addResolver(config: Configuration): Seq[Setting[?]] =
     Seq(otherResolvers ++= (config / publishTo).value.toSeq)
 }

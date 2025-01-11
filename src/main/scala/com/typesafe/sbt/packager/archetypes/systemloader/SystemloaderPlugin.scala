@@ -43,11 +43,11 @@ object SystemloaderPlugin extends AutoPlugin {
       com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
   }
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     inConfig(Debian)(systemloaderSettings) ++ debianSettings ++
       inConfig(Rpm)(systemloaderSettings) ++ rpmSettings
 
-  def systemloaderSettings: Seq[Setting[_]] =
+  def systemloaderSettings: Seq[Setting[?]] =
     Seq(
       serverLoading := None,
       serviceAutostart := true,
@@ -90,7 +90,7 @@ object SystemloaderPlugin extends AutoPlugin {
     if (autostart) s"${addService}\n${startService}" else addService
   }
 
-  def debianSettings: Seq[Setting[_]] =
+  def debianSettings: Seq[Setting[?]] =
     inConfig(Debian)(
       Seq(
         // add automatic service start/stop
@@ -107,7 +107,7 @@ object SystemloaderPlugin extends AutoPlugin {
       )
     )
 
-  def rpmSettings: Seq[Setting[_]] =
+  def rpmSettings: Seq[Setting[?]] =
     inConfig(Rpm)(
       Seq(
         // add automatic service start/stop

@@ -68,7 +68,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   /**
     * Enables native packaging by default
     */
-  override lazy val projectSettings: Seq[Setting[_]] = settings ++ debianSettings ++ debianNativeSettings
+  override lazy val projectSettings: Seq[Setting[?]] = settings ++ debianSettings ++ debianNativeSettings
 
   /**
     * the default debian settings for the debian namespaced settings
@@ -170,7 +170,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     * ==Debian scoped settings==
     * Everything used inside the debian scope
     */
-  private def debianSettings: Seq[Setting[_]] =
+  private def debianSettings: Seq[Setting[?]] =
     inConfig(Debian)(
       Seq(
         packageArchitecture := "all",
@@ -479,7 +479,7 @@ object DebianDeployPlugin extends AutoPlugin {
 
   override def requires = DebianPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     SettingsHelper.makeDeploymentSettings(Debian, Debian / packageBin, "deb") ++
       SettingsHelper.addPackage(Debian, Debian / genChanges, "changes")
 }

@@ -24,7 +24,7 @@ object LauncherJarPlugin extends AutoPlugin {
 
   override def requires = JavaAppPackaging
 
-  override lazy val projectSettings: Seq[Setting[_]] = Defaults
+  override lazy val projectSettings: Seq[Setting[?]] = Defaults
     .packageTaskSettings(packageJavaLauncherJar, packageJavaLauncherJar / mappings) ++ Seq(
     packageJavaLauncherJar / mappings := Nil,
     packageJavaLauncherJar / artifactClassifier := Option("launcher"),

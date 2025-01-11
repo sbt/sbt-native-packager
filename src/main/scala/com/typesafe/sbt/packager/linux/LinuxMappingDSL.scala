@@ -23,7 +23,7 @@ trait LinuxMappingDSL {
     *   directories to map
     */
   def packageDirectoryAndContentsMapping(dirs: (File, String)*) =
-    LinuxPackageMapping(mapDirectoryAndContents(dirs: _*))
+    LinuxPackageMapping(mapDirectoryAndContents(dirs*))
 
   /**
     * This method includes files and directories.

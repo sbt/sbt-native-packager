@@ -21,7 +21,7 @@ object ClasspathJarPlugin extends AutoPlugin {
 
   override def requires = JavaAppPackaging
 
-  override lazy val projectSettings: Seq[Setting[_]] = Defaults
+  override lazy val projectSettings: Seq[Setting[?]] = Defaults
     .packageTaskSettings(packageJavaClasspathJar, packageJavaClasspathJar / mappings) ++ Seq(
     packageJavaClasspathJar / mappings := Nil,
     packageJavaClasspathJar / artifactClassifier := Option("classpath"),

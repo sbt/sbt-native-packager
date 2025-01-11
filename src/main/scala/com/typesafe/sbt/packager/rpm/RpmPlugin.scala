@@ -212,6 +212,6 @@ object RpmDeployPlugin extends AutoPlugin {
 
   override def requires = RpmPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     SettingsHelper.makeDeploymentSettings(Rpm, Rpm / packageBin, "rpm")
 }

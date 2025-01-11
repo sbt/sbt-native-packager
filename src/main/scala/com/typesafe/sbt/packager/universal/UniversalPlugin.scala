@@ -37,7 +37,7 @@ object UniversalPlugin extends AutoPlugin {
     /**
       * Use native zipping instead of java based zipping
       */
-    def useNativeZip: Seq[Setting[_]] =
+    def useNativeZip: Seq[Setting[?]] =
       makePackageSettings(packageBin, Universal)(makeNativeZip) ++
         makePackageSettings(packageBin, UniversalDocs)(makeNativeZip) ++
         makePackageSettings(packageBin, UniversalSrc)(makeNativeZip)
@@ -50,17 +50,17 @@ object UniversalPlugin extends AutoPlugin {
   override def projectConfigurations: Seq[Configuration] =
     Seq(Universal, UniversalDocs, UniversalSrc)
 
-  override def globalSettings: Seq[Def.Setting[_]] =
-    Seq[Setting[_]](
+  override def globalSettings: Seq[Def.Setting[?]] =
+    Seq[Setting[?]](
       // Since more than just the docker plugin uses the docker command, we define this in the universal plugin
       // so that it can be configured once and shared by all plugins without requiring the docker plugin.
       DockerPlugin.autoImport.dockerExecCommand := Seq("docker")
     )
 
-  override lazy val buildSettings: Seq[Setting[_]] = Seq[Setting[_]](containerBuildImage := None)
+  override lazy val buildSettings: Seq[Setting[?]] = Seq[Setting[?]](containerBuildImage := None)
 
   /** The basic settings for the various packaging types. */
-  override lazy val projectSettings: Seq[Setting[_]] = Seq[Setting[_]](
+  override lazy val projectSettings: Seq[Setting[?]] = Seq[Setting[?]](
     // For now, we provide delegates from dist/stage to universal...
     dist := (Universal / dist).value,
     stage := (Universal / stage).value,
@@ -78,7 +78,7 @@ object UniversalPlugin extends AutoPlugin {
     defaultUniversalArchiveOptions
 
   /** Creates all package types for a given configuration */
-  private[this] def makePackageSettingsForConfig(config: Configuration): Seq[Setting[_]] =
+  private[this] def makePackageSettingsForConfig(config: Configuration): Seq[Setting[?]] =
     makePackageSettings(packageBin, config)(makeZip) ++
       makePackageSettings(packageOsxDmg, config)(makeDmg) ++
       makePackageSettings(packageZipTarball, config)(makeTgz) ++
@@ -101,7 +101,7 @@ object UniversalPlugin extends AutoPlugin {
         config / target := target.value / config.name
       )
 
-  private[this] def defaultUniversalArchiveOptions: Seq[Setting[_]] =
+  private[this] def defaultUniversalArchiveOptions: Seq[Setting[?]] =
     Seq(
       Universal / packageZipTarball / universalArchiveOptions := Seq("-pcvf"),
       Universal / packageXzTarball / universalArchiveOptions := Seq("-pcvf"),
@@ -124,7 +124,7 @@ object UniversalPlugin extends AutoPlugin {
   /** Creates packaging settings for a given package key, configuration + archive type. */
   private[this] def makePackageSettings(packageKey: TaskKey[PluginCompat.FileRef], config: Configuration)(
     packager: Packager
-  ): Seq[Setting[_]] =
+  ): Seq[Setting[?]] =
     inConfig(config)(
       Seq(
         packageKey / universalArchiveOptions := Nil,
@@ -176,7 +176,7 @@ object UniversalDeployPlugin extends AutoPlugin {
 
   override def requires: Plugins = UniversalPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     SettingsHelper.makeDeploymentSettings(Universal, Universal / packageBin, "zip") ++
       SettingsHelper.addPackage(Universal, Universal / packageZipTarball, "tgz") ++
       SettingsHelper.makeDeploymentSettings(UniversalDocs, Universal / packageBin, "zip") ++

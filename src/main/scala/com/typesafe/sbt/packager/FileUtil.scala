@@ -80,7 +80,7 @@ object permissions {
 
   /** Enriches string with `oct` interpolator, parsing string as base 8 integer. */
   implicit class OctalString(val sc: StringContext) extends AnyVal {
-    def oct(args: Any*) = Integer.parseInt(sc.s(args: _*), 8)
+    def oct(args: Any*) = Integer.parseInt(sc.s(args*), 8)
   }
 
 }

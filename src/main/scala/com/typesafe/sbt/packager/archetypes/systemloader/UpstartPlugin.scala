@@ -27,10 +27,10 @@ object UpstartPlugin extends AutoPlugin {
 
   override def requires = SystemloaderPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     inConfig(Debian)(upstartSettings) ++ inConfig(Rpm)(upstartSettings)
 
-  def upstartSettings: Seq[Setting[_]] =
+  def upstartSettings: Seq[Setting[?]] =
     Seq(
       // used by other archetypes to define systemloader dependent behaviour
       serverLoading := Some(ServerLoader.Upstart),
