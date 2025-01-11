@@ -6,8 +6,9 @@ import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.archetypes.{JavaAppPackaging, TemplateWriter}
 import com.typesafe.sbt.packager.windows.NameHelper
-import sbt.Keys._
-import sbt._
+import sbt.Keys.*
+import sbt.{*, given}
+import xsbti.FileConverter
 
 /**
   * ==Bat StartScript Plugin==
@@ -53,47 +54,6 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
     bundledJvmLocation: Option[String],
     override val forwarderTemplateLocation: Option[File]
   ) extends ScriptConfig {
-
-    @deprecated("1.3.21", "")
-    def this(
-      executableScriptName: String,
-      scriptClasspath: Seq[String],
-      configLocation: Option[String],
-      extraDefines: Seq[String],
-      replacements: Seq[(String, String)],
-      templateLocation: File
-    ) =
-      this(
-        executableScriptName,
-        scriptClasspath,
-        configLocation,
-        extraDefines,
-        replacements,
-        templateLocation,
-        None,
-        None
-      )
-
-    @deprecated("1.3.21", "")
-    def copy(
-      executableScriptName: String = executableScriptName,
-      scriptClasspath: Seq[String] = scriptClasspath,
-      configLocation: Option[String] = configLocation,
-      extraDefines: Seq[String] = extraDefines,
-      replacements: Seq[(String, String)] = replacements,
-      templateLocation: File = templateLocation
-    ): BatScriptConfig =
-      BatScriptConfig(
-        executableScriptName,
-        scriptClasspath,
-        configLocation,
-        extraDefines,
-        replacements,
-        templateLocation,
-        bundledJvmLocation,
-        forwarderTemplateLocation
-      )
-
     override def withScriptName(scriptName: String): BatScriptConfig = copy(executableScriptName = scriptName)
   }
 
@@ -126,7 +86,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
 
   override protected[this] type SpecializedScriptConfig = BatScriptConfig
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     Seq(
       batScriptTemplateLocation := (sourceDirectory.value / "templates" / batTemplate),
       batForwarderTemplateLocation := Some(sourceDirectory.value / "templates" / forwarderTemplateName),
@@ -134,13 +94,17 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
       batScriptExtraDefines := Nil,
       batScriptReplacements := Replacements(executableScriptName.value),
       // Generating the application configuration
-      Universal / mappings := generateApplicationIni(
-        (Universal / mappings).value,
-        (Universal / javaOptions).value,
-        batScriptConfigLocation.value,
-        (Universal / target).value,
-        streams.value.log
-      ),
+      Universal / mappings := {
+        val conv0 = fileConverter.value
+        implicit val conv: FileConverter = conv0
+        generateApplicationIni(
+          (Universal / mappings).value,
+          (Universal / javaOptions).value,
+          batScriptConfigLocation.value,
+          (Universal / target).value,
+          streams.value.log
+        )
+      },
       makeBatScripts := generateStartScripts(
         BatScriptConfig(
           executableScriptName = executableScriptName.value,
@@ -155,6 +119,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
         (Compile / batScriptReplacements / mainClass).value,
         (Compile / discoveredMainClasses).value,
         (Universal / target).value / "scripts",
+        fileConverter.value,
         streams.value.log
       ),
       Universal / mappings ++= makeBatScripts.value

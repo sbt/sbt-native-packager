@@ -1,13 +1,15 @@
 package com.typesafe.sbt.packager.archetypes
 
-import sbt._
+import sbt.{*, given}
 import java.io.File
 import java.net.URL
 
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.linux._
 import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
 
 import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader._
+import xsbti.FileConverter
 
 package object systemloader {
 

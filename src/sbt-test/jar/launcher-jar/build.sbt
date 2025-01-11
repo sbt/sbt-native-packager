@@ -33,7 +33,7 @@ TaskKey[Unit]("checkClasspath") := {
     attributes.getValue("Main-Class") contains "test.Test",
     "MANIFEST Main-Class should contain test.Test:\n" + attributes.getValue("Main-Class")
   )
-  jar close
+  jar.close()
 }
 
 TaskKey[Unit]("runCheck") := {

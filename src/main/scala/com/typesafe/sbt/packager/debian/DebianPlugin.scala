@@ -1,4 +1,5 @@
-package com.typesafe.sbt.packager.debian
+package com.typesafe.sbt.packager
+package debian
 
 import com.typesafe.sbt.SbtNativePackager.{Linux, Universal}
 import com.typesafe.sbt.packager.Keys._
@@ -8,8 +9,9 @@ import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, 
 import com.typesafe.sbt.packager.universal.Archives
 import com.typesafe.sbt.packager.validation._
 import com.typesafe.sbt.packager.{chmod, Hashing, SettingsHelper}
-import sbt.Keys._
-import sbt._
+import sbt.Keys.*
+import sbt.{*, given}
+import xsbti.FileConverter
 
 import scala.util.matching.Regex
 
@@ -66,7 +68,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   /**
     * Enables native packaging by default
     */
-  override lazy val projectSettings: Seq[Setting[_]] = settings ++ debianSettings ++ debianNativeSettings
+  override lazy val projectSettings: Seq[Setting[?]] = settings ++ debianSettings ++ debianNativeSettings
 
   /**
     * the default debian settings for the debian namespaced settings
@@ -154,7 +156,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
         // apply all replacements
         content.mapValues { lines =>
           TemplateWriter.generateScriptFromLines(lines, replacements)
-        }
+        }.toMap
       },
       debianMaintainerScripts := generateDebianMaintainerScripts(
         (Debian / maintainerScripts).value,
@@ -168,7 +170,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     * ==Debian scoped settings==
     * Everything used inside the debian scope
     */
-  private def debianSettings: Seq[Setting[_]] =
+  private def debianSettings: Seq[Setting[?]] =
     inConfig(Debian)(
       Seq(
         packageArchitecture := "all",
@@ -189,12 +191,22 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
           debianPackageProvides.value,
           debianPackageRecommends.value
         ),
-        debianPackageInstallSize := getPackageInstallSize(linuxPackageMappings.value),
+        debianPackageInstallSize := {
+          val conv0 = fileConverter.value
+          implicit val conv: FileConverter = conv0
+          getPackageInstallSize(linuxPackageMappings.value)
+        },
         debianControlFile := createConfFile(debianPackageMetadata.value, debianPackageInstallSize.value, target.value),
-        debianConffilesFile := createConffilesFile(linuxPackageMappings.value, target.value),
+        debianConffilesFile := {
+          val conv0 = fileConverter.value
+          implicit val conv: FileConverter = conv0
+          createConffilesFile(linuxPackageMappings.value, target.value)
+        },
         debianMD5sumsFile := createMD5SumFile(stage.value),
         debianMakeChownReplacements := makeChownReplacements(linuxPackageMappings.value, streams.value),
         stage := {
+          val conv0 = fileConverter.value
+          implicit val conv: FileConverter = conv0
           val debianTarget = target.value
 
           stageMappings(linuxPackageMappings.value, debianTarget)
@@ -272,7 +284,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       dirs map { case (_, dirName) =>
         targetDir / dirName
       } foreach { targetDir =>
-        targetDir mkdirs ()
+        targetDir.mkdirs()
         chmod(targetDir, perms.permissions)
       }
 
@@ -467,7 +479,7 @@ object DebianDeployPlugin extends AutoPlugin {
 
   override def requires = DebianPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     SettingsHelper.makeDeploymentSettings(Debian, Debian / packageBin, "deb") ++
       SettingsHelper.addPackage(Debian, Debian / genChanges, "changes")
 }

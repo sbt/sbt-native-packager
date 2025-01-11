@@ -1,6 +1,6 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
-import sbt._
+import sbt.{*, given}
 import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
@@ -19,6 +19,7 @@ import com.typesafe.sbt.packager.Keys.{
   stopRunlevels
 }
 import com.typesafe.sbt.SbtNativePackager.{Debian, Linux, Rpm, Universal}
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.DebianConstants
@@ -40,10 +41,10 @@ object SystemdPlugin extends AutoPlugin {
 
   import autoImport._
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     debianSettings ++ inConfig(Debian)(systemdSettings) ++ rpmSettings ++ inConfig(Rpm)(systemdSettings)
 
-  def systemdSettings: Seq[Setting[_]] =
+  def systemdSettings: Seq[Setting[?]] =
     Seq(
       // used by other archetypes to define systemloader dependent behaviour
       serverLoading := Some(ServerLoader.Systemd),
@@ -67,8 +68,8 @@ object SystemdPlugin extends AutoPlugin {
       linuxScriptReplacements += ("TimeoutStopSec" -> killTimeout.value.toString)
     )
 
-  def debianSettings: Seq[Setting[_]] = inConfig(Debian)(defaultLinuxStartScriptLocation := "/lib/systemd/system")
+  def debianSettings: Seq[Setting[?]] = inConfig(Debian)(defaultLinuxStartScriptLocation := "/lib/systemd/system")
 
-  def rpmSettings: Seq[Setting[_]] = inConfig(Rpm)(defaultLinuxStartScriptLocation := "/usr/lib/systemd/system")
+  def rpmSettings: Seq[Setting[?]] = inConfig(Rpm)(defaultLinuxStartScriptLocation := "/usr/lib/systemd/system")
 
 }

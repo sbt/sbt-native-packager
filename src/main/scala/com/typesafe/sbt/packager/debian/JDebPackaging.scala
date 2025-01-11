@@ -1,9 +1,11 @@
-package com.typesafe.sbt.packager.debian
+package com.typesafe.sbt.packager
+package debian
 
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import com.typesafe.sbt.packager.universal.Archives
-import sbt._
-import sbt.Keys.{classpathTypes, normalizedName, packageBin, streams, target, version}
+import sbt.{*, given}
+import sbt.Keys.{classpathTypes, fileConverter, normalizedName, packageBin, streams, target, version}
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{
   linuxPackageMappings,
@@ -14,6 +16,7 @@ import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{
 import scala.collection.JavaConverters._
 import DebianPlugin.Names
 import DebianPlugin.autoImport._
+import xsbti.FileConverter
 
 /**
   * ==JDeb Plugin==
@@ -35,7 +38,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
 
   override def requires: Plugins = DebianPlugin
 
-  override lazy val projectSettings: Seq[Setting[_]] = inConfig(Debian)(jdebSettings)
+  override lazy val projectSettings: Seq[Setting[?]] = inConfig(Debian)(jdebSettings)
 
   def jdebSettings =
     Seq(
@@ -58,6 +61,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         * Depends on the 'debianExplodedPackage' task as this creates all the files which are defined in the mappings.
         */
       packageBin := {
+        val conv0 = fileConverter.value
+        implicit val conv: FileConverter = conv0
         val targetDir = target.value
         val log = streams.value.log
         val mappings = linuxPackageMappings.value
@@ -80,8 +85,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         val archive = archiveFilename(normalizedName.value, version.value, packageArchitecture.value)
         val debianFile = targetDir.getParentFile / archive
         val debMaker = new JDebPackagingTask()
-        debMaker.packageDebian(mappings, symlinks, debianFile, targetDir, log)
-        debianFile
+        debMaker.packageDebian(mappings, symlinks, debianFile, targetDir, fileConverter.value, log)
+        PluginCompat.toFileRef(debianFile)
       },
       packageBin := (packageBin dependsOn debianControlFile).value,
       packageBin := (packageBin dependsOn debianConffilesFile).value,
@@ -147,8 +152,10 @@ private class JDebPackagingTask {
     symlinks: Seq[LinuxSymlink],
     debianFile: File,
     targetDir: File,
+    conv0: FileConverter,
     log: Logger
   ): Unit = {
+    implicit val conv: FileConverter = conv0
     val debMaker = new DebMaker(
       new JDebConsole(log),
       (fileAndDirectoryProducers(mappings, targetDir) ++ linkProducers(symlinks)).asJava,
@@ -161,8 +168,8 @@ private class JDebPackagingTask {
     debMaker setControl (targetDir / Names.DebianMaintainerScripts)
 
     // TODO add signing with setKeyring, setKey, setPassphrase, setSignPackage, setSignMethod, setSignRole
-    debMaker validate ()
-    debMaker makeDeb ()
+    debMaker.validate()
+    debMaker.makeDeb()
   }
 
   /**
@@ -176,7 +183,7 @@ private class JDebPackagingTask {
         // Directories need to be created so jdeb can pick them up
         case (path, name) if path.isDirectory =>
           val permMapper = new PermMapper(-1, -1, perms.user, perms.group, null, perms.permissions, -1, null)
-          (target / cleanPath(name)) mkdirs ()
+          (target / cleanPath(name)).mkdirs()
           new DataProducerDirectory(target, Array(cleanPath(name)), null, Array(permMapper))
 
         // Files are just referenced

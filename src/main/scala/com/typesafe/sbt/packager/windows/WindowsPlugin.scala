@@ -1,14 +1,16 @@
 package com.typesafe.sbt.packager.windows
 
-import sbt._
-import sbt.Keys.{mappings, name, packageBin, sourceDirectory, streams, target, version}
+import sbt.{*, given}
+import sbt.Keys.{fileConverter, mappings, name, packageBin, sourceDirectory, streams, target, version}
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys.{maintainer, packageDescription, packageName, packageSummary}
 import com.typesafe.sbt.packager.universal.UniversalPlugin
-import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.Compat.*
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.SettingsHelper
 
 import com.typesafe.sbt.packager.sourceDateEpoch
+import xsbti.FileConverter
 
 /**
   * ==Windows Plugin==
@@ -38,7 +40,7 @@ object WindowsPlugin extends AutoPlugin {
 
   import autoImport._
 
-  override lazy val projectSettings: Seq[Setting[_]] = windowsSettings ++ mapGenericFilesToWindows
+  override lazy val projectSettings: Seq[Setting[?]] = windowsSettings ++ mapGenericFilesToWindows
   override def requires = UniversalPlugin
 
   override def projectConfigurations: Seq[Configuration] = Seq(Windows)
@@ -46,7 +48,7 @@ object WindowsPlugin extends AutoPlugin {
   /**
     * default windows settings
     */
-  def windowsSettings: Seq[Setting[_]] =
+  def windowsSettings: Seq[Setting[?]] =
     Seq(
       Windows / sourceDirectory := sourceDirectory.value / "windows",
       Windows / target := target.value / "windows",
@@ -96,6 +98,8 @@ object WindowsPlugin extends AutoPlugin {
       },
       wixFiles := Seq(wixFile.value)
     ) ++ inConfig(Windows)(Seq(packageBin := {
+      val conv0 = fileConverter.value
+      implicit val conv: FileConverter = conv0
       val wsxSources = wixFiles.value
       val msi = target.value / (name.value + ".msi")
 
@@ -107,7 +111,7 @@ object WindowsPlugin extends AutoPlugin {
         src.getAbsolutePath != dest.getAbsolutePath
       }
       IO.copy(wsxCopyPairs)
-      IO.copy(for ((f, to) <- mappings.value) yield (f, target.value / to))
+      IO.copy(for ((f, to) <- mappings.value) yield (PluginCompat.toFile(f), target.value / to))
 
       // Now compile WIX
       val candleCmd = findWixExecutable("candle") +:
@@ -137,16 +141,20 @@ object WindowsPlugin extends AutoPlugin {
         case 0        => ()
         case exitCode => sys.error(s"Unable to run build msi. Exited with ${exitCode}")
       }
-      msi
+      PluginCompat.toFileRef(msi)
     }))
 
   /**
     * set the `Windows / mappings` and the `wixFeatures`
     */
-  def mapGenericFilesToWindows: Seq[Setting[_]] =
+  def mapGenericFilesToWindows: Seq[Setting[?]] =
     Seq(
       Windows / mappings := (Universal / mappings).value,
-      wixFeatures := makeWindowsFeatures((Windows / packageName).value, (Windows / mappings).value)
+      wixFeatures := {
+        val conv0 = fileConverter.value
+        implicit val conv: FileConverter = conv0
+        makeWindowsFeatures((Windows / packageName).value, (Windows / mappings).value)
+      }
     )
 
   /**
@@ -159,12 +167,15 @@ object WindowsPlugin extends AutoPlugin {
     * @return
     *   windows features
     */
-  def makeWindowsFeatures(name: String, mappings: Seq[(File, String)]): Seq[WindowsFeature] = {
+  def makeWindowsFeatures(name: String, mappings: Seq[(PluginCompat.FileRef, String)])(implicit
+    conv: FileConverter
+  ): Seq[WindowsFeature] = {
     // TODO select main script!  Filter Config links!
 
     val files =
       for {
-        (file, name) <- mappings
+        (ref, name) <- mappings
+        file = PluginCompat.toFile(ref)
         if !file.isDirectory
       } yield ComponentFile(name, editable = name startsWith "conf")
     val corePackage =
@@ -185,7 +196,8 @@ object WindowsPlugin extends AutoPlugin {
         components = Seq(AddDirectoryToPath("bin"))
       )
     val configLinks = for {
-      (file, name) <- mappings
+      (ref, name) <- mappings
+      file = PluginCompat.toFile(ref)
       if !file.isDirectory
       if name startsWith "conf/"
     } yield name.replaceAll("//", "/").stripSuffix("/").stripSuffix("/")
@@ -217,6 +229,6 @@ object WindowsDeployPlugin extends AutoPlugin {
 
   override def requires = WindowsPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     SettingsHelper.makeDeploymentSettings(Windows, Windows / packageBin, "msi")
 }

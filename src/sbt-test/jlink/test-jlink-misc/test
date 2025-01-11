@@ -6,4 +6,6 @@
 > issue1247JakartaJavaModules/runChecks
 > issue1266/runChecks
 -> issue1284/runFailingChecks
+> show issue1293/jlinkBuildImage/fullClasspath
+> show issue1293/jlinkModulePath
 > issue1293/runChecks

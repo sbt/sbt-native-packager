@@ -1,15 +1,17 @@
 package com.typesafe.sbt.packager.rpm
 
-import sbt._
-import sbt.Keys._
+import sbt.{*, given}
+import sbt.Keys.*
 import java.nio.charset.Charset
 
 import com.typesafe.sbt.SbtNativePackager.Linux
+import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.SettingsHelper
-import com.typesafe.sbt.packager.Keys._
-import com.typesafe.sbt.packager.linux._
-import com.typesafe.sbt.packager.Compat._
-import com.typesafe.sbt.packager.validation._
+import com.typesafe.sbt.packager.Keys.*
+import com.typesafe.sbt.packager.linux.*
+import com.typesafe.sbt.packager.Compat.*
+import com.typesafe.sbt.packager.validation.*
+import xsbti.FileConverter
 
 /**
   * Plugin containing all generic values used for packaging rpms.
@@ -104,12 +106,16 @@ object RpmPlugin extends AutoPlugin {
     Rpm / executableScriptName := (Linux / executableScriptName).value,
     rpmDaemonLogFile := s"${(Linux / packageName).value}.log",
     Rpm / daemonStdoutLogFile := Some(rpmDaemonLogFile.value),
-    Rpm / validatePackageValidators := Seq(
-      nonEmptyMappings((Rpm / linuxPackageMappings).value.flatMap(_.mappings)),
-      filesExist((Rpm / linuxPackageMappings).value.flatMap(_.mappings)),
-      checkMaintainer((Rpm / maintainer).value, asWarning = false),
-      epochIsNaturalNumber((Rpm / rpmEpoch).value.getOrElse(0))
-    ),
+    Rpm / validatePackageValidators := {
+      val conv0 = fileConverter.value
+      implicit val conv: FileConverter = conv0
+      Seq(
+        nonEmptyMappings((Rpm / linuxPackageMappings).value.flatMap(_.mappings)),
+        filesExist((Rpm / linuxPackageMappings).value.flatMap(_.mappings)),
+        checkMaintainer((Rpm / maintainer).value, asWarning = false),
+        epochIsNaturalNumber((Rpm / rpmEpoch).value.getOrElse(0))
+      )
+    },
     // override the linux sourceDirectory setting
     Rpm / sourceDirectory := sourceDirectory.value,
     Rpm / packageArchitecture := "noarch",
@@ -164,18 +170,35 @@ object RpmPlugin extends AutoPlugin {
       (Rpm / linuxPackageSymlinks).value,
       (Rpm / defaultLinuxInstallLocation).value
     ),
-    Rpm / stage := RpmHelper.stage(rpmSpecConfig.value, (Rpm / target).value, streams.value.log),
-    Rpm / packageBin / artifactPath := RpmHelper.defaultRpmArtifactPath((Rpm / target).value, rpmMetadata.value),
+    Rpm / stage := {
+      val conv0 = fileConverter.value
+      implicit val conv: FileConverter = conv0
+      RpmHelper.stage(rpmSpecConfig.value, (Rpm / target).value, streams.value.log)
+    },
+    Rpm / packageBin / artifactPath := {
+      val conv0 = fileConverter.value
+      implicit val conv: FileConverter = conv0
+      RpmHelper.defaultRpmArtifactPath((Rpm / target).value, rpmMetadata.value)
+    },
     Rpm / packageBin := {
+      val conv0 = fileConverter.value
+      implicit val conv: FileConverter = conv0
       val defaultPath = RpmHelper.buildRpm(rpmSpecConfig.value, (Rpm / stage).value, streams.value.log)
       // `file` points to where buildRpm created the rpm. However we want it to be at `artifactPath`.
       // If `artifactPath` is not the default value then we need to copy the file.
       val path = (Rpm / packageBin / artifactPath).value
-      if (path.getCanonicalFile != defaultPath.getCanonicalFile) IO.copyFile(defaultPath, path)
-      path
+      val defaultPathFile = PluginCompat.artifactPathToFile(defaultPath)
+      val pathFile = PluginCompat.artifactPathToFile(path)
+      if (pathFile.getCanonicalFile != defaultPathFile.getCanonicalFile)
+        IO.copyFile(defaultPathFile, pathFile)
+      PluginCompat.toFileRef(pathFile)
     },
     rpmLint := {
-      sys.process.Process(Seq("rpmlint", "-v", (Rpm / packageBin).value.getAbsolutePath)) ! streams.value.log match {
+      val conv0 = fileConverter.value
+      implicit val conv: FileConverter = conv0
+      val pkg = (Rpm / packageBin).value
+      val path = PluginCompat.toNioPath(pkg)
+      sys.process.Process(Seq("rpmlint", "-v", path.toAbsolutePath().toString())).!(streams.value.log) match {
         case 0 => ()
         case x => sys.error("Failed to run rpmlint, exit status: " + x)
       }
@@ -189,6 +212,6 @@ object RpmDeployPlugin extends AutoPlugin {
 
   override def requires = RpmPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     SettingsHelper.makeDeploymentSettings(Rpm, Rpm / packageBin, "rpm")
 }

@@ -3,6 +3,8 @@
 
 import scala.sys.process.Process
 import com.typesafe.sbt.packager.Compat._
+import com.typesafe.sbt.packager.PluginCompat
+import xsbti.FileConverter
 
 val runChecks = taskKey[Unit]("Run checks for a specific issue")
 val runFailingChecks = taskKey[Unit]("Run checks for a specific issue, expecting them to fail")
@@ -29,10 +31,11 @@ val issue1247BadAutoModuleName = project
   .enablePlugins(JlinkPlugin)
   .settings(
     Compile / managedClasspath += {
+      implicit val converter: FileConverter = fileConverter.value
       // Build an empty jar with an unsupported name
       val jarFile = target.value / "foo_2.11.jar"
       IO.jar(Nil, jarFile, new java.util.jar.Manifest)
-      Attributed.blank(jarFile)
+      Attributed.blank(PluginCompat.toFileRef(jarFile))
     },
     runChecks := jlinkBuildImage.value
   )
@@ -72,7 +75,7 @@ val issue1266 = project
     libraryDependencies += "com.sun.xml.fastinfoset" % "FastInfoset" % "1.2.16",
     // A lot of "dummy" dependencies, so that the resulting classpath is over
     // the command line limit (2MB on my machine)
-    Compile / unmanagedJars ++= {
+    jlinkModulePath ++= {
       def mkPath(ix: Int) = target.value / s"there-is-no-such-file-$ix.jar"
 
       1.to(300000).map(mkPath)
@@ -105,16 +108,20 @@ val issue1293 = project
     jlinkIgnoreMissingDependency := JlinkIgnore.everything,
     // Use `paramaner` (and only it) as an automatic module
     jlinkModulePath := {
+      implicit val converter: FileConverter = fileConverter.value
       // Get the full classpath with all the resolved dependencies.
       (jlinkBuildImage / fullClasspath).value
         // Find the ones that have `paranamer` as their artifact names.
         .filter { item =>
-          item.get(moduleID.key).exists { modId =>
-            modId.name == "paranamer"
-          }
+          item.get(PluginCompat.moduleIDStr)
+            .map(PluginCompat.parseModuleIDStrAttribute)
+            .exists { modId =>
+              modId.name == "paranamer"
+            }
         }
         // Get raw `File` objects.
         .map(_.data)
+        .map(PluginCompat.toFile)
     },
     runChecks := jlinkBuildImage.value
   )

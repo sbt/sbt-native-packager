@@ -1,8 +1,8 @@
 # Run the debian packaging.
 > Debian/packageBin
-$ exists target/debian-test_0.1.0_all.deb
+$ exists target/**/debian-test_0.1.0_all.deb
 
-$ exists target/debian-test-0.1.0/lib/systemd/system/debian-test.service
+$ exists target/**/debian-test-0.1.0/lib/systemd/system/debian-test.service
 > show Debian/serverLoader
 > show Debian/linuxStartScriptTemplate
 > plugins

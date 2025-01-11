@@ -49,7 +49,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
   import DockerPlugin.autoImport._
 
-  override lazy val projectSettings: Seq[Setting[_]] = inConfig(Docker)(clientSettings)
+  override lazy val projectSettings: Seq[Setting[?]] = inConfig(Docker)(clientSettings)
 
   def clientSettings =
     Seq(

@@ -1,15 +1,17 @@
-package com.typesafe.sbt.packager.archetypes
+package com.typesafe.sbt.packager
+package archetypes
 
-import sbt._
-import sbt.Keys.{javaOptions, mainClass, run, sourceDirectory, streams, target}
+import sbt.{*, given}
+import sbt.Keys.{fileConverter, javaOptions, mainClass, run, sourceDirectory, streams, target}
 import com.typesafe.sbt.SbtNativePackager.{Debian, Linux, Rpm, Universal}
-import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxPlugin, LinuxSymlink}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.packageTemplateMapping
 import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
 import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
+import xsbti.FileConverter
 
 /**
   * ==Java Server App Packaging==
@@ -38,7 +40,7 @@ object JavaServerAppPackaging extends AutoPlugin {
   val ETC_DEFAULT = "etc-default"
 
   /** These settings will be provided by this archetype */
-  def javaServerSettings: Seq[Setting[_]] =
+  def javaServerSettings: Seq[Setting[?]] =
     linuxSettings ++ debianSettings ++ rpmSettings
 
   /**
@@ -48,7 +50,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     *   - logging directory
     *   - config directory
     */
-  def linuxSettings: Seq[Setting[_]] =
+  def linuxSettings: Seq[Setting[?]] =
     Seq(
       Linux / javaOptions := (Universal / javaOptions).value,
       // === logging directory mapping ===
@@ -74,7 +76,7 @@ object JavaServerAppPackaging extends AutoPlugin {
   /* etcDefaultConfig is dependent on serverLoading (systemd, systemv, etc.),
    * and is therefore distro specific. As such, these settings cannot be defined
    * in the global config scope. */
-  private[this] val etcDefaultConfig: Seq[Setting[_]] = Seq(
+  private[this] val etcDefaultConfig: Seq[Setting[?]] = Seq(
     linuxEtcDefaultTemplate := getEtcTemplateSource(sourceDirectory.value, (serverLoading ?? None).value),
     makeEtcDefault := makeEtcDefaultScript(
       packageName.value,
@@ -85,7 +87,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     linuxPackageMappings ++= etcDefaultMapping(makeEtcDefault.value, bashScriptEnvConfigLocation.value)
   )
 
-  def debianSettings: Seq[Setting[_]] = {
+  def debianSettings: Seq[Setting[?]] = {
     import DebianPlugin.Names.{Postinst, Postrm, Preinst, Prerm}
     inConfig(Debian)(etcDefaultConfig) ++
       inConfig(Debian)(
@@ -116,7 +118,7 @@ object JavaServerAppPackaging extends AutoPlugin {
       )
   }
 
-  def rpmSettings: Seq[Setting[_]] =
+  def rpmSettings: Seq[Setting[?]] =
     inConfig(Rpm)(etcDefaultConfig) ++
       inConfig(Rpm)(
         Seq(
@@ -256,7 +258,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     }
 
     // used to override template
-    val rpmScripts = Option(scriptDirectory.listFiles) getOrElse Array.empty
+    val rpmScripts = Option(scriptDirectory.listFiles).getOrElse(Array.empty[File])
 
     // remove all non files and already processed templates
     rpmScripts.filter(s => s.isFile && !predefined.contains(s.getName)).foldLeft(predefinedScripts) {
