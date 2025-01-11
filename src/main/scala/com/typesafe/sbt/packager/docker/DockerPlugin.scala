@@ -71,7 +71,7 @@ object DockerPlugin extends AutoPlugin {
 
   // Some of the default values are now provided in the global setting based on
   // sbt plugin best practice: https://www.scala-sbt.org/release/docs/Plugins-Best-Practices.html#Provide+default+values+in
-  override lazy val globalSettings: Seq[Setting[_]] = Seq(
+  override lazy val globalSettings: Seq[Setting[?]] = Seq(
     // See https://github.com/sbt/sbt-native-packager/issues/1187
     // Note: Do not make this setting depend on the Docker version.
     // Docker version may change depending on the person running the build, or even with something like
@@ -95,7 +95,7 @@ object DockerPlugin extends AutoPlugin {
     dockerCmd := Seq()
   )
 
-  override lazy val projectSettings: Seq[Setting[_]] = Seq(
+  override lazy val projectSettings: Seq[Setting[?]] = Seq(
     dockerAlias := DockerAlias(
       (Docker / dockerRepository).value,
       (Docker / dockerUsername).value,
@@ -552,7 +552,7 @@ object DockerPlugin extends AutoPlugin {
         List(daemonUser, "||") :::
         List("adduser", "-S") :::
         (uidOpt.fold[List[String]](Nil)(List("-u", _))) :::
-        List("-G", daemonGroup, daemonUser, "))")): _*
+        List("-G", daemonGroup, daemonUser, "))"))*
     )
 
   /**
@@ -570,7 +570,7 @@ object DockerPlugin extends AutoPlugin {
     *   ENTRYPOINT command
     */
   private final def makeEntrypoint(entrypoint: Seq[String]): CmdLike =
-    ExecCmd("ENTRYPOINT", entrypoint: _*)
+    ExecCmd("ENTRYPOINT", entrypoint*)
 
   /**
     * Default CMD implementation as default parameters to ENTRYPOINT.
@@ -579,7 +579,7 @@ object DockerPlugin extends AutoPlugin {
     *   CMD with args in exec form
     */
   private final def makeCmd(args: Seq[String]): CmdLike =
-    ExecCmd("CMD", args: _*)
+    ExecCmd("CMD", args*)
 
   /**
     * @param exposedPorts
@@ -614,7 +614,7 @@ object DockerPlugin extends AutoPlugin {
       Seq(
         ExecCmd("RUN", Seq("mkdir", "-p") ++ exposedVolumes: _*),
         makeChown(daemonUser, daemonGroup, exposedVolumes),
-        ExecCmd("VOLUME", exposedVolumes: _*)
+        ExecCmd("VOLUME", exposedVolumes*)
       )
 
   /**
@@ -624,7 +624,7 @@ object DockerPlugin extends AutoPlugin {
     *   String representation of the Dockerfile described by commands
     */
   private final def makeDockerContent(commands: Seq[CmdLike]): String =
-    Dockerfile(commands: _*).makeContent
+    Dockerfile(commands*).makeContent
 
   /**
     * @param commands,
@@ -645,7 +645,7 @@ object DockerPlugin extends AutoPlugin {
   /**
     * uses the `Universal / mappings` to generate the `Docker / mappings`.
     */
-  def mapGenericFilesToDocker: Seq[Setting[_]] = {
+  def mapGenericFilesToDocker: Seq[Setting[?]] = {
     def renameDests(from: Seq[(PluginCompat.FileRef, String)], dest: String) =
       for {
         (f, path) <- from
@@ -711,7 +711,7 @@ object DockerPlugin extends AutoPlugin {
     log.debug("Working directory " + context.toString)
 
     val logger = if (buildkitEnabled) publishLocalBuildkitLogger(log) else publishLocalLogger(log)
-    val ret = sys.process.Process(buildCommand, context, envVars.toSeq: _*) ! logger
+    val ret = sys.process.Process(buildCommand, context, envVars.toSeq*) ! logger
 
     if (!buildkitEnabled && removeIntermediateImages) {
       val labelKey = "snp-multi-stage-id"

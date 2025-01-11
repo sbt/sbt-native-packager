@@ -97,7 +97,7 @@ object SbtNativePackager extends AutoPlugin {
       * }}}
       */
     @deprecated("Use enablePlugins(JavaAppPackaging)", "1.x")
-    def java_application: Seq[Setting[_]] =
+    def java_application: Seq[Setting[?]] =
       projectSettings ++
         universal.UniversalPlugin.projectSettings ++
         linux.LinuxPlugin.projectSettings ++
@@ -113,7 +113,7 @@ object SbtNativePackager extends AutoPlugin {
       * }}}
       */
     @deprecated("Use enablePlugins(JavaServerAppPackaging)", "1.x")
-    def java_server: Seq[Setting[_]] =
+    def java_server: Seq[Setting[?]] =
       java_application ++ archetypes.JavaServerAppPackaging.projectSettings
   }
 

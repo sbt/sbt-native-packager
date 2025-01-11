@@ -42,7 +42,7 @@ object JlinkPlugin extends AutoPlugin {
 
   override def requires: Plugins = JavaAppPackaging
 
-  override lazy val projectSettings: Seq[Setting[_]] = Seq(
+  override lazy val projectSettings: Seq[Setting[?]] = Seq(
     jlinkBuildImage / target := target.value / "jlink" / "output",
     jlinkBundledJvmLocation := "jre",
     bundledJvmLocation := Some(jlinkBundledJvmLocation.value),

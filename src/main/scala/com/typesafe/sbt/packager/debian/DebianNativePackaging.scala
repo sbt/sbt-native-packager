@@ -34,7 +34,7 @@ trait DebianNativePackaging extends DebianPluginLike {
   /**
     * Using the native installed dpkg-build tools to build the debian package.
     */
-  private[debian] def debianNativeSettings: Seq[Setting[_]] =
+  private[debian] def debianNativeSettings: Seq[Setting[?]] =
     inConfig(Debian)(
       Seq(
         debianNativeBuildOptions += "-Znone", // packages are largely JARs, which are already compressed

@@ -54,7 +54,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
 
   override protected[this] type SpecializedScriptConfig = BashScriptConfig
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     Seq(
       bashScriptTemplateLocation := (sourceDirectory.value / "templates" / bashTemplate),
       bashForwarderTemplateLocation := Some(sourceDirectory.value / "templates" / forwarderTemplateName),

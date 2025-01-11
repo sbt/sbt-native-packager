@@ -40,7 +40,7 @@ object WindowsPlugin extends AutoPlugin {
 
   import autoImport._
 
-  override lazy val projectSettings: Seq[Setting[_]] = windowsSettings ++ mapGenericFilesToWindows
+  override lazy val projectSettings: Seq[Setting[?]] = windowsSettings ++ mapGenericFilesToWindows
   override def requires = UniversalPlugin
 
   override def projectConfigurations: Seq[Configuration] = Seq(Windows)
@@ -48,7 +48,7 @@ object WindowsPlugin extends AutoPlugin {
   /**
     * default windows settings
     */
-  def windowsSettings: Seq[Setting[_]] =
+  def windowsSettings: Seq[Setting[?]] =
     Seq(
       Windows / sourceDirectory := sourceDirectory.value / "windows",
       Windows / target := target.value / "windows",
@@ -147,7 +147,7 @@ object WindowsPlugin extends AutoPlugin {
   /**
     * set the `Windows / mappings` and the `wixFeatures`
     */
-  def mapGenericFilesToWindows: Seq[Setting[_]] =
+  def mapGenericFilesToWindows: Seq[Setting[?]] =
     Seq(
       Windows / mappings := (Universal / mappings).value,
       wixFeatures := {
@@ -229,6 +229,6 @@ object WindowsDeployPlugin extends AutoPlugin {
 
   override def requires = WindowsPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     SettingsHelper.makeDeploymentSettings(Windows, Windows / packageBin, "msi")
 }

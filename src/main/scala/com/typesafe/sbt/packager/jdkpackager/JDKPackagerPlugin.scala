@@ -33,7 +33,7 @@ object JDKPackagerPlugin extends AutoPlugin {
 
   override def projectConfigurations: Seq[Configuration] = Seq(JDKPackager)
 
-  override lazy val projectSettings: Seq[Setting[_]] = Seq(
+  override lazy val projectSettings: Seq[Setting[?]] = Seq(
     jdkAppIcon := None,
     jdkPackagerType := "installer",
     jdkPackagerBasename := packageName.value + "-pkg",
@@ -90,6 +90,6 @@ object JDKPackagerDeployPlugin extends AutoPlugin {
   import JDKPackagerPlugin.autoImport._
   override def requires = JDKPackagerPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     SettingsHelper.makeDeploymentSettings(JDKPackager, JDKPackager / packageBin, "jdkPackager")
 }

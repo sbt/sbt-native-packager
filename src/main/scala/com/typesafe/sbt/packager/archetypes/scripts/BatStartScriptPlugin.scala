@@ -86,7 +86,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
 
   override protected[this] type SpecializedScriptConfig = BatScriptConfig
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     Seq(
       batScriptTemplateLocation := (sourceDirectory.value / "templates" / batTemplate),
       batForwarderTemplateLocation := Some(sourceDirectory.value / "templates" / forwarderTemplateName),

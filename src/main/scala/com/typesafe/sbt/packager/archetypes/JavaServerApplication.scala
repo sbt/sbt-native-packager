@@ -40,7 +40,7 @@ object JavaServerAppPackaging extends AutoPlugin {
   val ETC_DEFAULT = "etc-default"
 
   /** These settings will be provided by this archetype */
-  def javaServerSettings: Seq[Setting[_]] =
+  def javaServerSettings: Seq[Setting[?]] =
     linuxSettings ++ debianSettings ++ rpmSettings
 
   /**
@@ -50,7 +50,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     *   - logging directory
     *   - config directory
     */
-  def linuxSettings: Seq[Setting[_]] =
+  def linuxSettings: Seq[Setting[?]] =
     Seq(
       Linux / javaOptions := (Universal / javaOptions).value,
       // === logging directory mapping ===
@@ -76,7 +76,7 @@ object JavaServerAppPackaging extends AutoPlugin {
   /* etcDefaultConfig is dependent on serverLoading (systemd, systemv, etc.),
    * and is therefore distro specific. As such, these settings cannot be defined
    * in the global config scope. */
-  private[this] val etcDefaultConfig: Seq[Setting[_]] = Seq(
+  private[this] val etcDefaultConfig: Seq[Setting[?]] = Seq(
     linuxEtcDefaultTemplate := getEtcTemplateSource(sourceDirectory.value, (serverLoading ?? None).value),
     makeEtcDefault := makeEtcDefaultScript(
       packageName.value,
@@ -87,7 +87,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     linuxPackageMappings ++= etcDefaultMapping(makeEtcDefault.value, bashScriptEnvConfigLocation.value)
   )
 
-  def debianSettings: Seq[Setting[_]] = {
+  def debianSettings: Seq[Setting[?]] = {
     import DebianPlugin.Names.{Postinst, Postrm, Preinst, Prerm}
     inConfig(Debian)(etcDefaultConfig) ++
       inConfig(Debian)(
@@ -118,7 +118,7 @@ object JavaServerAppPackaging extends AutoPlugin {
       )
   }
 
-  def rpmSettings: Seq[Setting[_]] =
+  def rpmSettings: Seq[Setting[?]] =
     inConfig(Rpm)(etcDefaultConfig) ++
       inConfig(Rpm)(
         Seq(

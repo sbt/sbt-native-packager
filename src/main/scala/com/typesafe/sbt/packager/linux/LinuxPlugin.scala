@@ -44,7 +44,7 @@ object LinuxPlugin extends AutoPlugin {
   /**
     * default linux settings
     */
-  def linuxSettings: Seq[Setting[_]] =
+  def linuxSettings: Seq[Setting[?]] =
     Seq(
       linuxPackageMappings := Seq.empty,
       linuxPackageSymlinks := Seq.empty,
@@ -105,7 +105,7 @@ object LinuxPlugin extends AutoPlugin {
   /**
     * maps the `mappings` content into `linuxPackageMappings` and `linuxPackageSymlinks`.
     */
-  def mapGenericFilesToLinux: Seq[Setting[_]] =
+  def mapGenericFilesToLinux: Seq[Setting[?]] =
     Seq(
       // First we look at the src/linux files
       linuxPackageMappings ++= {
@@ -240,14 +240,14 @@ object LinuxPlugin extends AutoPlugin {
       val renamed =
         for ((file, name) <- mappings)
           yield file -> rename(name)
-      packageMapping(renamed: _*)
+      packageMapping(renamed*)
     }
 
     Seq(
       packageMappingWithRename(binaries ++ directories: _*) withUser user withGroup group withPerms "0755",
-      packageMappingWithRename(compressedManPages: _*).gzipped withUser user withGroup group withPerms "0644",
-      packageMappingWithRename(configFiles: _*).withConfig() withUser user withGroup group withPerms "0644",
-      packageMappingWithRename(remaining: _*) withUser user withGroup group withPerms "0644"
+      packageMappingWithRename(compressedManPages*).gzipped withUser user withGroup group withPerms "0644",
+      packageMappingWithRename(configFiles*).withConfig() withUser user withGroup group withPerms "0644",
+      packageMappingWithRename(remaining*) withUser user withGroup group withPerms "0644"
     )
   }
 
