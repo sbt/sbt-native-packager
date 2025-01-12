@@ -1,5 +1,10 @@
 #!/bin/sh
 
+die() {
+  echo "$@" 1>&2
+  exit 1
+}
+
 realpath () {
 (
   TARGET_FILE="$1"
@@ -51,6 +56,42 @@ addResidual () {
   residual_args="$residual_args $(shellEscape "$1")"
 }
 
+addDebugger () {
+  local major_version=$(get_java_major_version)
+  local address="*:$1"
+  if [ $major_version -le 8 ]; then
+    address="$1"
+  fi
+  addJava "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$address"
+}
+
+require_arg () {
+  local type="$1"
+  local opt="$2"
+  local arg="$3"
+  if [ -z "$arg" ] || [ "${arg#-}" != "$arg" ]; then
+    die "$opt requires <$type> argument"
+  fi
+}
+
+get_java_major_version () {
+  readonly java_version=$("$java_cmd" -version 2>&1 | awk -F '"' '/version/ {print $2}')
+  if [ -z "$java_version" ]; then
+    echoerr "Could not determine Java version. Assuming 8."
+    echo 8
+  else
+    local major=$(echo "$java_version" | cut -d'.' -f1)
+    if [ "$major" -eq 1 ]; then
+      local major=$(echo "$java_version" | cut -d'.' -f2)
+    fi
+    echo $major
+  fi
+}
+
+echoerr () {
+  echo 1>&2 "$@"
+}
+
 # Allow user to specify java options. These get listed first per bash-template.
 if [ -n "$JAVA_OPTS" ]
 then
@@ -77,17 +118,16 @@ get_java_cmd() {
 # Processes incoming arguments and places them in appropriate global variables.  called by the run method.
 process_args () {
   local no_more_snp_opts=0
+  # this potentially depends on -java-home, so we need to delay calling addDebugger until all opts have been parsed
+  local should_add_debugger=
+
   while [ $# -gt 0 ]; do
     case "$1" in
              --) shift && no_more_snp_opts=1 && break ;;
        -h|-help) usage; exit 1 ;;
-    -v|-verbose) verbose=1 && shift ;;
-      -d|-debug) debug=1 && shift ;;
-
-    -no-version-check) no_version_check=1 && shift ;;
 
            -mem) echo "!! WARNING !! -mem option is ignored. Please use -J-Xmx and -J-Xms" && shift 2 ;;
-     -jvm-debug) require_arg port "$1" "$2" && addDebugger $2 && shift 2 ;;
+     -jvm-debug) require_arg port "$1" "$2" && should_add_debugger=$2 && shift 2 ;;
 
           -main) custom_mainclass="$2" && shift 2 ;;
 
@@ -98,12 +138,43 @@ process_args () {
                                            *) addResidual "$1" && shift ;;
     esac
   done
+  if [ ! -z $should_add_debugger ]; then
+    addDebugger $should_add_debugger
+  fi
 
-  if [ $no_more_snp_opts ]; then
+  if [ $no_more_snp_opts -ne 0 ]; then
     while [ $# -gt 0 ]; do
       addResidual "$1" && shift
     done
   fi
+}
+
+usage() {
+ cat <<EOM
+Usage: $script_name [options]
+
+  -h | -help         print this message
+  -main <classname>  Define a custom main class
+  -jvm-debug <port>  Turn on JVM debugging, open at the given port.
+
+  # java version (default: java from PATH, currently $(java -version 2>&1 | grep version))
+  -java-home <path>         alternate JAVA_HOME
+
+  # jvm options and output control
+  JAVA_OPTS          environment variable, if unset uses "$java_opts"
+  -Dkey=val          pass -Dkey=val directly to the java runtime
+  -J-X               pass option -X directly to the java runtime
+                     (-J is stripped)
+
+  # special option
+  --                 To stop parsing built-in commands from the rest of the command-line.
+                     e.g.) enabling debug and sending -d as app argument
+                     \$ ./start-script -d -- -d
+
+In the case of duplicated or conflicting options, basically the order above
+shows precedence: JAVA_OPTS lowest, command line options highest except "--".
+${{available_main_classes}}
+EOM
 }
 
 app_commands=""
@@ -116,6 +187,7 @@ app_mainclass=${{app_mainclass}}
 
 ${{template_declares}}
 
+java_cmd="$(get_java_cmd)"
 process_args "$@"
 
 # Fallback to custom mainclass if main class is not provided (this is the case if the JAR contains multiple apps)
@@ -127,8 +199,6 @@ if [ "$app_mainclass" = "" ] || [ $custom_mainclass ];then
 
   app_mainclass=$custom_mainclass
 fi
-
-java_cmd="$(get_java_cmd)"
 
 # If a configuration file exist, read the contents to $opts
 [ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
