@@ -54,12 +54,11 @@ object JavaServerAppPackaging extends AutoPlugin {
     Seq(
       Linux / javaOptions := (Universal / javaOptions).value,
       // === logging directory mapping ===
-      linuxPackageMappings += {
+      linuxPackageMappings +=
         packageTemplateMapping(defaultLinuxLogsLocation.value + "/" + (Linux / packageName).value)()
           .withUser((Linux / daemonUser).value)
           .withGroup((Linux / daemonGroup).value)
-          .withPerms("755")
-      },
+          .withPerms("755"),
       linuxPackageSymlinks += {
         val name = (Linux / packageName).value
         LinuxSymlink(
@@ -126,12 +125,11 @@ object JavaServerAppPackaging extends AutoPlugin {
           linuxScriptReplacements ++= bashScriptEnvConfigLocation.value.map(ENV_CONFIG_REPLACEMENT -> _).toSeq,
           linuxScriptReplacements += Names.DaemonStdoutLogFileReplacement -> daemonStdoutLogFile.value.getOrElse(""),
           // === /var/run/app pid folder ===
-          linuxPackageMappings += {
+          linuxPackageMappings +=
             packageTemplateMapping("/var/run/" + packageName.value)()
               .withUser(daemonUser.value)
               .withGroup(daemonGroup.value)
               .withPerms("755")
-          }
         )
       ) ++ Seq(
         // === Daemon User and Group ===
