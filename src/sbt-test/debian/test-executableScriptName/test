@@ -1,17 +1,17 @@
 # Run the debian packaging.
-> debian:packageBin
-$ exists target/debian-test_0.1.0_all.deb
+> Debian/packageBin
+$ exists target/**/debian-test_0.1.0_all.deb
 # Testing the packageName configuration
-$ exists target/debian-test-0.1.0/DEBIAN
-$ exists target/debian-test-0.1.0/DEBIAN/control
+$ exists target/**/debian-test-0.1.0/DEBIAN
+$ exists target/**/debian-test-0.1.0/DEBIAN/control
 # --------------------------------------------
-$ exists target/debian-test-0.1.0/usr/
-$ exists target/debian-test-0.1.0/usr/share/
-$ exists target/debian-test-0.1.0/usr/share/debian-test/
-$ exists target/debian-test-0.1.0/usr/share/debian-test/bin/
-$ exists target/debian-test-0.1.0/usr/share/debian-test/bin/debian-exec
-$ exists target/debian-test-0.1.0/var/log/debian-test/
-$ exists target/debian-test-0.1.0/etc/default/debian-test/
+$ exists target/**/debian-test-0.1.0/usr/
+$ exists target/**/debian-test-0.1.0/usr/share/
+$ exists target/**/debian-test-0.1.0/usr/share/debian-test/
+$ exists target/**/debian-test-0.1.0/usr/share/debian-test/bin/
+$ exists target/**/debian-test-0.1.0/usr/share/debian-test/bin/debian-exec
+$ exists target/**/debian-test-0.1.0/var/log/debian-test/
+$ exists target/**/debian-test-0.1.0/etc/default/debian-test/
 # --------------------------------------------
-$ exists target/debian-test-0.1.0/etc/init/debian-test.conf
+$ exists target/**/debian-test-0.1.0/etc/init/debian-test.conf
 > checkUpstartScript

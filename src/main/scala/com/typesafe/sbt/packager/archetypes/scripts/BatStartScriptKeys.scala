@@ -1,4 +1,5 @@
-package com.typesafe.sbt.packager.archetypes.scripts
+package com.typesafe.sbt.packager
+package archetypes.scripts
 
 import sbt._
 
@@ -9,9 +10,14 @@ import sbt._
   *   [[BatStartScriptPlugin]]
   */
 trait BatStartScriptKeys {
-  val makeBatScripts = TaskKey[Seq[(File, String)]]("makeBatScripts", "Creates start scripts for this project.")
+  val makeBatScripts =
+    taskKey[Seq[(PluginCompat.FileRef, String)]]("Creates start scripts for this project.")
   val batScriptTemplateLocation =
     TaskKey[File]("batScriptTemplateLocation", "The location of the bat script template.")
+
+  val batForwarderTemplateLocation =
+    TaskKey[Option[File]]("batForwarderTemplateLocation", "The location of the bat forwarder script template.")
+
   val batScriptReplacements = TaskKey[Seq[(String, String)]](
     "batScriptReplacements",
     """|Replacements of template parameters used in the windows bat script.

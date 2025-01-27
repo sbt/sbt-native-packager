@@ -49,7 +49,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
 
   import DockerPlugin.autoImport._
 
-  override lazy val projectSettings: Seq[Setting[_]] = inConfig(Docker)(clientSettings)
+  override lazy val projectSettings: Seq[Setting[?]] = inConfig(Docker)(clientSettings)
 
   def clientSettings =
     Seq(
@@ -100,7 +100,7 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
   * ==Docker Client Task==
   *
   * This private class contains all the docker-plugin specific implementations. It's only invoked when the docker plugin
-  * is enabled and the `docker:publishLocal` task is called. This means that all classes in
+  * is enabled and the `Docker/publishLocal` task is called. This means that all classes in
   * `com.spotify.docker.client._` are only loaded when required and allows us to put the dependency in the "provided"
   * scope. The provided scope means that we have less dependency issues in an sbt build.
   */

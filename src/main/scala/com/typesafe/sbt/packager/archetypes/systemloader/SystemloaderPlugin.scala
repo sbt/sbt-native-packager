@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
-import sbt._
-import sbt.Keys.{sourceDirectory, target}
+import sbt.{*, given}
+import sbt.Keys.{fileConverter, sourceDirectory, target}
 import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
@@ -43,11 +43,11 @@ object SystemloaderPlugin extends AutoPlugin {
       com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
   }
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     inConfig(Debian)(systemloaderSettings) ++ debianSettings ++
       inConfig(Rpm)(systemloaderSettings) ++ rpmSettings
 
-  def systemloaderSettings: Seq[Setting[_]] =
+  def systemloaderSettings: Seq[Setting[?]] =
     Seq(
       serverLoading := None,
       serviceAutostart := true,
@@ -76,7 +76,7 @@ object SystemloaderPlugin extends AutoPlugin {
       linuxMakeStartScript := makeStartScript(
         linuxStartScriptTemplate.value,
         linuxScriptReplacements.value,
-        (target in Universal).value,
+        (Universal / target).value,
         defaultLinuxStartScriptLocation.value,
         linuxStartScriptName.value.getOrElse(sys.error("`linuxStartScriptName` is not defined"))
       )
@@ -90,7 +90,7 @@ object SystemloaderPlugin extends AutoPlugin {
     if (autostart) s"${addService}\n${startService}" else addService
   }
 
-  def debianSettings: Seq[Setting[_]] =
+  def debianSettings: Seq[Setting[?]] =
     inConfig(Debian)(
       Seq(
         // add automatic service start/stop
@@ -107,11 +107,11 @@ object SystemloaderPlugin extends AutoPlugin {
       )
     )
 
-  def rpmSettings: Seq[Setting[_]] =
+  def rpmSettings: Seq[Setting[?]] =
     inConfig(Rpm)(
       Seq(
         // add automatic service start/stop
-        maintainerScripts in Rpm := maintainerScriptsAppend(maintainerScripts.value, linuxScriptReplacements.value)(
+        Rpm / maintainerScripts := maintainerScriptsAppend(maintainerScripts.value, linuxScriptReplacements.value)(
           RpmConstants.Post -> s"""|# ${getOrUnsupported(serverLoading.value)} support
                                  |$${{loader-functions}}
                                  |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax

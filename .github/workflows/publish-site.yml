@@ -1,0 +1,36 @@
+name: Publish Site
+on:
+  push:
+    tags: ["*"]
+jobs:
+  publish:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # setup build environment
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 8
+          cache: sbt
+      - uses: sbt/setup-sbt@v1
+
+      # this setup is all for the github pages deployment to work
+      - name: install sphinx
+        run: |
+          pip3 install --user sphinx sphinx_rtd_theme
+          which sphinx-build
+
+      - name: setup git
+        run: |
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
+
+      - name: Publish Site
+        run: sbt ghpagesPushSite
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

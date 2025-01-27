@@ -23,7 +23,7 @@ rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
-maintainerScripts in Rpm := Map(
+Rpm / maintainerScripts := Map(
   Pre -> Seq("""echo "pre-install""""),
   Post -> Seq("""echo "post-install""""),
   Pretrans -> Seq("""echo "pretrans""""),
@@ -45,14 +45,14 @@ TaskKey[Unit]("checkSpecFile") := {
 }
 
 TaskKey[Unit]("checkRpmVersion") := {
-  val fullRpmVersion = sys.process.Process("rpm", Seq("--version")) !!
+  val fullRpmVersion = sys.process.Process("rpm", Seq("--version")).!!
   val firstDigit = fullRpmVersion indexWhere Character.isDigit
   val rpmVersion = fullRpmVersion substring firstDigit
   streams.value.log.info("Found rpmVersion: " + rpmVersion)
   val (major, minor, patch) = rpmVersion.trim.split("\\.").map(_.toInt) match {
-    case Array(major) => (major, 0, 0)
-    case Array(major, minor) => (major, minor, 0)
-    case Array(major, minor, patch, _ *) => (major, minor, patch)
+    case Array(major)                   => (major, 0, 0)
+    case Array(major, minor)            => (major, minor, 0)
+    case Array(major, minor, patch, _*) => (major, minor, patch)
   }
   assert(major >= 4, "RPM version must be greater than than 4.x.x. Is " + fullRpmVersion)
   ()

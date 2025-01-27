@@ -1,5 +1,7 @@
 import com.typesafe.sbt.packager.Compat._
 
+scalaVersion := "2.12.20"
+
 enablePlugins(JavaAppPackaging)
 
 name := "windows-test"
@@ -36,7 +38,7 @@ batScriptExtraDefines += "exit /B"
 batScriptExtraDefines += ":print_args_end"
 
 TaskKey[Unit]("checkScript") := {
-  val dir = (stagingDirectory in Universal).value
+  val dir = (Universal / stagingDirectory).value
   import scala.sys.process._
   val fails = new StringBuilder()
   val script = dir / "bin" / (name.value + ".bat")
@@ -48,14 +50,16 @@ TaskKey[Unit]("checkScript") := {
     d
   }
   def crlf2cr(txt: String) = txt.trim.replaceAll("\\\r\\\n", "\n")
-  def checkOutput(testName: String,
-                  args: Seq[String],
-                  expected: String,
-                  env: Map[String, String] = Map.empty,
-                  expectedRC: Int = 0) = {
+  def checkOutput(
+    testName: String,
+    args: Seq[String],
+    expected: String,
+    env: Map[String, String] = Map.empty,
+    expectedRC: Int = 0
+  ) = {
     val pr = new StringBuilder()
     val logger = ProcessLogger((o: String) => pr.append(o + "\n"), (e: String) => pr.append("error < " + e + "\n"))
-    val cmd = Seq("cmd", "/c", script.getAbsolutePath) ++ args
+    val cmd = script.getAbsolutePath +: args
     val result = sys.process.Process(cmd, None, env.toSeq: _*) ! logger
     if (result != expectedRC) {
       pr.append("error code: " + result + "\n")
@@ -78,7 +82,7 @@ TaskKey[Unit]("checkScript") := {
       fails.append(crlf2cr(pr.toString) + "\n")
       fails.append("\n--detail-------------------------------\n")
       pr.clear
-      sys.process.Process(Seq("cmd", "/c", detailScript.getAbsolutePath + " " + args), None, env.toSeq: _*) ! logger
+      sys.process.Process(detailScript.getAbsolutePath +: args, None, env.toSeq: _*) ! logger
       fails.append(crlf2cr(pr.toString) + "\n")
     }
     if (debugOutFile.exists) {
@@ -127,7 +131,7 @@ TaskKey[Unit]("checkScript") := {
   )
 
   // can't success include double-quote. arguments pass from Process(Seq("-Da=xx\"yy", "aa\"bb")) is parsed (%1="-Da", %2="xx\"yy aa\"bb") by cmd.exe ...
-  //checkOutput("include space and double-quote",
+  // checkOutput("include space and double-quote",
   //  "-Dtest.hoge=aa\"bb xx\"yy",
   //  "arg #0 is [xx\"yy]\nproperty(test.hoge) is [aa\"bb]\nvmarg #0 is [-Dtest.hoge=aa\"bb]\nSUCCESS!")
 

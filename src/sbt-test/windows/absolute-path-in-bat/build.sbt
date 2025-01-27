@@ -4,10 +4,10 @@ name := "absolute-path-in-bat"
 
 version := "0.1.0"
 
-scriptClasspath in batScriptReplacements ++= Seq("x:\\dummy\\absolute\\path", "relative\\path")
+batScriptReplacements / scriptClasspath ++= Seq("x:\\dummy\\absolute\\path", "relative\\path")
 
 TaskKey[Unit]("runCheck") := {
-  val dir = (stagingDirectory in Universal).value
+  val dir = (Universal / stagingDirectory).value
 
   val bat = IO.read(dir / "bin" / "absolute-path-in-bat.bat")
   assert(bat contains ";x:\\dummy\\absolute\\path")

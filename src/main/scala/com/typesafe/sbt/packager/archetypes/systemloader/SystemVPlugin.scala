@@ -24,11 +24,11 @@ object SystemVPlugin extends AutoPlugin {
 
   override def requires = SystemloaderPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
+  override def projectSettings: Seq[Setting[?]] =
     inConfig(Debian)(systemVSettings) ++ debianSettings ++
       inConfig(Rpm)(systemVSettings) ++ rpmSettings
 
-  def systemVSettings: Seq[Setting[_]] =
+  def systemVSettings: Seq[Setting[?]] =
     Seq(
       // used by other archetypes to define systemloader dependent behaviour
       serverLoading := Some(ServerLoader.SystemV),
@@ -49,7 +49,7 @@ object SystemVPlugin extends AutoPlugin {
       )
     )
 
-  def debianSettings: Seq[Setting[_]] =
+  def debianSettings: Seq[Setting[?]] =
     inConfig(Debian)(
       Seq(
         // set the template
@@ -61,7 +61,7 @@ object SystemVPlugin extends AutoPlugin {
       )
     )
 
-  def rpmSettings: Seq[Setting[_]] =
+  def rpmSettings: Seq[Setting[?]] =
     inConfig(Rpm)(
       Seq(
         // set the template

@@ -7,7 +7,7 @@ version := "0.1.0"
 maintainer := "David Pennell <dpennell@good-cloud.com>"
 
 packageSummary := "Test rpm package"
-packageName in Linux := "rpm-package"
+Linux / packageName := "rpm-package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
@@ -15,14 +15,14 @@ rpmRelease := "1"
 rpmVendor := "typesafe"
 rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
 rpmLicense := Some("BSD")
-packageArchitecture in Rpm := "i386"
+Rpm / packageArchitecture := "i386"
 
 rpmSetarch := Some("i386")
 
 linuxPackageMappings := {
   val helloMapping = LinuxPackageMapping(
-      Seq(((resourceDirectory in Compile).value / "hello-32bit", "/usr/share/rpm-package/libexec/hello-32bit"))
-    ) withPerms "0755"
+    Seq(((Compile / resourceDirectory).value / "hello-32bit", "/usr/share/rpm-package/libexec/hello-32bit"))
+  ) withPerms "0755"
   linuxPackageMappings.value :+ helloMapping
 }
 

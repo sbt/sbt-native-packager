@@ -1,8 +1,8 @@
 enablePlugins(JavaServerAppPackaging, SystemVPlugin)
 
-daemonUser in Debian := "root"
+Debian / daemonUser := "root"
 
-mainClass in Compile := Some("empty")
+Compile / mainClass := Some("empty")
 
 name := "debian-test"
 
@@ -17,7 +17,7 @@ packageDescription := """A fun package description of our software,
 
 requiredStartFacilities := Some("$test-service")
 
-requiredStartFacilities in Debian := Some("$test-deb-service")
+Debian / requiredStartFacilities := Some("$test-deb-service")
 
 daemonStdoutLogFile := Some("test.log")
 
@@ -61,15 +61,21 @@ TaskKey[Unit]("checkStartupScript") := {
 
 TaskKey[Unit]("checkAutostart") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "DEBIAN" / "postinst")
-  assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
+  assert(
+    script.contains("""addService debian-test || echo "debian-test could not be registered"
       |startService debian-test || echo "debian-test could not be started"
-      |""".stripMargin), "addService, startService post install commands missing or incorrect")
+      |""".stripMargin),
+    "addService, startService post install commands missing or incorrect"
+  )
   ()
 }
 
 TaskKey[Unit]("checkNoAutostart") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "DEBIAN" / "postinst")
-  assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
-      |""".stripMargin), "addService post install commands missing or incorrect")
+  assert(
+    script.contains("""addService debian-test || echo "debian-test could not be registered"
+      |""".stripMargin),
+    "addService post install commands missing or incorrect"
+  )
   ()
 }

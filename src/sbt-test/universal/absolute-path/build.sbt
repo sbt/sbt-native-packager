@@ -4,12 +4,12 @@ name := "absolute-path"
 
 version := "0.1.0"
 
-scriptClasspath in bashScriptDefines ++= Seq("/dummy/absolute/path", "relative/path")
+bashScriptDefines / scriptClasspath ++= Seq("/dummy/absolute/path", "relative/path")
 
-scriptClasspath in batScriptReplacements ++= Seq("x:\\dummy\\absolute\\path", "relative\\path")
+batScriptReplacements / scriptClasspath ++= Seq("x:\\dummy\\absolute\\path", "relative\\path")
 
 TaskKey[Unit]("check") := {
-  val dir = (stagingDirectory in Universal).value
+  val dir = (Universal / stagingDirectory).value
 
   val bash = IO.read(dir / "bin" / "absolute-path")
   assert(bash contains ":/dummy/absolute/path")

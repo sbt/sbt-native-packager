@@ -1,6 +1,6 @@
 # Run the rpm packaging.
-> rpm:packageBin
-$ exists target/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
+> Rpm/packageBin
+$ exists target/**/rpm/RPMS/noarch/rpm-test-0.1.0-1.noarch.rpm
 
 > unzip
 $ exists opt/test/rpm-test

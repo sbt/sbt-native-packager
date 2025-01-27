@@ -8,11 +8,11 @@ packageSummary := "Test debian package"
 packageDescription := """A fun package description of our software,
   with multiple lines."""
 
-requiredStartFacilities in Debian := Some("network.target")
+Debian / requiredStartFacilities := Some("network.target")
 
-daemonUser in Linux := "testuser"
+Linux / daemonUser := "testuser"
 
-systemdSuccessExitStatus in Debian += "1"
+Debian / systemdSuccessExitStatus += "1"
 
 TaskKey[Unit]("checkStartupScript") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "lib" / "systemd" / "system" / "debian-test.service")
@@ -36,15 +36,21 @@ TaskKey[Unit]("checkEtcDefault") := {
 
 TaskKey[Unit]("checkAutostart") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "DEBIAN" / "postinst")
-  assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
+  assert(
+    script.contains("""addService debian-test || echo "debian-test could not be registered"
       |startService debian-test || echo "debian-test could not be started"
-      |""".stripMargin), "addService, startService post install commands missing or incorrect")
+      |""".stripMargin),
+    "addService, startService post install commands missing or incorrect"
+  )
   ()
 }
 
 TaskKey[Unit]("checkNoAutostart") := {
   val script = IO.read(target.value / "debian-test-0.1.0" / "DEBIAN" / "postinst")
-  assert(script.contains("""addService debian-test || echo "debian-test could not be registered"
-      |""".stripMargin), "addService post install commands missing or incorrect")
+  assert(
+    script.contains("""addService debian-test || echo "debian-test could not be registered"
+      |""".stripMargin),
+    "addService post install commands missing or incorrect"
+  )
   ()
 }

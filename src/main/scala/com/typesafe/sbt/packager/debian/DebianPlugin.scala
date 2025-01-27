@@ -1,4 +1,5 @@
-package com.typesafe.sbt.packager.debian
+package com.typesafe.sbt.packager
+package debian
 
 import com.typesafe.sbt.SbtNativePackager.{Linux, Universal}
 import com.typesafe.sbt.packager.Keys._
@@ -8,8 +9,9 @@ import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, 
 import com.typesafe.sbt.packager.universal.Archives
 import com.typesafe.sbt.packager.validation._
 import com.typesafe.sbt.packager.{chmod, Hashing, SettingsHelper}
-import sbt.Keys._
-import sbt._
+import sbt.Keys.*
+import sbt.{*, given}
+import xsbti.FileConverter
 
 import scala.util.matching.Regex
 
@@ -66,7 +68,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   /**
     * Enables native packaging by default
     */
-  override lazy val projectSettings: Seq[Setting[_]] = settings ++ debianSettings ++ debianNativeSettings
+  override lazy val projectSettings: Seq[Setting[?]] = settings ++ debianSettings ++ debianNativeSettings
 
   /**
     * the default debian settings for the debian namespaced settings
@@ -81,23 +83,23 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       debianPackageProvides := Seq.empty,
       debianPackageRecommends := Seq.empty,
       debianSignRole := "builder",
-      target in Debian := target.value / ((name in Debian).value + "-" + (version in Debian).value),
-      name in Debian := (name in Linux).value,
-      maintainerScripts in Debian := (maintainerScripts in Linux).value,
-      packageName in Debian := (packageName in Linux).value,
-      executableScriptName in Debian := (executableScriptName in Linux).value,
-      version in Debian := (version in Linux).value,
-      linuxPackageMappings in Debian := linuxPackageMappings.value,
-      packageDescription in Debian := (packageDescription in Linux).value,
-      packageSummary in Debian := (packageSummary in Linux).value,
-      maintainer in Debian := (maintainer in Linux).value,
-      validatePackageValidators in Debian := Seq(
-        nonEmptyMappings((linuxPackageMappings in Debian).value.flatMap(_.mappings)),
-        filesExist((linuxPackageMappings in Debian).value.flatMap(_.mappings)),
-        checkMaintainer((maintainer in Debian).value, asWarning = false)
+      Debian / target := target.value / ((Debian / name).value + "-" + (Debian / version).value),
+      Debian / name := (Linux / name).value,
+      Debian / maintainerScripts := (Linux / maintainerScripts).value,
+      Debian / packageName := (Linux / packageName).value,
+      Debian / executableScriptName := (Linux / executableScriptName).value,
+      Debian / version := (Linux / version).value,
+      Debian / linuxPackageMappings := linuxPackageMappings.value,
+      Debian / packageDescription := (Linux / packageDescription).value,
+      Debian / packageSummary := (Linux / packageSummary).value,
+      Debian / maintainer := (Linux / maintainer).value,
+      Debian / validatePackageValidators := Seq(
+        nonEmptyMappings((Debian / linuxPackageMappings).value.flatMap(_.mappings)),
+        filesExist((Debian / linuxPackageMappings).value.flatMap(_.mappings)),
+        checkMaintainer((Debian / maintainer).value, asWarning = false)
       ),
       // override the linux sourceDirectory setting
-      sourceDirectory in Debian := sourceDirectory.value,
+      Debian / sourceDirectory := sourceDirectory.value,
       /* ==== Debian configuration settings ==== */
       debianControlScriptsDirectory := (sourceDirectory.value / "debian" / Names.DebianMaintainerScripts),
       debianMaintainerScripts := Seq.empty,
@@ -107,8 +109,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       debianMakePostrmScript := None,
       debianChangelog := None,
       /* === new debian scripts implementation */
-      maintainerScripts in Debian := {
-        val replacements = (linuxScriptReplacements in Debian).value
+      Debian / maintainerScripts := {
+        val replacements = (Debian / linuxScriptReplacements).value
         val scripts = Map(
           Names.Prerm -> defaultMaintainerScript(Names.Prerm).toSeq.flatten,
           Names.Preinst -> defaultMaintainerScript(Names.Preinst).toSeq.flatten,
@@ -154,12 +156,12 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
         // apply all replacements
         content.mapValues { lines =>
           TemplateWriter.generateScriptFromLines(lines, replacements)
-        }
+        }.toMap
       },
       debianMaintainerScripts := generateDebianMaintainerScripts(
-        (maintainerScripts in Debian).value,
-        (linuxScriptReplacements in Debian).value,
-        (target in Universal).value
+        (Debian / maintainerScripts).value,
+        (Debian / linuxScriptReplacements).value,
+        (Universal / target).value
       ),
       debianNativeBuildOptions := Nil
     )
@@ -168,7 +170,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     * ==Debian scoped settings==
     * Everything used inside the debian scope
     */
-  private def debianSettings: Seq[Setting[_]] =
+  private def debianSettings: Seq[Setting[?]] =
     inConfig(Debian)(
       Seq(
         packageArchitecture := "all",
@@ -189,12 +191,22 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
           debianPackageProvides.value,
           debianPackageRecommends.value
         ),
-        debianPackageInstallSize := getPackageInstallSize(linuxPackageMappings.value),
+        debianPackageInstallSize := {
+          val conv0 = fileConverter.value
+          implicit val conv: FileConverter = conv0
+          getPackageInstallSize(linuxPackageMappings.value)
+        },
         debianControlFile := createConfFile(debianPackageMetadata.value, debianPackageInstallSize.value, target.value),
-        debianConffilesFile := createConffilesFile(linuxPackageMappings.value, target.value),
+        debianConffilesFile := {
+          val conv0 = fileConverter.value
+          implicit val conv: FileConverter = conv0
+          createConffilesFile(linuxPackageMappings.value, target.value)
+        },
         debianMD5sumsFile := createMD5SumFile(stage.value),
         debianMakeChownReplacements := makeChownReplacements(linuxPackageMappings.value, streams.value),
         stage := {
+          val conv0 = fileConverter.value
+          implicit val conv: FileConverter = conv0
           val debianTarget = target.value
 
           stageMappings(linuxPackageMappings.value, debianTarget)
@@ -229,8 +241,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   private[this] def createConfFile(meta: PackageMetaData, size: Long, targetDir: File): File = {
     val description = Option(meta.info.description).filterNot(_.isEmpty)
     if (description.isEmpty)
-      sys.error("""packageDescription in Debian cannot be empty. Use
-                 packageDescription in Debian := "My package Description"""")
+      sys.error("""Debian / packageDescription cannot be empty. Use
+                 Debian / packageDescription := "My package Description"""")
     val cfile = targetDir / Names.DebianMaintainerScripts / Names.Control
     IO.write(cfile, meta.makeContent(size), java.nio.charset.Charset.defaultCharset)
     chmod(cfile, "0644")
@@ -272,7 +284,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       dirs map { case (_, dirName) =>
         targetDir / dirName
       } foreach { targetDir =>
-        targetDir mkdirs ()
+        targetDir.mkdirs()
         chmod(targetDir, perms.permissions)
       }
 
@@ -467,7 +479,7 @@ object DebianDeployPlugin extends AutoPlugin {
 
   override def requires = DebianPlugin
 
-  override def projectSettings: Seq[Setting[_]] =
-    SettingsHelper.makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
-      SettingsHelper.addPackage(Debian, genChanges in Debian, "changes")
+  override def projectSettings: Seq[Setting[?]] =
+    SettingsHelper.makeDeploymentSettings(Debian, Debian / packageBin, "deb") ++
+      SettingsHelper.addPackage(Debian, Debian / genChanges, "changes")
 }

@@ -1,3 +1,6 @@
+# Workaround: set target folder to what it was in sbt 1.x because with sbt 2.x and project matrix target is target/out/jvm/scala-3.3.3/
+> set target := baseDirectory.value / "target"
+
 # Stage the distribution and ensure files show up.
-> docker:stage
+> Docker/stage
 $ exec grep -q -F 'RUN ["chmod", "u+x,g+x", "/4/opt/docker/bin/multi-main-name"]' target/docker/stage/Dockerfile

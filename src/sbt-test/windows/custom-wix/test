@@ -1,3 +1,3 @@
 # Run the windows packaging.
-> windows:packageBin
-$ exists target/windows/custom-wix.msi
+> Windows/packageBin
+$ exists target/**/windows/custom-wix.msi

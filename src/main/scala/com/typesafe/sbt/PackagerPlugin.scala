@@ -1,10 +1,10 @@
 package com.typesafe.sbt
 
-import packager._
+import packager.*
 import debian.DebianPlugin.autoImport.genChanges
 import com.typesafe.sbt.packager.Keys.{packageXzTarball, packageZipTarball, validatePackage, validatePackageValidators}
 import com.typesafe.sbt.packager.validation.Validation
-import sbt._
+import sbt.{*, given}
 import sbt.Keys.{name, normalizedName, packageBin, streams}
 
 /**
@@ -70,19 +70,6 @@ object SbtNativePackager extends AutoPlugin {
 
     val NativePackagerKeys = packager.Keys
     val NativePackagerHelper = packager.MappingsHelper
-
-    import SettingsHelper._
-
-    @deprecated("Use enablePlugins(xxxDeployPlugin)", "1.x")
-    def deploymentSettings =
-      makeDeploymentSettings(Debian, packageBin in Debian, "deb") ++
-        makeDeploymentSettings(Rpm, packageBin in Rpm, "rpm") ++
-        makeDeploymentSettings(Windows, packageBin in Windows, "msi") ++
-        makeDeploymentSettings(Universal, packageBin in Universal, "zip") ++
-        addPackage(Universal, packageZipTarball in Universal, "tgz") ++
-        makeDeploymentSettings(UniversalDocs, packageBin in UniversalDocs, "zip") ++
-        addPackage(UniversalDocs, packageXzTarball in UniversalDocs, "txz") ++
-        makeDeploymentSettings(Debian, genChanges in Debian, "changes")
   }
 
   import autoImport._
@@ -110,7 +97,7 @@ object SbtNativePackager extends AutoPlugin {
       * }}}
       */
     @deprecated("Use enablePlugins(JavaAppPackaging)", "1.x")
-    def java_application: Seq[Setting[_]] =
+    def java_application: Seq[Setting[?]] =
       projectSettings ++
         universal.UniversalPlugin.projectSettings ++
         linux.LinuxPlugin.projectSettings ++
@@ -126,7 +113,7 @@ object SbtNativePackager extends AutoPlugin {
       * }}}
       */
     @deprecated("Use enablePlugins(JavaServerAppPackaging)", "1.x")
-    def java_server: Seq[Setting[_]] =
+    def java_server: Seq[Setting[?]] =
       java_application ++ archetypes.JavaServerAppPackaging.projectSettings
   }
 
