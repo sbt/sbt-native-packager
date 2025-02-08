@@ -60,7 +60,7 @@ This is often caused by depending on automatic modules. In the example above, `c
 
    jlinkModulePath := {
      // Get the full classpath with all the resolved dependencies.
-     fullClasspath.in(jlinkBuildImage).value
+     (jlinkBuildImage / fullClasspath).value
        // Find the ones that have `paranamer` as their names.
        .filter { item =>
          item.get(moduleID.key).exists { modId =>
