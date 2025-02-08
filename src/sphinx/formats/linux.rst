@@ -214,7 +214,7 @@ The basic construct for **adding** a mapping is
     linuxPackageMappings += packageMapping( (theFile, "/absolute/path/somefile.txt") ) withPerms("644") asDocs()
 
 To **filter** or **modify** a mapping, you generally create a new mapping by copying an existing one (or occasionally by creating a new blank one),
-then filter or modify it, and then return that filtered or modified mapping.  Here's an example that shows a number of things you can *possibly* do.  See the next section for specifc examples.
+then filter or modify it, and then return that filtered or modified mapping.  Here's an example that shows a number of things you can *possibly* do.  See the next section for specific examples.
 (Basic scala collections operations are used in the code. `Here is an explanation of the filter method`_.)
 
 .. code-block:: scala

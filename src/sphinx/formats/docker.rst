@@ -157,7 +157,7 @@ Publishing Settings
 ~~~~~~~~~~~~~~~~~~~
 
   ``dockerRepository``
-    The repository to which the image is pushed when the ``Docker / publish`` task is run. This should be of the form  ``[repository.host[:repository.port]]`` (assumes use of the ``index.docker.io`` repository) or ``[repository.host[:repository.port]][/username]`` (discouraged, but available for backwards compatibilty.).
+    The repository to which the image is pushed when the ``Docker / publish`` task is run. This should be of the form  ``[repository.host[:repository.port]]`` (assumes use of the ``index.docker.io`` repository) or ``[repository.host[:repository.port]][/username]`` (discouraged, but available for backwards compatibility.).
 
   ``dockerUsername``
     The username or organization to which the image is pushed when the ``Docker / publish`` task is run. This should be of the form ``[username]`` or ``[organization]``.

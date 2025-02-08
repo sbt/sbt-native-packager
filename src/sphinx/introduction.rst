@@ -47,7 +47,7 @@ deploy target.
 
 These things are **out of native packagers scope**
 
-1. Providing application lifecyle management.
+1. Providing application lifecycle management.
     The :ref:`java-server-plugin` provides *configurations* for common system-loaders like SystemV, Upstart or SystemD.
     However creating a custom solution which includes stop scripts, PID management, etc. are not part of native
     packager.

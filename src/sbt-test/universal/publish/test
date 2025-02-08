@@ -1,6 +1,6 @@
 # Ensure we can publish to local file system.
 > Universal/publish
-# Ensure isSnpashot works correctly
+# Ensure isSnapshot works correctly
 > Universal/publish
 # Ensure we can publish to local maven repository.
 > Universal/publishM2

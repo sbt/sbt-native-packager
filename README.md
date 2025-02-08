@@ -142,5 +142,5 @@ or provide a richer API for a single packaging format.
 
 ## Credits ##
 
-- [Josh Suereth](https://twitter.com/jsuereth) for the initial developement
+- [Josh Suereth](https://twitter.com/jsuereth) for the initial development
 - [Sascha Rinaldi](http://www.imagelab.net/) for the native-packager logo

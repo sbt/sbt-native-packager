@@ -37,7 +37,7 @@ TaskKey[Unit]("checkSpecFile") := {
   assert(spec contains "%posttrans\necho \"posttrans\"", "Spec doesn't contain %posttrans scriptlet")
   assert(spec contains "%preun\necho \"pre-uninstall\"", "Spec doesn't contain %preun scriptlet")
   assert(spec contains "%postun\necho \"post-uninstall\"", "Spec doesn't contain %postun scriptlet")
-  // Checking for the stuff that should be overriden
+  // Checking for the stuff that should be overridden
   assert(!(spec contains "groupadd --system rpm-test"), "Groupadd should be overridden \n" + spec)
   assert(
     !(spec contains "useradd --gid rpm-test --no-create-home --system -c 'Test rpm package' rpm-test"),

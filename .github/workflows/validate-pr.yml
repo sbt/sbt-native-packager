@@ -87,7 +87,7 @@ jobs:
           java-version: '${{ matrix.java }}'
           cache: sbt
       - uses: sbt/setup-sbt@v1
-      - name: Scritped test
+      - name: Scripted test
         run: sbt -v '${{ matrix.command }}'
 
   scripted-jdk-packager:

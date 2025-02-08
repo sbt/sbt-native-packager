@@ -5,7 +5,7 @@ package debian
 import sbt.{*, given}
 import linux.LinuxPackageMapping
 
-/** DEB packaging specifc build targets. */
+/** DEB packaging specific build targets. */
 trait DebianKeys {
   // Metadata keys
   val debianSection = SettingKey[String]("debian-section", "The section category for this deb file.")

@@ -42,7 +42,7 @@ object chmod {
 }
 
 /**
-  * Converts a octal unix permission representation into a java `PosiFilePermissions` compatible string.
+  * Converts a octal unix permission representation into a java [[PosixFilePermission]] compatible string.
   */
 object permissions {
 

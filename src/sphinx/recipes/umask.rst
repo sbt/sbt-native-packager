@@ -16,7 +16,7 @@ You can set the umask within the generated start script:
    bashScriptExtraDefines += "umask 077"
 
 This line will be added just before the application will be executed by the start script and therefore the application process
-will also inhert this umask. For more information take a look at the :ref:`according documentation<bash-script-defines>`.
+will also inherit this umask. For more information take a look at the :ref:`according documentation<bash-script-defines>`.
 
 .. hint:: When using :ref:`Docker<docker-plugin>` this is the only reliable way `right now <https://github.com/moby/moby/issues/19189>`_ to set the umask for the process. Docker `will ignore <https://stackoverflow.com/a/46900270/810109>`_ any umask set in e.g. `/etc/login.defs` (or other config files) within a docker image.
 
