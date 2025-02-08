@@ -17,11 +17,10 @@ import sbt.Keys.{name, normalizedName, packageBin, streams}
   *
   *   - JavaAppPackaging
   *   - JavaServerPackaging
-  *   - AkkaAppPackging
   *
   * ==Configuration==
   *
-  * The are a few settings you should set if you want to build package no matter what format.
+  * There are a few settings you should set if you want to build package no matter what format.
   *
   * {{{
   * maintainer := "Your name <your.name@your-company.org>"
@@ -55,7 +54,7 @@ object SbtNativePackager extends AutoPlugin {
     *
     * ===NativePackagerKeys===
     *
-    * This inclues ''all'' available keys provided by the sbt-native-packager. Used it if a setting/task key is not in
+    * This includes ''all'' available keys provided by the sbt-native-packager. Used it if a setting/task key is not in
     * scope.
     *
     * {{{
