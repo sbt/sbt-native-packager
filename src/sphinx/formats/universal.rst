@@ -233,7 +233,7 @@ so, add the following to your build.sbt:
 
     mapGenericFilesToLinux
 
-    mapGenericFilesToWinows
+    mapGenericFilesToWindows
 
 
 In Linux, this mapping creates symlinks from platform locations to the install location of the universal package.  For example,
