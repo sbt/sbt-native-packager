@@ -63,7 +63,7 @@ object LinuxSymlink {
   // TODO - Does this belong here?
   def makeSymLinks(symlinks: Seq[LinuxSymlink], pkgDir: File, relativeLinks: Boolean = true): Unit =
     for (link <- symlinks) {
-      // TODO - drop preceeding '/'
+      // TODO - drop preceding '/'
       def dropFirstSlash(n: String): String =
         if (n startsWith "/") n drop 1
         else n

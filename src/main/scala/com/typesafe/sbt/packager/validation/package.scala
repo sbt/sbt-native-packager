@@ -5,7 +5,7 @@ import sbt.{*, given}
 /**
   * ==validation==
   *
-  * This package contains stanard validators that can be used by format and archetype plugins.
+  * This package contains standard validators that can be used by format and archetype plugins.
   */
 package object validation {
 
@@ -15,7 +15,7 @@ package object validation {
     * @param mappings
     *   the mappings that should be validated
     * @return
-    *   a validator that checks if the mappins are empty
+    *   a validator that checks if the mappings are empty
     */
   def nonEmptyMappings(mappings: Seq[(File, String)]): Validation.Validator =
     () =>

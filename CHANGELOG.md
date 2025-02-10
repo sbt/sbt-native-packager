@@ -42,7 +42,7 @@
 - `sbt docker:publishLocal` sporadically builds with the wrong version [\#1164](https://github.com/sbt/sbt-native-packager/issues/1164)
 - dockerUpdateLatest doesn't update latest [\#1141](https://github.com/sbt/sbt-native-packager/issues/1141)
 - Renaming compiled artifact in package \(feature\) [\#864](https://github.com/sbt/sbt-native-packager/issues/864)
-- Overriden `artifactName` produces image with .jar with wrong content [\#638](https://github.com/sbt/sbt-native-packager/issues/638)
+- Overridden `artifactName` produces image with .jar with wrong content [\#638](https://github.com/sbt/sbt-native-packager/issues/638)
 - Add plugin/support for AWS Elastic Beanstalk Docker environments [\#632](https://github.com/sbt/sbt-native-packager/issues/632)
 
 **Merged pull requests:**

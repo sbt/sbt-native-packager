@@ -33,8 +33,8 @@ TaskKey[Unit]("unzip") := {
 
 TaskKey[Unit]("checkInitFile") := {
   val initd = IO.read(baseDirectory.value / "etc" / "init.d" / "rpm-test")
-  assert(initd contains "/opt/test/rpm-test", "defaultLinuxInstallLocation not overriden in init.d\n" + initd)
-  assert(initd contains "/opt/test/log/rpm-test/$logfile", "defaultLinuxLogsLocation not overriden in init.d\n" + initd)
+  assert(initd contains "/opt/test/rpm-test", "defaultLinuxInstallLocation not overridden in init.d\n" + initd)
+  assert(initd contains "/opt/test/log/rpm-test/$logfile", "defaultLinuxLogsLocation not overridden in init.d\n" + initd)
   streams.value.log.success("Successfully tested rpm-test file")
   ()
 }

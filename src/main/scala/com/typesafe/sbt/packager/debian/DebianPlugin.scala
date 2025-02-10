@@ -140,7 +140,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
         }
         // override and merge with the user defined scripts. Will change in the future
         val controlScriptsDir = debianControlScriptsDirectory.value
-        val overridenScripts = scripts ++ readContent(
+        val overriddenScripts = scripts ++ readContent(
           Seq(
             scriptMapping(Names.Prerm, debianMakePrermScript.value, controlScriptsDir),
             scriptMapping(Names.Preinst, debianMakePreinstScript.value, controlScriptsDir),
@@ -150,8 +150,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
         )
         // --- legacy ends
 
-        // TODO remove the overridenScripts
-        val content = appendedScripts ++ overridenScripts
+        // TODO remove the overriddenScripts
+        val content = appendedScripts ++ overriddenScripts
 
         // apply all replacements
         content.mapValues { lines =>
@@ -320,7 +320,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   *
   * This trait provides a set of helper methods for debian packaging implementations.
   *
-  * Most of the methods are for java 6 file permission handling and debian script adjustements.
+  * Most of the methods are for java 6 file permission handling and debian script adjustments.
   */
 trait DebianPluginLike {
 

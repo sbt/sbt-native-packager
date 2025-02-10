@@ -64,7 +64,7 @@ object UniversalPlugin extends AutoPlugin {
     // For now, we provide delegates from dist/stage to universal...
     dist := (Universal / dist).value,
     stage := (Universal / stage).value,
-    // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
+    // TODO - We may need to do this for UniversalSrcs + UniversalDocs
     Universal / name := name.value,
     UniversalDocs / name := (Universal / name).value,
     UniversalSrc / name := (Universal / name).value,
