@@ -110,14 +110,7 @@ object DockerPlugin extends AutoPlugin {
       implicit val conv: FileConverter = conv0
       val dockerBaseDirectory = (Docker / defaultLinuxInstallLocation).value
       // Ensure this doesn't break even if the JvmPlugin isn't enabled.
-      var artifacts = projectDependencyArtifacts.?.value.getOrElse(Nil).map(_.data).toSet
-
-      // add the classpath jar to the project artifacts to improve layer caching as it is created by
-      // the ClasspathJarPlugin and is not part of the projectDependencyArtifacts
-      ClasspathJarPlugin.autoImport.packageJavaClasspathJar.?.value match {
-        case Some(p) => artifacts += p
-        case _       =>
-      }
+      val dependencies = (Runtime / dependencyClasspath).value.map(_.data).toSet
 
       val oldFunction = dockerLayerGrouping.value
 
@@ -130,12 +123,13 @@ object DockerPlugin extends AutoPlugin {
       val confDir = dockerBaseDirectory + "/conf/"
 
       oldPartialFunction.orElse {
-        // bin directory contains start scripts which are containing artifacts / classpath jar,
+        // bin directory contains start scripts which reference artifacts / classpath jar,
         // so should be together with actual artifacts
-        case (file, path) if artifacts(file) || path.startsWith(binDir) => 4
-        case (_, path) if path.startsWith(jreDir)                       => 3
-        case (_, path) if path.startsWith(libDir)                       => 2
-        case (_, path) if path.startsWith(confDir)                      => 1
+        case (_, path) if path.startsWith(jreDir)  => 10
+        case (file, _) if dependencies(file)       => 20
+        case (_, path) if path.startsWith(confDir) => 30
+        case (_, path) if path.startsWith(libDir)  => 40
+        case (_, path) if path.startsWith(binDir)  => 40
       }
     },
     dockerAliases := {
