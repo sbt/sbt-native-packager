@@ -283,7 +283,7 @@ The files from ``Docker / mappings`` are extracted underneath this directory.
 Daemon User
 ~~~~~~~~~~~
 By default, sbt Native Packager will create a daemon user named ``demiourgos728``
-whose UID is set to ``1001``, and and emit ``USER 1001`` since running as non-root is considered the best practice.
+whose UID is set to ``1001``, and emit ``USER 1001`` since running as non-root is considered the best practice.
 
 The following can be used to emit ``USER daemon`` instead:
 
