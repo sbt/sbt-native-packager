@@ -43,9 +43,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
   def jdebSettings =
     Seq(
       // FIXME do nothing. Java7 posix needed
-      debianConffilesFile := {
-        target.value / Names.DebianMaintainerScripts / Names.Conffiles
-      },
+      debianConffilesFile :=
+        target.value / Names.DebianMaintainerScripts / Names.Conffiles,
       // FIXME copied from the debian plugin. Java7 posix needed
       debianControlFile := {
         val data = debianPackageMetadata.value
