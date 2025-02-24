@@ -58,7 +58,7 @@ jobs:
           - os: ubuntu-latest
             java: 11
             distribution: temurin
-            command: +validateDocker
+            command: validateDocker
           - os: ubuntu-latest
             java: 11
             distribution: temurin
