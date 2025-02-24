@@ -3,6 +3,8 @@ name: Validate PR
 on:
   pull_request:
   push:
+    branches:
+      - $default-branch
 
 jobs:
   # Run the unit test ahead of the scripted tests
