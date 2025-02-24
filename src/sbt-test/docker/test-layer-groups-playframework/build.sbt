@@ -1,11 +1,19 @@
 name := "test-layer-groups-playframework"
-organization := "com.example"
 
-version := "1.0-SNAPSHOT"
+ThisBuild / organization := "com.example"
+ThisBuild / version := "1.0-SNAPSHOT"
+ThisBuild / scalaVersion := "2.13.16"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala).dependsOn(common)
 
-scalaVersion := "2.13.16"
+// a local project dependency
+lazy val common = project.settings(
+  name := "test-layer-groups-playframework-common",
+
+  // a transitive dependency of the main project
+  // (use any library as long as it's not already a Play dependency)
+  libraryDependencies += "org.typelevel" %% "cats-core" % "2.13.0"
+)
 
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.1" % Test
@@ -32,6 +40,7 @@ TaskKey[Unit]("checkDockerLayers") := {
     layer20.forall(_.file.getPath.startsWith(csrCacheDirectory.value.getPath)),
     "layer 20 should only contain external libraries"
   )
+  assert(layer20.exists(_.file.name.contains("cats-core")), "layer 20 should contain the common project's dependencies")
 
   val layer30 = layers(Some(30))
   assert(layer30.exists(_.path == "/opt/docker/conf/application.ini"), "layer 30 should contain application.ini")
@@ -44,6 +53,10 @@ TaskKey[Unit]("checkDockerLayers") := {
   )
   assert(layer40.exists(_.file == PlayKeys.playPackageAssets.value), "layer 40 should contain Play's -assets.jar")
   assert(layer40.exists(_.file == packageJavaLauncherJar.value), "layer 40 should contain launcher jar")
+  assert(
+    layer40.exists(_.file == (common / Compile / packageBin).value),
+    "layer 40 should contain the common project jar"
+  )
   assert(
     layer40.exists(layer => makeBashScripts.value.map(_._1).contains(layer.file)),
     "layer 40 should contain start scripts"
