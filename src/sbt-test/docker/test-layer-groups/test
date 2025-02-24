@@ -1,13 +1,13 @@
 # Generate the Docker image locally
 > Docker/publishLocal
 $ exists target/**/docker/stage/Dockerfile
-$ exists target/**/docker/stage/4/opt/docker/bin/docker-groups
-$ exists target/**/docker/stage/2/opt/docker/lib/org.slf4j.slf4j-api-1.7.30.jar
--$ exists target/**/docker/stage/2/opt/docker/lib/com.example.docker-groups-0.1.0.jar
+$ exists target/**/docker/stage/40/opt/docker/bin/docker-groups
+$ exists target/**/docker/stage/20/opt/docker/lib/org.slf4j.slf4j-api-1.7.30.jar
+-$ exists target/**/docker/stage/20/opt/docker/lib/com.example.docker-groups-0.1.0.jar
 $ exists target/**/docker/stage/opt/docker/other
-$ exists target/**/docker/stage/2
--$ exists target/**/docker/stage/1/opt/docker/lib/org.slf4j.slf4j-api-1.7.30.jar
-$ exists target/**/docker/stage/4/opt/docker/lib/com.example.docker-groups-0.1.0.jar
+$ exists target/**/docker/stage/20
+-$ exists target/**/docker/stage/10/opt/docker/lib/org.slf4j.slf4j-api-1.7.30.jar
+$ exists target/**/docker/stage/40/opt/docker/lib/com.example.docker-groups-0.1.0.jar
 $ exists target/**/docker/stage/54/opt/docker/spark
 
 $ exec bash -c 'docker run --rm --entrypoint=ls docker-groups:0.1.0 |tr "\n" "," | grep -q "bin,lib,other,spark"'
@@ -20,8 +20,8 @@ $ copy-file changes/nolayers.sbt layers.sbt
 > Docker/publishLocal
 $ exists target/**/docker/stage/opt/docker/bin
 $ exists target/**/docker/stage/opt/docker/spark
--$ exists target/**/docker/stage/2
--$ exists target/**/docker/stage/4
+-$ exists target/**/docker/stage/20
+-$ exists target/**/docker/stage/40
 -$ exists target/**/docker/stage/54
 $ exists target/**/docker/stage/opt/docker/lib/org.slf4j.slf4j-api-1.7.30.jar
 $ exists target/**/docker/stage/opt/docker/lib/com.example.docker-groups-0.1.0.jar
