@@ -110,7 +110,7 @@ object DockerPlugin extends AutoPlugin {
       implicit val conv: FileConverter = conv0
       val dockerBaseDirectory = (Docker / defaultLinuxInstallLocation).value
       // Ensure this doesn't break even if the JvmPlugin isn't enabled.
-      val dependencies = (Runtime / dependencyClasspath).value.map(_.data).toSet
+      val dependencies = (Runtime / externalDependencyClasspath).value.map(_.data).toSet
 
       val oldFunction = dockerLayerGrouping.value
 
