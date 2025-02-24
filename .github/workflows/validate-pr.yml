@@ -56,8 +56,8 @@ jobs:
             distribution: zulu
             command: +validateDebian
           - os: ubuntu-latest
-            java: 8
-            distribution: zulu
+            java: 11
+            distribution: temurin
             command: +validateDocker
           - os: ubuntu-latest
             java: 11
