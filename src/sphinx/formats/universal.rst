@@ -233,7 +233,7 @@ so, add the following to your build.sbt:
 
     mapGenericFilesToLinux
 
-    mapGenericFilesToWinows
+    mapGenericFilesToWindows
 
 
 In Linux, this mapping creates symlinks from platform locations to the install location of the universal package.  For example,
@@ -355,7 +355,7 @@ You get a set of methods which will help you to create mappings very easily.
     Universal / mappings ++= directory("src/main/resources/cache")
 
     Universal / mappings ++= contentOf("src/main/resources/docs")
-    
+
     Universal / mappings ++= directory(sourceDirectory.value / "main" / "resources" / "cache")
 
     Universal / mappings ++= contentOf(sourceDirectory.value / "main" / "resources" / "docs")

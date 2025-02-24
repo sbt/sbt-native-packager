@@ -7,7 +7,7 @@ import sbt._
 import scala.xml.Node
 
 /**
-  * Keys specific to deployment via the `javapackger` tool.
+  * Keys specific to deployment via the `javapackager` tool.
   *
   * @author
   *   <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
