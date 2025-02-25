@@ -82,6 +82,8 @@ jobs:
     runs-on: '${{ matrix.os }}'
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
