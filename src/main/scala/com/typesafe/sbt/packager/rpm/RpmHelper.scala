@@ -88,9 +88,11 @@ object RpmHelper {
     LinuxSymlink.makeSymLinks(spec.symlinks, buildroot, relativeLinks = false)
   }
 
-  private[this] def writeSpecFile(spec: RpmSpec, workArea: File, log: sbt.Logger)(implicit
-    conv: FileConverter
-  ): File = {
+  private[this] def writeSpecFile(
+    spec: RpmSpec,
+    workArea: File,
+    log: sbt.Logger
+  )(implicit conv: FileConverter): File = {
     val specdir = workArea / "SPECS"
     val rpmBuildroot = workArea / "buildroot"
     val tmpBuildRoot = workArea / "tmp-buildroot"
