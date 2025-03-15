@@ -455,7 +455,7 @@ We do this by creating an application module and three packaging submodules.</p>
 <span class="w">  </span><span class="p">)</span>
 <span class="w">  </span><span class="p">.</span><span class="n">dependsOn</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
-<span class="c1">// bascially identical despite the configuration differences</span>
+<span class="c1">// basically identical despite the configuration differences</span>
 <span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">stagePackage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span>
 <span class="w">  </span><span class="p">.</span><span class="n">in</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;build/stage&quot;</span><span class="p">))</span>
 <span class="w">  </span><span class="p">.</span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JavaAppPackaging</span><span class="p">)</span>
@@ -505,7 +505,7 @@ This pattern may be useful in other scopes as well. First we define an <em>AutoP
 plugin as it involves quite some logic. In this case we decide which configuration file to map as <code class="docutils literal notranslate"><span class="pre">application.conf</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">confFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buildEnv</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nc">BuildEnv</span><span class="p">.</span><span class="nc">Developement</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">&quot;dev.conf&quot;</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nc">BuildEnv</span><span class="p">.</span><span class="nc">Development</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">&quot;dev.conf&quot;</span>
 <span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nc">BuildEnv</span><span class="p">.</span><span class="nc">Test</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">&quot;test.conf&quot;</span>
 <span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nc">BuildEnv</span><span class="p">.</span><span class="nc">Stage</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">&quot;stage.conf&quot;</span>
 <span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nc">BuildEnv</span><span class="p">.</span><span class="nc">Production</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">&quot;prod.conf&quot;</span>
@@ -514,7 +514,7 @@ plugin as it involves quite some logic. In this case we decide which configurati
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Ofcourse you can change all other settings, package names, etc. as well. Building different output packages would look
+<p>Of course you can change all other settings, package names, etc. as well. Building different output packages would look
 like this</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>-Denv<span class="o">=</span><span class="nb">test</span><span class="w"> </span>Universal/packageBin
 sbt<span class="w"> </span>-Denv<span class="o">=</span>stage<span class="w"> </span>Universal/packageBin
@@ -555,7 +555,7 @@ needs to be done manually. Append this to the <code class="docutils literal notr
 <span class="w">  </span><span class="c1">// you have to override everything carefully</span>
 <span class="w">  </span><span class="n">packageName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-prod-app&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="n">executableScriptName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-prod-app&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="c1">// this is what we acutally want to change</span>
+<span class="w">  </span><span class="c1">// this is what we actually want to change</span>
 <span class="w">  </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">((</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;prod.conf&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;conf/application.conf&quot;</span>
 <span class="p">)))</span>
 </pre></div>

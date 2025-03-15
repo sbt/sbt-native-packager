@@ -423,7 +423,7 @@ such as log files, will have.</p>
 </pre></div>
 </div>
 <p>This line will be added just before the application will be executed by the start script and therefore the application process
-will also inhert this umask. For more information take a look at the <a class="reference internal" href="../archetypes/java_app/customize.html#bash-script-defines"><span class="std std-ref">according documentation</span></a>.</p>
+will also inherit this umask. For more information take a look at the <a class="reference internal" href="../archetypes/java_app/customize.html#bash-script-defines"><span class="std std-ref">according documentation</span></a>.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
 <p>When using <a class="reference internal" href="../formats/docker.html#docker-plugin"><span class="std std-ref">Docker</span></a> this is the only reliable way <a class="reference external" href="https://github.com/moby/moby/issues/19189">right now</a> to set the umask for the process. Docker <a class="reference external" href="https://stackoverflow.com/a/46900270/810109">will ignore</a> any umask set in e.g. <cite>/etc/login.defs</cite> (or other config files) within a docker image.</p>
