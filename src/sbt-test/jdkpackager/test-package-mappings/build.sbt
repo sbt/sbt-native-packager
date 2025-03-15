@@ -32,7 +32,9 @@ lazy val iconGlob = sys.props("os.name").toLowerCase match {
   case _                        => "*.png"
 }
 
-jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob).getPaths().headOption
+jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob)
+  .getPaths()
+  .headOption
   .map(file)
 
 TaskKey[Unit]("checkImage") := {
