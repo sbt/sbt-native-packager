@@ -6,19 +6,19 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 // crossBuildingSettings
 lazy val scala212 = "2.12.20"
-lazy val scala3 = "3.6.3"
+lazy val scala3 = "3.6.4"
 Global / scalaVersion := scala3
 crossScalaVersions := Seq(scala3, scala212)
 (pluginCrossBuild / sbtVersion) := {
   scalaBinaryVersion.value match {
     case "2.12" => "1.5.8"
-    case _      => "2.0.0-M3"
+    case _      => "2.0.0-M4"
   }
 }
 scriptedSbt := {
   scalaBinaryVersion.value match {
     case "2.12" => "1.10.7"
-    case _      => "2.0.0-M3"
+    case _      => "2.0.0-M4"
   }
 }
 
@@ -43,7 +43,7 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= {
   (pluginCrossBuild / sbtVersion).value match {
     case v if v.startsWith("1.") =>
-      Seq("org.scala-sbt" %% "io" % "1.10.4")
+      Seq("org.scala-sbt" %% "io" % "1.10.5")
     case _ => Seq()
   }
 }
@@ -152,7 +152,13 @@ def versionFmt(out: sbtdynver.GitDescribeOutput): String = {
 
 def fallbackVersion(d: java.util.Date): String = s"HEAD-${sbtdynver.DynVer timestamp d}"
 
-ThisBuild / version := dynverGitDescribeOutput.value.mkVersion(versionFmt, fallbackVersion(dynverCurrentDate.value))
+ThisBuild / version := {
+  val orig = (ThisBuild / version).value
+  if ((ThisBuild / isSnapshot).value)
+    dynverGitDescribeOutput.value.mkVersion(versionFmt, fallbackVersion(dynverCurrentDate.value))
+  else orig
+}
+
 ThisBuild / dynver := {
   val d = new java.util.Date
   sbtdynver.DynVer.getGitDescribeOutput(d).mkVersion(versionFmt, fallbackVersion(d))
