@@ -3,6 +3,8 @@ name: Validate PR
 on:
   pull_request:
   push:
+    branches:
+      - $default-branch
 
 jobs:
   # Run the unit test ahead of the scripted tests
@@ -16,6 +18,8 @@ jobs:
     runs-on: '${{ matrix.os }}'
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
@@ -56,9 +60,9 @@ jobs:
             distribution: zulu
             command: +validateDebian
           - os: ubuntu-latest
-            java: 8
-            distribution: zulu
-            command: +validateDocker
+            java: 11
+            distribution: temurin
+            command: validateDocker
           - os: ubuntu-latest
             java: 11
             distribution: temurin
@@ -80,6 +84,8 @@ jobs:
     runs-on: '${{ matrix.os }}'
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
@@ -98,6 +104,8 @@ jobs:
       - validate
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Download Zulu 8
         run: |
           # the standard zulu dist doesn't include javafx
