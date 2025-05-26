@@ -147,9 +147,15 @@ def versionFmt(out: sbtdynver.GitDescribeOutput): String = {
   val snapshotSuffix =
     if (out.isSnapshot()) "-SNAPSHOT"
     else ""
-  out.ref.dropPrefix + snapshotSuffix
+  dropBackPubCommand(out.ref.dropPrefix) + snapshotSuffix
 }
-
+def dropBackPubCommand(ver: String): String = {
+  val nonComment =
+    if (ver.contains("#")) ver.split("#").head
+    else ver
+  if (nonComment.contains("@")) nonComment.split("@").head
+  else nonComment
+}
 def fallbackVersion(d: java.util.Date): String = s"HEAD-${sbtdynver.DynVer timestamp d}"
 
 ThisBuild / version := {
