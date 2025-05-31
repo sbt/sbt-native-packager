@@ -323,7 +323,7 @@ this behaviour, add this to your ``build.sbt``
 
 .. code-block:: scala
 
-    compile / packageDoc / mappings := Seq()
+    Compile / packageDoc / mappings := Seq()
 
 Source `issue 651`_.
 
