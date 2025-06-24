@@ -30,7 +30,7 @@ classpathTypes += "maven-plugin"
 libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "8.16.0" % Provided,
-  "org.vafer" % "jdeb" % "1.13" % Provided artifacts Artifact("jdeb", "jar", "jar"),
+  "org.vafer" % "jdeb" % "1.14" % Provided artifacts Artifact("jdeb", "jar", "jar"),
   "org.apache.commons" % "commons-compress" % "1.27.1",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.15",
