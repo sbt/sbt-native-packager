@@ -1,0 +1,21 @@
+> Docker/stage
+
+# layer 10 should be empty because jlink is not used
+-$ exists target/**/docker/stage/10
+
+# layer 20 should have external dependencies
+$ exists target/**/docker/stage/20/opt/docker/lib/org.playframework.play-server_2.13-3.0.6.jar
+$ exists target/**/docker/stage/20/opt/docker/lib/org.typelevel.cats-core_2.13-2.13.0.jar
+
+# layer 30 should have config files
+$ exists target/**/docker/stage/30/opt/docker/conf/application.ini
+$ exists target/**/docker/stage/30/opt/docker/conf/logback.xml
+
+# layer 40 should have project artifacts
+$ exists target/**/docker/stage/40/opt/docker/lib/com.example.test-layer-groups-playframework-1.0-SNAPSHOT-assets.jar
+$ exists target/**/docker/stage/40/opt/docker/lib/com.example.test-layer-groups-playframework-1.0-SNAPSHOT-sans-externalized.jar
+$ exists target/**/docker/stage/40/opt/docker/lib/com.example.test-layer-groups-playframework-common-1.0-SNAPSHOT.jar
+$ exists target/**/docker/stage/40/opt/docker/bin/test-layer-groups-playframework
+
+# final layer should have API docs
+$ exists target/**/docker/stage/opt/docker/share/doc/api
