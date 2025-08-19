@@ -50,7 +50,7 @@ object JlinkPlugin extends AutoPlugin {
       (jlinkIgnoreMissingDependency ?? JlinkIgnore.nothing).value,
     // Don't use `fullClasspath in Compile` directly - this way we can inject
     // custom classpath elements for the scan.
-    jlinkBuildImage / fullClasspath := (Compile / fullClasspath).value,
+    jlinkBuildImage / fullClasspath := Def.uncached((Compile / fullClasspath).value),
     jlinkModules := (jlinkModules ?? Nil).value,
     jlinkModules ++= {
       val conv0 = fileConverter.value

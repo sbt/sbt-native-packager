@@ -11,8 +11,10 @@ trait ValidationKeys {
     *
     * Each format should implement it's own validate. Implemented in #1026
     */
+  @transient
   val validatePackage = taskKey[Unit]("validates the package configuration")
 
+  @transient
   val validatePackageValidators = taskKey[Seq[Validation.Validator]]("validator functions")
 }
 

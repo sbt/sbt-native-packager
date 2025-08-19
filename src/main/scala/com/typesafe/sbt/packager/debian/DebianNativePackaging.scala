@@ -66,14 +66,16 @@ trait DebianNativePackaging extends DebianPluginLike {
           sys.process.Process(Seq("lintian", "-c", "-v", debFile.getName), Some(debFile.getParentFile)).!
         },
         /** Implementation of the actual packaging */
-        packageBin := buildPackage(
-          name.value,
-          version.value,
-          packageArchitecture.value,
-          stage.value,
-          debianNativeBuildOptions.value,
-          fileConverter.value,
-          streams.value.log
+        packageBin := Def.uncached(
+          buildPackage(
+            name.value,
+            version.value,
+            packageArchitecture.value,
+            stage.value,
+            debianNativeBuildOptions.value,
+            fileConverter.value,
+            streams.value.log
+          )
         )
       )
     )

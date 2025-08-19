@@ -1,3 +1,4 @@
+import com.typesafe.sbt.packager.Keys.stagingDirectory
 import com.typesafe.sbt.packager.PluginCompat
 import xsbti.FileConverter
 

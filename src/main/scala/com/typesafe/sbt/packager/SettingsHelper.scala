@@ -36,12 +36,14 @@ object SettingsHelper {
     inConfig(config)(Classpaths.ivyPublishSettings ++ Classpaths.jvmPublishSettings) ++ inConfig(config)(
       Seq(
         artifacts := Seq.empty,
-        packagedArtifacts := Map.empty,
+        packagedArtifacts := Def.uncached(Map.empty),
         projectID := ModuleID(organization.value, name.value, version.value),
         // Custom module settings to skip the ivy XmlModuleDescriptorParser
-        moduleSettings := ModuleDescriptorConfiguration(projectID.value, projectInfo.value)
-          .withScalaModuleInfo(scalaModuleInfo.value),
-        ivyModule := {
+        moduleSettings := Def.uncached(
+          ModuleDescriptorConfiguration(projectID.value, projectInfo.value)
+            .withScalaModuleInfo(scalaModuleInfo.value)
+        ),
+        ivyModule := Def.uncached {
           val ivy = ivySbt.value
           new ivy.Module(moduleSettings.value)
         },
@@ -50,36 +52,42 @@ object SettingsHelper {
         // deliverLocalConfiguration := Classpaths.deliverConfig(crossTarget.value, logging = ivyLoggingLevel.value)
         // deliverConfiguration := deliverLocalConfiguration.value,
         // -------------------------------
-        publishConfiguration := PublishConfiguration()
-          .withResolverName(Classpaths.getPublishTo(publishTo.value).name)
-          .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
-            val conv0 = fileConverter.value
-            implicit val conv: FileConverter = conv0
-            (a, PluginCompat.toFile(f))
-          })
-          .withChecksums(checksums.value.toVector)
-          .withOverwrite(isSnapshot.value)
-          .withLogging(UpdateLogging.DownloadOnly),
-        publishLocalConfiguration := PublishConfiguration()
-          .withResolverName("local")
-          .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
-            val conv0 = fileConverter.value
-            implicit val conv: FileConverter = conv0
-            (a, PluginCompat.toFile(f))
-          })
-          .withChecksums(checksums.value.toVector)
-          .withOverwrite(isSnapshot.value)
-          .withLogging(UpdateLogging.DownloadOnly),
-        publishM2Configuration := PublishConfiguration()
-          .withResolverName(Resolver.mavenLocal.name)
-          .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
-            val conv0 = fileConverter.value
-            implicit val conv: FileConverter = conv0
-            (a, PluginCompat.toFile(f))
-          })
-          .withChecksums(checksums.value.toVector)
-          .withOverwrite(isSnapshot.value)
-          .withLogging(UpdateLogging.DownloadOnly)
+        publishConfiguration := Def.uncached(
+          PublishConfiguration()
+            .withResolverName(Classpaths.getPublishTo(publishTo.value).name)
+            .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
+              val conv0 = fileConverter.value
+              implicit val conv: FileConverter = conv0
+              (a, PluginCompat.toFile(f))
+            })
+            .withChecksums(checksums.value.toVector)
+            .withOverwrite(isSnapshot.value)
+            .withLogging(UpdateLogging.DownloadOnly)
+        ),
+        publishLocalConfiguration := Def.uncached(
+          PublishConfiguration()
+            .withResolverName("local")
+            .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
+              val conv0 = fileConverter.value
+              implicit val conv: FileConverter = conv0
+              (a, PluginCompat.toFile(f))
+            })
+            .withChecksums(checksums.value.toVector)
+            .withOverwrite(isSnapshot.value)
+            .withLogging(UpdateLogging.DownloadOnly)
+        ),
+        publishM2Configuration := Def.uncached(
+          PublishConfiguration()
+            .withResolverName(Resolver.mavenLocal.name)
+            .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
+              val conv0 = fileConverter.value
+              implicit val conv: FileConverter = conv0
+              (a, PluginCompat.toFile(f))
+            })
+            .withChecksums(checksums.value.toVector)
+            .withOverwrite(isSnapshot.value)
+            .withLogging(UpdateLogging.DownloadOnly)
+        )
       )
     ) ++ addPackage(config, packageTask, extension, classifier) ++ addResolver(config)
 

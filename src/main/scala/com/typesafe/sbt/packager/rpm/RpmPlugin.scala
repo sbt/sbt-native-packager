@@ -180,7 +180,7 @@ object RpmPlugin extends AutoPlugin {
       implicit val conv: FileConverter = conv0
       RpmHelper.defaultRpmArtifactPath((Rpm / target).value, rpmMetadata.value)
     },
-    Rpm / packageBin := {
+    Rpm / packageBin := Def.uncached {
       val conv0 = fileConverter.value
       implicit val conv: FileConverter = conv0
       val defaultPath = RpmHelper.buildRpm(rpmSpecConfig.value, (Rpm / stage).value, streams.value.log)
