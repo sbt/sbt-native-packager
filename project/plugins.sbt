@@ -14,6 +14,3 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.5")
 
 // binary compatibility checks
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.4")
-
-// for enterprise Artifactory compatibility
-addSbtPlugin("com.scalawilliam.esbeetee" % "sbt-vspp" % "0.4.11")
