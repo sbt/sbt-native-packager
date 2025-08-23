@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Universal Plugin &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Universal Plugin &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,12 +414,12 @@
            <div itemprop="articleBody">
              
   <section id="universal-plugin">
-<span id="id1"></span><h1>Universal Plugin<a class="headerlink" href="#universal-plugin" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>Universal Plugin<a class="headerlink" href="#universal-plugin" title="Link to this heading">¶</a></h1>
 <p>The Universal Plugin creates a generic, or “universal” distribution package.  This is called “universal packaging.”  Universal packaging just takes a plain <code class="docutils literal notranslate"><span class="pre">mappings</span></code> configuration and generates various
 package files in the output format specified.  Because it creates a distribution
 that is not tied to any particular platform it may require manual labor (more work from your users) to correctly install and set up.</p>
 <section id="related-plugins">
-<h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Permalink to this heading">¶</a></h2>
+<h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a></p></li>
 <li><p><a class="reference internal" href="docker.html#docker-plugin"><span class="std std-ref">Docker Plugin</span></a></p></li>
@@ -427,7 +427,7 @@ that is not tied to any particular platform it may require manual labor (more wo
 </ul>
 </section>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
 <p>Depending on what output format you want to use, you need one of the following applications installed</p>
 <ul class="simple">
 <li><p>zip (if native)</p></li>
@@ -438,7 +438,7 @@ that is not tied to any particular platform it may require manual labor (more wo
 </ul>
 </section>
 <section id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
+<h2>Build<a class="headerlink" href="#build" title="Link to this heading">¶</a></h2>
 <p>There is a task for each output format</p>
 <blockquote>
 <div><p><strong>Zip</strong></p>
@@ -459,7 +459,7 @@ that is not tied to any particular platform it may require manual labor (more wo
 </div>
 </div></blockquote>
 <section id="required-settings">
-<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Required Settings<a class="headerlink" href="#required-settings" title="Link to this heading">¶</a></h3>
 <p>The Universal Plugin has no mandatory fields.</p>
 <p>Enable the universal plugin</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">UniversalPlugin</span><span class="p">)</span>
@@ -468,7 +468,7 @@ that is not tied to any particular platform it may require manual labor (more wo
 </section>
 </section>
 <section id="configurations">
-<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this heading">¶</a></h2>
+<h2>Configurations<a class="headerlink" href="#configurations" title="Link to this heading">¶</a></h2>
 <p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Universal</span></code>.</p>
 <p>Universal packaging provides three Configurations:</p>
 <blockquote>
@@ -493,7 +493,7 @@ that is not tied to any particular platform it may require manual labor (more wo
 </div>
 </section>
 <section id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Link to this heading">¶</a></h2>
 <p>As we showed before, the universal packages are completely configured through the use of mappings.  Simply
 specify the desired mappings for a given configuration.  For example:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageBin</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;lib/foo.jar&quot;</span>
@@ -510,7 +510,7 @@ use the task-scope feature of sbt:</p>
 and file system manipulations.</strong></p>
 </section>
 <section id="tasks">
-<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this heading">¶</a></h2>
+<h2>Tasks<a class="headerlink" href="#tasks" title="Link to this heading">¶</a></h2>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">package-bin</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">zip</span></code> universal package.</p>
@@ -533,9 +533,9 @@ for some types of archives.</p>
 </div></blockquote>
 </section>
 <section id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
+<h2>Customize<a class="headerlink" href="#customize" title="Link to this heading">¶</a></h2>
 <section id="universal-archive-options">
-<h3>Universal Archive Options<a class="headerlink" href="#universal-archive-options" title="Permalink to this heading">¶</a></h3>
+<h3>Universal Archive Options<a class="headerlink" href="#universal-archive-options" title="Link to this heading">¶</a></h3>
 <p>You can customize the commandline options (if used) for the different zip formats.
 If you want to force local for the <cite>tgz</cite> output add this line:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageZipTarball</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">universalArchiveOptions</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="s">&quot;--force-local&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-pcvf&quot;</span><span class="p">)</span>
@@ -558,7 +558,7 @@ Be aware that the above line will overwrite the default options.  You may want t
 </div></blockquote>
 </section>
 <section id="getting-started-with-universal-packaging">
-<span id="universal-plugin-getting-started-with-packaging"></span><h3>Getting Started with Universal Packaging<a class="headerlink" href="#getting-started-with-universal-packaging" title="Permalink to this heading">¶</a></h3>
+<span id="universal-plugin-getting-started-with-packaging"></span><h3>Getting Started with Universal Packaging<a class="headerlink" href="#getting-started-with-universal-packaging" title="Link to this heading">¶</a></h3>
 <p>By default, all files found in the <code class="docutils literal notranslate"><span class="pre">src/universal</span></code> directory are included in the distribution.  So, the first step
 in creating a distribution is to place files in this directory and organize them as you’d like in them to be in the distributed package.
 If your output format is a zip file, for example, although the distribution will consist of just one zip file, the files and directories within that zip file will reflect the same organization and structure as <code class="docutils literal notranslate"><span class="pre">src/universal</span></code>.</p>
@@ -583,7 +583,7 @@ you should not include these in your <code class="docutils literal notranslate">
 </div></blockquote>
 </section>
 <section id="universal-conventions">
-<h3>Universal Conventions<a class="headerlink" href="#universal-conventions" title="Permalink to this heading">¶</a></h3>
+<h3>Universal Conventions<a class="headerlink" href="#universal-conventions" title="Link to this heading">¶</a></h3>
 <p>This plugin has a set of conventions for universal packages that enable the automatic generation of native packages.  The
 universal convention has the following package layout:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bin/
@@ -643,7 +643,7 @@ changelog in addition to the generic packaging by first defining a changelog in 
 underlying packaging settings, see <a class="reference internal" href="windows.html#windows-plugin"><span class="std std-ref">Windows Plugin</span></a> and <a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a> documentation.</p>
 </section>
 <section id="change-remove-top-level-directory-in-output">
-<h3>Change/Remove Top Level Directory in Output<a class="headerlink" href="#change-remove-top-level-directory-in-output" title="Permalink to this heading">¶</a></h3>
+<h3>Change/Remove Top Level Directory in Output<a class="headerlink" href="#change-remove-top-level-directory-in-output" title="Link to this heading">¶</a></h3>
 <p>Your output package (zip, tar, gz) by default contains a single folder
 with your application. If you want to change this folder or remove this
 top level directory completely use the <cite>topLevelDirectory</cite> setting.</p>
@@ -661,16 +661,16 @@ top level directory completely use the <cite>topLevelDirectory</cite> setting.</
 </div>
 </section>
 <section id="skip-packagedoc-task-on-stage">
-<h3>Skip packageDoc task on stage<a class="headerlink" href="#skip-packagedoc-task-on-stage" title="Permalink to this heading">¶</a></h3>
+<h3>Skip packageDoc task on stage<a class="headerlink" href="#skip-packagedoc-task-on-stage" title="Link to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">stage</span></code> task forces a <em>javadoc.jar</em> build, which could slow down <code class="docutils literal notranslate"><span class="pre">stage</span></code> tasks performance. In order to deactivate
 this behaviour, add this to your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageDoc</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageDoc</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Source <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/651">issue 651</a>.</p>
 </section>
 <section id="mappingshelper">
-<h3>MappingsHelper<a class="headerlink" href="#mappingshelper" title="Permalink to this heading">¶</a></h3>
+<h3>MappingsHelper<a class="headerlink" href="#mappingshelper" title="Link to this heading">¶</a></h3>
 <p>The <a class="reference external" href="http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MappingsHelper$">MappingsHelper</a> class provides a set of helper functions to make mapping directories easier.</p>
 <blockquote>
 <div><p><strong>sbt 0.13.5 and plugin 1.0.x or higher</strong></p>
@@ -695,14 +695,14 @@ this behaviour, add this to your <code class="docutils literal notranslate"><spa
 </div>
 </section>
 <section id="mapping-examples">
-<h3>Mapping Examples<a class="headerlink" href="#mapping-examples" title="Permalink to this heading">¶</a></h3>
+<h3>Mapping Examples<a class="headerlink" href="#mapping-examples" title="Link to this heading">¶</a></h3>
 <p>SBT provides the <a class="reference external" href="http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html">IO</a> and <a class="reference external" href="http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html">Path</a> APIs, which
 help make defining custom mappings easy. The files will appear in the generate universal zip, but also in your
 debian/rpm/msi/dmg builds as described above in the conventions.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">packageBin</span></code> dependency is only needed if your files get generated
 during the <code class="docutils literal notranslate"><span class="pre">packageBin</span></code> command or before. For static files you can remove it.</p>
 <section id="mapping-a-complete-directory">
-<h4>Mapping a complete directory<a class="headerlink" href="#mapping-a-complete-directory" title="Permalink to this heading">¶</a></h4>
+<h4>Mapping a complete directory<a class="headerlink" href="#mapping-a-complete-directory" title="Link to this heading">¶</a></h4>
 <p>There are some helper methods so you can create a mapping for a complete directory:</p>
 <p>For static content, you can just add the directory to the mapping:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="n">directory</span><span class="p">(</span><span class="s">&quot;SomeDirectoryNameToInclude&quot;</span><span class="p">)</span>
@@ -749,7 +749,7 @@ second part is the just the path starting after <code class="docutils literal no
 <code class="docutils literal notranslate"><span class="pre">&lt;each</span> <span class="pre">file&gt;.relativeTo(dir.getParentFile)</span></code>.</p>
 </section>
 <section id="mapping-the-content-of-a-directory-excluding-the-directory-itself">
-<h4>Mapping the content of a directory (excluding the directory itself)<a class="headerlink" href="#mapping-the-content-of-a-directory-excluding-the-directory-itself" title="Permalink to this heading">¶</a></h4>
+<h4>Mapping the content of a directory (excluding the directory itself)<a class="headerlink" href="#mapping-the-content-of-a-directory-excluding-the-directory-itself" title="Link to this heading">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;scala-2.10&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;api&quot;</span>
 <span class="w">    </span><span class="p">(</span><span class="n">dir</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="nc">AllPassFilter</span><span class="w"> </span><span class="o">---</span><span class="w"> </span><span class="n">dir</span><span class="p">)</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="n">relativeTo</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
@@ -759,7 +759,7 @@ second part is the just the path starting after <code class="docutils literal no
 <p>The <code class="docutils literal notranslate"><span class="pre">dir</span></code> gets excluded and is used as root for <code class="docutils literal notranslate"><span class="pre">relativeTo(dir)</span></code>.</p>
 </section>
 <section id="filter-remove-mappings">
-<h4>Filter/Remove mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this heading">¶</a></h4>
+<h4>Filter/Remove mappings<a class="headerlink" href="#filter-remove-mappings" title="Link to this heading">¶</a></h4>
 <p>If you want to remove mappings, you have to <a class="reference external" href="https://twitter.github.io/scala_school/collections.html#filter">filter</a> the current list of mappings.
 This example demonstrates how to build a fat jar with sbt-assembly, but using all
 the convenience of the sbt native packager archetypes.</p>

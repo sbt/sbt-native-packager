@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Introduction &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+  <title>Introduction &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b0accced"></script>
-      <script src="_static/doctools.js?v=888ff710"></script>
-      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -413,14 +413,14 @@
            <div itemprop="articleBody">
              
   <section id="introduction">
-<span id="id1"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
 <p>SBT native packager lets you build application packages in native formats and offers different archetypes for common
 configurations, such as simple Java apps or server applications.</p>
 <p>This section provides a general overview of native packager and its core concepts. If you want a quick start, go to the
 <a class="reference internal" href="gettingstarted.html#getting-started"><span class="std std-ref">getting started section</span></a>. However we recommend understanding the core concepts, which will help
 you to get started even quicker.</p>
 <section id="goals">
-<span id="id2"></span><h2>Goals<a class="headerlink" href="#goals" title="Permalink to this heading">¶</a></h2>
+<span id="id2"></span><h2>Goals<a class="headerlink" href="#goals" title="Link to this heading">¶</a></h2>
 <p>Native packager defines project goals in order to set expectations and scope for this project.</p>
 <ol class="arabic simple">
 <li><dl class="simple">
@@ -447,7 +447,7 @@ e.g. for file names, installation paths or script layouts.</p>
 </ol>
 </section>
 <section id="scope">
-<span id="id3"></span><h2>Scope<a class="headerlink" href="#scope" title="Permalink to this heading">¶</a></h2>
+<span id="id3"></span><h2>Scope<a class="headerlink" href="#scope" title="Link to this heading">¶</a></h2>
 <p>While native packager provides a wide range of formats and archetype configurations, its scope is relatively narrow.
 Native packager only takes care of <em>packaging</em>, the act of putting a list of <code class="docutils literal notranslate"><span class="pre">mappings</span></code> (source file to install target
 path) into a distinct package format (<em>zip</em>, <em>rpm</em>, etc.).</p>
@@ -473,7 +473,7 @@ your process.</p>
 </ol>
 </section>
 <section id="core-concepts">
-<span id="formats-and-archetypes"></span><h2>Core Concepts<a class="headerlink" href="#core-concepts" title="Permalink to this heading">¶</a></h2>
+<span id="formats-and-archetypes"></span><h2>Core Concepts<a class="headerlink" href="#core-concepts" title="Link to this heading">¶</a></h2>
 <p>Native packager is based on a few simple concepts. If you understand these, you will be able to customize your build,
 create own packaging formats and deploy more effectively.</p>
 <ol class="arabic">
@@ -493,7 +493,7 @@ create own packaging formats and deploy more effectively.</p>
 </ol>
 <p>The following sections describe these concepts in more detail.</p>
 <section id="format-plugins">
-<h3>Format Plugins<a class="headerlink" href="#format-plugins" title="Permalink to this heading">¶</a></h3>
+<h3>Format Plugins<a class="headerlink" href="#format-plugins" title="Link to this heading">¶</a></h3>
 <p>Format plugins provide the implementation to create package, the <strong>how</strong> a package is created. For example the
 <a class="reference internal" href="formats/debian.html#debian-plugin"><span class="std std-ref">Debian Plugin</span></a> provides a way to package debian packages. Each format plugin has its
 <a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">own documentation</span></a>. Each plugin provides a common set of features:</p>
@@ -523,7 +523,7 @@ start with the plugin name, e.g. <em>rpmXYZ</em>.</p>
 for the format plugin’s specific settings.</p>
 </section>
 <section id="archetype-plugins">
-<h3>Archetype Plugins<a class="headerlink" href="#archetype-plugins" title="Permalink to this heading">¶</a></h3>
+<h3>Archetype Plugins<a class="headerlink" href="#archetype-plugins" title="Link to this heading">¶</a></h3>
 <p>While format plugins provide the <strong>how</strong>, archetypes provide the <strong>what</strong> gets packaged. An archetype changes the configuration in all supported package format scopes; they don’t add configuration
 scopes.</p>
 <p>A full list of archetypes can be found
@@ -546,7 +546,7 @@ scopes.</p>
 </div>
 </section>
 <section id="mappings">
-<h3>Mappings<a class="headerlink" href="#mappings" title="Permalink to this heading">¶</a></h3>
+<h3>Mappings<a class="headerlink" href="#mappings" title="Link to this heading">¶</a></h3>
 <p>Mappings are the heart of native packager. This task defines what files in your build should be mapped where on the
 target system. The type signature for the mappings task is</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">mappings</span><span class="p">:</span><span class="w"> </span><span class="nc">TaskKey</span><span class="p">[</span><span class="nc">Seq</span><span class="p">[(</span><span class="nc">File</span><span class="p">,</span><span class="w"> </span><span class="nc">String</span><span class="p">)]]</span>
@@ -558,9 +558,10 @@ the installation directory.</p>
 mappings</span></a>.</p>
 </section>
 <section id="architecture">
-<h3>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading">¶</a></h3>
+<h3>Architecture<a class="headerlink" href="#architecture" title="Link to this heading">¶</a></h3>
 <p>The architecture can be summarized with this diagram</p>
-<img alt="Architecture diagram." src="_images/sbt-native-packager-design.svg" /><p>When using the full power of the plugin, all of the packaging is driven from the <code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">mappings</span></code> setting,
+<img alt="Architecture diagram." src="_images/sbt-native-packager-design.svg" />
+<p>When using the full power of the plugin, all of the packaging is driven from the <code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">mappings</span></code> setting,
 which defines what files will be included in the package. These files are automatically moved around for the appropriate
 native packaging as needed.</p>
 </section>

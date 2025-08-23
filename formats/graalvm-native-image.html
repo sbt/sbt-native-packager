@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GraalVM Native Image Plugin &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>GraalVM Native Image Plugin &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="graalvm-native-image-plugin">
-<span id="id1"></span><h1>GraalVM Native Image Plugin<a class="headerlink" href="#graalvm-native-image-plugin" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>GraalVM Native Image Plugin<a class="headerlink" href="#graalvm-native-image-plugin" title="Link to this heading">¶</a></h1>
 <p>GraalVM’s <code class="docutils literal notranslate"><span class="pre">native-image</span></code> compiles Java programs AOT (ahead-of-time) into native binaries.</p>
 <blockquote>
 <div><p><a class="reference external" href="https://www.graalvm.org/22.1/reference-manual/native-image/">https://www.graalvm.org/22.1/reference-manual/native-image/</a> documents the AOT compilation of GraalVM.</p>
@@ -424,10 +424,10 @@ Docker container. If you intend to run the native image on Linux, then building 
 recommended since GraalVM native images can only be built for the platform they are built on. By building in a Docker
 container, you can build Linux native images not just on Linux but also on Windows and macOS.</p>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
 <p>To build using a local installation of GraalVM, you must have the <code class="docutils literal notranslate"><span class="pre">native-image</span></code> utility of GraalVM in your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
 <section id="native-image-quick-installation">
-<h3><code class="docutils literal notranslate"><span class="pre">native-image</span></code> quick installation<a class="headerlink" href="#native-image-quick-installation" title="Permalink to this heading">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">native-image</span></code> quick installation<a class="headerlink" href="#native-image-quick-installation" title="Link to this heading">¶</a></h3>
 <p>To get started quickly, eg make <code class="docutils literal notranslate"><span class="pre">native-image</span></code> available in your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>,
 you may reuse the script that is used for sbt-native-packager’s continuous integration.
 To do so, run the following. It will install GraalVM 1.0.0-rc8.</p>
@@ -437,19 +437,19 @@ To do so, run the following. It will install GraalVM 1.0.0-rc8.</p>
 </section>
 </section>
 <section id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
+<h2>Build<a class="headerlink" href="#build" title="Link to this heading">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span><span class="s1">&#39;show GraalVMNativeImage/packageBin&#39;</span>
 </pre></div>
 </div>
 <section id="required-settings">
-<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Required Settings<a class="headerlink" href="#required-settings" title="Link to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">GraalVMNativeImagePlugin</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">native-image</span></code> Executable Command (Pay attention if you are using Windows OS)</p>
 <blockquote>
 <div><dl>
@@ -462,7 +462,7 @@ To do so, run the following. It will install GraalVM 1.0.0-rc8.</p>
 </dl>
 </div></blockquote>
 <section id="docker-image-build-settings">
-<h3>Docker Image Build Settings<a class="headerlink" href="#docker-image-build-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Docker Image Build Settings<a class="headerlink" href="#docker-image-build-settings" title="Link to this heading">¶</a></h3>
 <p>By default, a local build will be done, expecting the <code class="docutils literal notranslate"><span class="pre">native-image</span></code> command to be on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>. This can be
 customized using the following settings.</p>
 <blockquote>
@@ -497,7 +497,7 @@ case, the name will be <code class="docutils literal notranslate"><span class="p
 </div></blockquote>
 </section>
 <section id="publishing-settings">
-<h3>Publishing Settings<a class="headerlink" href="#publishing-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Publishing Settings<a class="headerlink" href="#publishing-settings" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">graalVMNativeImageOptions</span></code></dt><dd><p>Extra options that will be passed to the <code class="docutils literal notranslate"><span class="pre">native-image</span></code> command. By default, this includes the name of the main class.</p>
@@ -507,14 +507,14 @@ case, the name will be <code class="docutils literal notranslate"><span class="p
 </section>
 </section>
 <section id="graalvm-resources">
-<h2>GraalVM Resources<a class="headerlink" href="#graalvm-resources" title="Permalink to this heading">¶</a></h2>
+<h2>GraalVM Resources<a class="headerlink" href="#graalvm-resources" title="Link to this heading">¶</a></h2>
 <p>If you are building the image in a docker container, and you have any resources that need to be available to the
 <code class="docutils literal notranslate"><span class="pre">native-image</span></code> command, such as files passed to <code class="docutils literal notranslate"><span class="pre">-H:ResourceConfigurationFiles</span></code> or
 <code class="docutils literal notranslate"><span class="pre">-H:ReflectionConfigurationFiles</span></code>, you can place these in your projects <code class="docutils literal notranslate"><span class="pre">src/graal</span></code> directory. Any files in there
 will be made available to the <code class="docutils literal notranslate"><span class="pre">native-image</span></code> docker container under the path <code class="docutils literal notranslate"><span class="pre">/opt/graalvm/stage/resources</span></code>.</p>
 </section>
 <section id="tasks">
-<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this heading">¶</a></h2>
+<h2>Tasks<a class="headerlink" href="#tasks" title="Link to this heading">¶</a></h2>
 <p>The GraalVM Native Image plugin provides the following commands:</p>
 <blockquote>
 <div><dl class="simple">

@@ -72,7 +72,7 @@ You can specify your options via the ``build.sbt``.
        s"-version=${version.value}"
     )
 
-For the ``-X`` settings you need to add a prefix ``-J`` so the start script will
+For the ``-X`` settings you need to add a suffix ``-J`` so the start script will
 recognize these as vm config parameters.
 
 When you use the  ``Universal / javaOptions`` sbt-native-packager will generate configuration files

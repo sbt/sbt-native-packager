@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Windows Plugin &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Windows Plugin &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="windows-plugin">
-<span id="id1"></span><h1>Windows Plugin<a class="headerlink" href="#windows-plugin" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>Windows Plugin<a class="headerlink" href="#windows-plugin" title="Link to this heading">¶</a></h1>
 <p>Windows packaging is completely tied to the WIX installer toolset.  For any non-trivial package,
 it’s important to understand how WIX works.  <a class="reference external" href="http://wix.tramontana.co.hu/">http://wix.tramontana.co.hu/</a> is an excellent tutorial
 to how to create packages using wix.</p>
@@ -426,19 +426,19 @@ xml configuration.</p>
 <p>The windows plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>.</p>
 </div>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
 <p>You need the following applications installed</p>
 <ul class="simple">
 <li><p><a class="reference external" href="http://wixtoolset.org/">WIX Toolset</a></p></li>
 </ul>
 </section>
 <section id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
+<h2>Build<a class="headerlink" href="#build" title="Link to this heading">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>Windows/packageBin
 </pre></div>
 </div>
 <section id="required-settings">
-<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Required Settings<a class="headerlink" href="#required-settings" title="Link to this heading">¶</a></h3>
 <p>A windows package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// general package information (can be scoped to Windows)</span>
@@ -453,21 +453,21 @@ you have these settings in your build:</p>
 </div>
 </section>
 <section id="or-higher">
-<h3>1.0 or higher<a class="headerlink" href="#or-higher" title="Permalink to this heading">¶</a></h3>
+<h3>1.0 or higher<a class="headerlink" href="#or-higher" title="Link to this heading">¶</a></h3>
 <p>Enables the windows plugin</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">WindowsPlugin</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="or-lower">
-<h3>0.8 or lower<a class="headerlink" href="#or-lower" title="Permalink to this heading">¶</a></h3>
+<h3>0.8 or lower<a class="headerlink" href="#or-lower" title="Link to this heading">¶</a></h3>
 <p>For these versions windows packaging is automatically activated.
 See the <a class="reference internal" href="../gettingstarted.html"><span class="doc">Getting Started</span></a> page for information
 on how to enable sbt-native-packager.</p>
 </section>
 </section>
 <section id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
 <p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Universal</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Windows</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="p">).</span><span class="n">value</span>
 </pre></div>
@@ -475,7 +475,7 @@ on how to enable sbt-native-packager.</p>
 <p>Now, let’s look at the full set of windows settings.</p>
 </section>
 <section id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Link to this heading">¶</a></h2>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">Windows</span> <span class="pre">/</span> <span class="pre">name</span></code></dt><dd><p>The name of the generated msi file.</p>
@@ -513,7 +513,7 @@ The WIX xml should use the relative locations in this mappings when referencing 
 </div></blockquote>
 </section>
 <section id="tasks">
-<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this heading">¶</a></h2>
+<h2>Tasks<a class="headerlink" href="#tasks" title="Link to this heading">¶</a></h2>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">Windows/packageBin</span></code></dt><dd><p>Creates the <code class="docutils literal notranslate"><span class="pre">msi</span></code> package.</p>
@@ -540,9 +540,9 @@ directory of files for usage in the Features of an MSI.</p>
 </div></blockquote>
 </section>
 <section id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
+<h2>Customize<a class="headerlink" href="#customize" title="Link to this heading">¶</a></h2>
 <section id="feature-configuration">
-<h3>Feature configuration<a class="headerlink" href="#feature-configuration" title="Permalink to this heading">¶</a></h3>
+<h3>Feature configuration<a class="headerlink" href="#feature-configuration" title="Link to this heading">¶</a></h3>
 <p>The abstraction over wix allows you to configure “features” that users may optionally install. These feature are higher level things,
 like a set of files or menu links. The currently supported components of features are:</p>
 <ol class="arabic simple">

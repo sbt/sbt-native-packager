@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rpm Plugin &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Rpm Plugin &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="rpm-plugin">
-<span id="id1"></span><h1>Rpm Plugin<a class="headerlink" href="#rpm-plugin" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>Rpm Plugin<a class="headerlink" href="#rpm-plugin" title="Link to this heading">¶</a></h1>
 <p>RedHat <code class="docutils literal notranslate"><span class="pre">rpm</span></code> files support a number of very advanced features.  To take full advantage of this environment,
 it’s best to understand how the <code class="docutils literal notranslate"><span class="pre">rpm</span></code> package system works. <a class="reference external" href="http://fedoraproject.org/wiki/How_to_create_an_RPM_package">How to create an RPM package</a> on the fedora project wiki
 is a good tutorial, but it focuses on building packages from <em>source.</em>  The sbt-native-packager assumes that SBT has built your source and generated
@@ -424,7 +424,7 @@ is a good tutorial, but it focuses on building packages from <em>source.</em>  T
 <p>The rpm plugin depends on the <a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a>.</p>
 </div>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
 <p>You need the following applications installed</p>
 <ul class="simple">
 <li><p>rpm</p></li>
@@ -432,12 +432,12 @@ is a good tutorial, but it focuses on building packages from <em>source.</em>  T
 </ul>
 </section>
 <section id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
+<h2>Build<a class="headerlink" href="#build" title="Link to this heading">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>Rpm/packageBin
 </pre></div>
 </div>
 <section id="required-settings">
-<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Required Settings<a class="headerlink" href="#required-settings" title="Link to this heading">¶</a></h3>
 <p>A rpm package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">rpmVendor</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;typesafe&quot;</span>
@@ -445,30 +445,30 @@ you have these settings in your build:</p>
 </div>
 </section>
 <section id="or-higher">
-<h3>1.0 or higher<a class="headerlink" href="#or-higher" title="Permalink to this heading">¶</a></h3>
+<h3>1.0 or higher<a class="headerlink" href="#or-higher" title="Link to this heading">¶</a></h3>
 <p>Enables the rpm plugin</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">RpmPlugin</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="or-lower">
-<h3>0.8 or lower<a class="headerlink" href="#or-lower" title="Permalink to this heading">¶</a></h3>
+<h3>0.8 or lower<a class="headerlink" href="#or-lower" title="Link to this heading">¶</a></h3>
 <p>For this versions rpm packaging is automatically activated.
 See the <a class="reference internal" href="../gettingstarted.html"><span class="doc">Getting Started</span></a> page for information
 on how to enable sbt native packager.</p>
 </section>
 </section>
 <section id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
 <p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Rpm</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Rpm</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="p">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </section>
 <section id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Link to this heading">¶</a></h2>
 <section id="informational-settings">
-<h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">Rpm</span> <span class="pre">/</span> <span class="pre">packageName</span></code></dt><dd><p>The name of the package for the rpm.
@@ -525,7 +525,7 @@ release.</p>
 </div></blockquote>
 </section>
 <section id="dependency-settings">
-<h3>Dependency Settings<a class="headerlink" href="#dependency-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Dependency Settings<a class="headerlink" href="#dependency-settings" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">rpmAutoreq</span></code></dt><dd><p>Enable or disable the automatic processing of required packages.
@@ -552,7 +552,7 @@ Defines the <code class="docutils literal notranslate"><span class="pre">AutoPro
 </div></blockquote>
 </section>
 <section id="meta-settings">
-<h3>Meta Settings<a class="headerlink" href="#meta-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Meta Settings<a class="headerlink" href="#meta-settings" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">rpmPrefix</span></code></dt><dd><p>The path passed set as the base for the revocable package</p>
@@ -563,7 +563,7 @@ Defines the <code class="docutils literal notranslate"><span class="pre">AutoPro
 </div></blockquote>
 </section>
 <section id="scriptlet-settings">
-<h3>Scriptlet Settings<a class="headerlink" href="#scriptlet-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Scriptlet Settings<a class="headerlink" href="#scriptlet-settings" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">Rpm</span> <span class="pre">/</span> <span class="pre">maintainerScripts</span></code></dt><dd><p>Contains the scriptlets being injected into the specs file. Currently supports all
@@ -576,7 +576,7 @@ previous scriptlets: <code class="docutils literal notranslate"><span class="pre
 </div></blockquote>
 </section>
 <section id="systemv-start-script-settings">
-<h3>SystemV Start Script Settings<a class="headerlink" href="#systemv-start-script-settings" title="Permalink to this heading">¶</a></h3>
+<h3>SystemV Start Script Settings<a class="headerlink" href="#systemv-start-script-settings" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">rpmDaemonLogFile</span></code></dt><dd><p>File name of the log generated by application daemon.</p>
@@ -586,7 +586,7 @@ previous scriptlets: <code class="docutils literal notranslate"><span class="pre
 </section>
 </section>
 <section id="tasks">
-<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this heading">¶</a></h2>
+<h2>Tasks<a class="headerlink" href="#tasks" title="Link to this heading">¶</a></h2>
 <p>The Rpm plugin support grants the following commands:</p>
 <blockquote>
 <div><dl class="simple">
@@ -598,9 +598,9 @@ previous scriptlets: <code class="docutils literal notranslate"><span class="pre
 </div></blockquote>
 </section>
 <section id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
+<h2>Customize<a class="headerlink" href="#customize" title="Link to this heading">¶</a></h2>
 <section id="rpm-prefix">
-<h3>Rpm Prefix<a class="headerlink" href="#rpm-prefix" title="Permalink to this heading">¶</a></h3>
+<h3>Rpm Prefix<a class="headerlink" href="#rpm-prefix" title="Link to this heading">¶</a></h3>
 <p>The rpm prefix allows you to create a relocatable package as defined by <a class="reference external" href="http://www.rpm.org/max-rpm/s1-rpm-reloc-prefix-tag.html">http://www.rpm.org/max-rpm/s1-rpm-reloc-prefix-tag.html</a>.
 This optional setting with a handful of overrides to scriptlets and templates will allow you to create a working java_server
 archetype that can be relocated in the file system.</p>
@@ -613,7 +613,7 @@ archetype that can be relocated in the file system.</p>
 </div>
 </section>
 <section id="rpmchangelogfile">
-<h3>rpmChangelogFile<a class="headerlink" href="#rpmchangelogfile" title="Permalink to this heading">¶</a></h3>
+<h3>rpmChangelogFile<a class="headerlink" href="#rpmchangelogfile" title="Link to this heading">¶</a></h3>
 <p>The rpmChangelogFile property allows you to set a source that will be imported and used on the RPM generation.
 So if you use rpm commands to see the changelog it brings that information. You have to create the content in
 the changelog file using the RPM conventions that are available here <a class="reference external" href="http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs">http://fedoraproject.org/wiki/Packaging:Guidelines#Changelogs</a>.</p>
@@ -633,7 +633,7 @@ the changelog file using the RPM conventions that are available here <a class="r
 </div>
 </section>
 <section id="scriptlet-changes">
-<h3>Scriptlet Changes<a class="headerlink" href="#scriptlet-changes" title="Permalink to this heading">¶</a></h3>
+<h3>Scriptlet Changes<a class="headerlink" href="#scriptlet-changes" title="Link to this heading">¶</a></h3>
 <p>Changing scriptlets can be done in two ways:</p>
 <ol class="arabic simple">
 <li><p>Override the <code class="docutils literal notranslate"><span class="pre">Rpm</span> <span class="pre">/</span> <span class="pre">maintainerScripts</span></code>, or</p></li>
@@ -687,7 +687,7 @@ rm<span class="w"> </span>/etc/sysconfig/<span class="si">${</span><span class="
 <p>Using scriptlet files like this <em>will override all previous contents.</em></p>
 </section>
 <section id="scriptlet-migration-from-1-0-x">
-<h3>Scriptlet Migration from 1.0.x<a class="headerlink" href="#scriptlet-migration-from-1-0-x" title="Permalink to this heading">¶</a></h3>
+<h3>Scriptlet Migration from 1.0.x<a class="headerlink" href="#scriptlet-migration-from-1-0-x" title="Link to this heading">¶</a></h3>
 <p>Before</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">rpmPostun</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">rpmPost</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="n">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">content</span><span class="w"> </span><span class="o">=&gt;</span>
 <span class="w">  </span><span class="s">s&quot;&quot;&quot;|</span><span class="si">$</span><span class="n">content</span>
@@ -711,7 +711,7 @@ rm<span class="w"> </span>/etc/sysconfig/<span class="si">${</span><span class="
 </div>
 </section>
 <section id="jar-repackaging">
-<h3>Jar Repackaging<a class="headerlink" href="#jar-repackaging" title="Permalink to this heading">¶</a></h3>
+<h3>Jar Repackaging<a class="headerlink" href="#jar-repackaging" title="Link to this heading">¶</a></h3>
 <p>RPM repackages jars by default in order to optimize jars.
 Repacking is turned off by default. In order to enable it, set:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">rpmBrpJavaRepackJars</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kc">true</span>
@@ -727,7 +727,7 @@ For more information on this topic follow these links:</p>
 </ul>
 </section>
 <section id="marking-config-files-as-noreplace">
-<h3>Marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code><a class="headerlink" href="#marking-config-files-as-noreplace" title="Permalink to this heading">¶</a></h3>
+<h3>Marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code><a class="headerlink" href="#marking-config-files-as-noreplace" title="Link to this heading">¶</a></h3>
 <p>By default, rpm replaces config files on disk when the content has changed between two version. Often, this is not desirable
 as configurations are often customized and should not change during updates. rpm provides a means to turn of the default behaviour
 by marking config files as <code class="docutils literal notranslate"><span class="pre">noreplace</span></code> in the spec file. In order to enable this for the build, we provide a helper method that

@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Debian Plugin &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Debian Plugin &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="debian-plugin">
-<span id="id1"></span><h1>Debian Plugin<a class="headerlink" href="#debian-plugin" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>Debian Plugin<a class="headerlink" href="#debian-plugin" title="Link to this heading">¶</a></h1>
 <p>The debian package specification is very robust and powerful.  If you wish to do any advanced features, it’s best to understand how
 the underlying packaging system works.  <a class="reference external" href="http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/">Debian Binary Package Building HOWTO</a> by Chr. Clemens Lee is an excellent tutorial.</p>
 <p>SBT Native Packager provides two ways to build debian packages:</p>
@@ -428,7 +428,7 @@ the underlying packaging system works.  <a class="reference external" href="http
 <p>The debian plugin depends on the <a class="reference internal" href="linux.html#linux-plugin"><span class="std std-ref">Linux Plugin</span></a>.</p>
 </div>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
 <p>If you use the <em>native</em>  debian package implementation you need the following applications installed:</p>
 <ul class="simple">
 <li><p>dpkg-deb</p></li>
@@ -439,12 +439,12 @@ the underlying packaging system works.  <a class="reference external" href="http
 </ul>
 </section>
 <section id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
+<h2>Build<a class="headerlink" href="#build" title="Link to this heading">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>debian/packageBin
 </pre></div>
 </div>
 <section id="required-settings">
-<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Required Settings<a class="headerlink" href="#required-settings" title="Link to this heading">¶</a></h3>
 <p>A debian package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Debian Example&quot;</span>
@@ -470,7 +470,7 @@ relevant <a class="reference internal" href="#jre-dependencies"><span class="std
 </div>
 </section>
 <section id="jre-dependencies">
-<span id="id2"></span><h3>JRE Dependencies<a class="headerlink" href="#jre-dependencies" title="Permalink to this heading">¶</a></h3>
+<span id="id2"></span><h3>JRE Dependencies<a class="headerlink" href="#jre-dependencies" title="Link to this heading">¶</a></h3>
 <p>By default, a Debian package would have no dependencies, even for the
 Java Runtime Environment (JRE). A startup script will seek JRE in
 several popular locations, and, JRE is not found, the following
@@ -522,7 +522,7 @@ packages supplied by Debian, and non-free JDKs supplied by Oracle and
 packaged as .deb using <a class="reference external" href="https://wiki.debian.org/JavaPackage">make-jpkg utility</a> from Debian’s <a class="reference external" href="https://packages.debian.org/java-package">java-package</a>.</p>
 </section>
 <section id="native-packaging">
-<h3>Native packaging<a class="headerlink" href="#native-packaging" title="Permalink to this heading">¶</a></h3>
+<h3>Native packaging<a class="headerlink" href="#native-packaging" title="Link to this heading">¶</a></h3>
 <p>Since JARs are by default already compressed, <cite>DebianPlugin</cite> disables additional compression of the debian package
 contents.</p>
 <p>To compress the debian package, override <cite>debianNativeBuildOptions</cite> with
@@ -554,7 +554,7 @@ example,</p></li>
 </ul>
 </section>
 <section id="java-based-packaging">
-<h3>Java based packaging<a class="headerlink" href="#java-based-packaging" title="Permalink to this heading">¶</a></h3>
+<h3>Java based packaging<a class="headerlink" href="#java-based-packaging" title="Link to this heading">¶</a></h3>
 <p>If you want to use the java based implementation, enable the following plugin:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JDebPackaging</span><span class="p">)</span>
 </pre></div>
@@ -568,14 +568,14 @@ that could slow your build times. This is the reason the dependency is marked as
 </section>
 </section>
 <section id="configurations">
-<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this heading">¶</a></h2>
+<h2>Configurations<a class="headerlink" href="#configurations" title="Link to this heading">¶</a></h2>
 <p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Debian</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Debian</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="p">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </section>
 <section id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Link to this heading">¶</a></h2>
 <p>Debian requires the following specific settings:</p>
 <blockquote>
 <div><dl class="simple">
@@ -608,7 +608,7 @@ upload the debian package to a mirror.</p>
 </div></blockquote>
 </section>
 <section id="tasks">
-<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this heading">¶</a></h2>
+<h2>Tasks<a class="headerlink" href="#tasks" title="Link to this heading">¶</a></h2>
 <p>The Debian support grants the following commands:</p>
 <blockquote>
 <div><dl class="simple">
@@ -622,10 +622,10 @@ upload the debian package to a mirror.</p>
 </div></blockquote>
 </section>
 <section id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
+<h2>Customize<a class="headerlink" href="#customize" title="Link to this heading">¶</a></h2>
 <p>This section contains examples of how you can customize your debian build.</p>
 <section id="customizing-debian-metadata">
-<h3>Customizing Debian Metadata<a class="headerlink" href="#customizing-debian-metadata" title="Permalink to this heading">¶</a></h3>
+<h3>Customizing Debian Metadata<a class="headerlink" href="#customizing-debian-metadata" title="Link to this heading">¶</a></h3>
 <p>A Debian package provides metadata, which includes <strong>dependencies</strong> and <strong>recommendations</strong>.
 This example adds a dependency on java and recommends a git installation.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Debian</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">debianPackageDependencies</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="s">&quot;java2-runtime&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bash (&gt;= 2.05a-11)&quot;</span><span class="p">)</span>
@@ -635,7 +635,7 @@ This example adds a dependency on java and recommends a git installation.</p>
 </div>
 </section>
 <section id="hook-actions-into-the-debian-package-lifecycle">
-<h3>Hook Actions into the Debian Package Lifecycle<a class="headerlink" href="#hook-actions-into-the-debian-package-lifecycle" title="Permalink to this heading">¶</a></h3>
+<h3>Hook Actions into the Debian Package Lifecycle<a class="headerlink" href="#hook-actions-into-the-debian-package-lifecycle" title="Link to this heading">¶</a></h3>
 <p>To hook into the debian package lifecycle (<a class="reference external" href="https://wiki.debian.org/MaintainerScripts">https://wiki.debian.org/MaintainerScripts</a>) you
 can add <code class="docutils literal notranslate"><span class="pre">preinst</span></code> , <code class="docutils literal notranslate"><span class="pre">postinst</span></code> , <code class="docutils literal notranslate"><span class="pre">prerm</span></code> and/or <code class="docutils literal notranslate"><span class="pre">postrm</span></code> scripts. Just place them into
 <code class="docutils literal notranslate"><span class="pre">src/debian/DEBIAN</span></code>. Or you can do it programmatically in your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>.  This example adds actions to <code class="docutils literal notranslate"><span class="pre">preinst</span></code> and <code class="docutils literal notranslate"><span class="pre">postinst</span></code>:</p>
@@ -652,7 +652,7 @@ can add <code class="docutils literal notranslate"><span class="pre">preinst</sp
 maintainer scripts will be <em>extended</em> not overridden.</p>
 </section>
 <section id="use-a-different-castle-directory-for-your-control-scripts">
-<h3>Use a Different Castle Directory for your Control Scripts<a class="headerlink" href="#use-a-different-castle-directory-for-your-control-scripts" title="Permalink to this heading">¶</a></h3>
+<h3>Use a Different Castle Directory for your Control Scripts<a class="headerlink" href="#use-a-different-castle-directory-for-your-control-scripts" title="Link to this heading">¶</a></h3>
 <p>Your control scripts are in a different castle.. directory? No problem.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">debianControlScriptsDirectory</span><span class="w"> </span><span class="o">&lt;&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">sourceDirectory</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;deb&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;control&quot;</span><span class="p">)</span>
 </pre></div>

@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Build the same package with different configs &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Build the same package with different configs &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="build-the-same-package-with-different-configs">
-<span id="packageconfigurations"></span><h1>Build the same package with different configs<a class="headerlink" href="#build-the-same-package-with-different-configs" title="Permalink to this heading">¶</a></h1>
+<span id="packageconfigurations"></span><h1>Build the same package with different configs<a class="headerlink" href="#build-the-same-package-with-different-configs" title="Link to this heading">¶</a></h1>
 <p>If you want to build your application with different settings, e.g. for <em>test</em>, <em>staging</em> and <em>production</em>, then you
 have three ways to do this.</p>
 <div class="admonition tip">
@@ -424,7 +424,7 @@ of your build.</p>
 </div>
 <p>All examples can also be found in the <a class="reference external" href="https://github.com/muuki88/sbt-native-packager-examples">native-packager examples</a>,</p>
 <section id="sbt-sub-modules">
-<h2>SBT sub modules<a class="headerlink" href="#sbt-sub-modules" title="Permalink to this heading">¶</a></h2>
+<h2>SBT sub modules<a class="headerlink" href="#sbt-sub-modules" title="Link to this heading">¶</a></h2>
 <p>The main idea is to create a submodule per configuration. We start with a simple project <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-app&quot;</span>
 <span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JavaAppPackaging</span><span class="p">)</span>
@@ -490,7 +490,7 @@ sbt<span class="w"> </span>testPackage/Universal/packageBin
 <p>This technique is a bit verbose, but communicates very clear what is being built and why.</p>
 </section>
 <section id="sbt-parameters-and-build-environment">
-<h2>SBT parameters and Build Environment<a class="headerlink" href="#sbt-parameters-and-build-environment" title="Permalink to this heading">¶</a></h2>
+<h2>SBT parameters and Build Environment<a class="headerlink" href="#sbt-parameters-and-build-environment" title="Link to this heading">¶</a></h2>
 <p>SBT is a java process, which means you can start it with system properties and use these in your build.
 This pattern may be useful in other scopes as well. First we define an <em>AutoPlugin</em> that sets a build environment.</p>
 <p>This plugin allows you to start sbt for example like</p>
@@ -523,7 +523,7 @@ sbt<span class="w"> </span>-Denv<span class="o">=</span>prod<span class="w"> </s
 </div>
 </section>
 <section id="sbt-configuration-scope-not-recommended">
-<h2>SBT configuration scope (not recommended)<a class="headerlink" href="#sbt-configuration-scope-not-recommended" title="Permalink to this heading">¶</a></h2>
+<h2>SBT configuration scope (not recommended)<a class="headerlink" href="#sbt-configuration-scope-not-recommended" title="Link to this heading">¶</a></h2>
 <p>The other option is to generate additional scopes in order to build a package like <code class="docutils literal notranslate"><span class="pre">Prod</span> <span class="pre">/</span> <span class="pre">packageBin</span></code>. Scopes behave
 counter intuitive sometimes, why we don’t recommend this technique.</p>
 <div class="admonition error">

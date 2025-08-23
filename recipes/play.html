@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Play 2 Packaging &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Play 2 Packaging &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="play-2-packaging">
-<h1>Play 2 Packaging<a class="headerlink" href="#play-2-packaging" title="Permalink to this heading">¶</a></h1>
+<h1>Play 2 Packaging<a class="headerlink" href="#play-2-packaging" title="Link to this heading">¶</a></h1>
 <p>Although Play 2 supports Sbt Native Packager, it requires some additional steps to successfully package and run your
 application.</p>
 <div class="admonition tip">
@@ -426,7 +426,7 @@ application.</p>
 </ul>
 </div>
 <section id="build-configuration">
-<h2>Build Configuration<a class="headerlink" href="#build-configuration" title="Permalink to this heading">¶</a></h2>
+<h2>Build Configuration<a class="headerlink" href="#build-configuration" title="Link to this heading">¶</a></h2>
 <p>Depending on whether you want to package your application as a deb-package or
 as an rpm-package, you have to setup your build configuration accordingly.
 Please, refer to <a class="reference internal" href="../formats/debian.html#debian-plugin"><span class="std std-ref">Debian Plugin</span></a> and <a class="reference internal" href="../formats/rpm.html#rpm-plugin"><span class="std std-ref">Rpm Plugin</span></a>
@@ -436,7 +436,7 @@ You can always fallback to the <strong>SystemV</strong> service manager instead.
 For more information on service managers please refer to <a class="reference internal" href="../archetypes/java_server/index.html#java-server-plugin"><span class="std std-ref">Java Server Application Archetype</span></a> page.</p>
 </section>
 <section id="application-configuration">
-<h2>Application Configuration<a class="headerlink" href="#application-configuration" title="Permalink to this heading">¶</a></h2>
+<h2>Application Configuration<a class="headerlink" href="#application-configuration" title="Link to this heading">¶</a></h2>
 <p>In order to run your application in production you need to provide it with at least:</p>
 <ul class="simple">
 <li><p>Location where it can store its pidfile</p></li>
@@ -473,7 +473,7 @@ or put it under <code class="docutils literal notranslate"><span class="pre">/us
 <p>Your pid file must be called <strong>play.pid</strong></p>
 </div>
 <section id="systemv">
-<h3>SystemV<a class="headerlink" href="#systemv" title="Permalink to this heading">¶</a></h3>
+<h3>SystemV<a class="headerlink" href="#systemv" title="Link to this heading">¶</a></h3>
 <p>If you use a system using SystemV start script make sure to provide
 a <cite>etc-default</cite> in <cite>src/templates</cite> and set the <cite>PIDFILE</cite> environment variable.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setting JAVA_OPTS</span>

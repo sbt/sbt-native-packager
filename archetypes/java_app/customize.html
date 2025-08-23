@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Application and runtime configuration &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+  <title>Application and runtime configuration &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -417,7 +417,7 @@
   <p>The application structure is customizable via the standard mappings, which is described in the
 <a class="reference internal" href="../../formats/universal.html#universal-plugin"><span class="std std-ref">Universal Plugin Section</span></a>.</p>
 <section id="application-and-runtime-configuration">
-<h1>Application and runtime configuration<a class="headerlink" href="#application-and-runtime-configuration" title="Permalink to this heading">¶</a></h1>
+<h1>Application and runtime configuration<a class="headerlink" href="#application-and-runtime-configuration" title="Link to this heading">¶</a></h1>
 <p>There are generally two types of configurations:</p>
 <ul class="simple">
 <li><p>Configuring the JVM and the process</p></li>
@@ -425,7 +425,7 @@
 </ul>
 <p>You have two options to define your runtime and application configurations.</p>
 <section id="configuration-file">
-<h2>Configuration file<a class="headerlink" href="#configuration-file" title="Permalink to this heading">¶</a></h2>
+<h2>Configuration file<a class="headerlink" href="#configuration-file" title="Link to this heading">¶</a></h2>
 <p>The start scripts provided by the <code class="docutils literal notranslate"><span class="pre">BatStartScriptPlugin</span></code> and <code class="docutils literal notranslate"><span class="pre">BashStartScriptPlugin</span></code> can both load an external
 configuration file during execution. You can define the configuration file location for both with these two settings.</p>
 <blockquote>
@@ -458,7 +458,7 @@ to create a valid <code class="docutils literal notranslate"><span class="pre">U
 <p>Now we know how to configure the location of our configuration file. The next step is to learn how to provide content
 for the configuration file.</p>
 <section id="via-build-sbt">
-<h3>Via build.sbt<a class="headerlink" href="#via-build-sbt" title="Permalink to this heading">¶</a></h3>
+<h3>Via build.sbt<a class="headerlink" href="#via-build-sbt" title="Link to this heading">¶</a></h3>
 <p>You can specify your options via the <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">javaOptions</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span>
 <span class="w">    </span><span class="c1">// -J params will be added as jvm parameters</span>
@@ -480,7 +480,7 @@ recognize these as vm config parameters.</p>
 if you haven’t set the <code class="docutils literal notranslate"><span class="pre">batScriptConfigLocation</span></code> and/or <code class="docutils literal notranslate"><span class="pre">bashScriptConfigLocation</span></code> to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </section>
 <section id="via-application-ini">
-<h3>Via Application.ini<a class="headerlink" href="#via-application-ini" title="Permalink to this heading">¶</a></h3>
+<h3>Via Application.ini<a class="headerlink" href="#via-application-ini" title="Link to this heading">¶</a></h3>
 <p>The second option is to create <code class="docutils literal notranslate"><span class="pre">src/universal/conf/application.ini</span></code> with the following template</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setting -X directly (-J is stripped)</span>
 <span class="c1"># -J-X</span>
@@ -519,7 +519,7 @@ The default configuration looks like this</p>
 </section>
 </section>
 <section id="add-code-to-the-start-scripts">
-<span id="id1"></span><h2>Add code to the start scripts<a class="headerlink" href="#add-code-to-the-start-scripts" title="Permalink to this heading">¶</a></h2>
+<span id="id1"></span><h2>Add code to the start scripts<a class="headerlink" href="#add-code-to-the-start-scripts" title="Link to this heading">¶</a></h2>
 <p>The second option is to add code to the generated start scripts via these settings.</p>
 <blockquote>
 <div><dl class="simple">
@@ -530,7 +530,7 @@ The default configuration looks like this</p>
 </dl>
 </div></blockquote>
 <section id="bashscript-defines">
-<span id="bash-script-defines"></span><h3>BashScript defines<a class="headerlink" href="#bashscript-defines" title="Permalink to this heading">¶</a></h3>
+<span id="bash-script-defines"></span><h3>BashScript defines<a class="headerlink" href="#bashscript-defines" title="Link to this heading">¶</a></h3>
 <p>The bash script accepts extra commands via <code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code>. Generally you can add arbitrary
 bash commands here, but for configurations you have two methods to add jvm and app parameters.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// add jvm parameter for typesafe config</span>
@@ -551,7 +551,7 @@ are predefined:
 </div></blockquote>
 </section>
 <section id="batscript-defines">
-<span id="bat-script-defines"></span><h3>BatScript defines<a class="headerlink" href="#batscript-defines" title="Permalink to this heading">¶</a></h3>
+<span id="bat-script-defines"></span><h3>BatScript defines<a class="headerlink" href="#batscript-defines" title="Link to this heading">¶</a></h3>
 <p>The Windows batch script accepts extra commands via <code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code>. It offers
 two methods to add jvm and app parameters using similar syntax to the BASH script.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// add jvm parameter for typesafe config</span>
@@ -573,12 +573,12 @@ will be replaced with a set of variable definitions, like <code class="docutils 
 </section>
 </section>
 <section id="start-script-customizations">
-<h1>Start script customizations<a class="headerlink" href="#start-script-customizations" title="Permalink to this heading">¶</a></h1>
+<h1>Start script customizations<a class="headerlink" href="#start-script-customizations" title="Link to this heading">¶</a></h1>
 <p>While the native packager tries to provide robust BASH/BAT scripts for your applications, they may not always be enough.
 The native packager provides a mechanism where the template used to create each script can be customized or directly
 overridden.</p>
 <section id="bash-and-bat-script-extra-defines">
-<h2>Bash and Bat script extra defines<a class="headerlink" href="#bash-and-bat-script-extra-defines" title="Permalink to this heading">¶</a></h2>
+<h2>Bash and Bat script extra defines<a class="headerlink" href="#bash-and-bat-script-extra-defines" title="Link to this heading">¶</a></h2>
 <p>For the bat and bash script are separated settings available to add arbitrary code to the start script.
 See <a class="reference internal" href="#bash-script-defines"><span class="std std-ref">BashScript defines</span></a> and <a class="reference internal" href="#bat-script-defines"><span class="std std-ref">BatScript defines</span></a> for details.</p>
 <p>The  <code class="docutils literal notranslate"><span class="pre">bashScriptExtraDefines</span></code> sequence allows you to add new lines to the default bash script used to start the
@@ -596,7 +596,7 @@ start-script.</p>
 </section>
 </section>
 <section id="overriding-templates-bash-bat">
-<h1>Overriding Templates (Bash/Bat)<a class="headerlink" href="#overriding-templates-bash-bat" title="Permalink to this heading">¶</a></h1>
+<h1>Overriding Templates (Bash/Bat)<a class="headerlink" href="#overriding-templates-bash-bat" title="Link to this heading">¶</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Replacing the default templates should really only be done if:</p>

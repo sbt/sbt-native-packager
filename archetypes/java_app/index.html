@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Java Application Archetype &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+  <title>Java Application Archetype &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="java-application-archetype">
-<span id="java-app-plugin"></span><h1>Java Application Archetype<a class="headerlink" href="#java-application-archetype" title="Permalink to this heading">¶</a></h1>
+<span id="java-app-plugin"></span><h1>Java Application Archetype<a class="headerlink" href="#java-application-archetype" title="Link to this heading">¶</a></h1>
 <p>Application packaging focuses on how your application is launched (via a <code class="docutils literal notranslate"><span class="pre">bash</span></code> or <code class="docutils literal notranslate"><span class="pre">bat</span></code> script), how dependencies
 are managed and how configuration and other auxiliary files are included in the final distributable. The
 <em>JavaAppPackaging</em> archetype provides a default application structure and executable scripts to launch your application.</p>
@@ -422,7 +422,7 @@ are managed and how configuration and other auxiliary files are included in the 
 application in server environments. You can customize specific debian and rpm packaging for a variety of platforms and
 init service loaders including Upstart, System V and SystemD.</p>
 <section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h2>
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
 <p>The <cite>JavaAppPackaging</cite> archetype contains the following features.</p>
 <ul class="simple">
 <li><p>Default application mappings (no fat jar)</p></li>
@@ -430,7 +430,7 @@ init service loaders including Upstart, System V and SystemD.</p>
 </ul>
 </section>
 <section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
 <p>Enable the <code class="docutils literal notranslate"><span class="pre">JavaAppPackaging</span></code> plugin in your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> with</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JavaAppPackaging</span><span class="p">)</span>
 </pre></div>
@@ -476,7 +476,7 @@ java app archetype! For example you can build <em>zips</em>, <em>deb</em> or <em
 </div>
 </section>
 <section id="settings-tasks">
-<h2>Settings &amp; Tasks<a class="headerlink" href="#settings-tasks" title="Permalink to this heading">¶</a></h2>
+<h2>Settings &amp; Tasks<a class="headerlink" href="#settings-tasks" title="Link to this heading">¶</a></h2>
 <p>This is a non extensive list of important settings and tasks this plugin provides. All settings
 have sensible defaults.</p>
 <blockquote>
@@ -503,7 +503,7 @@ have sensible defaults.</p>
 </div></blockquote>
 </section>
 <section id="start-script-options">
-<h2>Start script options<a class="headerlink" href="#start-script-options" title="Permalink to this heading">¶</a></h2>
+<h2>Start script options<a class="headerlink" href="#start-script-options" title="Link to this heading">¶</a></h2>
 <p>The start script provides a few standard options you can pass:</p>
 <blockquote>
 <div><dl class="simple">
@@ -541,7 +541,7 @@ application arguments with <code class="docutils literal notranslate"><span clas
 </div>
 </section>
 <section id="multiple-applications">
-<h2>Multiple Applications<a class="headerlink" href="#multiple-applications" title="Permalink to this heading">¶</a></h2>
+<h2>Multiple Applications<a class="headerlink" href="#multiple-applications" title="Link to this heading">¶</a></h2>
 <p>If you have multiple main classes then the <code class="docutils literal notranslate"><span class="pre">JavaAppPackaging</span></code> archetype provides you with two different ways of
 generating start scripts.</p>
 <ol class="arabic simple">
@@ -556,7 +556,7 @@ A <em>forwarder script</em> only overrides this attribute and forwards all other
 <p>All customization you implemented for the main script will also apply for the forwarder scripts.</p>
 </div>
 <section id="multiple-start-scripts">
-<h3>Multiple start scripts<a class="headerlink" href="#multiple-start-scripts" title="Permalink to this heading">¶</a></h3>
+<h3>Multiple start scripts<a class="headerlink" href="#multiple-start-scripts" title="Link to this heading">¶</a></h3>
 <p>No configuration is needed. SBT sets <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">mainClass</span></code> automatically to <code class="docutils literal notranslate"><span class="pre">None</span></code> if multiple main classes are
 discovered.</p>
 <p><strong>Example:</strong></p>
@@ -570,7 +570,7 @@ discovered.</p>
 </div>
 </section>
 <section id="single-start-script-with-forwarders">
-<h3>Single start script with forwarders<a class="headerlink" href="#single-start-script-with-forwarders" title="Permalink to this heading">¶</a></h3>
+<h3>Single start script with forwarders<a class="headerlink" href="#single-start-script-with-forwarders" title="Link to this heading">¶</a></h3>
 <p>Generates a single start script for the defined main class in <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">mainClass</span></code> and forwarding scripts for all
 other <code class="docutils literal notranslate"><span class="pre">Compile</span> <span class="pre">/</span> <span class="pre">discoveredMainClasses</span></code>. The forwarder scripts call the defined start script and set the <code class="docutils literal notranslate"><span class="pre">-main</span></code>
 parameter to the concrete main class.</p>
@@ -593,7 +593,7 @@ version of the class name.</p>
 <p>Now you can package your application as usual, but with multiple start scripts.</p>
 </section>
 <section id="a-note-on-script-names">
-<h3>A note on script names<a class="headerlink" href="#a-note-on-script-names" title="Permalink to this heading">¶</a></h3>
+<h3>A note on script names<a class="headerlink" href="#a-note-on-script-names" title="Link to this heading">¶</a></h3>
 <p>When this plugin generates script names from main class names, it tries to generate readable and unique names:</p>
 <ol class="arabic">
 <li><p>An heuristic is used to split the fully qualified class names into words:</p>
@@ -631,7 +631,7 @@ in the resulting archive, but it is not expected to happen in normal circumstanc
 </section>
 </section>
 <section id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
+<h2>Customize<a class="headerlink" href="#customize" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="customize.html">Application and runtime configuration</a><ul>

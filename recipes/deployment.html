@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deployment &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Deployment &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="deployment">
-<h1>Deployment<a class="headerlink" href="#deployment" title="Permalink to this heading">¶</a></h1>
+<h1>Deployment<a class="headerlink" href="#deployment" title="Link to this heading">¶</a></h1>
 <p>This page shows you how to configure your build to deploy your build universal(zip, tgz, txz), rpm, debian or msi
 packages. For information on docker, please take a look at the docker page.</p>
 <div class="admonition note">
@@ -423,7 +423,7 @@ packages. For information on docker, please take a look at the docker page.</p>
 functionality for publishing to native repositories.</p>
 </div>
 <section id="setup-publish-task">
-<h2>Setup publish Task<a class="headerlink" href="#setup-publish-task" title="Permalink to this heading">¶</a></h2>
+<h2>Setup publish Task<a class="headerlink" href="#setup-publish-task" title="Link to this heading">¶</a></h2>
 <p>You need a working <code class="docutils literal notranslate"><span class="pre">publish</span></code> task in order to use the following configurations.
 A good starting point is the <a class="reference external" href="http://www.scala-sbt.org/0.13/docs/Publishing.html">sbt publish documentation</a>. You should have something
 like this in your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code></p>
@@ -439,7 +439,7 @@ like this in your <code class="docutils literal notranslate"><span class="pre">b
 <p>For an automatised build process are other plugins like the <a class="reference external" href="https://github.com/sbt/sbt-release">sbt release plugin</a>.</p>
 </section>
 <section id="default-deployment">
-<h2>Default Deployment<a class="headerlink" href="#default-deployment" title="Permalink to this heading">¶</a></h2>
+<h2>Default Deployment<a class="headerlink" href="#default-deployment" title="Link to this heading">¶</a></h2>
 <p>The easiest way is to add <code class="docutils literal notranslate"><span class="pre">UniversalDeployPlugin</span></code> to your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JavaServerAppPackaging</span><span class="p">,</span><span class="w"> </span><span class="nc">UniversalDeployPlugin</span><span class="p">)</span>
 </pre></div>
@@ -453,11 +453,11 @@ like this in your <code class="docutils literal notranslate"><span class="pre">b
 </div></blockquote>
 </section>
 <section id="custom-deployments">
-<h2>Custom Deployments<a class="headerlink" href="#custom-deployments" title="Permalink to this heading">¶</a></h2>
+<h2>Custom Deployments<a class="headerlink" href="#custom-deployments" title="Link to this heading">¶</a></h2>
 <p>When using other package formats we need to explicitly configure the
 deployment setup to a more specific one.</p>
 <section id="rpm">
-<h3>RPM<a class="headerlink" href="#rpm" title="Permalink to this heading">¶</a></h3>
+<h3>RPM<a class="headerlink" href="#rpm" title="Link to this heading">¶</a></h3>
 <p>Your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> should contain:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">RpmPlugin</span><span class="p">,</span><span class="w"> </span><span class="nc">RpmDeployPlugin</span><span class="p">)</span>
 </pre></div>
@@ -468,7 +468,7 @@ deployment setup to a more specific one.</p>
 </div></blockquote>
 </section>
 <section id="debian">
-<h3>Debian<a class="headerlink" href="#debian" title="Permalink to this heading">¶</a></h3>
+<h3>Debian<a class="headerlink" href="#debian" title="Link to this heading">¶</a></h3>
 <p>Enabled with:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enable</span><span class="p">(</span><span class="nc">DebianPlugin</span><span class="p">,</span><span class="w"> </span><span class="nc">DebianDeployPlugin</span><span class="p">)</span>
 </pre></div>
@@ -479,7 +479,7 @@ deployment setup to a more specific one.</p>
 </div></blockquote>
 </section>
 <section id="windows">
-<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this heading">¶</a></h3>
+<h3>Windows<a class="headerlink" href="#windows" title="Link to this heading">¶</a></h3>
 <p>If using an <code class="docutils literal notranslate"><span class="pre">msi</span></code> packaging you need to enable:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enable</span><span class="p">(</span><span class="nc">WindowsPlugin</span><span class="p">,</span><span class="w"> </span><span class="nc">WindowsDeployPlugin</span><span class="p">)</span>
 </pre></div>
@@ -491,10 +491,10 @@ deployment setup to a more specific one.</p>
 </section>
 </section>
 <section id="custom-configurations">
-<h2>Custom Configurations<a class="headerlink" href="#custom-configurations" title="Permalink to this heading">¶</a></h2>
+<h2>Custom Configurations<a class="headerlink" href="#custom-configurations" title="Link to this heading">¶</a></h2>
 <p>You could configure only what you need as well.</p>
 <section id="id1">
-<h3>Debian<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<h3>Debian<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">makeDeploymentSettings</span><span class="p">(</span><span class="nc">Debian</span><span class="p">,</span><span class="w"> </span><span class="nc">Debian</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageBin</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;deb&quot;</span><span class="p">)</span>
 
 <span class="c1">//if you want a changes file as well</span>
@@ -503,19 +503,19 @@ deployment setup to a more specific one.</p>
 </div>
 </section>
 <section id="id2">
-<h3>RPM<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<h3>RPM<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">makeDeploymentSettings</span><span class="p">(</span><span class="nc">Rpm</span><span class="p">,</span><span class="w"> </span><span class="nc">Rpm</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageBin</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rpm&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="id3">
-<h3>Windows<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<h3>Windows<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">makeDeploymentSettings</span><span class="p">(</span><span class="nc">Windows</span><span class="p">,</span><span class="w"> </span><span class="nc">Windows</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageBin</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;msi&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="universal">
-<h3>Universal<a class="headerlink" href="#universal" title="Permalink to this heading">¶</a></h3>
+<h3>Universal<a class="headerlink" href="#universal" title="Link to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// zip</span>
 <span class="n">makeDeploymentSettings</span><span class="p">(</span><span class="nc">Universal</span><span class="p">,</span><span class="w"> </span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageBin</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;zip&quot;</span><span class="p">)</span>
 

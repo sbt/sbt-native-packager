@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Linux Plugin &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Linux Plugin &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,21 +414,21 @@
            <div itemprop="articleBody">
              
   <section id="linux-plugin">
-<span id="id1"></span><h1>Linux Plugin<a class="headerlink" href="#linux-plugin" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>Linux Plugin<a class="headerlink" href="#linux-plugin" title="Link to this heading">¶</a></h1>
 <p>The native packager plugin is designed so that linux packages look similar but can contain distribution specific information.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The linux plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>.</p>
 </div>
 <section id="related-plugins">
-<h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Permalink to this heading">¶</a></h2>
+<h2>Related Plugins<a class="headerlink" href="#related-plugins" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="debian.html#debian-plugin"><span class="std std-ref">Debian Plugin</span></a></p></li>
 <li><p><a class="reference internal" href="rpm.html#rpm-plugin"><span class="std std-ref">Rpm Plugin</span></a></p></li>
 </ul>
 </section>
 <section id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
+<h2>Build<a class="headerlink" href="#build" title="Link to this heading">¶</a></h2>
 <p>The linux plugin is just a top level plugin for linux packaging formats.
 The <code class="docutils literal notranslate"><span class="pre">Linux</span></code> scope contains settings which can be used by the plugins
 depending on the linux plugin.</p>
@@ -436,7 +436,7 @@ depending on the linux plugin.</p>
 </pre></div>
 </div>
 <section id="required-settings">
-<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Required Settings<a class="headerlink" href="#required-settings" title="Link to this heading">¶</a></h3>
 <p>A linux package needs some mandatory settings to be valid. Make sure
 you have these settings in your build:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Linux Example&quot;</span>
@@ -458,14 +458,14 @@ you have these settings in your build:</p>
 </section>
 </section>
 <section id="configurations">
-<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this heading">¶</a></h2>
+<h2>Configurations<a class="headerlink" href="#configurations" title="Link to this heading">¶</a></h2>
 <p>Settings and tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Linux</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Linux</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </section>
 <section id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Link to this heading">¶</a></h2>
 <p>The required fields for any linux distribution are:</p>
 <blockquote>
 <div><dl class="simple">
@@ -485,9 +485,9 @@ you have these settings in your build:</p>
 </div></blockquote>
 </section>
 <section id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
+<h2>Customize<a class="headerlink" href="#customize" title="Link to this heading">¶</a></h2>
 <section id="package-mappings">
-<h3>Package Mappings<a class="headerlink" href="#package-mappings" title="Permalink to this heading">¶</a></h3>
+<h3>Package Mappings<a class="headerlink" href="#package-mappings" title="Link to this heading">¶</a></h3>
 <p>Most of the work in generating a linux package is constructing package mappings.  These ‘map’ a file to a location on disk where it should
 reside as well as information about that file. Package mappings allow the specification of file ownership, permissions and whether or not
 the file can be considered “configuration”.</p>
@@ -524,7 +524,7 @@ placed inside the <code class="docutils literal notranslate"><span class="pre">%
 </div></blockquote>
 </section>
 <section id="the-linuxpackagemapping-models">
-<h3>The LinuxPackageMapping Models<a class="headerlink" href="#the-linuxpackagemapping-models" title="Permalink to this heading">¶</a></h3>
+<h3>The LinuxPackageMapping Models<a class="headerlink" href="#the-linuxpackagemapping-models" title="Link to this heading">¶</a></h3>
 <p>All classes are located in the <code class="docutils literal notranslate"><span class="pre">com.typesafe.sbt.packager.linux</span></code> package. So if you want to create
 instances yourself you have to add <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">com.typesafe.sbt.packager.linux._</span></code> to your build file.</p>
 <p>A <code class="docutils literal notranslate"><span class="pre">LinuxPackageMapping</span></code> contains the following fields:</p>
@@ -575,7 +575,7 @@ destination system. A <code class="docutils literal notranslate"><span class="pr
 </div>
 </section>
 <section id="modifying-mappings-in-general">
-<h3>Modifying Mappings in General<a class="headerlink" href="#modifying-mappings-in-general" title="Permalink to this heading">¶</a></h3>
+<h3>Modifying Mappings in General<a class="headerlink" href="#modifying-mappings-in-general" title="Link to this heading">¶</a></h3>
 <p>Adding, filtering and altering mappings are always simple methods on a <code class="docutils literal notranslate"><span class="pre">Seq[LinuxPackageMapping]</span></code> sequence.
 This section shows you the general way to add, modify, or filter mappings.  The following sections have specific examples.</p>
 <p>The basic construct for <strong>adding</strong> a mapping is</p>
@@ -633,7 +633,7 @@ then filter or modify it, and then return that filtered or modified mapping.  He
 <p>The ordering in which you apply the tasks is important.</p>
 </section>
 <section id="add-mappings">
-<h3>Add Mappings<a class="headerlink" href="#add-mappings" title="Permalink to this heading">¶</a></h3>
+<h3>Add Mappings<a class="headerlink" href="#add-mappings" title="Link to this heading">¶</a></h3>
 <p>To add an arbitrary file in your build path</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sourceDirectory</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;resources&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;somefile.txt&quot;</span>
@@ -655,7 +655,7 @@ then filter or modify it, and then return that filtered or modified mapping.  He
 </div>
 </section>
 <section id="filter-remove-mappings">
-<h3>Filter/Remove Mappings<a class="headerlink" href="#filter-remove-mappings" title="Permalink to this heading">¶</a></h3>
+<h3>Filter/Remove Mappings<a class="headerlink" href="#filter-remove-mappings" title="Link to this heading">¶</a></h3>
 <p>If you want to remove some mappings you have to <strong>filter</strong> the current list of <code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code>.
 As <code class="docutils literal notranslate"><span class="pre">linuxPackageMappings</span></code> is a task, the order of your settings is important. Here are some examples
 on how to filter mappings.</p>
@@ -685,7 +685,7 @@ on how to filter mappings.</p>
 </div>
 </section>
 <section id="alter-linuxpackagemapping">
-<h3>Alter LinuxPackageMapping<a class="headerlink" href="#alter-linuxpackagemapping" title="Permalink to this heading">¶</a></h3>
+<h3>Alter LinuxPackageMapping<a class="headerlink" href="#alter-linuxpackagemapping" title="Link to this heading">¶</a></h3>
 <p>To alter the permissions for all <code class="docutils literal notranslate"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Altering permissions for configs</span>
 <span class="n">linuxPackageMappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">{</span>
@@ -708,7 +708,7 @@ on how to filter mappings.</p>
 </div>
 </section>
 <section id="alter-linuxsymlinks">
-<h3>Alter LinuxSymlinks<a class="headerlink" href="#alter-linuxsymlinks" title="Permalink to this heading">¶</a></h3>
+<h3>Alter LinuxSymlinks<a class="headerlink" href="#alter-linuxsymlinks" title="Link to this heading">¶</a></h3>
 <p>To alter the permissions for all <code class="docutils literal notranslate"><span class="pre">LinuxPackageMapping</span></code> s that match a specific criteria:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// The same as linuxPackageMappings</span>
 <span class="n">linuxPackageSymlinks</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">{</span>
@@ -720,7 +720,7 @@ on how to filter mappings.</p>
 </div>
 </section>
 <section id="add-empty-directories">
-<h3>Add Empty Directories<a class="headerlink" href="#add-empty-directories" title="Permalink to this heading">¶</a></h3>
+<h3>Add Empty Directories<a class="headerlink" href="#add-empty-directories" title="Link to this heading">¶</a></h3>
 <p>There is a special helper function that allows you to add empty directories to the package mappings. This might be
 useful if the service needs some location to store files.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add an empty folder to mappings</span>
@@ -729,7 +729,7 @@ useful if the service needs some location to store files.</p>
 </div>
 </section>
 <section id="man-pages">
-<h3>Man Pages<a class="headerlink" href="#man-pages" title="Permalink to this heading">¶</a></h3>
+<h3>Man Pages<a class="headerlink" href="#man-pages" title="Link to this heading">¶</a></h3>
 <p>There are many ways to document your projects, and many ways to expose them.  While the native packager places
 no limit on WHAT is included in a package, there are some things which receive special treatment.</p>
 <p>Specifically: linux man pages.</p>

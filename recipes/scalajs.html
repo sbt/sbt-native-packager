@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scala JS packaging &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Scala JS packaging &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,14 +414,14 @@
            <div itemprop="articleBody">
              
   <section id="scala-js-packaging">
-<span id="scalajs"></span><h1>Scala JS packaging<a class="headerlink" href="#scala-js-packaging" title="Permalink to this heading">¶</a></h1>
+<span id="scalajs"></span><h1>Scala JS packaging<a class="headerlink" href="#scala-js-packaging" title="Link to this heading">¶</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This is no official scala js doc, but created from the native-packager community.
 See <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/699">issue-699</a>.</p>
 </div>
 <section id="package-webjars-and-scalajs-resources">
-<h2>Package webjars and scalajs resources<a class="headerlink" href="#package-webjars-and-scalajs-resources" title="Permalink to this heading">¶</a></h2>
+<h2>Package webjars and scalajs resources<a class="headerlink" href="#package-webjars-and-scalajs-resources" title="Link to this heading">¶</a></h2>
 <p>In order to package all assets correctly, add this to your project</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Runtime</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">managedClasspath</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="nc">Assets</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">previewJVM</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageBin</span><span class="p">).</span><span class="n">value</span>
 </pre></div>

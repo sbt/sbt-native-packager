@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Archetype Cheatsheet &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Archetype Cheatsheet &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,10 +414,10 @@
            <div itemprop="articleBody">
              
   <section id="archetype-cheatsheet">
-<span id="cheatsheet"></span><h1>Archetype Cheatsheet<a class="headerlink" href="#archetype-cheatsheet" title="Permalink to this heading">¶</a></h1>
+<span id="cheatsheet"></span><h1>Archetype Cheatsheet<a class="headerlink" href="#archetype-cheatsheet" title="Link to this heading">¶</a></h1>
 <p>This is a set FAQ composed on a single page.</p>
 <section id="path-configurations">
-<h2>Path Configurations<a class="headerlink" href="#path-configurations" title="Permalink to this heading">¶</a></h2>
+<h2>Path Configurations<a class="headerlink" href="#path-configurations" title="Link to this heading">¶</a></h2>
 <p>This section describes where and how to configure different kind of paths settings like</p>
 <ul class="simple">
 <li><p>what is the installation location of my package</p></li>
@@ -425,7 +425,7 @@
 <li><p>what is the name of my start script</p></li>
 </ul>
 <section id="quick-reference-table">
-<h3>Quick Reference Table<a class="headerlink" href="#quick-reference-table" title="Permalink to this heading">¶</a></h3>
+<h3>Quick Reference Table<a class="headerlink" href="#quick-reference-table" title="Link to this heading">¶</a></h3>
 <p>This table gives you a quick overview of the setting and the scope you should use.
 Paths which do not begin with a <code class="docutils literal notranslate"><span class="pre">/</span></code> are relative to the universal directory.
 The scopes are ordered from general to specific, so a more specific one will override
@@ -514,7 +514,7 @@ scopes will have no effect!</p>
 </table>
 </section>
 <section id="settings">
-<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h3>
+<h3>Settings<a class="headerlink" href="#settings" title="Link to this heading">¶</a></h3>
 <p>These settings configure the path behaviour</p>
 <blockquote>
 <div><dl class="simple">
@@ -533,7 +533,7 @@ scopes will have no effect!</p>
 </section>
 </section>
 <section id="jvm-options">
-<h2>JVM Options<a class="headerlink" href="#jvm-options" title="Permalink to this heading">¶</a></h2>
+<h2>JVM Options<a class="headerlink" href="#jvm-options" title="Link to this heading">¶</a></h2>
 <p>JVM options can be added via different mechanisms. It depends on your use case which is most suitable.
 The available options are</p>
 <ul class="simple">
@@ -549,7 +549,7 @@ The available options are</p>
 - starting with <em>${app_home}/../</em> (e.g. <em>${app_home}/../conf/application.ini</em>)</p>
 </div>
 <section id="extra-defines">
-<h3>Extra Defines<a class="headerlink" href="#extra-defines" title="Permalink to this heading">¶</a></h3>
+<h3>Extra Defines<a class="headerlink" href="#extra-defines" title="Link to this heading">¶</a></h3>
 <p>With this approach you are altering the bash/bat script that gets executed.
 Your configuration is literally woven into it, so it applies to any archetype
 using this bashscript (app, akka app, server, …).</p>
@@ -566,10 +566,10 @@ using this bashscript (app, akka app, server, …).</p>
 <p>For more information take a look at the <a class="reference internal" href="java_app/customize.html#add-code-to-the-start-scripts"><span class="std std-ref">according documentation</span></a>.</p>
 </section>
 <section id="file-application-ini-or-etc-default">
-<h3>File - application.ini or etc-default<a class="headerlink" href="#file-application-ini-or-etc-default" title="Permalink to this heading">¶</a></h3>
+<h3>File - application.ini or etc-default<a class="headerlink" href="#file-application-ini-or-etc-default" title="Link to this heading">¶</a></h3>
 <p>Another approach would be to provide a file that is read by the bash script during execution.</p>
 <section id="java-app">
-<h4>Java App<a class="headerlink" href="#java-app" title="Permalink to this heading">¶</a></h4>
+<h4>Java App<a class="headerlink" href="#java-app" title="Link to this heading">¶</a></h4>
 <p>Create a file <code class="docutils literal notranslate"><span class="pre">src/universal/conf/application.ini</span></code> (gets automatically added to the package mappings)
 and add this to your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> inject the config location into the bashscript.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">bashScriptConfigLocation</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;${app_home}/../conf/application.ini&quot;</span><span class="p">)</span>
@@ -577,12 +577,12 @@ and add this to your <code class="docutils literal notranslate"><span class="pre
 </div>
 </section>
 <section id="java-server">
-<h4>Java Server<a class="headerlink" href="#java-server" title="Permalink to this heading">¶</a></h4>
+<h4>Java Server<a class="headerlink" href="#java-server" title="Link to this heading">¶</a></h4>
 <p>See <a class="reference internal" href="#server-app-config"><span class="std std-ref">Server App Config - src/templates/etc-default-{systemv,systemd}</span></a></p>
 </section>
 </section>
 <section id="setting-javaoptions">
-<h3>Setting - javaOptions<a class="headerlink" href="#setting-javaoptions" title="Permalink to this heading">¶</a></h3>
+<h3>Setting - javaOptions<a class="headerlink" href="#setting-javaoptions" title="Link to this heading">¶</a></h3>
 <p>The last option to set your java options is using <code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">javaOptions</span></code> (JavaApp and Server).
 This will generate files according to your archetype. The following table gives you an overview what
 you can use and how things will be behave if you mix different options. Options lower in the table
@@ -652,12 +652,12 @@ are more specific and will thus override the any previous settings (if allowed).
 </section>
 </section>
 <section id="overriding-templates">
-<h2>Overriding Templates<a class="headerlink" href="#overriding-templates" title="Permalink to this heading">¶</a></h2>
+<h2>Overriding Templates<a class="headerlink" href="#overriding-templates" title="Link to this heading">¶</a></h2>
 <p>You can override the default template used to generate any of the scripts in
 any archetype.   Listed below are the overridable files and variables that
 you can use when generating scripts.</p>
 <section id="bat-script-src-templates-bat-template">
-<h3>Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code><a class="headerlink" href="#bat-script-src-templates-bat-template" title="Permalink to this heading">¶</a></h3>
+<h3>Bat Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bat-template</span></code><a class="headerlink" href="#bat-script-src-templates-bat-template" title="Link to this heading">¶</a></h3>
 <p>Creating a file here will override the default template used to
 generate the <code class="docutils literal notranslate"><span class="pre">.bat</span></code> script for windows distributions.</p>
 <p><strong>Syntax</strong></p>
@@ -670,7 +670,7 @@ generate the <code class="docutils literal notranslate"><span class="pre">.bat</
 <p>You can define additional variable definitions using <code class="docutils literal notranslate"><span class="pre">batScriptExtraDefines</span></code>.</p>
 </section>
 <section id="bash-script-src-templates-bash-template">
-<h3>Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code><a class="headerlink" href="#bash-script-src-templates-bash-template" title="Permalink to this heading">¶</a></h3>
+<h3>Bash Script - <code class="docutils literal notranslate"><span class="pre">src/templates/bash-template</span></code><a class="headerlink" href="#bash-script-src-templates-bash-template" title="Link to this heading">¶</a></h3>
 <p>Creating a file here will override the default template used to
 generate the BASH start script found in <code class="docutils literal notranslate"><span class="pre">bin/&lt;application&gt;</span></code> in the
 universal distribution</p>
@@ -684,7 +684,7 @@ the <code class="docutils literal notranslate"><span class="pre">bashScriptExtra
 </ul>
 </section>
 <section id="service-manager-templates">
-<h3>Service Manager Templates<a class="headerlink" href="#service-manager-templates" title="Permalink to this heading">¶</a></h3>
+<h3>Service Manager Templates<a class="headerlink" href="#service-manager-templates" title="Link to this heading">¶</a></h3>
 <p>It’s also possible to override the entire script/configuration templates for your service manager.
 These templates vary by loader type. Create a file <code class="docutils literal notranslate"><span class="pre">src/templates/systemloader/$loader/$template</span></code>
 and it will be used instead.</p>
@@ -722,7 +722,7 @@ and it will be used instead.</p>
 </ul>
 </section>
 <section id="server-app-config-src-templates-etc-default-systemv-systemd">
-<span id="server-app-config"></span><h3>Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code><a class="headerlink" href="#server-app-config-src-templates-etc-default-systemv-systemd" title="Permalink to this heading">¶</a></h3>
+<span id="server-app-config"></span><h3>Server App Config - <code class="docutils literal notranslate"><span class="pre">src/templates/etc-default-{systemv,systemd}</span></code><a class="headerlink" href="#server-app-config-src-templates-etc-default-systemv-systemd" title="Link to this heading">¶</a></h3>
 <p>Creating a file here will override the <code class="docutils literal notranslate"><span class="pre">/etc/default/&lt;application&gt;</span></code> template
 for the corresponding loader.</p>
 <p>The file <cite>/etc/default/&lt;application&gt;</cite> is used as follows given the loader:</p>

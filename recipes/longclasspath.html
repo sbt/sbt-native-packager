@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dealing with long classpaths &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Dealing with long classpaths &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="dealing-with-long-classpaths">
-<span id="long-classpaths"></span><h1>Dealing with long classpaths<a class="headerlink" href="#dealing-with-long-classpaths" title="Permalink to this heading">¶</a></h1>
+<span id="long-classpaths"></span><h1>Dealing with long classpaths<a class="headerlink" href="#dealing-with-long-classpaths" title="Link to this heading">¶</a></h1>
 <p>By default, when the native packager generates a script for starting your application, it will generate an invocation
 of java that passes every library on the classpath to the classpath argument, <code class="docutils literal notranslate"><span class="pre">-cp</span></code>.  If you have a lot of
 dependencies, this may result in a very long command being executed, which, aside from being aesthetically unpleasing
@@ -422,7 +422,7 @@ and difficult to work with when using tools like <code class="docutils literal n
 limits to how long commands can be.</p>
 <p>There are a few ways you can work around this in the native packager.</p>
 <section id="generate-a-launcher-jar">
-<span id="launcher-jar-plugin"></span><h2>Generate a launcher jar<a class="headerlink" href="#generate-a-launcher-jar" title="Permalink to this heading">¶</a></h2>
+<span id="launcher-jar-plugin"></span><h2>Generate a launcher jar<a class="headerlink" href="#generate-a-launcher-jar" title="Link to this heading">¶</a></h2>
 <p>The native packager includes a plugin that allows generating a launcher jar.  This launcher jar will contain no classes,
 but will have your projects main class and classpath in its manifest.  The script that sbt then generates executes this
 jar like so:</p>
@@ -435,7 +435,7 @@ jar like so:</p>
 </div>
 </section>
 <section id="generate-a-classpath-jar">
-<span id="classpath-jar-plugin"></span><h2>Generate a classpath jar<a class="headerlink" href="#generate-a-classpath-jar" title="Permalink to this heading">¶</a></h2>
+<span id="classpath-jar-plugin"></span><h2>Generate a classpath jar<a class="headerlink" href="#generate-a-classpath-jar" title="Link to this heading">¶</a></h2>
 <p>The classpath jar is very similar to the launcher jar, in that it also has the classpath on its manifest, but it does
 not include the main class in its manifest, and so executed by the start script by invoking:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java<span class="w"> </span>-cp<span class="w"> </span>myproject-classpath.jar<span class="w"> </span>some.Main
@@ -447,7 +447,7 @@ not include the main class in its manifest, and so executed by the start script 
 </div>
 </section>
 <section id="configure-a-wildcard-classpath">
-<h2>Configure a wildcard classpath<a class="headerlink" href="#configure-a-wildcard-classpath" title="Permalink to this heading">¶</a></h2>
+<h2>Configure a wildcard classpath<a class="headerlink" href="#configure-a-wildcard-classpath" title="Link to this heading">¶</a></h2>
 <p>JDK 6 and above supports configuring the classpath using wildcards.  To enable this, simply override the
 <code class="docutils literal notranslate"><span class="pre">scriptClasspath</span></code> task to only contain <code class="docutils literal notranslate"><span class="pre">*</span></code>, for example:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">scriptClasspath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span>

@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Docker Plugin &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Docker Plugin &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="docker-plugin">
-<span id="id1"></span><h1>Docker Plugin<a class="headerlink" href="#docker-plugin" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>Docker Plugin<a class="headerlink" href="#docker-plugin" title="Link to this heading">¶</a></h1>
 <p>Docker images describe how to set up a container for running an application, including what files are present, and what program to run.</p>
 <blockquote>
 <div><p><a class="reference external" href="https://docs.docker.com/introduction/understanding-docker/">https://docs.docker.com/introduction/understanding-docker/</a> provides an introduction to Docker.</p>
@@ -426,7 +426,7 @@
 <p>The docker plugin depends on the <a class="reference internal" href="universal.html#universal-plugin"><span class="std std-ref">Universal Plugin</span></a>.</p>
 </div>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
 <p>You need the version 1.10 or higher of the docker console client installed.
 SBT Native Packager doesn’t use the REST API, but instead uses the CLI directly.</p>
 <p>It is <a class="reference external" href="https://github.com/sbt/sbt-native-packager/issues/654">currently not possible</a> to provide authentication
@@ -435,18 +435,18 @@ with the appropriate authentication details. See <a class="reference external" h
 to a Docker registry with username and password.</p>
 </section>
 <section id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
+<h2>Build<a class="headerlink" href="#build" title="Link to this heading">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>Docker/publishLocal
 </pre></div>
 </div>
 <section id="required-settings">
-<h3>Required Settings<a class="headerlink" href="#required-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Required Settings<a class="headerlink" href="#required-settings" title="Link to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">DockerPlugin</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="spotify-java-based-docker-client">
-<h3>Spotify java based docker client<a class="headerlink" href="#spotify-java-based-docker-client" title="Permalink to this heading">¶</a></h3>
+<h3>Spotify java based docker client<a class="headerlink" href="#spotify-java-based-docker-client" title="Link to this heading">¶</a></h3>
 <p>You can also use the java-based spotify Docker client. Add this to your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">DockerSpotifyClientPlugin</span><span class="p">)</span>
 </pre></div>
@@ -460,16 +460,16 @@ that could slow your build times. This is the reason the dependency is marked as
 </section>
 </section>
 <section id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
 <p>Settings and Tasks inherited from parent plugins can be scoped with <code class="docutils literal notranslate"><span class="pre">Docker</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mappings</span><span class="p">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </section>
 <section id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h2>
+<h2>Settings<a class="headerlink" href="#settings" title="Link to this heading">¶</a></h2>
 <section id="informational-settings">
-<h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Informational Settings<a class="headerlink" href="#informational-settings" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">packageName</span></code></dt><dd><p>The name of the package for Docker (if different from general name).
@@ -483,7 +483,7 @@ This will only affect the image name.</p>
 </div></blockquote>
 </section>
 <section id="environment-settings">
-<h3>Environment Settings<a class="headerlink" href="#environment-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Environment Settings<a class="headerlink" href="#environment-settings" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">dockerBaseImage</span></code></dt><dd><p>The image to use as a base for running the application. It should include binaries on the path for <code class="docutils literal notranslate"><span class="pre">chown</span></code>, <code class="docutils literal notranslate"><span class="pre">mkdir</span></code>, have a discoverable <code class="docutils literal notranslate"><span class="pre">java</span></code> binary, and include the user configured by <code class="docutils literal notranslate"><span class="pre">daemonUser</span></code> (<code class="docutils literal notranslate"><span class="pre">daemon</span></code>, by default).</p>
@@ -538,7 +538,7 @@ To disable layers map all files to no layer using <code class="docutils literal 
 </div></blockquote>
 </section>
 <section id="publishing-settings">
-<h3>Publishing Settings<a class="headerlink" href="#publishing-settings" title="Permalink to this heading">¶</a></h3>
+<h3>Publishing Settings<a class="headerlink" href="#publishing-settings" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">dockerRepository</span></code></dt><dd><p>The repository to which the image is pushed when the <code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">publish</span></code> task is run. This should be of the form  <code class="docutils literal notranslate"><span class="pre">[repository.host[:repository.port]]</span></code> (assumes use of the <code class="docutils literal notranslate"><span class="pre">index.docker.io</span></code> repository) or <code class="docutils literal notranslate"><span class="pre">[repository.host[:repository.port]][/username]</span></code> (discouraged, but available for backwards compatibility.).</p>
@@ -588,7 +588,7 @@ If set to <code class="docutils literal notranslate"><span class="pre">false</sp
 </section>
 </section>
 <section id="tasks">
-<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this heading">¶</a></h2>
+<h2>Tasks<a class="headerlink" href="#tasks" title="Link to this heading">¶</a></h2>
 <p>The Docker plugin provides the following commands:</p>
 <blockquote>
 <div><dl class="simple">
@@ -604,13 +604,13 @@ If set to <code class="docutils literal notranslate"><span class="pre">false</sp
 </div></blockquote>
 </section>
 <section id="customize">
-<h2>Customize<a class="headerlink" href="#customize" title="Permalink to this heading">¶</a></h2>
+<h2>Customize<a class="headerlink" href="#customize" title="Link to this heading">¶</a></h2>
 <p>There are some predefined settings which you can easily customize. These
 settings are explained in some detail in the next sections. If you want to
 describe your Dockerfile completely yourself, you can provide your own
 <cite>docker commands</cite> as described in <a class="reference internal" href="#custom-dockerfile">Custom Dockerfile</a>.</p>
 <section id="docker-image-name-and-version">
-<h3>Docker Image Name and Version<a class="headerlink" href="#docker-image-name-and-version" title="Permalink to this heading">¶</a></h3>
+<h3>Docker Image Name and Version<a class="headerlink" href="#docker-image-name-and-version" title="Link to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">packageName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">packageName</span><span class="p">.</span><span class="n">value</span>
 
 <span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">value</span>
@@ -618,19 +618,19 @@ describe your Dockerfile completely yourself, you can provide your own
 </div>
 </section>
 <section id="docker-base-image">
-<h3>Docker Base Image<a class="headerlink" href="#docker-base-image" title="Permalink to this heading">¶</a></h3>
+<h3>Docker Base Image<a class="headerlink" href="#docker-base-image" title="Link to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerBaseImage</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;openjdk&quot;</span>
 </pre></div>
 </div>
 </section>
 <section id="docker-repository">
-<h3>Docker Repository<a class="headerlink" href="#docker-repository" title="Permalink to this heading">¶</a></h3>
+<h3>Docker Repository<a class="headerlink" href="#docker-repository" title="Link to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerRepository</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Some</span><span class="p">(</span><span class="s">&quot;dockeruser&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="docker-image-customization">
-<h3>Docker Image Customization<a class="headerlink" href="#docker-image-customization" title="Permalink to this heading">¶</a></h3>
+<h3>Docker Image Customization<a class="headerlink" href="#docker-image-customization" title="Link to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerExposedPorts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="mi">9000</span><span class="p">,</span><span class="w"> </span><span class="mi">9443</span><span class="p">)</span>
 
 <span class="n">dockerExposedVolumes</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="s">&quot;/opt/docker/logs&quot;</span><span class="p">)</span>
@@ -640,7 +640,7 @@ describe your Dockerfile completely yourself, you can provide your own
 created (if they do not exist) and then chowned.</p>
 </section>
 <section id="install-location">
-<h3>Install Location<a class="headerlink" href="#install-location" title="Permalink to this heading">¶</a></h3>
+<h3>Install Location<a class="headerlink" href="#install-location" title="Link to this heading">¶</a></h3>
 <p>The path to which the application is written can be changed with the location setting.
 The files from <code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">/</span> <span class="pre">mappings</span></code> are extracted underneath this directory.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Docker</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">defaultLinuxInstallLocation</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;/opt/docker&quot;</span>
@@ -648,7 +648,7 @@ The files from <code class="docutils literal notranslate"><span class="pre">Dock
 </div>
 </section>
 <section id="daemon-user">
-<h3>Daemon User<a class="headerlink" href="#daemon-user" title="Permalink to this heading">¶</a></h3>
+<h3>Daemon User<a class="headerlink" href="#daemon-user" title="Link to this heading">¶</a></h3>
 <p>By default, sbt Native Packager will create a daemon user named <code class="docutils literal notranslate"><span class="pre">demiourgos728</span></code>
 whose UID is set to <code class="docutils literal notranslate"><span class="pre">1001</span></code>, and emit <code class="docutils literal notranslate"><span class="pre">USER</span> <span class="pre">1001</span></code> since running as non-root is considered the best practice.</p>
 <p>The following can be used to emit <code class="docutils literal notranslate"><span class="pre">USER</span> <span class="pre">daemon</span></code> instead:</p>
@@ -658,7 +658,7 @@ whose UID is set to <code class="docutils literal notranslate"><span class="pre"
 </div>
 </section>
 <section id="file-permission">
-<h3>File Permission<a class="headerlink" href="#file-permission" title="Permalink to this heading">¶</a></h3>
+<h3>File Permission<a class="headerlink" href="#file-permission" title="Link to this heading">¶</a></h3>
 <p>By default, the working directory inside the Docker image is given read-only file permissions
 set using multi-stage Docker build, which requires Docker 17.5 or later (watch out if you’re using older Minikube).</p>
 <p>If you want to make the working directory writable by the running process, here’s the setting:</p>
@@ -683,7 +683,7 @@ set using multi-stage Docker build, which requires Docker 17.5 or later (watch o
 remember to set both the user bits and group bits when running <code class="docutils literal notranslate"><span class="pre">chmod</span></code> yourself.</p>
 </section>
 <section id="custom-dockerfile">
-<h3>Custom Dockerfile<a class="headerlink" href="#custom-dockerfile" title="Permalink to this heading">¶</a></h3>
+<h3>Custom Dockerfile<a class="headerlink" href="#custom-dockerfile" title="Link to this heading">¶</a></h3>
 <p>All settings before are used to create a single sequence of docker commands.
 You have the option to write all of them on your own, filter or change existing
 commands or simply add some.</p>
@@ -695,7 +695,7 @@ In your sbt console type</p>
 </div>
 </section>
 <section id="remove-commands">
-<h3>Remove Commands<a class="headerlink" href="#remove-commands" title="Permalink to this heading">¶</a></h3>
+<h3>Remove Commands<a class="headerlink" href="#remove-commands" title="Link to this heading">¶</a></h3>
 <p>SBT Native Packager adds commands you may not need. For example,
 the chowning of a exposed volume:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">com</span><span class="p">.</span><span class="nn">typesafe</span><span class="p">.</span><span class="nn">sbt</span><span class="p">.</span><span class="nn">packager</span><span class="p">.</span><span class="nn">docker</span><span class="p">.</span><span class="n">_</span>
@@ -716,7 +716,7 @@ the chowning of a exposed volume:</p>
 </div>
 </section>
 <section id="add-commands">
-<h3>Add Commands<a class="headerlink" href="#add-commands" title="Permalink to this heading">¶</a></h3>
+<h3>Add Commands<a class="headerlink" href="#add-commands" title="Link to this heading">¶</a></h3>
 <p>Since <code class="docutils literal notranslate"><span class="pre">dockerCommands</span></code> is just a <code class="docutils literal notranslate"><span class="pre">Sequence</span></code>, adding commands is straightforward:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">com</span><span class="p">.</span><span class="nn">typesafe</span><span class="p">.</span><span class="nn">sbt</span><span class="p">.</span><span class="nn">packager</span><span class="p">.</span><span class="nn">docker</span><span class="p">.</span><span class="n">_</span>
 
@@ -736,7 +736,7 @@ the chowning of a exposed volume:</p>
 </div>
 </section>
 <section id="write-from-scratch">
-<h3>Write from Scratch<a class="headerlink" href="#write-from-scratch" title="Permalink to this heading">¶</a></h3>
+<h3>Write from Scratch<a class="headerlink" href="#write-from-scratch" title="Link to this heading">¶</a></h3>
 <p>You can simply wipe out all docker commands with</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dockerCommands</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">()</span>
 </pre></div>
@@ -753,7 +753,7 @@ the chowning of a exposed volume:</p>
 </div>
 </section>
 <section id="busybox-ash-support">
-<h3>Busybox/Ash Support<a class="headerlink" href="#busybox-ash-support" title="Permalink to this heading">¶</a></h3>
+<h3>Busybox/Ash Support<a class="headerlink" href="#busybox-ash-support" title="Link to this heading">¶</a></h3>
 <p>Busybox is a popular minimal Docker base image that uses <a class="reference external" href="https://en.wikipedia.org/wiki/Almquist_shell">ash</a>, a much
 more limited shell than bash.  By default, the Java archetype (<a class="reference internal" href="../archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a>) generates two files for shell
 support: a <code class="docutils literal notranslate"><span class="pre">bash</span></code> file, and a Windows <code class="docutils literal notranslate"><span class="pre">.bat</span></code> file.  If you build a Docker image for Busybox using the defaults, the
@@ -770,7 +770,7 @@ your own <code class="docutils literal notranslate"><span class="pre">src/templa
 You’ll likely need these to launch your program.</p>
 </section>
 <section id="init-support">
-<h3>Init support<a class="headerlink" href="#init-support" title="Permalink to this heading">¶</a></h3>
+<h3>Init support<a class="headerlink" href="#init-support" title="Link to this heading">¶</a></h3>
 <p>By default, Java will run with PID 1 when you run your docker container. The JVM behaves differently when its PID is 1
 compared to other PIDs, most notably, it doesn’t respond to some signals. These include the signals usually used to
 instruct a Java process to dump its threads or its heap. If you want to be able to debug a running Java container, the

@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Embedding JVM in Universal &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  <title>Embedding JVM in Universal &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b0accced"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
-      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -414,7 +414,7 @@
            <div itemprop="articleBody">
              
   <section id="embedding-jvm-in-universal">
-<h1>Embedding JVM in Universal<a class="headerlink" href="#embedding-jvm-in-universal" title="Permalink to this heading">¶</a></h1>
+<h1>Embedding JVM in Universal<a class="headerlink" href="#embedding-jvm-in-universal" title="Link to this heading">¶</a></h1>
 <p>Sbt Native Packager supports embedding the jvm using the <a class="reference internal" href="../formats/jdkpackager.html#jdkpackager-plugin"><span class="std std-ref">JDKPackager Plugin</span></a>,
 however, in some cases you may want instead to embed the JVM/JRE in other formats,
 e.g. a tarball with one of the java archetypes.</p>
@@ -424,7 +424,7 @@ e.g. a tarball with one of the java archetypes.</p>
 <li><p>Make the launcher use the embedded <cite>jre</cite></p></li>
 </ul>
 <section id="adding-the-jvm">
-<h2>Adding the JVM<a class="headerlink" href="#adding-the-jvm" title="Permalink to this heading">¶</a></h2>
+<h2>Adding the JVM<a class="headerlink" href="#adding-the-jvm" title="Link to this heading">¶</a></h2>
 <p>The JRE is by definition OS dependent, hence you must choose the one appropriate
 for your case. The example below assumes a Linux 64 JRE, whose files are at
 <code class="docutils literal notranslate"><span class="pre">$HOME/.jre/linux64</span></code>. The files will be copied to a <code class="docutils literal notranslate"><span class="pre">jre</span></code> directory in your
@@ -444,7 +444,7 @@ distribution</p>
 </div>
 </section>
 <section id="application-configuration">
-<h2>Application Configuration<a class="headerlink" href="#application-configuration" title="Permalink to this heading">¶</a></h2>
+<h2>Application Configuration<a class="headerlink" href="#application-configuration" title="Link to this heading">¶</a></h2>
 <p>In order to run your application in production you also need to make the launcher
 use the jre added above. This can be done using the <code class="docutils literal notranslate"><span class="pre">-java-home</span></code> option with a
 relative path.</p>

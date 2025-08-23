@@ -1,19 +1,19 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting Started &mdash; sbt-native-packager 1.11.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+  <title>Getting Started &mdash; sbt-native-packager 1.11.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b0accced"></script>
-      <script src="_static/doctools.js?v=888ff710"></script>
-      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/documentation_options.js?v=5b0971ea"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -413,21 +413,21 @@
            <div itemprop="articleBody">
              
   <section id="getting-started">
-<span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h1>
 <section id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading">¶</a></h2>
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">¶</a></h2>
 <p>Sbt-native-packager is an <em>AutoPlugin</em>. Add it to your <code class="docutils literal notranslate"><span class="pre">plugins.sbt</span></code></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">addSbtPlugin</span><span class="p">(</span><span class="s">&quot;com.github.sbt&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;sbt-native-packager&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;x.y.z&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="native-tools">
-<h3>Native Tools<a class="headerlink" href="#native-tools" title="Permalink to this heading">¶</a></h3>
+<h3>Native Tools<a class="headerlink" href="#native-tools" title="Link to this heading">¶</a></h3>
 <p>Depending on the package format you want to create, you may need additional tools available on your machine.
 Each <a class="reference internal" href="formats/index.html#packaging-formats"><span class="std std-ref">packaging format</span></a> has a requirements section.</p>
 </section>
 </section>
 <section id="your-first-package">
-<h2>Your first package<a class="headerlink" href="#your-first-package" title="Permalink to this heading">¶</a></h2>
+<h2>Your first package<a class="headerlink" href="#your-first-package" title="Link to this heading">¶</a></h2>
 <p>Native packager provides <a class="reference internal" href="introduction.html#formats-and-archetypes"><span class="std std-ref">packaging format plugins and archetype plugins</span></a> to separate
 configuration and actual packaging. To get started we use the basic <a class="reference internal" href="archetypes/java_app/index.html#java-app-plugin"><span class="std std-ref">Java Application Archetype</span></a>.
 For more archetypes see the <a class="reference internal" href="archetypes/index.html#archetypes"><span class="std std-ref">archetypes page</span></a>.</p>
@@ -437,7 +437,7 @@ For more archetypes see the <a class="reference internal" href="archetypes/index
 </div>
 <p>This will also enable all supported format plugins.</p>
 <section id="run-the-app">
-<h3>Run the app<a class="headerlink" href="#run-the-app" title="Permalink to this heading">¶</a></h3>
+<h3>Run the app<a class="headerlink" href="#run-the-app" title="Link to this heading">¶</a></h3>
 <p>Native packager can <em>stage</em> your app so you can run it locally without having the app packaged.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>stage
 ./target/universal/stage/bin/&lt;your-app&gt;
@@ -445,7 +445,7 @@ For more archetypes see the <a class="reference internal" href="archetypes/index
 </div>
 </section>
 <section id="create-a-package">
-<h3>Create a package<a class="headerlink" href="#create-a-package" title="Permalink to this heading">¶</a></h3>
+<h3>Create a package<a class="headerlink" href="#create-a-package" title="Link to this heading">¶</a></h3>
 <p>We can generate other packages via the following tasks. Note that each packaging format may needs some additional
 configuration and native tools available. Here’s a complete list of current formats.</p>
 <ul class="simple">
