@@ -25,28 +25,39 @@ trait DebianKeys {
   val debianChangelog = SettingKey[Option[File]]("debian-changelog", "The changelog for this deb file")
   // Package building
 
+  @transient
   val debianControlFile = TaskKey[File]("debian-control-file", "Makes the debian package control file.")
 
   @deprecated("Use generic maintainerScript task instead", "1.0.3")
   val debianMaintainerScripts =
     TaskKey[Seq[(File, String)]]("debian-maintainer-scripts", "Makes the debian maintainer scripts.")
+  @transient
   val debianConffilesFile = TaskKey[File]("debian-conffiles-file", "Makes the debian package conffiles file.")
+  @transient
   val debianUpstartFile = TaskKey[File]("debian-upstart-file", "Makes the upstart file for this debian package.")
+  @transient
   val debianLinksfile =
     TaskKey[File]("debian-links-file", "Makes the debian package links file.")
+  @transient
   val debianMD5sumsFile = TaskKey[File]("debian-md5sums-file", "Makes the debian package md5sums file.")
+  @transient
   val debianZippedMappings =
     TaskKey[Seq[LinuxPackageMapping]]("debian-zipped-mappings", "Files that need to be gzipped when they hit debian.")
+  @transient
   val debianCombinedMappings =
     TaskKey[Seq[LinuxPackageMapping]]("debian-combined-mappings", "All the mappings of files for the final package.")
 
   @deprecated("Use Debian/stage instead", "1.2.0")
+  @transient
   val debianExplodedPackage = TaskKey[File]("debian-exploded-package", "makes an exploded debian package")
+  @transient
   val lintian = TaskKey[Unit]("lintian", "runs the debian lintian tool on the current package.")
+  @transient
   val debianSign =
     taskKey[PluginCompat.FileRef]("runs the dpkg-sig command to sign the generated deb file.")
   val debianSignRole =
     SettingKey[String]("debian-sign-role", "The role to use when signing a debian file (defaults to 'builder').")
+  @transient
   val genChanges =
     taskKey[PluginCompat.FileRef]("runs the dpkg-genchanges command to generate the .changes file.")
 
@@ -56,22 +67,28 @@ trait DebianKeys {
     "Directory where all debian control scripts reside. Default is 'src/debian/DEBIAN'"
   )
   @deprecated("Use generic maintainerScript task instead", "1.0.3")
+  @transient
   val debianMakePreinstScript =
     TaskKey[Option[File]]("makePreinstScript", "Creates or discovers the preinst script used by this project")
   @deprecated("Use generic maintainerScript task instead", "1.0.3")
+  @transient
   val debianMakePrermScript =
     TaskKey[Option[File]]("makePrermScript", "Creates or discovers the prerm script used by this project")
   @deprecated("Use generic maintainerScript task instead", "1.0.3")
+  @transient
   val debianMakePostinstScript =
     TaskKey[Option[File]]("makePostInstScript", "Creates or discovers the postinst script used by this project")
   @deprecated("Use generic maintainerScript task instead", "1.0.3")
+  @transient
   val debianMakePostrmScript =
     TaskKey[Option[File]]("makePostrmScript", "Creates or discovers the postrm script used by this project")
+  @transient
   val debianMakeChownReplacements = TaskKey[(String, String)](
     "debianMakeChownReplacements",
     "Creates the chown commands for correct own files and directories"
   )
 
+  @transient
   val debianPackageInstallSize = TaskKey[Long]("debian-installed-size")
 
   val debianNativeBuildOptions =

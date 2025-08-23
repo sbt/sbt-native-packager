@@ -69,9 +69,11 @@ trait RpmKeys {
   val rpmPostun = SettingKey[Option[String]]("rpm-postun", "%postun scriptlet")
 
   // SPEC
+  @transient
   val rpmSpecConfig = TaskKey[RpmSpec]("rpm-spec-config", "All the configuration for an RPM .spec file.")
 
   // SCRIPTS
+  @transient
   val rpmScripts = TaskKey[RpmScripts]("rpm-scripts", "Configuration of pre- and post-integration scripts.")
   val rpmScriptsDirectory = SettingKey[File](
     "rpm-scriptlets-directory",
@@ -85,6 +87,7 @@ trait RpmKeys {
   )
 
   // Building
+  @transient
   val rpmLint = TaskKey[Unit]("rpm-lint", "Runs rpmlint program against the generated RPM, if available.")
 
   @deprecated("Use daemonStdoutLogFile instead", "1.1.x")

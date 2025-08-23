@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Keys.stagingDirectory
+
 enablePlugins(DockerPlugin, JavaAppPackaging)
 
 name := "simple-test"
