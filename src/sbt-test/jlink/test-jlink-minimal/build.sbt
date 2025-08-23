@@ -1,6 +1,7 @@
 // Tests basic jlink plugin functionality.
 
 import scala.sys.process.Process
+import com.typesafe.sbt.packager.Keys.stagingDirectory
 import com.typesafe.sbt.packager.Compat._
 import com.typesafe.sbt.packager.PluginCompat
 import xsbti.FileConverter

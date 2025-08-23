@@ -9,7 +9,9 @@ import sbt._
   */
 @deprecated("Internal use only. Please don't extend this trait", "1.3.15")
 trait DockerKeys {
+  @transient
   val dockerGenerateConfig = TaskKey[File]("docker-generate-config", "Generates configuration file for Docker.")
+  @transient
   val dockerPackageMappings =
     taskKey[Seq[(PluginCompat.FileRef, String)]]("Generates location mappings for Docker build.")
 
@@ -37,6 +39,7 @@ trait DockerKeys {
     "Docker CMD. Used together with dockerEntrypoint. Arguments passed in exec form"
   )
   val dockerExecCommand = SettingKey[Seq[String]]("dockerExecCommand", "The shell command used to exec Docker")
+  @transient
   val dockerVersion = TaskKey[Option[DockerVersion]]("dockerVersion", "The docker server version")
   val dockerBuildOptions = SettingKey[Seq[String]]("dockerBuildOptions", "Options used for the Docker build")
   val dockerBuildEnvVars =
@@ -48,6 +51,7 @@ trait DockerKeys {
   val dockerRmiCommand =
     SettingKey[Seq[String]]("dockerRmiCommand", "Command for removing the Docker image from the local registry")
 
+  @transient
   val dockerCommands = TaskKey[Seq[CmdLike]]("dockerCommands", "List of docker commands that form the Dockerfile")
 }
 
@@ -56,18 +60,22 @@ trait DockerKeys {
 private[packager] trait DockerKeysEx extends DockerKeys {
   lazy val dockerPermissionStrategy = settingKey[DockerPermissionStrategy]("The strategy to change file permissions.")
   lazy val dockerChmodType = settingKey[DockerChmodType]("The file permissions for the files copied into Docker image.")
+  @transient
   lazy val dockerAdditionalPermissions =
     taskKey[Seq[(DockerChmodType, String)]]("Explicit chmod calls to some of the paths.")
+  @transient
   val dockerApiVersion = TaskKey[Option[DockerApiVersion]]("dockerApiVersion", "The docker server api version")
   @deprecated("Use dockerGroupLayers instead", "1.7.1")
   val dockerLayerGrouping = settingKey[String => Option[Int]](
     "Group files by path into in layers to increase docker cache hits. " +
       "Lower index means the file would be a part of an earlier layer."
   )
+  @transient
   val dockerGroupLayers = taskKey[PartialFunction[(PluginCompat.FileRef, String), Int]](
     "Group files by mapping into layers to increase docker cache hits. " +
       "Lower index means the file would be a part of an earlier layer."
   )
+  @transient
   val dockerLayerMappings =
     taskKey[Seq[LayeredMapping]]("List of layer, source file and destination in Docker image.")
   val dockerBuildInit = SettingKey[Boolean](
@@ -76,6 +84,7 @@ private[packager] trait DockerKeysEx extends DockerKeys {
       "Setting to true will cause Docker to bundle a tini in the container, to run as the init process, which is recommended for JVM apps. " +
       "Requires Docker API version 1.25+"
   )
+  @transient
   val dockerBuildkitEnabled = TaskKey[Boolean]("dockerBuildkitEnabled", "Detects whether buildkit is enabled")
   val dockerBuildxPlatforms =
     SettingKey[Seq[String]]("dockerBuildxPlatforms", "The docker image platforms for buildx multi-platform build")

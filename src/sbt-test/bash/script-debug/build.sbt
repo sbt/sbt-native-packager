@@ -1,3 +1,4 @@
+import com.typesafe.sbt.packager.Keys.stagingDirectory
 import java.net.ServerSocket
 
 enablePlugins(JavaAppPackaging)

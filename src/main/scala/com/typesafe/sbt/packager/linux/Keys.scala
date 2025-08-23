@@ -25,16 +25,21 @@ trait LinuxKeys {
     "Maximum number of open file descriptors for the spawned application"
   )
 
+  @transient
   val linuxPackageMappings = TaskKey[Seq[LinuxPackageMapping]](
     "linux-package-mappings",
     "File to install location mappings including owner and privileges."
   )
+  @transient
   val linuxPackageSymlinks =
     TaskKey[Seq[LinuxSymlink]]("linux-package-symlinks", "Symlinks we should produce in the underlying package.")
+  @transient
   val generateManPages = TaskKey[Unit]("generate-man-pages", "Shows all the man files in the current project")
 
+  @transient
   val linuxMakeStartScript =
     taskKey[Option[File]]("Creates or discovers the start script used by this project")
+  @transient
   val linuxStartScriptTemplate = TaskKey[URL](
     "linuxStartScriptTemplate",
     "The location of the template start script file we use for debian (upstart or init.d"
@@ -43,6 +48,7 @@ trait LinuxKeys {
     "linuxStartScriptName",
     "The name of the start script for debian (primary useful for systemd)"
   )
+  @transient
   val linuxEtcDefaultTemplate =
     TaskKey[URL]("linuxEtcDefaultTemplate", "The location of the /etc/default/<pkg> template script.")
   val linuxScriptReplacements = SettingKey[Seq[(String, String)]](
@@ -67,6 +73,7 @@ trait LinuxKeys {
       """.stripMargin
   )
 
+  @transient
   val makeEtcDefault =
     taskKey[Option[File]]("Creates or discovers the /etc/default/ script")
 

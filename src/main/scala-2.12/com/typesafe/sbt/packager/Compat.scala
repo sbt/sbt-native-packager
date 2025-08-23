@@ -36,4 +36,8 @@ object Compat {
     *   a CacheStore
     */
   implicit def fileToCacheStore(file: java.io.File): CacheStore = CacheStore(file)
+
+  implicit class DefOps(private val self: sbt.Def.type) extends AnyVal {
+    def uncached[A](a: A): A = a
+  }
 }

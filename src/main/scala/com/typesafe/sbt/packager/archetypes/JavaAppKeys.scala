@@ -15,10 +15,13 @@ trait JavaAppKeys {
     "bashScriptEnvConfigLocation",
     "The location of a bash script that will be sourced before running the app."
   )
+  @transient
   val scriptClasspathOrdering =
     taskKey[Seq[(PluginCompat.FileRef, String)]]("The order of the classpath used at runtime for the bat/bash scripts.")
+  @transient
   val projectDependencyArtifacts =
     taskKey[Seq[Attributed[PluginCompat.FileRef]]]("The set of exported artifacts from our dependent projects.")
+  @transient
   val scriptClasspath = TaskKey[Seq[String]](
     "scriptClasspath",
     "A list of relative filenames (to the lib/ folder in the distribution) of what to include on the classpath."
