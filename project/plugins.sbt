@@ -2,7 +2,7 @@ addSbtPlugin("com.github.sbt" % "sbt-ghpages" % "0.8.0")
 addSbtPlugin("com.github.sbt" % "sbt-site-sphinx" % "1.7.0")
 
 // releasing
-addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.11.1")
+addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.11.2")
 
 libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
 
@@ -14,6 +14,3 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.5")
 
 // binary compatibility checks
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.4")
-
-// for enterprise Artifactory compatibility
-addSbtPlugin("com.scalawilliam.esbeetee" % "sbt-vspp" % "0.4.11")

@@ -1,6 +1,7 @@
 package com.typesafe.sbt.packager.jdkpackager
 
 import com.typesafe.sbt.SbtNativePackager
+import com.typesafe.sbt.packager.Compat.*
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.SettingsHelper
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
@@ -79,7 +80,8 @@ object JDKPackagerPlugin extends AutoPlugin {
         )
       ),
       writeAntBuild := writeAntFile(target.value, antBuildDefn.value, streams.value),
-      packageBin := buildPackageWithAnt(writeAntBuild.value, target.value, fileConverter.value, streams.value)
+      packageBin := Def
+        .uncached(buildPackageWithAnt(writeAntBuild.value, target.value, fileConverter.value, streams.value))
     )
   )
 

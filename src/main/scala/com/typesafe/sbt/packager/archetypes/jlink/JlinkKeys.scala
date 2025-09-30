@@ -8,11 +8,14 @@ import sbt._
   */
 private[packager] trait JlinkKeys {
 
+  @transient
   val jlinkBundledJvmLocation =
     TaskKey[String]("jlinkBundledJvmLocation", "The location of the resulting JVM image")
 
+  @transient
   val jlinkModules = TaskKey[Seq[String]]("jlinkModules", "Modules to link")
 
+  @transient
   val jlinkIgnoreMissingDependency =
     TaskKey[((String, String)) => Boolean](
       "jlinkIgnoreMissingDependency",
@@ -24,12 +27,15 @@ private[packager] trait JlinkKeys {
       """.stripMargin
     )
 
+  @transient
   val jlinkOptions =
     TaskKey[Seq[String]]("jlinkOptions", "Options for the jlink utility")
 
+  @transient
   val jlinkBuildImage =
     TaskKey[File]("jlinkBuildImage", "Runs jlink. Yields the directory with the runtime image")
 
+  @transient
   val jlinkModulePath =
     TaskKey[Seq[File]]("jlinkModulePath", "Module path to supply to jlink")
 }

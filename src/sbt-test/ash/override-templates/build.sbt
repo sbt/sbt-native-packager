@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Keys.stagingDirectory
+
 import scala.io.Source
 
 enablePlugins(AshScriptPlugin)

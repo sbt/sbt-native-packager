@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Keys.stagingDirectory
+
 lazy val checkDockerfileDefaults = taskKey[Unit]("")
 lazy val checkDockerfileWithStrategyNone = taskKey[Unit]("")
 lazy val checkDockerfileWithStrategyNoneGid = taskKey[Unit]("")
