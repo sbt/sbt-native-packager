@@ -1,7 +1,7 @@
 import com.typesafe.sbt.packager.Keys.stagingDirectory
 import com.typesafe.sbt.packager.Compat._
 
-scalaVersion := "2.12.20"
+scalaVersion := "2.12.21"
 
 enablePlugins(JavaAppPackaging)
 

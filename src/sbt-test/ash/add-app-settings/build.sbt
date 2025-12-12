@@ -2,7 +2,7 @@ import com.typesafe.sbt.packager.Keys.stagingDirectory
 
 enablePlugins(JavaAppPackaging, AshScriptPlugin)
 
-scalaVersion := "2.12.20"
+scalaVersion := "2.12.21"
 
 name := "simple-app"
 
