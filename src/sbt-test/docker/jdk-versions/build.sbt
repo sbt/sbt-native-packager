@@ -7,7 +7,7 @@ lazy val `jdk8` = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     name := basename + "-8",
-    dockerBaseImage := "openjdk:8u342u162-jre",
+    dockerBaseImage := "openjdk:8u382-ga-2",
     dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:8")
   )
 
