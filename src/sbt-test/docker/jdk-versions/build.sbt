@@ -7,7 +7,7 @@ lazy val `jdk8` = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     name := basename + "-8",
-    dockerBaseImage := "eclipse-temurin:8",
+    dockerBaseImage := "eclipse-temurin:8-jre",
     dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:8")
   )
 
@@ -16,7 +16,7 @@ lazy val `jdk11` = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     name := basename + "-11",
-    dockerBaseImage := "eclipse-temurin:11",
+    dockerBaseImage := "eclipse-temurin:11-jre",
     dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:11")
   )
 
@@ -25,7 +25,7 @@ lazy val `jdk17` = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     name := basename + "-17",
-    dockerBaseImage := "eclipse-temurin:17",
+    dockerBaseImage := "eclipse-temurin:17-jre",
     dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:17")
   )
 
@@ -34,7 +34,7 @@ lazy val `jdk21` = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     name := basename + "-21",
-    dockerBaseImage := "eclipse-temurin:21",
+    dockerBaseImage := "eclipse-temurin:21-jre",
     dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:21")
   )
 
@@ -44,6 +44,6 @@ lazy val `jdk25` = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     name := basename + "-25",
-    dockerBaseImage := "eclipse-temurin:25",
+    dockerBaseImage := "eclipse-temurin:25-jre",
     dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:25")
   )
