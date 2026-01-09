@@ -16,7 +16,7 @@ lazy val `jdk9` = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     name := basename + "-9",
-    dockerBaseImage := "openjdk:9.0.4-jre",
+    dockerBaseImage := "openjdk:9.0.4-12-jre",
     dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:9")
   )
 
@@ -25,6 +25,6 @@ lazy val `jdk10` = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     name := basename + "-10",
-    dockerBaseImage := "openjdk:10-jre",
+    dockerBaseImage := "openjdk:10.0.2-13-jre",
     dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:10")
   )
