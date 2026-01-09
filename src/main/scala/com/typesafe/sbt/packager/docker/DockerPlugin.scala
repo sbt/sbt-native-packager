@@ -81,7 +81,7 @@ object DockerPlugin extends AutoPlugin {
     // run validation, and warn the build users if the strategy is not compatible with `docker` that's in scope.
     dockerPermissionStrategy := DockerPermissionStrategy.MultiStage,
     dockerChmodType := DockerChmodType.UserGroupReadExecute,
-    dockerBaseImage := "openjdk:8u342",
+    dockerBaseImage := "eclipse-temurin:25",
     dockerExposedPorts := Seq(),
     dockerExposedUdpPorts := Seq(),
     dockerExposedVolumes := Seq(),
