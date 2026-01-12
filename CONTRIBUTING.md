@@ -8,7 +8,7 @@ packaging types, systemloader and service types. Sometimes this means a pull req
 may take a bit longer, because testing is sometimes hard and tedious. 
 
 Most of the changes are of a very small nature, but can have a huge impact, so try
-to cover the three topis _Code_, _Documentation_ and _Test_ :)
+to cover the three topics _Code_, _Documentation_ and _Test_ :)
 
 ## Code
 

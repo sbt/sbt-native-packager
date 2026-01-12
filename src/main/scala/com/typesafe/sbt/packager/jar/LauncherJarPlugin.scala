@@ -6,6 +6,7 @@ import java.util.jar.Attributes
 import sbt.Package.ManifestAttributes
 import sbt.{*, given}
 import sbt.Keys._
+import com.typesafe.sbt.packager.Compat.*
 import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.SbtNativePackager.Universal
@@ -15,6 +16,7 @@ import xsbti.FileConverter
 object LauncherJarPlugin extends AutoPlugin {
 
   object autoImport {
+    @transient
     val packageJavaLauncherJar: TaskKey[PluginCompat.FileRef] = taskKey[PluginCompat.FileRef](
       "Creates a Java launcher jar that specifies the main class and classpath in its manifest"
     )
@@ -39,14 +41,14 @@ object LauncherJarPlugin extends AutoPlugin {
       moduleId.organization + "." + artifact.name + "-" + moduleId.revision +
         artifact.classifier.fold("")("-" + _) + "." + artifact.extension
     },
-    Compile / bashScriptDefines / mainClass := {
+    Compile / bashScriptDefines / mainClass := Def.uncached {
       val conv0 = fileConverter.value
       implicit val conv: FileConverter = conv0
       val a = (packageJavaLauncherJar / artifactPath).value
       Some(s"""-jar "$$lib_dir/${PluginCompat.artifactPathToFile(a).getName}"""")
     },
     bashScriptDefines / scriptClasspath := Nil,
-    Compile / batScriptReplacements / mainClass := {
+    Compile / batScriptReplacements / mainClass := Def.uncached {
       val conv0 = fileConverter.value
       implicit val conv: FileConverter = conv0
       val a = (packageJavaLauncherJar / artifactPath).value

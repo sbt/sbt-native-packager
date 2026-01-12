@@ -1,6 +1,7 @@
 package com.typesafe.sbt.packager
 package debian
 
+import com.typesafe.sbt.packager.Compat.*
 import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import com.typesafe.sbt.packager.universal.Archives
@@ -59,7 +60,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       /**
         * Depends on the 'debianExplodedPackage' task as this creates all the files which are defined in the mappings.
         */
-      packageBin := {
+      packageBin := Def.uncached {
         val conv0 = fileConverter.value
         implicit val conv: FileConverter = conv0
         val targetDir = target.value
@@ -87,8 +88,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         debMaker.packageDebian(mappings, symlinks, debianFile, targetDir, fileConverter.value, log)
         PluginCompat.toFileRef(debianFile)
       },
-      packageBin := (packageBin dependsOn debianControlFile).value,
-      packageBin := (packageBin dependsOn debianConffilesFile).value,
+      packageBin := Def.uncached((packageBin dependsOn debianControlFile).value),
+      packageBin := Def.uncached((packageBin dependsOn debianConffilesFile).value),
       // workaround for sbt-coursier
       classpathTypes += "maven-plugin"
     )

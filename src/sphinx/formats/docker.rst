@@ -157,7 +157,7 @@ Publishing Settings
 ~~~~~~~~~~~~~~~~~~~
 
   ``dockerRepository``
-    The repository to which the image is pushed when the ``Docker / publish`` task is run. This should be of the form  ``[repository.host[:repository.port]]`` (assumes use of the ``index.docker.io`` repository) or ``[repository.host[:repository.port]][/username]`` (discouraged, but available for backwards compatibilty.).
+    The repository to which the image is pushed when the ``Docker / publish`` task is run. This should be of the form  ``[repository.host[:repository.port]]`` (assumes use of the ``index.docker.io`` repository) or ``[repository.host[:repository.port]][/username]`` (discouraged, but available for backwards compatibility.).
 
   ``dockerUsername``
     The username or organization to which the image is pushed when the ``Docker / publish`` task is run. This should be of the form ``[username]`` or ``[organization]``.
@@ -283,7 +283,7 @@ The files from ``Docker / mappings`` are extracted underneath this directory.
 Daemon User
 ~~~~~~~~~~~
 By default, sbt Native Packager will create a daemon user named ``demiourgos728``
-whose UID is set to ``1001``, and and emit ``USER 1001`` since running as non-root is considered the best practice.
+whose UID is set to ``1001``, and emit ``USER 1001`` since running as non-root is considered the best practice.
 
 The following can be used to emit ``USER daemon`` instead:
 
@@ -337,7 +337,7 @@ In your sbt console type
 .. code-block:: bash
 
     > show dockerCommands
-    [info] List(Cmd(FROM,openjdk:8), Cmd(LABEL,MAINTAINER=Your Name <y.n@yourcompany.com>), ...)
+    [info] List(Cmd(FROM,eclipse-temurin:25), Cmd(LABEL,MAINTAINER=Your Name <y.n@yourcompany.com>), ...)
 
 
 
@@ -405,7 +405,7 @@ Now let's start adding some Docker commands.
   import com.typesafe.sbt.packager.docker._
 
   dockerCommands := Seq(
-    Cmd("FROM", "openjdk:8"),
+    Cmd("FROM", "eclipse-temurin:25"),
     Cmd("LABEL", s"""MAINTAINER="${maintainer.value}""""),
     ExecCmd("CMD", "echo", "Hello, World from Docker")
   )

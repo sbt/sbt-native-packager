@@ -158,7 +158,7 @@ Solutions include:
 
 - upgrading to Debian Jessie,
 - upgrading python-apt, note that no official backport is known
-- re-enabling package re-compression in sbt-native-packager, by overridding
+- re-enabling package re-compression in sbt-native-packager, by overriding
   `debianNativeBuildOptions` as described above.
 
 Java based packaging

@@ -41,7 +41,7 @@ import sbt._
   * }}}
   *
   * The Docker-spotify client is a provided dependency so you have to add it on your own. It brings a lot of
-  * dependenciesthat could slow your build times. This is the reason the dependency is marked as provided.
+  * dependencies that could slow your build times. This is the reason the dependency is marked as provided.
   */
 object DockerSpotifyClientPlugin extends AutoPlugin {
 

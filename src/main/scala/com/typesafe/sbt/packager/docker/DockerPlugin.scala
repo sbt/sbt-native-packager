@@ -81,7 +81,7 @@ object DockerPlugin extends AutoPlugin {
     // run validation, and warn the build users if the strategy is not compatible with `docker` that's in scope.
     dockerPermissionStrategy := DockerPermissionStrategy.MultiStage,
     dockerChmodType := DockerChmodType.UserGroupReadExecute,
-    dockerBaseImage := "openjdk:8",
+    dockerBaseImage := "eclipse-temurin:25",
     dockerExposedPorts := Seq(),
     dockerExposedUdpPorts := Seq(),
     dockerExposedVolumes := Seq(),
@@ -337,14 +337,14 @@ object DockerPlugin extends AutoPlugin {
         implicit val conv: FileConverter = conv0
         Stager.stage(Docker.name)(
           streams.value,
-          stagingDirectory.value,
+          com.typesafe.sbt.packager.Keys.stagingDirectory.value,
           dockerLayerMappings.value.map { case LayeredMapping(layerIdx, file, path) =>
             (file, pathInLayer(path, layerIdx))
           }
         )
       },
       stage := (stage dependsOn dockerGenerateConfig).value,
-      stagingDirectory := (Docker / target).value / "stage",
+      com.typesafe.sbt.packager.Keys.stagingDirectory := (Docker / target).value / "stage",
       dockerLayerMappings := {
         val dockerGroups = dockerGroupLayers.value
         val dockerFinalFiles = (Docker / mappings).value
@@ -379,7 +379,7 @@ object DockerPlugin extends AutoPlugin {
       dockerPackageMappings := MappingsHelper.contentOf(sourceDirectory.value, fileConverter.value),
       dockerGenerateConfig := {
         val _ = validatePackage.value
-        generateDockerConfig(dockerCommands.value, stagingDirectory.value)
+        generateDockerConfig(dockerCommands.value, com.typesafe.sbt.packager.Keys.stagingDirectory.value)
       }
     )
   }

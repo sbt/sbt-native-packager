@@ -17,6 +17,7 @@ trait NativePackagerKeys {
   val executableScriptName =
     SettingKey[String]("executableScriptName", "Name of the executing script.")
 
+  @transient
   val maintainerScripts = TaskKey[Map[String, Seq[String]]]("maintainerScripts", "Scriptname to content lines")
 
 }

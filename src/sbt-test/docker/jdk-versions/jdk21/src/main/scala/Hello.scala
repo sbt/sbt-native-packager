@@ -1,3 +1,3 @@
 object Hello extends App {
-  println("Hello JDK9!")
+  println("Hello JDK21!")
 }

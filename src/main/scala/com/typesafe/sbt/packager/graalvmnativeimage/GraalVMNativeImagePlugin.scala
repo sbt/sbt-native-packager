@@ -49,14 +49,16 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
   private lazy val scopedSettings = Seq[Setting[?]](
     resourceDirectories := Seq(resourceDirectory.value),
     includeFilter := "*",
-    resources := resourceDirectories.value.descendantsExcept(includeFilter.value, excludeFilter.value).get(),
+    resources := Def.uncached(
+      resourceDirectories.value.descendantsExcept(includeFilter.value, excludeFilter.value).get()
+    ),
     UniversalPlugin.autoImport.containerBuildImage := Def.taskDyn {
       graalVMNativeImageGraalVersion.value match {
         case Some(tag) => generateContainerBuildImage(s"$GraalVMBaseImage:$tag")
         case None      => Def.task(None: Option[String])
       }
     }.value,
-    packageBin := {
+    packageBin := Def.uncached {
       val conv0 = fileConverter.value
       implicit val conv: FileConverter = conv0
       val targetDirectory = target.value

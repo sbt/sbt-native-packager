@@ -97,7 +97,7 @@ object WindowsPlugin extends AutoPlugin {
         wixConfigFile
       },
       wixFiles := Seq(wixFile.value)
-    ) ++ inConfig(Windows)(Seq(packageBin := {
+    ) ++ inConfig(Windows)(Seq(packageBin := Def.uncached {
       val conv0 = fileConverter.value
       implicit val conv: FileConverter = conv0
       val wsxSources = wixFiles.value

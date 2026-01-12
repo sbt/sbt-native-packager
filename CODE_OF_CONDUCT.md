@@ -37,7 +37,7 @@
 ## Moderation
 
 These are the policies for upholding our community's standards of conduct in our
-communication channels, most notably in sbt-native-packagers’s Github organisation.
+communication channels, most notably in sbt-native-packager’s Github organisation.
 
 1. Remarks that violate the sbt-native-packager code of conduct, including
    hateful, hurtful, oppressive, or exclusionary remarks, are not allowed.

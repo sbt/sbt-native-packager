@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Compat._
+
 enablePlugins(RpmPlugin)
 
 name := "rpm-test"
@@ -19,7 +21,7 @@ rpmLicense := Some("BSD")
 
 Rpm / version := "1"
 
-TaskKey[Unit]("checkSnapshot") := {
+TaskKey[Unit]("checkSnapshot") := Def.uncached {
   assert(rpmRelease.value == "SNAPSHOT", s"RPM has incorrect value ${rpmRelease.value}")
   assert(rpmMetadata.value.version == "1", s"RPM has incorrect value ${rpmMetadata.value.version}")
   assert((Rpm / version).value == "1", s"RPM has incorrect value ${(Rpm / version).value}")

@@ -14,6 +14,7 @@ import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 object ClasspathJarPlugin extends AutoPlugin {
 
   object autoImport {
+    @transient
     val packageJavaClasspathJar: TaskKey[PluginCompat.FileRef] =
       taskKey[PluginCompat.FileRef]("Creates a Java classpath jar that specifies the classpath in its manifest")
   }

@@ -87,7 +87,7 @@ Informational Settings
     Its default value is drawn from the project defined ``version``.
 
   ``rpmRelease``
-    The release number is the package's version. When the sofware is first packaged at a
+    The release number is the package's version. When the software is first packaged at a
     particular version, the release should be ``"1"``. If the software is repackaged at
     the same version, the release number should be incremented, and dropped back to ``"1"``
     when the software version is new.

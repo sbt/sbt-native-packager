@@ -6,19 +6,19 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 // crossBuildingSettings
 lazy val scala212 = "2.12.20"
-lazy val scala3 = "3.6.3"
+lazy val scala3 = "3.7.3"
 Global / scalaVersion := scala3
 crossScalaVersions := Seq(scala3, scala212)
 (pluginCrossBuild / sbtVersion) := {
   scalaBinaryVersion.value match {
     case "2.12" => "1.5.8"
-    case _      => "2.0.0-M3"
+    case _      => "2.0.0-RC6"
   }
 }
 scriptedSbt := {
   scalaBinaryVersion.value match {
     case "2.12" => "1.10.7"
-    case _      => "2.0.0-M3"
+    case _      => "2.0.0-RC6"
   }
 }
 
@@ -30,8 +30,8 @@ classpathTypes += "maven-plugin"
 libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "8.16.0" % Provided,
-  "org.vafer" % "jdeb" % "1.12" % Provided artifacts Artifact("jdeb", "jar", "jar"),
-  "org.apache.commons" % "commons-compress" % "1.27.1",
+  "org.vafer" % "jdeb" % "1.14" % Provided artifacts Artifact("jdeb", "jar", "jar"),
+  "org.apache.commons" % "commons-compress" % "1.28.0",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.15",
   // workaround for the command line size limit
@@ -43,7 +43,7 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= {
   (pluginCrossBuild / sbtVersion).value match {
     case v if v.startsWith("1.") =>
-      Seq("org.scala-sbt" %% "io" % "1.10.4")
+      Seq("org.scala-sbt" %% "io" % "1.10.5")
     case _ => Seq()
   }
 }
@@ -147,12 +147,24 @@ def versionFmt(out: sbtdynver.GitDescribeOutput): String = {
   val snapshotSuffix =
     if (out.isSnapshot()) "-SNAPSHOT"
     else ""
-  out.ref.dropPrefix + snapshotSuffix
+  dropBackPubCommand(out.ref.dropPrefix) + snapshotSuffix
 }
-
+def dropBackPubCommand(ver: String): String = {
+  val nonComment =
+    if (ver.contains("#")) ver.split("#").head
+    else ver
+  if (nonComment.contains("@")) nonComment.split("@").head
+  else nonComment
+}
 def fallbackVersion(d: java.util.Date): String = s"HEAD-${sbtdynver.DynVer timestamp d}"
 
-ThisBuild / version := dynverGitDescribeOutput.value.mkVersion(versionFmt, fallbackVersion(dynverCurrentDate.value))
+ThisBuild / version := {
+  val orig = (ThisBuild / version).value
+  if ((ThisBuild / isSnapshot).value)
+    dynverGitDescribeOutput.value.mkVersion(versionFmt, fallbackVersion(dynverCurrentDate.value))
+  else orig
+}
+
 ThisBuild / dynver := {
   val d = new java.util.Date
   sbtdynver.DynVer.getGitDescribeOutput(d).mkVersion(versionFmt, fallbackVersion(d))

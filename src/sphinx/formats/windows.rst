@@ -125,7 +125,7 @@ Tasks
     Creates the ``msi`` package.
 
   ``wixFile``
-    Generates the Wix xml file from `wixConfig` and `wixProductConfig` setings, unless overriden.
+    Generates the Wix xml file from `wixConfig` and `wixProductConfig` settings, unless overridden.
 
 
 The native-packager plugin provides a few handy utilities for generating Wix XML.  These

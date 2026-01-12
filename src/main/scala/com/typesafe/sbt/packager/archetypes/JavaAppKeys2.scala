@@ -7,6 +7,7 @@ import sbt._
   */
 // TODO: merge with JavaAppKeys when we can break binary compatibility
 private[packager] trait JavaAppKeys2 {
+  @transient
   val bundledJvmLocation =
     TaskKey[Option[String]]("bundledJvmLocation", "The location of the bundled JVM image")
 }

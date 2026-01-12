@@ -7,7 +7,7 @@ import sbt._
 import scala.xml.Node
 
 /**
-  * Keys specific to deployment via the `javapackger` tool.
+  * Keys specific to deployment via the `javapackager` tool.
   *
   * @author
   *   <a href="mailto:fitch@datamininglab.com">Simeon H.K. Fitch</a>
@@ -92,9 +92,11 @@ trait JDKPackagerKeys {
     "Path to `ant-javafx.jar` library in JDK. By plugin attempts to find location based on `java.home` property. Specifying `JAVA_HOME` or `JDK_HOME` can help."
   )
 
+  @transient
   val antBuildDefn: TaskKey[Node] =
     taskKey[xml.Node]("Generates a Ant XML DOM defining package generating build for JDK provided Ant task.")
 
+  @transient
   val writeAntBuild: TaskKey[File] =
     taskKey[File]("Write the Ant `build.xml` file to the jdkpackager target directory")
 

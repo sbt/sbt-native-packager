@@ -56,7 +56,7 @@ Now that our application is defined in a module, we can add the three packaging 
       )
       .dependsOn(app)
 
-    // bascially identical despite the configuration differences
+    // basically identical despite the configuration differences
     lazy val stagePackage = project
       .in(file("build/stage"))
       .enablePlugins(JavaAppPackaging)
@@ -113,7 +113,7 @@ This pattern may be useful in other scopes as well. First we define an *AutoPlug
 
       object autoImport {
 	object BuildEnv extends Enumeration {
-	  val Production, Stage, Test, Developement = Value
+	  val Production, Stage, Test, Development = Value
 	}
 
 	val buildEnv = settingKey[BuildEnv.Value]("the current build environment")
@@ -128,10 +128,10 @@ This pattern may be useful in other scopes as well. First we define an *AutoPlug
 	       case "prod" => Some(BuildEnv.Production)
 	       case "stage" => Some(BuildEnv.Stage)
 	       case "test" => Some(BuildEnv.Test)
-	       case "dev" => Some(BuildEnv.Developement)
-	       case unkown => None
+	       case "dev" => Some(BuildEnv.Development)
+	       case unknown => None
 	     }
-	     .getOrElse(BuildEnv.Developement)
+	     .getOrElse(BuildEnv.Development)
 	},
 	// give feed back
 	onLoadMessage := {
@@ -163,7 +163,7 @@ plugin as it involves quite some logic. In this case we decide which configurati
 
     Universal / mappings += {
       val confFile = buildEnv.value match {
-	case BuildEnv.Developement => "dev.conf"
+	case BuildEnv.Development => "dev.conf"
 	case BuildEnv.Test => "test.conf"
 	case BuildEnv.Stage => "stage.conf"
 	case BuildEnv.Production => "prod.conf"
@@ -171,7 +171,7 @@ plugin as it involves quite some logic. In this case we decide which configurati
       ((Compile / resourceDirectory).value / confFile) -> "conf/application.conf"
     }
 
-Ofcourse you can change all other settings, package names, etc. as well. Building different output packages would look
+Of course you can change all other settings, package names, etc. as well. Building different output packages would look
 like this
 
 .. code-block :: bash
@@ -219,7 +219,7 @@ needs to be done manually. Append this to the ``app`` project.
       // you have to override everything carefully
       packageName := "my-prod-app",
       executableScriptName := "my-prod-app",
-      // this is what we acutally want to change
+      // this is what we actually want to change
       mappings += ((Compile / resourceDirectory).value / "prod.conf") -> "conf/application.conf"
     )))
 

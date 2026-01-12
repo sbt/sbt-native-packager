@@ -1,5 +1,10 @@
 #!/bin/sh
 
+die() {
+  echo "$@" 1>&2
+  exit 1
+}
+
 realpath () {
 (
   TARGET_FILE="$1"
@@ -51,6 +56,19 @@ addResidual () {
   residual_args="$residual_args $(shellEscape "$1")"
 }
 
+addDebugger () {
+  addJava "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$1"
+}
+
+require_arg () {
+  local type="$1"
+  local opt="$2"
+  local arg="$3"
+  if [ -z "$arg" ] || [ "${arg#-}" != "$arg" ]; then
+    die "$opt requires <$type> argument"
+  fi
+}
+
 # Allow user to specify java options. These get listed first per bash-template.
 if [ -n "$JAVA_OPTS" ]
 then
@@ -81,10 +99,6 @@ process_args () {
     case "$1" in
              --) shift && no_more_snp_opts=1 && break ;;
        -h|-help) usage; exit 1 ;;
-    -v|-verbose) verbose=1 && shift ;;
-      -d|-debug) debug=1 && shift ;;
-
-    -no-version-check) no_version_check=1 && shift ;;
 
            -mem) echo "!! WARNING !! -mem option is ignored. Please use -J-Xmx and -J-Xms" && shift 2 ;;
      -jvm-debug) require_arg port "$1" "$2" && addDebugger $2 && shift 2 ;;
@@ -99,11 +113,39 @@ process_args () {
     esac
   done
 
-  if [ $no_more_snp_opts ]; then
+  if [ $no_more_snp_opts -ne 0 ]; then
     while [ $# -gt 0 ]; do
       addResidual "$1" && shift
     done
   fi
+}
+
+usage() {
+ cat <<EOM
+Usage: $script_name [options]
+
+  -h | -help         print this message
+  -main <classname>  Define a custom main class
+  -jvm-debug <port>  Turn on JVM debugging, open at the given port.
+
+  # java version (default: java from PATH, currently $(java -version 2>&1 | grep version))
+  -java-home <path>         alternate JAVA_HOME
+
+  # jvm options and output control
+  JAVA_OPTS          environment variable, if unset uses "$java_opts"
+  -Dkey=val          pass -Dkey=val directly to the java runtime
+  -J-X               pass option -X directly to the java runtime
+                     (-J is stripped)
+
+  # special option
+  --                 To stop parsing built-in commands from the rest of the command-line.
+                     e.g.) enabling debug and sending -d as app argument
+                     \$ ./start-script -d -- -d
+
+In the case of duplicated or conflicting options, basically the order above
+shows precedence: JAVA_OPTS lowest, command line options highest except "--".
+${{available_main_classes}}
+EOM
 }
 
 app_commands=""

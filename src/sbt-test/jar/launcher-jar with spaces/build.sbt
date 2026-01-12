@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.Keys.stagingDirectory
+
 enablePlugins(LauncherJarPlugin)
 
 name := "launcher-jar-test"

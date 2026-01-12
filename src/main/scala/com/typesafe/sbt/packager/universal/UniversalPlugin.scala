@@ -5,6 +5,7 @@ import sbt.{*, given}
 import sbt.Keys.*
 import Archives.*
 import com.typesafe.sbt.SbtNativePackager
+import com.typesafe.sbt.packager.Compat.*
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.docker.DockerPlugin
 import com.typesafe.sbt.packager.validation._
@@ -64,7 +65,7 @@ object UniversalPlugin extends AutoPlugin {
     // For now, we provide delegates from dist/stage to universal...
     dist := (Universal / dist).value,
     stage := (Universal / stage).value,
-    // TODO - We may need to do this for UniversalSrcs + UnviersalDocs
+    // TODO - We may need to do this for UniversalSrcs + UniversalDocs
     Universal / name := name.value,
     UniversalDocs / name := (Universal / name).value,
     UniversalSrc / name := (Universal / name).value,
@@ -129,7 +130,7 @@ object UniversalPlugin extends AutoPlugin {
       Seq(
         packageKey / universalArchiveOptions := Nil,
         packageKey / mappings := mappings.value,
-        packageKey := {
+        packageKey := Def.uncached {
           val conv0 = fileConverter.value
           implicit val conv: FileConverter = conv0
           val xs = (packageKey / mappings).value
@@ -156,7 +157,7 @@ object UniversalPlugin extends AutoPlugin {
         },
         packageKey / validatePackage := Validation
           .runAndThrow((config / packageKey / validatePackageValidators).value, streams.value.log),
-        packageKey := packageKey.dependsOn(packageKey / validatePackage).value
+        packageKey := Def.uncached(packageKey.dependsOn(packageKey / validatePackage).value)
       )
     )
 
