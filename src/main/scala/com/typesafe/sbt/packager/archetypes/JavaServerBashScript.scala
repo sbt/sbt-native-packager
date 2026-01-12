@@ -46,9 +46,8 @@ object JavaServerBashScript {
     template: Option[URL] = None
   ): Option[String] = {
     // use template or else search for a default
-    val url = template orElse {
+    val url = template orElse
       Option(getClass getResource s"$archetype/${config.name}/$script-template")
-    }
     // if an url was found, create the script
     url map {
       TemplateWriter generateScript (_, replacements)
