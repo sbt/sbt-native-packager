@@ -1,4 +1,4 @@
-addSbtPlugin("com.github.sbt" % "sbt-ghpages" % "0.8.0")
+addSbtPlugin("com.github.sbt" % "sbt-ghpages" % "0.9.0")
 addSbtPlugin("com.github.sbt" % "sbt-site-sphinx" % "1.7.0")
 
 // releasing
@@ -10,7 +10,7 @@ libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
 libraryDependencies += "jline" % "jline" % "2.14.6"
 
 // For code formatting
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.5")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.6")
 
 // binary compatibility checks
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.4")

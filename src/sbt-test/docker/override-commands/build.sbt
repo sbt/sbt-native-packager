@@ -9,7 +9,7 @@ maintainer := "Gary Coady <gary@lyranthe.org>"
 
 dockerUpdateLatest := true
 dockerCommands := Seq(
-  Cmd("FROM", "openjdk:8"),
+  Cmd("FROM", "eclipse-temurin:25"),
   Cmd("LABEL", s"""MAINTAINER="${maintainer.value}""""),
   ExecCmd("CMD", "echo", "Hello, World from Docker")
 )
