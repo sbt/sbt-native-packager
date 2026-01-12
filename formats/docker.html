@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Docker Plugin &mdash; sbt-native-packager 1.11.4 documentation</title>
+  <title>Docker Plugin &mdash; sbt-native-packager 1.11.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
-      <script src="../_static/documentation_options.js?v=9080e127"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/documentation_options.js?v=34f8653e"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -690,7 +690,7 @@ commands or simply add some.</p>
 <p>First of all you should take a look what you docker commands look like.
 In your sbt console type</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>show<span class="w"> </span>dockerCommands
-<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>List<span class="o">(</span>Cmd<span class="o">(</span>FROM,openjdk:8<span class="o">)</span>,<span class="w"> </span>Cmd<span class="o">(</span>LABEL,MAINTAINER<span class="o">=</span>Your<span class="w"> </span>Name<span class="w"> </span>&lt;y.n@yourcompany.com&gt;<span class="o">)</span>,<span class="w"> </span>...<span class="o">)</span>
+<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>List<span class="o">(</span>Cmd<span class="o">(</span>FROM,eclipse-temurin:25<span class="o">)</span>,<span class="w"> </span>Cmd<span class="o">(</span>LABEL,MAINTAINER<span class="o">=</span>Your<span class="w"> </span>Name<span class="w"> </span>&lt;y.n@yourcompany.com&gt;<span class="o">)</span>,<span class="w"> </span>...<span class="o">)</span>
 </pre></div>
 </div>
 </section>
@@ -745,7 +745,7 @@ the chowning of a exposed volume:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">com</span><span class="p">.</span><span class="nn">typesafe</span><span class="p">.</span><span class="nn">sbt</span><span class="p">.</span><span class="nn">packager</span><span class="p">.</span><span class="nn">docker</span><span class="p">.</span><span class="n">_</span>
 
 <span class="n">dockerCommands</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span>
-<span class="w">  </span><span class="nc">Cmd</span><span class="p">(</span><span class="s">&quot;FROM&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;openjdk:8&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="nc">Cmd</span><span class="p">(</span><span class="s">&quot;FROM&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;eclipse-temurin:25&quot;</span><span class="p">),</span>
 <span class="w">  </span><span class="nc">Cmd</span><span class="p">(</span><span class="s">&quot;LABEL&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">s&quot;&quot;&quot;MAINTAINER=&quot;</span><span class="si">${</span><span class="n">maintainer</span><span class="p">.</span><span class="n">value</span><span class="si">}</span><span class="s">&quot;&quot;&quot;&quot;</span><span class="p">),</span>
 <span class="w">  </span><span class="nc">ExecCmd</span><span class="p">(</span><span class="s">&quot;CMD&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;echo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello, World from Docker&quot;</span><span class="p">)</span>
 <span class="p">)</span>
