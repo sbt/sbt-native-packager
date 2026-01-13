@@ -10,6 +10,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      # extract release version from tag
+      - name: Get release version from tag
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
       # setup build environment
       - name: Setup JDK
         uses: actions/setup-java@v5
@@ -26,34 +30,10 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
 
       # generate a github release
-      - name: Generate release changelog
-        id: changelog
-        uses: heinrichreimer/github-changelog-generator-action@v2.4
+      - name: Publish Release Notes
+        uses: release-drafter/release-drafter@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          cacheFile: '.github-changelog-cache'
-          issues: true
-          issuesWoLabels: true
-          pullRequests: true
-          prWoLabels: true
-          unreleased: false
-          onlyLastTag: true
-          maxIssues: 100
-          output: LATEST_RELEASE.md
-      - name: Read latest_release.md
-        id: release_changelog
-        if: ${{ hashFiles('LATEST_RELEASE.md') != '' }}
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./LATEST_RELEASE.md
-      - name: Create Github Release
-        id: create_release
-        uses: actions/create-release@v1
+          publish: true
+          tag: ${{ env.RELEASE_VERSION }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: ${{ steps.release_changelog.outputs.content }}
-          draft: false
-          prerelease: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
