@@ -28,7 +28,7 @@ jobs:
       # generate a github release
       - name: Generate release changelog
         id: changelog
-        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        uses: heinrichreimer/github-changelog-generator-action@v2.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           cacheFile: '.github-changelog-cache'
@@ -42,6 +42,7 @@ jobs:
           output: LATEST_RELEASE.md
       - name: Read latest_release.md
         id: release_changelog
+        if: ${{ hashFiles('LATEST_RELEASE.md') != '' }}
         uses: juliangruber/read-file-action@v1
         with:
           path: ./LATEST_RELEASE.md
