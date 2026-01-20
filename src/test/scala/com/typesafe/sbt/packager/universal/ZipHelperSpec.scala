@@ -29,73 +29,58 @@ class ZipHelperSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach wi
 
   "The ZipHelper.zip" should {
 
-    "create a zip with a single file" taggedAs (LinuxTag, WindowsTag) in {
+    "create a zip with a single file" taggedAs (LinuxTag, WindowsTag) in
       zipSingleFile(ZipHelper.zip)
-    }
 
-    "create a zip with nested directories" taggedAs (LinuxTag, WindowsTag) in {
+    "create a zip with nested directories" taggedAs (LinuxTag, WindowsTag) in
       zipNestedFile(ZipHelper.zip)
-    }
 
-    "create a zip with nested directories containing file" taggedAs (LinuxTag, WindowsTag) in {
+    "create a zip with nested directories containing file" taggedAs (LinuxTag, WindowsTag) in
       zipNestedDirsWithFiles(ZipHelper.zip)
-    }
 
-    "create directories if necessary" taggedAs (LinuxTag, WindowsTag) in {
+    "create directories if necessary" taggedAs (LinuxTag, WindowsTag) in
       createNecessaryDirectories(ZipHelper.zip)
-    }
 
     // works only on some systems
-    "preserve the executable bit" taggedAs (LinuxTag, WindowsTag) ignore {
+    "preserve the executable bit" taggedAs (LinuxTag, WindowsTag) ignore
       preserveExecutableBit(ZipHelper.zip)
-    }
   }
 
   "The ZipHelper.zipNIO" should {
 
-    "create a zip with a single file" taggedAs (LinuxTag, WindowsTag) in {
+    "create a zip with a single file" taggedAs (LinuxTag, WindowsTag) in
       zipSingleFile(ZipHelper.zipNIO)
-    }
 
-    "create a zip with nested directories" taggedAs (LinuxTag, WindowsTag) in {
+    "create a zip with nested directories" taggedAs (LinuxTag, WindowsTag) in
       zipNestedFile(ZipHelper.zipNIO)
-    }
 
-    "create a zip with nested directories containing file" taggedAs (LinuxTag, WindowsTag) in {
+    "create a zip with nested directories containing file" taggedAs (LinuxTag, WindowsTag) in
       zipNestedDirsWithFiles(ZipHelper.zipNIO)
-    }
 
-    "create directories if necessary" taggedAs (LinuxTag, WindowsTag) in {
+    "create directories if necessary" taggedAs (LinuxTag, WindowsTag) in
       createNecessaryDirectories(ZipHelper.zipNIO)
-    }
 
     // never works
-    "preserve the executable bit" taggedAs (LinuxTag, WindowsTag) ignore {
+    "preserve the executable bit" taggedAs (LinuxTag, WindowsTag) ignore
       preserveExecutableBit(ZipHelper.zipNIO)
-    }
   }
 
   "The ZipHelper.zipNative" should {
-    "create a zip with a single file" taggedAs (LinuxTag) in {
+    "create a zip with a single file" taggedAs (LinuxTag) in
       zipSingleFile(ZipHelper.zipNative)
-    }
 
-    "create a zip with nested directories" taggedAs (LinuxTag) in {
+    "create a zip with nested directories" taggedAs (LinuxTag) in
       zipNestedFile(ZipHelper.zipNative)
-    }
 
-    "create a zip with nested directories containing file" taggedAs (LinuxTag) in {
+    "create a zip with nested directories containing file" taggedAs (LinuxTag) in
       zipNestedDirsWithFiles(ZipHelper.zipNative)
-    }
 
-    "create directories if necessary" taggedAs (LinuxTag) in {
+    "create directories if necessary" taggedAs (LinuxTag) in
       createNecessaryDirectories(ZipHelper.zipNative)
-    }
 
     // never works
-    "preserve the executable bit" taggedAs (LinuxTag) ignore {
+    "preserve the executable bit" taggedAs (LinuxTag) ignore
       preserveExecutableBit(ZipHelper.zipNative)
-    }
   }
 
   /* ========================================================== */

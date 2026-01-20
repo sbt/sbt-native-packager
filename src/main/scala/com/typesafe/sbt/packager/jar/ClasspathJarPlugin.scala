@@ -35,12 +35,10 @@ object ClasspathJarPlugin extends AutoPlugin {
       moduleId.organization + "." + artifact.name + "-" + moduleId.revision +
         artifact.classifier.fold("")("-" + _) + "." + artifact.extension
     },
-    bashScriptDefines / scriptClasspath := {
-      Seq(PluginCompat.getArtifactPathName((packageJavaClasspathJar / artifactPath).value))
-    },
-    batScriptReplacements / scriptClasspath := {
-      Seq(PluginCompat.getArtifactPathName((packageJavaClasspathJar / artifactPath).value))
-    },
+    bashScriptDefines / scriptClasspath :=
+      Seq(PluginCompat.getArtifactPathName((packageJavaClasspathJar / artifactPath).value)),
+    batScriptReplacements / scriptClasspath :=
+      Seq(PluginCompat.getArtifactPathName((packageJavaClasspathJar / artifactPath).value)),
     Universal / mappings += {
       val classpathJar = packageJavaClasspathJar.value
       classpathJar -> ("lib/" + PluginCompat.getName(classpathJar))
