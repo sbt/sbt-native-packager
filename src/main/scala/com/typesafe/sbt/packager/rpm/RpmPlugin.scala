@@ -10,6 +10,7 @@ import com.typesafe.sbt.packager.SettingsHelper
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.linux.*
 import com.typesafe.sbt.packager.Compat.*
+import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.validation.*
 import xsbti.FileConverter
 
@@ -187,17 +188,17 @@ object RpmPlugin extends AutoPlugin {
       // `file` points to where buildRpm created the rpm. However we want it to be at `artifactPath`.
       // If `artifactPath` is not the default value then we need to copy the file.
       val path = (Rpm / packageBin / artifactPath).value
-      val defaultPathFile = PluginCompat.artifactPathToFile(defaultPath)
-      val pathFile = PluginCompat.artifactPathToFile(path)
+      val defaultPathFile = artifactPathToFile(defaultPath)
+      val pathFile = artifactPathToFile(path)
       if (pathFile.getCanonicalFile != defaultPathFile.getCanonicalFile)
         IO.copyFile(defaultPathFile, pathFile)
-      PluginCompat.toFileRef(pathFile)
+      toFileRef(pathFile)
     },
     rpmLint := {
       val conv0 = fileConverter.value
       implicit val conv: FileConverter = conv0
       val pkg = (Rpm / packageBin).value
-      val path = PluginCompat.toNioPath(pkg)
+      val path = toNioPath(pkg)
       sys.process.Process(Seq("rpmlint", "-v", path.toAbsolutePath().toString())).!(streams.value.log) match {
         case 0 => ()
         case x => sys.error("Failed to run rpmlint, exit status: " + x)

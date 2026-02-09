@@ -6,6 +6,7 @@ import sbt.Keys.*
 import Archives.*
 import com.typesafe.sbt.SbtNativePackager
 import com.typesafe.sbt.packager.Compat.*
+import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.docker.DockerPlugin
 import com.typesafe.sbt.packager.validation._
@@ -112,7 +113,7 @@ object UniversalPlugin extends AutoPlugin {
       UniversalSrc / packageXzTarball / universalArchiveOptions := Seq("-pcvf")
     )
 
-  private[this] def printDist(dist: PluginCompat.FileRef, streams: TaskStreams): PluginCompat.FileRef = {
+  private[this] def printDist(dist: FileRef, streams: TaskStreams): FileRef = {
     streams.log.info("")
     streams.log.info("Your package is ready in " + dist.toString())
     streams.log.info("")
@@ -123,7 +124,7 @@ object UniversalPlugin extends AutoPlugin {
     (File, String, Seq[(File, String)], Option[String], Seq[String]) => File
 
   /** Creates packaging settings for a given package key, configuration + archive type. */
-  private[this] def makePackageSettings(packageKey: TaskKey[PluginCompat.FileRef], config: Configuration)(
+  private[this] def makePackageSettings(packageKey: TaskKey[FileRef], config: Configuration)(
     packager: Packager
   ): Seq[Setting[?]] =
     inConfig(config)(
@@ -134,7 +135,7 @@ object UniversalPlugin extends AutoPlugin {
           val conv0 = fileConverter.value
           implicit val conv: FileConverter = conv0
           val xs = (packageKey / mappings).value
-          val fileMappings = xs.map { case (ref, p) => PluginCompat.toFile(ref) -> p }
+          val fileMappings = xs.map { case (ref, p) => toFile(ref) -> p }
           val file = packager(
             target.value,
             packageName.value,
@@ -142,13 +143,13 @@ object UniversalPlugin extends AutoPlugin {
             topLevelDirectory.value,
             (packageKey / universalArchiveOptions).value
           )
-          PluginCompat.toFileRef(file)
+          toFileRef(file)
         },
         packageKey / validatePackageValidators := {
           val conv0 = fileConverter.value
           implicit val conv: FileConverter = conv0
           val xs = (packageKey / mappings).value
-          val fileMappings = xs.map { case (ref, p) => PluginCompat.toFile(ref) -> p }
+          val fileMappings = xs.map { case (ref, p) => toFile(ref) -> p }
           (config / validatePackageValidators).value ++ Seq(
             nonEmptyMappings(fileMappings),
             filesExist(fileMappings),
@@ -162,10 +163,10 @@ object UniversalPlugin extends AutoPlugin {
     )
 
   /** Finds all sources in a source directory. */
-  private[this] def findSources(sourceDir: File, conv0: FileConverter): Seq[(PluginCompat.FileRef, String)] = {
+  private[this] def findSources(sourceDir: File, conv0: FileConverter): Seq[(FileRef, String)] = {
     implicit val conv: FileConverter = conv0
     ((PathFinder(sourceDir) ** AllPassFilter) --- sourceDir).pair(file => IO.relativize(sourceDir, file)).map {
-      case (f, p) => PluginCompat.toFileRef(f) -> p
+      case (f, p) => toFileRef(f) -> p
     }
   }
 

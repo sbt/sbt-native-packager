@@ -4,6 +4,7 @@ import java.io.File
 import java.net.URL
 
 import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import sbt.{*, given}
 import xsbti.FileConverter
@@ -71,7 +72,7 @@ trait CommonStartScriptGenerator {
     targetDir: File,
     conv: FileConverter,
     log: sbt.Logger
-  ): Seq[(PluginCompat.FileRef, String)] =
+  ): Seq[(FileRef, String)] =
     StartScriptMainClassConfig.from(mainClass, discoveredMainClasses) match {
       case NoMain =>
         log.warn("You have no main class in your project. No start script will be generated.")
@@ -91,7 +92,7 @@ trait CommonStartScriptGenerator {
     targetDir: File,
     conv: FileConverter,
     log: sbt.Logger
-  ): Seq[(PluginCompat.FileRef, String)] = {
+  ): Seq[(FileRef, String)] = {
     val classAndScriptNames = ScriptUtils.createScriptNames(discoveredMainClasses)
     ScriptUtils.warnOnScriptNameCollision(classAndScriptNames, log)
 
@@ -128,7 +129,7 @@ trait CommonStartScriptGenerator {
     targetDir: File,
     mainClasses: Seq[String],
     conv0: FileConverter
-  ): (PluginCompat.FileRef, String) = {
+  ): (FileRef, String) = {
     implicit val conv: FileConverter = conv0
     val template = resolveTemplate(config.templateLocation)
     val replacements = createReplacementsForMainScript(mainClass, mainClasses, config)
@@ -139,7 +140,7 @@ trait CommonStartScriptGenerator {
     IO.write(script, scriptContent)
     // TODO - Better control over this!
     script.setExecutable(executableBitValue)
-    val scriptRef = PluginCompat.toFileRef(script)
+    val scriptRef = toFileRef(script)
     scriptRef -> s"$scriptTargetFolder/$scriptNameWithSuffix"
   }
 
@@ -154,7 +155,7 @@ trait CommonStartScriptGenerator {
     config: ScriptConfig,
     conv0: FileConverter,
     log: sbt.Logger
-  ): Seq[(PluginCompat.FileRef, String)] = {
+  ): Seq[(FileRef, String)] = {
     implicit val conv: FileConverter = conv0
     val tmp = targetDir / scriptTargetFolder
     val forwarderTemplate =
@@ -170,7 +171,7 @@ trait CommonStartScriptGenerator {
 
       IO.write(file, scriptContent)
       file.setExecutable(executableBitValue)
-      val fileRef = PluginCompat.toFileRef(file)
+      val fileRef = toFileRef(file)
       fileRef -> s"$scriptTargetFolder/$scriptName"
     }
   }

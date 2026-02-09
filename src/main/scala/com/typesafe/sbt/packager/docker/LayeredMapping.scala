@@ -2,6 +2,7 @@ package com.typesafe.sbt.packager
 package docker
 
 import java.io.File
+import sbtcompat.PluginCompat.FileRef
 
 /**
   * Mapping of file to intermediate layers.
@@ -15,4 +16,4 @@ import java.io.File
   * @param path
   *   The path in the final image
   */
-case class LayeredMapping(layerId: Option[Int], file: PluginCompat.FileRef, path: String)
+case class LayeredMapping(layerId: Option[Int], file: FileRef, path: String)

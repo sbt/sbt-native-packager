@@ -1,6 +1,7 @@
 package com.typesafe.sbt.packager.archetypes.scripts
 
 import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat.*
 import java.io.File
 
 import sbt.{*, given}
@@ -13,12 +14,12 @@ trait ApplicationIniGenerator {
     *   the existing mappings plus a generated application.ini if custom javaOptions are specified
     */
   def generateApplicationIni(
-    universalMappings: Seq[(PluginCompat.FileRef, String)],
+    universalMappings: Seq[(FileRef, String)],
     javaOptions: Seq[String],
     bashScriptConfigLocation: Option[String],
     tmpDir: File,
     log: Logger
-  )(implicit conv: FileConverter): Seq[(PluginCompat.FileRef, String)] =
+  )(implicit conv: FileConverter): Seq[(FileRef, String)] =
     bashScriptConfigLocation
       .collect {
         case location if javaOptions.nonEmpty =>
@@ -44,7 +45,7 @@ trait ApplicationIniGenerator {
             case _ =>
               true
           }
-          val configFileRef = PluginCompat.toFileRef(configFile)
+          val configFileRef = toFileRef(configFile)
           (configFileRef -> pathMapping) +: filteredMappings
 
       }

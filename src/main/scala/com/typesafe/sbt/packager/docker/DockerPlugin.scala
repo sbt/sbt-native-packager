@@ -10,6 +10,7 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stage
 import com.typesafe.sbt.packager.validation._
 import sbt.Keys.*
 import sbt.{*, given}
+import sbtcompat.PluginCompat.*
 
 import java.io.File
 import java.util.UUID
@@ -122,7 +123,7 @@ object DockerPlugin extends AutoPlugin {
       val oldFunction = dockerLayerGrouping.value
 
       // By default we set this to a function that always returns None.
-      val oldPartialFunction = Function.unlift((tuple: (PluginCompat.FileRef, String)) => oldFunction(tuple._2))
+      val oldPartialFunction = Function.unlift((tuple: (FileRef, String)) => oldFunction(tuple._2))
 
       val libDir = dockerBaseDirectory + "/lib/"
       val binDir = dockerBaseDirectory + "/bin/"
@@ -225,7 +226,7 @@ object DockerPlugin extends AutoPlugin {
                   .getOrElse {
                     // We couldn't find a source file for the mapping, so try with a dummy source file,
                     // in case there is an explicitly configured path based layer mapping, eg for a directory.
-                    layerToPath.lift((PluginCompat.toFileRef(new File("/dev/null")), v))
+                    layerToPath.lift((toFileRef(new File("/dev/null")), v))
                   }
                 makeChmod(tpe, Seq(pathInLayer(v, layerId)))
               }
@@ -368,7 +369,7 @@ object DockerPlugin extends AutoPlugin {
         val conv0 = fileConverter.value
         implicit val conv: FileConverter = conv0
         val xs = (Docker / mappings).value
-        val fileMappings = xs.map { case (ref, p) => PluginCompat.toFile(ref) -> p }
+        val fileMappings = xs.map { case (ref, p) => toFile(ref) -> p }
         Seq(
           nonEmptyMappings(fileMappings),
           filesExist(fileMappings),
@@ -646,7 +647,7 @@ object DockerPlugin extends AutoPlugin {
     * uses the `Universal / mappings` to generate the `Docker / mappings`.
     */
   def mapGenericFilesToDocker: Seq[Setting[?]] = {
-    def renameDests(from: Seq[(PluginCompat.FileRef, String)], dest: String) =
+    def renameDests(from: Seq[(FileRef, String)], dest: String) =
       for {
         (f, path) <- from
         pathWithValidSeparator = if (Path.sep == '/') path else path.replace(Path.sep, '/')

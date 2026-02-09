@@ -7,6 +7,7 @@ import sbt.Package.ManifestAttributes
 import sbt.{*, given}
 import sbt.Keys._
 import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat.FileRef
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
@@ -15,8 +16,8 @@ object ClasspathJarPlugin extends AutoPlugin {
 
   object autoImport {
     @transient
-    val packageJavaClasspathJar: TaskKey[PluginCompat.FileRef] =
-      taskKey[PluginCompat.FileRef]("Creates a Java classpath jar that specifies the classpath in its manifest")
+    val packageJavaClasspathJar: TaskKey[FileRef] =
+      taskKey[FileRef]("Creates a Java classpath jar that specifies the classpath in its manifest")
   }
   import autoImport._
 

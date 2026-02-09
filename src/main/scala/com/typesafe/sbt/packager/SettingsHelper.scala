@@ -4,6 +4,7 @@ import sbt.{*, given}
 import sbt.Keys.*
 import sbt.librarymanagement.{IvyFileConfiguration, PublishConfiguration}
 import com.typesafe.sbt.packager.Compat.*
+import sbtcompat.PluginCompat.*
 import xsbti.FileConverter
 
 /**
@@ -15,7 +16,7 @@ object SettingsHelper {
 
   def addPackage(
     config: Configuration,
-    packageTask: TaskKey[PluginCompat.FileRef],
+    packageTask: TaskKey[FileRef],
     extension: String,
     classifier: Option[String] = None
   ): Seq[Setting[?]] =
@@ -28,7 +29,7 @@ object SettingsHelper {
 
   def makeDeploymentSettings(
     config: Configuration,
-    packageTask: TaskKey[PluginCompat.FileRef],
+    packageTask: TaskKey[FileRef],
     extension: String,
     classifier: Option[String] = None
   ): Seq[Setting[?]] =
@@ -58,7 +59,7 @@ object SettingsHelper {
             .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
               val conv0 = fileConverter.value
               implicit val conv: FileConverter = conv0
-              (a, PluginCompat.toFile(f))
+              (a, toFile(f))
             })
             .withChecksums(checksums.value.toVector)
             .withOverwrite(isSnapshot.value)
@@ -70,7 +71,7 @@ object SettingsHelper {
             .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
               val conv0 = fileConverter.value
               implicit val conv: FileConverter = conv0
-              (a, PluginCompat.toFile(f))
+              (a, toFile(f))
             })
             .withChecksums(checksums.value.toVector)
             .withOverwrite(isSnapshot.value)
@@ -82,7 +83,7 @@ object SettingsHelper {
             .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
               val conv0 = fileConverter.value
               implicit val conv: FileConverter = conv0
-              (a, PluginCompat.toFile(f))
+              (a, toFile(f))
             })
             .withChecksums(checksums.value.toVector)
             .withOverwrite(isSnapshot.value)

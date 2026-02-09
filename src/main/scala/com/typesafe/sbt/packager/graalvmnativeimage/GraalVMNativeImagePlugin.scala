@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream
 import com.typesafe.sbt.packager.{MappingsHelper, Stager}
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.Compat.*
+import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import com.typesafe.sbt.packager.docker.{Cmd, DockerPlugin, Dockerfile, ExecCmd}
 import com.typesafe.sbt.packager.universal.UniversalPlugin
@@ -79,11 +80,11 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
             binaryName,
             nativeImageCommand,
             className,
-            classpathJars.map(x => PluginCompat.toFile(x._1)),
+            classpathJars.map(x => toFile(x._1)),
             extraOptions,
             UnbufferedProcessLogger(streams.log)
           )
-          PluginCompat.toFileRef(file)
+          toFileRef(file)
 
         case Some(image) =>
           val resourceMappings = MappingsHelper.relative(graalResources, graalResourceDirectories, conv)
@@ -100,7 +101,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
             conv,
             streams
           )
-          PluginCompat.toFileRef(file)
+          toFileRef(file)
       }
     }
   )
@@ -140,10 +141,10 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
     targetDirectory: File,
     binaryName: String,
     className: String,
-    classpathJars: Seq[(PluginCompat.FileRef, String)],
+    classpathJars: Seq[(FileRef, String)],
     extraOptions: Seq[String],
     dockerCommand: Seq[String],
-    resources: Seq[(PluginCompat.FileRef, String)],
+    resources: Seq[(FileRef, String)],
     image: String,
     conv0: FileConverter,
     streams: TaskStreams
@@ -223,8 +224,8 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
   private def stage(
     targetDirectory: File,
-    classpathJars: Seq[(PluginCompat.FileRef, String)],
-    resources: Seq[(PluginCompat.FileRef, String)],
+    classpathJars: Seq[(FileRef, String)],
+    resources: Seq[(FileRef, String)],
     streams: TaskStreams
   )(implicit conv: FileConverter): File = {
     val stageDir = targetDirectory / "stage"

@@ -6,6 +6,7 @@ import sbt.util.CacheStore
 import java.io.File
 
 import com.typesafe.sbt.packager.Compat._
+import sbtcompat.PluginCompat._
 import xsbti.FileConverter
 
 object Stager {
@@ -24,12 +25,12 @@ object Stager {
     */
   def stageFiles(
     config: String
-  )(cacheDirectory: File, stageDirectory: File, mappings: Seq[(PluginCompat.FileRef, String)])(implicit
+  )(cacheDirectory: File, stageDirectory: File, mappings: Seq[(FileRef, String)])(implicit
     conv: FileConverter
   ): File = {
     val cache = cacheDirectory / ("packager-mappings-" + config)
     val copies = mappings map { case (ref, path) =>
-      PluginCompat.toFile(ref) -> (stageDirectory / path)
+      toFile(ref) -> (stageDirectory / path)
     }
     val store = CacheStore(cache)
     Sync.sync(store, FileInfo.hash)(copies)
@@ -48,7 +49,7 @@ object Stager {
     * @see
     *   stageFiles
     */
-  def stage(config: String)(streams: TaskStreams, stageDirectory: File, mappings: Seq[(PluginCompat.FileRef, String)])(
+  def stage(config: String)(streams: TaskStreams, stageDirectory: File, mappings: Seq[(FileRef, String)])(
     implicit conv: FileConverter
   ): File =
     stageFiles(config)(streams.cacheDirectory, stageDirectory, mappings)
