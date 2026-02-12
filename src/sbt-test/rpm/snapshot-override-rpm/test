@@ -1,3 +1,6 @@
+# Workaround: set target folder to what it was in sbt 1.x because with sbt 2.x and project matrix target is target/out/jvm/scala-3.3.3/
+> set target := baseDirectory.value / "target"
+
 # Run the debian packaging.
 > Rpm/packageBin
 $ exists target/**/rpm/RPMS/noarch/rpm-test-1-SNAPSHOT.noarch.rpm
