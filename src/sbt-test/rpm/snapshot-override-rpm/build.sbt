@@ -1,4 +1,5 @@
 import com.typesafe.sbt.packager.Compat._
+import sbtcompat.PluginCompat._
 
 enablePlugins(RpmPlugin)
 
