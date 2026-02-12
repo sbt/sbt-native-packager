@@ -10,7 +10,7 @@ import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{defaultLinuxInstallLocation, linuxPackageMappings}
 import com.typesafe.sbt.packager.Compat.*
 import sbtcompat.{PluginCompat => SbtCompat}
-import SbtCompat.{FileRef, toFile, parseModuleIDStrAttribute, parseArtifactStrAttribute, moduleIDToStr, artifactToStr}
+import SbtCompat.{artifactToStr, moduleIDToStr, parseArtifactStrAttribute, parseModuleIDStrAttribute, toFile, FileRef}
 import xsbti.FileConverter
 
 /**

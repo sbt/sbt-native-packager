@@ -37,9 +37,7 @@ object RpmHelper {
   private[rpm] def defaultRpmArtifactPath(stagingArea: File, meta: RpmMetadata)(implicit
     conv: FileConverter
   ): ArtifactPath =
-    toArtifactPath(
-      stagingArea / "RPMS" / meta.arch / s"${meta.name}-${meta.version}-${meta.release}.${meta.arch}.rpm"
-    )
+    toArtifactPath(stagingArea / "RPMS" / meta.arch / s"${meta.name}-${meta.version}-${meta.release}.${meta.arch}.rpm")
 
   /**
     * Build the rpm package
@@ -53,9 +51,7 @@ object RpmHelper {
     * @return
     *   The rpm package
     */
-  def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger)(implicit
-    conv: FileConverter
-  ): ArtifactPath = {
+  def buildRpm(spec: RpmSpec, stagingArea: File, log: sbt.Logger)(implicit conv: FileConverter): ArtifactPath = {
     buildPackage(stagingArea, spec, log)
     defaultRpmArtifactPath(stagingArea, spec.meta)
   }

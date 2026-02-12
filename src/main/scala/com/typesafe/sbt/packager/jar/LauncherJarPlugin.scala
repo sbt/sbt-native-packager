@@ -18,9 +18,8 @@ object LauncherJarPlugin extends AutoPlugin {
 
   object autoImport {
     @transient
-    val packageJavaLauncherJar: TaskKey[FileRef] = taskKey[FileRef](
-      "Creates a Java launcher jar that specifies the main class and classpath in its manifest"
-    )
+    val packageJavaLauncherJar: TaskKey[FileRef] =
+      taskKey[FileRef]("Creates a Java launcher jar that specifies the main class and classpath in its manifest")
   }
 
   import autoImport._

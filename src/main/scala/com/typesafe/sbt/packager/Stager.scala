@@ -23,9 +23,7 @@ object Stager {
     * @param mappings
     *   staging content
     */
-  def stageFiles(
-    config: String
-  )(cacheDirectory: File, stageDirectory: File, mappings: Seq[(FileRef, String)])(implicit
+  def stageFiles(config: String)(cacheDirectory: File, stageDirectory: File, mappings: Seq[(FileRef, String)])(implicit
     conv: FileConverter
   ): File = {
     val cache = cacheDirectory / ("packager-mappings-" + config)
@@ -49,8 +47,8 @@ object Stager {
     * @see
     *   stageFiles
     */
-  def stage(config: String)(streams: TaskStreams, stageDirectory: File, mappings: Seq[(FileRef, String)])(
-    implicit conv: FileConverter
+  def stage(config: String)(streams: TaskStreams, stageDirectory: File, mappings: Seq[(FileRef, String)])(implicit
+    conv: FileConverter
   ): File =
     stageFiles(config)(streams.cacheDirectory, stageDirectory, mappings)
 

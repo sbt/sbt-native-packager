@@ -81,12 +81,9 @@ trait DebianNativePackaging extends DebianPluginLike {
       )
     )
 
-  private[this] def dpkgGenChanges(
-    debFile: FileRef,
-    changelog: Option[File],
-    data: PackageMetaData,
-    targetDir: File
-  )(implicit conv: FileConverter): FileRef = {
+  private[this] def dpkgGenChanges(debFile: FileRef, changelog: Option[File], data: PackageMetaData, targetDir: File)(
+    implicit conv: FileConverter
+  ): FileRef = {
     println(s"Changelog: $changelog")
     changelog match {
       case None =>

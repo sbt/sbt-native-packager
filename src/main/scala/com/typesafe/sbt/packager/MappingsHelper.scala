@@ -60,10 +60,7 @@ object MappingsHelper extends Mapper {
     * @return
     *   a list of mappings
     */
-  def fromClasspath(
-    entries: Seq[Attributed[FileRef]],
-    target: String
-  ): Seq[(FileRef, String)] =
+  def fromClasspath(entries: Seq[Attributed[FileRef]], target: String): Seq[(FileRef, String)] =
     fromClasspath(entries, target, _ => true)
 
   /**
@@ -95,11 +92,10 @@ object MappingsHelper extends Mapper {
     includeArtifact: PluginCompat.IncludeArtifact,
     includeOnNoArtifact: Boolean = false
   ): Seq[(FileRef, String)] =
-    entries.filter(attr => attr.get(artifactStr).map(includeArtifact) getOrElse includeOnNoArtifact).map {
-      attribute =>
-        val file = attribute.data
-        val name = PluginCompat.getName(file)
-        file -> s"$target/${name}"
+    entries.filter(attr => attr.get(artifactStr).map(includeArtifact) getOrElse includeOnNoArtifact).map { attribute =>
+      val file = attribute.data
+      val name = PluginCompat.getName(file)
+      file -> s"$target/${name}"
     }
 
   /**
