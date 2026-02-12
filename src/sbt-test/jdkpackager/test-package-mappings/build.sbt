@@ -1,4 +1,4 @@
-import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat
 
 import NativePackagerHelper._
 import xsbti.FileConverter

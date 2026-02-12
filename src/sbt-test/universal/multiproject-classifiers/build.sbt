@@ -1,5 +1,5 @@
 import com.typesafe.sbt.packager.Compat._
-import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat
 import xsbti.FileConverter
 
 lazy val appVersion = "1.0"

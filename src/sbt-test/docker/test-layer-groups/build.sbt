@@ -1,5 +1,5 @@
 import com.typesafe.sbt.packager.Keys.stagingDirectory
-import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat
 import xsbti.FileConverter
 
 enablePlugins(JavaAppPackaging)

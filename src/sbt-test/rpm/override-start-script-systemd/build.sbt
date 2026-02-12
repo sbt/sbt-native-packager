@@ -1,5 +1,5 @@
 import com.typesafe.sbt.packager.Compat._
-import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat
 import xsbti.FileConverter
 
 enablePlugins(JavaServerAppPackaging, SystemdPlugin)
