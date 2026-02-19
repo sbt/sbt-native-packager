@@ -708,7 +708,7 @@ object DockerPlugin extends AutoPlugin {
     buildkitEnabled: Boolean,
     log: Logger
   ): Unit = {
-    log.debug("Executing Native " + buildCommand.mkString(" "))
+    log.info("Executing Native " + buildCommand.mkString(" "))
     log.debug("Working directory " + context.toString)
 
     val logger = if (buildkitEnabled) publishLocalBuildkitLogger(log) else publishLocalLogger(log)
