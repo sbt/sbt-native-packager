@@ -13,7 +13,7 @@ import scala.collection.JavaConversions._
 /** Silly GUI app launcher. */
 object ExampleApp {
   def main(args: Array[String]): Unit =
-    Application.launch(classOf[ExampleApp], args: _*)
+    Application.launch(classOf[ExampleApp], args*)
 }
 
 /** Silly GUI app. */

@@ -162,7 +162,7 @@ object DockerPlugin extends AutoPlugin {
       Seq("-t", alias.toString)
     } ++ { if (dockerBuildInit.value) List("--init") else Nil },
     dockerBuildEnvVars := Map.empty,
-    dockerBuildkitEnabled := {
+    dockerBuildkitEnabled :=
       dockerBuildEnvVars.value
         .get("DOCKER_BUILDKIT")
         .orElse(sys.env.get("DOCKER_BUILDKIT"))
@@ -170,8 +170,7 @@ object DockerPlugin extends AutoPlugin {
         .getOrElse {
           // BuildKit is the default since v23.0
           dockerVersion.value.fold(false)(_.major >= 23)
-        }
-    },
+        },
     dockerRmiCommand := dockerExecCommand.value ++ Seq("rmi"),
     dockerBuildCommand := dockerExecCommand.value ++ Seq("build") ++ dockerBuildOptions.value ++ Seq("."),
     dockerAdditionalPermissions := {
@@ -270,7 +269,7 @@ object DockerPlugin extends AutoPlugin {
 
       stage0 ++ stage1
     }
-  ) ++ mapGenericFilesToDocker ++ inConfig(Docker)({
+  ) ++ mapGenericFilesToDocker ++ inConfig(Docker) {
 
     def publishLocalTask =
       Def.task {
@@ -384,7 +383,7 @@ object DockerPlugin extends AutoPlugin {
         generateDockerConfig(dockerCommands.value, com.typesafe.sbt.packager.Keys.stagingDirectory.value)
       }
     )
-  })
+  }
 
   /**
     * @param maintainer
