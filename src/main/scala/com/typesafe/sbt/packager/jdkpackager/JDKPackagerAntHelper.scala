@@ -1,6 +1,7 @@
 package com.typesafe.sbt.packager.jdkpackager
 
 import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.jdkpackager.JDKPackagerPlugin.autoImport._
 import org.apache.tools.ant.{BuildEvent, BuildListener, ProjectHelper}
 import sbt.Keys.*
@@ -137,7 +138,7 @@ object JDKPackagerAntHelper {
   private[jdkpackager] def deployDOM(
     basename: String,
     packageType: String,
-    mainJar: PluginCompat.ArtifactPath,
+    mainJar: ArtifactPath,
     outputDir: File,
     infoDOM: InfoDOM,
     conv0: FileConverter
@@ -163,7 +164,7 @@ object JDKPackagerAntHelper {
         <fx:fileset refid="data.files"/>
       </fx:resources>
 
-      <fx:bundleArgument arg="mainJar" value={"lib/" + PluginCompat.artifactPathToFile(mainJar).getName} />
+      <fx:bundleArgument arg="mainJar" value={"lib/" + artifactPathToFile(mainJar).getName} />
 
     </fx:deploy>
   }
@@ -181,7 +182,7 @@ object JDKPackagerAntHelper {
     antExtraClasspath: Seq[File],
     name: String,
     sourceDir: File,
-    mappings: Seq[(PluginCompat.FileRef, String)],
+    mappings: Seq[(FileRef, String)],
     platformDOM: PlatformDOM,
     applicationDOM: ApplicationDOM,
     deployDOM: DeployDOM
@@ -258,7 +259,7 @@ object JDKPackagerAntHelper {
     target: File,
     conv0: FileConverter,
     s: TaskStreams
-  ): PluginCompat.FileRef = {
+  ): FileRef = {
     import org.apache.tools.ant.{Project => AntProject}
     implicit val conv: FileConverter = conv0
 
@@ -276,7 +277,7 @@ object JDKPackagerAntHelper {
 
     // Not sure what to do when we can't find the result
     val result = findResult(target, s).getOrElse(target)
-    PluginCompat.toFileRef(result)
+    toFileRef(result)
   }
 
   /** For piping Ant messages to sbt logger. */

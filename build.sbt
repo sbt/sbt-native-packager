@@ -27,6 +27,8 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 // put jdeb on the classpath for scripted tests
 classpathTypes += "maven-plugin"
+addSbtPlugin("com.github.sbt" % "sbt2-compat" % "0.1.0")
+
 libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "8.16.0" % Provided,

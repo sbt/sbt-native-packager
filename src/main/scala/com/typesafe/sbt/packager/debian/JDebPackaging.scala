@@ -3,6 +3,7 @@ package debian
 
 import com.typesafe.sbt.packager.Compat.*
 import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import com.typesafe.sbt.packager.universal.Archives
 import sbt.{*, given}
@@ -87,7 +88,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         val debianFile = targetDir.getParentFile / archive
         val debMaker = new JDebPackagingTask()
         debMaker.packageDebian(mappings, symlinks, debianFile, targetDir, fileConverter.value, log)
-        PluginCompat.toFileRef(debianFile)
+        toFileRef(debianFile)
       },
       packageBin := Def.uncached((packageBin dependsOn debianControlFile).value),
       packageBin := Def.uncached((packageBin dependsOn debianConffilesFile).value),

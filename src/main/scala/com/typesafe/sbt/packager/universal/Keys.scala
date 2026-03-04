@@ -3,24 +3,25 @@ package packager
 package universal
 
 import sbt._
+import sbtcompat.PluginCompat.FileRef
 
 trait UniversalKeys {
   @transient
   val packageZipTarball =
-    taskKey[PluginCompat.FileRef]("Creates a tgz package.")
+    taskKey[FileRef]("Creates a tgz package.")
   @transient
   val packageXzTarball =
-    taskKey[PluginCompat.FileRef]("Creates a txz package.")
+    taskKey[FileRef]("Creates a txz package.")
   @transient
   val packageOsxDmg =
-    taskKey[PluginCompat.FileRef]("Creates a dmg package for macOS (only on macOS).")
+    taskKey[FileRef]("Creates a dmg package for macOS (only on macOS).")
   @transient
   val stage = TaskKey[File](
     "stage",
     "Create a local directory with all the files laid out as they would be in the final distribution."
   )
   @transient
-  val dist = taskKey[PluginCompat.FileRef]("Creates the distribution packages.")
+  val dist = taskKey[FileRef]("Creates the distribution packages.")
   val stagingDirectory = SettingKey[File]("stagingDirectory", "Directory where we stage distributions/releases.")
   val topLevelDirectory = SettingKey[Option[String]]("topLevelDirectory", "Top level dir in compressed output file.")
   val universalArchiveOptions =

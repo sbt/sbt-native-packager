@@ -7,6 +7,7 @@ import com.typesafe.sbt.packager.Keys.{maintainer, packageDescription, packageNa
 import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.Compat.*
 import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.SettingsHelper
 
 import com.typesafe.sbt.packager.sourceDateEpoch
@@ -111,7 +112,7 @@ object WindowsPlugin extends AutoPlugin {
         src.getAbsolutePath != dest.getAbsolutePath
       }
       IO.copy(wsxCopyPairs)
-      IO.copy(for ((f, to) <- mappings.value) yield (PluginCompat.toFile(f), target.value / to))
+      IO.copy(for ((f, to) <- mappings.value) yield (toFile(f), target.value / to))
 
       // Now compile WIX
       val candleCmd = findWixExecutable("candle") +:
@@ -141,7 +142,7 @@ object WindowsPlugin extends AutoPlugin {
         case 0        => ()
         case exitCode => sys.error(s"Unable to run build msi. Exited with ${exitCode}")
       }
-      PluginCompat.toFileRef(msi)
+      toFileRef(msi)
     }))
 
   /**
@@ -167,7 +168,7 @@ object WindowsPlugin extends AutoPlugin {
     * @return
     *   windows features
     */
-  def makeWindowsFeatures(name: String, mappings: Seq[(PluginCompat.FileRef, String)])(implicit
+  def makeWindowsFeatures(name: String, mappings: Seq[(FileRef, String)])(implicit
     conv: FileConverter
   ): Seq[WindowsFeature] = {
     // TODO select main script!  Filter Config links!
@@ -175,7 +176,7 @@ object WindowsPlugin extends AutoPlugin {
     val files =
       for {
         (ref, name) <- mappings
-        file = PluginCompat.toFile(ref)
+        file = toFile(ref)
         if !file.isDirectory
       } yield ComponentFile(name, editable = name startsWith "conf")
     val corePackage =
@@ -197,7 +198,7 @@ object WindowsPlugin extends AutoPlugin {
       )
     val configLinks = for {
       (ref, name) <- mappings
-      file = PluginCompat.toFile(ref)
+      file = toFile(ref)
       if !file.isDirectory
       if name startsWith "conf/"
     } yield name.replaceAll("//", "/").stripSuffix("/").stripSuffix("/")

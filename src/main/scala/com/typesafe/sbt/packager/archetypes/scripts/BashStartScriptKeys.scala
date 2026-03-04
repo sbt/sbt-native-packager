@@ -2,6 +2,7 @@ package com.typesafe.sbt.packager.archetypes.scripts
 
 import sbt.{*, given}
 import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat.FileRef
 
 /**
   * Keys related to the [[BashStartScriptPlugin]]
@@ -11,7 +12,7 @@ import com.typesafe.sbt.packager.PluginCompat
   */
 trait BashStartScriptKeys {
   @transient
-  val makeBashScripts = taskKey[Seq[(PluginCompat.FileRef, String)]]("Creates start scripts for this project.")
+  val makeBashScripts = taskKey[Seq[(FileRef, String)]]("Creates start scripts for this project.")
   @transient
   val bashScriptTemplateLocation =
     TaskKey[File]("bashScriptTemplateLocation", "The location of the bash script template.")

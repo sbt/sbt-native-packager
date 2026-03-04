@@ -5,6 +5,7 @@ import com.typesafe.sbt.SbtNativePackager.Debian
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.linux.LinuxFileMetaData
 import com.typesafe.sbt.packager.Compat._
+import sbtcompat.PluginCompat._
 import sbt.Keys.*
 import sbt.{*, given}
 import xsbti.FileConverter
@@ -47,7 +48,7 @@ trait DebianNativePackaging extends DebianPluginLike {
           val conv0 = fileConverter.value
           implicit val conv: FileConverter = conv0
           val deb = packageBin.value
-          val debFile = PluginCompat.toFile(deb)
+          val debFile = toFile(deb)
           val role = debianSignRole.value
           val log = streams.value.log
           sys.process
@@ -62,7 +63,7 @@ trait DebianNativePackaging extends DebianPluginLike {
           val conv0 = fileConverter.value
           implicit val conv: FileConverter = conv0
           val deb = packageBin.value
-          val debFile = PluginCompat.toFile(deb)
+          val debFile = toFile(deb)
           sys.process.Process(Seq("lintian", "-c", "-v", debFile.getName), Some(debFile.getParentFile)).!
         },
         /** Implementation of the actual packaging */
@@ -80,12 +81,9 @@ trait DebianNativePackaging extends DebianPluginLike {
       )
     )
 
-  private[this] def dpkgGenChanges(
-    debFile: PluginCompat.FileRef,
-    changelog: Option[File],
-    data: PackageMetaData,
-    targetDir: File
-  )(implicit conv: FileConverter): PluginCompat.FileRef = {
+  private[this] def dpkgGenChanges(debFile: FileRef, changelog: Option[File], data: PackageMetaData, targetDir: File)(
+    implicit conv: FileConverter
+  ): FileRef = {
     println(s"Changelog: $changelog")
     changelog match {
       case None =>
@@ -95,7 +93,7 @@ trait DebianNativePackaging extends DebianPluginLike {
         val debSrc = targetDir / "../tmp" / Names.DebianSource
         debSrc.mkdirs()
         copyAndFixPerms(chlog, debSrc / Names.Changelog, LinuxFileMetaData("0644"))
-        val debFileFile = PluginCompat.toFile(debFile)
+        val debFileFile = toFile(debFile)
         IO.writeLines(debSrc / Names.Files, List(debFileFile.getName + " " + data.section + " " + data.priority))
         // dpkg-genchanges needs a "source" control file, located in a "debian" directory
         IO.writeLines(debSrc / Names.Control, List(data.makeSourceControl()))
@@ -109,7 +107,7 @@ trait DebianNativePackaging extends DebianPluginLike {
           case e: Exception =>
             throw new RuntimeException("Failure generating changes file.", e)
         }
-        val changesFileRef = PluginCompat.toFileRef(changesFile)
+        val changesFileRef = toFileRef(changesFile)
         changesFileRef
     }
   }
@@ -122,7 +120,7 @@ trait DebianNativePackaging extends DebianPluginLike {
     buildOptions: Seq[String],
     conv0: FileConverter,
     log: Logger
-  ): PluginCompat.FileRef = {
+  ): FileRef = {
     implicit val conv: FileConverter = conv0
     log.info("Building debian package with native implementation")
     // Make the package.  We put this in fakeroot, so we can build the package with root owning files.
@@ -136,7 +134,7 @@ trait DebianNativePackaging extends DebianPluginLike {
         sys.error("Failure packaging debian file.  Exit code: " + x)
     }
     val out = stageDir / ".." / archive
-    PluginCompat.toFileRef(out)
+    toFileRef(out)
   }
 
 }

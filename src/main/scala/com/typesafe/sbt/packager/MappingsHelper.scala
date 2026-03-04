@@ -2,6 +2,7 @@ package com.typesafe.sbt.packager
 
 import sbt.{*, given}
 import sbt.io.*
+import sbtcompat.PluginCompat.*
 import xsbti.FileConverter
 
 /** A set of helper methods to simplify the writing of mappings */
@@ -38,10 +39,10 @@ object MappingsHelper extends Mapper {
   def contentOf(sourceDir: String): Seq[(File, String)] =
     contentOf(file(sourceDir))
 
-  def contentOf(sourceDir: File, conv0: FileConverter): Seq[(PluginCompat.FileRef, String)] = {
+  def contentOf(sourceDir: File, conv0: FileConverter): Seq[(FileRef, String)] = {
     implicit val conv: FileConverter = conv0
     contentOf(sourceDir).map { case (f, p) =>
-      PluginCompat.toFileRef(f) -> p
+      toFileRef(f) -> p
     }
   }
 
@@ -59,10 +60,7 @@ object MappingsHelper extends Mapper {
     * @return
     *   a list of mappings
     */
-  def fromClasspath(
-    entries: Seq[Attributed[PluginCompat.FileRef]],
-    target: String
-  ): Seq[(PluginCompat.FileRef, String)] =
+  def fromClasspath(entries: Seq[Attributed[FileRef]], target: String): Seq[(FileRef, String)] =
     fromClasspath(entries, target, _ => true)
 
   /**
@@ -89,25 +87,24 @@ object MappingsHelper extends Mapper {
     *   default is false. When there's no Artifact meta data remove it
     */
   def fromClasspath(
-    entries: Seq[Attributed[PluginCompat.FileRef]],
+    entries: Seq[Attributed[FileRef]],
     target: String,
     includeArtifact: PluginCompat.IncludeArtifact,
     includeOnNoArtifact: Boolean = false
-  ): Seq[(PluginCompat.FileRef, String)] =
-    entries.filter(attr => attr.get(PluginCompat.artifactStr).map(includeArtifact) getOrElse includeOnNoArtifact).map {
-      attribute =>
-        val file = attribute.data
-        val name = PluginCompat.getName(file)
-        file -> s"$target/${name}"
+  ): Seq[(FileRef, String)] =
+    entries.filter(attr => attr.get(artifactStr).map(includeArtifact) getOrElse includeOnNoArtifact).map { attribute =>
+      val file = attribute.data
+      val name = PluginCompat.getName(file)
+      file -> s"$target/${name}"
     }
 
   /**
     * Get the mappings for the given files relative to the given directories.
     */
-  def relative(files: Seq[File], dirs: Seq[File], conv0: FileConverter): Seq[(PluginCompat.FileRef, String)] = {
+  def relative(files: Seq[File], dirs: Seq[File], conv0: FileConverter): Seq[(FileRef, String)] = {
     implicit val conv: FileConverter = conv0
     (files --- dirs) pair (relativeTo(dirs) | flat) map { case (f, p) =>
-      PluginCompat.toFileRef(f) -> p
+      toFileRef(f) -> p
     }
   }
 }

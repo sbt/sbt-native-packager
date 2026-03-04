@@ -3,6 +3,7 @@ package packager
 package debian
 
 import sbt.{*, given}
+import sbtcompat.PluginCompat.FileRef
 import linux.LinuxPackageMapping
 
 /** DEB packaging specific build targets. */
@@ -54,12 +55,12 @@ trait DebianKeys {
   val lintian = TaskKey[Unit]("lintian", "runs the debian lintian tool on the current package.")
   @transient
   val debianSign =
-    taskKey[PluginCompat.FileRef]("runs the dpkg-sig command to sign the generated deb file.")
+    taskKey[FileRef]("runs the dpkg-sig command to sign the generated deb file.")
   val debianSignRole =
     SettingKey[String]("debian-sign-role", "The role to use when signing a debian file (defaults to 'builder').")
   @transient
   val genChanges =
-    taskKey[PluginCompat.FileRef]("runs the dpkg-genchanges command to generate the .changes file.")
+    taskKey[FileRef]("runs the dpkg-genchanges command to generate the .changes file.")
 
   // Debian control scripts
   val debianControlScriptsDirectory = SettingKey[File](

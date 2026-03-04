@@ -3,6 +3,7 @@ package packager
 package docker
 
 import sbt._
+import sbtcompat.PluginCompat.FileRef
 
 /**
   * Docker settings
@@ -13,7 +14,7 @@ trait DockerKeys {
   val dockerGenerateConfig = TaskKey[File]("docker-generate-config", "Generates configuration file for Docker.")
   @transient
   val dockerPackageMappings =
-    taskKey[Seq[(PluginCompat.FileRef, String)]]("Generates location mappings for Docker build.")
+    taskKey[Seq[(FileRef, String)]]("Generates location mappings for Docker build.")
 
   val dockerBaseImage =
     SettingKey[String]("dockerBaseImage", "Base image for Dockerfile.")
@@ -71,7 +72,7 @@ private[packager] trait DockerKeysEx extends DockerKeys {
       "Lower index means the file would be a part of an earlier layer."
   )
   @transient
-  val dockerGroupLayers = taskKey[PartialFunction[(PluginCompat.FileRef, String), Int]](
+  val dockerGroupLayers = taskKey[PartialFunction[(FileRef, String), Int]](
     "Group files by mapping into layers to increase docker cache hits. " +
       "Lower index means the file would be a part of an earlier layer."
   )

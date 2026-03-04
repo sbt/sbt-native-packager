@@ -2,6 +2,7 @@ package com.typesafe.sbt.packager
 package archetypes.scripts
 
 import sbt._
+import sbtcompat.PluginCompat.FileRef
 
 /**
   * Keys related to the [[BatStartScriptPlugin]]
@@ -12,7 +13,7 @@ import sbt._
 trait BatStartScriptKeys {
   @transient
   val makeBatScripts =
-    taskKey[Seq[(PluginCompat.FileRef, String)]]("Creates start scripts for this project.")
+    taskKey[Seq[(FileRef, String)]]("Creates start scripts for this project.")
   @transient
   val batScriptTemplateLocation =
     TaskKey[File]("batScriptTemplateLocation", "The location of the bat script template.")

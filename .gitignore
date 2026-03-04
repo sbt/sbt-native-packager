@@ -14,3 +14,8 @@ target/
 .bloop/*
 .metals/*
 .bsp/
+
+.java-version
+.cursor/
+.vscode/
+.bloop/

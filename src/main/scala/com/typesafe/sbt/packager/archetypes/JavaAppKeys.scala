@@ -2,6 +2,7 @@ package com.typesafe.sbt.packager.archetypes
 
 import sbt.{*, given}
 import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat.FileRef
 
 /**
   * Available settings/tasks for the [[com.typesafe.sbt.packager.archetypes.JavaAppPackaging]] and all depending
@@ -17,10 +18,10 @@ trait JavaAppKeys {
   )
   @transient
   val scriptClasspathOrdering =
-    taskKey[Seq[(PluginCompat.FileRef, String)]]("The order of the classpath used at runtime for the bat/bash scripts.")
+    taskKey[Seq[(FileRef, String)]]("The order of the classpath used at runtime for the bat/bash scripts.")
   @transient
   val projectDependencyArtifacts =
-    taskKey[Seq[Attributed[PluginCompat.FileRef]]]("The set of exported artifacts from our dependent projects.")
+    taskKey[Seq[Attributed[FileRef]]]("The set of exported artifacts from our dependent projects.")
   @transient
   val scriptClasspath = TaskKey[Seq[String]](
     "scriptClasspath",

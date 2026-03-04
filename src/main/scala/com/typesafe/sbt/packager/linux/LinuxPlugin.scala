@@ -7,6 +7,7 @@ import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.universal.UniversalPlugin
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
+import sbtcompat.PluginCompat.*
 import xsbti.FileConverter
 
 /**
@@ -128,7 +129,7 @@ object LinuxPlugin extends AutoPlugin {
         val linuxPackageName = (Linux / packageName).value
         for {
           (file, name) <- (Universal / mappings).value
-          if !PluginCompat.toFile(file).isDirectory
+          if !toFile(file).isDirectory
           if name startsWith "bin/"
           if !(name endsWith ".bat") // IGNORE windows-y things.
         } yield LinuxSymlink("/usr/" + name, installLocation + "/" + linuxPackageName + "/" + name)
@@ -142,7 +143,7 @@ object LinuxPlugin extends AutoPlugin {
         val configLocation = defaultLinuxConfigLocation.value
         val needsConfLink =
           (Universal / mappings).value exists { case (file, destination) =>
-            (destination startsWith "conf/") && !PluginCompat.toFile(file).isDirectory
+            (destination startsWith "conf/") && !toFile(file).isDirectory
           }
         if (needsConfLink)
           Seq(
@@ -257,16 +258,16 @@ object LinuxPlugin extends AutoPlugin {
   private[this] def getUniversalFolderMappings(
     pkg: String,
     installLocation: String,
-    mappings: Seq[(PluginCompat.FileRef, String)],
+    mappings: Seq[(FileRef, String)],
     conv0: FileConverter
   ): Seq[LinuxPackageMapping] = {
     implicit val conv: FileConverter = conv0
     // TODO - More windows filters...
-    def isWindowsFile(f: (PluginCompat.FileRef, String)): Boolean =
+    def isWindowsFile(f: (FileRef, String)): Boolean =
       f._2 endsWith ".bat"
 
     val filtered = mappings.filterNot(isWindowsFile).map { case (x, p) =>
-      (PluginCompat.toFile(x), p)
+      (toFile(x), p)
     }
 
     if (filtered.isEmpty) Seq.empty

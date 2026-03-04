@@ -9,6 +9,7 @@ import com.typesafe.sbt.SbtNativePackager.{Debian, Universal}
 import com.typesafe.sbt.packager.Keys.{bundledJvmLocation, packageName}
 import com.typesafe.sbt.packager.Compat._
 import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat._
 import com.typesafe.sbt.packager.archetypes.jlink._
 import com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptKeys
 import com.typesafe.sbt.packager.universal.UniversalPlugin
@@ -59,7 +60,7 @@ object JlinkPlugin extends AutoPlugin {
       val javaHome0 = (jlinkBuildImage / javaHome).value.getOrElse(defaultJavaHome)
       val run = runJavaTool(javaHome0, log) _
       val paths =
-        (jlinkBuildImage / fullClasspath).value.map(PluginCompat.toNioPath).map(_.toString())
+        (jlinkBuildImage / fullClasspath).value.map(toNioPath).map(_.toString())
       val modulePath = (jlinkModules / jlinkModulePath).value
       val shouldIgnore = jlinkIgnoreMissingDependency.value
 
@@ -176,7 +177,7 @@ object JlinkPlugin extends AutoPlugin {
       val prefix0 = if (prefix.isEmpty) prefix else prefix + "/"
 
       findFiles(jlinkBuildImage.value).map { case (file, string) =>
-        val ref = PluginCompat.toFileRef(file)
+        val ref = toFileRef(file)
         (ref, prefix0 + string)
       }
     },

@@ -3,7 +3,7 @@
 import scala.sys.process.Process
 import com.typesafe.sbt.packager.Keys.stagingDirectory
 import com.typesafe.sbt.packager.Compat._
-import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat
 import xsbti.FileConverter
 
 enablePlugins(JlinkPlugin, ClasspathJarPlugin, BashStartScriptPlugin, BatStartScriptPlugin)

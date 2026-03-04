@@ -9,6 +9,8 @@ import com.typesafe.sbt.packager.Keys.packageName
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{defaultLinuxInstallLocation, linuxPackageMappings}
 import com.typesafe.sbt.packager.Compat.*
+import sbtcompat.{PluginCompat => SbtCompat}
+import SbtCompat.{artifactToStr, moduleIDToStr, parseArtifactStrAttribute, parseModuleIDStrAttribute, toFile, FileRef}
 import xsbti.FileConverter
 
 /**
@@ -80,7 +82,7 @@ object JavaAppPackaging extends AutoPlugin {
       bundledJvmLocation := (bundledJvmLocation ?? None).value
     )
 
-  private def makeRelativeClasspathNames(mappings: Seq[(PluginCompat.FileRef, String)]): Seq[String] =
+  private def makeRelativeClasspathNames(mappings: Seq[(FileRef, String)]): Seq[String] =
     for {
       (_, name) <- mappings
     } yield
@@ -108,12 +110,12 @@ object JavaAppPackaging extends AutoPlugin {
 
   // Determines a nicer filename for an attributed jar file, using the
   // ivy metadata if available.
-  private def getJarFullFilename(dep: Attributed[PluginCompat.FileRef]): String = {
+  private def getJarFullFilename(dep: Attributed[FileRef]): String = {
     val filename: Option[String] = for {
-      moduleStr <- dep.metadata.get(PluginCompat.moduleIDStr)
-      artifactStr <- dep.metadata.get(PluginCompat.artifactStr)
-      module = PluginCompat.parseModuleIDStrAttribute(moduleStr)
-      artifact = PluginCompat.parseArtifactStrAttribute(artifactStr)
+      moduleStr <- dep.metadata.get(SbtCompat.moduleIDStr)
+      artifactStr0 <- dep.metadata.get(SbtCompat.artifactStr)
+      module = parseModuleIDStrAttribute(moduleStr)
+      artifact = parseArtifactStrAttribute(artifactStr0)
     } yield makeJarName(module.organization, module.name, module.revision, artifact.name, artifact.classifier)
     filename.getOrElse(PluginCompat.getName(dep.data))
   }
@@ -123,17 +125,17 @@ object JavaAppPackaging extends AutoPlugin {
     build.classpathTransitive.getOrElse(thisProject, Nil)
 
   // TODO - Should we pull in more than just JARs?  How do native packages come in?
-  private def isRuntimeArtifact(dep: Attributed[PluginCompat.FileRef]): Boolean =
+  private def isRuntimeArtifact(dep: Attributed[FileRef]): Boolean =
     dep
-      .get(PluginCompat.artifactStr)
-      .map(PluginCompat.parseArtifactStrAttribute)
+      .get(SbtCompat.artifactStr)
+      .map(parseArtifactStrAttribute)
       .map(_.`type` == "jar")
       .getOrElse {
         val name = PluginCompat.getName(dep.data)
         !(name.endsWith(".jar") || name.endsWith("-sources.jar") || name.endsWith("-javadoc.jar"))
       }
 
-  private def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[PluginCompat.FileRef]]]] =
+  private def findProjectDependencyArtifacts: Def.Initialize[Task[Seq[Attributed[FileRef]]]] =
     Def
       .setting {
         val stateTask = state.taskValue
@@ -142,8 +144,8 @@ object JavaAppPackaging extends AutoPlugin {
         val artTasks = refs map { ref =>
           extractArtifacts(stateTask, ref)
         }
-        val allArtifactsTask: Task[Seq[Attributed[PluginCompat.FileRef]]] =
-          artTasks.fold[Task[Seq[Attributed[PluginCompat.FileRef]]]](task(Nil)) { (previous, next) =>
+        val allArtifactsTask: Task[Seq[Attributed[FileRef]]] =
+          artTasks.fold[Task[Seq[Attributed[FileRef]]]](task(Nil)) { (previous, next) =>
             for {
               p <- previous
               n <- next
@@ -152,7 +154,7 @@ object JavaAppPackaging extends AutoPlugin {
         allArtifactsTask
       }
 
-  private def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[PluginCompat.FileRef]]] =
+  private def extractArtifacts(stateTask: Task[State], ref: ProjectRef): Task[Seq[Attributed[FileRef]]] =
     stateTask.flatMap { state =>
       val extracted = Project.extract(state)
       // TODO - Is this correct?
@@ -164,25 +166,25 @@ object JavaAppPackaging extends AutoPlugin {
         (art, file) <- arts.toSeq // TODO -Filter!
       } yield Attributed
         .blank(file)
-        .put(PluginCompat.moduleIDStr, PluginCompat.moduleIDToStr(module))
-        .put(PluginCompat.artifactStr, PluginCompat.artifactToStr(art))
+        .put(SbtCompat.moduleIDStr, moduleIDToStr(module))
+        .put(SbtCompat.artifactStr, artifactToStr(art))
     }
 
   private def findRealDep(
-    dep: Attributed[PluginCompat.FileRef],
-    projectArts: Seq[Attributed[PluginCompat.FileRef]],
+    dep: Attributed[FileRef],
+    projectArts: Seq[Attributed[FileRef]],
     conv0: FileConverter
-  ): Option[Attributed[PluginCompat.FileRef]] = {
+  ): Option[Attributed[FileRef]] = {
     implicit val conv: FileConverter = conv0
-    if (PluginCompat.toFile(dep.data).isFile) Some(dep)
+    if (toFile(dep.data).isFile) Some(dep)
     else
       projectArts.find { art =>
         // TODO - Why is the module not showing up for project deps?
         // (art.get(sbt.Keys.moduleID.key) ==  dep.get(sbt.Keys.moduleID.key)) &&
-        (art.get(PluginCompat.artifactStr), dep.get(PluginCompat.artifactStr)) match {
+        (art.get(SbtCompat.artifactStr), dep.get(SbtCompat.artifactStr)) match {
           case (Some(l0), Some(r0)) =>
-            val l = PluginCompat.parseArtifactStrAttribute(l0)
-            val r = PluginCompat.parseArtifactStrAttribute(r0)
+            val l = parseArtifactStrAttribute(l0)
+            val r = parseArtifactStrAttribute(r0)
             // TODO - extra attributes and stuff for comparison?
             // seems to break stuff if we do...
             l.name == r.name && l.classifier == r.classifier
@@ -193,10 +195,10 @@ object JavaAppPackaging extends AutoPlugin {
 
   // Converts a managed classpath into a set of lib mappings.
   private def universalDepMappings(
-    deps: Seq[Attributed[PluginCompat.FileRef]],
-    projectArts: Seq[Attributed[PluginCompat.FileRef]],
+    deps: Seq[Attributed[FileRef]],
+    projectArts: Seq[Attributed[FileRef]],
     conv0: FileConverter
-  ): Seq[(PluginCompat.FileRef, String)] =
+  ): Seq[(FileRef, String)] =
     for {
       dep <- deps
       realDep <- findRealDep(dep, projectArts, conv0)

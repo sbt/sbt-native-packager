@@ -1,5 +1,5 @@
 import com.typesafe.sbt.packager.Compat._
-import com.typesafe.sbt.packager.PluginCompat
+import sbtcompat.PluginCompat
 
 import com.typesafe.sbt.packager.MappingsHelper._
 import xsbti.FileConverter
