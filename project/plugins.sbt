@@ -13,4 +13,4 @@ libraryDependencies += "jline" % "jline" % "2.14.6"
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.6")
 
 // binary compatibility checks
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.4")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.5")
