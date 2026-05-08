@@ -35,7 +35,7 @@ libraryDependencies ++= Seq(
   "org.vafer" % "jdeb" % "1.14" % Provided artifacts Artifact("jdeb", "jar", "jar"),
   "org.apache.commons" % "commons-compress" % "1.28.0",
   // for jdkpackager
-  "org.apache.ant" % "ant" % "1.10.15",
+  "org.apache.ant" % "ant" % "1.10.17",
   // workaround for the command line size limit
   "com.github.eldis" % "tool-launcher" % "0.2.2",
   "org.scalatest" %% "scalatest" % "3.2.19" % Test
@@ -45,7 +45,7 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= {
   (pluginCrossBuild / sbtVersion).value match {
     case v if v.startsWith("1.") =>
-      Seq("org.scala-sbt" %% "io" % "1.10.5")
+      Seq("org.scala-sbt" %% "io" % "1.12.0")
     case _ => Seq()
   }
 }
