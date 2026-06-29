@@ -176,4 +176,4 @@ java_cmd="$(get_java_cmd)"
 [ -f "$script_conf_file" ] && opts=$(loadConfigFile "$script_conf_file")
 
 eval "set -- $residual_args"
-exec $java_cmd $java_opts -classpath $app_classpath $opts $app_mainclass $app_commands "$@"
+exec "$java_cmd" $java_opts -classpath $app_classpath $opts $app_mainclass $app_commands "$@"
