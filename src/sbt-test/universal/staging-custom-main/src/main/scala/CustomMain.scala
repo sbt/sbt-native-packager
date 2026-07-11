@@ -1,3 +1,4 @@
-object CustomMain extends App {
-  println("A custom main method")
+object CustomMain {
+  def main(args: Array[String]): Unit =
+    println("A custom main method")
 }

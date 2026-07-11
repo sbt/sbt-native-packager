@@ -1,3 +1,4 @@
-object MainApp extends App {
-  println("SUCCESS!")
+object MainApp {
+  def main(args: Array[String]): Unit =
+    println("SUCCESS!")
 }

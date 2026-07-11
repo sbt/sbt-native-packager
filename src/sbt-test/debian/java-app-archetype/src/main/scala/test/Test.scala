@@ -1,9 +1,10 @@
 package test
 
-object Test extends App {
-  Option(sys.props("result.string")) match {
-    case Some(value) => println(value)
-    case _           => println("SUCCESS!")
-  }
+object Test {
+  def main(args: Array[String]): Unit =
+    Option(sys.props("result.string")) match {
+      case Some(value) => println(value)
+      case _           => println("SUCCESS!")
+    }
 
 }
