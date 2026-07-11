@@ -1,9 +1,11 @@
 package com.example
 
-object MainApp extends App {
-  print("MainApp")
+object MainApp {
+  def main(args: Array[String]): Unit =
+    print("MainApp")
 }
 
-object SecondApp extends App {
-  print("SecondApp")
+object SecondApp {
+  def main(args: Array[String]): Unit =
+    print("SecondApp")
 }

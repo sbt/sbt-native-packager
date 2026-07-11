@@ -1,3 +1,4 @@
-object Hello extends App {
-  println("Hello JDK8!")
+object Hello {
+  def main(args: Array[String]): Unit =
+    println("Hello JDK8!")
 }

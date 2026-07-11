@@ -1,14 +1,16 @@
 package hello.world
 
-object ExampleApp extends App {
+object ExampleApp {
 
-  val memory = Runtime.getRuntime.maxMemory() / (1024L * 1024L)
-  println(s"Memory $memory m")
-  println(s"Args: ${args mkString " | "}")
+  def main(args: Array[String]): Unit = {
+    val memory = Runtime.getRuntime.maxMemory() / (1024L * 1024L)
+    println(s"Memory $memory m")
+    println(s"Args: ${args mkString " | "}")
 
-  while (true) {
-    println(s"[${System.currentTimeMillis()}] Hello, world!")
-    Thread sleep 5000
+    while (true) {
+      println(s"[${System.currentTimeMillis()}] Hello, world!")
+      Thread sleep 5000
+    }
   }
 
 }

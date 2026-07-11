@@ -1,5 +1,6 @@
 package test
 
-object Test extends App {
-  println("SUCCESS!")
+object Test {
+  def main(args: Array[String]): Unit =
+    println("SUCCESS!")
 }

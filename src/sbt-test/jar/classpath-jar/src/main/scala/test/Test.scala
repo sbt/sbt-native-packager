@@ -3,10 +3,12 @@ package test
 // use dependency library
 import com.typesafe.config._
 
-object Test extends App {
+object Test {
 
-  val config = ConfigFactory.load()
+  def main(args: Array[String]): Unit = {
+    val config = ConfigFactory.load()
 
-  println("SUCCESS!")
+    println("SUCCESS!")
+  }
 
 }
