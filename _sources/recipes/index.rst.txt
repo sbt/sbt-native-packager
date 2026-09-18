@@ -18,5 +18,6 @@ This section provides recipes for common configurations. If you can't find what 
    package_configuration
    embedded-jvm
    umask
+   sbt2-migration-mappings-helper
 
 .. _sbt-native-packager examples: https://github.com/muuki88/sbt-native-packager-examples

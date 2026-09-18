@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Build the same package with different configs &mdash; sbt-native-packager 1.12.0 documentation</title>
+  <title>Updating MappingsHelper.directory/contentOf to SBT 2.x &mdash; sbt-native-packager 1.12.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
@@ -17,8 +17,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Embedding JVM in Universal" href="embedded-jvm.html" />
-    <link rel="prev" title="Scala JS packaging" href="scalajs.html" /> 
+    <link rel="prev" title="Setting the umask for your process" href="umask.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -368,10 +367,10 @@
 <li class="toctree-l3"><a class="reference internal" href="scalajs.html#package-webjars-and-scalajs-resources">Package webjars and scalajs resources</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Build the same package with different configs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#sbt-sub-modules">SBT sub modules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#sbt-parameters-and-build-environment">SBT parameters and Build Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package_configuration.html">Build the same package with different configs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="package_configuration.html#sbt-sub-modules">SBT sub modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="package_configuration.html#sbt-parameters-and-build-environment">SBT parameters and Build Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="package_configuration.html#sbt-configuration-scope-not-recommended">SBT configuration scope (not recommended)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="embedded-jvm.html">Embedding JVM in Universal</a><ul>
@@ -384,7 +383,7 @@
 <li class="toctree-l3"><a class="reference internal" href="umask.html#system-v-systemd">System V/systemd</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="sbt2-migration-mappings-helper.html">Updating MappingsHelper.directory/contentOf to SBT 2.x</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Updating MappingsHelper.directory/contentOf to SBT 2.x</a></li>
 </ul>
 </li>
 </ul>
@@ -404,9 +403,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Recipes</a></li>
-      <li class="breadcrumb-item active">Build the same package with different configs</li>
+      <li class="breadcrumb-item active">Updating MappingsHelper.directory/contentOf to SBT 2.x</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/recipes/package_configuration.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/recipes/sbt2-migration-mappings-helper.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -414,165 +413,44 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="build-the-same-package-with-different-configs">
-<span id="packageconfigurations"></span><h1>Build the same package with different configs<a class="headerlink" href="#build-the-same-package-with-different-configs" title="Link to this heading">¶</a></h1>
-<p>If you want to build your application with different settings, e.g. for <em>test</em>, <em>staging</em> and <em>production</em>, then you
-have three ways to do this.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>All examples are shown in a simple <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>. We recommend using AutoPlugins to encapsulate certain aspects
-of your build.</p>
-</div>
-<p>All examples can also be found in the <a class="reference external" href="https://github.com/muuki88/sbt-native-packager-examples">native-packager examples</a>,</p>
-<section id="sbt-sub-modules">
-<h2>SBT sub modules<a class="headerlink" href="#sbt-sub-modules" title="Link to this heading">¶</a></h2>
-<p>The main idea is to create a submodule per configuration. We start with a simple project <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-app&quot;</span>
-<span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JavaAppPackaging</span><span class="p">)</span>
+  <section id="updating-mappingshelper-directory-contentof-to-sbt-2-x">
+<span id="sbt2-migration-mappings-helper"></span><h1>Updating MappingsHelper.directory/contentOf to SBT 2.x<a class="headerlink" href="#updating-mappingshelper-directory-contentof-to-sbt-2-x" title="Link to this heading">¶</a></h1>
+<p>SBT 2.x replaced <code class="docutils literal notranslate"><span class="pre">File</span></code>-keyed mappings with virtual-file-keyed mappings (<code class="docutils literal notranslate"><span class="pre">HashedVirtualFileRef</span></code>).
+Turning a plain <code class="docutils literal notranslate"><span class="pre">java.io.File</span></code> into such a reference requires the <code class="docutils literal notranslate"><span class="pre">FileConverter</span></code> provided by the
+<code class="docutils literal notranslate"><span class="pre">fileConverter</span></code> setting, and that setting is only available inside a task or setting body, i.e. wherever
+you can call <code class="docutils literal notranslate"><span class="pre">.value</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">MappingsHelper.directory(String)</span></code> and <code class="docutils literal notranslate"><span class="pre">MappingsHelper.contentOf(String)</span></code> are usually called directly
+at the top level of a <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> file, outside of any task/setting body, which is exactly where
+<code class="docutils literal notranslate"><span class="pre">fileConverter</span></code> can’t be resolved. To keep the DSL working, both methods now return a
+<code class="docutils literal notranslate"><span class="pre">Def.Initialize[Seq[(FileRef,</span> <span class="pre">String)]]</span></code> on SBT 2.x, which resolves the converter internally as soon as
+you call <code class="docutils literal notranslate"><span class="pre">.value</span></code> on the result.</p>
+<p><strong>SBT 1.x</strong> (unchanged):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="n">directory</span><span class="p">(</span><span class="s">&quot;SomeDirectoryNameToInclude&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>In the end we want to create three different packages (<em>test</em>, <em>stage</em>, <em>prod</em>) with the respective configurations.
-We do this by creating an application module and three packaging submodules.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// the application</span>
-<span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span>
-<span class="w">  </span><span class="p">.</span><span class="n">in</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">))</span>
-<span class="w">  </span><span class="p">.</span><span class="n">settings</span><span class="p">(</span>
-<span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-app&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">libraryDependencies</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;com.typesafe&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;config&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;1.3.0&quot;</span>
-<span class="w">  </span><span class="p">)</span>
+<p><strong>SBT 2.x</strong>: append <code class="docutils literal notranslate"><span class="pre">.value</span></code>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="n">directory</span><span class="p">(</span><span class="s">&quot;SomeDirectoryNameToInclude&quot;</span><span class="p">).</span><span class="n">value</span>
 </pre></div>
 </div>
-<p>Now that our application is defined in a module, we can add the three packaging submodules. We will override the <code class="docutils literal notranslate"><span class="pre">resourceDirectory</span></code> setting with our <code class="docutils literal notranslate"><span class="pre">app</span></code> resource directory to gain easy access to the applications resources.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">testPackage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span>
-<span class="w">  </span><span class="c1">// we put the results  in a build folder</span>
-<span class="w">  </span><span class="p">.</span><span class="n">in</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;build/test&quot;</span><span class="p">))</span>
-<span class="w">  </span><span class="p">.</span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JavaAppPackaging</span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">settings</span><span class="p">(</span>
-<span class="w">    </span><span class="c1">// override the resource directory</span>
-<span class="w">    </span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">app</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="p">).</span><span class="n">value</span><span class="p">,</span>
-<span class="w">    </span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="p">((</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;test.conf&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;conf/application.conf&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">dependsOn</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-
-<span class="c1">// basically identical despite the configuration differences</span>
-<span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">stagePackage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span>
-<span class="w">  </span><span class="p">.</span><span class="n">in</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;build/stage&quot;</span><span class="p">))</span>
-<span class="w">  </span><span class="p">.</span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JavaAppPackaging</span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">settings</span><span class="p">(</span>
-<span class="w">    </span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">app</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="p">).</span><span class="n">value</span><span class="p">,</span>
-<span class="w">    </span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="p">((</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;stage.conf&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;conf/application.conf&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">dependsOn</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-
-<span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">prodPackage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span>
-<span class="w">  </span><span class="p">.</span><span class="n">in</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;build/prod&quot;</span><span class="p">))</span>
-<span class="w">  </span><span class="p">.</span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JavaAppPackaging</span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">settings</span><span class="p">(</span>
-<span class="w">    </span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">app</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="p">).</span><span class="n">value</span><span class="p">,</span>
-<span class="w">    </span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="p">((</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;prod.conf&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;conf/application.conf&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">dependsOn</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<p>The same applies to <code class="docutils literal notranslate"><span class="pre">contentOf</span></code>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="n">contentOf</span><span class="p">(</span><span class="s">&quot;SomeDirectoryNameToInclude&quot;</span><span class="p">).</span><span class="n">value</span>
 </pre></div>
 </div>
-<p>Now that you have your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> set up, you can try building packages.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># stages a test build in build/test/target/universal/stage</span>
-testPackage/stage
-
-<span class="c1"># creates a zip with the test configuration</span>
-sbt<span class="w"> </span>testPackage/Universal/packageBin
-</pre></div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If your build cross-compiles the same <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> against both SBT 1.x and SBT 2.x (for example
+in a plugin’s own scripted tests), be aware that <code class="docutils literal notranslate"><span class="pre">directory(String)</span></code>/<code class="docutils literal notranslate"><span class="pre">contentOf(String)</span></code> do not have
+the same return type on both versions, so a single source file cannot use <code class="docutils literal notranslate"><span class="pre">.value</span></code> unconditionally on
+both. Prefer the explicit <code class="docutils literal notranslate"><span class="pre">File</span></code>-argument form shown above for code that has to build under both
+versions, and reserve the <code class="docutils literal notranslate"><span class="pre">.value</span></code> shorthand for build files that only ever run under SBT 2.x.</p>
 </div>
-<p>This technique is a bit verbose, but communicates very clear what is being built and why.</p>
-</section>
-<section id="sbt-parameters-and-build-environment">
-<h2>SBT parameters and Build Environment<a class="headerlink" href="#sbt-parameters-and-build-environment" title="Link to this heading">¶</a></h2>
-<p>SBT is a java process, which means you can start it with system properties and use these in your build.
-This pattern may be useful in other scopes as well. First we define an <em>AutoPlugin</em> that sets a build environment.</p>
-<p>This plugin allows you to start sbt for example like</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>-Denv<span class="o">=</span>prod
-<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>Set<span class="w"> </span>current<span class="w"> </span>project<span class="w"> </span>to<span class="w"> </span>my-app<span class="w"> </span><span class="o">(</span><span class="k">in</span><span class="w"> </span>build<span class="w"> </span>file:<span class="w"> </span>...<span class="o">)</span>
-<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>Running<span class="w"> </span><span class="k">in</span><span class="w"> </span>build<span class="w"> </span>environment:<span class="w"> </span>Production
-&gt;<span class="w"> </span>show<span class="w"> </span>buildEnv
-<span class="o">[</span>info<span class="o">]</span><span class="w"> </span>Production
-</pre></div>
-</div>
-<p>Now we can use this <code class="docutils literal notranslate"><span class="pre">buildEnv</span></code> setting to change things. For example the <code class="docutils literal notranslate"><span class="pre">mappings</span></code>. We recommend doing this in a
-plugin as it involves quite some logic. In this case we decide which configuration file to map as <code class="docutils literal notranslate"><span class="pre">application.conf</span></code>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">confFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buildEnv</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nc">BuildEnv</span><span class="p">.</span><span class="nc">Development</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">&quot;dev.conf&quot;</span>
-<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nc">BuildEnv</span><span class="p">.</span><span class="nc">Test</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">&quot;test.conf&quot;</span>
-<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nc">BuildEnv</span><span class="p">.</span><span class="nc">Stage</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">&quot;stage.conf&quot;</span>
-<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nc">BuildEnv</span><span class="p">.</span><span class="nc">Production</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">&quot;prod.conf&quot;</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="p">((</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">confFile</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;conf/application.conf&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Of course you can change all other settings, package names, etc. as well. Building different output packages would look
-like this</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>-Denv<span class="o">=</span><span class="nb">test</span><span class="w"> </span>Universal/packageBin
-sbt<span class="w"> </span>-Denv<span class="o">=</span>stage<span class="w"> </span>Universal/packageBin
-sbt<span class="w"> </span>-Denv<span class="o">=</span>prod<span class="w"> </span>Universal/packageBin
-</pre></div>
-</div>
-</section>
-<section id="sbt-configuration-scope-not-recommended">
-<h2>SBT configuration scope (not recommended)<a class="headerlink" href="#sbt-configuration-scope-not-recommended" title="Link to this heading">¶</a></h2>
-<p>The other option is to generate additional scopes in order to build a package like <code class="docutils literal notranslate"><span class="pre">Prod</span> <span class="pre">/</span> <span class="pre">packageBin</span></code>. Scopes behave
-counter intuitive sometimes, why we don’t recommend this technique.</p>
-<div class="admonition error">
-<p class="admonition-title">Error</p>
-<p>This example is work in progress and doesn’t work. Unless you are not very familiar with sbt we highly
-recommend using another technique.</p>
-</div>
-<p>A simple start may look like this</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nc">Prod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="p">(</span><span class="s">&quot;prod&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">extend</span><span class="p">(</span><span class="nc">Universal</span><span class="p">)</span><span class="w"> </span><span class="n">describedAs</span><span class="p">(</span><span class="s">&quot;scope to build production packages&quot;</span><span class="p">)</span>
-<span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nc">Stage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="p">(</span><span class="s">&quot;stage&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">extend</span><span class="p">(</span><span class="nc">Universal</span><span class="p">)</span><span class="w"> </span><span class="n">describedAs</span><span class="p">(</span><span class="s">&quot;scope to build staging packages&quot;</span><span class="p">)</span>
-
-<span class="k">lazy</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span>
-<span class="w">  </span><span class="p">.</span><span class="n">in</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">))</span>
-<span class="w">  </span><span class="p">.</span><span class="n">enablePlugins</span><span class="p">(</span><span class="nc">JavaAppPackaging</span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">configs</span><span class="p">(</span><span class="nc">Prod</span><span class="p">,</span><span class="w"> </span><span class="nc">Stage</span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">settings</span><span class="p">(</span>
-<span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-app&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">libraryDependencies</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;com.typesafe&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;config&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s">&quot;1.3.0&quot;</span>
-<span class="w">  </span><span class="p">)</span>
-</pre></div>
-</div>
-<p>You would expect <code class="docutils literal notranslate"><span class="pre">Prod</span> <span class="pre">/</span> <span class="pre">packageBin</span></code> to work, but <em>extending</em> scopes doesn’t imply inheriting tasks and settings. This
-needs to be done manually. Append this to the <code class="docutils literal notranslate"><span class="pre">app</span></code> project.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// inheriting tasks and settings</span>
-<span class="p">.</span><span class="n">settings</span><span class="p">(</span><span class="n">inConfig</span><span class="p">(</span><span class="nc">Prod</span><span class="p">)(</span><span class="nc">UniversalPlugin</span><span class="p">.</span><span class="n">projectSettings</span><span class="p">))</span>
-<span class="p">.</span><span class="n">settings</span><span class="p">(</span><span class="n">inConfig</span><span class="p">(</span><span class="nc">Prod</span><span class="p">)(</span><span class="nc">JavaAppPackaging</span><span class="p">.</span><span class="n">projectSettings</span><span class="p">))</span>
-<span class="c1">// define custom settings</span>
-<span class="p">.</span><span class="n">settings</span><span class="p">(</span><span class="n">inConfig</span><span class="p">(</span><span class="nc">Prod</span><span class="p">)(</span><span class="nc">Seq</span><span class="p">(</span>
-<span class="w">  </span><span class="c1">// you have to override everything carefully</span>
-<span class="w">  </span><span class="n">packageName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-prod-app&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="n">executableScriptName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;my-prod-app&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="c1">// this is what we actually want to change</span>
-<span class="w">  </span><span class="n">mappings</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">((</span><span class="nc">Compile</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">resourceDirectory</span><span class="p">).</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;prod.conf&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;conf/application.conf&quot;</span>
-<span class="p">)))</span>
-</pre></div>
-</div>
-<p>Note that you have to know more on native-packager internals than you should, because you override all the necessary
-settings with the intended values. Still this doesn’t work as the universal plugin picks up the wrong mappings to build
-the package.</p>
-</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="scalajs.html" class="btn btn-neutral float-left" title="Scala JS packaging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="embedded-jvm.html" class="btn btn-neutral float-right" title="Embedding JVM in Universal" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="umask.html" class="btn btn-neutral float-left" title="Setting the umask for your process" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

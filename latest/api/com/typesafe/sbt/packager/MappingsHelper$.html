@@ -169,12 +169,12 @@ node4 -> node3;
          <button class="icon-button show-content expand"></button>
          <h4 class="groupHeader h200">Concrete methods</h4>
         </div>
-        <div class="documentableElement" id="contentOf-1d0">
+        <div class="documentableElement" id="contentOf-de5">
          <div class="documentableElement-expander">
           <button class="icon-button ar show-content"></button>
           <div class="header monospace mono-medium">
            <div class="signature">
-            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#contentOf-1d0" t="n" class="documentableName ">contentOf</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">sourceDir</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">File</span>, <span data-unresolved-link="" t="t">String</span>)]
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#contentOf-de5" t="n" class="documentableName ">contentOf</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">sourceDir</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">Initialize</span>[<span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">FileRef</span>, <span data-unresolved-link="" t="t">String</span>)]]
            </div>
           </div>
          </div>
@@ -214,7 +214,7 @@ node4 -> node3;
                <div>
                 <div>
                  <div class="snippet mono-small-block">
-                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings in Universal ++= contentOf("extra")
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings in Universal ++= contentOf("extra").value
 </span></code></pre>
                   <div class="buttons"></div>
                  </div>
@@ -231,17 +231,17 @@ node4 -> node3;
          <div class="documentableElement-expander">
           <div class="header monospace mono-medium">
            <div class="signature">
-            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#contentOf-fffffe85" t="n" class="documentableName ">contentOf</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">sourceDir</span>: <span data-unresolved-link="" t="t">File</span>, <span t="k"></span><span data-unresolved-link="" t="n">conv0</span>: <span data-unresolved-link="" t="t">FileConverter</span>): <span data-unresolved-link="" t="t">Seq</span>[(<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>, <span data-unresolved-link="" t="t">String</span>)]
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#contentOf-fffffe85" t="n" class="documentableName ">contentOf</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">sourceDir</span>: <span data-unresolved-link="" t="t">File</span>, <span t="k"></span><span data-unresolved-link="" t="n">conv0</span>: <span data-unresolved-link="" t="t">FileConverter</span>): <span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">FileRef</span>, <span data-unresolved-link="" t="t">String</span>)]
            </div>
           </div>
          </div>
         </div>
-        <div class="documentableElement" id="directory-1d0">
+        <div class="documentableElement" id="directory-de5">
          <div class="documentableElement-expander">
           <button class="icon-button ar show-content"></button>
           <div class="header monospace mono-medium">
            <div class="signature">
-            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#directory-1d0" t="n" class="documentableName ">directory</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">sourceDir</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">File</span>, <span data-unresolved-link="" t="t">String</span>)]
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#directory-de5" t="n" class="documentableName ">directory</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">sourceDir</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">Initialize</span>[<span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">FileRef</span>, <span data-unresolved-link="" t="t">String</span>)]]
            </div>
           </div>
          </div>
@@ -272,7 +272,7 @@ node4 -> node3;
                <div>
                 <div>
                  <div class="snippet mono-small-block">
-                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings in Universal ++= directory("extra")
+                  <pre><code class="language-"><span line-number="1" class=""><span class="tooltip-container"></span>mappings in Universal ++= directory("extra").value
 </span></code></pre>
                   <div class="buttons"></div>
                  </div>
@@ -290,7 +290,7 @@ node4 -> node3;
           <button class="icon-button ar show-content"></button>
           <div class="header monospace mono-medium">
            <div class="signature">
-            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#fromClasspath-8bb" t="n" class="documentableName ">fromClasspath</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">entries</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">Attributed</span>[<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>]], <span t="k"></span><span data-unresolved-link="" t="n">target</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">Seq</span>[(<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>, <span data-unresolved-link="" t="t">String</span>)]
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#fromClasspath-8bb" t="n" class="documentableName ">fromClasspath</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">entries</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">Attributed</span>[<span data-unresolved-link="" t="t">FileRef</span>]], <span t="k"></span><span data-unresolved-link="" t="n">target</span>: <span data-unresolved-link="" t="t">String</span>): <span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">FileRef</span>, <span data-unresolved-link="" t="t">String</span>)]
            </div>
           </div>
          </div>
@@ -340,7 +340,7 @@ node4 -> node3;
           <button class="icon-button ar show-content"></button>
           <div class="header monospace mono-medium">
            <div class="signature">
-            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#fromClasspath-aea" t="n" class="documentableName ">fromClasspath</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">entries</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">Attributed</span>[<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>]], <span t="k"></span><span data-unresolved-link="" t="n">target</span>: <span data-unresolved-link="" t="t">String</span>, <span t="k"></span><span data-unresolved-link="" t="n">includeArtifact</span>: <a href="PluginCompat$.html#IncludeArtifact-0" t="t">IncludeArtifact</a>, <span t="k"></span><span data-unresolved-link="" t="n">includeOnNoArtifact</span>: <span data-unresolved-link="" t="t">Boolean</span>): <span data-unresolved-link="" t="t">Seq</span>[(<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>, <span data-unresolved-link="" t="t">String</span>)]
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#fromClasspath-aea" t="n" class="documentableName ">fromClasspath</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">entries</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">Attributed</span>[<span data-unresolved-link="" t="t">FileRef</span>]], <span t="k"></span><span data-unresolved-link="" t="n">target</span>: <span data-unresolved-link="" t="t">String</span>, <span t="k"></span><span data-unresolved-link="" t="n">includeArtifact</span>: <a href="PluginCompat$.html#IncludeArtifact-0" t="t">IncludeArtifact</a>, <span t="k"></span><span data-unresolved-link="" t="n">includeOnNoArtifact</span>: <span data-unresolved-link="" t="t">Boolean</span>): <span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">FileRef</span>, <span data-unresolved-link="" t="t">String</span>)]
            </div>
           </div>
          </div>
@@ -415,7 +415,7 @@ node4 -> node3;
           <button class="icon-button ar show-content"></button>
           <div class="header monospace mono-medium">
            <div class="signature">
-            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#relative-fffff0c7" t="n" class="documentableName ">relative</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">files</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">File</span>], <span t="k"></span><span data-unresolved-link="" t="n">dirs</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">File</span>], <span t="k"></span><span data-unresolved-link="" t="n">conv0</span>: <span data-unresolved-link="" t="t">FileConverter</span>): <span data-unresolved-link="" t="t">Seq</span>[(<a href="PluginCompat$.html#FileRef-0" t="t">FileRef</a>, <span data-unresolved-link="" t="t">String</span>)]
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="MappingsHelper$.html#relative-fffff0c7" t="n" class="documentableName ">relative</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">files</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">File</span>], <span t="k"></span><span data-unresolved-link="" t="n">dirs</span>: <span data-unresolved-link="" t="t">Seq</span>[<span data-unresolved-link="" t="t">File</span>], <span t="k"></span><span data-unresolved-link="" t="n">conv0</span>: <span data-unresolved-link="" t="t">FileConverter</span>): <span data-unresolved-link="" t="t">Seq</span>[(<span data-unresolved-link="" t="t">FileRef</span>, <span data-unresolved-link="" t="t">String</span>)]
            </div>
           </div>
          </div>

@@ -387,6 +387,8 @@ For static content, you can just add the directory to the mapping:
 
     Universal / mappings ++= directory("SomeDirectoryNameToInclude")
 
+.. note:: On SBT 2.x, ``directory(String)`` and ``contentOf(String)`` need the resolved file converter to turn plain files into the virtual file references SBT 2.x mappings use, and require an extra ``.value``: ``Universal / mappings ++= directory("SomeDirectoryNameToInclude").value``. See the :ref:`sbt2-migration-mappings-helper` recipe for more details.
+
 If you want to add everything in a directory where the path for the directory is dynamic, e.g. the ``scala-2.10/api`` directory that is nested under in the ``target`` directory, and ``target`` is defined in a task:
 
 .. code-block:: scala

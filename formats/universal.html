@@ -6,12 +6,12 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Universal Plugin &mdash; sbt-native-packager 1.11.7 documentation</title>
+  <title>Universal Plugin &mdash; sbt-native-packager 1.12.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
-      <script src="../_static/documentation_options.js?v=a7786b4d"></script>
+      <script src="../_static/documentation_options.js?v=fe8e256b"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
@@ -384,6 +384,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../recipes/umask.html#system-v-systemd">System V/systemd</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../recipes/sbt2-migration-mappings-helper.html">Updating MappingsHelper.directory/contentOf to SBT 2.x</a></li>
 </ul>
 </li>
 </ul>
@@ -707,6 +708,10 @@ during the <code class="docutils literal notranslate"><span class="pre">packageB
 <p>For static content, you can just add the directory to the mapping:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">++=</span><span class="w"> </span><span class="n">directory</span><span class="p">(</span><span class="s">&quot;SomeDirectoryNameToInclude&quot;</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On SBT 2.x, <code class="docutils literal notranslate"><span class="pre">directory(String)</span></code> and <code class="docutils literal notranslate"><span class="pre">contentOf(String)</span></code> need the resolved file converter to turn plain files into the virtual file references SBT 2.x mappings use, and require an extra <code class="docutils literal notranslate"><span class="pre">.value</span></code>: <code class="docutils literal notranslate"><span class="pre">Universal</span> <span class="pre">/</span> <span class="pre">mappings</span> <span class="pre">++=</span> <span class="pre">directory(&quot;SomeDirectoryNameToInclude&quot;).value</span></code>. See the <a class="reference internal" href="../recipes/sbt2-migration-mappings-helper.html#sbt2-migration-mappings-helper"><span class="std std-ref">Updating MappingsHelper.directory/contentOf to SBT 2.x</span></a> recipe for more details.</p>
 </div>
 <p>If you want to add everything in a directory where the path for the directory is dynamic, e.g. the <code class="docutils literal notranslate"><span class="pre">scala-2.10/api</span></code> directory that is nested under in the <code class="docutils literal notranslate"><span class="pre">target</span></code> directory, and <code class="docutils literal notranslate"><span class="pre">target</span></code> is defined in a task:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Universal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="n">directory</span><span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;scala-2.10&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;api&quot;</span><span class="p">))</span>
