@@ -111,9 +111,6 @@ Settings
   ``wixConfig``
     inline XML to use for wix configuration.   This is used if the ``wixFiles`` task is not specified.
 
-  ``wixFiles``
-    WIX xml source files (``wxs``) that define the build.
-
   ``Windows / packageMsi / mappings ``
     A list of file->location pairs.   This list is used to move files into a location where WIX can pick up the files and generate a ``cab`` or embedded ``cab`` for the ``msi``.
     The WIX xml should use the relative locations in this mappings when referencing files for the package.
@@ -124,8 +121,8 @@ Tasks
   ``Windows/packageBin``
     Creates the ``msi`` package.
 
-  ``wixFile``
-    Generates the Wix xml file from `wixConfig` and `wixProductConfig` settings, unless overridden.
+  ``wixFiles``
+    Generates the Wix xml files from `wixConfig` and `wixProductConfig` settings, unless overridden.
 
 
 The native-packager plugin provides a few handy utilities for generating Wix XML.  These
