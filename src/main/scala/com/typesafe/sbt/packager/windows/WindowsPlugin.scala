@@ -91,13 +91,12 @@ object WindowsPlugin extends AutoPlugin {
       ),
       Windows / wixConfig := wixConfig.value,
       Windows / wixProductConfig := wixProductConfig.value,
-      wixFile := {
+      wixFiles := {
         val config = (Windows / wixConfig).value
         val wixConfigFile = (Windows / target).value / ((Windows / name).value + ".wxs")
         IO.write(wixConfigFile, config.toString)
-        wixConfigFile
-      },
-      wixFiles := Seq(wixFile.value)
+        Seq(wixConfigFile)
+      }
     ) ++ inConfig(Windows)(Seq(packageBin := Def.uncached {
       val conv0 = fileConverter.value
       implicit val conv: FileConverter = conv0
