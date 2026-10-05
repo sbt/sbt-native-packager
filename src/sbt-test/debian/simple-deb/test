@@ -1,3 +1,8 @@
 # Run the debian packaging.
 > Debian/packageBin
 $ exists target/**/debian-test_0.1.0_all.deb
+
+# Rebuild to check sbt 2 caching - see https://github.com/sbt/sbt-native-packager/issues/1790
+$ delete target
+> Debian/packageBin
+$ exists target/**/debian-test_0.1.0_all.deb
