@@ -13,6 +13,15 @@ organization := "com.foo.bar"
 
 Compile / mainClass := Some("ExampleApp")
 
+scalacOptions ++= {
+  scalaBinaryVersion.value match {
+    case "3" =>
+      Nil
+    case _ =>
+      Seq("-Xsource:3")
+  }
+}
+
 maintainer := "Cat D. Herder"
 
 packageSummary := "test-jdkpackager"
