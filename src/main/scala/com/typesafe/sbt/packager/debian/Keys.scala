@@ -30,6 +30,7 @@ trait DebianKeys {
   val debianControlFile = TaskKey[File]("debian-control-file", "Makes the debian package control file.")
 
   @deprecated("Use generic maintainerScript task instead", "1.0.3")
+  @transient
   val debianMaintainerScripts =
     TaskKey[Seq[(File, String)]]("debian-maintainer-scripts", "Makes the debian maintainer scripts.")
   @transient

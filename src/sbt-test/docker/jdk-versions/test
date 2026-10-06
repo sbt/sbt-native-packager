@@ -1,9 +1,3 @@
-> project jdk8
-> Docker/publishLocal
-$ exec bash -c 'docker run --rm jdk-versions:8 | grep -q "Hello JDK8!"'
-> project jdk11
-> Docker/publishLocal
-$ exec bash -c 'docker run --rm jdk-versions:11 | grep -q "Hello JDK11!"'
 > project jdk17
 > Docker/publishLocal
 $ exec bash -c 'docker run --rm jdk-versions:17 | grep -q "Hello JDK17!"'

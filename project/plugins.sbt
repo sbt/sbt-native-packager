@@ -1,3 +1,5 @@
+libraryDependencies += "com.github.xuwei-k" %% "scala-version-from-sbt-version" % "0.1.0"
+
 addSbtPlugin("com.github.sbt" % "sbt-ghpages" % "0.10.0")
 addSbtPlugin("com.github.sbt" % "sbt-site-sphinx" % "1.8.0")
 
