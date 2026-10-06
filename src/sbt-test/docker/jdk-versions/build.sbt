@@ -2,24 +2,6 @@ val basename = "jdk-versions"
 
 ThisBuild / Compile / compile / scalacOptions := Seq("-target:jvm-1.8")
 
-lazy val `jdk8` = project
-  .in(file("jdk8"))
-  .enablePlugins(JavaAppPackaging)
-  .settings(
-    name := basename + "-8",
-    dockerBaseImage := "eclipse-temurin:8-jre",
-    dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:8")
-  )
-
-lazy val `jdk11` = project
-  .in(file("jdk11"))
-  .enablePlugins(JavaAppPackaging)
-  .settings(
-    name := basename + "-11",
-    dockerBaseImage := "eclipse-temurin:11-jre",
-    dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:11")
-  )
-
 lazy val `jdk17` = project
   .in(file("jdk17"))
   .enablePlugins(JavaAppPackaging)

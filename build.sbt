@@ -4,25 +4,34 @@ homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
+val sbt2 = "2.0.10"
 // crossBuildingSettings
 lazy val scala212 = "2.12.21"
-lazy val scala3 = "3.7.3"
+lazy val scala3 = scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt2)
 Global / scalaVersion := scala212
 crossScalaVersions := Seq(scala3, scala212)
 (pluginCrossBuild / sbtVersion) := {
   scalaBinaryVersion.value match {
     case "2.12" => "1.5.8"
-    case _      => "2.0.0-RC6"
+    case _      => sbt2
   }
 }
 scriptedSbt := {
   scalaBinaryVersion.value match {
     case "2.12" => "1.10.7"
-    case _      => "2.0.0-RC6"
+    case _      => sbt2
   }
 }
 
 Compile / scalacOptions ++= Seq("-deprecation")
+scalacOptions ++= {
+  scalaBinaryVersion.value match {
+    case "2.12" =>
+      Seq("-release:8")
+    case "3" =>
+      Nil
+  }
+}
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 // put jdeb on the classpath for scripted tests

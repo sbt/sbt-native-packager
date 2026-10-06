@@ -4,6 +4,8 @@ name := "test-busybox-create-user"
 
 version := "0.1.0"
 
+scalaVersion := "2.13.18"
+
 maintainer := "Boris Capitanu <borice@hotmail.com>"
 dockerBaseImage := "anapsix/alpine-java:8"
 Docker / daemonUserUid := Some("2000")

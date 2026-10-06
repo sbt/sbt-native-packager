@@ -191,7 +191,7 @@ object JlinkPlugin extends AutoPlugin {
 
   private[jlink] def parseJdeps(jdepsOutput: String): immutable.TreeSet[PackageDependency] =
     jdepsOutput.linesIterator.foldLeft(
-      immutable.TreeSet.empty[PackageDependency](PackageDependency.PackageDependencyOrdering)
+      immutable.TreeSet.empty[PackageDependency](using PackageDependency.PackageDependencyOrdering)
     ) { (z, l) =>
       PackageDependency.parse(l) match {
         case Some(pd) => z + pd

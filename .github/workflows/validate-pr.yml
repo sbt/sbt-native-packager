@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@v6
         with:
           distribution: zulu
-          java-version: 8
+          java-version: 17
           cache: sbt
       - uses: sbt/setup-sbt@v1
       - name: Validate
@@ -35,7 +35,7 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: +validateUniversal
           - os: ubuntu-latest
@@ -43,31 +43,31 @@ jobs:
             distribution: zulu
             command: validateUniversalSbt1 # No cross build, only SBT 1.x
           - os: ubuntu-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: validateUniversalSbt2 # No cross build, only SBT 2.x
           - os: ubuntu-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: +validateJar
           - os: ubuntu-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: +validateBash
           - os: ubuntu-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: +validateAsh
           - os: ubuntu-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: +validateRpm
           - os: ubuntu-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: +validateDebian
           - os: ubuntu-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: +validateDocker
           - os: ubuntu-latest
@@ -75,11 +75,11 @@ jobs:
             distribution: zulu
             command: validateDockerSbt1 # No cross build, only SBT 1.x
           - os: ubuntu-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: validateDockerSbt2 # No cross build, only SBT 2.x
           - os: ubuntu-latest
-            java: 11
+            java: 17
             distribution: temurin
             command: +validateJlink
           - os: ubuntu-latest
@@ -87,11 +87,11 @@ jobs:
             distribution: graalvm
             command: +validateGraalVMNativeImage
           - os: macos-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: +validateMacOS
           - os: windows-latest
-            java: 8
+            java: 17
             distribution: zulu
             command: +validateWindows
     needs:
@@ -132,7 +132,7 @@ jobs:
           cache: sbt
       - uses: sbt/setup-sbt@v1
       - name: Validate
-        run: sbt "+validateJdkPackagerTravis"
+        run: sbt validateJdkPackagerTravis
 
   test-project:
     runs-on: ubuntu-latest
