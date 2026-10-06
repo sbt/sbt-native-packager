@@ -114,8 +114,8 @@ addCommandAlias("validate", "; clean ; update ; validateFormatting ; test")
 // tests take quite some time to run.
 // Ultimately we should run only those tests that are necessary for a change
 addCommandAlias("validateUniversal", "scripted universal/*")
-addCommandAlias("validateUniversalSbt1", "++ 2.12.20; scripted universal-sbt1/*")
-addCommandAlias("validateUniversalSbt2", "++ 3.7.3; scripted universal-sbt2/*")
+addCommandAlias("validateUniversalSbt1", "++ 2.12.x; scripted universal-sbt1/*")
+addCommandAlias("validateUniversalSbt2", "++ 3.x; scripted universal-sbt2/*")
 addCommandAlias("validateJar", "scripted jar/*")
 addCommandAlias("validateBash", "scripted bash/*")
 addCommandAlias("validateAsh", "scripted ash/*")
@@ -123,8 +123,8 @@ addCommandAlias("validateGraalVMNativeImage", "scripted graalvm-native-image/*")
 addCommandAlias("validateRpm", "scripted rpm/*")
 addCommandAlias("validateDebian", "scripted debian/*")
 addCommandAlias("validateDocker", "scripted docker/*")
-addCommandAlias("validateDockerSbt1", "++ 2.12.20; scripted docker-sbt1/*")
-addCommandAlias("validateDockerSbt2", "++ 3.7.3; scripted docker-sbt2/*")
+addCommandAlias("validateDockerSbt1", "++ 2.12.x; scripted docker-sbt1/*")
+addCommandAlias("validateDockerSbt2", "++ 3.x; scripted docker-sbt2/*")
 addCommandAlias("validateJdkPackager", "scripted jdkpackager/*")
 // travis ci's jdk8 version doesn't support nested association elements.
 // error: Caused by: class com.sun.javafx.tools.ant.Info doesn't support the nested "association" element.
