@@ -50,16 +50,6 @@ libraryDependencies ++= {
   }
 }
 
-// scala version depended libraries
-libraryDependencies ++= {
-  scalaBinaryVersion.value match {
-    case "2.12" =>
-      Seq("org.scala-lang.modules" %% "scala-xml" % "2.2.0")
-    case _ =>
-      Nil
-  }
-}
-
 // configure github page
 enablePlugins(SphinxPlugin, SiteScaladocPlugin, GhpagesPlugin, SbtPlugin)
 
