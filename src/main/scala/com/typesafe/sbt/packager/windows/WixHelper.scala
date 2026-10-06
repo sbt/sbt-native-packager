@@ -42,8 +42,7 @@ case class ComponentFile(source: String, editable: Boolean = false) extends Feat
 case class NamespaceDefinitions(majorVersionNumber: Int, namespace: String, utilExtension: String)
 
 /**
-  * Will add the directory to the windows path.  NOTE: Only one of these
-  * per MSI.
+  * Will add the directory to the windows path. NOTE: Only one of these per MSI.
   */
 case class AddDirectoryToPath(dir: String = "") extends FeatureComponent
 case class AddShortCuts(target: Seq[String], workingDir: String = "INSTALLDIR") extends FeatureComponent
@@ -57,10 +56,9 @@ object WixHelper {
   def makeGUID: String = java.util.UUID.randomUUID.toString
 
   /**
-    * If the SOURCE_DATE_EPOCH environment variable is defined, create a reproducible
-    * name-based UUID using a provided name and the epoch. This assumes that all name passed
-    * to this function are unique. If the environment variable is not provided, his returns a
-    * random UUID
+    * If the SOURCE_DATE_EPOCH environment variable is defined, create a reproducible name-based UUID using a provided
+    * name and the epoch. This assumes that all name passed to this function are unique. If the environment variable is
+    * not provided, his returns a random UUID
     */
   def makeGUID(name: String): String =
     sys.env
@@ -86,8 +84,8 @@ object WixHelper {
     val filenamesPrep =
       for {
         f <- features
-       name <- f.components.collect{
-          case ComponentFile(name, _) => name
+        name <- f.components.collect { case ComponentFile(name, _) =>
+          name
         }
       } yield allParentDirs(file(name))
     val filenames = filenamesPrep.flatten.map(_.toString.replaceAll("\\\\", "/")).filter(_ != "")
@@ -130,8 +128,12 @@ object WixHelper {
             <DirectoryRef Id={dirRef}>
             <Component Id={id} Guid={makeGUID(id)}>
               <CreateFolder/>
-              <Environment Id={homeEnvVar} Name={homeEnvVar} Value="[INSTALLDIR]" Permanent="no" Action="set" System="yes"/>
-              <Environment Id="PATH" Name="PATH" Value={pathAddition} Permanent="no" Part="last" Action="set" System="yes"/>
+              <Environment Id={homeEnvVar} Name={
+              homeEnvVar
+            } Value="[INSTALLDIR]" Permanent="no" Action="set" System="yes"/>
+              <Environment Id="PATH" Name="PATH" Value={
+              pathAddition
+            } Permanent="no" Part="last" Action="set" System="yes"/>
             </Component>
           </DirectoryRef>
           ComponentInfo(id, xml)
@@ -183,7 +185,9 @@ object WixHelper {
                 } Target={"[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\")} WorkingDirectory="INSTALLDIR"/>
               }
             }
-              <RegistryValue Root="HKCU" Key={"Software\\" + product.maintainer + "\\" + name} Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+              <RegistryValue Root="HKCU" Key={
+              "Software\\" + product.maintainer + "\\" + name
+            } Name="installed" Type="integer" Value="1" KeyPath="yes"/>
             </Component>
           </DirectoryRef>
           ComponentInfo(id, xml)
@@ -206,7 +210,9 @@ object WixHelper {
           <Directory Id="ApplicationProgramsFolder" Name={name}>
             <Component Id={removeId} Guid={makeGUID(removeId)}>
               <RemoveFolder Id="ApplicationProgramsFolderRemove" On="uninstall"/>
-              <RegistryValue Root="HKCU" Key={"Software\\" + product.maintainer + "\\" + name} Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+              <RegistryValue Root="HKCU" Key={
+      "Software\\" + product.maintainer + "\\" + name
+    } Name="installed" Type="integer" Value="1" KeyPath="yes"/>
             </Component>
           </Directory>
         </Directory>
@@ -224,7 +230,9 @@ object WixHelper {
       } yield xml
     }
       <!-- Now define the features! -->
-      <Feature Id='Complete' Title={product.title} Description={product.description} Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
+      <Feature Id='Complete' Title={product.title} Description={
+      product.description
+    } Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
         <!-- Manually added uninstall feautre -->
         <Feature Id='Uninstall' Title='Uninstall' Description='Uninstall ApplicationFolder' Level='1' Absent='allow'>
           <ComponentRef Id={removeId}/>
@@ -273,8 +281,8 @@ object WixHelper {
     </Wix>
 
   /**
-    * Wix namespace changed from major version 3 to 4.
-    * TODO: Not sure if schema of 2006 is compatible with major versions < 3
+    * Wix namespace changed from major version 3 to 4. TODO: Not sure if schema of 2006 is compatible with major
+    * versions < 3
     */
   def getNameSpaceDefinitions(majorVersion: Int): NamespaceDefinitions =
     if (majorVersion <= 3)
@@ -291,9 +299,8 @@ object WixHelper {
       )
 
   /**
-    * Modifies a string to be Wix ID friendly by removing all the bad
-    * characters and replacing with _.  Also limits the width to 70 (rather than
-    * 72) so we can safely add a few later.
+    * Modifies a string to be Wix ID friendly by removing all the bad characters and replacing with _. Also limits the
+    * width to 70 (rather than 72) so we can safely add a few later.
     */
   def cleanStringForId(n: String) = {
     val x = n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(59) + (math.abs(n.hashCode).toString + "xxxxxxxxx")
@@ -316,11 +323,11 @@ object WixHelper {
   def makeIdFromFile(f: File) = cleanStringForId(f.getName)
 
   /**
-    * Constructs a set of componentRefs and the directory/file WIX for
-    * all files in a given directory.
+    * Constructs a set of componentRefs and the directory/file WIX for all files in a given directory.
     *
-    * @return A tuple where the first item is all the Component Ids created,
-    *         and the second is the Directory/File/Component XML.
+    * @return
+    *   A tuple where the first item is all the Component Ids created, and the second is the Directory/File/Component
+    *   XML.
     */
   // TODO @deprecated("Use higher level abstraction", "6/28/13")
   // reference: https://github.com/sbt/sbt-native-packager/issues/726
