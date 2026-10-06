@@ -38,7 +38,6 @@ lazy val `jdk21` = project
     dockerBuildOptions := dockerBuildOptions.value ++ Seq("-t", "jdk-versions:21")
   )
 
-
 lazy val `jdk25` = project
   .in(file("jdk25"))
   .enablePlugins(JavaAppPackaging)

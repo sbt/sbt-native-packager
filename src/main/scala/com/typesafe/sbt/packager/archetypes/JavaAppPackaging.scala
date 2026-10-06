@@ -86,10 +86,10 @@ object JavaAppPackaging extends AutoPlugin {
     for {
       (_, name) <- mappings
     } yield
-    // Here we want the name relative to the lib/ folder...
-    // For now we just cheat...
-    if (name startsWith "lib/") name drop 4
-    else "../" + name
+      // Here we want the name relative to the lib/ folder...
+      // For now we just cheat...
+      if (name startsWith "lib/") name drop 4
+      else "../" + name
 
   /**
     * Constructs a jar name from components...(ModuleID/Artifact)
@@ -162,12 +162,13 @@ object JavaAppPackaging extends AutoPlugin {
       val artifactTask = extracted.get(ref / packagedArtifacts)
       for {
         arts <- artifactTask
-      } yield for {
-        (art, file) <- arts.toSeq // TODO -Filter!
-      } yield Attributed
-        .blank(file)
-        .put(SbtCompat.moduleIDStr, moduleIDToStr(module))
-        .put(SbtCompat.artifactStr, artifactToStr(art))
+      } yield
+        for {
+          (art, file) <- arts.toSeq // TODO -Filter!
+        } yield Attributed
+          .blank(file)
+          .put(SbtCompat.moduleIDStr, moduleIDToStr(module))
+          .put(SbtCompat.artifactStr, artifactToStr(art))
     }
 
   private def findRealDep(
