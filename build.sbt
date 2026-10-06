@@ -54,7 +54,7 @@ libraryDependencies ++= {
 libraryDependencies ++= {
   scalaBinaryVersion.value match {
     case "2.12" =>
-      Seq("org.scala-lang.modules" %% "scala-xml" % "2.2.0")
+      Seq("org.scala-lang.modules" %% "scala-xml" % "2.5.0")
     case _ =>
       Nil
   }
