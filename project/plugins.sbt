@@ -1,5 +1,5 @@
 addSbtPlugin("com.github.sbt" % "sbt-ghpages" % "0.10.0")
-addSbtPlugin("com.github.sbt" % "sbt-site-sphinx" % "1.7.0")
+addSbtPlugin("com.github.sbt" % "sbt-site-sphinx" % "1.8.0")
 
 // releasing
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.12.1")
