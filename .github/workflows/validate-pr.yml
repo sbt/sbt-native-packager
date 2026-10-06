@@ -133,3 +133,24 @@ jobs:
       - uses: sbt/setup-sbt@v1
       - name: Validate
         run: sbt "+validateJdkPackagerTravis"
+
+  test-project:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+      - validate
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: sbt/setup-sbt@v1
+      - run: |
+          projects=("test-project-docker" "test-project-simple" "test-project-windows")
+          for p in "${projects[@]}"; do
+            pushd "$p"
+            sbt -v --server Test/compile
+            popd
+          done
