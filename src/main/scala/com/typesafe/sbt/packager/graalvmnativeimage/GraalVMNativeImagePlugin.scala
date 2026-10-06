@@ -32,7 +32,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
 
   import autoImport._
 
-  private val GraalVMBaseImage = "ghcr.io/graalvm/graalvm-ce"
+  private val GraalVMBaseImage = "ghcr.io/graalvm/graalvm-community"
 
   override def requires: Plugins = JavaAppPackaging
 
