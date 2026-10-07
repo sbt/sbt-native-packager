@@ -2,16 +2,14 @@ package com.typesafe.sbt.packager
 package archetypes
 
 import sbt.{*, given}
-import sbt.Keys.{fileConverter, javaOptions, mainClass, run, sourceDirectory, streams, target}
+import sbt.Keys.{javaOptions, sourceDirectory, target}
 import com.typesafe.sbt.SbtNativePackager.{Debian, Linux, Rpm, Universal}
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxPlugin, LinuxSymlink}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.packageTemplateMapping
 import com.typesafe.sbt.packager.debian.DebianPlugin
-import com.typesafe.sbt.packager.rpm.RpmPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
 import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
-import xsbti.FileConverter
 
 /**
   * ==Java Server App Packaging==

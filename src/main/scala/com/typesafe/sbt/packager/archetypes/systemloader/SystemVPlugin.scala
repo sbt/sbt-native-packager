@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
 import sbt._
-import sbt.Keys.{sourceDirectory, target}
+import sbt.Keys.sourceDirectory
 import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
@@ -17,8 +17,6 @@ import com.typesafe.sbt.packager.Keys.{
   stopRunlevels,
   termTimeout
 }
-import com.typesafe.sbt.packager.debian.DebianPlugin
-import com.typesafe.sbt.packager.rpm.RpmPlugin
 
 object SystemVPlugin extends AutoPlugin {
 

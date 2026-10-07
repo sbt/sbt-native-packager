@@ -1,11 +1,10 @@
 package com.typesafe.sbt
 
 import packager.*
-import debian.DebianPlugin.autoImport.genChanges
-import com.typesafe.sbt.packager.Keys.{packageXzTarball, packageZipTarball, validatePackage, validatePackageValidators}
+import com.typesafe.sbt.packager.Keys.{validatePackage, validatePackageValidators}
 import com.typesafe.sbt.packager.validation.Validation
 import sbt.{*, given}
-import sbt.Keys.{name, normalizedName, packageBin, streams}
+import sbt.Keys.{name, normalizedName, streams}
 
 /**
   * ==SBT Native Packager Plugin==

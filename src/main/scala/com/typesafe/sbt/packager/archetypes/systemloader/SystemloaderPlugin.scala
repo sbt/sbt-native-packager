@@ -1,13 +1,12 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
 import sbt.{*, given}
-import sbt.Keys.{fileConverter, sourceDirectory, target}
+import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
   killTimeout,
   linuxMakeStartScript,
-  linuxPackageMappings,
   linuxScriptReplacements,
   linuxStartScriptName,
   linuxStartScriptTemplate,

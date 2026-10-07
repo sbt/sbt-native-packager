@@ -2,7 +2,7 @@ package com.typesafe.sbt.packager
 
 import sbt.{*, given}
 import sbt.Keys.*
-import sbt.librarymanagement.{IvyFileConfiguration, PublishConfiguration}
+import sbt.librarymanagement.PublishConfiguration
 import com.typesafe.sbt.packager.Compat.*
 import sbtcompat.PluginCompat.*
 import xsbti.FileConverter

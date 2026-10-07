@@ -3,7 +3,6 @@ package com.typesafe.sbt.packager.archetypes.scripts
 import java.io.File
 import java.net.URL
 
-import com.typesafe.sbt.packager.PluginCompat
 import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import sbt.{*, given}
