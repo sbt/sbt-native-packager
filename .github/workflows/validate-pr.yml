@@ -4,6 +4,8 @@ on:
   merge_group:
   pull_request:
   push:
+    branches:
+      - main
     branches-ignore:
       - 'gh-readonly-queue/**'
 
