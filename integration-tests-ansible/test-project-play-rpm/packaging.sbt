@@ -1,4 +1,4 @@
-import com.typesafe.sbt.packager.archetypes.ServerLoader
+import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
 
 // controls the name of the bash script
 executableScriptName := "play-demo-run"
@@ -10,17 +10,17 @@ packageSummary := "A demo RPM package of Play"
 packageDescription := "A demonstration of using sbt-native-packager to package a Play app as an RPM"
 
 // controls the logical name of the linux package
-packageName in Linux := "play-demo"
+Linux / packageName := "play-demo"
 
-daemonUser in Linux := "play-demo-user"
+Linux / daemonUser := "play-demo-user"
 
-daemonGroup in Linux := "play-demo-group"
+Linux / daemonGroup := "play-demo-group"
 
-daemonShell in Linux := "/bin/bash"
+Linux / daemonShell := "/bin/bash"
 
 // RPM settings
 
-serverLoading in Rpm := ServerLoader.SystemV
+Rpm / serverLoading := Some(ServerLoader.SystemV)
 
 rpmRelease := "1"
 
