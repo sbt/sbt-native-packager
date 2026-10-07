@@ -18,7 +18,7 @@ jobs:
           - os: macos-latest
     runs-on: '${{ matrix.os }}'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Setup JDK
         uses: actions/setup-java@v6
         with:
@@ -98,7 +98,7 @@ jobs:
       - validate
     runs-on: '${{ matrix.os }}'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Setup JDK
         uses: actions/setup-java@v6
         with:
@@ -116,7 +116,7 @@ jobs:
     needs:
       - validate
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Download Zulu 8
         run: |
           # the standard zulu dist doesn't include javafx
