@@ -1,9 +1,9 @@
 package controllers
 
-import play.api._
+import com.google.inject.Inject
 import play.api.mvc._
 
-object Application extends Controller {
+class Application @Inject() (cc: ControllerComponents) extends AbstractController(cc) {
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))

@@ -148,7 +148,7 @@ jobs:
           java-version: 17
       - uses: sbt/setup-sbt@v1
       - run: |
-          projects=("test-project-docker" "test-project-simple" "test-project-windows")
+          projects=("test-project-docker" "test-project-simple" "test-project-windows" "integration-tests-ansible/test-project-play-rpm")
           for p in "${projects[@]}"; do
             pushd "$p"
             sbt -v --server Test/compile
