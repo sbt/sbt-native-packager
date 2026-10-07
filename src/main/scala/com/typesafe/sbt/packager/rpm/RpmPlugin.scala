@@ -2,7 +2,7 @@ package com.typesafe.sbt.packager.rpm
 
 import sbt.{*, given}
 import sbt.Keys.*
-import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 
 import com.typesafe.sbt.SbtNativePackager.Linux
 import com.typesafe.sbt.packager.PluginCompat
@@ -154,7 +154,7 @@ object RpmPlugin extends AutoPlugin {
       val scripts = (Rpm / maintainerScripts).value
       if (!rpmBrpJavaRepackJars.value) {
         val pre = scripts.getOrElse(Names.Pre, Nil)
-        val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, Charset forName "UTF-8")
+        val scriptBits = IO.readStream(RpmPlugin.osPostInstallMacro.openStream, StandardCharsets.UTF_8)
         scripts + (Names.Pre -> (pre :+ scriptBits))
       } else
         scripts
