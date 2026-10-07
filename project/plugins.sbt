@@ -8,9 +8,6 @@ addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.12.1")
 
 libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
 
-// Scripted plugin needs to declare this as a dependency
-libraryDependencies += "jline" % "jline" % "2.14.6"
-
 // For code formatting
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.2")
 
