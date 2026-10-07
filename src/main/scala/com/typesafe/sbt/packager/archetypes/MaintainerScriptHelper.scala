@@ -76,7 +76,7 @@ trait MaintainerScriptHelper {
     scripts: (String, String)*
   ): Map[String, Seq[String]] = {
     val appended = scripts.map { case (key, script) =>
-      key -> TemplateWriter.generateScriptFromLines((current.getOrElse(key, Seq.empty) :+ script), replacements)
+      key -> TemplateWriter.generateScriptFromLines(current.getOrElse(key, Seq.empty) :+ script, replacements)
     }.toMap
     current ++ appended
   }

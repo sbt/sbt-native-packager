@@ -24,7 +24,7 @@ rpmChangelogFile := Some("conf/changelog")
 TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   // Check if the RPM writted the changelog tag on the task
-  assert(spec contains "%changelog\n", "Spec doesn't contain %changelog tag on the SPEC")
+  assert(spec.contains("%changelog\n"), "Spec doesn't contain %changelog tag on the SPEC")
   streams.value.log.success("Successfully tested rpm test file")
   ()
 }

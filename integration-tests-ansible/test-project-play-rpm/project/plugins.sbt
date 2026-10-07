@@ -7,6 +7,6 @@ libraryDependencies +=
     )
     .exclude("com.github.sbt", "sbt-native-packager")
 
-lazy val root = Project("plugins", file(".")) dependsOn (packager)
+lazy val root = Project("plugins", file(".")).dependsOn(packager)
 
 lazy val packager = ProjectRef(file("../../.."), "sbt-native-packager")

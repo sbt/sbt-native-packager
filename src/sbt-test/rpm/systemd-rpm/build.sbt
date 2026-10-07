@@ -40,8 +40,7 @@ TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   println(spec)
   assert(
-    spec contains
-      """
+    spec.contains("""
       |#
       |# Adding service for management
       |# $1 = service name
@@ -61,13 +60,12 @@ TaskKey[Unit]("checkSpecFile") := {
       |
       |    systemctl enable "$app_name.service"
       |}
-      |""".stripMargin,
+      |""".stripMargin),
     "rpm addService() scriptlet is missing or incorrect"
   )
 
   assert(
-    spec contains
-      """
+    spec.contains("""
       |#
       |# Start the service
       |# $1 = service name
@@ -76,13 +74,12 @@ TaskKey[Unit]("checkSpecFile") := {
       |    app_name=$1
       |    systemctl start "$app_name.service"
       |}
-      |""".stripMargin,
+      |""".stripMargin),
     "rpm startService() scriptlet is missing or incorrect"
   )
 
   assert(
-    spec contains
-      """
+    spec.contains("""
       |#
       |# Removing service from autostart
       |# $1 = service name
@@ -94,13 +91,12 @@ TaskKey[Unit]("checkSpecFile") := {
       |    systemctl stop "$app_name.service"
       |    systemctl disable "$app_name.service"
       |}
-      |""".stripMargin,
+      |""".stripMargin),
     "rpm stopService() scriptlet is missing or incorrect"
   )
 
   assert(
-    spec contains
-      """
+    spec.contains("""
       |#
       |# Restarting the service after package upgrade
       |# $1 = service name
@@ -111,7 +107,7 @@ TaskKey[Unit]("checkSpecFile") := {
       |    systemctl daemon-reload
       |    systemctl try-restart "$app_name.service"
       |}
-      |""".stripMargin,
+      |""".stripMargin),
     "rpm restartService() scriptlet is missing or incorrect"
   )
 
@@ -124,8 +120,7 @@ TaskKey[Unit]("checkSpecAutostart") := {
   println(spec)
 
   assert(
-    spec contains
-      """
+    spec.contains("""
       |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
       |# $1 == 1 is first installation and $1 == 2 is upgrade
       |if [ $1 -eq 1 ] ;
@@ -133,7 +128,7 @@ TaskKey[Unit]("checkSpecAutostart") := {
       |  addService rpm-test || echo "rpm-test could not be registered"
       |  startService rpm-test || echo "rpm-test could not be started"
       |fi
-      |""".stripMargin,
+      |""".stripMargin),
     "rpm addService, startService post install commands missing or incorrect"
   )
   ()
@@ -144,15 +139,14 @@ TaskKey[Unit]("checkSpecNoAutostart") := {
   println(spec)
 
   assert(
-    spec contains
-      """
+    spec.contains("""
       |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
       |# $1 == 1 is first installation and $1 == 2 is upgrade
       |if [ $1 -eq 1 ] ;
       |then
       |  addService rpm-test || echo "rpm-test could not be registered"
       |fi
-      |""".stripMargin,
+      |""".stripMargin),
     "rpm addService post install commands missing or incorrect"
   )
   ()

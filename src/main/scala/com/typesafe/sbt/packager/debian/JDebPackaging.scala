@@ -84,8 +84,8 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         debMaker.packageDebian(mappings, symlinks, debianFile, targetDir, fileConverter.value, log)
         toFileRef(debianFile)
       },
-      packageBin := Def.uncached((packageBin dependsOn debianControlFile).value),
-      packageBin := Def.uncached((packageBin dependsOn debianConffilesFile).value),
+      packageBin := Def.uncached(packageBin.dependsOn(debianControlFile).value),
+      packageBin := Def.uncached(packageBin.dependsOn(debianConffilesFile).value),
       // workaround for sbt-coursier
       classpathTypes += "maven-plugin"
     )
@@ -97,11 +97,11 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
   */
 class JDebConsole(log: Logger) extends org.vafer.jdeb.Console {
 
-  def debug(message: String): Unit = log debug message
+  def debug(message: String): Unit = log.debug(message)
 
-  def info(message: String): Unit = log info message
+  def info(message: String): Unit = log.info(message)
 
-  def warn(message: String): Unit = log warn message
+  def warn(message: String): Unit = log.warn(message)
 }
 
 /**
@@ -132,10 +132,10 @@ private class JDebPackagingTask {
       conffileProducers(mappings, targetDir).asJava
     )
     // set compression default to none - in line with native version / allows rsync to be effective
-    debMaker setCompression "none"
-    debMaker setDepends ""
-    debMaker setDeb debianFile
-    debMaker setControl (targetDir / Names.DebianMaintainerScripts)
+    debMaker.setCompression("none")
+    debMaker.setDepends("")
+    debMaker.setDeb(debianFile)
+    debMaker.setControl(targetDir / Names.DebianMaintainerScripts)
 
     // TODO add signing with setKeyring, setKey, setPassphrase, setSignPackage, setSignMethod, setSignRole
     debMaker.validate()
@@ -166,7 +166,7 @@ private class JDebPackagingTask {
     * Creating link producers for symlinks.
     */
   private[debian] def linkProducers(symlinks: Seq[LinuxSymlink]): Seq[DataProducer] =
-    symlinks map { case LinuxSymlink(link, destination) =>
+    symlinks.map { case LinuxSymlink(link, destination) =>
       new DataProducerLink(link, destination, true, null, null, null)
     }
 
@@ -177,7 +177,7 @@ private class JDebPackagingTask {
 
     val producers = linuxMappings.map {
       case LinuxPackageMapping(concretMappings, perms, _) if perms.config == "true" =>
-        concretMappings collect {
+        concretMappings.collect {
           case (path, name) if path.isFile =>
             val permMapper = filePermissions(perms.withPerms("0644"))
             new DataProducerFile(path, cleanPath(name), null, null, Array(permMapper))
@@ -189,7 +189,7 @@ private class JDebPackagingTask {
   }
 
   private[debian] def cleanPath(path: String): String =
-    if (path startsWith "/") path drop 1 else path
+    if (path.startsWith("/")) path.drop(1) else path
 
   private[this] def filePermissions(perms: LinuxFileMetaData): PermMapper =
     new PermMapper(-1, -1, perms.user, perms.group, perms.permissions, null, -1, null)

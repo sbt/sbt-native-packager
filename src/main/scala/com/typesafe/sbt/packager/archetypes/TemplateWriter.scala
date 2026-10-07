@@ -48,8 +48,8 @@ object TemplateWriter {
   ): String = {
     val sb = new StringBuilder
     for (line <- lines) {
-      sb append replace(line, replacements, keySurround)
-      sb append eol
+      sb.append(replace(line, replacements, keySurround))
+      sb.append(eol)
     }
     sb.toString()
   }
@@ -79,7 +79,7 @@ object TemplateWriter {
     keySurround: String => String = bashFriendlyKeySurround,
     charset: java.nio.charset.Charset = defaultCharset
   ): String =
-    replaceValues(source split eol, replacements, eol, keySurround)
+    replaceValues(source.split(eol), replacements, eol, keySurround)
 
   /**
     * @param lines

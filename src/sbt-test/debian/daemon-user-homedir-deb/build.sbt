@@ -19,7 +19,9 @@ TaskKey[Unit]("checkControlFiles") := {
   val postinst = IO.read(debian / "postinst")
   val postrm = IO.read(debian / "postrm")
   assert(
-    postinst contains """addUser daemonuser "" daemongroup "debian-test daemon-user" "/bin/false" "/var/lib/customdaemonhome"""",
+    postinst.contains(
+      """addUser daemonuser "" daemongroup "debian-test daemon-user" "/bin/false" "/var/lib/customdaemonhome""""
+    ),
     "postinst misses useradd for daemonuser with custom home directory: " + postinst
   )
   ()

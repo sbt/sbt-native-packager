@@ -43,7 +43,7 @@ addSbtPlugin("com.github.sbt" % "sbt2-compat" % "0.1.0")
 libraryDependencies ++= Seq(
   // these dependencies have to be explicitly added by the user
   "com.spotify" % "docker-client" % "8.16.0" % Provided,
-  "org.vafer" % "jdeb" % "1.14" % Provided artifacts Artifact("jdeb", "jar", "jar"),
+  ("org.vafer" % "jdeb" % "1.14" % Provided).artifacts(Artifact("jdeb", "jar", "jar")),
   "org.apache.commons" % "commons-compress" % "1.28.0",
   // for jdkpackager
   "org.apache.ant" % "ant" % "1.10.18",
@@ -162,7 +162,7 @@ def dropBackPubCommand(ver: String): String = {
   if (nonComment.contains("@")) nonComment.split("@").head
   else nonComment
 }
-def fallbackVersion(d: java.util.Date): String = s"HEAD-${sbtdynver.DynVer timestamp d}"
+def fallbackVersion(d: java.util.Date): String = s"HEAD-${sbtdynver.DynVer.timestamp(d)}"
 
 ThisBuild / version := {
   val orig = (ThisBuild / version).value

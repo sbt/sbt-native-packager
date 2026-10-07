@@ -217,7 +217,7 @@ object DockerPlugin extends AutoPlugin {
               makeChmodRecursive(dockerChmodType.value, Seq(pathInLayer(dockerBaseDirectory, l)))
             ) ++ {
               val layerToPath = (Docker / dockerGroupLayers).value
-              addPerms map { case (tpe, v) =>
+              addPerms.map { case (tpe, v) =>
                 // Try and find the source file for the path from the mappings
                 val layerId = layerMappings
                   .find(_.path == v)
@@ -240,7 +240,7 @@ object DockerPlugin extends AutoPlugin {
           case _       => Seq()
         }) ++
         Seq(makeWorkdir(dockerBaseDirectory)) ++ {
-          (strategy match {
+          strategy match {
             case DockerPermissionStrategy.MultiStage =>
               layerIdsAscending.map { layerId =>
                 makeCopyFrom(pathInLayer(dockerBaseDirectory, layerId), dockerBaseDirectory, stage0name, user, group)
@@ -248,12 +248,12 @@ object DockerPlugin extends AutoPlugin {
             case DockerPermissionStrategy.Run =>
               layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory)) ++
                 Seq(makeChmodRecursive(dockerChmodType.value, Seq(dockerBaseDirectory))) ++
-                (addPerms map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
+                (addPerms.map { case (tpe, v) => makeChmod(tpe, Seq(v)) })
             case DockerPermissionStrategy.CopyChown =>
               layerIdsAscending.map(layerId => makeCopyChown(layerId, dockerBaseDirectory, user, group))
             case DockerPermissionStrategy.None =>
               layerIdsAscending.map(layerId => makeCopyLayerDirect(layerId, dockerBaseDirectory))
-          })
+          }
         } ++
         dockerLabels.value.map(makeLabel) ++
         dockerEnvVars.value.map(makeEnvVar) ++
@@ -272,46 +272,51 @@ object DockerPlugin extends AutoPlugin {
   ) ++ mapGenericFilesToDocker ++ inConfig(Docker) {
 
     def publishLocalTask =
-      Def.task {
-        val log = streams.value.log
-        publishLocalDocker(
-          stage.value,
-          dockerBuildCommand.value,
-          dockerExecCommand.value,
-          dockerBuildEnvVars.value,
-          dockerPermissionStrategy.value,
-          dockerAutoremoveMultiStageIntermediateImages.value,
-          dockerBuildkitEnabled.value,
-          log
-        )
-        log.info(
-          s"Built image ${dockerAlias.value.withTag(None).toString} with tags [${dockerAliases.value.flatMap(_.tag).mkString(", ")}]"
-        )
-      } tag (Tags.Disk, Tags.Publish)
+      Def
+        .task {
+          val log = streams.value.log
+          publishLocalDocker(
+            stage.value,
+            dockerBuildCommand.value,
+            dockerExecCommand.value,
+            dockerBuildEnvVars.value,
+            dockerPermissionStrategy.value,
+            dockerAutoremoveMultiStageIntermediateImages.value,
+            dockerBuildkitEnabled.value,
+            log
+          )
+          log.info(
+            s"Built image ${dockerAlias.value.withTag(None).toString} with tags [${dockerAliases.value.flatMap(_.tag).mkString(", ")}]"
+          )
+        }
+        .tag(Tags.Disk, Tags.Publish)
 
     def publishTask =
-      Def.task {
-        val _ = publishLocal.value
-        val log = streams.value.log
-        val alias = dockerAliases.value
-        val context = stage.value
-        val multiplatform = dockerBuildxPlatforms.value.nonEmpty
-        val execCommand =
+      Def
+        .task {
+          val _ = publishLocal.value
+          val log = streams.value.log
+          val alias = dockerAliases.value
+          val context = stage.value
+          val multiplatform = dockerBuildxPlatforms.value.nonEmpty
+          val execCommand =
+            if (multiplatform)
+              dockerExecCommand.value ++ Seq(
+                "buildx",
+                "build",
+                s"--platform=${dockerBuildxPlatforms.value.mkString(",")}",
+                "--push"
+              ) ++ dockerBuildOptions.value :+ "."
+            else dockerExecCommand.value
+          // For multiplatform builds, the alias are part of the `dockerBuildOptions` already.
           if (multiplatform)
-            dockerExecCommand.value ++ Seq(
-              "buildx",
-              "build",
-              s"--platform=${dockerBuildxPlatforms.value.mkString(",")}",
-              "--push"
-            ) ++ dockerBuildOptions.value :+ "."
-          else dockerExecCommand.value
-        // For multiplatform builds, the alias are part of the `dockerBuildOptions` already.
-        if (multiplatform) publishDocker(context, execCommand, dockerAlias.value.tag.getOrElse(""), log, multiplatform)
-        else
-          alias.foreach { aliasValue =>
-            publishDocker(context, execCommand, aliasValue.toString, log, multiplatform)
-          }
-      } tag (Tags.Network, Tags.Publish)
+            publishDocker(context, execCommand, dockerAlias.value.tag.getOrElse(""), log, multiplatform)
+          else
+            alias.foreach { aliasValue =>
+              publishDocker(context, execCommand, aliasValue.toString, log, multiplatform)
+            }
+        }
+        .tag(Tags.Network, Tags.Publish)
 
     def cleanTask =
       Def.task {
@@ -344,7 +349,7 @@ object DockerPlugin extends AutoPlugin {
           }
         )
       },
-      stage := (stage dependsOn dockerGenerateConfig).value,
+      stage := stage.dependsOn(dockerGenerateConfig).value,
       com.typesafe.sbt.packager.Keys.stagingDirectory := (Docker / target).value / "stage",
       dockerLayerMappings := {
         val dockerGroups = dockerGroupLayers.value
@@ -590,7 +595,7 @@ object DockerPlugin extends AutoPlugin {
     if (exposedPorts.isEmpty && exposedUdpPorts.isEmpty) None
     else
       Some(
-        Cmd("EXPOSE", (exposedPorts.map(_.toString) ++ exposedUdpPorts.map(_.toString).map(_ + "/udp")) mkString " ")
+        Cmd("EXPOSE", (exposedPorts.map(_.toString) ++ exposedUdpPorts.map(_.toString).map(_ + "/udp")).mkString(" "))
       )
 
   /**
@@ -650,7 +655,7 @@ object DockerPlugin extends AutoPlugin {
       for {
         (f, path) <- from
         pathWithValidSeparator = if (Path.sep == '/') path else path.replace(Path.sep, '/')
-        newPath = "%s/%s" format (dest, pathWithValidSeparator)
+        newPath = "%s/%s".format(dest, pathWithValidSeparator)
       } yield (f, newPath)
 
     inConfig(Docker)(Seq(mappings := renameDests((Universal / mappings).value, defaultLinuxInstallLocation.value)))

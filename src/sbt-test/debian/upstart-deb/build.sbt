@@ -18,9 +18,9 @@ TaskKey[Unit]("checkControlFiles") := {
   val debian = target.value / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
   val prerm = IO.read(debian / "prerm")
-  assert(postinst contains "initctl reload-configuration", "postinst misses initctl: " + postinst)
-  assert(postinst contains """startService debian-test""", "postinst misses service start: " + postinst)
-  assert(prerm contains """stopService debian-test""", "prerm misses stop: " + prerm)
+  assert(postinst.contains("initctl reload-configuration"), "postinst misses initctl: " + postinst)
+  assert(postinst.contains("""startService debian-test"""), "postinst misses service start: " + postinst)
+  assert(prerm.contains("""stopService debian-test"""), "prerm misses stop: " + prerm)
   streams.value.log.success("Successfully tested upstart control files")
   ()
 }
@@ -47,7 +47,7 @@ TaskKey[Unit]("checkStartupScript") := {
   assert(!script.contains("stop on stopping"), "script contains stop on stopping header\n" + script)
   // should contain
   assert(
-    script contains "[ -d /var/run/debian-test ] || install -m 755 -o root -g app-group -d /var/run/debian-test",
+    script.contains("[ -d /var/run/debian-test ] || install -m 755 -o root -g app-group -d /var/run/debian-test"),
     "Script is missing /var/run dir install\n" + script
   )
   ()

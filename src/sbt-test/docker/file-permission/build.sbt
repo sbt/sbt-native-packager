@@ -141,8 +141,11 @@ lazy val root = (project in file("."))
 def assertEquals(left: List[String], right: List[String]) =
   assert(
     left == right,
-    "\n" + ((left zip right) flatMap { case (a: String, b: String) =>
-      if (a == b) Nil
-      else List("- " + a, "+ " + b)
-    }).mkString("\n")
+    "\n" + left
+      .zip(right)
+      .flatMap { case (a: String, b: String) =>
+        if (a == b) Nil
+        else List("- " + a, "+ " + b)
+      }
+      .mkString("\n")
   )

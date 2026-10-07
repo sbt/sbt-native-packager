@@ -91,22 +91,22 @@ object WixHelper {
     val filenames = filenamesPrep.flatten.map(_.toString.replaceAll("\\\\", "/")).filter(_ != "")
     // Now for directories...
     def parentDir(filename: String) =
-      filename take (filename lastIndexOf '/')
+      filename.take(filename.lastIndexOf('/'))
     def simpleName(filename: String) = {
       val lastSlash =
-        if (filename contains '/') filename lastIndexOf '/'
-        else filename lastIndexOf '\\'
-      filename drop (lastSlash + 1)
+        if (filename.contains('/')) filename.lastIndexOf('/')
+        else filename.lastIndexOf('\\')
+      filename.drop(lastSlash + 1)
     }
-    val dirs = (filenames map parentDir).distinct;
+    val dirs = filenames.map(parentDir).distinct;
     // Now we need our directory tree xml?
-    val dirToChildren = dirs groupBy parentDir;
+    val dirToChildren = dirs.groupBy(parentDir);
     def dirXml(currentDir: String): scala.xml.Node =
       if (!currentDir.isEmpty) {
         val children = dirToChildren.getOrElse(currentDir, Seq.empty)
         <Directory Id={cleanStringForId(currentDir)} Name={simpleName(currentDir)}>
         {
-          children map dirXml
+          children.map(dirXml)
         }
       </Directory>
       } else <!-- -->
@@ -180,7 +180,7 @@ object WixHelper {
                 val name = simpleName(target)
                 val desc = "Edit configuration file: " + name
                 val cleanName = name.replaceAll("[\\.-\\\\//]+", "_")
-                <Shortcut Id={id + "_SC" + (s"%0${targetSize}d").format(i + 1)} Name={cleanName} Description={
+                <Shortcut Id={id + "_SC" + s"%0${targetSize}d".format(i + 1)} Name={cleanName} Description={
                   desc
                 } Target={"[INSTALLDIR]\\" + target.replaceAll("\\/", "\\\\")} WorkingDirectory="INSTALLDIR"/>
               }
@@ -194,12 +194,12 @@ object WixHelper {
       }
 
     val componentMap = mutable.LinkedHashMap[String, Seq[ComponentInfo]]()
-    (for (f <- features) {
+    for (f <- features) {
       // TODO - we need to support more than "Component File".
       val componentInfos =
-        f.components map makeComponentInfo
+        f.components.map(makeComponentInfo)
       componentMap(f.id) = componentInfos
-    })
+    }
 
     val removeId =
       cleanStringWithPostfix("ApplicationProgramsFolderRemove", 67, "")
@@ -218,7 +218,7 @@ object WixHelper {
         </Directory>
         <Directory Id='ProgramFilesFolder' Name='PFiles'>
           <Directory Id='INSTALLDIR' Name={name}>
-            {dirToChildren("") map dirXml}
+            {dirToChildren("").map(dirXml)}
           </Directory>
         </Directory>
       </Directory>
@@ -253,7 +253,7 @@ object WixHelper {
       <UIRef Id="WixUI_ErrorProgressText"/>
       <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR"/>
       {
-      license.toSeq map { file =>
+      license.toSeq.map { file =>
         <WixVariable Id="WixUILicenseRtf" Value={file.getAbsolutePath}/>
       }
     }
@@ -305,13 +305,13 @@ object WixHelper {
   def cleanStringForId(n: String) = {
     val x = n.replaceAll("[^0-9a-zA-Z_]", "_").takeRight(59) + (math.abs(n.hashCode).toString + "xxxxxxxxx")
       .substring(0, 9)
-    if (x startsWith "_") x
+    if (x.startsWith("_")) x
     else "_" + x
   }
 
   def cleanStringWithPostfix(n: String, num: Int, postfix: String): String = {
     val x = cleanStringForId(n).takeRight(num) + postfix
-    if (x startsWith "_") x
+    if (x.startsWith("_")) x
     else "_" + x
   }
 
@@ -336,18 +336,17 @@ object WixHelper {
       cleanStringForId(IO.relativize(dir, f).map(id_prefix + _).getOrElse(id_prefix + f.getName))
     def handleFile(f: File): (Seq[String], scala.xml.Node) = {
       val id = makeId(f)
-      val xml = (
+      val xml =
         <Component Id={id} Guid='*'>
           <File Id={cleanStringForId(id + "_file")} Name={cleanFileName(f.getName)} DiskId='1' Source={
           cleanFileName(f.getAbsolutePath)
         }/>
         </Component>
-      )
       (Seq(id), xml)
     }
     def handleDirectory(dir: File): (Seq[String], scala.xml.Node) = {
       val buf: ArrayBuffer[String] = ArrayBuffer.empty
-      val xml = (
+      val xml =
         <Directory Id={makeId(dir)} Name={dir.getName}>
           {
           for {
@@ -359,7 +358,6 @@ object WixHelper {
           }
         }
         </Directory>
-      )
       (buf.toSeq, xml)
     }
     def recursiveHelper(f: File): (Seq[String], scala.xml.Node) =

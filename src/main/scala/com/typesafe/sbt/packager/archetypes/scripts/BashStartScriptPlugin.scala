@@ -99,7 +99,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
     )
 
   private[this] def generateScriptReplacements(defines: Seq[String]): Seq[(String, String)] = {
-    val defineString = defines mkString "\n"
+    val defineString = defines.mkString("\n")
     Seq("template_declares" -> defineString)
   }
 
@@ -129,23 +129,25 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       *   An (optional) filename from which the script will read arguments.
       */
     def apply(appClasspath: Seq[String], configFile: Option[String], bundledJvm: Option[String]): Seq[String] =
-      (configFile map configFileDefine).toSeq ++
+      configFile.map(configFileDefine).toSeq ++
         Seq(makeClasspathDefine(appClasspath)) ++
-        (bundledJvm map bundledJvmDefine).toSeq
+        bundledJvm.map(bundledJvmDefine).toSeq
 
     private[this] def makeClasspathDefine(cp: Seq[String]): String = {
-      val fullString = cp map (n =>
-        if (n.startsWith("/")) n
-        else "$lib_dir/" + n
-      ) mkString ":"
+      val fullString = cp
+        .map(n =>
+          if (n.startsWith("/")) n
+          else "$lib_dir/" + n
+        )
+        .mkString(":")
       "declare -r app_classpath=\"" + fullString + "\"\n"
     }
 
     private[this] def configFileDefine(configFile: String) =
-      "declare -r script_conf_file=\"%s\"" format configFile
+      "declare -r script_conf_file=\"%s\"".format(configFile)
 
     private[this] def bundledJvmDefine(bundledJvm: String) =
-      """declare -r bundled_jvm="$(dirname "$app_home")/%s"""" format bundledJvm
+      """declare -r bundled_jvm="$(dirname "$app_home")/%s"""".format(bundledJvm)
   }
 
   private[this] def usageMainClassReplacement(mainClasses: Seq[String]): String =

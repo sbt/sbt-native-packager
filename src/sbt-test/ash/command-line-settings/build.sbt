@@ -13,7 +13,7 @@ TaskKey[Unit]("checkSystemProperty") := {
   val cwd = (Universal / stagingDirectory).value
   val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath, s"-D$configArg")
 
-  val output = (sys.process.Process(cmd, cwd).!!).replaceAll("\n", "")
+  val output = sys.process.Process(cmd, cwd).!!.replaceAll("\n", "")
   assert(output.contains(configArg), s"Application did not receive system property arg '$configArg'")
 }
 
@@ -22,7 +22,7 @@ TaskKey[Unit]("checkResidual") := {
   val cwd = (Universal / stagingDirectory).value
   val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath, arg)
 
-  val output = (sys.process.Process(cmd, cwd).!!).replaceAll("\n", "")
+  val output = sys.process.Process(cmd, cwd).!!.replaceAll("\n", "")
   assert(output.contains(arg), s"Application did not receive residual arg '$arg'")
 }
 
@@ -48,6 +48,6 @@ TaskKey[Unit]("checkComplexResidual") := {
   val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath) ++ args
   val expected = """arg1|-J-Dfoo=bar|arg 2|--|"|$foo|'|%s|-y|bla|\'|\"|''"""
 
-  val output = (sys.process.Process(cmd, cwd).!!).split("\n").last
+  val output = sys.process.Process(cmd, cwd).!!.split("\n").last
   assert(output == expected, s"Application did not receive residual args '$expected' (got '$output')")
 }

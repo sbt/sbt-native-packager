@@ -14,10 +14,10 @@ TaskKey[Unit]("check") := {
   val dir = (Universal / stagingDirectory).value
 
   val bash = IO.read(dir / "bin" / "absolute-path")
-  assert(bash contains ":/dummy/absolute/path")
-  assert(bash contains ":$lib_dir/relative/path")
+  assert(bash.contains(":/dummy/absolute/path"))
+  assert(bash.contains(":$lib_dir/relative/path"))
 
   val bat = IO.read(dir / "bin" / "absolute-path.bat")
-  assert(bat contains ";x:\\dummy\\absolute\\path")
-  assert(bat contains "%APP_LIB_DIR%\\relative\\path")
+  assert(bat.contains(";x:\\dummy\\absolute\\path"))
+  assert(bat.contains("%APP_LIB_DIR%\\relative\\path"))
 }

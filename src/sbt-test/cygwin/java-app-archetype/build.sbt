@@ -29,7 +29,7 @@ TaskKey[Unit]("checkCygwinScript") := {
     val output = sys.process.Process(cmd, Some(dir), "PATH" -> pathEnv).!!
     val expected = "SUCCESS!"
     assert(
-      output contains expected,
+      output.contains(expected),
       "Failed to correctly run the main script!.  Found [" + output + "] wanted [" + expected + "]"
     )
   }

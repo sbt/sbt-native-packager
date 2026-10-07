@@ -12,6 +12,6 @@ TaskKey[Unit]("runCheck") := {
   val dir = (Universal / stagingDirectory).value
 
   val bash = IO.read(dir / "bin" / "absolute-path-in-bash")
-  assert(bash contains ":/dummy/absolute/path")
-  assert(bash contains ":$lib_dir/relative/path")
+  assert(bash.contains(":/dummy/absolute/path"))
+  assert(bash.contains(":$lib_dir/relative/path"))
 }

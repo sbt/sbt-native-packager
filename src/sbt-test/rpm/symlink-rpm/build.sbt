@@ -28,10 +28,10 @@ TaskKey[Unit]("check-spec-file") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-package.spec")
   streams.value.log.success(spec)
   assert(
-    spec contains "%attr(0644,root,root) /usr/share/rpm-package/lib/rpm-test.rpm-test-0.1.0.jar",
+    spec.contains("%attr(0644,root,root) /usr/share/rpm-package/lib/rpm-test.rpm-test-0.1.0.jar"),
     "Wrong installation path"
   )
-  assert(spec contains "/usr/share/rpm-package/lib/hello.link", "Missing or incorrect symbolic link")
+  assert(spec.contains("/usr/share/rpm-package/lib/hello.link"), "Missing or incorrect symbolic link")
   streams.value.log.success("Successfully tested rpm-package file")
   ()
 }

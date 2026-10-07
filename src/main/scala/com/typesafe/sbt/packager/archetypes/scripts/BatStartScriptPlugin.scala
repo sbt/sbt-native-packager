@@ -163,9 +163,11 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
 
       def makeRelativePath(path: String): String = "%APP_LIB_DIR%\\" + cleanPath(path)
 
-      "set \"APP_CLASSPATH=" + (cp map { path =>
-        if (isAbsolute(path)) path else makeRelativePath(path)
-      } mkString ";") + "\""
+      "set \"APP_CLASSPATH=" + (cp
+        .map { path =>
+          if (isAbsolute(path)) path else makeRelativePath(path)
+        }
+        .mkString(";")) + "\""
     }
   }
 

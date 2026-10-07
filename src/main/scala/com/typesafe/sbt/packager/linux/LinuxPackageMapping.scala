@@ -27,10 +27,10 @@ case class LinuxPackageMapping(
   zipped: Boolean = false
 ) {
 
-  def withUser(user: String) = copy(fileData = fileData withUser user)
-  def withGroup(group: String) = copy(fileData = fileData withGroup group)
-  def withPerms(perms: String) = copy(fileData = fileData withPerms perms)
-  def withConfig(c: String = "true") = copy(fileData = fileData withConfig c)
+  def withUser(user: String) = copy(fileData = fileData.withUser(user))
+  def withGroup(group: String) = copy(fileData = fileData.withGroup(group))
+  def withPerms(perms: String) = copy(fileData = fileData.withPerms(perms))
+  def withConfig(c: String = "true") = copy(fileData = fileData.withConfig(c))
   def withContents() =
     copy(mappings = M.mapDirectoryAndContents(mappings.toSeq*))
   def asDocs() = copy(fileData = fileData.asDocs())
@@ -45,18 +45,19 @@ case class LinuxSymlink(link: String, destination: String)
 object LinuxSymlink {
 
   def makeRelative(from: String, to: String): String = {
-    val partsFrom: Seq[String] = from split "/" filterNot (_.isEmpty)
-    val partsTo: Seq[String] = to split "/" filterNot (_.isEmpty)
+    val partsFrom: Seq[String] = from.split("/").filterNot(_.isEmpty)
+    val partsTo: Seq[String] = to.split("/").filterNot(_.isEmpty)
 
     val prefixAndOne = (1 to partsFrom.length)
       .map(partsFrom.take)
       .dropWhile(seq => partsTo.startsWith(seq))
-      .headOption getOrElse sys.error("Cannot symlink to yourself!")
-    val prefix = prefixAndOne dropRight 1
+      .headOption
+      .getOrElse(sys.error("Cannot symlink to yourself!"))
+    val prefix = prefixAndOne.dropRight(1)
     if (prefix.length > 0) {
       val escapeCount = (partsTo.length - 1) - prefix.length
-      val escapes = (0 until escapeCount) map (i => "..")
-      val remainder = partsFrom drop prefix.length
+      val escapes = (0 until escapeCount).map(i => "..")
+      val remainder = partsFrom.drop(prefix.length)
       (escapes ++ remainder).mkString("/")
     } else from
   }
@@ -65,10 +66,10 @@ object LinuxSymlink {
     for (link <- symlinks) {
       // TODO - drop preceding '/'
       def dropFirstSlash(n: String): String =
-        if (n startsWith "/") n drop 1
+        if (n.startsWith("/")) n.drop(1)
         else n
       def addFirstSlash(n: String): String =
-        if (n startsWith "/") n
+        if (n.startsWith("/")) n
         else "/" + n
       val to = pkgDir / dropFirstSlash(link.link)
       val linkDir = to.getParentFile

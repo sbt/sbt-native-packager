@@ -26,7 +26,7 @@ TaskKey[Unit]("checkControlFiles") := {
   val postinst = extracted / "DEBIAN/postinst"
   val prerm = extracted / "DEBIAN/prerm"
   val postrm = extracted / "DEBIAN/postrm"
-  Seq(preinst, postinst, prerm, postrm) foreach { script =>
+  Seq(preinst, postinst, prerm, postrm).foreach { script =>
     val content = IO.read(script)
     assert(content.startsWith(header), "script doesn't start with #!/bin/sh header:\n" + script + "\n" + content)
     assert(

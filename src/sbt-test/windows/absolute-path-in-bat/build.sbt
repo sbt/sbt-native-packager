@@ -12,6 +12,6 @@ TaskKey[Unit]("runCheck") := {
   val dir = (Universal / stagingDirectory).value
 
   val bat = IO.read(dir / "bin" / "absolute-path-in-bat.bat")
-  assert(bat contains ";x:\\dummy\\absolute\\path")
-  assert(bat contains "%APP_LIB_DIR%\\relative\\path")
+  assert(bat.contains(";x:\\dummy\\absolute\\path"))
+  assert(bat.contains("%APP_LIB_DIR%\\relative\\path"))
 }

@@ -21,14 +21,14 @@ package object systemloader {
     val loader = loaderOpt.getOrElse(
       sys.error("No serverLoader defined. Enable a systemloader, e.g. with `enablePlugins(UpstartPlugin)`")
     )
-    overrideFromFile(sourceDirectory, loader, name).getOrElse(getClass getResource in(loader, name))
+    overrideFromFile(sourceDirectory, loader, name).getOrElse(getClass.getResource(in(loader, name)))
   }
 
   def loaderFunctionsReplacement(sourceDirectory: File, loaderOpt: Option[ServerLoader]): (String, String) = {
     val replacement = for {
       loader <- loaderOpt
       source <- overrideFromFile(sourceDirectory, loader, LOADER_FUNCTIONS).orElse(
-        Option(getClass getResource in(loader, LOADER_FUNCTIONS))
+        Option(getClass.getResource(in(loader, LOADER_FUNCTIONS)))
       )
     } yield LOADER_FUNCTIONS -> TemplateWriter.generateScript(source, Nil)
 
@@ -42,7 +42,7 @@ package object systemloader {
     path: String,
     name: String
   ): Option[File] = {
-    val scriptBits = TemplateWriter generateScript (template, replacements)
+    val scriptBits = TemplateWriter.generateScript(template, replacements)
     val script = target / "tmp" / path / name
     IO.write(script, scriptBits)
     Some(script)

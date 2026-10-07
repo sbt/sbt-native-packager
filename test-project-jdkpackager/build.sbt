@@ -41,7 +41,7 @@ jdkPackagerAssociations := Seq(
 )
 
 // Example of specifying a fallback location of `ant-javafx.jar` if plugin can't find it.
-(antPackagerTasks in JDKPackager) := (antPackagerTasks in JDKPackager).value orElse {
+(antPackagerTasks in JDKPackager) := (antPackagerTasks in JDKPackager).value.orElse {
   for {
     f <- Some(file("/usr/lib/jvm/java-8-oracle/lib/ant-javafx.jar"))
     if f.exists()

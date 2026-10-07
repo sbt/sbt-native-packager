@@ -27,7 +27,7 @@ object Stager {
     conv: FileConverter
   ): File = {
     val cache = cacheDirectory / ("packager-mappings-" + config)
-    val copies = mappings map { case (ref, path) =>
+    val copies = mappings.map { case (ref, path) =>
       toFile(ref) -> (stageDirectory / path)
     }
     val store = CacheStore(cache)
