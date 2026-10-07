@@ -4,8 +4,7 @@ package debian
 import com.typesafe.sbt.packager.Compat.*
 import com.typesafe.sbt.packager.PluginCompat
 import sbtcompat.PluginCompat.*
-import com.typesafe.sbt.packager.archetypes.TemplateWriter
-import com.typesafe.sbt.packager.universal.Archives
+import com.typesafe.sbt.packager.Keys.maintainerScripts
 import sbt.{*, given}
 import sbt.Keys.{classpathTypes, fileConverter, normalizedName, packageBin, streams, target, version}
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, LinuxSymlink}
@@ -75,12 +74,9 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         val conffile = debianConffilesFile.value
         val replacements = debianMakeChownReplacements.value +: linuxScriptReplacements.value
 
-        val controlScripts = debianMaintainerScripts.value
-        for ((file, name) <- controlScripts) {
-          val targetFile = controlDir / name
-          copyFiles(file, targetFile, LinuxFileMetaData())
-          filterFiles(targetFile, replacements, LinuxFileMetaData())
-        }
+        // Similar to `DebianPlugin.stageMaintainerScripts()`, except chmod invocation
+        // (for windows compatibility). Permissions will be handled by jDeb packager itself.
+        writeMaintainerScripts(maintainerScripts.value, replacements, controlDir)
 
         log.info("Building debian package with java based implementation 'jdeb'")
         val archive = archiveFilename(normalizedName.value, version.value, packageArchitecture.value)
@@ -94,32 +90,6 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
       // workaround for sbt-coursier
       classpathTypes += "maven-plugin"
     )
-
-  /**
-    * The same as [[DebianPluginLike.copyAndFixPerms]] except chmod invocation (for windows compatibility). Permissions
-    * will be handled by jDeb packager itself.
-    */
-  private def copyFiles(from: File, to: File, perms: LinuxFileMetaData, zipped: Boolean = false): Unit =
-    if (zipped)
-      IO.withTemporaryDirectory { dir =>
-        val tmp = dir / from.getName
-        IO.copyFile(from, tmp)
-        val zipped = Archives.gzip(tmp)
-        IO.copyFile(zipped, to, preserveLastModified = true)
-      }
-    else IO.copyFile(from, to, preserveLastModified = true)
-
-  /**
-    * The same as [[DebianPluginLike.filterAndFixPerms]] except chmod invocation (for windows compatibility).
-    * Permissions will be handled by jDeb packager itself.
-    */
-  private final def filterFiles(script: File, replacements: Seq[(String, String)], perms: LinuxFileMetaData): File = {
-    val filtered =
-      TemplateWriter.generateScript(script.toURI.toURL, replacements)
-    IO.delete(script)
-    IO.write(script, filtered)
-    script
-  }
 
 }
 

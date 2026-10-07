@@ -1,7 +1,7 @@
 package com.typesafe.sbt.packager
 package debian
 
-import com.typesafe.sbt.SbtNativePackager.{Linux, Universal}
+import com.typesafe.sbt.SbtNativePackager.Linux
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import com.typesafe.sbt.packager.linux.LinuxPlugin.Users
@@ -102,7 +102,6 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       Debian / sourceDirectory := sourceDirectory.value,
       /* ==== Debian configuration settings ==== */
       debianControlScriptsDirectory := (sourceDirectory.value / "debian" / Names.DebianMaintainerScripts),
-      debianMaintainerScripts := Seq.empty,
       debianMakePreinstScript := None,
       debianMakePrermScript := None,
       debianMakePostinstScript := None,
@@ -158,11 +157,6 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
           TemplateWriter.generateScriptFromLines(lines, replacements)
         }.toMap
       },
-      debianMaintainerScripts := generateDebianMaintainerScripts(
-        (Debian / maintainerScripts).value,
-        (Debian / linuxScriptReplacements).value,
-        (Universal / target).value
-      ),
       debianNativeBuildOptions := Nil
     )
 
@@ -215,7 +209,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
           LinuxSymlink.makeSymLinks(linuxPackageSymlinks.value, debianTarget, relativeLinks = false)
 
           stageMaintainerScripts(
-            debianMaintainerScripts.value,
+            maintainerScripts.value,
             debianMakeChownReplacements.value +: linuxScriptReplacements.value,
             debianTarget
           )
@@ -304,15 +298,12 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     * @param replacements
     */
   private[this] def stageMaintainerScripts(
-    maintainerScripts: Seq[(File, String)],
+    maintainerScripts: Map[String, Seq[String]],
     replacements: Seq[(String, String)],
     targetDir: File
   ) =
-    for ((file, name) <- maintainerScripts) {
-      val targetFile = targetDir / Names.DebianMaintainerScripts / name
-      copyAndFixPerms(file, targetFile, LinuxFileMetaData())
-      filterAndFixPerms(targetFile, replacements, LinuxFileMetaData())
-    }
+    writeMaintainerScripts(maintainerScripts, replacements, targetDir / Names.DebianMaintainerScripts)
+      .foreach(chmod(_, LinuxFileMetaData().permissions))
 }
 
 /**
@@ -327,18 +318,20 @@ trait DebianPluginLike {
   /** validate group and usernames for debian systems */
   val UserNamePattern: Regex = "^[a-z][-a-z0-9_]*$".r
 
-  private[debian] final def generateDebianMaintainerScripts(
+  /**
+    * Writes each maintainer script (e.g. preinst, postinst, prerm, postrm) into `controlDir`, applying `replacements`.
+    */
+  private[debian] final def writeMaintainerScripts(
     scripts: Map[String, Seq[String]],
     replacements: Seq[(String, String)],
-    tmpDir: File
-  ): Seq[(File, String)] =
-    scripts.map { case (scriptName, content) =>
-      val scriptBits =
-        TemplateWriter.generateScriptFromLines(content, replacements)
-      val script = tmpDir / "tmp" / "debian" / scriptName
-      IO.write(script, scriptBits mkString "\n")
-      script -> scriptName
-    }.toList
+    controlDir: File
+  ): Seq[File] =
+    scripts.toSeq.map { case (scriptName, content) =>
+      val script = controlDir / scriptName
+      val lines = TemplateWriter.generateScriptFromLines(content, replacements)
+      IO.write(script, lines.map(_ + "\n").mkString)
+      script
+    }
 
   private[debian] final def defaultMaintainerScript(name: String): Option[List[String]] = {
     val url = Option(getClass getResource s"$name-template")
@@ -362,40 +355,6 @@ trait DebianPluginLike {
     // If we have a directory, we need to alter the perms.
     chmod(to, perms.permissions)
     // TODO - Can we do anything about user/group ownership?
-  }
-
-  private[debian] final def filterAndFixPerms(
-    script: File,
-    replacements: Seq[(String, String)],
-    perms: LinuxFileMetaData
-  ): File = {
-    val filtered =
-      TemplateWriter.generateScript(script.toURI.toURL, replacements)
-    IO.delete(script)
-    IO.write(script, filtered)
-    chmod(script, perms.permissions)
-    script
-  }
-
-  private[debian] final def prependAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
-    val old = IO.readLines(script)
-    IO.writeLines(script, lines ++ old, append = false)
-    chmod(script, perms.permissions)
-    script
-  }
-
-  private[debian] final def appendAndFixPerms(script: File, lines: Seq[String], perms: LinuxFileMetaData): File = {
-    IO.writeLines(script, lines, append = true)
-    chmod(script, perms.permissions)
-    script
-  }
-
-  private[debian] final def createFileIfRequired(script: File, perms: LinuxFileMetaData): File = {
-    if (!script.exists()) {
-      script.createNewFile()
-      chmod(script, perms.permissions)
-    }
-    script
   }
 
   private[debian] final def validateUserGroupNames(user: String, streams: TaskStreams): Unit = {
