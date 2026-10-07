@@ -31,7 +31,7 @@ jobs:
 
       # generate a github release
       - name: Publish Release Notes
-        uses: release-drafter/release-drafter@v6
+        uses: release-drafter/release-drafter@v7
         with:
           publish: true
           tag: ${{ env.RELEASE_VERSION }}
