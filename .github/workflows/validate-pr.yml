@@ -6,8 +6,6 @@ on:
   push:
     branches:
       - main
-    branches-ignore:
-      - 'gh-readonly-queue/**'
 
 jobs:
   # Run the unit test ahead of the scripted tests
