@@ -2,6 +2,7 @@ package com.typesafe.sbt
 package packager
 
 import java.io.File
+import scala.annotation.tailrec
 
 object Hashing {
   def sha1Sum(t: File): String =
@@ -17,6 +18,7 @@ object Hashing {
     val in = new java.io.FileInputStream(file);
     val buffer = new Array[Byte](8192)
     try {
+      @tailrec
       def read(): Unit =
         in.read(buffer) match {
           case x if x <= 0 => ()
