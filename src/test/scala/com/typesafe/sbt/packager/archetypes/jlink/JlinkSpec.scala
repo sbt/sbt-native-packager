@@ -27,10 +27,10 @@ class JlinkSpec extends AnyFlatSpec with Matchers {
   }
 
   "javaVersionPattern" should "match known examples" in {
-    """JAVA_VERSION="11.0.3"""" should fullyMatch regex (javaVersionPattern withGroup "11")
+    ("""JAVA_VERSION="11.0.3"""" should fullyMatch).regex(javaVersionPattern.withGroup("11"))
     // Haven't seen this in the wild, but JEP220 has this example, so we might
     // as well handle it.
-    """JAVA_VERSION="1.9.0"""" should fullyMatch regex (javaVersionPattern withGroup "9")
+    ("""JAVA_VERSION="1.9.0"""" should fullyMatch).regex(javaVersionPattern.withGroup("9"))
   }
 
   "PackageDependency.parse" should "produce proper dependencies" in {

@@ -34,20 +34,20 @@ Rpm / maintainerScripts := Map(
 
 TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
-  assert(spec contains "%pre\necho \"pre-install\"", "Spec doesn't contain %pre scriptlet")
-  assert(spec contains "%post\necho \"post-install\"", "Spec doesn't contain %post scriptlet")
-  assert(spec contains "%pretrans\necho \"pretrans\"", "Spec doesn't contain %pretrans scriptlet")
-  assert(spec contains "%posttrans\necho \"posttrans\"", "Spec doesn't contain %posttrans scriptlet")
-  assert(spec contains "%preun\necho \"pre-uninstall\"", "Spec doesn't contain %preun scriptlet")
-  assert(spec contains "%postun\necho \"post-uninstall\"", "Spec doesn't contain %postun scriptlet")
+  assert(spec.contains("%pre\necho \"pre-install\""), "Spec doesn't contain %pre scriptlet")
+  assert(spec.contains("%post\necho \"post-install\""), "Spec doesn't contain %post scriptlet")
+  assert(spec.contains("%pretrans\necho \"pretrans\""), "Spec doesn't contain %pretrans scriptlet")
+  assert(spec.contains("%posttrans\necho \"posttrans\""), "Spec doesn't contain %posttrans scriptlet")
+  assert(spec.contains("%preun\necho \"pre-uninstall\""), "Spec doesn't contain %preun scriptlet")
+  assert(spec.contains("%postun\necho \"post-uninstall\""), "Spec doesn't contain %postun scriptlet")
   streams.value.log.success("Successfully tested rpm test file")
   ()
 }
 
 TaskKey[Unit]("checkRpmVersion") := {
   val fullRpmVersion = sys.process.Process("rpm", Seq("--version")).!!
-  val firstDigit = fullRpmVersion indexWhere Character.isDigit
-  val rpmVersion = fullRpmVersion substring firstDigit
+  val firstDigit = fullRpmVersion.indexWhere(Character.isDigit)
+  val rpmVersion = fullRpmVersion.substring(firstDigit)
   streams.value.log.info("Found rpmVersion: " + rpmVersion)
   val (major, minor, patch) = rpmVersion.trim.split("\\.").map(_.toInt) match {
     case Array(major)                   => (major, 0, 0)

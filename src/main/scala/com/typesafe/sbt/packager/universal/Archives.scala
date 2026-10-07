@@ -53,9 +53,11 @@ object Archives {
     val zip = target / (name + ".zip")
 
     // add top level directory if defined
-    val m2 = top map { dir =>
-      mappings map { case (f, p) => f -> (dir + "/" + p) }
-    } getOrElse (mappings)
+    val m2 = top
+      .map { dir =>
+        mappings.map { case (f, p) => f -> (dir + "/" + p) }
+      }
+      .getOrElse(mappings)
 
     ZipHelper.zip(m2, zip)
     zip
@@ -108,9 +110,11 @@ object Archives {
     val zip = target / (name + ".zip")
 
     // add top level directory if defined
-    val m2 = top map { dir =>
-      mappings map { case (f, p) => f -> (dir + "/" + p) }
-    } getOrElse (mappings)
+    val m2 = top
+      .map { dir =>
+        mappings.map { case (f, p) => f -> (dir + "/" + p) }
+      }
+      .getOrElse(mappings)
 
     ZipHelper.zipNative(m2, zip)
     zip
@@ -175,7 +179,7 @@ object Archives {
     // Create the DMG file:
     sys.process
       .Process(
-        Seq("hdiutil", "create", "-megabytes", "%d" format neededMegabytes, "-fs", "HFS+", "-volname", name, name),
+        Seq("hdiutil", "create", "-megabytes", "%d".format(neededMegabytes), "-fs", "HFS+", "-volname", name, name),
         Some(target)
       )
       .! match {
@@ -184,7 +188,7 @@ object Archives {
     }
 
     // Now mount the DMG.
-    val mountPoint = (t / name)
+    val mountPoint = t / name
     if (!mountPoint.isDirectory) IO.createDirectory(mountPoint)
     val mountedPath = mountPoint.getAbsolutePath
     sys.process
@@ -195,7 +199,7 @@ object Archives {
     }
 
     // Now copy the files in
-    val m2 = mappings map { case (f, p) => f -> (mountPoint / p) }
+    val m2 = mappings.map { case (f, p) => f -> (mountPoint / p) }
     IO.copy(m2)
     // Update for permissions
     for {
@@ -290,10 +294,10 @@ object Archives {
       val workingDirectory = tempDirectory / name
       val temporaryMappings = topDirectory
         .map { dir =>
-          mappings map { case (f, p) => f -> (workingDirectory / dir / p) }
+          mappings.map { case (f, p) => f -> (workingDirectory / dir / p) }
         }
         .getOrElse {
-          mappings map { case (f, p) => f -> (workingDirectory / p) }
+          mappings.map { case (f, p) => f -> (workingDirectory / p) }
         }
 
       // create the working directory
@@ -301,7 +305,7 @@ object Archives {
       IO.copy(temporaryMappings)
       // setExecutable does not always work. There are known issues with macOS where
       // the executable flags is missing after compression.
-      for ((from, to) <- temporaryMappings if (to.getAbsolutePath contains "/bin/") || from.canExecute) {
+      for ((from, to) <- temporaryMappings if (to.getAbsolutePath.contains("/bin/")) || from.canExecute) {
         println("Making " + to.getAbsolutePath + " executable")
         to.setExecutable(true, false)
       }

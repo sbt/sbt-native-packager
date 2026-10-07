@@ -36,7 +36,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   override def requires = LinuxPlugin
 
   object autoImport extends DebianKeys {
-    val Debian: Configuration = config("debian") extend Linux
+    val Debian: Configuration = config("debian").extend(Linux)
     val DebianConstants = Names
   }
 
@@ -219,8 +219,8 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
         debianExplodedPackage := stage.value,
         // Replacement for ${{header}} as debian control scripts are bash scripts
         linuxScriptReplacements += ("header" -> "#!/bin/sh\nset -e"),
-        stage := (stage dependsOn debianControlFile).value,
-        stage := (stage dependsOn debianConffilesFile).value
+        stage := stage.dependsOn(debianControlFile).value,
+        stage := stage.dependsOn(debianConffilesFile).value
       )
     )
 
@@ -246,13 +246,13 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   private[this] def createMD5SumFile(stageDir: File): File = {
     val md5file = stageDir / Names.DebianMaintainerScripts / "md5sums"
     val md5sums = for {
-      (file, name) <- (stageDir ** AllPassFilter) --- stageDir pair (file => IO.relativize(stageDir, file))
+      (file, name) <- ((stageDir ** AllPassFilter) --- stageDir).pair(file => IO.relativize(stageDir, file))
       if file.isFile
-      if !(name startsWith Names.DebianMaintainerScripts)
-      if !(name contains "debian-binary")
+      if !name.startsWith(Names.DebianMaintainerScripts)
+      if !name.contains("debian-binary")
       // TODO - detect symlinks with Java7 (when we can) rather than hackery...
       if file.getCanonicalPath == file.getAbsolutePath
-      fixedName = if (name startsWith "/") name drop 1 else name
+      fixedName = if (name.startsWith("/")) name.drop(1) else name
     } yield Hashing.md5Sum(file) + "  " + fixedName
     IO.writeLines(md5file, md5sums)
     chmod(md5file, "0644")
@@ -275,18 +275,22 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
   private[this] def stageMappings(mappings: Seq[LinuxPackageMapping], targetDir: File) =
     mappings.foreach { case LinuxPackageMapping(paths, perms, zipped) =>
       val (dirs, files) = paths.partition(_._1.isDirectory)
-      dirs map { case (_, dirName) =>
-        targetDir / dirName
-      } foreach { targetDir =>
-        targetDir.mkdirs()
-        chmod(targetDir, perms.permissions)
-      }
+      dirs
+        .map { case (_, dirName) =>
+          targetDir / dirName
+        }
+        .foreach { targetDir =>
+          targetDir.mkdirs()
+          chmod(targetDir, perms.permissions)
+        }
 
-      files map { case (file, fileName) =>
-        (file, targetDir / fileName)
-      } foreach { case (source, destination) =>
-        copyAndFixPerms(source, destination, perms, zipped)
-      }
+      files
+        .map { case (file, fileName) =>
+          (file, targetDir / fileName)
+        }
+        .foreach { case (source, destination) =>
+          copyAndFixPerms(source, destination, perms, zipped)
+        }
     }
 
   /**
@@ -334,7 +338,7 @@ trait DebianPluginLike {
     }
 
   private[debian] final def defaultMaintainerScript(name: String): Option[List[String]] = {
-    val url = Option(getClass getResource s"$name-template")
+    val url = Option(getClass.getResource(s"$name-template"))
     url.map(source => IO.readLinesURL(source))
   }
 
@@ -358,7 +362,7 @@ trait DebianPluginLike {
   }
 
   private[debian] final def validateUserGroupNames(user: String, streams: TaskStreams): Unit = {
-    if ((UserNamePattern findFirstIn user).isEmpty)
+    if (UserNamePattern.findFirstIn(user).isEmpty)
       streams.log.warn("The user or group '" + user + "' may contain invalid characters for Debian based distributions")
     if (user.length > 32)
       streams.log.warn(
@@ -421,7 +425,7 @@ trait DebianPluginLike {
         // remove key, flatten it and then use mapping path (_.2) to create chown command
         pathList.flatMap(_._2).map(m => chown(m._2))
       }
-    val replacement = header :: chowns.flatten.toList mkString "\n"
+    val replacement = (header :: chowns.flatten.toList).mkString("\n")
     DebianPlugin.CHOWN_REPLACEMENT -> replacement
   }
 

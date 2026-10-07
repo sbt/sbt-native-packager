@@ -10,7 +10,7 @@ version := "0.1.0"
 TaskKey[Unit]("runCheck") := {
   val cwd = (Universal / stagingDirectory).value
   val cmd = Seq((cwd / "bin" / packageName.value).getAbsolutePath, "-jvm-debug", "0")
-  val output = (sys.process.Process(cmd, cwd).!!).replaceAll("\n", "")
+  val output = sys.process.Process(cmd, cwd).!!.replaceAll("\n", "")
 
   assert(
     output.contains("Listening for transport dt_socket at address:"),

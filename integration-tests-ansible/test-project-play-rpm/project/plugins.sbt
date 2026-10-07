@@ -8,6 +8,6 @@ libraryDependencies <+= Def.setting[ModuleID] {
     .exclude("com.github.sbt", "sbt-native-packager")
 }
 
-lazy val root = Project("plugins", file(".")) dependsOn (packager)
+lazy val root = Project("plugins", file(".")).dependsOn(packager)
 
 lazy val packager = file("../../").getAbsoluteFile.toURI

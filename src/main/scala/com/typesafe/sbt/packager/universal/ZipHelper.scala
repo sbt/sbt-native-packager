@@ -38,7 +38,7 @@ object ZipHelper {
   def zipNative(sources: Traversable[(File, String)], outputZip: File): Unit =
     IO.withTemporaryDirectory { dir =>
       val name = outputZip.getName
-      val zipDir = dir / (if (name endsWith ".zip") name dropRight 4 else name)
+      val zipDir = dir / (if (name.endsWith(".zip")) name.dropRight(4) else name)
       val files = for {
         (file, name) <- sources
       } yield file -> (zipDir / name)
@@ -50,7 +50,7 @@ object ZipHelper {
 
       sourceDateEpoch(zipDir)
 
-      val dirFileNames = Option(zipDir.listFiles) getOrElse Array.empty[java.io.File] map (_.getName)
+      val dirFileNames = Option(zipDir.listFiles).getOrElse(Array.empty[java.io.File]).map(_.getName)
       sys.process.Process(Seq("zip", "-o", "-r", name) ++ dirFileNames, zipDir).! match {
         case 0 => ()
         case n => sys.error("Failed to run native zip application!")
@@ -99,18 +99,18 @@ object ZipHelper {
 
     // make sure everything is available
     val outputDir = outputZip.getParentFile
-    IO createDirectory outputDir
+    IO.createDirectory(outputDir)
 
     // zipping the sources into the output zip
     withZipFilesystem(outputZip) { system =>
-      mappings foreach {
+      mappings.foreach {
         case FileMapping(dir, name, _) if dir.isDirectory =>
-          Files createDirectories (system getPath name)
+          Files.createDirectories(system.getPath(name))
         case FileMapping(file, name, _) =>
-          val dest = system getPath name
+          val dest = system.getPath(name)
           // create parent directories if available
-          Option(dest.getParent) foreach (Files createDirectories _)
-          Files copy (file.toPath, dest, StandardCopyOption.COPY_ATTRIBUTES)
+          Option(dest.getParent).foreach(Files createDirectories _)
+          Files.copy(file.toPath, dest, StandardCopyOption.COPY_ATTRIBUTES)
       }
     }
   }
@@ -120,7 +120,7 @@ object ZipHelper {
       sys.error("Specified output file " + outputFile + " is a directory.")
     else {
       val outputDir = outputFile.getParentFile
-      IO createDirectory outputDir
+      IO.createDirectory(outputDir)
       withZipOutput(outputFile) { output =>
         for (FileMapping(file, name, mode) <- sources) {
           val entryName = {
@@ -128,13 +128,13 @@ object ZipHelper {
             if (file.isDirectory && !n.endsWith("/")) n + "/" else n
           }
           val entry = new ZipArchiveEntry(entryName)
-          sys.env.get("SOURCE_DATE_EPOCH") foreach { epoch =>
+          sys.env.get("SOURCE_DATE_EPOCH").foreach { epoch =>
             val millis = epoch.toLong * 1000
             entry.setLastModifiedTime(FileTime.fromMillis(millis))
           }
           // Now check to see if we have permissions for this sucker.
-          mode foreach (entry.setUnixMode)
-          output putArchiveEntry entry
+          mode.foreach(entry.setUnixMode)
+          output.putArchiveEntry(entry)
 
           try
             if (file.isFile) {
@@ -154,7 +154,7 @@ object ZipHelper {
     */
   private def withZipOutput(file: File)(f: ZipArchiveOutputStream => Unit): Unit = {
     val zipOut = new ZipArchiveOutputStream(file)
-    zipOut setLevel Deflater.BEST_COMPRESSION
+    zipOut.setLevel(Deflater.BEST_COMPRESSION)
     try f(zipOut)
     catch {
       case t: Throwable =>
@@ -189,7 +189,7 @@ object ZipHelper {
     *   http://stackoverflow.com/questions/9873845/java-7-zip-file-system-provider-doesnt-seem-to-accept-spaces-in-uri
     */
   def withZipFilesystem(zipFile: File, overwrite: Boolean = true)(f: FileSystem => Unit): Unit = {
-    if (overwrite) Files deleteIfExists zipFile.toPath
+    if (overwrite) Files.deleteIfExists(zipFile.toPath)
     val env = Map("create" -> "true").asJava
     val uri = new URI("jar", zipFile.toPath.toUri().toString(), null)
 

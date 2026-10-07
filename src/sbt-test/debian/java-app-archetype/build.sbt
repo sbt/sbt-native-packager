@@ -39,13 +39,13 @@ TaskKey[Unit]("checkScript") := {
   val output = sys.process.Process("bash " + script.getAbsolutePath).!!
   val expected = "SUCCESS!"
   assert(
-    output contains expected,
+    output.contains(expected),
     "Failed to correctly run the main script!.  Found [" + output + "] wanted [" + expected + "]"
   )
   val expected2 = "Something with spaces"
   val output2 = sys.process.Process(Seq("bash", script.getAbsolutePath, "-Dresult.string=" + expected2)).!!
   assert(
-    output2 contains expected2,
+    output2.contains(expected2),
     "Failed to correctly run the main script with spaced java args!.  Found [" + output2 + "] wanted [" + expected2 + "]"
   )
 }

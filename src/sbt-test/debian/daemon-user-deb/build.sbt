@@ -17,27 +17,29 @@ TaskKey[Unit]("checkControlFiles") := {
   val debian = target.value / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
   val postrm = IO.read(debian / "postrm")
-  assert(postinst contains """addGroup daemongroup """"", "postinst misses addgroup for daemongroup: " + postinst)
+  assert(postinst.contains("""addGroup daemongroup """""), "postinst misses addgroup for daemongroup: " + postinst)
   assert(
-    postinst contains """addUser daemonuser "" daemongroup "debian-test daemon-user" "/bin/false" "/var/lib/daemonuser""",
+    postinst.contains(
+      """addUser daemonuser "" daemongroup "debian-test daemon-user" "/bin/false" "/var/lib/daemonuser"""
+    ),
     "postinst misses useradd for daemonuser: " + postinst
   )
   assert(
-    postinst contains "chown daemonuser:daemongroup '/var/log/debian-test'",
+    postinst.contains("chown daemonuser:daemongroup '/var/log/debian-test'"),
     "postinst misses chown daemonuser '/var/log/debian-test': " + postinst
   )
-  assert(!(postinst contains "addgroup --system daemonuser"), "postinst has addgroup for daemonuser: " + postinst)
+  assert(!postinst.contains("addgroup --system daemonuser"), "postinst has addgroup for daemonuser: " + postinst)
   assert(
-    !(postinst contains "useradd --system --no-create-home --gid daemonuser --shell /bin/false daemonuser"),
+    !postinst.contains("useradd --system --no-create-home --gid daemonuser --shell /bin/false daemonuser"),
     "postinst has useradd for daemongroup: " + postinst
   )
-  assert(postrm contains "deleteUser daemonuser", "postrm misses purging daemonuser user: " + postrm)
-  assert(postrm contains "deleteGroup daemongroup", "postrm misses purging daemongroup group: " + postrm)
-  assert(!(postinst contains "chown debian-test:daemongroup"), "postinst contains wrong user: \n" + postinst)
-  assert(!(postinst contains "chown daemonuser:debian-test"), "postinst contains wrong group: \n" + postinst)
-  assert(!(postinst contains "chown debian-test:debian-test"), "postinst contains wrong user and group: \n" + postinst)
+  assert(postrm.contains("deleteUser daemonuser"), "postrm misses purging daemonuser user: " + postrm)
+  assert(postrm.contains("deleteGroup daemongroup"), "postrm misses purging daemongroup group: " + postrm)
+  assert(!postinst.contains("chown debian-test:daemongroup"), "postinst contains wrong user: \n" + postinst)
+  assert(!postinst.contains("chown daemonuser:debian-test"), "postinst contains wrong group: \n" + postinst)
+  assert(!postinst.contains("chown debian-test:debian-test"), "postinst contains wrong user and group: \n" + postinst)
   assert(
-    !(postinst contains "chown daemonuser:daemongroup '/usr/share/debian-test'"),
+    !postinst.contains("chown daemonuser:daemongroup '/usr/share/debian-test'"),
     "postinst contains chown /usr/share/app_name:  \n" + postinst
   )
   streams.value.log.success("Successfully tested upstart control files")

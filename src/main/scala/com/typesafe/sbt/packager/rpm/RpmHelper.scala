@@ -65,7 +65,7 @@ object RpmHelper {
       else IO.copyFile(from, to, true)
     }
     // First make sure directories are there....
-    IO createDirectories (for {
+    IO.createDirectories(for {
       mapping <- spec.mappings
       (file, dest) <- mapping.mappings
       if file.isDirectory
@@ -154,7 +154,7 @@ object RpmHelper {
     if (!workArea.exists) workArea.mkdirs()
     // TODO - validate workarea
     // Clean out work area
-    topleveldirs map (workArea / _) foreach { d =>
+    topleveldirs.map(workArea / _).foreach { d =>
       if (d.exists()) IO.delete(d)
       d.mkdir()
     }

@@ -24,12 +24,12 @@ object chmod {
     val posix = permissions(perms)
     val result = Try {
       Files.setPosixFilePermissions(file.toPath, posix)
-    } recoverWith {
+    }.recoverWith {
       // in case of windows
       case e: UnsupportedOperationException =>
         Try {
-          file.setExecutable(perms contains PosixFilePermission.OWNER_EXECUTE)
-          file.setWritable(perms contains PosixFilePermission.OWNER_WRITE)
+          file.setExecutable(perms.contains(PosixFilePermission.OWNER_EXECUTE))
+          file.setWritable(perms.contains(PosixFilePermission.OWNER_WRITE))
         }
     }
 
@@ -53,15 +53,15 @@ object permissions {
     *   java 7 posix file permissions
     */
   def apply(perms: String): java.util.Set[PosixFilePermission] =
-    PosixFilePermissions fromString convert(perms)
+    PosixFilePermissions.fromString(convert(perms))
 
   def convert(perms: String): String = {
     require(perms.length == 4 || perms.length == 3, s"Permissions must have 3 or 4 digits, got [$perms]")
     // ignore setuid/setguid/sticky bit
     val i = if (perms.length == 3) 0 else 1
-    val user = Character getNumericValue (perms charAt i)
-    val group = Character getNumericValue (perms charAt i + 1)
-    val other = Character getNumericValue (perms charAt i + 2)
+    val user = Character.getNumericValue(perms.charAt(i))
+    val group = Character.getNumericValue(perms.charAt(i + 1))
+    val other = Character.getNumericValue(perms.charAt(i + 2))
 
     asString(user) + asString(group) + asString(other)
   }

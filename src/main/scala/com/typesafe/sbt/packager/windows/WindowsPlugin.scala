@@ -122,7 +122,7 @@ object WindowsPlugin extends AutoPlugin {
 
       sourceDateEpoch(target.value)
 
-      streams.value.log.debug(candleCmd mkString " ")
+      streams.value.log.debug(candleCmd.mkString(" "))
       sys.process.Process(candleCmd, Some(target.value)) ! streams.value.log match {
         case 0        => ()
         case exitCode => sys.error(s"Unable to run WIX compilation to wixobj. Exited with ${exitCode}")
@@ -135,7 +135,7 @@ object WindowsPlugin extends AutoPlugin {
         .map(_.getAbsolutePath) ++
         lightOptions.value
 
-      streams.value.log.debug(lightCmd mkString " ")
+      streams.value.log.debug(lightCmd.mkString(" "))
       sys.process.Process(lightCmd, Some(target.value)) ! streams.value.log match {
         case 0        => ()
         case exitCode => sys.error(s"Unable to run build msi. Exited with ${exitCode}")
@@ -176,7 +176,7 @@ object WindowsPlugin extends AutoPlugin {
         (ref, name) <- mappings
         file = toFile(ref)
         if !file.isDirectory
-      } yield ComponentFile(name, editable = name startsWith "conf")
+      } yield ComponentFile(name, editable = name.startsWith("conf"))
     val corePackage =
       WindowsFeature(
         id = WixHelper.cleanStringForId(name + "_core").takeRight(38), // Must be no longer
@@ -198,7 +198,7 @@ object WindowsPlugin extends AutoPlugin {
       (ref, name) <- mappings
       file = toFile(ref)
       if !file.isDirectory
-      if name startsWith "conf/"
+      if name.startsWith("conf/")
     } yield name.replaceAll("//", "/").stripSuffix("/").stripSuffix("/")
     val menuLinks =
       WindowsFeature(

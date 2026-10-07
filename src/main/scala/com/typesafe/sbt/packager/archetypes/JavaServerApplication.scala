@@ -241,12 +241,12 @@ object JavaServerAppPackaging extends AutoPlugin {
     import RpmConstants._
     val predefined = List(Pre, Post, Preun, Postun)
     val predefinedScripts = predefined.foldLeft(scripts) { case (scripts, script) =>
-      val userDefined = Option(scriptDirectory / script) collect {
+      val userDefined = Option(scriptDirectory / script).collect {
         case file if file.exists && file.isFile => file.toURI.toURL
       }
       // generate content
       val content = JavaServerBashScript(script, ARCHETYPE, Rpm, replacements, userDefined).map { script =>
-        TemplateWriter generateScriptFromString (script, replacements)
+        TemplateWriter.generateScriptFromString(script, replacements)
       }.toSeq
       // add new content
       val newContent = scripts.getOrElse(script, Nil) ++ content.toSeq
@@ -264,7 +264,7 @@ object JavaServerAppPackaging extends AutoPlugin {
 
         val loadedContent =
           JavaServerBashScript(script, ARCHETYPE, Rpm, replacements, Some(scriptlet.toURI.toURL)).map { script =>
-            TemplateWriter generateScriptFromString (script, replacements)
+            TemplateWriter.generateScriptFromString(script, replacements)
           }.toSeq
         // add the existing and loaded content
         scripts + (script -> (existingContent ++ loadedContent))

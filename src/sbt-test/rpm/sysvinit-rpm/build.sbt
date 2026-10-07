@@ -25,23 +25,22 @@ TaskKey[Unit]("unzipAndCheck") := {
   val rpmPath = PluginCompat.toFile((Rpm / packageBin).value).getAbsolutePath
   sys.process.Process("rpm2cpio", Seq(rpmPath)) #| sys.process.Process("cpio -i --make-directories") ! streams.value.log
   val scriptlets = sys.process.Process("rpm -qp --scripts " + rpmPath) !! streams.value.log
-  assert(scriptlets contains "addGroup rpm-test", "addGroup not present in \n" + scriptlets)
-  assert(scriptlets contains "addUser rpm-test", "Incorrect useradd command in \n" + scriptlets)
-  assert(scriptlets contains "deleteGroup rpm-test", "deleteGroup not present in \n" + scriptlets)
-  assert(scriptlets contains "deleteUser rpm-test", "deleteUser rpm not present in \n" + scriptlets)
+  assert(scriptlets.contains("addGroup rpm-test"), "addGroup not present in \n" + scriptlets)
+  assert(scriptlets.contains("addUser rpm-test"), "Incorrect useradd command in \n" + scriptlets)
+  assert(scriptlets.contains("deleteGroup rpm-test"), "deleteGroup not present in \n" + scriptlets)
+  assert(scriptlets.contains("deleteUser rpm-test"), "deleteUser rpm not present in \n" + scriptlets)
 
   val startupScript = IO.read(baseDirectory.value / "etc" / "init.d" / "rpm-test")
   assert(
-    startupScript contains
-      """
+    startupScript.contains("""
         |INSTALL_DIR="/usr/share/rpm-test"
         |[ -n "${PACKAGE_PREFIX}" ] && INSTALL_DIR="${PACKAGE_PREFIX}/rpm-test"
         |cd $INSTALL_DIR
-        |""".stripMargin,
+        |""".stripMargin),
     "Ensuring application is running on the install directory is not present in \n" + startupScript
   )
   assert(
-    startupScript contains """logfile="test.log"""",
+    startupScript.contains("""logfile="test.log""""),
     "Setting key rpmDaemonLogFile not present in \n" + startupScript
   )
 
@@ -51,13 +50,12 @@ TaskKey[Unit]("unzipAndCheck") := {
 
 TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
-  assert(spec contains "addGroup rpm-test", "addGroup not present in \n" + spec)
-  assert(spec contains "addUser rpm-test", "Incorrect useradd command in \n" + spec)
-  assert(spec contains "deleteGroup rpm-test", "deleteGroup not present in \n" + spec)
-  assert(spec contains "deleteUser rpm-test", "deleteUser rpm not present in \n" + spec)
+  assert(spec.contains("addGroup rpm-test"), "addGroup not present in \n" + spec)
+  assert(spec.contains("addUser rpm-test"), "Incorrect useradd command in \n" + spec)
+  assert(spec.contains("deleteGroup rpm-test"), "deleteGroup not present in \n" + spec)
+  assert(spec.contains("deleteUser rpm-test"), "deleteUser rpm not present in \n" + spec)
   assert(
-    spec contains
-      """
+    spec.contains("""
         |if [ -e /etc/sysconfig/rpm-test ] ;
         |then
         |  sed -i 's/PACKAGE_PREFIX\=.*//g' /etc/sysconfig/rpm-test
@@ -67,12 +65,11 @@ TaskKey[Unit]("checkSpecFile") := {
         |then
         |  echo "PACKAGE_PREFIX=${RPM_INSTALL_PREFIX}" >> /etc/sysconfig/rpm-test
         |fi
-        |""".stripMargin,
+        |""".stripMargin),
     "Persisting $RPM_INSTALL_PREFIX not present in \n" + spec
   )
   assert(
-    spec contains
-      """
+    spec.contains("""
         |#
         |# Add service for management
         |# $1 = service name
@@ -90,12 +87,11 @@ TaskKey[Unit]("checkSpecFile") := {
         |        echo "WARNING: Could not add $app_name to autostart: neither update-rc nor chkconfig found!"
         |    fi
         |}
-        |""".stripMargin,
+        |""".stripMargin),
     "rpm addService() scriptlet missing or incorrect"
   )
   assert(
-    spec contains
-      """
+    spec.contains("""
         |#
         |# Start the service
         |# $1 = service name
@@ -104,12 +100,11 @@ TaskKey[Unit]("checkSpecFile") := {
         |    app_name=$1
         |    service $app_name start
         |}
-        |""".stripMargin,
+        |""".stripMargin),
     "rpm startService() scriptlet is missing or incorrect"
   )
   assert(
-    spec contains
-      """
+    spec.contains("""
         |#
         |# Removing service from autostart
         |# $1 = service name
@@ -129,12 +124,11 @@ TaskKey[Unit]("checkSpecFile") := {
         |        echo "WARNING: Could not remove $app_name from autostart: neither update-rc nor chkconfig found!"
         |    fi
         |}
-        |""".stripMargin,
+        |""".stripMargin),
     "rpm stopService() scriptlet is missing or incorrect"
   )
   assert(
-    spec contains
-      """
+    spec.contains("""
         |#
         |# Restarting the service after package upgrade
         |# $1 = service name
@@ -143,7 +137,7 @@ TaskKey[Unit]("checkSpecFile") := {
         |    app_name=$1
         |    service $app_name restart
         |}
-        |""".stripMargin,
+        |""".stripMargin),
     "rpm restartService() scriptlet is missing or incorrect"
   )
   ()
@@ -152,8 +146,7 @@ TaskKey[Unit]("checkSpecFile") := {
 TaskKey[Unit]("checkSpecAutostart") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(
-    spec contains
-      """
+    spec.contains("""
         |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
         |# $1 == 1 is first installation and $1 == 2 is upgrade
         |if [ $1 -eq 1 ] ;
@@ -161,7 +154,7 @@ TaskKey[Unit]("checkSpecAutostart") := {
         |  addService rpm-test || echo "rpm-test could not be registered"
         |  startService rpm-test || echo "rpm-test could not be started"
         |fi
-        |""".stripMargin,
+        |""".stripMargin),
     "rpm rpm addService, startService post install commands missing or incorrect"
   )
 
@@ -171,15 +164,14 @@ TaskKey[Unit]("checkSpecAutostart") := {
 TaskKey[Unit]("checkSpecNoAutostart") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
   assert(
-    spec contains
-      """
+    spec.contains("""
         |# Scriptlet syntax: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
         |# $1 == 1 is first installation and $1 == 2 is upgrade
         |if [ $1 -eq 1 ] ;
         |then
         |  addService rpm-test || echo "rpm-test could not be registered"
         |fi
-        |""".stripMargin,
+        |""".stripMargin),
     "rpm rpm addService, startService post install commands missing or incorrect"
   )
 

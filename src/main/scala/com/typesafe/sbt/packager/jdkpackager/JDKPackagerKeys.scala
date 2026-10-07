@@ -82,7 +82,7 @@ trait JDKPackagerKeys {
     """.stripMargin)
 
   /** Config for scoping keys outside of Global . */
-  val JDKPackager: Configuration = config("jdkPackager") extend SbtNativePackager.Universal
+  val JDKPackager: Configuration = config("jdkPackager").extend(SbtNativePackager.Universal)
 
   // ------------------------------------------
   // Keys to be defined in JDKPackager config.

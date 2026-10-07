@@ -37,14 +37,12 @@ TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-test.spec")
 
   assert(
-    spec contains
-      "%files\n%dir %attr(0755,root,root) /usr/share/rpm-test/conf",
+    spec.contains("%files\n%dir %attr(0755,root,root) /usr/share/rpm-test/conf"),
     "Contains configuration directory."
   )
 
   assert(
-    spec contains
-      "%config(noreplace) %attr(0644,root,root) /usr/share/rpm-test/conf/test",
+    spec.contains("%config(noreplace) %attr(0644,root,root) /usr/share/rpm-test/conf/test"),
     "Sets custom config to 'noreplace'"
   )
 

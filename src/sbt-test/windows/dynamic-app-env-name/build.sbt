@@ -17,7 +17,7 @@ batScriptExtraDefines += """set _JAVA_OPTS=%_JAVA_OPTS% -Dconfig.file=%EXAMPLE_C
 TaskKey[Unit]("runCheck") := {
   val cwd = (Universal / stagingDirectory).value
   val cmd = Seq((cwd / "bin" / s"${packageName.value}.bat").getAbsolutePath)
-  val configFile = (sys.process.Process(cmd, cwd).!!).replaceAll("\r\n", "")
+  val configFile = sys.process.Process(cmd, cwd).!!.replaceAll("\r\n", "")
   assert(
     configFile.contains("""stage\bin\\\..\\conf\\app.config"""),
     "Output didn't contain config file path: " + configFile

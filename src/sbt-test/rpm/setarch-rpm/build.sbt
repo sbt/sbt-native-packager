@@ -22,7 +22,7 @@ rpmSetarch := Some("i386")
 linuxPackageMappings := {
   val helloMapping = LinuxPackageMapping(
     Seq(((Compile / resourceDirectory).value / "hello-32bit", "/usr/share/rpm-package/libexec/hello-32bit"))
-  ) withPerms "0755"
+  ).withPerms("0755")
   linuxPackageMappings.value :+ helloMapping
 }
 
@@ -30,11 +30,11 @@ TaskKey[Unit]("checkSpecFile") := {
   val spec = IO.read(target.value / "rpm" / "SPECS" / "rpm-package.spec")
   streams.value.log.success(spec)
   assert(
-    spec contains "%attr(0644,root,root) /usr/share/rpm-package/lib/rpm-test.rpm-test-0.1.0.jar",
+    spec.contains("%attr(0644,root,root) /usr/share/rpm-package/lib/rpm-test.rpm-test-0.1.0.jar"),
     "Wrong installation path\n" + spec
   )
   assert(
-    spec contains "%attr(0755,root,root) /usr/share/rpm-package/libexec/hello-32bit",
+    spec.contains("%attr(0755,root,root) /usr/share/rpm-package/libexec/hello-32bit"),
     "Wrong 32-bit exe installation path\n" + spec
   )
   streams.value.log.success("Successfully tested rpm-package file")

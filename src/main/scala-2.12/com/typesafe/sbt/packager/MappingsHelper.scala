@@ -92,7 +92,7 @@ object MappingsHelper extends Mapper {
     includeArtifact: PluginCompat.IncludeArtifact,
     includeOnNoArtifact: Boolean = false
   ): Seq[(FileRef, String)] =
-    entries.filter(attr => attr.get(artifactStr).map(includeArtifact) getOrElse includeOnNoArtifact).map { attribute =>
+    entries.filter(attr => attr.get(artifactStr).map(includeArtifact).getOrElse(includeOnNoArtifact)).map { attribute =>
       val file = attribute.data
       val name = PluginCompat.getName(file)
       file -> s"$target/${name}"
@@ -103,7 +103,7 @@ object MappingsHelper extends Mapper {
     */
   def relative(files: Seq[File], dirs: Seq[File], conv0: FileConverter): Seq[(FileRef, String)] = {
     implicit val conv: FileConverter = conv0
-    (files --- dirs) pair (relativeTo(dirs) | flat) map { case (f, p) =>
+    (files --- dirs).pair(relativeTo(dirs) | flat).map { case (f, p) =>
       toFileRef(f) -> p
     }
   }

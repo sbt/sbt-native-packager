@@ -40,7 +40,7 @@ object LinuxPlugin extends AutoPlugin {
   /** key for replacement in linuxScriptReplacements */
   val CONTROL_FUNCTIONS = "control-functions"
 
-  def controlFunctions(): URL = getClass getResource CONTROL_FUNCTIONS
+  def controlFunctions(): URL = getClass.getResource(CONTROL_FUNCTIONS)
 
   /**
     * default linux settings
@@ -130,8 +130,8 @@ object LinuxPlugin extends AutoPlugin {
         for {
           (file, name) <- (Universal / mappings).value
           if !toFile(file).isDirectory
-          if name startsWith "bin/"
-          if !(name endsWith ".bat") // IGNORE windows-y things.
+          if name.startsWith("bin/")
+          if !name.endsWith(".bat") // IGNORE windows-y things.
         } yield LinuxSymlink("/usr/" + name, installLocation + "/" + linuxPackageName + "/" + name)
       },
       // Map configuration files
@@ -142,8 +142,8 @@ object LinuxPlugin extends AutoPlugin {
         val installLocation = defaultLinuxInstallLocation.value
         val configLocation = defaultLinuxConfigLocation.value
         val needsConfLink =
-          (Universal / mappings).value exists { case (file, destination) =>
-            (destination startsWith "conf/") && !toFile(file).isDirectory
+          (Universal / mappings).value.exists { case (file, destination) =>
+            (destination.startsWith("conf/")) && !toFile(file).isDirectory
           }
         if (needsConfLink)
           Seq(
@@ -196,7 +196,7 @@ object LinuxPlugin extends AutoPlugin {
     *   placeholder->content
     */
   def controlScriptFunctionsReplacement(template: Option[URL] = None): (String, String) = {
-    val url = template getOrElse LinuxPlugin.controlFunctions()
+    val url = template.getOrElse(LinuxPlugin.controlFunctions())
     LinuxPlugin.CONTROL_FUNCTIONS -> TemplateWriter.generateScript(source = url, replacements = Nil)
   }
 
@@ -226,12 +226,12 @@ object LinuxPlugin extends AutoPlugin {
     rename: String => String
   ): Seq[LinuxPackageMapping] = {
     val (directories, nondirectories) = mappings.partition(_._1.isDirectory)
-    val (configFiles, nonConfigFiles) = nondirectories partition { case (_, destination) =>
-      (destination contains "etc/") || (destination contains "conf/")
+    val (configFiles, nonConfigFiles) = nondirectories.partition { case (_, destination) =>
+      (destination.contains("etc/")) || (destination.contains("conf/"))
     }
     val (binaries, nonbinaries) = nonConfigFiles.partition(_._1.canExecute)
-    val (manPages, remaining) = nonbinaries partition { case (_, destination) =>
-      (destination contains "man/") && (destination endsWith ".1")
+    val (manPages, remaining) = nonbinaries.partition { case (_, destination) =>
+      (destination.contains("man/")) && (destination.endsWith(".1"))
     }
     val compressedManPages =
       for ((file, name) <- manPages)
@@ -245,10 +245,10 @@ object LinuxPlugin extends AutoPlugin {
     }
 
     Seq(
-      packageMappingWithRename((binaries ++ directories)*) withUser user withGroup group withPerms "0755",
-      packageMappingWithRename(compressedManPages*).gzipped withUser user withGroup group withPerms "0644",
-      packageMappingWithRename(configFiles*).withConfig() withUser user withGroup group withPerms "0644",
-      packageMappingWithRename(remaining*) withUser user withGroup group withPerms "0644"
+      packageMappingWithRename((binaries ++ directories)*).withUser(user).withGroup(group).withPerms("0755"),
+      packageMappingWithRename(compressedManPages*).gzipped.withUser(user).withGroup(group).withPerms("0644"),
+      packageMappingWithRename(configFiles*).withConfig().withUser(user).withGroup(group).withPerms("0644"),
+      packageMappingWithRename(remaining*).withUser(user).withGroup(group).withPerms("0644")
     )
   }
 
@@ -264,7 +264,7 @@ object LinuxPlugin extends AutoPlugin {
     implicit val conv: FileConverter = conv0
     // TODO - More windows filters...
     def isWindowsFile(f: (FileRef, String)): Boolean =
-      f._2 endsWith ".bat"
+      f._2.endsWith(".bat")
 
     val filtered = mappings.filterNot(isWindowsFile).map { case (x, p) =>
       (toFile(x), p)

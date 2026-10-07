@@ -33,7 +33,7 @@ trait CmdLike {
   */
 case class ExecCmd(cmd: String, args: String*) extends CmdLike {
   def makeContent: String =
-    "%s [%s]\n" format (cmd, args.map('"' + _ + '"').mkString(", "))
+    "%s [%s]\n".format(cmd, args.map('"' + _ + '"').mkString(", "))
 }
 
 /**
@@ -55,7 +55,7 @@ case class ExecCmd(cmd: String, args: String*) extends CmdLike {
   *   }}}
   */
 case class Cmd(cmd: String, args: String*) extends CmdLike {
-  def makeContent: String = "%s %s\n" format (cmd, args.mkString(" "))
+  def makeContent: String = "%s %s\n".format(cmd, args.mkString(" "))
 }
 
 /**
@@ -72,14 +72,14 @@ case class Cmd(cmd: String, args: String*) extends CmdLike {
   *   }}}
   */
 case class CombinedCmd(cmd: String, arg: CmdLike) extends CmdLike {
-  def makeContent: String = "%s %s\n" format (cmd, arg.makeContent)
+  def makeContent: String = "%s %s\n".format(cmd, arg.makeContent)
 }
 
 /**
   * A comment
   */
 case class Comment(comment: String) extends CmdLike {
-  def makeContent: String = "# %s\n" format (comment)
+  def makeContent: String = "# %s\n".format(comment)
 }
 
 /**
@@ -93,7 +93,7 @@ case object DockerStageBreak extends CmdLike {
 case class Dockerfile(commands: CmdLike*) {
   def makeContent: String = {
     val sb = new StringBuilder
-    commands foreach { sb append _.makeContent }
+    commands.foreach(sb append _.makeContent)
     sb.toString()
   }
 }

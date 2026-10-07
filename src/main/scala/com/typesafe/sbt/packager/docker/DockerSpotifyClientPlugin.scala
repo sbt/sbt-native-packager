@@ -60,27 +60,31 @@ object DockerSpotifyClientPlugin extends AutoPlugin {
     )
 
   def publishLocalDocker: Def.Initialize[Task[Unit]] =
-    Def.task {
-      val context = stage.value
-      val primaryAlias = dockerAlias.value
-      val aliases = dockerAliases.value
-      val log = streams.value.log
+    Def
+      .task {
+        val context = stage.value
+        val primaryAlias = dockerAlias.value
+        val aliases = dockerAliases.value
+        val log = streams.value.log
 
-      val dockerDirectory = context.toString
+        val dockerDirectory = context.toString
 
-      val docker = new DockerClientTask()
-      docker.packageDocker(primaryAlias, aliases, dockerDirectory, log)
-    } tag (Tags.Publish, Tags.Disk)
+        val docker = new DockerClientTask()
+        docker.packageDocker(primaryAlias, aliases, dockerDirectory, log)
+      }
+      .tag(Tags.Publish, Tags.Disk)
 
   def publishDocker: Def.Initialize[Task[Unit]] =
-    Def.task {
-      val _ = publishLocal.value
-      val aliases = dockerAliases.value
-      val log = streams.value.log
+    Def
+      .task {
+        val _ = publishLocal.value
+        val aliases = dockerAliases.value
+        val log = streams.value.log
 
-      val docker = new DockerClientTask()
-      docker.publishDocker(aliases, log)
-    } tag (Tags.Network, Tags.Publish)
+        val docker = new DockerClientTask()
+        docker.publishDocker(aliases, log)
+      }
+      .tag(Tags.Network, Tags.Publish)
 
   def dockerServerVersion: Def.Initialize[Task[Option[DockerVersion]]] =
     Def.task {
@@ -151,7 +155,7 @@ private class DockerClientTask {
       override def progress(message: ProgressMessage): Unit =
         Option(message.error()) match {
           case Some(error) if error.nonEmpty => log.error(message.error())
-          case _                             => Option(message.stream()) foreach (v => log.info(v))
+          case _                             => Option(message.stream()).foreach(v => log.info(v))
         }
     }
 }

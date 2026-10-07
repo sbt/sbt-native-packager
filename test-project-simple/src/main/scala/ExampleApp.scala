@@ -5,11 +5,11 @@ object ExampleApp {
   def main(args: Array[String]): Unit = {
     val memory = Runtime.getRuntime.maxMemory() / (1024L * 1024L)
     println(s"Memory $memory m")
-    println(s"Args: ${args mkString " | "}")
+    println(s"Args: ${args.mkString(" | ")}")
 
     while (true) {
       println(s"[${System.currentTimeMillis()}] Hello, world!")
-      Thread sleep 5000
+      Thread.sleep(5000)
     }
   }
 

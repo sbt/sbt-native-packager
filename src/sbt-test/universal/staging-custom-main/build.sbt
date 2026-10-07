@@ -19,7 +19,7 @@ TaskKey[Unit]("unzip") := {
 TaskKey[Unit]("check") := {
   val zipFile = (Universal / packageBin).value
   val process = sys.process.Process("stage-custom-main-0.1.0/bin/stage-custom-main", Seq("-main", "CustomMain"))
-  val out = (process.!!)
+  val out = process.!!
   if (out.trim != "A custom main method") sys.error("unexpected output: " + out)
   ()
 }

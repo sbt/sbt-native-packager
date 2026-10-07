@@ -26,7 +26,7 @@ TaskKey[Unit]("checkControlFiles") := {
   val debian = target.value / "debian-test-0.1.0" / "DEBIAN"
   val postinst = IO.read(debian / "postinst")
   val postrm = IO.read(debian / "postrm")
-  Seq(postinst, postrm) foreach { script =>
+  Seq(postinst, postrm).foreach { script =>
     assert(script.startsWith(header), "script doesn't start with #!/bin/sh header:\n" + script)
     assert(header.r.findAllIn(script).length == 1, "script contains more than one header line:\n" + script)
   }

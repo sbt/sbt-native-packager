@@ -28,7 +28,7 @@ TaskKey[Unit]("runChecks") := {
   }
 
   val stageDir = (Universal / stagingDirectory).value
-  val bundledJvmDir = (stageDir / "jre")
+  val bundledJvmDir = stageDir / "jre"
   val javaExe = (bundledJvmDir / "bin" / ("java" + extension)).getAbsolutePath
 
   // This is useful for debugging.

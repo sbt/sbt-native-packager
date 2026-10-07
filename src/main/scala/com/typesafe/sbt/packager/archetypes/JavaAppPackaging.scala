@@ -88,7 +88,7 @@ object JavaAppPackaging extends AutoPlugin {
     } yield
       // Here we want the name relative to the lib/ folder...
       // For now we just cheat...
-      if (name startsWith "lib/") name drop 4
+      if (name.startsWith("lib/")) name.drop(4)
       else "../" + name
 
   /**
@@ -141,7 +141,7 @@ object JavaAppPackaging extends AutoPlugin {
         val stateTask = state.taskValue
         val refs = thisProjectRef.value +: dependencyProjectRefs(buildDependencies.value, thisProjectRef.value)
         // Dynamic lookup of dependencies...
-        val artTasks = refs map { ref =>
+        val artTasks = refs.map { ref =>
           extractArtifacts(stateTask, ref)
         }
         val allArtifactsTask: Task[Seq[Attributed[FileRef]]] =

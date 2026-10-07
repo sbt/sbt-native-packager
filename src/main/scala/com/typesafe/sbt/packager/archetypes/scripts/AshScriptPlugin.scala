@@ -107,22 +107,24 @@ object AshScriptPlugin extends AutoPlugin {
       *   An (optional) filename from which the script will read arguments.
       */
     def apply(appClasspath: Seq[String], configFile: Option[String], bundledJvm: Option[String]): Seq[String] =
-      (configFile map configFileDefine).toSeq ++
+      configFile.map(configFileDefine).toSeq ++
         Seq(makeClasspathDefine(appClasspath)) ++
-        (bundledJvm map bundledJvmDefine).toSeq
+        bundledJvm.map(bundledJvmDefine).toSeq
 
     private[this] def makeClasspathDefine(cp: Seq[String]): String = {
-      val fullString = cp map (n =>
-        if (n.startsWith("/")) n
-        else "$lib_dir/" + n
-      ) mkString ":"
+      val fullString = cp
+        .map(n =>
+          if (n.startsWith("/")) n
+          else "$lib_dir/" + n
+        )
+        .mkString(":")
       "app_classpath=\"" + fullString + "\"\n"
     }
 
     private[this] def configFileDefine(configFile: String) =
-      "script_conf_file=\"%s\"" format (configFile)
+      "script_conf_file=\"%s\"".format(configFile)
 
     private[this] def bundledJvmDefine(bundledJvm: String) =
-      """bundled_jvm="$(realpath "${app_home}/../%s")"""" format bundledJvm
+      """bundled_jvm="$(realpath "${app_home}/../%s")"""".format(bundledJvm)
   }
 }

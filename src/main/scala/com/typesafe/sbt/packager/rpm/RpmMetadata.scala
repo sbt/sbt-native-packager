@@ -47,7 +47,7 @@ case class RpmDependencies(
   def contents: String = {
     val sb = new StringBuilder
     def appendSetting(prefix: String, values: Seq[String]) =
-      values foreach (v => sb append (prefix + v + "\n"))
+      values.foreach(v => sb.append(prefix + v + "\n"))
     appendSetting("Provides: ", provides)
     appendSetting("Requires: ", requirements)
     appendSetting("PreReq: ", prereq)
@@ -79,13 +79,15 @@ case class RpmScripts(
   def postunContent(): String = buildScript("postun", postun)
 
   private def buildScript(name: String, script: Option[String]): String =
-    script.map { code =>
-      s"""
+    script
+      .map { code =>
+        s"""
          |%$name
          |$code
          |
          |""".stripMargin
-    } getOrElse ""
+      }
+      .getOrElse("")
 
   @deprecated(
     "Call individual scriptlet content method instead, e.g. pretransContent(). This is to allow managing symlink during %post and %postun so it can be relocated",
@@ -170,9 +172,9 @@ case class RpmSpec(
 
   private[this] def fixFilename(n: String): String = {
     val tmp =
-      if (n startsWith "/") n
+      if (n.startsWith("/")) n
       else "/" + n
-    if (tmp.contains(' ')) "\"%s\"" format tmp
+    if (tmp.contains(' ')) "\"%s\"".format(tmp)
     else tmp
   }
 
@@ -181,124 +183,124 @@ case class RpmSpec(
     val sb = new StringBuilder
     meta.config.toLowerCase match {
       case "false" => ()
-      case "true"  => sb append "%config "
-      case x       => sb append ("%config(" + x + ") ")
+      case "true"  => sb.append("%config ")
+      case x       => sb.append("%config(" + x + ") ")
     }
-    if (meta.docs) sb append "%doc "
-    if (isDir) sb append "%dir "
+    if (meta.docs) sb.append("%doc ")
+    if (isDir) sb.append("%dir ")
     // TODO - map dirs...
-    sb append "%attr("
-    sb append meta.permissions
-    sb append ','
-    sb append meta.user
-    sb append ','
-    sb append meta.group
-    sb append ") "
-    sb append fixFilename(target)
-    sb append '\n'
+    sb.append("%attr(")
+    sb.append(meta.permissions)
+    sb.append(',')
+    sb.append(meta.user)
+    sb.append(',')
+    sb.append(meta.group)
+    sb.append(") ")
+    sb.append(fixFilename(target))
+    sb.append('\n')
     sb.toString
   }
 
   private[this] def fileSection(implicit conv: FileConverter): String = {
     val sb = new StringBuilder
-    sb append "\n%files\n"
+    sb.append("\n%files\n")
     // TODO - default attribute string.
     for {
       mapping <- mappings
       (file, dest) <- mapping.mappings
     } sb.append(makeFilesLine(dest, mapping.fileData, file.isDirectory))
 
-    symlinks foreach (l => sb append s"${l.link}\n")
+    symlinks.foreach(l => sb.append(s"${l.link}\n"))
     sb.toString
   }
 
   private[this] def installSection(root: File): String = {
     val sb = new StringBuilder
-    sb append "\n"
-    sb append "%install\n"
-    sb append "if [ -e \"$RPM_BUILD_ROOT\" ]; "
-    sb append "then\n"
-    sb append "  mv \""
-    sb append root.getAbsolutePath
-    sb append "\"/* \"$RPM_BUILD_ROOT\"\n"
-    sb append "else\n"
-    sb append "  mv \""
-    sb append root.getAbsolutePath
-    sb append "\" \"$RPM_BUILD_ROOT\"\n"
-    sb append "fi\n"
+    sb.append("\n")
+    sb.append("%install\n")
+    sb.append("if [ -e \"$RPM_BUILD_ROOT\" ]; ")
+    sb.append("then\n")
+    sb.append("  mv \"")
+    sb.append(root.getAbsolutePath)
+    sb.append("\"/* \"$RPM_BUILD_ROOT\"\n")
+    sb.append("else\n")
+    sb.append("  mv \"")
+    sb.append(root.getAbsolutePath)
+    sb.append("\" \"$RPM_BUILD_ROOT\"\n")
+    sb.append("fi\n")
     sb.toString
   }
 
   // TODO - This is *very* tied to RPM helper, may belong *in* RpmHelper
   def writeSpec(rpmRoot: File, tmpRoot: File)(implicit conv: FileConverter): String = {
     val sb = new StringBuilder
-    sb append ("Name: %s\n" format meta.name)
-    sb append ("Version: %s\n" format meta.version)
-    sb append ("Release: %s\n" format meta.release)
-    sb append ("Summary: %s\n" format meta.summary)
+    sb.append("Name: %s\n".format(meta.name))
+    sb.append("Version: %s\n".format(meta.version))
+    sb.append("Release: %s\n".format(meta.release))
+    sb.append("Summary: %s\n".format(meta.summary))
 
-    meta.epoch filter (_ >= 0) foreach { epoch =>
-      sb append ("Epoch: %d\n" format epoch)
+    meta.epoch.filter(_ >= 0).foreach { epoch =>
+      sb.append("Epoch: %d\n".format(epoch))
     }
 
-    meta.prefix foreach { v =>
-      sb append ("prefix: %s\n" format v)
+    meta.prefix.foreach { v =>
+      sb.append("prefix: %s\n".format(v))
     }
 
-    desc.license foreach { v =>
-      sb append ("License: %s\n" format v)
+    desc.license.foreach { v =>
+      sb.append("License: %s\n".format(v))
     }
-    desc.distribution foreach { v =>
-      sb append ("Distribution: %s\n" format v)
+    desc.distribution.foreach { v =>
+      sb.append("Distribution: %s\n".format(v))
     }
     // TODO - Icon
 
-    sb append ("Vendor: %s\n" format meta.vendor)
-    desc.url foreach { v =>
-      sb append ("URL: %s\n" format v)
+    sb.append("Vendor: %s\n".format(meta.vendor))
+    desc.url.foreach { v =>
+      sb.append("URL: %s\n".format(v))
     }
-    desc.group foreach { v =>
-      sb append ("Group: %s\n" format v)
+    desc.group.foreach { v =>
+      sb.append("Group: %s\n".format(v))
     }
-    desc.packager foreach { v =>
-      sb append ("Packager: %s\n" format v)
+    desc.packager.foreach { v =>
+      sb.append("Packager: %s\n".format(v))
     }
 
-    sb append deps.contents
+    sb.append(deps.contents)
 
-    sb append ("AutoProv: %s\n" format meta.autoprov)
-    sb append ("AutoReq: %s\n" format meta.autoreq)
+    sb.append("AutoProv: %s\n".format(meta.autoprov))
+    sb.append("AutoReq: %s\n".format(meta.autoreq))
 
-    sb append ("BuildRoot: %s\n" format rpmRoot.getAbsolutePath)
-    sb append ("BuildArch: %s\n\n" format meta.arch)
+    sb.append("BuildRoot: %s\n".format(rpmRoot.getAbsolutePath))
+    sb.append("BuildArch: %s\n\n".format(meta.arch))
 
-    sb append "%description\n"
-    sb append meta.description
-    sb append "\n\n"
+    sb.append("%description\n")
+    sb.append(meta.description)
+    sb.append("\n\n")
 
     // write build as moving everything into RPM directory.
-    sb append installSection(tmpRoot)
+    sb.append(installSection(tmpRoot))
     // TODO - Allow symlinks
 
     // write scriptlets
-    sb append scriptlets.pretransContent()
-    sb append scriptlets.preContent()
-    sb append scriptlets.postContent()
-    sb append scriptlets.verifyscriptContent()
-    sb append scriptlets.posttransContent()
-    sb append scriptlets.preunContent()
-    sb append scriptlets.postunContent()
+    sb.append(scriptlets.pretransContent())
+    sb.append(scriptlets.preContent())
+    sb.append(scriptlets.postContent())
+    sb.append(scriptlets.verifyscriptContent())
+    sb.append(scriptlets.posttransContent())
+    sb.append(scriptlets.preunContent())
+    sb.append(scriptlets.postunContent())
 
     // Write file mappings
-    sb append fileSection
+    sb.append(fileSection)
     // TODO - Write triggers...
-    desc.changelogFile foreach { changelog =>
+    desc.changelogFile.foreach { changelog =>
       val tmpFile = new File(changelog)
       if (tmpFile.isFile() && tmpFile.exists()) {
         // if (Files.exists(Paths.get(changelog))) {
         val content = scala.io.Source.fromFile(changelog).mkString
-        sb append "%changelog\n"
-        sb append ("%s\n" format content)
+        sb.append("%changelog\n")
+        sb.append("%s\n".format(content))
       }
     }
     sb.toString

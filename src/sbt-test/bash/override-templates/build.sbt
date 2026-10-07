@@ -19,7 +19,7 @@ TaskKey[Unit]("runCheckBash") := {
     try source.getLines mkString "\n"
     finally source.close()
   assert(
-    contents contains "this is the custom bash template",
+    contents.contains("this is the custom bash template"),
     "Bash template didn't contain the right text: \n" + contents
   )
 }
@@ -33,7 +33,7 @@ TaskKey[Unit]("runCheckBat") := {
     try source.getLines mkString "\n"
     finally source.close()
   assert(
-    contents contains "this is the custom bat template",
+    contents.contains("this is the custom bat template"),
     "Bat template didn't contain the right text: \n" + contents
   )
 }

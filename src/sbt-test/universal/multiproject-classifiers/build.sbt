@@ -12,7 +12,7 @@ lazy val mySettings: Seq[Setting[?]] =
       System.out.synchronized {
         println("Files in [" + name.value + "]")
         val files = (target.value / "universal/stage").**(AllPassFilter).get()
-        files foreach println
+        files.foreach(println)
       }
   )
 
@@ -29,7 +29,7 @@ lazy val sub = project
       implicit val converter: FileConverter = fileConverter.value
       val file = target.value / "assets.jar"
       val assetsDir = baseDirectory.value / "src" / "main" / "assets"
-      val sources = assetsDir.**(AllPassFilter).filter(_.isFile) pair (file => IO.relativize(assetsDir, file))
+      val sources = assetsDir.**(AllPassFilter).filter(_.isFile).pair(file => IO.relativize(assetsDir, file))
       IO.zip(sources, file)
       (Assets / artifact).value -> PluginCompat.toFileRef(file)
     },
