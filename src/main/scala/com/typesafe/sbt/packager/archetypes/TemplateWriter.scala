@@ -1,5 +1,7 @@
 package com.typesafe.sbt.packager.archetypes
 
+import java.nio.charset.StandardCharsets
+
 /**
   * This object provides methods to generate scripts from templates. This involves
   *
@@ -26,7 +28,7 @@ package com.typesafe.sbt.packager.archetypes
   */
 object TemplateWriter {
   def defaultCharset: java.nio.charset.Charset =
-    java.nio.charset.Charset.forName("UTF-8")
+    StandardCharsets.UTF_8
 
   def bashFriendlyKeySurround(key: String) =
     "\\$\\{\\{" + key + "\\}\\}"
