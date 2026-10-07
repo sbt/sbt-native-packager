@@ -4,6 +4,7 @@ import java.util.jar.Attributes
 import sbt.*
 
 object PluginCompat {
+  @deprecated("Will be removed", "1.12.1")
   type IncludeArtifact = Artifact => Boolean
 
   private[packager] def getName(ref: java.io.File): String =

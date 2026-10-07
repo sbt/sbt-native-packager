@@ -98,14 +98,18 @@ object MappingsHelper extends Mapper {
   def fromClasspath(
     entries: Seq[Attributed[FileRef]],
     target: String,
-    includeArtifact: PluginCompat.IncludeArtifact,
+    includeArtifact: Artifact => Boolean,
     includeOnNoArtifact: Boolean = false
   ): Seq[(FileRef, String)] =
-    entries.filter(attr => attr.get(artifactStr).map(includeArtifact) getOrElse includeOnNoArtifact).map { attribute =>
-      val file = attribute.data
-      val name = PluginCompat.getName(file)
-      file -> s"$target/${name}"
-    }
+    entries
+      .filter(attr =>
+        attr.get(artifactStr).map(parseArtifactStrAttribute).map(includeArtifact) getOrElse includeOnNoArtifact
+      )
+      .map { attribute =>
+        val file = attribute.data
+        val name = PluginCompat.getName(file)
+        file -> s"$target/${name}"
+      }
 
   /**
     * Get the mappings for the given files relative to the given directories.

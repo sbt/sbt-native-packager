@@ -5,6 +5,7 @@ import sbt.*
 import xsbti.{HashedVirtualFileRef, VirtualFileRef}
 
 object PluginCompat {
+  @deprecated("Will be removed", "1.12.1")
   type IncludeArtifact = Any => Boolean
 
   private[packager] def getName(ref: HashedVirtualFileRef): String =
