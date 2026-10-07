@@ -37,7 +37,7 @@ trait JDKPackagerKeys {
       |
       | Default: `installer`.
       | Details:
-      |   http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIABIFCI
+      |   https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIABIFCI
     """.stripMargin)
 
   val jdkPackagerToolkit: SettingKey[JDKPackagerToolkit] =
@@ -46,14 +46,14 @@ trait JDKPackagerKeys {
   val jdkPackagerJVMArgs: SettingKey[Seq[String]] = settingKey[Seq[String]]("""Sequence of arguments to pass to the JVM.
       |Default: `Seq("-Xmx768m")`.
       |Details:
-      |   http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHJIJG
+      |   https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHJIJG
     """.stripMargin)
 
   val jdkPackagerAppArgs: SettingKey[Seq[String]] =
     settingKey[Seq[String]]("""List of command line arguments to pass to the application on launch.
       |Default: `Seq.empty`
       |Details:
-      |   http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACIJFHB
+      |   https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CACIJFHB
       |
     """.stripMargin)
 
@@ -61,7 +61,7 @@ trait JDKPackagerKeys {
     settingKey[Map[String, String]]("""Map of `System` properties to define in application.
       |Default: `Map.empty`
       |Details:
-      |  http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHCIFJ
+      |  https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAHCIFJ
     """.stripMargin)
 
   val jdkAppIcon: SettingKey[Option[File]] = settingKey[Option[File]]("""Path to platform-specific application icon:
@@ -78,7 +78,7 @@ trait JDKPackagerKeys {
       |Default: `Seq.empty`
       |Note: Requires JDK >= 8 build 40.
       |Details:
-      |  http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAIDHBJ
+      |  https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_task_reference.html#CIAIDHBJ
     """.stripMargin)
 
   /** Config for scoping keys outside of Global . */
