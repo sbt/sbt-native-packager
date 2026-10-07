@@ -35,7 +35,7 @@ object LauncherJarPlugin extends AutoPlugin {
       val manifestClasspath = PluginCompat.classpathAttr -> classpath.mkString(" ")
       val manifestMainClass =
         (Compile / packageJavaLauncherJar / mainClass).value.map(PluginCompat.mainclassAttr -> _)
-      Seq(ManifestAttributes(manifestMainClass.toSeq :+ manifestClasspath: _*))
+      Seq(ManifestAttributes((manifestMainClass.toSeq :+ manifestClasspath)*))
     },
     packageJavaLauncherJar / artifactName := { (scalaVersion, moduleId, artifact) =>
       moduleId.organization + "." + artifact.name + "-" + moduleId.revision +
