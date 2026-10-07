@@ -47,7 +47,10 @@ libraryDependencies ++= Seq(
   "org.apache.ant" % "ant" % "1.10.18",
   // workaround for the command line size limit
   "com.github.eldis" % "tool-launcher" % "0.2.2",
-  "org.scalatest" %% "scalatest" % "3.2.20" % Test
+  "org.scalatest" %% "scalatest-wordspec" % "3.2.20" % Test,
+  "org.scalatest" %% "scalatest-flatspec" % "3.2.20" % Test,
+  "org.scalatest" %% "scalatest-diagrams" % "3.2.20" % Test,
+  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.20" % Test
 )
 
 // sbt dependent libraries
