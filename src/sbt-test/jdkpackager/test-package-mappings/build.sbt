@@ -13,6 +13,15 @@ organization := "com.foo.bar"
 
 Compile / mainClass := Some("ExampleApp")
 
+scalacOptions ++= {
+  scalaBinaryVersion.value match {
+    case "3" =>
+      Nil
+    case _ =>
+      Seq("-Xsource:3")
+  }
+}
+
 maintainer := "Cat D. Herder"
 
 packageSummary := "test-jdkpackager"
@@ -32,7 +41,9 @@ lazy val iconGlob = sys.props("os.name").toLowerCase match {
   case _                        => "*.png"
 }
 
-jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob).getPaths().headOption
+jdkAppIcon := (baseDirectory.value / ".." / ".." / ".." / ".." / "test-project-jdkpackager" ** iconGlob)
+  .getPaths()
+  .headOption
   .map(file)
 
 TaskKey[Unit]("checkImage") := {

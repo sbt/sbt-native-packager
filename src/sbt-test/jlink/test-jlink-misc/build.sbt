@@ -113,7 +113,8 @@ val issue1293 = project
       (jlinkBuildImage / fullClasspath).value
         // Find the ones that have `paranamer` as their artifact names.
         .filter { item =>
-          item.get(PluginCompat.moduleIDStr)
+          item
+            .get(PluginCompat.moduleIDStr)
             .map(PluginCompat.parseModuleIDStrAttribute)
             .exists { modId =>
               modId.name == "paranamer"

@@ -16,13 +16,10 @@ TaskKey[Unit]("runCheck") := {
 
   val output = buffer.toString.replaceAll("\n", "")
 
-  val expectedHelpSamples = Seq(
-    "-h | -help", "print this message",
-    "-jvm-debug",
-    "JAVA_OPTS",
-    "special option"
-  )
+  val expectedHelpSamples = Seq("-h | -help", "print this message", "-jvm-debug", "JAVA_OPTS", "special option")
 
-  assert(expectedHelpSamples.forall(output.contains(_)),
-    s"Application did not print the correct help message: \n" + output)
+  assert(
+    expectedHelpSamples.forall(output.contains(_)),
+    s"Application did not print the correct help message: \n" + output
+  )
 }

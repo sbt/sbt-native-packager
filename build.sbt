@@ -104,9 +104,8 @@ developers := List(
   Developer(id = "jsuereth", name = "Josh Suereth", email = "jsuereth", url = url("https://github.com/jsuereth"))
 )
 
-addCommandAlias("scalafmtFormatAll", "; ^scalafmtAll ; scalafmtSbt")
 // ci commands
-addCommandAlias("validateFormatting", "; scalafmtCheckAll ; scalafmtSbtCheck")
+addCommandAlias("validateFormatting", "; scalafmtCheckRepo")
 // Ignore mimaReportBinaryIssues
 addCommandAlias("validate", "; clean ; update ; validateFormatting ; test")
 
