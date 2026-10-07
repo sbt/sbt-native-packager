@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Setup JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: zulu
           java-version: 8
@@ -100,7 +100,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Setup JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: '${{ matrix.distribution }}'
           java-version: '${{ matrix.java }}'
@@ -123,7 +123,7 @@ jobs:
           download_url="https://cdn.azul.com/zulu/bin/zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz"
           wget -O $RUNNER_TEMP/java_package.tar.gz $download_url
       - name: Setup Azul JDK with JavaFX
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: jdkfile
           jdkFile: '${{ runner.temp }}/java_package.tar.gz'
