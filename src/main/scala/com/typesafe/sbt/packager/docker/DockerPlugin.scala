@@ -505,21 +505,21 @@ object DockerPlugin extends AutoPlugin {
     *   chown command, owning the installation directory with the daemonuser
     */
   private final def makeChown(daemonUser: String, daemonGroup: String, directories: Seq[String]): CmdLike =
-    ExecCmd("RUN", Seq("chown", "-R", s"$daemonUser:$daemonGroup") ++ directories: _*)
+    ExecCmd("RUN", (Seq("chown", "-R", s"$daemonUser:$daemonGroup") ++ directories)*)
 
   /**
     * @return
     *   chmod command
     */
   private final def makeChmod(chmodType: DockerChmodType, files: Seq[String]): CmdLike =
-    ExecCmd("RUN", Seq("chmod", chmodType.argument) ++ files: _*)
+    ExecCmd("RUN", (Seq("chmod", chmodType.argument) ++ files)*)
 
   /**
     * @return
     *   chmod command recursively
     */
   private final def makeChmodRecursive(chmodType: DockerChmodType, directories: Seq[String]): CmdLike =
-    ExecCmd("RUN", Seq("chmod", "-R", chmodType.argument) ++ directories: _*)
+    ExecCmd("RUN", (Seq("chmod", "-R", chmodType.argument) ++ directories)*)
 
   /**
     * @param daemonUser
@@ -612,7 +612,7 @@ object DockerPlugin extends AutoPlugin {
     if (exposedVolumes.isEmpty) Seq.empty
     else
       Seq(
-        ExecCmd("RUN", Seq("mkdir", "-p") ++ exposedVolumes: _*),
+        ExecCmd("RUN", (Seq("mkdir", "-p") ++ exposedVolumes)*),
         makeChown(daemonUser, daemonGroup, exposedVolumes),
         ExecCmd("VOLUME", exposedVolumes*)
       )

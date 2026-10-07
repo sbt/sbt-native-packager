@@ -245,7 +245,7 @@ object LinuxPlugin extends AutoPlugin {
     }
 
     Seq(
-      packageMappingWithRename(binaries ++ directories: _*) withUser user withGroup group withPerms "0755",
+      packageMappingWithRename((binaries ++ directories)*) withUser user withGroup group withPerms "0755",
       packageMappingWithRename(compressedManPages*).gzipped withUser user withGroup group withPerms "0644",
       packageMappingWithRename(configFiles*).withConfig() withUser user withGroup group withPerms "0644",
       packageMappingWithRename(remaining*) withUser user withGroup group withPerms "0644"

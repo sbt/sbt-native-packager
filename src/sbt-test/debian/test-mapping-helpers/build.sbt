@@ -15,7 +15,7 @@ packageDescription := """A fun package description of our software,
 
 // linuxPackageMappings in Debian += packageTemplateMapping("/var/run/debian")   // not work
 // linuxPackageMappings in Debian += packageTemplateMapping("/var/run/debian")() // not work
-Debian / linuxPackageMappings += packageTemplateMapping(Seq("/opt/test/other"): _*)()
+Debian / linuxPackageMappings += packageTemplateMapping("/opt/test/other")()
 
 Debian / linuxPackageMappings +=
   packageTemplateMapping("/opt/test/" + Keys.normalizedName.value)(target.value)
