@@ -30,7 +30,7 @@ object LauncherJarPlugin extends AutoPlugin {
     .packageTaskSettings(packageJavaLauncherJar, packageJavaLauncherJar / mappings) ++ Seq(
     packageJavaLauncherJar / mappings := Nil,
     packageJavaLauncherJar / artifactClassifier := Option("launcher"),
-    packageJavaLauncherJar / packageOptions := {
+    packageJavaLauncherJar / packageOptions := Def.uncached {
       val classpath = (packageJavaLauncherJar / scriptClasspath).value
       val manifestClasspath = PluginCompat.classpathAttr -> classpath.mkString(" ")
       val manifestMainClass =

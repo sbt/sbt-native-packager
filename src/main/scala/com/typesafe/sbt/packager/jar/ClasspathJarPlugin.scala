@@ -7,7 +7,7 @@ import sbt.Package.ManifestAttributes
 import sbt.{*, given}
 import sbt.Keys._
 import com.typesafe.sbt.packager.PluginCompat
-import sbtcompat.PluginCompat.FileRef
+import sbtcompat.PluginCompat._
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
@@ -27,7 +27,7 @@ object ClasspathJarPlugin extends AutoPlugin {
     .packageTaskSettings(packageJavaClasspathJar, packageJavaClasspathJar / mappings) ++ Seq(
     packageJavaClasspathJar / mappings := Nil,
     packageJavaClasspathJar / artifactClassifier := Option("classpath"),
-    packageJavaClasspathJar / packageOptions := {
+    packageJavaClasspathJar / packageOptions := Def.uncached {
       val classpath = (packageJavaClasspathJar / scriptClasspath).value
       val manifestClasspath = PluginCompat.classpathAttr -> classpath.mkString(" ")
       Seq(ManifestAttributes(manifestClasspath))

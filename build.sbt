@@ -29,7 +29,7 @@ scalacOptions ++= {
     case "2.12" =>
       Seq("-release:8")
     case "3" =>
-      Nil
+      Seq("-Wconf:msg=is excluded from the cache input:error")
   }
 }
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
