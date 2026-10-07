@@ -1,7 +1,6 @@
 package com.typesafe.sbt.packager.rpm
 
 import sbt.{*, given}
-import com.typesafe.sbt.packager.PluginCompat
 import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.linux.LinuxSymlink
 import com.typesafe.sbt.packager.sourceDateEpoch

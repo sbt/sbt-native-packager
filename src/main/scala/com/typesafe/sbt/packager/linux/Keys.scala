@@ -3,7 +3,6 @@ package packager
 package linux
 
 import sbt.{*, given}
-import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
 
 /** Linux packaging generic build targets. */
 trait LinuxKeys {

@@ -1,7 +1,6 @@
 package com.typesafe.sbt.packager.archetypes.scripts
 
 import sbt.{*, given}
-import com.typesafe.sbt.packager.PluginCompat
 import sbtcompat.PluginCompat.FileRef
 
 /**

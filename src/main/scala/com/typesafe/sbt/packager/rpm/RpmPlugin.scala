@@ -5,7 +5,6 @@ import sbt.Keys.*
 import java.nio.charset.Charset
 
 import com.typesafe.sbt.SbtNativePackager.Linux
-import com.typesafe.sbt.packager.PluginCompat
 import com.typesafe.sbt.packager.SettingsHelper
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.linux.*

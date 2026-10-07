@@ -1,6 +1,5 @@
 package com.typesafe.sbt.packager.jdkpackager
 
-import com.typesafe.sbt.packager.PluginCompat
 import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.jdkpackager.JDKPackagerPlugin.autoImport._
 import org.apache.tools.ant.{BuildEvent, BuildListener, ProjectHelper}

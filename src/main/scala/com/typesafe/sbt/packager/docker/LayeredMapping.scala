@@ -1,7 +1,6 @@
 package com.typesafe.sbt.packager
 package docker
 
-import java.io.File
 import sbtcompat.PluginCompat.FileRef
 
 /**

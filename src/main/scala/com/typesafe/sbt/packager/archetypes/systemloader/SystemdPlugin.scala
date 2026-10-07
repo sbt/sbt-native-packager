@@ -1,7 +1,6 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
 import sbt.{*, given}
-import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
   killTimeout,
@@ -9,8 +8,6 @@ import com.typesafe.sbt.packager.Keys.{
   linuxPackageMappings,
   linuxScriptReplacements,
   linuxStartScriptName,
-  linuxStartScriptTemplate,
-  maintainerScripts,
   packageName,
   requiredStartFacilities,
   requiredStopFacilities,
@@ -18,15 +15,7 @@ import com.typesafe.sbt.packager.Keys.{
   startRunlevels,
   stopRunlevels
 }
-import com.typesafe.sbt.SbtNativePackager.{Debian, Linux, Rpm, Universal}
-import com.typesafe.sbt.packager.PluginCompat
-import com.typesafe.sbt.packager.archetypes.MaintainerScriptHelper.maintainerScriptsAppend
-import com.typesafe.sbt.packager.debian.DebianPlugin
-import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.DebianConstants
-import com.typesafe.sbt.packager.rpm.RpmPlugin
-import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.RpmConstants
-
-import java.nio.file.{Files, Paths}
+import com.typesafe.sbt.SbtNativePackager.{Debian, Rpm}
 
 object SystemdPlugin extends AutoPlugin {
 

@@ -1,7 +1,6 @@
 package com.typesafe.sbt.packager.archetypes
 
 import sbt._
-import com.typesafe.sbt.SbtNativePackager.autoImport.maintainerScripts
 
 /**
   * ==Maintainer Script Helper==

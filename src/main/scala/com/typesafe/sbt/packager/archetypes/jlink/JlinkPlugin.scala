@@ -5,14 +5,10 @@ import scala.collection.immutable
 import scala.sys.process.{BasicIO, Process, ProcessBuilder}
 import sbt.{*, given}
 import sbt.Keys.*
-import com.typesafe.sbt.SbtNativePackager.{Debian, Universal}
-import com.typesafe.sbt.packager.Keys.{bundledJvmLocation, packageName}
+import com.typesafe.sbt.SbtNativePackager.Universal
+import com.typesafe.sbt.packager.Keys.bundledJvmLocation
 import com.typesafe.sbt.packager.Compat._
-import com.typesafe.sbt.packager.PluginCompat
 import sbtcompat.PluginCompat._
-import com.typesafe.sbt.packager.archetypes.jlink._
-import com.typesafe.sbt.packager.archetypes.scripts.BashStartScriptKeys
-import com.typesafe.sbt.packager.universal.UniversalPlugin
 import java.io.File
 import xsbti.FileConverter
 

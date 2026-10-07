@@ -7,7 +7,6 @@ import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping, 
 import com.typesafe.sbt.packager.rpm.RpmPlugin.Names._
 import com.typesafe.sbt.packager.archetypes.TemplateWriter
 import java.io.File
-import java.nio.file.Files
 import xsbti.FileConverter
 
 case class RpmMetadata(

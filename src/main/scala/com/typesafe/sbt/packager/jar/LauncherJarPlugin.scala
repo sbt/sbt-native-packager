@@ -1,8 +1,5 @@
 package com.typesafe.sbt.packager.archetypes.jar
 
-import java.io.File
-import java.util.jar.Attributes
-
 import sbt.Package.ManifestAttributes
 import sbt.{*, given}
 import sbt.Keys._

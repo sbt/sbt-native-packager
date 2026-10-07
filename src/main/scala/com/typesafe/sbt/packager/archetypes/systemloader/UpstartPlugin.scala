@@ -1,14 +1,12 @@
 package com.typesafe.sbt.packager.archetypes.systemloader
 
 import sbt._
-import sbt.Keys.{sourceDirectory, target}
 import com.typesafe.sbt.packager.Keys.{
   defaultLinuxStartScriptLocation,
   killTimeout,
   linuxMakeStartScript,
   linuxPackageMappings,
   linuxStartScriptName,
-  linuxStartScriptTemplate,
   packageName,
   requiredStartFacilities,
   requiredStopFacilities,
@@ -16,12 +14,8 @@ import com.typesafe.sbt.packager.Keys.{
   startRunlevels,
   stopRunlevels
 }
-import com.typesafe.sbt.packager.debian.DebianPlugin
 import com.typesafe.sbt.packager.debian.DebianPlugin.autoImport.Debian
-import com.typesafe.sbt.packager.rpm.RpmPlugin
 import com.typesafe.sbt.packager.rpm.RpmPlugin.autoImport.Rpm
-
-import java.nio.file.{Files, Paths}
 
 object UpstartPlugin extends AutoPlugin {
 

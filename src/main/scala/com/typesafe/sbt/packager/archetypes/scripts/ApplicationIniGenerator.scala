@@ -1,6 +1,5 @@
 package com.typesafe.sbt.packager.archetypes.scripts
 
-import com.typesafe.sbt.packager.PluginCompat
 import sbtcompat.PluginCompat.*
 import java.io.File
 
