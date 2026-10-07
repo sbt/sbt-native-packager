@@ -8,7 +8,7 @@ import java.nio.file.attribute.FileTime
 import java.util.zip.Deflater
 
 import org.apache.commons.compress.archivers.zip._
-import org.apache.commons.compress.utils.IOUtils
+import org.apache.commons.io.IOUtils
 import sbt._
 
 import scala.collection.JavaConverters._
