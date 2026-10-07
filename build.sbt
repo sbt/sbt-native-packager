@@ -1,3 +1,5 @@
+import com.typesafe.tools.mima.core.{DirectMissingMethodProblem, ProblemFilters}
+
 name := "sbt-native-packager"
 organization := "com.github.sbt"
 homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
@@ -74,15 +76,20 @@ scriptedLaunchOpts += "-Dproject.version=" + version.value
 
 // binary compatibility settings
 mimaPreviousArtifacts := {
-  val m = "com.typesafe.sbt" %% moduleName.value % "1.3.15"
+  val m = organization.value %% moduleName.value % "1.12.0"
   val sbtBinV = (pluginCrossBuild / sbtBinaryVersion).value
   val scalaBinV = (update / scalaBinaryVersion).value
-  scalaBinV match {
-    case "2.12" =>
-      Set(Defaults.sbtPluginExtra(m cross CrossVersion.disabled, sbtBinV, scalaBinV))
-    case _ => Set.empty
-  }
+  Set(Defaults.sbtPluginExtra(m, sbtBinV, scalaBinV))
 }
+
+mimaBinaryIssueFilters ++= Seq(
+  "com.typesafe.sbt.packager.Keys.debianMaintainerScripts()sbt.TaskKey",
+  "com.typesafe.sbt.packager.Keys.wixFile()sbt.TaskKey",
+  "com.typesafe.sbt.packager.debian.DebianKeys.debianMaintainerScripts()sbt.TaskKey",
+  "com.typesafe.sbt.packager.debian.DebianPlugin#autoImport.debianMaintainerScripts()sbt.TaskKey",
+  "com.typesafe.sbt.packager.windows.WindowsKeys.wixFile()sbt.TaskKey",
+  "com.typesafe.sbt.packager.windows.WindowsPlugin#autoImport.wixFile()sbt.TaskKey"
+).map(ProblemFilters.exclude[DirectMissingMethodProblem])
 
 // Release configuration
 publishMavenStyle := true
@@ -105,8 +112,7 @@ developers := List(
 
 // ci commands
 addCommandAlias("validateFormatting", "; scalafmtCheckRepo")
-// Ignore mimaReportBinaryIssues
-addCommandAlias("validate", "; clean ; update ; validateFormatting ; test")
+addCommandAlias("validate", "; clean ; update ; validateFormatting ; test ; mimaReportBinaryIssues")
 
 // List all scripted test separately to schedule them in different travis-ci jobs.
 // Travis-CI has hard timeouts for jobs, so we run them in smaller jobs as the scripted
