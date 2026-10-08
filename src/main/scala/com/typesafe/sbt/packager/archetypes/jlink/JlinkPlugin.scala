@@ -45,7 +45,7 @@ object JlinkPlugin extends AutoPlugin {
     bundledJvmLocation := Some(jlinkBundledJvmLocation.value),
     jlinkIgnoreMissingDependency :=
       (jlinkIgnoreMissingDependency ?? JlinkIgnore.nothing).value,
-    // Don't use `fullClasspath in Compile` directly - this way we can inject
+    // Don't use `Compile / fullClasspath` directly - this way we can inject
     // custom classpath elements for the scan.
     jlinkBuildImage / fullClasspath := Def.uncached((Compile / fullClasspath).value),
     jlinkModules := (jlinkModules ?? Nil).value,

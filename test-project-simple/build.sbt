@@ -15,14 +15,14 @@ rpmLicense := Some("BSD")
 rpmChangelogFile := Some("changelog.txt")
 
 // these settings are conflicting
-javaOptions in Universal ++= Seq("-J-Xmx64m", "-J-Xms64m", "-jvm-debug 12345")
+Universal / javaOptions ++= Seq("-J-Xmx64m", "-J-Xms64m", "-jvm-debug 12345")
 
 //bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts")
 
-mappings in UniversalSrc := (mappings in Universal).value
+UniversalSrc / mappings := (Universal / mappings).value
 
-maintainer in Universal := ""
-mappings in Universal ++= Seq(
+Universal / maintainer := ""
+Universal / mappings ++= Seq(
   (baseDirectory.value / "foo.txt") -> "foo.txt",
   (baseDirectory.value / "bar.txt") -> "bar.txt"
 )
