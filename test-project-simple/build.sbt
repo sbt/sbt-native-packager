@@ -1,6 +1,6 @@
 name := "test-project-simple"
 version := "0.2.0"
-libraryDependencies ++= Seq("com.typesafe" % "config" % "1.2.1")
+libraryDependencies ++= Seq("com.typesafe" % "config" % "1.4.9")
 
 enablePlugins(JavaServerAppPackaging, UpstartPlugin, GraalVMNativeImagePlugin)
 
