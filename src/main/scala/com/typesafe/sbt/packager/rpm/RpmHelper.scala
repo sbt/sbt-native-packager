@@ -161,5 +161,5 @@ object RpmHelper {
   }
 
   def evalMacro(mcro: String): String =
-    sys.process.Process(Seq("rpm", "--eval", '%' + mcro)).!!
+    sys.process.Process(Seq("rpm", "--eval", s"%${mcro}")).!!
 }

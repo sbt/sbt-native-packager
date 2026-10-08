@@ -33,7 +33,7 @@ trait CmdLike {
   */
 case class ExecCmd(cmd: String, args: String*) extends CmdLike {
   def makeContent: String =
-    "%s [%s]\n".format(cmd, args.map('"' + _ + '"').mkString(", "))
+    "%s [%s]\n".format(cmd, args.map("\"" + _ + "\"").mkString(", "))
 }
 
 /**
