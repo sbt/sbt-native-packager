@@ -1,7 +1,7 @@
 libraryDependencies +=
   Defaults
     .sbtPluginExtra(
-      "org.playframework" % "sbt-plugin" % "3.0.9",
+      "org.playframework" % "sbt-plugin" % "3.0.12",
       (update / sbtBinaryVersion).value,
       (update / scalaBinaryVersion).value
     )
