@@ -15,7 +15,7 @@ TaskKey[Unit]("runCheckAsh") := {
   val source =
     scala.io.Source.fromFile((cwd / "bin" / packageName.value).getAbsolutePath)
   val contents =
-    try source.getLines mkString "\n"
+    try source.getLines() mkString "\n"
     finally source.close()
   assert(
     contents.contains("this is the custom bash template"),

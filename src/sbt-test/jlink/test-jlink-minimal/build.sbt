@@ -4,6 +4,7 @@ import scala.sys.process.Process
 import com.typesafe.sbt.packager.Keys.stagingDirectory
 import com.typesafe.sbt.packager.Compat._
 import sbtcompat.PluginCompat
+import sbtcompat.PluginCompat._
 import xsbti.FileConverter
 
 enablePlugins(JlinkPlugin, ClasspathJarPlugin, BashStartScriptPlugin, BatStartScriptPlugin)
@@ -12,7 +13,7 @@ enablePlugins(JlinkPlugin, ClasspathJarPlugin, BashStartScriptPlugin, BatStartSc
 autoScalaLibrary := false
 (Compile / packageDoc / mappings) := Seq()
 
-TaskKey[Unit]("runChecks") := {
+TaskKey[Unit]("runChecks") := Def.uncached {
   implicit val converter: FileConverter = fileConverter.value
   val log = streams.value.log
 

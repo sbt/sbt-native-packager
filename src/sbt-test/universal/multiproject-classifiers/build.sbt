@@ -30,7 +30,7 @@ lazy val sub = project
       val file = target.value / "assets.jar"
       val assetsDir = baseDirectory.value / "src" / "main" / "assets"
       val sources = assetsDir.**(AllPassFilter).filter(_.isFile).pair(file => IO.relativize(assetsDir, file))
-      IO.zip(sources, file)
+      IO.zip(sources, file, None)
       (Assets / artifact).value -> PluginCompat.toFileRef(file)
     },
     Assets / exportedProducts := {

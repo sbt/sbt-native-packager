@@ -6,7 +6,9 @@ import com.typesafe.sbt.packager.Compat._
 import sbtcompat.PluginCompat
 import xsbti.FileConverter
 
+@transient
 val runChecks = taskKey[Unit]("Run checks for a specific issue")
+@transient
 val runFailingChecks = taskKey[Unit]("Run checks for a specific issue, expecting them to fail")
 
 // Exclude Scala by default to simplify the test.
@@ -34,7 +36,7 @@ val issue1247BadAutoModuleName = project
       implicit val converter: FileConverter = fileConverter.value
       // Build an empty jar with an unsupported name
       val jarFile = target.value / "foo_2.11.jar"
-      IO.jar(Nil, jarFile, new java.util.jar.Manifest)
+      IO.jar(Nil, jarFile, new java.util.jar.Manifest, None)
       Attributed.blank(PluginCompat.toFileRef(jarFile))
     },
     runChecks := jlinkBuildImage.value
