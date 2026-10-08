@@ -37,7 +37,7 @@ import sbt._
   * and add the dependency in your `plugins.sbt`
   *
   * {{{
-  *   libraryDependencies += "com.spotify" % "docker-client" % "3.5.13"
+  *   libraryDependencies += "com.spotify" % "docker-client" % "3.6.8"
   * }}}
   *
   * The Docker-spotify client is a provided dependency so you have to add it on your own. It brings a lot of
