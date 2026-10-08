@@ -6,12 +6,12 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Linux Plugin &mdash; sbt-native-packager 1.12.0 documentation</title>
+  <title>Linux Plugin &mdash; sbt-native-packager 1.13.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
-      <script src="../_static/documentation_options.js?v=fe8e256b"></script>
+      <script src="../_static/documentation_options.js?v=8f5b6f32"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
@@ -693,7 +693,7 @@ on how to filter mappings.</p>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">mappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linuxPackageMappings</span><span class="p">.</span><span class="n">value</span>
 <span class="w">    </span><span class="c1">// Changing the group for all configs</span>
 <span class="w">    </span><span class="n">mappings</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">linuxPackage</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">linuxPackage</span><span class="p">.</span><span class="n">fileData</span><span class="p">.</span><span class="n">config</span><span class="w"> </span><span class="n">equals</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">linuxPackage</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">linuxPackage</span><span class="p">.</span><span class="n">fileData</span><span class="p">.</span><span class="n">config</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="o">=&gt;</span>
 <span class="w">            </span><span class="c1">// altering the group</span>
 <span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="n">newFileData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linuxPackage</span><span class="p">.</span><span class="n">fileData</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span>
 <span class="w">                </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;appdocs&quot;</span>
