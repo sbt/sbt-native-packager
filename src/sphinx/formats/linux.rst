@@ -334,7 +334,7 @@ To alter the permissions for all ``LinuxPackageMapping`` s that match a specific
         val mappings = linuxPackageMappings.value
         // Changing the group for all configs
         mappings map {
-            case linuxPackage if linuxPackage.fileData.config equals "true" =>
+            case linuxPackage if linuxPackage.fileData.config == "true" =>
                 // altering the group
                 val newFileData = linuxPackage.fileData.copy(
                     group = "appdocs"
