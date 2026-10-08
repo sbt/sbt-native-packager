@@ -95,8 +95,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
       batScriptReplacements := Replacements(executableScriptName.value),
       // Generating the application configuration
       Universal / mappings := {
-        val conv0 = fileConverter.value
-        implicit val conv: FileConverter = conv0
+        implicit val conv: FileConverter = fileConverter.value
         generateApplicationIni(
           (Universal / mappings).value,
           (Universal / javaOptions).value,

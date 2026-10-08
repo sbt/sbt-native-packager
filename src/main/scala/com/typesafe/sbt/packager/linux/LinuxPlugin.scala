@@ -123,8 +123,7 @@ object LinuxPlugin extends AutoPlugin {
       ),
       // Now we generate symlinks.
       linuxPackageSymlinks ++= {
-        val conv0 = fileConverter.value
-        implicit val conv: FileConverter = conv0
+        implicit val conv: FileConverter = fileConverter.value
         val installLocation = defaultLinuxInstallLocation.value
         val linuxPackageName = (Linux / packageName).value
         for {
@@ -136,8 +135,7 @@ object LinuxPlugin extends AutoPlugin {
       },
       // Map configuration files
       linuxPackageSymlinks ++= {
-        val conv0 = fileConverter.value
-        implicit val conv: FileConverter = conv0
+        implicit val conv: FileConverter = fileConverter.value
         val linuxPackageName = (Linux / packageName).value
         val installLocation = defaultLinuxInstallLocation.value
         val configLocation = defaultLinuxConfigLocation.value

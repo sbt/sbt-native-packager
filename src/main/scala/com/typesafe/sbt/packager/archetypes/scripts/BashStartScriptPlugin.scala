@@ -71,8 +71,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       bashScriptEnvConfigLocation := (bashScriptEnvConfigLocation ?? None).value,
       // Generating the application configuration
       Universal / mappings := {
-        val conv0 = fileConverter.value
-        implicit val conv: FileConverter = conv0
+        implicit val conv: FileConverter = fileConverter.value
         generateApplicationIni(
           (Universal / mappings).value,
           (Universal / javaOptions).value,

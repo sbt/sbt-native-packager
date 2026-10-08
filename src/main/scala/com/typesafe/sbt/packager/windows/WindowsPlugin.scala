@@ -97,8 +97,7 @@ object WindowsPlugin extends AutoPlugin {
         Seq(wixConfigFile)
       }
     ) ++ inConfig(Windows)(Seq(packageBin := Def.uncached {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       val wsxSources = wixFiles.value
       val msi = target.value / (name.value + ".msi")
 
@@ -150,8 +149,7 @@ object WindowsPlugin extends AutoPlugin {
     Seq(
       Windows / mappings := (Universal / mappings).value,
       wixFeatures := {
-        val conv0 = fileConverter.value
-        implicit val conv: FileConverter = conv0
+        implicit val conv: FileConverter = fileConverter.value
         makeWindowsFeatures((Windows / packageName).value, (Windows / mappings).value)
       }
     )

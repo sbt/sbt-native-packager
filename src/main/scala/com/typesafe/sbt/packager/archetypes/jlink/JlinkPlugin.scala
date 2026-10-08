@@ -50,8 +50,7 @@ object JlinkPlugin extends AutoPlugin {
     jlinkBuildImage / fullClasspath := Def.uncached((Compile / fullClasspath).value),
     jlinkModules := (jlinkModules ?? Nil).value,
     jlinkModules ++= {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       val log = streams.value.log
       val javaHome0 = (jlinkBuildImage / javaHome).value.getOrElse(defaultJavaHome)
       val run = runJavaTool(javaHome0, log) _
@@ -166,8 +165,7 @@ object JlinkPlugin extends AutoPlugin {
       outDir
     },
     jlinkBuildImage / mappings := {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       val prefix = jlinkBundledJvmLocation.value
       // make sure the prefix has a terminating slash
       val prefix0 = if (prefix.isEmpty) prefix else prefix + "/"
