@@ -20,7 +20,7 @@ Debian / linuxPackageMappings += packageTemplateMapping("/opt/test/other")()
 Debian / linuxPackageMappings +=
   packageTemplateMapping("/opt/test/" + Keys.normalizedName.value)(target.value)
 
-// Consider using mappings in Universal
+// Consider using Universal / mappings
 Debian / linuxPackageMappings += packageDirectoryAndContentsMapping(
   (baseDirectory.value / "src" / "resources" / "conf") -> "/usr/share/conf"
 )

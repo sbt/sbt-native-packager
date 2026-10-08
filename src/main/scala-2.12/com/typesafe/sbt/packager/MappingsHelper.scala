@@ -13,7 +13,7 @@ object MappingsHelper extends Mapper {
     *
     * @example
     *   {{{
-    * mappings in Universal ++= directory("extra")
+    * Universal / mappings ++= directory("extra")
     *   }}}
     *
     * @param sourceDir
@@ -28,7 +28,7 @@ object MappingsHelper extends Mapper {
     *
     * @example
     *   {{{
-    * mappings in Universal ++= contentOf("extra")
+    * Universal / mappings ++= contentOf("extra")
     *   }}}
     *
     * @param sourceDir
@@ -52,7 +52,7 @@ object MappingsHelper extends Mapper {
     * @example
     *   Add all test artifacts to a separated test folder
     *   {{{
-    * mappings in Universal ++= fromClasspath((managedClasspath in Test).value, target = "test")
+    * Universal / mappings ++= fromClasspath((Test / managedClasspath).value, target = "test")
     *   }}}
     *
     * @param entries
@@ -70,8 +70,8 @@ object MappingsHelper extends Mapper {
     * @example
     *   Filter all osgi bundles
     *   {{{
-    * mappings in Universal ++= fromClasspath(
-    *    (managedClasspath in Runtime).value,
+    * Universal / mappings ++= fromClasspath(
+    *    (Runtime / managedClasspath).value,
     *    "osgi",
     *    artifact => artifact.`type` == "bundle"
     * )

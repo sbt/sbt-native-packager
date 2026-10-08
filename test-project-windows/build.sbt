@@ -2,7 +2,7 @@ name := "test-project-windows"
 version := "0.2.0"
 libraryDependencies ++= Seq("com.typesafe" % "config" % "1.2.1")
 
-mainClass in Compile := Some("ExampleApp")
+Compile / mainClass := Some("ExampleApp")
 
 enablePlugins(JavaAppPackaging)
 
@@ -17,6 +17,6 @@ wixMajorVersion := 3
 lightOptions := Seq("-ext", "WixUiExtension")
 
 // these settings are conflicting
-javaOptions in Universal ++= Seq("-J-Xmx64m", "-J-Xms64m", "-jvm-debug 12345")
+Universal / javaOptions ++= Seq("-J-Xmx64m", "-J-Xms64m", "-jvm-debug 12345")
 
 //bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts")

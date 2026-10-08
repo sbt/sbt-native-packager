@@ -6,7 +6,7 @@ organization := "com.foo.bar"
 
 libraryDependencies ++= Seq("com.typesafe" % "config" % "1.2.1")
 
-mainClass in Compile := Some("ExampleApp")
+Compile / mainClass := Some("ExampleApp")
 
 enablePlugins(JDKPackagerPlugin)
 
