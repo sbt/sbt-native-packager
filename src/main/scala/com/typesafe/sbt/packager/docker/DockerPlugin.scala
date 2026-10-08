@@ -107,8 +107,7 @@ object DockerPlugin extends AutoPlugin {
       None
     },
     dockerGroupLayers := {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       val dockerBaseDirectory = (Docker / defaultLinuxInstallLocation).value
       // Ensure this doesn't break even if the JvmPlugin isn't enabled.
       var artifacts = projectDependencyArtifacts.?.value.getOrElse(Nil).map(_.data).toSet
@@ -186,8 +185,7 @@ object DockerPlugin extends AutoPlugin {
         }
     },
     dockerCommands := {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       val strategy = dockerPermissionStrategy.value
       val dockerBaseDirectory = (Docker / defaultLinuxInstallLocation).value
       val user = (Docker / daemonUser).value
@@ -339,8 +337,7 @@ object DockerPlugin extends AutoPlugin {
       clean := cleanTask.value,
       sourceDirectory := sourceDirectory.value / "docker",
       stage := {
-        val conv0 = fileConverter.value
-        implicit val conv: FileConverter = conv0
+        implicit val conv: FileConverter = fileConverter.value
         Stager.stage(Docker.name)(
           streams.value,
           com.typesafe.sbt.packager.Keys.stagingDirectory.value,
@@ -370,8 +367,7 @@ object DockerPlugin extends AutoPlugin {
       validatePackage := Validation
         .runAndThrow(validatePackageValidators.value, streams.value.log),
       validatePackageValidators := {
-        val conv0 = fileConverter.value
-        implicit val conv: FileConverter = conv0
+        implicit val conv: FileConverter = fileConverter.value
         val xs = (Docker / mappings).value
         val fileMappings = xs.map { case (ref, p) => toFile(ref) -> p }
         Seq(

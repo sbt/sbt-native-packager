@@ -186,21 +186,18 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
           debianPackageRecommends.value
         ),
         debianPackageInstallSize := {
-          val conv0 = fileConverter.value
-          implicit val conv: FileConverter = conv0
+          implicit val conv: FileConverter = fileConverter.value
           getPackageInstallSize(linuxPackageMappings.value)
         },
         debianControlFile := createConfFile(debianPackageMetadata.value, debianPackageInstallSize.value, target.value),
         debianConffilesFile := {
-          val conv0 = fileConverter.value
-          implicit val conv: FileConverter = conv0
+          implicit val conv: FileConverter = fileConverter.value
           createConffilesFile(linuxPackageMappings.value, target.value)
         },
         debianMD5sumsFile := createMD5SumFile(stage.value),
         debianMakeChownReplacements := makeChownReplacements(linuxPackageMappings.value, streams.value),
         stage := {
-          val conv0 = fileConverter.value
-          implicit val conv: FileConverter = conv0
+          implicit val conv: FileConverter = fileConverter.value
           val debianTarget = target.value
 
           stageMappings(linuxPackageMappings.value, debianTarget)

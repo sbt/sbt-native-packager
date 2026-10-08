@@ -107,8 +107,7 @@ object RpmPlugin extends AutoPlugin {
     rpmDaemonLogFile := s"${(Linux / packageName).value}.log",
     Rpm / daemonStdoutLogFile := Some(rpmDaemonLogFile.value),
     Rpm / validatePackageValidators := {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       Seq(
         nonEmptyMappings((Rpm / linuxPackageMappings).value.flatMap(_.mappings)),
         filesExist((Rpm / linuxPackageMappings).value.flatMap(_.mappings)),
@@ -171,18 +170,15 @@ object RpmPlugin extends AutoPlugin {
       (Rpm / defaultLinuxInstallLocation).value
     ),
     Rpm / stage := {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       RpmHelper.stage(rpmSpecConfig.value, (Rpm / target).value, streams.value.log)
     },
     Rpm / packageBin / artifactPath := {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       RpmHelper.defaultRpmArtifactPath((Rpm / target).value, rpmMetadata.value)
     },
     Rpm / packageBin := Def.uncached {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       val defaultPath = RpmHelper.buildRpm(rpmSpecConfig.value, (Rpm / stage).value, streams.value.log)
       // `file` points to where buildRpm created the rpm. However we want it to be at `artifactPath`.
       // If `artifactPath` is not the default value then we need to copy the file.
@@ -194,8 +190,7 @@ object RpmPlugin extends AutoPlugin {
       toFileRef(pathFile)
     },
     rpmLint := {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       val pkg = (Rpm / packageBin).value
       val path = toNioPath(pkg)
       sys.process.Process(Seq("rpmlint", "-v", path.toAbsolutePath().toString())).!(streams.value.log) match {

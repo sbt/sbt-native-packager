@@ -57,8 +57,7 @@ object SettingsHelper {
           PublishConfiguration()
             .withResolverName(Classpaths.getPublishTo(publishTo.value).name)
             .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
-              val conv0 = fileConverter.value
-              implicit val conv: FileConverter = conv0
+              implicit val conv: FileConverter = fileConverter.value
               (a, toFile(f))
             })
             .withChecksums(checksums.value.toVector)
@@ -69,8 +68,7 @@ object SettingsHelper {
           PublishConfiguration()
             .withResolverName("local")
             .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
-              val conv0 = fileConverter.value
-              implicit val conv: FileConverter = conv0
+              implicit val conv: FileConverter = fileConverter.value
               (a, toFile(f))
             })
             .withChecksums(checksums.value.toVector)
@@ -81,8 +79,7 @@ object SettingsHelper {
           PublishConfiguration()
             .withResolverName(Resolver.mavenLocal.name)
             .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
-              val conv0 = fileConverter.value
-              implicit val conv: FileConverter = conv0
+              implicit val conv: FileConverter = fileConverter.value
               (a, toFile(f))
             })
             .withChecksums(checksums.value.toVector)

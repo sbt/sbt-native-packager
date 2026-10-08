@@ -60,8 +60,7 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
       }
     }.value,
     packageBin := Def.uncached {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       val targetDirectory = target.value
       val binaryName = name.value
       val nativeImageCommand = graalVMNativeImageCommand.value

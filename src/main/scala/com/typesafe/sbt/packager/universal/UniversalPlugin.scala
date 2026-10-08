@@ -92,8 +92,7 @@ object UniversalPlugin extends AutoPlugin {
           dist := printDist(packageBin.value, streams.value),
           stagingDirectory := target.value / "stage",
           stage := {
-            val conv0 = fileConverter.value
-            implicit val conv: FileConverter = conv0
+            implicit val conv: FileConverter = fileConverter.value
             Stager.stage(config.name)(streams.value, stagingDirectory.value, mappings.value)
           }
         )
@@ -132,8 +131,7 @@ object UniversalPlugin extends AutoPlugin {
         packageKey / universalArchiveOptions := Nil,
         packageKey / mappings := mappings.value,
         packageKey := Def.uncached {
-          val conv0 = fileConverter.value
-          implicit val conv: FileConverter = conv0
+          implicit val conv: FileConverter = fileConverter.value
           val xs = (packageKey / mappings).value
           val fileMappings = xs.map { case (ref, p) => toFile(ref) -> p }
           val file = packager(
@@ -146,8 +144,7 @@ object UniversalPlugin extends AutoPlugin {
           toFileRef(file)
         },
         packageKey / validatePackageValidators := {
-          val conv0 = fileConverter.value
-          implicit val conv: FileConverter = conv0
+          implicit val conv: FileConverter = fileConverter.value
           val xs = (packageKey / mappings).value
           val fileMappings = xs.map { case (ref, p) => toFile(ref) -> p }
           (config / validatePackageValidators).value ++ Seq(

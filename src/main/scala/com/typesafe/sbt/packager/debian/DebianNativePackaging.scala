@@ -40,13 +40,11 @@ trait DebianNativePackaging extends DebianPluginLike {
       Seq(
         debianNativeBuildOptions += "-Znone", // packages are largely JARs, which are already compressed
         genChanges := {
-          val conv0 = fileConverter.value
-          implicit val conv: FileConverter = conv0
+          implicit val conv: FileConverter = fileConverter.value
           dpkgGenChanges(packageBin.value, debianChangelog.value, debianPackageMetadata.value, target.value)
         },
         debianSign := {
-          val conv0 = fileConverter.value
-          implicit val conv: FileConverter = conv0
+          implicit val conv: FileConverter = fileConverter.value
           val deb = packageBin.value
           val debFile = toFile(deb)
           val role = debianSignRole.value
@@ -60,8 +58,7 @@ trait DebianNativePackaging extends DebianPluginLike {
           deb
         },
         lintian := {
-          val conv0 = fileConverter.value
-          implicit val conv: FileConverter = conv0
+          implicit val conv: FileConverter = fileConverter.value
           val deb = packageBin.value
           val debFile = toFile(deb)
           sys.process.Process(Seq("lintian", "-c", "-v", debFile.getName), Some(debFile.getParentFile)).!

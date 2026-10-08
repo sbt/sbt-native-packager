@@ -39,23 +39,20 @@ object LauncherJarPlugin extends AutoPlugin {
         artifact.classifier.fold("")("-" + _) + "." + artifact.extension
     },
     Compile / bashScriptDefines / mainClass := Def.uncached {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       val a = (packageJavaLauncherJar / artifactPath).value
       Some(s"""-jar "$$lib_dir/${artifactPathToFile(a).getName}"""")
     },
     bashScriptDefines / scriptClasspath := Nil,
     Compile / batScriptReplacements / mainClass := Def.uncached {
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       val a = (packageJavaLauncherJar / artifactPath).value
       Some(s"""-jar "%APP_LIB_DIR%\\${artifactPathToFile(a).getName}"""")
     },
     batScriptReplacements / scriptClasspath := Nil,
     Universal / mappings += {
       val javaLauncher = packageJavaLauncherJar.value
-      val conv0 = fileConverter.value
-      implicit val conv: FileConverter = conv0
+      implicit val conv: FileConverter = fileConverter.value
       javaLauncher -> ("lib/" + toFile(javaLauncher).getName)
     }
   )

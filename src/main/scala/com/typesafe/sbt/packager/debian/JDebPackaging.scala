@@ -60,8 +60,7 @@ object JDebPackaging extends AutoPlugin with DebianPluginLike {
         * Depends on the 'debianExplodedPackage' task as this creates all the files which are defined in the mappings.
         */
       packageBin := Def.uncached {
-        val conv0 = fileConverter.value
-        implicit val conv: FileConverter = conv0
+        implicit val conv: FileConverter = fileConverter.value
         val targetDir = target.value
         val log = streams.value.log
         val mappings = linuxPackageMappings.value
