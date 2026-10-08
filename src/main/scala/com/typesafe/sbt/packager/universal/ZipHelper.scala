@@ -11,7 +11,7 @@ import org.apache.commons.compress.archivers.zip._
 import org.apache.commons.io.IOUtils
 import sbt._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
   * Module with functions associated with processing zip files.

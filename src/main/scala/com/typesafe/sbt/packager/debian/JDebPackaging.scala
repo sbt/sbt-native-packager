@@ -13,7 +13,7 @@ import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{
   linuxScriptReplacements,
   packageArchitecture
 }
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import DebianPlugin.Names
 import DebianPlugin.autoImport._
 import xsbti.FileConverter
