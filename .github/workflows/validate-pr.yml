@@ -133,6 +133,10 @@ jobs:
       - uses: sbt/setup-sbt@v1
       - name: Validate
         run: sbt validateJdkPackagerTravis
+      - run: |
+          pushd test-project-jdkpackager
+          sbt -v Test/compile
+          popd
 
   test-project:
     runs-on: ubuntu-latest
