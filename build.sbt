@@ -79,20 +79,11 @@ scriptedLaunchOpts += "-Dproject.version=" + version.value
 
 // binary compatibility settings
 mimaPreviousArtifacts := {
-  val m = organization.value %% moduleName.value % "1.12.0"
+  val m = organization.value %% moduleName.value % "1.13.0"
   val sbtBinV = (pluginCrossBuild / sbtBinaryVersion).value
   val scalaBinV = (update / scalaBinaryVersion).value
   Set(Defaults.sbtPluginExtra(m, sbtBinV, scalaBinV))
 }
-
-mimaBinaryIssueFilters ++= Seq(
-  "com.typesafe.sbt.packager.Keys.debianMaintainerScripts()sbt.TaskKey",
-  "com.typesafe.sbt.packager.Keys.wixFile()sbt.TaskKey",
-  "com.typesafe.sbt.packager.debian.DebianKeys.debianMaintainerScripts()sbt.TaskKey",
-  "com.typesafe.sbt.packager.debian.DebianPlugin#autoImport.debianMaintainerScripts()sbt.TaskKey",
-  "com.typesafe.sbt.packager.windows.WindowsKeys.wixFile()sbt.TaskKey",
-  "com.typesafe.sbt.packager.windows.WindowsPlugin#autoImport.wixFile()sbt.TaskKey"
-).map(ProblemFilters.exclude[DirectMissingMethodProblem])
 
 // Release configuration
 publishMavenStyle := true
