@@ -4,7 +4,7 @@ version := "0.1.2"
 
 organization := "com.foo.bar"
 
-libraryDependencies ++= Seq("com.typesafe" % "config" % "1.2.1")
+libraryDependencies ++= Seq("com.typesafe" % "config" % "1.4.9")
 
 Compile / mainClass := Some("ExampleApp")
 
