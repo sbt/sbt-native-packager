@@ -6,6 +6,8 @@ organization := "com.foo.bar"
 
 libraryDependencies ++= Seq("com.typesafe" % "config" % "1.4.9")
 
+scalacOptions += "-Xsource:3"
+
 Compile / mainClass := Some("ExampleApp")
 
 enablePlugins(JDKPackagerPlugin)
@@ -41,7 +43,7 @@ jdkPackagerAssociations := Seq(
 )
 
 // Example of specifying a fallback location of `ant-javafx.jar` if plugin can't find it.
-(antPackagerTasks in JDKPackager) := (antPackagerTasks in JDKPackager).value.orElse {
+JDKPackager / antPackagerTasks := (JDKPackager / antPackagerTasks).value.orElse {
   for {
     f <- Some(file("/usr/lib/jvm/java-8-oracle/lib/ant-javafx.jar"))
     if f.exists()
