@@ -1,5 +1,3 @@
-import com.typesafe.sbt.packager.Compat._
-
 import RpmConstants._
 
 enablePlugins(RpmPlugin)

@@ -1,7 +1,6 @@
 package com.typesafe.sbt.packager.jdkpackager
 
 import com.typesafe.sbt.SbtNativePackager
-import com.typesafe.sbt.packager.Compat.*
 import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.SettingsHelper

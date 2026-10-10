@@ -5,7 +5,6 @@ import sbt.Keys.{fileConverter, mappings, name, packageBin, sourceDirectory, str
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys.{maintainer, packageDescription, packageName, packageSummary}
 import com.typesafe.sbt.packager.universal.UniversalPlugin
-import com.typesafe.sbt.packager.Compat.*
 import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.SettingsHelper
 

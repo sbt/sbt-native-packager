@@ -2,7 +2,6 @@
 
 import scala.sys.process.Process
 import com.typesafe.sbt.packager.Keys.stagingDirectory
-import com.typesafe.sbt.packager.Compat._
 import sbtcompat.PluginCompat
 import sbtcompat.PluginCompat._
 import xsbti.FileConverter

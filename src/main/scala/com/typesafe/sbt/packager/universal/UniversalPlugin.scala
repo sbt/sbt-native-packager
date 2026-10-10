@@ -5,7 +5,6 @@ import sbt.{*, given}
 import sbt.Keys.*
 import Archives.*
 import com.typesafe.sbt.SbtNativePackager
-import com.typesafe.sbt.packager.Compat.*
 import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.docker.DockerPlugin

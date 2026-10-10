@@ -1,7 +1,6 @@
 // Tests jlink behavior with missing dependencies.
 
 import scala.sys.process.Process
-import com.typesafe.sbt.packager.Compat._
 
 // Exclude Scala to simplify the test
 ThisBuild / autoScalaLibrary := false

@@ -8,7 +8,6 @@ import com.typesafe.sbt.SbtNativePackager.{Debian, Universal}
 import com.typesafe.sbt.packager.Keys.packageName
 import com.typesafe.sbt.packager.linux.{LinuxFileMetaData, LinuxPackageMapping}
 import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport.{defaultLinuxInstallLocation, linuxPackageMappings}
-import com.typesafe.sbt.packager.Compat.*
 import sbtcompat.{PluginCompat => SbtCompat}
 import SbtCompat.{artifactToStr, moduleIDToStr, parseArtifactStrAttribute, parseModuleIDStrAttribute, toFile, FileRef}
 import xsbti.FileConverter
