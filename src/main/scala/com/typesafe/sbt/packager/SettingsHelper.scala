@@ -95,7 +95,7 @@ object SettingsHelper {
     *
     * {{{
     * // publish the rpm to the target folder
-    * publishTo in Rpm := Some(Resolver.file("target-resolver", target.value / "rpm-repo" ))
+    * Rpm / publishTo := Some(Resolver.file("target-resolver", target.value / "rpm-repo" ))
     * }}}
     *
     * then the resolver must also be present in the `otherResolvers`
