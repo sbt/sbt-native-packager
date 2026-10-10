@@ -234,13 +234,13 @@ Tasks
 
 The Debian support grants the following commands:
 
-  ``Debian / package-bin``
+  ``Debian / packageBin``
     Generates the ``.deb`` package for this project.
 
   ``Debian / lintian``
     Generates the ``.deb`` file and runs the ``lintian`` command to look for issues in the package.  Useful for debugging.
 
-  ``Debian / gen-changes``
+  ``Debian / genChanges``
     Generates the ``.changes``, and therefore the ``.deb`` package for this project.
 
 

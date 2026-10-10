@@ -121,17 +121,17 @@ and file system manipulations.**
 Tasks
 -----
 
-  ``Universal / package-bin``
+  ``Universal / packageBin``
     Creates the ``zip`` universal package.
 
-  ``Universal / package-zip-tarball``
+  ``Universal / packageZipTarball``
     Creates the ``tgz`` universal package.
 
-  ``Universal / package-xz-tarball``
+  ``Universal / packageXzTarball``
     Creates the ``txz`` universal package.  The ``xz`` command can get better compression
     for some types of archives.
 
-  ``Universal / package-osx-dmg``
+  ``Universal / packageOsxDmg``
     Creates the ``dmg`` universal package.  This only work on macOS or systems with ``hdiutil``.
 
   ``UniversalDocs / packageBin``
@@ -167,10 +167,10 @@ Be aware that the above line will overwrite the default options.  You may want t
 
 Currently, these task can be customized:
 
-  ``Universal/package-zip-tarball``
+  ``Universal/packageZipTarball``
     `Universal / packageZipTarball / universalArchiveOptions`
 
-  ``Universal/package-xz-tarball``
+  ``Universal/packageXzTarball``
     `Universal / packageXzTarball / universalArchiveOptions`
 
 .. _universal-plugin-getting-started-with-packaging:
