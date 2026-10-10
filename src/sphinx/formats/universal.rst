@@ -370,8 +370,8 @@ SBT provides the `IO`_ and `Path`_ APIs, which
 help make defining custom mappings easy. The files will appear in the generate universal zip, but also in your
 debian/rpm/msi/dmg builds as described above in the conventions.
 
-.. _IO: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html
-.. _Path: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html
+.. _IO: https://www.scala-sbt.org/1.x/docs/Paths.html
+.. _Path: https://www.scala-sbt.org/1.x/docs/Paths.html
 
 The ``Compile / packageBin`` dependency is only needed if your files get generated
 during the ``packageBin`` command or before. For static files you can remove it.
@@ -447,7 +447,7 @@ Note that the first item of each pair is the full path to where the file exists 
 second part is the just the path starting after ``.../scala``.  That second part is what is returned from
 ``<each file>.relativeTo(dir.getParentFile)``.
 
-.. _PathFinder: http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Paths.html#path-finders
+.. _PathFinder: https://www.scala-sbt.org/1.x/docs/Paths.html#Path+Finders
 
 Mapping the content of a directory (excluding the directory itself)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
