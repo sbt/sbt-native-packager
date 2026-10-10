@@ -4,6 +4,7 @@ import sbt.{librarymanagement => lm, PathFinder}
 import sbt.internal.{librarymanagement => ilm, BuildDependencies => InternalBuildDependencies}
 import sbt.util.CacheStore
 
+@deprecated("will be removed", "1.13.1")
 object Compat {
   val IvyActions = ilm.IvyActions
   type IvySbt = ilm.IvySbt

@@ -1,5 +1,4 @@
 import com.typesafe.sbt.packager.Keys.stagingDirectory
-import com.typesafe.sbt.packager.Compat._
 
 scalaVersion := "2.12.21"
 

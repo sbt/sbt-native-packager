@@ -7,7 +7,6 @@ import sbt.{*, given}
 import sbt.Keys.*
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.packager.Keys.bundledJvmLocation
-import com.typesafe.sbt.packager.Compat._
 import sbtcompat.PluginCompat._
 import java.io.File
 import xsbti.FileConverter

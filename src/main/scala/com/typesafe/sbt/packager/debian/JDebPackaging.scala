@@ -1,7 +1,6 @@
 package com.typesafe.sbt.packager
 package debian
 
-import com.typesafe.sbt.packager.Compat.*
 import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.Keys.maintainerScripts
 import sbt.{*, given}

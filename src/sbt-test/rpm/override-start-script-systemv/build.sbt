@@ -1,4 +1,3 @@
-import com.typesafe.sbt.packager.Compat._
 import sbtcompat.PluginCompat
 import xsbti.FileConverter
 

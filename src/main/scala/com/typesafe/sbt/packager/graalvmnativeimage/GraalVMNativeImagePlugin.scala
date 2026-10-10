@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream
 
 import com.typesafe.sbt.packager.{MappingsHelper, Stager}
 import com.typesafe.sbt.packager.Keys.*
-import com.typesafe.sbt.packager.Compat.*
 import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import com.typesafe.sbt.packager.docker.{Cmd, DockerPlugin, Dockerfile, ExecCmd}

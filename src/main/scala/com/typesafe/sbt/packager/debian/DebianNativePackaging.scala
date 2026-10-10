@@ -4,7 +4,6 @@ package debian
 import com.typesafe.sbt.SbtNativePackager.Debian
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.linux.LinuxFileMetaData
-import com.typesafe.sbt.packager.Compat._
 import sbtcompat.PluginCompat._
 import sbt.Keys.*
 import sbt.{*, given}

@@ -2,7 +2,6 @@
 // `scripted` tests.
 
 import scala.sys.process.Process
-import com.typesafe.sbt.packager.Compat._
 import sbtcompat.PluginCompat
 import xsbti.FileConverter
 

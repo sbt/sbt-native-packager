@@ -3,7 +3,6 @@ package com.typesafe.sbt.packager.archetypes.jar
 import sbt.Package.ManifestAttributes
 import sbt.{*, given}
 import sbt.Keys._
-import com.typesafe.sbt.packager.Compat.*
 import com.typesafe.sbt.packager.PluginCompat
 import sbtcompat.PluginCompat._
 import com.typesafe.sbt.packager.Keys._

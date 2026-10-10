@@ -5,7 +5,6 @@ import sbt.Keys.TaskStreams
 import sbt.util.CacheStore
 import java.io.File
 
-import com.typesafe.sbt.packager.Compat._
 import sbtcompat.PluginCompat._
 import xsbti.FileConverter
 

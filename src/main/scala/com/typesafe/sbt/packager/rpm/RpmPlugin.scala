@@ -8,7 +8,6 @@ import com.typesafe.sbt.SbtNativePackager.Linux
 import com.typesafe.sbt.packager.SettingsHelper
 import com.typesafe.sbt.packager.Keys.*
 import com.typesafe.sbt.packager.linux.*
-import com.typesafe.sbt.packager.Compat.*
 import sbtcompat.PluginCompat.*
 import com.typesafe.sbt.packager.validation.*
 import xsbti.FileConverter
