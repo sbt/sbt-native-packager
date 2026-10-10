@@ -109,7 +109,7 @@ object ZipHelper {
         case FileMapping(file, name, _) =>
           val dest = system.getPath(name)
           // create parent directories if available
-          Option(dest.getParent).foreach(Files createDirectories _)
+          Option(dest.getParent).foreach(Files.createDirectories(_))
           Files.copy(file.toPath, dest, StandardCopyOption.COPY_ATTRIBUTES)
       }
     }
