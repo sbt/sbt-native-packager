@@ -4,9 +4,8 @@ import com.typesafe.sbt.packager._
 import com.typesafe.sbt.packager.permissions
 import org.scalatest._
 import java.io.File
-import java.nio.file.{Files, Path, Paths}
+import java.nio.file.{Files, Path}
 import java.nio.file.attribute.PosixFilePermission._
-import scala.jdk.CollectionConverters._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

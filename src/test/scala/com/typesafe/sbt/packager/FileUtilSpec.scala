@@ -1,6 +1,5 @@
 package com.typesafe.sbt.packager
 
-import org.scalatest._
 import java.nio.file.attribute.PosixFilePermission._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers

@@ -1,6 +1,6 @@
 package com.typesafe.sbt.packager
 
-import sbt.{librarymanagement => lm, PathFinder}
+import sbt.{librarymanagement => lm}
 import sbt.internal.{librarymanagement => ilm, BuildDependencies => InternalBuildDependencies}
 import sbt.util.CacheStore
 

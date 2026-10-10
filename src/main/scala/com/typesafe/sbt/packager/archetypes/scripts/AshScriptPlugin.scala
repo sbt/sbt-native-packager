@@ -1,7 +1,5 @@
 package com.typesafe.sbt.packager.archetypes.scripts
 
-import java.io.File
-
 import com.typesafe.sbt.packager.Keys._
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import sbt.Keys.sourceDirectory
