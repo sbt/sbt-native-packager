@@ -2,7 +2,6 @@ package com.typesafe.sbt
 package packager
 package windows
 
-import Keys._
 import sbt._
 
 import collection.mutable.ArrayBuffer

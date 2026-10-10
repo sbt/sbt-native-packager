@@ -2,7 +2,6 @@ package com.typesafe.sbt
 package packager
 package rpm
 
-import linux._
 import sbt._
 
 /** RPM Specific keys. */

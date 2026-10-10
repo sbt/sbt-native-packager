@@ -1,6 +1,5 @@
 package com.typesafe.sbt.packager.docker
 
-import org.scalatest._
 import org.scalatest.diagrams.Diagrams
 import org.scalatest.flatspec.AnyFlatSpec
 
