@@ -236,7 +236,7 @@ To create your new "packageFormat" just run
     
 If you want to read more about sbt configurations:
 
-* `sbt tasks <http://www.scala-sbt.org/0.13/docs/Tasks.html>`_
-* `sbt configurations <http://www.scala-sbt.org/0.13.5/docs/Detailed-Topics/Testing.html#additional-test-configurations-with-shared-sources>`_
+* `sbt tasks <https://www.scala-sbt.org/1.x/docs/Tasks.html>`_
+* `sbt configurations <https://www.scala-sbt.org/1.x/docs/Testing.html#Additional+test+configurations+with+shared+sources>`_
 * `custom configuration <http://stackoverflow.com/questions/18789477/define-custom-configuration-in-sbt>`_
 

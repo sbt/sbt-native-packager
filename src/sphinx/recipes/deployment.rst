@@ -25,7 +25,7 @@ like this in your ``build.sbt``
 
 For an automatised build process are other plugins like the `sbt release plugin`_.
 
-.. _sbt publish documentation: http://www.scala-sbt.org/0.13/docs/Publishing.html
+.. _sbt publish documentation: https://www.scala-sbt.org/1.x/docs/Publishing.html
 .. _sbt release plugin: https://github.com/sbt/sbt-release
 
 Default Deployment
