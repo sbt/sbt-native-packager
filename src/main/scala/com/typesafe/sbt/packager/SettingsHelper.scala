@@ -34,7 +34,7 @@ object SettingsHelper {
   ): Seq[Setting[?]] =
     // Why do we need the ivyPublishSettings and jvmPublishSettings ?
     inConfig(config)(Classpaths.ivyPublishSettings ++ Classpaths.jvmPublishSettings) ++ inConfig(config)(
-      Seq(
+      Def.settings(
         artifacts := Seq.empty,
         packagedArtifacts := Def.uncached(Map.empty),
         projectID := ModuleID(organization.value, name.value, version.value),
@@ -43,10 +43,7 @@ object SettingsHelper {
           ModuleDescriptorConfiguration(projectID.value, projectInfo.value)
             .withScalaModuleInfo(scalaModuleInfo.value)
         ),
-        ivyModule := Def.uncached {
-          val ivy = ivySbt.value
-          new ivy.Module(moduleSettings.value)
-        },
+        PluginCompat.ivyModuleSettings,
         // Where have these settings gone?
         // -------------------------------
         // deliverLocalConfiguration := Classpaths.deliverConfig(crossTarget.value, logging = ivyLoggingLevel.value)

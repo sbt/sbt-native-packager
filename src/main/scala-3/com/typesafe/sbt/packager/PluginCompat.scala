@@ -14,4 +14,6 @@ object PluginCompat {
     ref.name()
   private[packager] def classpathAttr: String = Attributes.Name.CLASS_PATH.toString()
   private[packager] def mainclassAttr: String = Attributes.Name.MAIN_CLASS.toString()
+
+  private[packager] val ivyModuleSettings: Seq[Def.Setting[?]] = Nil
 }

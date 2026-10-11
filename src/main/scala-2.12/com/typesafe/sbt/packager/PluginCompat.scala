@@ -1,6 +1,7 @@
 package com.typesafe.sbt.packager
 
 import java.util.jar.Attributes
+import sbt.Keys.{ivyModule, ivySbt, moduleSettings}
 import sbt.*
 
 object PluginCompat {
@@ -13,4 +14,10 @@ object PluginCompat {
     ref.getName()
   private[packager] def classpathAttr = Attributes.Name.CLASS_PATH
   private[packager] def mainclassAttr = Attributes.Name.MAIN_CLASS
+
+  private[packager] val ivyModuleSettings: Seq[Def.Setting[?]] =
+    Def.settings(ivyModule := {
+      val ivy = ivySbt.value
+      new ivy.Module(moduleSettings.value)
+    })
 }
