@@ -605,7 +605,7 @@ object DockerPlugin extends AutoPlugin {
     * @return
     *   commands to create, chown and declare volumes
     * @see
-    *   http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
+    *   https://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
     * @see
     *   https://docs.docker.com/userguide/dockervolumes/
     */

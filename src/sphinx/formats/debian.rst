@@ -291,4 +291,4 @@ Your control scripts are in a different castle.. directory? No problem.
 
     debianControlScriptsDirectory <<= (sourceDirectory) apply (_ / "deb" / "control")
 
-.. _MaintainerScriptHelper Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$
+.. _MaintainerScriptHelper Scaladocs: https://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$

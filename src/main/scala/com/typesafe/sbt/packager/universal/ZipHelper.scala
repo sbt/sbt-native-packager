@@ -17,11 +17,11 @@ import scala.jdk.CollectionConverters._
   * Module with functions associated with processing zip files.
   *
   * @see
-  *   http://stackoverflow.com/questions/17888365/file-permissions-are-not-being-preserved-while-after-zip
+  *   https://stackoverflow.com/questions/17888365/file-permissions-are-not-being-preserved-while-after-zip
   * @see
-  *   http://stackoverflow.com/questions/3450250/is-it-possible-to-create-a-script-to-save-and-restore-permissions
+  *   https://stackoverflow.com/questions/3450250/is-it-possible-to-create-a-script-to-save-and-restore-permissions
   * @see
-  *   http://stackoverflow.com/questions/1050560/maintain-file-permissions-when-extracting-from-a-zip-file-using-jdk-5-api
+  *   https://stackoverflow.com/questions/1050560/maintain-file-permissions-when-extracting-from-a-zip-file-using-jdk-5-api
   * @see
   *   http://docs.oracle.com/javase/7/docs/technotes/guides/io/fsp/zipfilesystemprovider.html
   */
@@ -186,7 +186,7 @@ object ZipHelper {
     * @param f:
     *   FileSystem => Unit, logic working in the filesystem
     * @see
-    *   http://stackoverflow.com/questions/9873845/java-7-zip-file-system-provider-doesnt-seem-to-accept-spaces-in-uri
+    *   https://stackoverflow.com/questions/9873845/java-7-zip-file-system-provider-doesnt-seem-to-accept-spaces-in-uri
     */
   def withZipFilesystem(zipFile: File, overwrite: Boolean = true)(f: FileSystem => Unit): Unit = {
     if (overwrite) Files.deleteIfExists(zipFile.toPath)

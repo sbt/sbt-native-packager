@@ -17,7 +17,7 @@ import com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader
   * Provides configuration for running an application on a server.
   *
   * @see
-  *   [[http://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html]]
+  *   [[https://sbt-native-packager.readthedocs.io/en/latest/archetypes/java_server/index.html]]
   */
 object JavaServerAppPackaging extends AutoPlugin {
   import ServerLoader._

@@ -17,7 +17,7 @@ rpmRelease := "1"
 
 rpmVendor := "typesafe"
 
-rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
+rpmUrl := Some("https://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
@@ -42,7 +42,7 @@ TaskKey[Unit]("checkSpecFile") := {
   assert(spec.contains("License: BSD"), "Contains project license")
   assert(spec.contains("Epoch: 1"), "Contains epoch of 1")
   assert(spec.contains("Vendor: typesafe"), "Contains project vendor")
-  assert(spec.contains("URL: http://github.com/sbt/sbt-native-packager"), "Contains project url")
+  assert(spec.contains("URL: https://github.com/sbt/sbt-native-packager"), "Contains project url")
   assert(spec.contains("BuildArch: x86_64"), "Contains project package architecture")
 
   assert(

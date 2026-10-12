@@ -23,7 +23,7 @@ object JDKPackagerAntHelper {
   private[jdkpackager] def locateAntTasks(javaHome: Option[File], logger: Logger): Option[File] = {
     val jarname = "ant-javafx.jar"
 
-    // This approach to getting JDK bits is borrowed from: http://stackoverflow.com/a/25163628/296509
+    // This approach to getting JDK bits is borrowed from: https://stackoverflow.com/a/25163628/296509
     // Starting with an ordered list of possible java directory sources, create derivative and
     // then test for the tool. It's nasty looking because there's no canonical way of finding the
     // JDK from the JRE, and JDK_HOME isn't always defined.

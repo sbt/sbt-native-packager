@@ -361,7 +361,7 @@ You get a set of methods which will help you to create mappings very easily.
     Universal / mappings ++= contentOf(sourceDirectory.value / "main" / "resources" / "docs")
 
 
-.. _MappingsHelper: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MappingsHelper$
+.. _MappingsHelper: https://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MappingsHelper$
 
 Mapping Examples
 ~~~~~~~~~~~~~~~~

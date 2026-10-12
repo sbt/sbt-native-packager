@@ -17,7 +17,7 @@ rpmRelease := "1"
 
 rpmVendor := "typesafe"
 
-rpmUrl := Some("http://github.com/sbt/sbt-native-packager")
+rpmUrl := Some("https://github.com/sbt/sbt-native-packager")
 
 rpmLicense := Some("BSD")
 
