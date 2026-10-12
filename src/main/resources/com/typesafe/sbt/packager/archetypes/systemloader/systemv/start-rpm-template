@@ -21,7 +21,7 @@
 ### -----------------
 # This script was created using following sources
 #
-# http://stackoverflow.com/questions/8124345/call-to-daemon-in-a-etc-init-d-script-is-blocking-not-running-in-background
+# https://stackoverflow.com/questions/8124345/call-to-daemon-in-a-etc-init-d-script-is-blocking-not-running-in-background
 # https://fedoraproject.org/wiki/Packaging:SysVInitScript#Initscript_template
 ### -----------------
 

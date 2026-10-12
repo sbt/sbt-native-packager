@@ -4,14 +4,14 @@
 
 # To use your own template create
 #   src/templates/etc-default-systemv
-# see http://www.scala-sbt.org/sbt-native-packager/archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd
+# see https://www.scala-sbt.org/sbt-native-packager/archetypes/cheatsheet.html#server-app-config-src-templates-etc-default-systemv-systemd
 
 # This file gets sourced before the actual startscript
 # gets executed. You can use this file to provide
 # environment variables
 
 # Available replacements
-# see http://www.scala-sbt.org/sbt-native-packager/archetypes/systemloaders.html#override-start-script
+# see https://www.scala-sbt.org/sbt-native-packager/archetypes/systemloaders.html#override-start-script
 # --------------------------------------------------------------------
 # Name                   Contains                     Current value
 # (remove space)

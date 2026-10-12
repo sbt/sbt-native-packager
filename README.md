@@ -5,7 +5,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0e9a7ec769c84e578f4550bf7da6bf05)](https://www.codacy.com/app/nepomukseiler/sbt-native-packager?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sbt/sbt-native-packager&amp;utm_campaign=Badge_Grade)
 [![sbt-native-packager Scala version support](https://index.scala-lang.org/sbt/sbt-native-packager/sbt-native-packager/latest-by-scala-version.svg?targetType=Sbt)](https://index.scala-lang.org/sbt/sbt-native-packager/sbt-native-packager)
 [![Join the chat at https://gitter.im/sbt/sbt-native-packager](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sbt/sbt-native-packager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Documentation Status](https://readthedocs.org/projects/sbt-native-packager/badge/?version=latest)](http://sbt-native-packager.readthedocs.org/en/latest/?badge=latest)
+[![Documentation Status](https://app.readthedocs.org/projects/sbt-native-packager/badge/?version=latest)](https://sbt-native-packager.readthedocs.io/en/latest/?badge=latest)
 
 
 ![Native Packager Logo](src/sphinx/static/np_logo_full_horizontal_transparent.png)
@@ -18,13 +18,13 @@ different archetypes for common configurations, such as simple Java apps or serv
 ## Issues/Discussions ##
 
 *  **Discussion/Questions**:
-  If you wish to ask questions about the native packager we're active on [Stack Overflow](http://stackoverflow.com/questions/tagged/sbt). You can either use the `sbt` tag or the
+  If you wish to ask questions about the native packager we're active on [Stack Overflow](https://stackoverflow.com/questions/tagged/sbt). You can either use the `sbt` tag or the
   `sbt-native-packager` tag.  They also have far better search support for working around issues.
 * **Docs**:
-  [Our docs are available online](http://sbt-native-packager.readthedocs.org/en/latest/).  If you'd like to help improve the docs, they're part of this
-  repository in the `src/sphinx` directory. [ScalaDocs](http://www.scala-sbt.org/sbt-native-packager/latest/api/#package) are also available.
+  [Our docs are available online](https://sbt-native-packager.readthedocs.io/en/latest/).  If you'd like to help improve the docs, they're part of this
+  repository in the `src/sphinx` directory. [ScalaDocs](https://www.scala-sbt.org/sbt-native-packager/latest/api/#package) are also available.
 
-  The old documentation can be found [here](http://www.scala-sbt.org/sbt-native-packager/)
+  The old documentation can be found [here](https://www.scala-sbt.org/sbt-native-packager/)
 * **Issues/Feature Requests**:
   Finally, any bugs or features you find you need, please report to our [issue tracker](https://github.com/sbt/sbt-native-packager/issues/new).
   Please check the [compatibility matrix](https://github.com/sbt/sbt-native-packager/wiki/Tested-On) to see if your system is able to
@@ -103,7 +103,7 @@ Read more in the specific [format documentation][formats] on how to configure an
 
 ## Documentation ##
 
-There's a complete "getting started" guide and more detailed topics available at [the sbt-native-packager site](http://www.scala-sbt.org/sbt-native-packager/).
+There's a complete "getting started" guide and more detailed topics available at [the sbt-native-packager site](https://www.scala-sbt.org/sbt-native-packager/).
 
 Please feel free to [contribute documentation](https://github.com/sbt/sbt-native-packager/tree/master/src/sphinx), or raise issues where you feel it may be lacking.
 
@@ -119,16 +119,16 @@ or provide a richer API for a single packaging format.
 - [sbt-aether](https://github.com/arktekk/sbt-aether-deploy)
 - [sbt-assembly](https://github.com/sbt/sbt-assembly)
 - [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
-  - This is in addition to the built-in [Docker Plugin](http://www.scala-sbt.org/sbt-native-packager/formats/docker.html) from  sbt-native.  Both generate docker images. `sbt-docker` provides more customization abilities, while the `DockerPlugin` in this project  integrates more directly with predefined archetypes.
+  - This is in addition to the built-in [Docker Plugin](https://www.scala-sbt.org/sbt-native-packager/formats/docker.html) from  sbt-native.  Both generate docker images. `sbt-docker` provides more customization abilities, while the `DockerPlugin` in this project  integrates more directly with predefined archetypes.
 - [sbt-kubeyml](https://github.com/vaslabs/sbt-kubeyml)
 - [sbt-packager](https://github.com/en-japan/sbt-packer)
 - [sbt-package-courier](https://github.com/alkersan/sbt-package-courier)
 
-[formats]: http://www.scala-sbt.org/sbt-native-packager/gettingstarted.html#packaging-formats
-[Java application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/index.html
-[Java server application]: http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/index.html
-[My First Packaged Server Project guide]: http://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html
-[jdkpackager]: http://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html
+[formats]: https://www.scala-sbt.org/sbt-native-packager/gettingstarted.html#packaging-formats
+[Java application]: https://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/index.html
+[Java server application]: https://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/index.html
+[My First Packaged Server Project guide]: https://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html
+[jdkpackager]: https://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html
 [jlink]: https://docs.oracle.com/en/java/javase/11/tools/jlink.html
 
 ## Maintainers ##

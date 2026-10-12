@@ -365,8 +365,8 @@ For more information on this topic follow these links:
   .. _issue #195: https://github.com/sbt/sbt-native-packager/issues/195
   .. _pullrequest #199: https://github.com/sbt/sbt-native-packager/pull/199
   .. _OpenSuse issue: https://github.com/sbt/sbt-native-packager/issues/215
-  .. _RPM Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.rpm.RpmPlugin$$Names$
-  .. _MaintainerScriptHelper Scaladocs: http://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$
+  .. _RPM Scaladocs: https://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.rpm.RpmPlugin$$Names$
+  .. _MaintainerScriptHelper Scaladocs: https://www.scala-sbt.org/sbt-native-packager/latest/api/#com.typesafe.sbt.packager.MaintainerScriptHelper$
 
 
 Marking config files as ``noreplace``
