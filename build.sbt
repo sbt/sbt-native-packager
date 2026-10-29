@@ -63,7 +63,7 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= {
   (pluginCrossBuild / sbtVersion).value match {
     case v if v.startsWith("1.") =>
-      Seq("org.scala-sbt" %% "io" % "1.13.5")
+      Seq("org.scala-sbt" %% "io" % "1.13.6")
     case _ => Seq()
   }
 }
