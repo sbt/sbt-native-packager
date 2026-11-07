@@ -1,6 +1,6 @@
 name := "test-project-windows"
 version := "0.2.0"
-libraryDependencies ++= Seq("com.typesafe" % "config" % "1.4.9")
+libraryDependencies ++= Seq("com.typesafe" % "config" % "1.4.10")
 
 Compile / mainClass := Some("ExampleApp")
 
