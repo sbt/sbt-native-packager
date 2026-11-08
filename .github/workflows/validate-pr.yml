@@ -120,7 +120,7 @@ jobs:
       - name: Download Zulu 8
         run: |
           # the standard zulu dist doesn't include javafx
-          download_url="https://cdn.azul.com/zulu/bin/zulu8.38.0.13-ca-fx-jdk8.0.212-linux_x64.tar.gz"
+          download_url="https://cdn.azul.com/zulu/bin/zulu8.98.0.111-ca-fx-jdk8.0.512-linux_x64.tar.gz"
           wget -O $RUNNER_TEMP/java_package.tar.gz $download_url
       - name: Setup Azul JDK with JavaFX
         uses: actions/setup-java@v6
