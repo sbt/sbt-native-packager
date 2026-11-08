@@ -129,8 +129,11 @@ object RpmHelper {
       log.debug("Executing rpmbuild with: " + args.mkString(" "))
       // RPM outputs to standard error in non-error cases. So just collect all the output, then dump
       // it all to either error log or info log depending on the exit status
+      // stdout and stderr are read by separate threads, so the appends must not race
       val outputBuffer = collection.mutable.ArrayBuffer.empty[String]
-      sys.process.Process(args, Some(specsDir)) ! sys.process.ProcessLogger(o => outputBuffer.append(o)) match {
+      sys.process.Process(args, Some(specsDir)) ! sys.process.ProcessLogger(o =>
+        outputBuffer.synchronized(outputBuffer.append(o))
+      ) match {
         case 0 =>
           // Workaround for #1246 - random tests fail with a NullPointerException in the sbt ConsoleLogger
           // I wasn't able to reproduce this locally and there aren't any user reports on this, so we catch
