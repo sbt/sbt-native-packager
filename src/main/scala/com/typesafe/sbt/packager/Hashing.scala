@@ -15,7 +15,7 @@ object Hashing {
     messageDigestHex(java.security.MessageDigest.getInstance("MD5"))(t)
 
   def messageDigestHex(md: java.security.MessageDigest)(file: File): String = {
-    val in = new java.io.FileInputStream(file);
+    val in = new java.io.FileInputStream(file)
     val buffer = new Array[Byte](8192)
     try {
       @tailrec

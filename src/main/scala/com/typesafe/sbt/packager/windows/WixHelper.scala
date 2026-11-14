@@ -97,9 +97,9 @@ object WixHelper {
         else filename.lastIndexOf('\\')
       filename.drop(lastSlash + 1)
     }
-    val dirs = filenames.map(parentDir).distinct;
+    val dirs = filenames.map(parentDir).distinct
     // Now we need our directory tree xml?
-    val dirToChildren = dirs.groupBy(parentDir);
+    val dirToChildren = dirs.groupBy(parentDir)
     def dirXml(currentDir: String): scala.xml.Node =
       if (!currentDir.isEmpty) {
         val children = dirToChildren.getOrElse(currentDir, Seq.empty)
