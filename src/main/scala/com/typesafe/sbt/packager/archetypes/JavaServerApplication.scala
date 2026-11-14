@@ -249,7 +249,7 @@ object JavaServerAppPackaging extends AutoPlugin {
         TemplateWriter.generateScriptFromString(script, replacements)
       }.toSeq
       // add new content
-      val newContent = scripts.getOrElse(script, Nil) ++ content.toSeq
+      val newContent = scripts.getOrElse(script, Nil) ++ content
       scripts + (script -> newContent)
     }
 
