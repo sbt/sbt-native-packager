@@ -127,7 +127,6 @@ or provide a richer API for a single packaging format.
 [formats]: https://www.scala-sbt.org/sbt-native-packager/gettingstarted.html#packaging-formats
 [Java application]: https://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/index.html
 [Java server application]: https://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/index.html
-[My First Packaged Server Project guide]: https://www.scala-sbt.org/sbt-native-packager/GettingStartedServers/MyFirstProject.html
 [jdkpackager]: https://www.scala-sbt.org/sbt-native-packager/formats/jdkpackager.html
 [jlink]: https://docs.oracle.com/en/java/javase/11/tools/jlink.html
 
