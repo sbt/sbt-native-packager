@@ -200,7 +200,6 @@ object GraalVMNativeImagePlugin extends AutoPlugin {
         val dockerContent = Dockerfile(
           Cmd("FROM", baseImage),
           Cmd("WORKDIR", "/opt/graalvm"),
-          ExecCmd("RUN", "gu", "install", "native-image"),
           ExecCmd("RUN", "sh", "-c", "ln -s /opt/graalvm-ce-*/bin/native-image /usr/local/bin/native-image"),
           ExecCmd("ENTRYPOINT", "native-image")
         ).makeContent
