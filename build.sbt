@@ -6,7 +6,7 @@ homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val sbt2 = "2.0.10"
+val sbt2 = "2.0.12"
 // crossBuildingSettings
 lazy val scala212 = "2.12.21"
 lazy val scala3 = scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt2)
