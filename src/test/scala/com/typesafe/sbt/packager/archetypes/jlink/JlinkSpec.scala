@@ -92,7 +92,7 @@ class JlinkSpec extends AnyFlatSpec with Matchers {
     val input = new String(
       Files.readAllBytes(Paths.get(this.getClass.getResource("/jdeps_output.txt").toURI)),
       StandardCharsets.UTF_8
-    );
+    )
     val deps = JlinkPlugin.parseJdeps(input)
     deps.size should be > 0
     val m = deps.groupBy(_.source)

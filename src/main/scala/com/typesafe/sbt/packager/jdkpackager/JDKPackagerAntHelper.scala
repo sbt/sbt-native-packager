@@ -55,7 +55,7 @@ object JDKPackagerAntHelper {
     entryPointsSpecialCaseWindows
       .map(_ / "lib" / jarname)
       .find { f =>
-        logger.debug(s"Looking for '$jarname' in  '${f.getParent}'");
+        logger.debug(s"Looking for '$jarname' in  '${f.getParent}'")
         f.exists()
       }
       .map { f =>
