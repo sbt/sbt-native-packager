@@ -83,7 +83,7 @@ jobs:
             distribution: temurin
             command: +validateJlink
           - os: ubuntu-latest
-            java: 22
+            java: 25
             distribution: graalvm
             command: +validateGraalVMNativeImage
           - os: macos-latest
