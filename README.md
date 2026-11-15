@@ -2,7 +2,6 @@
 
 [![Build Status](https://github.com/sbt/sbt-native-packager/actions/workflows/validate-pr.yml/badge.svg?event=push)](https://github.com/sbt/sbt-native-packager/actions/workflows/validate-pr.yml)
 [![Build status](https://ci.appveyor.com/api/projects/status/pbxd0untlcst4we7/branch/master?svg=true)](https://ci.appveyor.com/project/muuki88/sbt-native-packager/branch/master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0e9a7ec769c84e578f4550bf7da6bf05)](https://www.codacy.com/app/nepomukseiler/sbt-native-packager?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sbt/sbt-native-packager&amp;utm_campaign=Badge_Grade)
 [![sbt-native-packager Scala version support](https://index.scala-lang.org/sbt/sbt-native-packager/sbt-native-packager/latest-by-scala-version.svg?targetType=Sbt)](https://index.scala-lang.org/sbt/sbt-native-packager/sbt-native-packager)
 [![Join the chat at https://gitter.im/sbt/sbt-native-packager](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sbt/sbt-native-packager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Documentation Status](https://app.readthedocs.org/projects/sbt-native-packager/badge/?version=latest)](https://sbt-native-packager.readthedocs.io/en/latest/?badge=latest)
