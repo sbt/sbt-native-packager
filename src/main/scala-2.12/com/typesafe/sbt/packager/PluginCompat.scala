@@ -14,6 +14,7 @@ object PluginCompat {
     ref.getName()
   private[packager] def classpathAttr = Attributes.Name.CLASS_PATH
   private[packager] def mainclassAttr = Attributes.Name.MAIN_CLASS
+  private[packager] def mavenLocalPublishResolverName: String = Resolver.mavenLocal.name
 
   private[packager] val ivyModuleSettings: Seq[Def.Setting[?]] =
     Def.settings(ivyModule := {

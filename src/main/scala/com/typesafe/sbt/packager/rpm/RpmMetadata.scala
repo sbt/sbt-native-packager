@@ -109,7 +109,7 @@ object RpmScripts {
     maintainerScripts: Map[String, Seq[String]],
     replacements: Seq[(String, String)]
   ): RpmScripts = {
-    val toContent = toContentWith(replacements) _
+    val toContent: Seq[String] => String = toContentWith(replacements)
     RpmScripts(
       pretrans = maintainerScripts.get(Pretrans).map(toContent),
       pre = maintainerScripts.get(Pre).map(toContent),
@@ -170,7 +170,7 @@ case class RpmSpec(
       sys.error("There are issues with the rpm spec data.")
   }
 
-  private[this] def fixFilename(n: String): String = {
+  private def fixFilename(n: String): String = {
     val tmp =
       if (n.startsWith("/")) n
       else "/" + n
@@ -178,7 +178,7 @@ case class RpmSpec(
     else tmp
   }
 
-  private[this] def makeFilesLine(target: String, meta: LinuxFileMetaData, isDir: Boolean): String = {
+  private def makeFilesLine(target: String, meta: LinuxFileMetaData, isDir: Boolean): String = {
 
     val sb = new StringBuilder
     meta.config.toLowerCase match {
@@ -201,7 +201,7 @@ case class RpmSpec(
     sb.toString
   }
 
-  private[this] def fileSection(implicit conv: FileConverter): String = {
+  private def fileSection(implicit conv: FileConverter): String = {
     val sb = new StringBuilder
     sb.append("\n%files\n")
     // TODO - default attribute string.
@@ -214,7 +214,7 @@ case class RpmSpec(
     sb.toString
   }
 
-  private[this] def installSection(root: File): String = {
+  private def installSection(root: File): String = {
     val sb = new StringBuilder
     sb.append("\n")
     sb.append("%install\n")

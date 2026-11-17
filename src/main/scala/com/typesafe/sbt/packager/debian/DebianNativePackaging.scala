@@ -77,8 +77,8 @@ trait DebianNativePackaging extends DebianPluginLike {
       )
     )
 
-  private[this] def dpkgGenChanges(debFile: FileRef, changelog: Option[File], data: PackageMetaData, targetDir: File)(
-    implicit conv: FileConverter
+  private def dpkgGenChanges(debFile: FileRef, changelog: Option[File], data: PackageMetaData, targetDir: File)(implicit
+    conv: FileConverter
   ): FileRef = {
     println(s"Changelog: $changelog")
     changelog match {
@@ -108,7 +108,7 @@ trait DebianNativePackaging extends DebianPluginLike {
     }
   }
 
-  private[this] def buildPackage(
+  private def buildPackage(
     name: String,
     version: String,
     arch: String,

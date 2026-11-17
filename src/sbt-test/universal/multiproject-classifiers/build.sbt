@@ -17,6 +17,11 @@ lazy val mySettings: Seq[Setting[?]] =
 
 lazy val Assets = config("assets")
 
+// Declare these with the macro so sbt 2 uses the same sequence-key tags as its built-in keys.
+lazy val exportedProductsVersioned = taskKey[Classpath]("Versioned asset exports")
+lazy val exportedProductsVersionedIfMissing = taskKey[Classpath]("Versioned asset exports if missing")
+lazy val exportedProductsVersionedNoTracking = taskKey[Classpath]("Versioned asset exports without tracking")
+
 lazy val sub = project
   .in(file("sub"))
   .enablePlugins(JavaAppPackaging)
@@ -32,6 +37,10 @@ lazy val sub = project
       IO.zip(sources, file, None)
       (Assets / artifact).value -> PluginCompat.toFileRef(file)
     },
+    // sbt 2 uses versioned exports on runtime inter-project classpaths.
+    Assets / exportedProductsVersioned := (Assets / exportedProducts).value,
+    Assets / exportedProductsVersionedIfMissing := (Assets / exportedProducts).value,
+    Assets / exportedProductsVersionedNoTracking := (Assets / exportedProducts).value,
     Assets / exportedProducts := {
       implicit val converter: FileConverter = fileConverter.value
       val assetsDir = baseDirectory.value / "src" / "main" / "assets"

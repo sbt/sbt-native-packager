@@ -244,8 +244,10 @@ object Archives {
     file(f.getAbsolutePath + ".xz")
   }
 
-  val makeTxz = makeTarballWithOptions(xz, ".txz") _
-  val makeTgz = makeTarballWithOptions(gzip, ".tgz") _
+  val makeTxz: (File, String, Seq[(File, String)], Option[String], Seq[String]) => File =
+    makeTarballWithOptions(xz, ".txz")
+  val makeTgz: (File, String, Seq[(File, String)], Option[String], Seq[String]) => File =
+    makeTarballWithOptions(gzip, ".tgz")
 
   /**
     * Helper method used to construct tar-related compression functions with `--force-local` and `-pvcf` option

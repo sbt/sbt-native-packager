@@ -189,6 +189,6 @@ private class JDebPackagingTask {
   private[debian] def cleanPath(path: String): String =
     if (path.startsWith("/")) path.drop(1) else path
 
-  private[this] def filePermissions(perms: LinuxFileMetaData): PermMapper =
+  private def filePermissions(perms: LinuxFileMetaData): PermMapper =
     new PermMapper(-1, -1, perms.user, perms.group, perms.permissions, null, -1, null)
 }

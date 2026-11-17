@@ -6,10 +6,10 @@ homepage := Some(url("https://github.com/sbt/sbt-native-packager"))
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val sbt2 = "2.0.12"
+val sbt2 = "2.1.0"
 // crossBuildingSettings
 lazy val scala212 = "2.12.21"
-lazy val scala3 = scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt2)
+lazy val scala3 = "3.9.0"
 Global / scalaVersion := scala212
 crossScalaVersions := Seq(scala3, scala212)
 (pluginCrossBuild / sbtVersion) := {
@@ -20,7 +20,7 @@ crossScalaVersions := Seq(scala3, scala212)
 }
 scriptedSbt := {
   scalaBinaryVersion.value match {
-    case "2.12" => "1.10.7"
+    case "2.12" => "1.13.1"
     case _      => sbt2
   }
 }
@@ -29,7 +29,7 @@ Compile / scalacOptions ++= Seq("-deprecation")
 scalacOptions ++= {
   scalaBinaryVersion.value match {
     case "2.12" =>
-      Seq("-release:8")
+      Seq("-Xsource:3", "-release:8")
     case "3" =>
       Seq(
         "-Wconf:msg=is excluded from the cache input:error",

@@ -73,7 +73,7 @@ object JavaServerAppPackaging extends AutoPlugin {
   /* etcDefaultConfig is dependent on serverLoading (systemd, systemv, etc.),
    * and is therefore distro specific. As such, these settings cannot be defined
    * in the global config scope. */
-  private[this] val etcDefaultConfig: Seq[Setting[?]] = Seq(
+  private val etcDefaultConfig: Seq[Setting[?]] = Seq(
     linuxEtcDefaultTemplate := getEtcTemplateSource(sourceDirectory.value, (serverLoading ?? None).value),
     makeEtcDefault := makeEtcDefaultScript(
       packageName.value,
@@ -96,7 +96,7 @@ object JavaServerAppPackaging extends AutoPlugin {
           maintainerScripts := {
             val scripts = (Debian / maintainerScripts).value
             val replacements = (Debian / linuxScriptReplacements).value
-            val contentOf = getScriptContent(Debian, replacements) _
+            val contentOf: String => Seq[String] = getScriptContent(Debian, replacements)
 
             scripts ++ Map(
               Preinst -> (scripts.getOrElse(Preinst, Nil) ++ contentOf(Preinst)),
@@ -156,7 +156,7 @@ object JavaServerAppPackaging extends AutoPlugin {
    * - src/templates/etc-default
    * - Provided template
    */
-  private[this] def getEtcTemplateSource(sourceDirectory: File, loader: Option[ServerLoader]): java.net.URL = {
+  private def getEtcTemplateSource(sourceDirectory: File, loader: Option[ServerLoader]): java.net.URL = {
     val defaultTemplate = getClass.getResource(ETC_DEFAULT + "-template")
     val (suffix, default) = loader
       .map {
@@ -196,7 +196,7 @@ object JavaServerAppPackaging extends AutoPlugin {
     * @return
     *   script lines
     */
-  private[this] def getScriptContent(config: Configuration, replacements: Seq[(String, String)])(
+  private def getScriptContent(config: Configuration, replacements: Seq[(String, String)])(
     scriptName: String
   ): Seq[String] =
     JavaServerBashScript(scriptName, ARCHETYPE, config, replacements).toSeq

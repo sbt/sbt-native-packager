@@ -26,17 +26,17 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
   /**
     * Name of the bat forwarder template if user wants to provide custom one
     */
-  override protected[this] val forwarderTemplateName = "bat-forwarder-template"
+  override protected val forwarderTemplateName = "bat-forwarder-template"
 
   /**
     * Location for the application.ini file used by the bat script to load initialization parameters for jvm and app
     */
   val appIniLocation = "%APP_HOME%\\conf\\application.ini"
 
-  override protected[this] val scriptSuffix = ".bat"
-  override protected[this] val eol: String = "\r\n"
-  override protected[this] val keySurround: String => String = TemplateWriter.batFriendlyKeySurround
-  override protected[this] val executableBitValue: Boolean = false
+  override protected val scriptSuffix = ".bat"
+  override protected val eol: String = "\r\n"
+  override protected val keySurround: String => String = TemplateWriter.batFriendlyKeySurround
+  override protected val executableBitValue: Boolean = false
 
   override val requires = JavaAppPackaging
   override val trigger = AllRequirements
@@ -44,7 +44,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
   object autoImport extends BatStartScriptKeys
   import autoImport._
 
-  protected[this] case class BatScriptConfig(
+  protected case class BatScriptConfig(
     override val executableScriptName: String,
     override val scriptClasspath: Seq[String],
     configLocation: Option[String],
@@ -84,7 +84,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
 
   }
 
-  override protected[this] type SpecializedScriptConfig = BatScriptConfig
+  override protected type SpecializedScriptConfig = BatScriptConfig
 
   override def projectSettings: Seq[Setting[?]] =
     Seq(
@@ -153,7 +153,7 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
       "APP_DEFINES" -> Defines(defines, replacements)
     }
 
-    private[this] def makeWindowsRelativeClasspathDefine(cp: Seq[String]): String = {
+    private def makeWindowsRelativeClasspathDefine(cp: Seq[String]): String = {
       def cleanPath(path: String): String = path.replaceAll("/", "\\\\")
       def isAbsolute(path: String): Boolean =
         path.length > 3 && // check path len is long enough to hold a windows absolute path ("c:\ ...")
@@ -183,13 +183,13 @@ object BatStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator with
       s"""set "BUNDLED_JVM=%APP_HOME%\\$bundledJvm"""
 
     // TODO - use more of the template writer for this...
-    private[this] def replace(line: String, replacements: Seq[(String, String)]): String =
+    private def replace(line: String, replacements: Seq[(String, String)]): String =
       replacements.foldLeft(line) { case (in, (key, value)) =>
         in.replaceAll("@@" + key + "@@", java.util.regex.Matcher.quoteReplacement(value))
       }
   }
 
-  override protected[this] def createReplacementsForMainScript(
+  override protected def createReplacementsForMainScript(
     mainClass: String,
     mainClasses: Seq[String],
     config: SpecializedScriptConfig

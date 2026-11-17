@@ -47,6 +47,10 @@ jobs:
             distribution: zulu
             command: validateUniversalSbt2 # No cross build, only SBT 2.x
           - os: ubuntu-latest
+            java: 21
+            distribution: zulu
+            command: validateUniversalSbt2 # No cross build, only SBT 2.x
+          - os: ubuntu-latest
             java: 17
             distribution: zulu
             command: +validateJar

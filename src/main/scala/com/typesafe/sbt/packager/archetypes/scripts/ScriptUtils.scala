@@ -2,7 +2,7 @@ package com.typesafe.sbt.packager.archetypes.scripts
 
 object ScriptUtils {
 
-  private[this] case class MainClass(fullyQualifiedClassName: String) {
+  private case class MainClass(fullyQualifiedClassName: String) {
     private val lowerCased = toLowerCase(fullyQualifiedClassName)
     val simpleName: String = lowerCased.split("\\.").last
 

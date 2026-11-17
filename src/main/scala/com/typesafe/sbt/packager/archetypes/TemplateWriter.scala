@@ -54,7 +54,7 @@ object TemplateWriter {
     sb.toString()
   }
 
-  private[this] def replaceValues(
+  private def replaceValues(
     lines: Seq[String],
     replacements: Seq[(String, String)],
     keySurround: String => String
