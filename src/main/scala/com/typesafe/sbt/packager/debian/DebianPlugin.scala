@@ -221,7 +221,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       )
     )
 
-  private[this] def getPackageInstallSize(mappings: Seq[LinuxPackageMapping]): Long =
+  private def getPackageInstallSize(mappings: Seq[LinuxPackageMapping]): Long =
     (for {
       LinuxPackageMapping(files, _, zipped) <- mappings
       (file, _) <- files
@@ -229,7 +229,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
       // TODO - If zipped, heuristically figure out a reduction factor.
     } yield file.length).sum / 1024
 
-  private[this] def createConfFile(meta: PackageMetaData, size: Long, targetDir: File): File = {
+  private def createConfFile(meta: PackageMetaData, size: Long, targetDir: File): File = {
     val description = Option(meta.info.description).filterNot(_.isEmpty)
     if (description.isEmpty)
       sys.error("""Debian / packageDescription cannot be empty. Use
@@ -240,7 +240,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     cfile
   }
 
-  private[this] def createMD5SumFile(stageDir: File): File = {
+  private def createMD5SumFile(stageDir: File): File = {
     val md5file = stageDir / Names.DebianMaintainerScripts / "md5sums"
     val md5sums = for {
       (file, name) <- ((stageDir ** AllPassFilter) --- stageDir).pair(file => IO.relativize(stageDir, file))
@@ -256,7 +256,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     md5file
   }
 
-  private[this] def createConffilesFile(mappings: Seq[LinuxPackageMapping], targetDir: File): File = {
+  private def createConffilesFile(mappings: Seq[LinuxPackageMapping], targetDir: File): File = {
     val cfile = targetDir / Names.DebianMaintainerScripts / Names.Conffiles
     val conffiles = for {
       LinuxPackageMapping(files, meta, _) <- mappings
@@ -269,7 +269,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     cfile
   }
 
-  private[this] def stageMappings(mappings: Seq[LinuxPackageMapping], targetDir: File) =
+  private def stageMappings(mappings: Seq[LinuxPackageMapping], targetDir: File) =
     mappings.foreach { case LinuxPackageMapping(paths, perms, zipped) =>
       val (dirs, files) = paths.partition(_._1.isDirectory)
       dirs
@@ -298,7 +298,7 @@ object DebianPlugin extends AutoPlugin with DebianNativePackaging {
     * @param targetDir
     * @param replacements
     */
-  private[this] def stageMaintainerScripts(
+  private def stageMaintainerScripts(
     maintainerScripts: Map[String, Seq[String]],
     replacements: Seq[(String, String)],
     targetDir: File
@@ -418,7 +418,7 @@ trait DebianPluginLike {
       .map { case ((user, group), pathList) =>
         validateUserGroupNames(user, streams)
         validateUserGroupNames(group, streams)
-        val chown = chownCmd(user, group) _
+        val chown: String => String = chownCmd(user, group)
         // remove key, flatten it and then use mapping path (_.2) to create chown command
         pathList.flatMap(_._2).map(m => chown(m._2))
       }

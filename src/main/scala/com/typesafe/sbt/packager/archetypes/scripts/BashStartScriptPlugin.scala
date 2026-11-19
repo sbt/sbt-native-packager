@@ -25,24 +25,24 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
   /**
     * Name of the bash forwarder template if user wants to provide custom one
     */
-  override protected[this] val forwarderTemplateName = "bash-forwarder-template"
+  override protected val forwarderTemplateName = "bash-forwarder-template"
 
   /**
     * Location for the application.ini file used by the bash script to load initialization parameters for jvm and app
     */
   val appIniLocation = "${app_home}/../conf/application.ini"
 
-  override protected[this] val scriptSuffix: String = ""
-  override protected[this] val eol: String = "\n"
-  override protected[this] val keySurround: String => String = TemplateWriter.bashFriendlyKeySurround
-  override protected[this] val executableBitValue: Boolean = true
+  override protected val scriptSuffix: String = ""
+  override protected val eol: String = "\n"
+  override protected val keySurround: String => String = TemplateWriter.bashFriendlyKeySurround
+  override protected val executableBitValue: Boolean = true
 
   override val requires = JavaAppPackaging
   override val trigger = AllRequirements
 
   object autoImport extends BashStartScriptKeys
 
-  protected[this] case class BashScriptConfig(
+  protected case class BashScriptConfig(
     override val executableScriptName: String,
     override val scriptClasspath: Seq[String],
     override val replacements: Seq[(String, String)],
@@ -52,7 +52,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
     override def withScriptName(scriptName: String): BashScriptConfig = copy(executableScriptName = scriptName)
   }
 
-  override protected[this] type SpecializedScriptConfig = BashScriptConfig
+  override protected type SpecializedScriptConfig = BashScriptConfig
 
   override def projectSettings: Seq[Setting[?]] =
     Seq(
@@ -97,7 +97,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       Universal / mappings ++= makeBashScripts.value
     )
 
-  private[this] def generateScriptReplacements(defines: Seq[String]): Seq[(String, String)] = {
+  private def generateScriptReplacements(defines: Seq[String]): Seq[(String, String)] = {
     val defineString = defines.mkString("\n")
     Seq("template_declares" -> defineString)
   }
@@ -132,7 +132,7 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
         Seq(makeClasspathDefine(appClasspath)) ++
         bundledJvm.map(bundledJvmDefine).toSeq
 
-    private[this] def makeClasspathDefine(cp: Seq[String]): String = {
+    private def makeClasspathDefine(cp: Seq[String]): String = {
       val fullString = cp
         .map(n =>
           if (n.startsWith("/")) n
@@ -142,26 +142,26 @@ object BashStartScriptPlugin extends AutoPlugin with ApplicationIniGenerator wit
       "declare -r app_classpath=\"" + fullString + "\"\n"
     }
 
-    private[this] def configFileDefine(configFile: String) =
+    private def configFileDefine(configFile: String) =
       "declare -r script_conf_file=\"%s\"".format(configFile)
 
-    private[this] def bundledJvmDefine(bundledJvm: String) =
+    private def bundledJvmDefine(bundledJvm: String) =
       """declare -r bundled_jvm="$(dirname "$app_home")/%s"""".format(bundledJvm)
   }
 
-  private[this] def usageMainClassReplacement(mainClasses: Seq[String]): String =
+  private def usageMainClassReplacement(mainClasses: Seq[String]): String =
     if (mainClasses.nonEmpty)
       mainClasses.mkString("Available main classes:\n\t", "\n\t", "")
     else
       ""
 
-  private[this] def shellEscape(s: String): String =
+  private def shellEscape(s: String): String =
     if (s.startsWith("-jar "))
       s
     else
       s"'${s.replace("'", "'\\''")}'"
 
-  override protected[this] def createReplacementsForMainScript(
+  override protected def createReplacementsForMainScript(
     mainClass: String,
     mainClasses: Seq[String],
     config: SpecializedScriptConfig

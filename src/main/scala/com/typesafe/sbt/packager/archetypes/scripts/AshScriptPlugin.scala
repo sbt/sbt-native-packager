@@ -109,7 +109,7 @@ object AshScriptPlugin extends AutoPlugin {
         Seq(makeClasspathDefine(appClasspath)) ++
         bundledJvm.map(bundledJvmDefine).toSeq
 
-    private[this] def makeClasspathDefine(cp: Seq[String]): String = {
+    private def makeClasspathDefine(cp: Seq[String]): String = {
       val fullString = cp
         .map(n =>
           if (n.startsWith("/")) n
@@ -119,10 +119,10 @@ object AshScriptPlugin extends AutoPlugin {
       "app_classpath=\"" + fullString + "\"\n"
     }
 
-    private[this] def configFileDefine(configFile: String) =
+    private def configFileDefine(configFile: String) =
       "script_conf_file=\"%s\"".format(configFile)
 
-    private[this] def bundledJvmDefine(bundledJvm: String) =
+    private def bundledJvmDefine(bundledJvm: String) =
       """bundled_jvm="$(realpath "${app_home}/../%s")"""".format(bundledJvm)
   }
 }

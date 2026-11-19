@@ -55,7 +55,7 @@ object RpmHelper {
     defaultRpmArtifactPath(stagingArea, spec.meta)
   }
 
-  private[this] def copyFiles(spec: RpmSpec, workArea: File, log: sbt.Logger)(implicit conv: FileConverter): Unit = {
+  private def copyFiles(spec: RpmSpec, workArea: File, log: sbt.Logger)(implicit conv: FileConverter): Unit = {
     // TODO - special treatment of icon...
     val buildroot = workArea / "tmp-buildroot"
 
@@ -84,11 +84,7 @@ object RpmHelper {
     LinuxSymlink.makeSymLinks(spec.symlinks, buildroot, relativeLinks = false)
   }
 
-  private[this] def writeSpecFile(
-    spec: RpmSpec,
-    workArea: File,
-    log: sbt.Logger
-  )(implicit conv: FileConverter): File = {
+  private def writeSpecFile(spec: RpmSpec, workArea: File, log: sbt.Logger)(implicit conv: FileConverter): File = {
     val specdir = workArea / "SPECS"
     val rpmBuildroot = workArea / "buildroot"
     val tmpBuildRoot = workArea / "tmp-buildroot"
@@ -98,7 +94,7 @@ object RpmHelper {
     specfile
   }
 
-  private[this] def buildPackage(workArea: File, spec: RpmSpec, log: sbt.Logger): Unit = {
+  private def buildPackage(workArea: File, spec: RpmSpec, log: sbt.Logger): Unit = {
     val buildRoot = workArea / "buildroot"
     val specsDir = workArea / "SPECS"
     val gpg = false
@@ -147,10 +143,10 @@ object RpmHelper {
     }
   }
 
-  private[this] val topleveldirs = Seq("BUILD", "RPMS", "SOURCES", "SPECS", "SRPMS", "tmp-buildroot", "buildroot")
+  private val topleveldirs = Seq("BUILD", "RPMS", "SOURCES", "SPECS", "SRPMS", "tmp-buildroot", "buildroot")
 
   /** Builds the work area and returns the tmp build root, and rpm build root. */
-  private[this] def buildWorkArea(workArea: File): Unit = {
+  private def buildWorkArea(workArea: File): Unit = {
     if (!workArea.exists) workArea.mkdirs()
     // TODO - validate workarea
     // Clean out work area

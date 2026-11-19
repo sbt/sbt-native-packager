@@ -253,7 +253,7 @@ object LinuxPlugin extends AutoPlugin {
   final def chdir(installLocation: String, packageName: String): String =
     s"$installLocation/$packageName"
 
-  private[this] def getUniversalFolderMappings(
+  private def getUniversalFolderMappings(
     pkg: String,
     installLocation: String,
     mappings: Seq[(FileRef, String)],

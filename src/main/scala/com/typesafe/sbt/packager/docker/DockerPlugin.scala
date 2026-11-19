@@ -635,7 +635,7 @@ object DockerPlugin extends AutoPlugin {
     * @return
     *   Dockerfile
     */
-  private[this] final def generateDockerConfig(commands: Seq[CmdLike], target: File): File = {
+  private final def generateDockerConfig(commands: Seq[CmdLike], target: File): File = {
     val dockerContent = makeDockerContent(commands)
 
     val f = target / "Dockerfile"
@@ -681,7 +681,7 @@ object DockerPlugin extends AutoPlugin {
     }
 
   // BuildKit ouputs everything to stderr, so we redirect it
-  private[this] def publishLocalBuildkitLogger(log: Logger) =
+  private def publishLocalBuildkitLogger(log: Logger) =
     new sys.process.ProcessLogger {
       override def err(err: => String): Unit =
         err match {
@@ -808,7 +808,7 @@ object DockerPlugin extends AutoPlugin {
       log.info("Published image " + tag)
   }
 
-  private[this] def validateExposedPorts(ports: Seq[Int], udpPorts: Seq[Int]): Validation.Validator =
+  private def validateExposedPorts(ports: Seq[Int], udpPorts: Seq[Int]): Validation.Validator =
     () =>
       if (ports.isEmpty && udpPorts.isEmpty)
         List(
@@ -827,7 +827,7 @@ object DockerPlugin extends AutoPlugin {
       else
         List.empty
 
-  private[this] def validateDockerVersion(dockerApiVersion: Option[DockerApiVersion]): Validation.Validator =
+  private def validateDockerVersion(dockerApiVersion: Option[DockerApiVersion]): Validation.Validator =
     () =>
       dockerApiVersion match {
         case Some(_) => List.empty
@@ -859,7 +859,7 @@ object DockerPlugin extends AutoPlugin {
           )
       }
 
-  private[this] def validateDockerPermissionStrategy(
+  private def validateDockerPermissionStrategy(
     strategy: DockerPermissionStrategy,
     dockerVersion: Option[DockerVersion],
     dockerApiVersion: Option[DockerApiVersion]

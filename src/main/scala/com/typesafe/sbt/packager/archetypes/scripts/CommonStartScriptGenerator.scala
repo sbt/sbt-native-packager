@@ -13,42 +13,42 @@ trait CommonStartScriptGenerator {
   /**
     * Script destination in final package
     */
-  protected[this] val scriptTargetFolder: String = "bin"
+  protected val scriptTargetFolder: String = "bin"
 
   /**
     * Suffix to append to the generated script name (such as ".bat")
     */
-  protected[this] val scriptSuffix: String
+  protected val scriptSuffix: String
 
   /**
     * Name of the forwarder template if user wants to provide custom one
     */
-  protected[this] val forwarderTemplateName: String
+  protected val forwarderTemplateName: String
 
   /**
     * Line separator for generated scripts
     */
-  protected[this] val eol: String
+  protected val eol: String
 
   /**
     * keySurround for TemplateWriter.generateScript()
     */
-  protected[this] val keySurround: String => String
+  protected val keySurround: String => String
 
   /**
     * Set executable bit of the generated scripts to this value
     * @todo
     *   Does it work when building archives on hosts that do not support such permission?
     */
-  protected[this] val executableBitValue: Boolean
+  protected val executableBitValue: Boolean
 
-  protected[this] def createReplacementsForMainScript(
+  protected def createReplacementsForMainScript(
     mainClass: String,
     mainClasses: Seq[String],
     config: SpecializedScriptConfig
   ): Seq[(String, String)]
 
-  protected[this] trait ScriptConfig {
+  protected trait ScriptConfig {
     val executableScriptName: String
     val scriptClasspath: Seq[String]
     val replacements: Seq[(String, String)]
@@ -62,9 +62,9 @@ trait CommonStartScriptGenerator {
     * The type of specialized ScriptConfig. This enables callback methods of the concrete plugin implementations to use
     * fields of config that only exist in their ScriptConfig specialization.
     */
-  protected[this] type SpecializedScriptConfig <: ScriptConfig
+  protected type SpecializedScriptConfig <: ScriptConfig
 
-  protected[this] def generateStartScripts(
+  protected def generateStartScripts(
     config: SpecializedScriptConfig,
     mainClass: Option[String],
     discoveredMainClasses: Seq[String],
@@ -85,7 +85,7 @@ trait CommonStartScriptGenerator {
           createForwarderScripts(config.executableScriptName, additional, targetDir, config, conv, log)
     }
 
-  private[this] def generateMainScripts(
+  private def generateMainScripts(
     discoveredMainClasses: Seq[String],
     config: SpecializedScriptConfig,
     targetDir: File,
@@ -109,7 +109,7 @@ trait CommonStartScriptGenerator {
       }
   }
 
-  private[this] def mainScriptName(config: ScriptConfig): String =
+  private def mainScriptName(config: ScriptConfig): String =
     config.executableScriptName + scriptSuffix
 
   /**
@@ -122,7 +122,7 @@ trait CommonStartScriptGenerator {
     * @return
     *   File pointing to the created main script
     */
-  private[this] def createMainScript(
+  private def createMainScript(
     mainClass: String,
     config: SpecializedScriptConfig,
     targetDir: File,
@@ -143,11 +143,11 @@ trait CommonStartScriptGenerator {
     scriptRef -> s"$scriptTargetFolder/$scriptNameWithSuffix"
   }
 
-  private[this] def resolveTemplate(templateLocation: File): URL =
+  private def resolveTemplate(templateLocation: File): URL =
     if (templateLocation.exists) templateLocation.toURI.toURL
     else getClass.getResource(templateLocation.getName)
 
-  private[this] def createForwarderScripts(
+  private def createForwarderScripts(
     executableScriptName: String,
     discoveredMainClasses: Seq[String],
     targetDir: File,

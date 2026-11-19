@@ -73,7 +73,7 @@ object SettingsHelper {
         ),
         publishM2Configuration := Def.uncached(
           PublishConfiguration()
-            .withResolverName(Resolver.mavenLocal.name)
+            .withResolverName(PluginCompat.mavenLocalPublishResolverName)
             .withArtifacts(packagedArtifacts.value.toVector.map { case (a, f) =>
               implicit val conv: FileConverter = fileConverter.value
               (a, toFile(f))

@@ -79,7 +79,7 @@ object UniversalPlugin extends AutoPlugin {
     defaultUniversalArchiveOptions
 
   /** Creates all package types for a given configuration */
-  private[this] def makePackageSettingsForConfig(config: Configuration): Seq[Setting[?]] =
+  private def makePackageSettingsForConfig(config: Configuration): Seq[Setting[?]] =
     makePackageSettings(packageBin, config)(makeZip) ++
       makePackageSettings(packageOsxDmg, config)(makeDmg) ++
       makePackageSettings(packageZipTarball, config)(makeTgz) ++
@@ -101,7 +101,7 @@ object UniversalPlugin extends AutoPlugin {
         config / target := target.value / config.name
       )
 
-  private[this] def defaultUniversalArchiveOptions: Seq[Setting[?]] =
+  private def defaultUniversalArchiveOptions: Seq[Setting[?]] =
     Seq(
       Universal / packageZipTarball / universalArchiveOptions := Seq("-pcvf"),
       Universal / packageXzTarball / universalArchiveOptions := Seq("-pcvf"),
@@ -111,7 +111,7 @@ object UniversalPlugin extends AutoPlugin {
       UniversalSrc / packageXzTarball / universalArchiveOptions := Seq("-pcvf")
     )
 
-  private[this] def printDist(dist: FileRef, streams: TaskStreams): FileRef = {
+  private def printDist(dist: FileRef, streams: TaskStreams): FileRef = {
     streams.log.info("")
     streams.log.info("Your package is ready in " + dist.toString())
     streams.log.info("")
@@ -122,7 +122,7 @@ object UniversalPlugin extends AutoPlugin {
     (File, String, Seq[(File, String)], Option[String], Seq[String]) => File
 
   /** Creates packaging settings for a given package key, configuration + archive type. */
-  private[this] def makePackageSettings(packageKey: TaskKey[FileRef], config: Configuration)(
+  private def makePackageSettings(packageKey: TaskKey[FileRef], config: Configuration)(
     packager: Packager
   ): Seq[Setting[?]] =
     inConfig(config)(
@@ -159,7 +159,7 @@ object UniversalPlugin extends AutoPlugin {
     )
 
   /** Finds all sources in a source directory. */
-  private[this] def findSources(sourceDir: File, conv0: FileConverter): Seq[(FileRef, String)] = {
+  private def findSources(sourceDir: File, conv0: FileConverter): Seq[(FileRef, String)] = {
     implicit val conv: FileConverter = conv0
     ((PathFinder(sourceDir) ** AllPassFilter) --- sourceDir).pair(file => IO.relativize(sourceDir, file)).map {
       case (f, p) => toFileRef(f) -> p

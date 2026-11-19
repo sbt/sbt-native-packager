@@ -138,7 +138,7 @@ object SystemloaderPlugin extends AutoPlugin {
       )
     )
 
-  private[this] def makeStartScriptReplacements(
+  private def makeStartScriptReplacements(
     requiredStartFacilities: Option[String],
     requiredStopFacilities: Option[String],
     startRunlevels: Option[String],

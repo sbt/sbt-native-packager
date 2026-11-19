@@ -52,7 +52,7 @@ object JlinkPlugin extends AutoPlugin {
       implicit val conv: FileConverter = fileConverter.value
       val log = streams.value.log
       val javaHome0 = (jlinkBuildImage / javaHome).value.getOrElse(defaultJavaHome)
-      val run = runJavaTool(javaHome0, log) _
+      val run: (String, Seq[String]) => String = runJavaTool(javaHome0, log)
       val paths =
         (jlinkBuildImage / fullClasspath).value.map(toNioPath).map(_.toString())
       val modulePath = (jlinkModules / jlinkModulePath).value
@@ -154,7 +154,7 @@ object JlinkPlugin extends AutoPlugin {
     jlinkBuildImage := {
       val log = streams.value.log
       val javaHome0 = (jlinkBuildImage / javaHome).value.getOrElse(defaultJavaHome)
-      val run = runJavaTool(javaHome0, log) _
+      val run: (String, Seq[String]) => String = runJavaTool(javaHome0, log)
       val outDir = (jlinkBuildImage / target).value
 
       IO.delete(outDir)
